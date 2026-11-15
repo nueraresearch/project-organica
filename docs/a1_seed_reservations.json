@@ -54,7 +54,8 @@
         "docs/a1_c5_target_timing_competent.json",
         "docs/a1_scorer_pin.json",
         "docs/decisions.json",
-        "docs/a1_viability_levers.json"
+        "docs/a1_viability_levers.json",
+        "docs/a1_two_path_result.json"
       ],
       "seeds": [
         20740101,

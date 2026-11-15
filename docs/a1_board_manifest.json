@@ -290,24 +290,24 @@
       "id": "grant-run",
       "branch": "Grant, run",
       "kind": "artifact",
-      "artifact": "docs/A1-GRANT.md",
+      "artifact": "docs/A1-RUN.md",
       "contains": [
         {
-          "path": "docs/A1-GRANT.md",
+          "path": "docs/A1-RUN.md",
           "strings": [
-            "**Granted:** 2026-11-15",
-            "GRANTED, NOT RUN"
+            "VOID gates: C4_no_interference",
+            "reason code: C4_DELTA"
           ]
         },
         {
-          "path": "docs/a1_two_path_manifest.json",
+          "path": "docs/a1_two_path_result.json",
           "strings": [
-            "\"status\": \"GRANTED, NOT RUN\"",
-            "docs/A1-GRANT.md"
+            "\"status\": \"VOID\"",
+            "C4_DELTA"
           ]
         }
       ],
-      "note": "the grant is recorded and the execution gate opens; no cell has run and no result artifact exists",
+      "note": "the block ran once under the grant and the assembly is VOID on C4; nothing here is an effect estimate",
       "proved_by": [
         "tests/test_a1_prefreeze.py"
       ]

@@ -1,7 +1,7 @@
 # A1 two-path dry-run manifest
 
 **ID:** `A1-TWO-PATH-1`  
-**Status:** `GRANTED, NOT RUN`
+**Status:** `GRANTED, RUN — VOID (C4_DELTA)`
 
 **This is not an experimental result. No cell, seed or database is used.**
 
@@ -48,7 +48,7 @@ planned cell set, the fixed target set, the object fields and seed freshness.
 
 A grant must be recorded in this manifest as `authorisation.granted: true`, with
 `granted_on`, an existing `document`, and a run-authorising `quote`. A preparation-only
-quote fails. The manifest is currently `GRANTED, NOT RUN` and its target edges are `FIXED BEFORE FREEZE — FROZEN BY A1-TARGET-FREEZE-N20-1, SIGNED 2026-11-15`, so the gate
+quote fails. The manifest is currently `GRANTED, RUN — VOID (C4_DELTA)` and its target edges are `FIXED BEFORE FREEZE — FROZEN BY A1-TARGET-FREEZE-N20-1, SIGNED 2026-11-15`, so the gate
 refuses every cell. The A-/K-/Y- treatments are implemented; only the gate is closed.
 
 ## Commands
@@ -62,4 +62,4 @@ python -m benchmarks.a1_two_path --cell A+K+ --seed 20630101
 python -m benchmarks.a1_two_path --measure
 ```
 
-**Not evidence:** A frozen manifest with a recorded grant. No cell has run, no seed has been drawn and no database exists; a grant is permission, not a result.
+**Not evidence:** A frozen manifest whose block has run once. The assembly is VOID on C4 and five structural gates were read against the wrong target list; nothing here is an effect estimate, and the manifest now refuses a second run.

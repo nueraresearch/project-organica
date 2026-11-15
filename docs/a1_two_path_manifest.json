@@ -2,7 +2,7 @@
   "kind": "a1_two_path_manifest",
   "id": "A1-TWO-PATH-1",
   "date": "2026-11-14",
-  "status": "GRANTED, NOT RUN",
+  "status": "GRANTED, RUN \u2014 VOID (C4_DELTA)",
   "frozen": true,
   "design": "docs/TWO-PATH-ADMISSION-CARRIER-DESIGN.md",
   "thresholds": "docs/A1-PRECOMMITTED-THRESHOLDS.md",
@@ -252,7 +252,7 @@
   },
   "result": {
     "path": "docs/a1_two_path_result.json",
-    "exists": false
+    "exists": true
   },
-  "not_evidence": "A frozen manifest with a recorded grant. No cell has run, no seed has been drawn and no database exists; a grant is permission, not a result."
+  "not_evidence": "A frozen manifest whose block has run once. The assembly is VOID on C4 and five structural gates were read against the wrong target list; nothing here is an effect estimate, and the manifest now refuses a second run."
 }

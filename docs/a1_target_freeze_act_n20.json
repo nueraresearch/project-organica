@@ -2,7 +2,7 @@
   "kind": "a1_target_freeze_act_n20",
   "id": "A1-TARGET-FREEZE-N20-1",
   "date": "2026-11-15",
-  "status": "SIGNED BY OWNER 2026-11-15 — PATH A FROZEN ON THE COMPETENT BLOCK (20/17/20/20/18/20); ESTIMAND CONDITIONAL ON BOTH BASELINE PATHS; SCORER PINNED; C5 RE-CLEARED ON THIS BLOCK; GRANT ISSUED 2026-11-15 (docs/A1-GRANT.md); STILL NOT RUN",
+  "status": "SIGNED BY OWNER 2026-11-15 — PATH A FROZEN ON THE COMPETENT BLOCK (20/17/20/20/18/20); ESTIMAND CONDITIONAL ON BOTH BASELINE PATHS; SCORER PINNED; C5 RE-CLEARED ON THIS BLOCK; GRANT ISSUED 2026-11-15 (docs/A1-GRANT.md); RUN 2026-11-15 — ASSEMBLY VOID (C4_DELTA); docs/A1-RUN.md",
   "signed": true,
   "owner_signature": "Owner",
   "effective_date": "2026-11-15",
@@ -404,7 +404,7 @@
   "manifest_frozen_after_signature": true,
   "seed_block_status_after_signature": "RESERVED — FROZEN",
   "grant_after_signature": "ISSUED 2026-11-15 — docs/A1-GRANT.md",
-  "run_after_signature": "NOT STARTED",
+  "run_after_signature": "RAN 2026-11-15 — VOID (C4_DELTA) — docs/A1-RUN.md",
   "blocking_preconditions": [
     "C2_C8_competence_rule",
     "C4_exposure_acceptance"

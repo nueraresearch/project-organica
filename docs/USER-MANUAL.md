@@ -723,22 +723,22 @@ python benchmarks/study_health.py
 
 Ordered by how much they cost you if you skip them.
 
-### 7.0 Waiting on you — nothing, as of 2026-11-15
+### 7.0 Waiting on you — two decisions, as of 2026-11-15
 
-**All three A1 decisions are signed, the N=20 act is signed against the competent block, and the grant is issued.** The
-execution gate opens: `python -m benchmarks.a1_two_path --check` reports `gate clear`, and `preflight()` returns no
-refusals. What remains is the run itself, which is a long job rather than a decision.
+**The A1 block ran on 2026-11-15 and the assembly is `VOID` on `C4_no_interference` (`C4_DELTA`).** That is not a
+failure to notice later: blocking carrier removal for the 20 target edges changed non-target carrier rates in 510 of
+2,785 non-target rows — every one of them in a `K`-blocked cell — so the intervention is not local and the cells cannot
+adjudicate an effect. C1 passed (A− 0.996, K− 1.000). There is no effect estimate to read and none is quoted.
 
-| # | Next | Why it is not done | Where |
+| # | Decision | Why it is yours | Where |
 |---|---|---|---|
-| A1-1 | **Run the cells** — `python -m benchmarks.a1_two_path --measure` (36 cells + the determinism control, 120 cycles each), then assemble through the pinned scorer (`python -m benchmarks.a1_result assemble`) | hours of compute; it does not finish inside one working session, and a half-run leaves cells with no verdict | [`A1-TARGET-FREEZE-ACT-N20`](A1-TARGET-FREEZE-ACT-N20.md) §7 |
+| A1-1 | **Accept the `VOID`, or redefine the carrier intervention** | C4 is the gate that says whether the arms are local; changing it or its tolerance changes what the study can claim | [`A1-RUN`](A1-RUN.md) §2 |
+| A1-2 | **Authorise a scorer correction and re-pin** | five structural gates (C2, C3, C5, C7, C9) were scored against the *representative* target list; the fix changes five outcomes after the cells were seen, so it needs a disclosed re-pin | [`A1-RUN`](A1-RUN.md) §3 |
 
-**Issued 2026-11-15:** `DECISION-A1-C1-CEILING`, `DECISION-A1-C8-SELECTION`, `DECISION-A1-COMPETENT-ESTIMAND`, the N=20
-act, and the grant recorded in [`A1-GRANT`](A1-GRANT.md) under the owner's words *"Sign updated freeze act. Grant. Run."*
-The act freezes **20 / 17 / 20 / 20 / 18 / 20** rows on the competent block, re-clears C5 on those 115 rows, and pins the
-scorer, so a verdict cannot be produced by code other than the one that was frozen. The manifest reads
-`GRANTED, NOT RUN`. The three records, their status lines and what each signature committed to are kept on
-[`A1-SIGNATURE-SHEET`](A1-SIGNATURE-SHEET.md).
+**What is recorded and not in question:** the act, its signature, the grant, the pin and the 37 stamped parts. The
+manifest now reads `GRANTED, RUN — VOID (C4_DELTA)` and its gate refuses a second run. The machine result is
+`docs/a1_two_path_result.json`; the readable record is [`A1-RUN`](A1-RUN.md), and the signatures with what each
+one committed to are on [`A1-SIGNATURE-SHEET`](A1-SIGNATURE-SHEET.md).
 
 ### 7.1 Do today
 
@@ -4433,3 +4433,4 @@ Things that look like findings but are not, and things that look fine but are no
 | 2026-11-15 | **D1 and D2 are signed.** `DECISION-A1-C1-CEILING` and `DECISION-A1-C8-SELECTION` were adopted by owner signature: the C1 ceiling now governs the candidate-plan count it names (rather than voiding five seeds on a unit mismatch), and the selection procedure that the code already follows is now binding rather than drafted. The signature sheet and §7.0 record both; `DECISION-A1-COMPETENT-ESTIMAND` is the one decision left, and the N20 act follows it. |
 | 2026-11-15 | **D3 signed, act re-issued and signed, scorer pinned, C5 re-cleared.** The competent estimand was adopted; the N20 act was re-issued on the competent block (20/17/20/20/18/20), its target sets and scorer table generated, `a1_arms`/`a1_result` pinned with a hard refusal on mismatch, and C5 re-audited on the 115 frozen rows (0 carriers before the cycle-4 U). Two consequences recorded rather than hidden: the block keeps only 7 of 24 previous targets (0 of 4 on two seeds), and the two short seeds may spend no C8 assertion. Grant and run remain. |
 | 2026-11-15 | **Grant issued; manifest frozen on the competent block; the execution gate opens.** `A1-GRANT.md` records the dated authorisation, the manifest now reads `GRANTED, NOT RUN` with the act's block and its selection digest, and the seed registry counts the new artifacts as restatements of the same held block. `a1_two_path --check` says `gate clear`; a test proves the gate still refuses an ungranted, unfrozen or preparation-only record. No cell has run. |
+| 2026-11-15 | **The block ran; assembly `VOID` on C4.** 36 cells plus a determinism control, 37 stamped parts, assembly through the pinned scorer: C1 PASS (A− 0.996, K− 1.000), C4 FAIL with 510 of 2,785 non-target rows over the 0.05 tolerance, all in `K`-blocked cells. Five structural gates also failed because the scorer's expected target list still came from the representative block; that is recorded as a defect awaiting a disclosed re-pin, not repaired inside the run. No effect estimate is quoted. |

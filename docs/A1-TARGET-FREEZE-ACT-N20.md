@@ -18,7 +18,7 @@
 
 **Date:** 2026-11-15
 
-**Status:** `SIGNED BY OWNER 2026-11-15 — PATH A FROZEN ON THE COMPETENT BLOCK (20/17/20/20/18/20); ESTIMAND CONDITIONAL ON BOTH BASELINE PATHS; SCORER PINNED; C5 RE-CLEARED ON THIS BLOCK; GRANT ISSUED 2026-11-15 (docs/A1-GRANT.md); STILL NOT RUN`
+**Status:** `SIGNED BY OWNER 2026-11-15 — PATH A FROZEN ON THE COMPETENT BLOCK (20/17/20/20/18/20); ESTIMAND CONDITIONAL ON BOTH BASELINE PATHS; SCORER PINNED; C5 RE-CLEARED ON THIS BLOCK; GRANT ISSUED 2026-11-15 (docs/A1-GRANT.md); RUN 2026-11-15 — ASSEMBLY VOID (C4_DELTA); docs/A1-RUN.md`
 
 **Decision owner:** Owner
 
@@ -115,7 +115,7 @@ blank. None of them can be filled after the run without the act having been viol
 | Constructor identity | `benchmarks/a1_c8_target_selection_competent.py`, source sha256 `d7e5359e47c307013bae00ebbee3d1f6f0ae4599f0b8dcd01c4f22c20f479287` | `RECORDED` |
 | Constructor output digest | `a1_c8_target_selection_competent.json`, sha256 `697dc9f95c606936a1d7b7bc8d59f4192f25db9e5b89a0a5b06a6a0a5d5dabde` | `RECORDED` |
 | Competence predicate | `DECISION-A1-C8-NMIN`, its *Unit* row | `FIXED BY RECORD` |
-| Unfiltered selection | `A1-C8-SELECTION-DISCLOSURE.md`, sha256 `33c6c42c1a4423823868cfa107131b5affe5d7179c3dd484fc8726769d3cd6b9` | `RECORDED` |
+| Unfiltered selection | `A1-C8-SELECTION-DISCLOSURE.md`, sha256 `57d8d848e10728ff6317b89964711e20fbd07907a074fd0a0b445d6015df72fb` | `RECORDED` |
 <!-- s2-fields:end -->
 
 **This act is not signable while any row above reads `NOT RECORDED`.** A blank row is a reason to withhold the signature,
@@ -196,7 +196,7 @@ The table records the state at signature.
 | C1 acceptance rule | **ADOPTED — BINDING FOR A1 (2026-11-15)** |
 | C1/C4 gate order and 60-row floor | **ADOPTED — BINDING FOR A1 (2026-11-14)** |
 | Grant | **ISSUED 2026-11-15** — [`A1-GRANT`](A1-GRANT.md) |
-| Run | **NOT STARTED** |
+| Run | **RAN 2026-11-15 — ASSEMBLY `VOID` (C4_DELTA)** — [`A1-RUN`](A1-RUN.md) |
 
 **The retention row is not a failure of this act; it is a consequence of the estimand decision, recorded where it
 bites.** The four current Path A targets were the previous design's continuity with the N=4 act. The competence screen

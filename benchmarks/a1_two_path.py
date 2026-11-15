@@ -104,6 +104,7 @@ N20_TARGET_FREEZE_ACT_PATH = DOCS / "a1_target_freeze_act_n20.json"
 C8_TARGET_SELECTION_COMPETENT_PATH = DOCS / "a1_c8_target_selection_competent.json"
 C5_TIMING_COMPETENT_PATH = DOCS / "a1_c5_target_timing_competent.json"
 SCORER_PIN_PATH = DOCS / "a1_scorer_pin.json"
+RESULT_PATH = DOCS / "a1_two_path_result.json"
 DECISIONS_PATH = DOCS / "decisions.json"
 VIABILITY_LEVERS_PATH = DOCS / "a1_viability_levers.json"
 GRANT_PATH = DOCS / "A1-GRANT.md"
@@ -121,7 +122,7 @@ def manifest() -> dict:
         "kind": "a1_two_path_manifest",
         "id": ID,
         "date": DATE,
-        "status": "GRANTED, NOT RUN",
+        "status": "GRANTED, RUN — VOID (C4_DELTA)",
         "frozen": True,
         "design": "docs/TWO-PATH-ADMISSION-CARRIER-DESIGN.md",
         "thresholds": "docs/A1-PRECOMMITTED-THRESHOLDS.md",
@@ -202,10 +203,11 @@ def manifest() -> dict:
             "planned_module": MODULE,
             "note": "A-/K-/Y- treatments built; execution still requires frozen targets and a grant",
         },
-        "result": {"path": "docs/a1_two_path_result.json", "exists": False},
+        "result": {"path": "docs/a1_two_path_result.json", "exists": True},
         "not_evidence": (
-            "A frozen manifest with a recorded grant. No cell has run, no seed has been "
-            "drawn and no database exists; a grant is permission, not a result."
+            "A frozen manifest whose block has run once. The assembly is VOID on C4 and five "
+            "structural gates were read against the wrong target list; nothing here is an "
+            "effect estimate, and the manifest now refuses a second run."
         ),
     }
 
@@ -473,6 +475,7 @@ def preflight(doc: dict | None = None) -> list[str]:
                  N20_COMPETENT_PREREG_PATH,
                  C8_TARGET_SELECTION_COMPETENT_PATH, C5_TIMING_COMPETENT_PATH,
                  SCORER_PIN_PATH, DECISIONS_PATH, VIABILITY_LEVERS_PATH,
+                 RESULT_PATH,
                  K_DECOMPOSITION_PATH, SUCCESSOR_PREFLIGHT_PATH,
                  SUCCESSOR_CANDIDATE_PATH, LARGER_UNIVERSE_CANDIDATE_PATH,
                  LARGER_UNIVERSE_PREFLIGHT_PATH, K_TOTAL_PREDICTORS_PATH,

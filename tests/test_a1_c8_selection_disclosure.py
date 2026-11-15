@@ -65,10 +65,15 @@ def test_a_predating_grant_breaks_the_claim(tmp_path: Path) -> None:
     assert any("predates the selection artifact" in problem for problem in found), found
 
 
-def test_a_run_record_breaks_the_claim(tmp_path: Path) -> None:
-    (tmp_path / "A1-RUN.md").write_text("a run\n", encoding="utf-8")
+def test_a_run_record_is_allowed_when_it_postdates_the_block(tmp_path: Path) -> None:
+    (tmp_path / "A1-RUN.md").write_text("**Ran:** 2026-11-15\n", encoding="utf-8")
+    assert disclosure.evidence(docs=tmp_path) == []
+
+
+def test_a_predating_run_record_breaks_the_claim(tmp_path: Path) -> None:
+    (tmp_path / "A1-RUN.md").write_text("**Ran:** 2026-11-01\n", encoding="utf-8")
     found = disclosure.evidence(docs=tmp_path)
-    assert any("a run record exists" in problem for problem in found), found
+    assert any("predates the selection artifact" in problem for problem in found), found
 
 
 def test_an_act_without_the_selection_digest_breaks_the_claim(tmp_path: Path) -> None:

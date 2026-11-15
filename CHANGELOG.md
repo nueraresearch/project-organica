@@ -119,6 +119,32 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: the A1 block ran; the assembly is VOID
+
+36 cells plus the determinism control ran against the frozen competent block, in about five minutes, each stamped
+`engine_version 0.15.0`. The control reproduces its cell exactly. Assembly went through the pinned scorer without a pin
+mismatch and returned **`VOID`**:
+
+- **C1 PASS** — A− 455/457 = 0.996, K− 478/478 = 1.000, tolerance 0.95.
+- **C4 FAIL → VOID** — 510 of 2,785 non-target rows exceed the 0.05 tolerance; max A/K/Y delta 0.000000 / 0.575000 /
+  0.575000. Every violation is in a cell where carrier removal is blocked (`A+K-` 256, `A-K-` 254); none is on the A
+  path.
+
+**What that distribution says.** The carrier intervention is not local: carriers are multi-edge paths, so removing the
+carriers that contain a target also removes carriers of other edges. C4 is the gate written to catch this and it did, so
+the cells cannot adjudicate an effect and no effect estimate is quoted.
+
+**A second defect was found in how five gates were read, and deliberately not repaired mid-run.**
+`a1_arms.registered_target_map()` builds the expected per-seed target lists from `docs/a1_c8_target_selection.json` — the
+representative block — while the cells carry the competent block the act froze. All 48/72 "coverage problems" per gate are
+`target list does not match`, so C2, C3, C5, C7 and C9 failed by construction rather than on their quantities. The fix
+changes five gate outcomes after the cells were seen and `a1_arms` is pinned, so it is left as a disclosed re-pin rather
+than applied quietly.
+
+**A third thing surfaced and was fixed on the spot:** the result artifact names the seeds it measured, so the
+seed-freshness scan read its own result as a collision with the held block; the manifest now allowlists its result path,
+which is the one artifact that may legitimately restate a spent block.
+
 ## Addendum — 2026-11-15: grant issued, manifest frozen, gate open
 
 `A1-GRANT.md` records the dated authorisation the owner gave in session, and `docs/a1_two_path_manifest.json` moved from

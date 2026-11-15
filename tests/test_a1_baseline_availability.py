@@ -23,8 +23,9 @@ def test_baseline_audit_is_clean_and_flags_both_streams():
     # The manifest is frozen under a grant now, so the guard is that nothing has run and no result exists:
     # the availability audit still describes an unrun design, and the C1 floor it flags has not moved.
     manifest = a1_two_path.manifest()
-    assert manifest["status"] == "GRANTED, NOT RUN"
-    assert manifest["result"]["exists"] is False
+    assert manifest["status"].startswith("GRANTED, RUN")
+    assert manifest["result"]["exists"] is True
+    assert manifest["result"]["path"] == "docs/a1_two_path_result.json"
 
 
 def test_cell_stream_counts_are_observed_not_planned():

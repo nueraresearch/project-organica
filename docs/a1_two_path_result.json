@@ -1,0 +1,4176 @@
+{
+  "kind": "a1_result_assembly",
+  "status": "VOID",
+  "void_gates": [
+    "C4_no_interference"
+  ],
+  "reason_codes": [
+    "C4_DELTA"
+  ],
+  "parts": 36,
+  "c1": {
+    "pass": true,
+    "tolerance": 0.95,
+    "rows": 4032,
+    "a_minus": {
+      "denominator": 457,
+      "available": 455,
+      "fraction": 0.995624
+    },
+    "k_minus": {
+      "denominator": 478,
+      "available": 478,
+      "fraction": 1.0
+    },
+    "seeds": {
+      "20740101": {
+        "a_minus_denominator": 81,
+        "a_minus_available": 81,
+        "a_minus_fraction": 1.0,
+        "k_minus_denominator": 79,
+        "k_minus_available": 79,
+        "k_minus_fraction": 1.0,
+        "unmeasurable": [],
+        "pass": true
+      },
+      "20740102": {
+        "a_minus_denominator": 64,
+        "a_minus_available": 64,
+        "a_minus_fraction": 1.0,
+        "k_minus_denominator": 81,
+        "k_minus_available": 81,
+        "k_minus_fraction": 1.0,
+        "unmeasurable": [],
+        "pass": true
+      },
+      "20740103": {
+        "a_minus_denominator": 84,
+        "a_minus_available": 84,
+        "a_minus_fraction": 1.0,
+        "k_minus_denominator": 79,
+        "k_minus_available": 79,
+        "k_minus_fraction": 1.0,
+        "unmeasurable": [],
+        "pass": true
+      },
+      "20740104": {
+        "a_minus_denominator": 82,
+        "a_minus_available": 82,
+        "a_minus_fraction": 1.0,
+        "k_minus_denominator": 74,
+        "k_minus_available": 74,
+        "k_minus_fraction": 1.0,
+        "unmeasurable": [],
+        "pass": true
+      },
+      "20740105": {
+        "a_minus_denominator": 72,
+        "a_minus_available": 71,
+        "a_minus_fraction": 0.986111,
+        "k_minus_denominator": 83,
+        "k_minus_available": 83,
+        "k_minus_fraction": 1.0,
+        "unmeasurable": [],
+        "pass": true
+      },
+      "20740106": {
+        "a_minus_denominator": 74,
+        "a_minus_available": 73,
+        "a_minus_fraction": 0.986486,
+        "k_minus_denominator": 82,
+        "k_minus_available": 82,
+        "k_minus_fraction": 1.0,
+        "unmeasurable": [],
+        "pass": true
+      }
+    },
+    "unmeasurable": []
+  },
+  "c4": {
+    "pass": false,
+    "tolerance": 0.05,
+    "rows": 2785,
+    "control_rows": 557,
+    "measured": 2785,
+    "max_delta": {
+      "A": 0.0,
+      "K": 0.575,
+      "Y": 0.575
+    },
+    "violations": [
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "amber>slate",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "amber>umber",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "amber>umber",
+        "path": "Y",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "birch>sable",
+        "path": "K",
+        "delta": 0.216667
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "birch>sable",
+        "path": "Y",
+        "delta": 0.208334
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "cedar>maple",
+        "path": "K",
+        "delta": 0.3
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "cedar>maple",
+        "path": "Y",
+        "delta": 0.3
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "cedar>olive",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "cedar>sable",
+        "path": "K",
+        "delta": 0.1
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "cedar>sable",
+        "path": "Y",
+        "delta": 0.1
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "maple>amber",
+        "path": "K",
+        "delta": 0.275
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "maple>amber",
+        "path": "Y",
+        "delta": 0.233333
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "maple>verdant",
+        "path": "K",
+        "delta": 0.083333
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "maple>verdant",
+        "path": "Y",
+        "delta": 0.083333
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "olive>birch",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "olive>cedar",
+        "path": "K",
+        "delta": 0.066667
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "sable>amber",
+        "path": "K",
+        "delta": 0.516667
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "sable>amber",
+        "path": "Y",
+        "delta": 0.225
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "sable>birch",
+        "path": "K",
+        "delta": 0.2
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "sable>birch",
+        "path": "Y",
+        "delta": 0.083334
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "sable>cedar",
+        "path": "K",
+        "delta": 0.091667
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "sable>verdant",
+        "path": "K",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "sable>verdant",
+        "path": "Y",
+        "delta": 0.066666
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "slate>amber",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "slate>verdant",
+        "path": "K",
+        "delta": 0.475
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "slate>verdant",
+        "path": "Y",
+        "delta": 0.316666
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "teal>sable",
+        "path": "K",
+        "delta": 0.091667
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "verdant>maple",
+        "path": "K",
+        "delta": 0.083333
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "verdant>maple",
+        "path": "Y",
+        "delta": 0.083333
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "verdant>sable",
+        "path": "K",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "verdant>sable",
+        "path": "Y",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "willow>amber",
+        "path": "K",
+        "delta": 0.516667
+      },
+      {
+        "seed": 20740101,
+        "cell": "A+K-",
+        "edge": "willow>amber",
+        "path": "Y",
+        "delta": 0.466667
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "amber>slate",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "amber>umber",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "amber>umber",
+        "path": "Y",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "birch>sable",
+        "path": "K",
+        "delta": 0.216667
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "birch>sable",
+        "path": "Y",
+        "delta": 0.208334
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "cedar>maple",
+        "path": "K",
+        "delta": 0.3
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "cedar>maple",
+        "path": "Y",
+        "delta": 0.3
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "cedar>olive",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "cedar>sable",
+        "path": "K",
+        "delta": 0.1
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "cedar>sable",
+        "path": "Y",
+        "delta": 0.1
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "maple>amber",
+        "path": "K",
+        "delta": 0.275
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "maple>amber",
+        "path": "Y",
+        "delta": 0.233333
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "maple>verdant",
+        "path": "K",
+        "delta": 0.083333
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "maple>verdant",
+        "path": "Y",
+        "delta": 0.083333
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "olive>birch",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "olive>cedar",
+        "path": "K",
+        "delta": 0.066667
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "sable>amber",
+        "path": "K",
+        "delta": 0.516667
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "sable>amber",
+        "path": "Y",
+        "delta": 0.225
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "sable>birch",
+        "path": "K",
+        "delta": 0.2
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "sable>birch",
+        "path": "Y",
+        "delta": 0.083334
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "sable>cedar",
+        "path": "K",
+        "delta": 0.091667
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "sable>verdant",
+        "path": "K",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "sable>verdant",
+        "path": "Y",
+        "delta": 0.066666
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "slate>verdant",
+        "path": "K",
+        "delta": 0.475
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "slate>verdant",
+        "path": "Y",
+        "delta": 0.325
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "teal>sable",
+        "path": "K",
+        "delta": 0.091667
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "verdant>maple",
+        "path": "K",
+        "delta": 0.083333
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "verdant>maple",
+        "path": "Y",
+        "delta": 0.083333
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "verdant>sable",
+        "path": "K",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "verdant>sable",
+        "path": "Y",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "willow>amber",
+        "path": "K",
+        "delta": 0.516667
+      },
+      {
+        "seed": 20740101,
+        "cell": "A-K-",
+        "edge": "willow>amber",
+        "path": "Y",
+        "delta": 0.466667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "amber>yarrow",
+        "path": "K",
+        "delta": 0.216667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "birch>teal",
+        "path": "K",
+        "delta": 0.475
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "birch>teal",
+        "path": "Y",
+        "delta": 0.425
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "birch>umber",
+        "path": "K",
+        "delta": 0.116667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "birch>umber",
+        "path": "Y",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "cedar>indigo",
+        "path": "K",
+        "delta": 0.291667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "cedar>indigo",
+        "path": "Y",
+        "delta": 0.291667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "crimson>birch",
+        "path": "K",
+        "delta": 0.425
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "crimson>birch",
+        "path": "Y",
+        "delta": 0.216667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "crimson>sable",
+        "path": "K",
+        "delta": 0.133333
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "crimson>sable",
+        "path": "Y",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "crimson>yarrow",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "indigo>amber",
+        "path": "K",
+        "delta": 0.558333
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "indigo>amber",
+        "path": "Y",
+        "delta": 0.558333
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "indigo>cedar",
+        "path": "K",
+        "delta": 0.291667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "indigo>cedar",
+        "path": "Y",
+        "delta": 0.291667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "indigo>crimson",
+        "path": "K",
+        "delta": 0.441667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "indigo>crimson",
+        "path": "Y",
+        "delta": 0.441667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "indigo>maple",
+        "path": "K",
+        "delta": 0.091666
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "indigo>maple",
+        "path": "Y",
+        "delta": 0.091667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "indigo>ochre",
+        "path": "K",
+        "delta": 0.133334
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "indigo>ochre",
+        "path": "Y",
+        "delta": 0.1
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "indigo>teal",
+        "path": "K",
+        "delta": 0.433333
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "indigo>teal",
+        "path": "Y",
+        "delta": 0.433333
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "maple>indigo",
+        "path": "K",
+        "delta": 0.091666
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "maple>indigo",
+        "path": "Y",
+        "delta": 0.091666
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "maple>sable",
+        "path": "K",
+        "delta": 0.116667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "maple>sable",
+        "path": "Y",
+        "delta": 0.116667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "maple>yarrow",
+        "path": "K",
+        "delta": 0.091667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "maple>yarrow",
+        "path": "Y",
+        "delta": 0.091667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "ochre>birch",
+        "path": "K",
+        "delta": 0.258333
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "ochre>birch",
+        "path": "Y",
+        "delta": 0.175
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "ochre>indigo",
+        "path": "K",
+        "delta": 0.125
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "sable>crimson",
+        "path": "K",
+        "delta": 0.1
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "sable>crimson",
+        "path": "Y",
+        "delta": 0.1
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "sable>ochre",
+        "path": "K",
+        "delta": 0.258333
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "sable>ochre",
+        "path": "Y",
+        "delta": 0.233333
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "teal>birch",
+        "path": "K",
+        "delta": 0.475
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "teal>birch",
+        "path": "Y",
+        "delta": 0.475
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "teal>indigo",
+        "path": "K",
+        "delta": 0.441667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "teal>indigo",
+        "path": "Y",
+        "delta": 0.441667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "teal>sable",
+        "path": "K",
+        "delta": 0.491667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "teal>sable",
+        "path": "Y",
+        "delta": 0.475
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "umber>birch",
+        "path": "K",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "umber>indigo",
+        "path": "K",
+        "delta": 0.383333
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "umber>indigo",
+        "path": "Y",
+        "delta": 0.35
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "umber>sable",
+        "path": "K",
+        "delta": 0.083333
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "umber>sable",
+        "path": "Y",
+        "delta": 0.066667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "yarrow>crimson",
+        "path": "K",
+        "delta": 0.058334
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "yarrow>crimson",
+        "path": "Y",
+        "delta": 0.058334
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "yarrow>umber",
+        "path": "K",
+        "delta": 0.258333
+      },
+      {
+        "seed": 20740102,
+        "cell": "A+K-",
+        "edge": "yarrow>umber",
+        "path": "Y",
+        "delta": 0.25
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "amber>yarrow",
+        "path": "K",
+        "delta": 0.216667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "birch>teal",
+        "path": "K",
+        "delta": 0.475
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "birch>teal",
+        "path": "Y",
+        "delta": 0.425
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "birch>umber",
+        "path": "K",
+        "delta": 0.116667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "birch>umber",
+        "path": "Y",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "cedar>indigo",
+        "path": "K",
+        "delta": 0.291667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "cedar>indigo",
+        "path": "Y",
+        "delta": 0.291667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "crimson>birch",
+        "path": "K",
+        "delta": 0.425
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "crimson>birch",
+        "path": "Y",
+        "delta": 0.216667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "crimson>sable",
+        "path": "K",
+        "delta": 0.141667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "crimson>sable",
+        "path": "Y",
+        "delta": 0.083333
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "crimson>yarrow",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "indigo>amber",
+        "path": "K",
+        "delta": 0.558333
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "indigo>amber",
+        "path": "Y",
+        "delta": 0.558333
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "indigo>cedar",
+        "path": "K",
+        "delta": 0.291667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "indigo>cedar",
+        "path": "Y",
+        "delta": 0.291667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "indigo>crimson",
+        "path": "K",
+        "delta": 0.441667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "indigo>crimson",
+        "path": "Y",
+        "delta": 0.441667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "indigo>maple",
+        "path": "K",
+        "delta": 0.091666
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "indigo>maple",
+        "path": "Y",
+        "delta": 0.091667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "indigo>ochre",
+        "path": "K",
+        "delta": 0.15
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "indigo>ochre",
+        "path": "Y",
+        "delta": 0.133334
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "indigo>teal",
+        "path": "K",
+        "delta": 0.416667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "indigo>teal",
+        "path": "Y",
+        "delta": 0.416666
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "maple>indigo",
+        "path": "K",
+        "delta": 0.091666
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "maple>indigo",
+        "path": "Y",
+        "delta": 0.091666
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "maple>sable",
+        "path": "K",
+        "delta": 0.116667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "maple>sable",
+        "path": "Y",
+        "delta": 0.116667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "maple>yarrow",
+        "path": "K",
+        "delta": 0.091667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "maple>yarrow",
+        "path": "Y",
+        "delta": 0.091667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "ochre>birch",
+        "path": "K",
+        "delta": 0.258333
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "ochre>birch",
+        "path": "Y",
+        "delta": 0.166667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "ochre>indigo",
+        "path": "K",
+        "delta": 0.125
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "sable>crimson",
+        "path": "K",
+        "delta": 0.083334
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "sable>crimson",
+        "path": "Y",
+        "delta": 0.083334
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "sable>ochre",
+        "path": "K",
+        "delta": 0.258333
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "sable>ochre",
+        "path": "Y",
+        "delta": 0.233333
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "teal>birch",
+        "path": "K",
+        "delta": 0.475
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "teal>birch",
+        "path": "Y",
+        "delta": 0.475
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "teal>indigo",
+        "path": "K",
+        "delta": 0.441667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "teal>indigo",
+        "path": "Y",
+        "delta": 0.441667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "teal>sable",
+        "path": "K",
+        "delta": 0.491667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "teal>sable",
+        "path": "Y",
+        "delta": 0.475
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "umber>birch",
+        "path": "K",
+        "delta": 0.1
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "umber>birch",
+        "path": "Y",
+        "delta": 0.066667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "umber>indigo",
+        "path": "K",
+        "delta": 0.383333
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "umber>indigo",
+        "path": "Y",
+        "delta": 0.35
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "umber>sable",
+        "path": "K",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "umber>sable",
+        "path": "Y",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "yarrow>crimson",
+        "path": "K",
+        "delta": 0.066667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "yarrow>crimson",
+        "path": "Y",
+        "delta": 0.066667
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "yarrow>umber",
+        "path": "K",
+        "delta": 0.258333
+      },
+      {
+        "seed": 20740102,
+        "cell": "A-K-",
+        "edge": "yarrow>umber",
+        "path": "Y",
+        "delta": 0.25
+      },
+      {
+        "seed": 20740103,
+        "cell": "A+K-",
+        "edge": "amber>willow",
+        "path": "K",
+        "delta": 0.108333
+      },
+      {
+        "seed": 20740103,
+        "cell": "A+K-",
+        "edge": "birch>indigo",
+        "path": "K",
+        "delta": 0.133333
+      },
+      {
+        "seed": 20740103,
+        "cell": "A+K-",
+        "edge": "birch>indigo",
+        "path": "Y",
+        "delta": 0.133334
+      },
+      {
+        "seed": 20740103,
+        "cell": "A+K-",
+        "edge": "birch>maple",
+        "path": "K",
+        "delta": 0.341667
+      },
+      {
+        "seed": 20740103,
+        "cell": "A+K-",
+        "edge": "birch>maple",
+        "path": "Y",
+        "delta": 0.341667
+      },
+      {
+        "seed": 20740103,
+        "cell": "A+K-",
+        "edge": "cedar>slate",
+        "path": "K",
+        "delta": 0.133333
+      },
+      {
+        "seed": 20740103,
+        "cell": "A+K-",
+        "edge": "cedar>slate",
+        "path": "Y",
+        "delta": 0.125
+      },
+      {
+        "seed": 20740103,
+        "cell": "A+K-",
+        "edge": "cedar>willow",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740103,
+        "cell": "A+K-",
+        "edge": "cedar>willow",
+        "path": "Y",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740103,
+        "cell": "A+K-",
+        "edge": "fern>amber",
+        "path": "K",
+        "delta": 0.2
+      },
+      {
+        "seed": 20740103,
+        "cell": "A+K-",
+        "edge": "fern>amber",
+        "path": "Y",
+        "delta": 0.2
+      },
+      {
+        "seed": 20740103,
+        "cell": "A+K-",
+        "edge": "fern>birch",
+        "path": "K",
+        "delta": 0.175
+      },
+      {
+        "seed": 20740103,
+        "cell": "A+K-",
+        "edge": "fern>birch",
+        "path": "Y",
+        "delta": 0.175
+      },
+      {
+        "seed": 20740103,
+        "cell": "A+K-",
+        "edge": "fern>cedar",
+        "path": "K",
+        "delta": 0.083333
+      },
+      {
+        "seed": 20740103,
+        "cell": "A+K-",
+        "edge": "fern>cedar",
+        "path": "Y",
+        "delta": 0.083333
+      },
+      {
+        "seed": 20740103,
+        "cell": "A+K-",
+        "edge": "indigo>sable",
+        "path": "K",
+        "delta": 0.158333
+      },
+      {
+        "seed": 20740103,
+        "cell": "A+K-",
+        "edge": "indigo>sable",
+        "path": "Y",
+        "delta": 0.158334
+      },
+      {
+        "seed": 20740103,
+        "cell": "A+K-",
+        "edge": "olive>amber",
+        "path": "K",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740103,
+        "cell": "A+K-",
+        "edge": "olive>amber",
+        "path": "Y",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740103,
+        "cell": "A+K-",
+        "edge": "olive>cedar",
+        "path": "K",
+        "delta": 0.158333
+      },
+      {
+        "seed": 20740103,
+        "cell": "A+K-",
+        "edge": "olive>cedar",
+        "path": "Y",
+        "delta": 0.158333
+      },
+      {
+        "seed": 20740103,
+        "cell": "A+K-",
+        "edge": "sable>olive",
+        "path": "K",
+        "delta": 0.083333
+      },
+      {
+        "seed": 20740103,
+        "cell": "A+K-",
+        "edge": "sable>olive",
+        "path": "Y",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740103,
+        "cell": "A+K-",
+        "edge": "slate>sable",
+        "path": "K",
+        "delta": 0.133333
+      },
+      {
+        "seed": 20740103,
+        "cell": "A+K-",
+        "edge": "willow>cedar",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740103,
+        "cell": "A-K-",
+        "edge": "amber>willow",
+        "path": "K",
+        "delta": 0.108333
+      },
+      {
+        "seed": 20740103,
+        "cell": "A-K-",
+        "edge": "birch>indigo",
+        "path": "K",
+        "delta": 0.133333
+      },
+      {
+        "seed": 20740103,
+        "cell": "A-K-",
+        "edge": "birch>indigo",
+        "path": "Y",
+        "delta": 0.133334
+      },
+      {
+        "seed": 20740103,
+        "cell": "A-K-",
+        "edge": "birch>maple",
+        "path": "K",
+        "delta": 0.341667
+      },
+      {
+        "seed": 20740103,
+        "cell": "A-K-",
+        "edge": "birch>maple",
+        "path": "Y",
+        "delta": 0.341667
+      },
+      {
+        "seed": 20740103,
+        "cell": "A-K-",
+        "edge": "cedar>slate",
+        "path": "K",
+        "delta": 0.133333
+      },
+      {
+        "seed": 20740103,
+        "cell": "A-K-",
+        "edge": "cedar>slate",
+        "path": "Y",
+        "delta": 0.125
+      },
+      {
+        "seed": 20740103,
+        "cell": "A-K-",
+        "edge": "cedar>willow",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740103,
+        "cell": "A-K-",
+        "edge": "cedar>willow",
+        "path": "Y",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740103,
+        "cell": "A-K-",
+        "edge": "fern>amber",
+        "path": "K",
+        "delta": 0.2
+      },
+      {
+        "seed": 20740103,
+        "cell": "A-K-",
+        "edge": "fern>amber",
+        "path": "Y",
+        "delta": 0.2
+      },
+      {
+        "seed": 20740103,
+        "cell": "A-K-",
+        "edge": "fern>birch",
+        "path": "K",
+        "delta": 0.175
+      },
+      {
+        "seed": 20740103,
+        "cell": "A-K-",
+        "edge": "fern>birch",
+        "path": "Y",
+        "delta": 0.175
+      },
+      {
+        "seed": 20740103,
+        "cell": "A-K-",
+        "edge": "fern>cedar",
+        "path": "K",
+        "delta": 0.083333
+      },
+      {
+        "seed": 20740103,
+        "cell": "A-K-",
+        "edge": "fern>cedar",
+        "path": "Y",
+        "delta": 0.083333
+      },
+      {
+        "seed": 20740103,
+        "cell": "A-K-",
+        "edge": "indigo>sable",
+        "path": "K",
+        "delta": 0.158333
+      },
+      {
+        "seed": 20740103,
+        "cell": "A-K-",
+        "edge": "indigo>sable",
+        "path": "Y",
+        "delta": 0.166667
+      },
+      {
+        "seed": 20740103,
+        "cell": "A-K-",
+        "edge": "olive>amber",
+        "path": "K",
+        "delta": 0.066666
+      },
+      {
+        "seed": 20740103,
+        "cell": "A-K-",
+        "edge": "olive>amber",
+        "path": "Y",
+        "delta": 0.066666
+      },
+      {
+        "seed": 20740103,
+        "cell": "A-K-",
+        "edge": "olive>cedar",
+        "path": "K",
+        "delta": 0.158333
+      },
+      {
+        "seed": 20740103,
+        "cell": "A-K-",
+        "edge": "olive>cedar",
+        "path": "Y",
+        "delta": 0.166667
+      },
+      {
+        "seed": 20740103,
+        "cell": "A-K-",
+        "edge": "sable>olive",
+        "path": "K",
+        "delta": 0.083333
+      },
+      {
+        "seed": 20740103,
+        "cell": "A-K-",
+        "edge": "sable>olive",
+        "path": "Y",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740103,
+        "cell": "A-K-",
+        "edge": "slate>sable",
+        "path": "K",
+        "delta": 0.133333
+      },
+      {
+        "seed": 20740103,
+        "cell": "A-K-",
+        "edge": "willow>cedar",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "amber>ochre",
+        "path": "K",
+        "delta": 0.15
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "amber>ochre",
+        "path": "Y",
+        "delta": 0.15
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "birch>indigo",
+        "path": "K",
+        "delta": 0.175
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "birch>indigo",
+        "path": "Y",
+        "delta": 0.175
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "birch>ochre",
+        "path": "K",
+        "delta": 0.241667
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "birch>ochre",
+        "path": "Y",
+        "delta": 0.241667
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "cedar>indigo",
+        "path": "K",
+        "delta": 0.15
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "cedar>indigo",
+        "path": "Y",
+        "delta": 0.15
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "indigo>cedar",
+        "path": "K",
+        "delta": 0.15
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "indigo>cedar",
+        "path": "Y",
+        "delta": 0.15
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "indigo>fern",
+        "path": "K",
+        "delta": 0.416667
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "indigo>fern",
+        "path": "Y",
+        "delta": 0.416667
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "indigo>yarrow",
+        "path": "K",
+        "delta": 0.35
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "indigo>yarrow",
+        "path": "Y",
+        "delta": 0.35
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "maple>fern",
+        "path": "K",
+        "delta": 0.233333
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "maple>fern",
+        "path": "Y",
+        "delta": 0.233333
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "maple>yarrow",
+        "path": "K",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "maple>yarrow",
+        "path": "Y",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "ochre>fern",
+        "path": "K",
+        "delta": 0.391667
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "ochre>fern",
+        "path": "Y",
+        "delta": 0.391667
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "ochre>slate",
+        "path": "K",
+        "delta": 0.125
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "ochre>slate",
+        "path": "Y",
+        "delta": 0.125
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "ochre>yarrow",
+        "path": "K",
+        "delta": 0.233333
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "ochre>yarrow",
+        "path": "Y",
+        "delta": 0.233334
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "olive>willow",
+        "path": "K",
+        "delta": 0.058334
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "sable>maple",
+        "path": "K",
+        "delta": 0.233333
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "sable>maple",
+        "path": "Y",
+        "delta": 0.233333
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "slate>ochre",
+        "path": "K",
+        "delta": 0.125
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "verdant>yarrow",
+        "path": "K",
+        "delta": 0.183333
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "verdant>yarrow",
+        "path": "Y",
+        "delta": 0.158334
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "willow>amber",
+        "path": "K",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "willow>amber",
+        "path": "Y",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "willow>slate",
+        "path": "K",
+        "delta": 0.191667
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "willow>slate",
+        "path": "Y",
+        "delta": 0.191667
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "willow>yarrow",
+        "path": "K",
+        "delta": 0.125
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "willow>yarrow",
+        "path": "Y",
+        "delta": 0.125
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "yarrow>indigo",
+        "path": "K",
+        "delta": 0.35
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "yarrow>indigo",
+        "path": "Y",
+        "delta": 0.325
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "yarrow>maple",
+        "path": "K",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "yarrow>ochre",
+        "path": "K",
+        "delta": 0.233334
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "yarrow>ochre",
+        "path": "Y",
+        "delta": 0.208334
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "yarrow>willow",
+        "path": "K",
+        "delta": 0.116667
+      },
+      {
+        "seed": 20740104,
+        "cell": "A+K-",
+        "edge": "yarrow>willow",
+        "path": "Y",
+        "delta": 0.108333
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "amber>ochre",
+        "path": "K",
+        "delta": 0.15
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "amber>ochre",
+        "path": "Y",
+        "delta": 0.15
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "birch>indigo",
+        "path": "K",
+        "delta": 0.175
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "birch>indigo",
+        "path": "Y",
+        "delta": 0.175
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "birch>ochre",
+        "path": "K",
+        "delta": 0.241667
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "birch>ochre",
+        "path": "Y",
+        "delta": 0.241667
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "cedar>indigo",
+        "path": "K",
+        "delta": 0.15
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "cedar>indigo",
+        "path": "Y",
+        "delta": 0.15
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "indigo>cedar",
+        "path": "K",
+        "delta": 0.15
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "indigo>cedar",
+        "path": "Y",
+        "delta": 0.15
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "indigo>fern",
+        "path": "K",
+        "delta": 0.416667
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "indigo>fern",
+        "path": "Y",
+        "delta": 0.416667
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "indigo>yarrow",
+        "path": "K",
+        "delta": 0.35
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "indigo>yarrow",
+        "path": "Y",
+        "delta": 0.35
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "maple>fern",
+        "path": "K",
+        "delta": 0.233333
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "maple>fern",
+        "path": "Y",
+        "delta": 0.233333
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "maple>yarrow",
+        "path": "K",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "maple>yarrow",
+        "path": "Y",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "ochre>fern",
+        "path": "K",
+        "delta": 0.391667
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "ochre>fern",
+        "path": "Y",
+        "delta": 0.391667
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "ochre>slate",
+        "path": "K",
+        "delta": 0.125
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "ochre>slate",
+        "path": "Y",
+        "delta": 0.125
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "ochre>yarrow",
+        "path": "K",
+        "delta": 0.233333
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "ochre>yarrow",
+        "path": "Y",
+        "delta": 0.233334
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "olive>willow",
+        "path": "K",
+        "delta": 0.058334
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "sable>maple",
+        "path": "K",
+        "delta": 0.233333
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "sable>maple",
+        "path": "Y",
+        "delta": 0.233333
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "slate>ochre",
+        "path": "K",
+        "delta": 0.125
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "verdant>yarrow",
+        "path": "K",
+        "delta": 0.183333
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "verdant>yarrow",
+        "path": "Y",
+        "delta": 0.158334
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "willow>amber",
+        "path": "K",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "willow>amber",
+        "path": "Y",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "willow>slate",
+        "path": "K",
+        "delta": 0.191667
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "willow>slate",
+        "path": "Y",
+        "delta": 0.191667
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "willow>yarrow",
+        "path": "K",
+        "delta": 0.125
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "willow>yarrow",
+        "path": "Y",
+        "delta": 0.125
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "yarrow>indigo",
+        "path": "K",
+        "delta": 0.35
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "yarrow>indigo",
+        "path": "Y",
+        "delta": 0.325
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "yarrow>maple",
+        "path": "K",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "yarrow>ochre",
+        "path": "K",
+        "delta": 0.233334
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "yarrow>ochre",
+        "path": "Y",
+        "delta": 0.208334
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "yarrow>willow",
+        "path": "K",
+        "delta": 0.116667
+      },
+      {
+        "seed": 20740104,
+        "cell": "A-K-",
+        "edge": "yarrow>willow",
+        "path": "Y",
+        "delta": 0.108333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "birch>ochre",
+        "path": "K",
+        "delta": 0.141667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "birch>ochre",
+        "path": "Y",
+        "delta": 0.141667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "birch>verdant",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "cedar>verdant",
+        "path": "K",
+        "delta": 0.166667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "cedar>verdant",
+        "path": "Y",
+        "delta": 0.166667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "crimson>verdant",
+        "path": "K",
+        "delta": 0.308333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "crimson>verdant",
+        "path": "Y",
+        "delta": 0.25
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "fern>verdant",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "maple>ochre",
+        "path": "K",
+        "delta": 0.133333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "maple>ochre",
+        "path": "Y",
+        "delta": 0.133334
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "maple>slate",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "maple>verdant",
+        "path": "K",
+        "delta": 0.066667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "maple>verdant",
+        "path": "Y",
+        "delta": 0.066667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "ochre>birch",
+        "path": "K",
+        "delta": 0.141667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "ochre>birch",
+        "path": "Y",
+        "delta": 0.133333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "ochre>cedar",
+        "path": "K",
+        "delta": 0.366667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "ochre>cedar",
+        "path": "Y",
+        "delta": 0.308333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "ochre>fern",
+        "path": "K",
+        "delta": 0.433333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "ochre>fern",
+        "path": "Y",
+        "delta": 0.333333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "ochre>teal",
+        "path": "K",
+        "delta": 0.1
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "ochre>teal",
+        "path": "Y",
+        "delta": 0.083333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "slate>birch",
+        "path": "K",
+        "delta": 0.258333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "slate>birch",
+        "path": "Y",
+        "delta": 0.258333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "slate>crimson",
+        "path": "K",
+        "delta": 0.15
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "slate>crimson",
+        "path": "Y",
+        "delta": 0.15
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "slate>fern",
+        "path": "K",
+        "delta": 0.2
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "slate>fern",
+        "path": "Y",
+        "delta": 0.175
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "slate>maple",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "slate>maple",
+        "path": "Y",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "slate>teal",
+        "path": "K",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "slate>teal",
+        "path": "Y",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "teal>ochre",
+        "path": "K",
+        "delta": 0.108334
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "teal>slate",
+        "path": "K",
+        "delta": 0.058334
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "umber>birch",
+        "path": "K",
+        "delta": 0.483333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "umber>birch",
+        "path": "Y",
+        "delta": 0.383333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "umber>fern",
+        "path": "K",
+        "delta": 0.266667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "umber>fern",
+        "path": "Y",
+        "delta": 0.183334
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "umber>teal",
+        "path": "K",
+        "delta": 0.125
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "umber>teal",
+        "path": "Y",
+        "delta": 0.125
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "verdant>cedar",
+        "path": "K",
+        "delta": 0.166667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "verdant>cedar",
+        "path": "Y",
+        "delta": 0.166667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "verdant>crimson",
+        "path": "K",
+        "delta": 0.308333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "verdant>crimson",
+        "path": "Y",
+        "delta": 0.308333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "verdant>fern",
+        "path": "K",
+        "delta": 0.058334
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "verdant>fern",
+        "path": "Y",
+        "delta": 0.058334
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "verdant>maple",
+        "path": "K",
+        "delta": 0.066667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "verdant>maple",
+        "path": "Y",
+        "delta": 0.066667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "verdant>teal",
+        "path": "K",
+        "delta": 0.391667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "verdant>teal",
+        "path": "Y",
+        "delta": 0.391667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "willow>verdant",
+        "path": "K",
+        "delta": 0.25
+      },
+      {
+        "seed": 20740105,
+        "cell": "A+K-",
+        "edge": "willow>verdant",
+        "path": "Y",
+        "delta": 0.141666
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "birch>ochre",
+        "path": "K",
+        "delta": 0.141667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "birch>ochre",
+        "path": "Y",
+        "delta": 0.141667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "birch>verdant",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "cedar>verdant",
+        "path": "K",
+        "delta": 0.166667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "cedar>verdant",
+        "path": "Y",
+        "delta": 0.166667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "crimson>verdant",
+        "path": "K",
+        "delta": 0.308333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "crimson>verdant",
+        "path": "Y",
+        "delta": 0.25
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "fern>verdant",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "maple>ochre",
+        "path": "K",
+        "delta": 0.133333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "maple>ochre",
+        "path": "Y",
+        "delta": 0.133334
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "maple>slate",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "maple>verdant",
+        "path": "K",
+        "delta": 0.066667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "maple>verdant",
+        "path": "Y",
+        "delta": 0.066667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "ochre>birch",
+        "path": "K",
+        "delta": 0.141667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "ochre>birch",
+        "path": "Y",
+        "delta": 0.133333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "ochre>cedar",
+        "path": "K",
+        "delta": 0.366667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "ochre>cedar",
+        "path": "Y",
+        "delta": 0.308333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "ochre>fern",
+        "path": "K",
+        "delta": 0.433333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "ochre>fern",
+        "path": "Y",
+        "delta": 0.333333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "ochre>teal",
+        "path": "K",
+        "delta": 0.1
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "ochre>teal",
+        "path": "Y",
+        "delta": 0.083333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "slate>birch",
+        "path": "K",
+        "delta": 0.258333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "slate>birch",
+        "path": "Y",
+        "delta": 0.258333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "slate>crimson",
+        "path": "K",
+        "delta": 0.15
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "slate>crimson",
+        "path": "Y",
+        "delta": 0.15
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "slate>fern",
+        "path": "K",
+        "delta": 0.2
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "slate>fern",
+        "path": "Y",
+        "delta": 0.175
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "slate>maple",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "slate>maple",
+        "path": "Y",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "slate>teal",
+        "path": "K",
+        "delta": 0.083333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "slate>teal",
+        "path": "Y",
+        "delta": 0.083333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "teal>ochre",
+        "path": "K",
+        "delta": 0.1
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "teal>slate",
+        "path": "K",
+        "delta": 0.058334
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "umber>birch",
+        "path": "K",
+        "delta": 0.483333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "umber>birch",
+        "path": "Y",
+        "delta": 0.383333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "umber>fern",
+        "path": "K",
+        "delta": 0.266667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "umber>fern",
+        "path": "Y",
+        "delta": 0.183334
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "umber>teal",
+        "path": "K",
+        "delta": 0.133334
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "umber>teal",
+        "path": "Y",
+        "delta": 0.133334
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "verdant>cedar",
+        "path": "K",
+        "delta": 0.166667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "verdant>cedar",
+        "path": "Y",
+        "delta": 0.166667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "verdant>crimson",
+        "path": "K",
+        "delta": 0.308333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "verdant>crimson",
+        "path": "Y",
+        "delta": 0.308333
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "verdant>fern",
+        "path": "K",
+        "delta": 0.066667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "verdant>fern",
+        "path": "Y",
+        "delta": 0.066667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "verdant>maple",
+        "path": "K",
+        "delta": 0.066667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "verdant>maple",
+        "path": "Y",
+        "delta": 0.066667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "verdant>teal",
+        "path": "K",
+        "delta": 0.391667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "verdant>teal",
+        "path": "Y",
+        "delta": 0.391667
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "willow>verdant",
+        "path": "K",
+        "delta": 0.25
+      },
+      {
+        "seed": 20740105,
+        "cell": "A-K-",
+        "edge": "willow>verdant",
+        "path": "Y",
+        "delta": 0.141666
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "birch>umber",
+        "path": "K",
+        "delta": 0.133333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "cedar>umber",
+        "path": "K",
+        "delta": 0.1
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "cedar>umber",
+        "path": "Y",
+        "delta": 0.091667
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "cedar>willow",
+        "path": "K",
+        "delta": 0.116667
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "cedar>willow",
+        "path": "Y",
+        "delta": 0.1
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "crimson>maple",
+        "path": "K",
+        "delta": 0.166667
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "crimson>maple",
+        "path": "Y",
+        "delta": 0.166667
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "fern>crimson",
+        "path": "K",
+        "delta": 0.133333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "fern>crimson",
+        "path": "Y",
+        "delta": 0.133334
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "fern>umber",
+        "path": "K",
+        "delta": 0.141667
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "fern>umber",
+        "path": "Y",
+        "delta": 0.141667
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "maple>olive",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "maple>olive",
+        "path": "Y",
+        "delta": 0.058334
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "maple>umber",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "maple>umber",
+        "path": "Y",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "maple>willow",
+        "path": "K",
+        "delta": 0.058334
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "ochre>birch",
+        "path": "K",
+        "delta": 0.516667
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "ochre>birch",
+        "path": "Y",
+        "delta": 0.516667
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "ochre>cedar",
+        "path": "K",
+        "delta": 0.133333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "ochre>cedar",
+        "path": "Y",
+        "delta": 0.133333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "ochre>maple",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "ochre>maple",
+        "path": "Y",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "ochre>sable",
+        "path": "K",
+        "delta": 0.45
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "ochre>sable",
+        "path": "Y",
+        "delta": 0.45
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "sable>ochre",
+        "path": "K",
+        "delta": 0.45
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "sable>ochre",
+        "path": "Y",
+        "delta": 0.416667
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "sable>willow",
+        "path": "K",
+        "delta": 0.083334
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "sable>willow",
+        "path": "Y",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "slate>umber",
+        "path": "K",
+        "delta": 0.141667
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "teal>crimson",
+        "path": "K",
+        "delta": 0.133333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "teal>crimson",
+        "path": "Y",
+        "delta": 0.133333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "teal>umber",
+        "path": "K",
+        "delta": 0.066666
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "teal>umber",
+        "path": "Y",
+        "delta": 0.066666
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "umber>birch",
+        "path": "K",
+        "delta": 0.116666
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "umber>birch",
+        "path": "Y",
+        "delta": 0.116666
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "umber>cedar",
+        "path": "K",
+        "delta": 0.125
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "umber>cedar",
+        "path": "Y",
+        "delta": 0.125
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "umber>fern",
+        "path": "K",
+        "delta": 0.133334
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "umber>fern",
+        "path": "Y",
+        "delta": 0.133334
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "umber>maple",
+        "path": "K",
+        "delta": 0.083333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "umber>maple",
+        "path": "Y",
+        "delta": 0.083333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "umber>sable",
+        "path": "K",
+        "delta": 0.575
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "umber>sable",
+        "path": "Y",
+        "delta": 0.575
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "umber>teal",
+        "path": "K",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "umber>teal",
+        "path": "Y",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "willow>maple",
+        "path": "K",
+        "delta": 0.058334
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "willow>sable",
+        "path": "K",
+        "delta": 0.066666
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "willow>sable",
+        "path": "Y",
+        "delta": 0.066666
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "willow>slate",
+        "path": "K",
+        "delta": 0.141667
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "willow>slate",
+        "path": "Y",
+        "delta": 0.116667
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "willow>teal",
+        "path": "K",
+        "delta": 0.225
+      },
+      {
+        "seed": 20740106,
+        "cell": "A+K-",
+        "edge": "willow>teal",
+        "path": "Y",
+        "delta": 0.2
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "birch>umber",
+        "path": "K",
+        "delta": 0.133333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "cedar>umber",
+        "path": "K",
+        "delta": 0.1
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "cedar>umber",
+        "path": "Y",
+        "delta": 0.091667
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "cedar>willow",
+        "path": "K",
+        "delta": 0.116667
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "cedar>willow",
+        "path": "Y",
+        "delta": 0.1
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "crimson>maple",
+        "path": "K",
+        "delta": 0.166667
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "crimson>maple",
+        "path": "Y",
+        "delta": 0.166667
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "fern>crimson",
+        "path": "K",
+        "delta": 0.133333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "fern>crimson",
+        "path": "Y",
+        "delta": 0.133334
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "fern>umber",
+        "path": "K",
+        "delta": 0.141667
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "fern>umber",
+        "path": "Y",
+        "delta": 0.141667
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "maple>olive",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "maple>olive",
+        "path": "Y",
+        "delta": 0.058334
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "maple>willow",
+        "path": "K",
+        "delta": 0.058334
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "ochre>birch",
+        "path": "K",
+        "delta": 0.516667
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "ochre>birch",
+        "path": "Y",
+        "delta": 0.516667
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "ochre>cedar",
+        "path": "K",
+        "delta": 0.133333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "ochre>cedar",
+        "path": "Y",
+        "delta": 0.133333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "ochre>maple",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "ochre>maple",
+        "path": "Y",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "ochre>sable",
+        "path": "K",
+        "delta": 0.45
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "ochre>sable",
+        "path": "Y",
+        "delta": 0.45
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "sable>ochre",
+        "path": "K",
+        "delta": 0.45
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "sable>ochre",
+        "path": "Y",
+        "delta": 0.416667
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "sable>willow",
+        "path": "K",
+        "delta": 0.083334
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "sable>willow",
+        "path": "Y",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "slate>umber",
+        "path": "K",
+        "delta": 0.141667
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "teal>crimson",
+        "path": "K",
+        "delta": 0.133333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "teal>crimson",
+        "path": "Y",
+        "delta": 0.133333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "teal>umber",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "teal>umber",
+        "path": "Y",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "umber>birch",
+        "path": "K",
+        "delta": 0.141666
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "umber>birch",
+        "path": "Y",
+        "delta": 0.141666
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "umber>cedar",
+        "path": "K",
+        "delta": 0.125
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "umber>cedar",
+        "path": "Y",
+        "delta": 0.125
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "umber>fern",
+        "path": "K",
+        "delta": 0.125
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "umber>fern",
+        "path": "Y",
+        "delta": 0.125
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "umber>maple",
+        "path": "K",
+        "delta": 0.083333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "umber>maple",
+        "path": "Y",
+        "delta": 0.083333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "umber>sable",
+        "path": "K",
+        "delta": 0.575
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "umber>sable",
+        "path": "Y",
+        "delta": 0.575
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "umber>teal",
+        "path": "K",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "umber>teal",
+        "path": "Y",
+        "delta": 0.075
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "willow>maple",
+        "path": "K",
+        "delta": 0.058334
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "willow>sable",
+        "path": "K",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "willow>sable",
+        "path": "Y",
+        "delta": 0.058333
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "willow>slate",
+        "path": "K",
+        "delta": 0.141667
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "willow>slate",
+        "path": "Y",
+        "delta": 0.116667
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "willow>teal",
+        "path": "K",
+        "delta": 0.225
+      },
+      {
+        "seed": 20740106,
+        "cell": "A-K-",
+        "edge": "willow>teal",
+        "path": "Y",
+        "delta": 0.2
+      }
+    ],
+    "unmeasured": []
+  },
+  "complete_coverage": {
+    "pass": false,
+    "gates": {
+      "C2_treatment_consistency": {
+        "pass": false,
+        "coverage": {
+          "pass": false,
+          "seeds_expected": 6,
+          "cells_per_seed": 4,
+          "rows_expected": 480,
+          "rows_observed": 460,
+          "targets_per_seed": {
+            "20740101": 20,
+            "20740102": 20,
+            "20740103": 20,
+            "20740104": 20,
+            "20740105": 20,
+            "20740106": 20
+          },
+          "problems": [
+            "seed 20740101 cell A+K- target list does not match",
+            "seed 20740101 cell A+K- does not cover the target rows",
+            "seed 20740101 cell A-K+ target list does not match",
+            "seed 20740101 cell A-K+ does not cover the target rows",
+            "seed 20740101 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740101 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740101 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740101 cell Y_MINUS_A-K+ does not cover the target rows",
+            "seed 20740102 cell A+K- target list does not match",
+            "seed 20740102 cell A+K- does not cover the target rows",
+            "seed 20740102 cell A-K+ target list does not match",
+            "seed 20740102 cell A-K+ does not cover the target rows",
+            "seed 20740102 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740102 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740102 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740102 cell Y_MINUS_A-K+ does not cover the target rows",
+            "seed 20740103 cell A+K- target list does not match",
+            "seed 20740103 cell A+K- does not cover the target rows",
+            "seed 20740103 cell A-K+ target list does not match",
+            "seed 20740103 cell A-K+ does not cover the target rows",
+            "seed 20740103 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740103 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740103 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740103 cell Y_MINUS_A-K+ does not cover the target rows",
+            "seed 20740104 cell A+K- target list does not match",
+            "seed 20740104 cell A+K- does not cover the target rows",
+            "seed 20740104 cell A-K+ target list does not match",
+            "seed 20740104 cell A-K+ does not cover the target rows",
+            "seed 20740104 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740104 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740104 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740104 cell Y_MINUS_A-K+ does not cover the target rows",
+            "seed 20740105 cell A+K- target list does not match",
+            "seed 20740105 cell A+K- does not cover the target rows",
+            "seed 20740105 cell A-K+ target list does not match",
+            "seed 20740105 cell A-K+ does not cover the target rows",
+            "seed 20740105 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740105 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740105 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740105 cell Y_MINUS_A-K+ does not cover the target rows",
+            "seed 20740106 cell A+K- target list does not match",
+            "seed 20740106 cell A+K- does not cover the target rows",
+            "seed 20740106 cell A-K+ target list does not match",
+            "seed 20740106 cell A-K+ does not cover the target rows",
+            "seed 20740106 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740106 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740106 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740106 cell Y_MINUS_A-K+ does not cover the target rows"
+          ]
+        },
+        "gate_pass": true,
+        "rows": 460
+      },
+      "C3_positivity": {
+        "pass": false,
+        "coverage": {
+          "pass": false,
+          "seeds_expected": 6,
+          "cells_per_seed": 6,
+          "rows_expected": 720,
+          "rows_observed": 690,
+          "targets_per_seed": {
+            "20740101": 20,
+            "20740102": 20,
+            "20740103": 20,
+            "20740104": 20,
+            "20740105": 20,
+            "20740106": 20
+          },
+          "problems": [
+            "seed 20740101 cell A+K+ target list does not match",
+            "seed 20740101 cell A+K+ does not cover the target rows",
+            "seed 20740101 cell A+K- target list does not match",
+            "seed 20740101 cell A+K- does not cover the target rows",
+            "seed 20740101 cell A-K+ target list does not match",
+            "seed 20740101 cell A-K+ does not cover the target rows",
+            "seed 20740101 cell A-K- target list does not match",
+            "seed 20740101 cell A-K- does not cover the target rows",
+            "seed 20740101 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740101 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740101 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740101 cell Y_MINUS_A-K+ does not cover the target rows",
+            "seed 20740102 cell A+K+ target list does not match",
+            "seed 20740102 cell A+K+ does not cover the target rows",
+            "seed 20740102 cell A+K- target list does not match",
+            "seed 20740102 cell A+K- does not cover the target rows",
+            "seed 20740102 cell A-K+ target list does not match",
+            "seed 20740102 cell A-K+ does not cover the target rows",
+            "seed 20740102 cell A-K- target list does not match",
+            "seed 20740102 cell A-K- does not cover the target rows",
+            "seed 20740102 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740102 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740102 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740102 cell Y_MINUS_A-K+ does not cover the target rows",
+            "seed 20740103 cell A+K+ target list does not match",
+            "seed 20740103 cell A+K+ does not cover the target rows",
+            "seed 20740103 cell A+K- target list does not match",
+            "seed 20740103 cell A+K- does not cover the target rows",
+            "seed 20740103 cell A-K+ target list does not match",
+            "seed 20740103 cell A-K+ does not cover the target rows",
+            "seed 20740103 cell A-K- target list does not match",
+            "seed 20740103 cell A-K- does not cover the target rows",
+            "seed 20740103 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740103 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740103 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740103 cell Y_MINUS_A-K+ does not cover the target rows",
+            "seed 20740104 cell A+K+ target list does not match",
+            "seed 20740104 cell A+K+ does not cover the target rows",
+            "seed 20740104 cell A+K- target list does not match",
+            "seed 20740104 cell A+K- does not cover the target rows",
+            "seed 20740104 cell A-K+ target list does not match",
+            "seed 20740104 cell A-K+ does not cover the target rows",
+            "seed 20740104 cell A-K- target list does not match",
+            "seed 20740104 cell A-K- does not cover the target rows",
+            "seed 20740104 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740104 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740104 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740104 cell Y_MINUS_A-K+ does not cover the target rows",
+            "seed 20740105 cell A+K+ target list does not match",
+            "seed 20740105 cell A+K+ does not cover the target rows",
+            "seed 20740105 cell A+K- target list does not match",
+            "seed 20740105 cell A+K- does not cover the target rows",
+            "seed 20740105 cell A-K+ target list does not match",
+            "seed 20740105 cell A-K+ does not cover the target rows",
+            "seed 20740105 cell A-K- target list does not match",
+            "seed 20740105 cell A-K- does not cover the target rows",
+            "seed 20740105 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740105 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740105 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740105 cell Y_MINUS_A-K+ does not cover the target rows",
+            "seed 20740106 cell A+K+ target list does not match",
+            "seed 20740106 cell A+K+ does not cover the target rows",
+            "seed 20740106 cell A+K- target list does not match",
+            "seed 20740106 cell A+K- does not cover the target rows",
+            "seed 20740106 cell A-K+ target list does not match",
+            "seed 20740106 cell A-K+ does not cover the target rows",
+            "seed 20740106 cell A-K- target list does not match",
+            "seed 20740106 cell A-K- does not cover the target rows",
+            "seed 20740106 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740106 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740106 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740106 cell Y_MINUS_A-K+ does not cover the target rows"
+          ]
+        },
+        "gate_pass": true,
+        "rows": 690
+      },
+      "C5_common_cause": {
+        "pass": false,
+        "coverage": {
+          "pass": false,
+          "seeds_expected": 6,
+          "cells_per_seed": 6,
+          "rows_expected": 720,
+          "rows_observed": 690,
+          "targets_per_seed": {
+            "20740101": 20,
+            "20740102": 20,
+            "20740103": 20,
+            "20740104": 20,
+            "20740105": 20,
+            "20740106": 20
+          },
+          "problems": [
+            "seed 20740101 cell A+K+ target list does not match",
+            "seed 20740101 cell A+K+ does not cover the target rows",
+            "seed 20740101 cell A+K- target list does not match",
+            "seed 20740101 cell A+K- does not cover the target rows",
+            "seed 20740101 cell A-K+ target list does not match",
+            "seed 20740101 cell A-K+ does not cover the target rows",
+            "seed 20740101 cell A-K- target list does not match",
+            "seed 20740101 cell A-K- does not cover the target rows",
+            "seed 20740101 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740101 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740101 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740101 cell Y_MINUS_A-K+ does not cover the target rows",
+            "seed 20740102 cell A+K+ target list does not match",
+            "seed 20740102 cell A+K+ does not cover the target rows",
+            "seed 20740102 cell A+K- target list does not match",
+            "seed 20740102 cell A+K- does not cover the target rows",
+            "seed 20740102 cell A-K+ target list does not match",
+            "seed 20740102 cell A-K+ does not cover the target rows",
+            "seed 20740102 cell A-K- target list does not match",
+            "seed 20740102 cell A-K- does not cover the target rows",
+            "seed 20740102 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740102 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740102 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740102 cell Y_MINUS_A-K+ does not cover the target rows",
+            "seed 20740103 cell A+K+ target list does not match",
+            "seed 20740103 cell A+K+ does not cover the target rows",
+            "seed 20740103 cell A+K- target list does not match",
+            "seed 20740103 cell A+K- does not cover the target rows",
+            "seed 20740103 cell A-K+ target list does not match",
+            "seed 20740103 cell A-K+ does not cover the target rows",
+            "seed 20740103 cell A-K- target list does not match",
+            "seed 20740103 cell A-K- does not cover the target rows",
+            "seed 20740103 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740103 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740103 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740103 cell Y_MINUS_A-K+ does not cover the target rows",
+            "seed 20740104 cell A+K+ target list does not match",
+            "seed 20740104 cell A+K+ does not cover the target rows",
+            "seed 20740104 cell A+K- target list does not match",
+            "seed 20740104 cell A+K- does not cover the target rows",
+            "seed 20740104 cell A-K+ target list does not match",
+            "seed 20740104 cell A-K+ does not cover the target rows",
+            "seed 20740104 cell A-K- target list does not match",
+            "seed 20740104 cell A-K- does not cover the target rows",
+            "seed 20740104 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740104 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740104 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740104 cell Y_MINUS_A-K+ does not cover the target rows",
+            "seed 20740105 cell A+K+ target list does not match",
+            "seed 20740105 cell A+K+ does not cover the target rows",
+            "seed 20740105 cell A+K- target list does not match",
+            "seed 20740105 cell A+K- does not cover the target rows",
+            "seed 20740105 cell A-K+ target list does not match",
+            "seed 20740105 cell A-K+ does not cover the target rows",
+            "seed 20740105 cell A-K- target list does not match",
+            "seed 20740105 cell A-K- does not cover the target rows",
+            "seed 20740105 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740105 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740105 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740105 cell Y_MINUS_A-K+ does not cover the target rows",
+            "seed 20740106 cell A+K+ target list does not match",
+            "seed 20740106 cell A+K+ does not cover the target rows",
+            "seed 20740106 cell A+K- target list does not match",
+            "seed 20740106 cell A+K- does not cover the target rows",
+            "seed 20740106 cell A-K+ target list does not match",
+            "seed 20740106 cell A-K+ does not cover the target rows",
+            "seed 20740106 cell A-K- target list does not match",
+            "seed 20740106 cell A-K- does not cover the target rows",
+            "seed 20740106 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740106 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740106 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740106 cell Y_MINUS_A-K+ does not cover the target rows"
+          ]
+        },
+        "gate_pass": true,
+        "rows": 690
+      },
+      "C7_assertion_block": {
+        "pass": false,
+        "coverage": {
+          "pass": false,
+          "seeds_expected": 6,
+          "cells_per_seed": 4,
+          "rows_expected": 480,
+          "rows_observed": 460,
+          "targets_per_seed": {
+            "20740101": 20,
+            "20740102": 20,
+            "20740103": 20,
+            "20740104": 20,
+            "20740105": 20,
+            "20740106": 20
+          },
+          "problems": [
+            "seed 20740101 cell A+K+ target list does not match",
+            "seed 20740101 cell A+K+ does not cover the target rows",
+            "seed 20740101 cell A-K+ target list does not match",
+            "seed 20740101 cell A-K+ does not cover the target rows",
+            "seed 20740101 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740101 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740101 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740101 cell Y_MINUS_A-K+ does not cover the target rows",
+            "seed 20740102 cell A+K+ target list does not match",
+            "seed 20740102 cell A+K+ does not cover the target rows",
+            "seed 20740102 cell A-K+ target list does not match",
+            "seed 20740102 cell A-K+ does not cover the target rows",
+            "seed 20740102 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740102 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740102 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740102 cell Y_MINUS_A-K+ does not cover the target rows",
+            "seed 20740103 cell A+K+ target list does not match",
+            "seed 20740103 cell A+K+ does not cover the target rows",
+            "seed 20740103 cell A-K+ target list does not match",
+            "seed 20740103 cell A-K+ does not cover the target rows",
+            "seed 20740103 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740103 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740103 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740103 cell Y_MINUS_A-K+ does not cover the target rows",
+            "seed 20740104 cell A+K+ target list does not match",
+            "seed 20740104 cell A+K+ does not cover the target rows",
+            "seed 20740104 cell A-K+ target list does not match",
+            "seed 20740104 cell A-K+ does not cover the target rows",
+            "seed 20740104 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740104 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740104 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740104 cell Y_MINUS_A-K+ does not cover the target rows",
+            "seed 20740105 cell A+K+ target list does not match",
+            "seed 20740105 cell A+K+ does not cover the target rows",
+            "seed 20740105 cell A-K+ target list does not match",
+            "seed 20740105 cell A-K+ does not cover the target rows",
+            "seed 20740105 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740105 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740105 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740105 cell Y_MINUS_A-K+ does not cover the target rows",
+            "seed 20740106 cell A+K+ target list does not match",
+            "seed 20740106 cell A+K+ does not cover the target rows",
+            "seed 20740106 cell A-K+ target list does not match",
+            "seed 20740106 cell A-K+ does not cover the target rows",
+            "seed 20740106 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740106 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740106 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740106 cell Y_MINUS_A-K+ does not cover the target rows"
+          ]
+        },
+        "gate_pass": true,
+        "rows": 460,
+        "tolerance": 0.05
+      },
+      "C9_same_object": {
+        "pass": false,
+        "coverage": {
+          "pass": false,
+          "seeds_expected": 6,
+          "cells_per_seed": 6,
+          "rows_expected": 720,
+          "rows_observed": 690,
+          "targets_per_seed": {
+            "20740101": 20,
+            "20740102": 20,
+            "20740103": 20,
+            "20740104": 20,
+            "20740105": 20,
+            "20740106": 20
+          },
+          "problems": [
+            "seed 20740101 cell A+K+ target list does not match",
+            "seed 20740101 cell A+K+ does not cover the target rows",
+            "seed 20740101 cell A+K- target list does not match",
+            "seed 20740101 cell A+K- does not cover the target rows",
+            "seed 20740101 cell A-K+ target list does not match",
+            "seed 20740101 cell A-K+ does not cover the target rows",
+            "seed 20740101 cell A-K- target list does not match",
+            "seed 20740101 cell A-K- does not cover the target rows",
+            "seed 20740101 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740101 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740101 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740101 cell Y_MINUS_A-K+ does not cover the target rows",
+            "seed 20740102 cell A+K+ target list does not match",
+            "seed 20740102 cell A+K+ does not cover the target rows",
+            "seed 20740102 cell A+K- target list does not match",
+            "seed 20740102 cell A+K- does not cover the target rows",
+            "seed 20740102 cell A-K+ target list does not match",
+            "seed 20740102 cell A-K+ does not cover the target rows",
+            "seed 20740102 cell A-K- target list does not match",
+            "seed 20740102 cell A-K- does not cover the target rows",
+            "seed 20740102 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740102 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740102 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740102 cell Y_MINUS_A-K+ does not cover the target rows",
+            "seed 20740103 cell A+K+ target list does not match",
+            "seed 20740103 cell A+K+ does not cover the target rows",
+            "seed 20740103 cell A+K- target list does not match",
+            "seed 20740103 cell A+K- does not cover the target rows",
+            "seed 20740103 cell A-K+ target list does not match",
+            "seed 20740103 cell A-K+ does not cover the target rows",
+            "seed 20740103 cell A-K- target list does not match",
+            "seed 20740103 cell A-K- does not cover the target rows",
+            "seed 20740103 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740103 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740103 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740103 cell Y_MINUS_A-K+ does not cover the target rows",
+            "seed 20740104 cell A+K+ target list does not match",
+            "seed 20740104 cell A+K+ does not cover the target rows",
+            "seed 20740104 cell A+K- target list does not match",
+            "seed 20740104 cell A+K- does not cover the target rows",
+            "seed 20740104 cell A-K+ target list does not match",
+            "seed 20740104 cell A-K+ does not cover the target rows",
+            "seed 20740104 cell A-K- target list does not match",
+            "seed 20740104 cell A-K- does not cover the target rows",
+            "seed 20740104 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740104 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740104 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740104 cell Y_MINUS_A-K+ does not cover the target rows",
+            "seed 20740105 cell A+K+ target list does not match",
+            "seed 20740105 cell A+K+ does not cover the target rows",
+            "seed 20740105 cell A+K- target list does not match",
+            "seed 20740105 cell A+K- does not cover the target rows",
+            "seed 20740105 cell A-K+ target list does not match",
+            "seed 20740105 cell A-K+ does not cover the target rows",
+            "seed 20740105 cell A-K- target list does not match",
+            "seed 20740105 cell A-K- does not cover the target rows",
+            "seed 20740105 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740105 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740105 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740105 cell Y_MINUS_A-K+ does not cover the target rows",
+            "seed 20740106 cell A+K+ target list does not match",
+            "seed 20740106 cell A+K+ does not cover the target rows",
+            "seed 20740106 cell A+K- target list does not match",
+            "seed 20740106 cell A+K- does not cover the target rows",
+            "seed 20740106 cell A-K+ target list does not match",
+            "seed 20740106 cell A-K+ does not cover the target rows",
+            "seed 20740106 cell A-K- target list does not match",
+            "seed 20740106 cell A-K- does not cover the target rows",
+            "seed 20740106 cell Y_MINUS_A+K+ target list does not match",
+            "seed 20740106 cell Y_MINUS_A+K+ does not cover the target rows",
+            "seed 20740106 cell Y_MINUS_A-K+ target list does not match",
+            "seed 20740106 cell Y_MINUS_A-K+ does not cover the target rows"
+          ]
+        },
+        "gate_pass": true,
+        "rows": 690
+      }
+    },
+    "failed": [
+      "C2_treatment_consistency",
+      "C3_positivity",
+      "C5_common_cause",
+      "C7_assertion_block",
+      "C9_same_object"
+    ]
+  },
+  "complete_status": "FAIL",
+  "all_gates_pass": false,
+  "observed_denominator": {
+    "status": "OBSERVED",
+    "parts": 36,
+    "seeds": [
+      20740101,
+      20740102,
+      20740103,
+      20740104,
+      20740105,
+      20740106
+    ],
+    "cells": [
+      "A+K+",
+      "A+K-",
+      "A-K+",
+      "A-K-",
+      "Y_MINUS_A+K+",
+      "Y_MINUS_A-K+"
+    ],
+    "c1": {
+      "a_minus": 457,
+      "k_minus": 478,
+      "by_seed": {
+        "20740101": {
+          "a_minus": 81,
+          "k_minus": 79
+        },
+        "20740102": {
+          "a_minus": 64,
+          "k_minus": 81
+        },
+        "20740103": {
+          "a_minus": 84,
+          "k_minus": 79
+        },
+        "20740104": {
+          "a_minus": 82,
+          "k_minus": 74
+        },
+        "20740105": {
+          "a_minus": 72,
+          "k_minus": 83
+        },
+        "20740106": {
+          "a_minus": 74,
+          "k_minus": 82
+        }
+      }
+    },
+    "c4": {
+      "rows": 2785,
+      "measured": 2785,
+      "unmeasured": 0
+    }
+  },
+  "gates": {
+    "C1_path_separation": true,
+    "C4_no_interference": false,
+    "C2_treatment_consistency": false,
+    "C3_positivity": false,
+    "C5_common_cause": false,
+    "C7_assertion_block": false,
+    "C9_same_object": false
+  },
+  "not_evidence": "A result-assembly decision over supplied cell parts. A VOID is not a scientific verdict; the synthetic fixture is a control, not an A1 result, causal estimate or capability claim."
+}

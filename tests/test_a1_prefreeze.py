@@ -249,6 +249,7 @@ def test_target_freeze_act_is_prepared_not_executed():
     assert act["manifest_frozen_after_signature"] is True
     assert act["grant_after_signature"] == "NOT ISSUED"
     assert act["run_after_signature"] == "NOT STARTED"
+    assert act["manifest_frozen_after_signature"] is True
     assert act["blocking_preconditions"] == [
         "C2_C8_competence_rule", "C4_exposure_acceptance",
     ]
@@ -298,7 +299,7 @@ def test_target_freeze_act_is_prepared_not_executed():
     manifest = json.loads(Path("docs/a1_two_path_manifest.json").read_text(encoding="utf-8"))
     # The N=20 act is signed and the manifest frozen on its block; the N=4 act itself remains a draft.
     assert manifest["frozen"] is True
-    assert manifest["status"] == "GRANTED, NOT RUN"
+    assert manifest["status"].startswith("GRANTED, RUN")
     assert manifest["targets"]["n_per_seed"] == 20
     assert act["status"].startswith("DRAFT")
     assert manifest["targets"]["status"].startswith("FIXED BEFORE FREEZE")
@@ -380,7 +381,8 @@ def test_n20_target_freeze_act_freezes_the_competent_block():
     assert [row["id"] for row in act["preconditions"] if row["blocking"]] == []
     assert act["grant_after_signature"].startswith("ISSUED 2026-11-15")
     assert "A1-GRANT" in act["grant_after_signature"]
-    assert act["run_after_signature"] == "NOT STARTED"
+    assert act["run_after_signature"].startswith("RAN 2026-11-15")
+    assert "A1-RUN" in act["run_after_signature"]
     assert act["held_on"]["reason"] == "CLEARED_BY_DECISION-A1-COMPETENT-ESTIMAND"
 
     # The block validates between the floor and the nominal size.
@@ -392,8 +394,15 @@ def test_the_execution_gate_opens_under_the_grant_and_still_refuses_without_it()
     from benchmarks import a1_two_path
     from benchmarks.authorisation_guard import preparation_only
 
-    assert a1_two_path.preflight() == []
-    assert a1_two_path.refuse() is None  # returns instead of SystemExit
+    # The block has run once, so the live manifest must now refuse a second run.
+    live = a1_two_path.preflight()
+    assert "the manifest already names a result" in live, live
+
+    # The gate itself still opens on a granted, frozen, unrun manifest: that is what it was opened on.
+    pre_run = a1_two_path.manifest()
+    pre_run["status"] = "GRANTED, NOT RUN"
+    pre_run["result"] = {"path": None, "exists": False}
+    assert a1_two_path.preflight(pre_run) == []
 
     ungranted = a1_two_path.manifest()
     ungranted["authorisation"] = {"granted": False, "granted_on": None,
@@ -408,6 +417,8 @@ def test_the_execution_gate_opens_under_the_grant_and_still_refuses_without_it()
 
     unfrozen = a1_two_path.manifest()
     unfrozen["frozen"] = False
+    unfrozen["result"] = {"path": None, "exists": False}
+    unfrozen["status"] = "GRANTED, NOT RUN"
     assert "the manifest is not frozen" in a1_two_path.preflight(unfrozen)
 
 

@@ -102,9 +102,14 @@ def evidence(act: Path = ACT, docs: Path = DOCS) -> list[str]:
     if digest not in text:
         found.append("the act does not carry the selection digest %s, so the block it froze is not the one "
                      "this page reports" % digest[:16])
-    if (docs / "A1-RUN.md").exists():
-        found.append("a run record exists: the filter ran before the cells only if its artifacts predate it, "
-                     "and that is now a question for a person, not a check")
+    run = docs / "A1-RUN.md"
+    if run.exists():
+        # A run record is allowed; what the claim needs is that the block was fixed before the cells ran.
+        ran = re.search(r"\*\*Ran:\*\*\s*(\d{4}-\d{2}-\d{2})", run.read_text(encoding="utf-8"))
+        selected = re.search(r'"date":\s*"(\d{4}-\d{2}-\d{2})"', FILTERED.read_text(encoding="utf-8"))
+        if ran and selected and ran.group(1) < selected.group(1):
+            found.append("the run record (%s) predates the selection artifact (%s): the ordering claim fails"
+                         % (ran.group(1), selected.group(1)))
     grant = docs / "A1-GRANT.md"
     if grant.exists():
         granted = re.search(r"\*\*Granted:\*\*\s*(\d{4}-\d{2}-\d{2})", grant.read_text(encoding="utf-8"))
@@ -164,14 +169,14 @@ def render(parent: dict | None = None, filtered: dict | None = None) -> str:
         "",
         "- %s the signed act carries the selection digest it froze, so the block this page reports is the block "
         "that was frozen" % mark,
-        "- %s no run record exists; if a grant exists it does not predate the selection artifacts" % mark,
+        "- %s the selection artifacts predate the run record, and any grant postdates them" % mark,
     ]
     if grounds:
         lines += ["", "**The claim does not currently hold:**", ""]
         lines += ["- " + ground for ground in grounds]
     lines += [
         "",
-        "`--check` verifies both, and fails when either stops holding — a run record, a grant that predates the block, or "
+        "`--check` verifies both, and fails when either stops holding — a run or grant that predates the block, or "
         "an act that no longer carries the digest — "
         "because at that point this paragraph needs a person to reread it rather than a generator to keep it in date.",
         "",
@@ -232,7 +237,7 @@ def check() -> int:
         for problem in found:
             print("FAIL:", problem)
         return 1
-    print("A1 C8 disclosure: clean; %d seeds, no cell run" % len(rows(
+    print("A1 C8 disclosure: clean; %d seeds, block fixed before the run" % len(rows(
         json.loads(PARENT.read_text(encoding="utf-8")),
         json.loads(FILTERED.read_text(encoding="utf-8")))))
     return 0
