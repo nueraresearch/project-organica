@@ -85,6 +85,7 @@ DERIVED = {
     "a1_c5_carrier_divergence.py",  # no-arm carrier-cycle record; runs no A1 cell
     "a1_target_viability.py",  # read-only target/C2 viability join; runs no engine
     "a1_design_viability.py",  # read-only C1/C2 design-viability join; runs no engine
+    "a1_competence_adopted.py",  # read-only target-competence join; runs no engine
     "a1_n20_competent_selection.py",  # pre-registered rule draft; selects and runs nothing
     "a1_k_decomposition.py",  # descriptive no-arm K decomposition; runs nothing
     "a1_k_dilution.py",  # descriptive cross-world K dilution; runs nothing

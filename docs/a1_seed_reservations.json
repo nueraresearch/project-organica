@@ -47,7 +47,8 @@
         "docs/a1_c8_expansion.json",
         "docs/a1_baseline_availability_adopted.json",
         "docs/a1_c5_carrier_divergence.json",
-        "docs/a1_design_viability.json"
+        "docs/a1_design_viability.json",
+        "docs/a1_competence_adopted.json"
       ],
       "seeds": [
         20740101,

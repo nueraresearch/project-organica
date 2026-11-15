@@ -29,7 +29,7 @@ On the **2063** block (recorded in `docs/a1_design_viability.json`):
 - selected N=20 rows competent per seed: **5–12** of 20;
 - candidate pool that is A- and K-available: **23–36** edges per seed.
 
-On the **adopted 2074** block, computed 2026-11-15 from the committed availability and selection artifacts (the query is reproduced below; this computation is not yet its own registered artifact, so it is a computation here, not a record):
+On the **adopted 2074** block, recorded in [`A1-COMPETENCE-ADOPTED-1`](A1-COMPETENCE-ADOPTED.md) — `docs/a1_competence_adopted.json`, rebuilt and guarded by `python -m benchmarks.a1_competence_adopted --check`:
 
 - selected N=4 rows competent per seed: **3, 0, 3, 2, 2, 2** — **12 of 24**, at most **3 of 4**;
 - selected N=20 rows competent per seed: **10, 7, 11, 13, 10, 7** — **58 of 120**, at most **13 of 20**;
@@ -72,18 +72,11 @@ The owner selects A, B or C. This document is then re-issued with the choice rec
 ## Reproduce the adopted-block figures
 
 ```bash
-python - <<'PY'
-import json
-from pathlib import Path
-av = json.loads(Path("docs/a1_baseline_availability_adopted.json").read_text())
-n4 = json.loads(Path("docs/a1_target_selection.json").read_text())
-n20 = json.loads(Path("docs/a1_c8_target_selection.json").read_text())
-for row in av["per_seed"]:
-    seed = str(row["seed"])
-    flags = {r["edge"]: (r["A"], r["K"]) for r in row["rows"]}
-    ok = lambda e: flags.get(e, (False, False))[0] and flags.get(e, (False, False))[1]
-    print(seed,
-          sum(ok(e) for e in n4["per_seed"][seed]["selected"]), "of 4 |",
-          sum(ok(e) for e in n20["per_seed"][seed]["selected"]), "of 20")
-PY
+python -m benchmarks.a1_competence_adopted --check    # re-derives every figure from the sources
+python -m benchmarks.a1_competence_adopted --self-test
 ```
+
+The record is a read-only join of `docs/a1_baseline_availability_adopted.json`,
+`docs/a1_target_selection.json` and `docs/a1_c8_target_selection.json`. It counts
+competent selected rows and pool size; it runs no engine, selects no target and
+carries the same competence reading and induction caveat stated above.

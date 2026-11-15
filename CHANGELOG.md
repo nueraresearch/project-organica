@@ -42,6 +42,17 @@ disposition stay held, the grant is refused, and C2/C8 competence moves to the t
 C1 itself remains unscored: the floor is reachable at 79/64/79/74/72/74 on the adopted block, and a
 ceiling is not an observation.
 
+## Addendum — 2026-11-15: the adopted-block competence numbers become a record
+
+The C2/C8 competence figures for the adopted block lived in a chat computation. `A1-COMPETENCE-ADOPTED-1`
+(`docs/a1_competence_adopted.json`, `docs/A1-COMPETENCE-ADOPTED.md`, `benchmarks/a1_competence_adopted.py`)
+now derives them from three committed artifacts and guards them: N=4 **12 of 24** rows competent
+(3/0/3/2/2/2, no seed with a clean block), N=20 **58 of 120** (10/7/11/13/10/7, no seed with a clean
+block), competent pool **27–40** per seed against **20** required. Every selected row is present in the
+availability record, so no row is silently called incompetent and the counts are exact. The record runs
+no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
+so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
+
 ## Versioning in this repository — three separate namespaces
 
 The words "v1" and "v2" appear in this project in three different senses.

@@ -60,6 +60,7 @@ ADOPTED_AVAILABILITY_PATH = DOCS / "a1_baseline_availability_adopted.json"
 C5_CARRIER_DIVERGENCE_PATH = DOCS / "a1_c5_carrier_divergence.json"
 TARGET_VIABILITY_PATH = DOCS / "a1_target_viability.json"
 DESIGN_VIABILITY_PATH = DOCS / "a1_design_viability.json"
+COMPETENCE_ADOPTED_PATH = DOCS / "a1_competence_adopted.json"
 N20_COMPETENT_PREREG_PATH = DOCS / "a1_n20_competent_selection_prereg.json"
 K_DECOMPOSITION_PATH = DOCS / "a1_k_decomposition.json"
 SUCCESSOR_PREFLIGHT_PATH = DOCS / "a1_successor_preflight.json"
@@ -429,7 +430,8 @@ def preflight(doc: dict | None = None) -> list[str]:
                  BASELINE_AVAILABILITY_PATH, ADOPTED_AVAILABILITY_PATH,
                  C5_CARRIER_DIVERGENCE_PATH,
                  TARGET_VIABILITY_PATH,
-                 DESIGN_VIABILITY_PATH, N20_COMPETENT_PREREG_PATH,
+                 DESIGN_VIABILITY_PATH, COMPETENCE_ADOPTED_PATH,
+                 N20_COMPETENT_PREREG_PATH,
                  K_DECOMPOSITION_PATH, SUCCESSOR_PREFLIGHT_PATH,
                  SUCCESSOR_CANDIDATE_PATH, LARGER_UNIVERSE_CANDIDATE_PATH,
                  LARGER_UNIVERSE_PREFLIGHT_PATH, K_TOTAL_PREDICTORS_PATH,
