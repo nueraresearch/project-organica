@@ -138,6 +138,21 @@ baseline, and the charter says in advance that a tie means the addresses are boo
 Addressability is necessary for G4 and beyond; it is not sufficient, and the draft now says so rather than treating the
 primitive as the goal.
 
+## Addendum — 2026-11-15: a specification for the mutable-identity primitive (planning only)
+
+`docs/V2-MUTABLE-IDENTITY-SPEC.md` writes down what requirement 6 of the pending charter actually asks for, so it can be
+argued about before anything is built: the object, the identifier invariants, the registration/canonicalisation rule, the
+collision rule and the mutation semantics, plus the earning test the primitive must pass.
+
+Two decisions in it follow from the measurements rather than from taste. Identity is allocated once and never derived from
+content, because the measured failure was a content key changing when a triangle's direction flipped. And the collision
+rule is copy-on-write at the level of **bindings**, not atoms: atoms stay immutable and shared, so no atom is copied, no
+reference count is split, and removing a member cannot touch another composite. Registration canonicalises direction, so
+the 19 node sets that V1 emits both ways become one object with one id instead of two ids that never coexist.
+
+It authorises nothing: no code, no cells, no V1 change. A test fails if the spec is ever imported by the engine or if a
+mutable-identity decision is adopted without the charter.
+
 ## Addendum — 2026-11-15: the archive cannot name a carrier
 
 The identity check was meant to be artifact-only. It could not be, and the reason is a result: a scan of the committed

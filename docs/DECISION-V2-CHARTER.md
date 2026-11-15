@@ -89,6 +89,10 @@ No V2 cell, module or engine change is authorised by this decision; the charter 
    copy-on-write) stated. An id column over recomputed structures does not satisfy this; that is the difference between a
    label and an address. Nor does a derived key, even one that isolates a composite perfectly: selection without a
    collision rule is retrieval, not identity.
+
+   The specification is drafted as [`V2-MUTABLE-IDENTITY-SPEC`](V2-MUTABLE-IDENTITY-SPEC.md) — planning only,
+   authorising no code: it fixes storage, identifier invariants, the registration/canonicalisation rule and the mutation
+   semantics, and states the earning test the primitive must pass.
 7. **An earning test**: the first experiment compares the addressed object against the pair-count baseline, on prediction
    or on control, and the charter states in advance that a tie means the addresses are bookkeeping and the charter fails.
    Addressability is necessary for G4 and beyond; it is not sufficient, and the charter has to be able to discover that.

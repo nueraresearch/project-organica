@@ -1,0 +1,32 @@
+{
+  "kind": "v2_mutable_identity_spec",
+  "status": "PLANNING_ONLY",
+  "authorises": [],
+  "serves": "DECISION-V2-CHARTER requirement 6 and 7",
+  "identifier_invariants": [
+    {"id": "I1", "statement": "the id never changes across versions, member changes or a direction flip"},
+    {"id": "I2", "statement": "the id is not a function of the members"},
+    {"id": "I3", "statement": "ids are never reused after retirement"},
+    {"id": "I4", "statement": "retrieval accepts the id and only the id"},
+    {"id": "I5", "statement": "a version names a state, the id names the object"}
+  ],
+  "mutation_invariants": [
+    {"id": "M1", "statement": "a mutation changes only the rows of the composite it names"},
+    {"id": "M2", "statement": "atoms are immutable, so no member change alters a shared atom"},
+    {"id": "M3", "statement": "mutations are atomic and version-checked"},
+    {"id": "M4", "statement": "retirement leaves a tombstone and never frees the id"},
+    {"id": "M5", "statement": "the primitive never writes the frozen V1 graph"}
+  ],
+  "collision_rule": "copy-on-write at the level of bindings: composites hold versioned references to immutable atoms",
+  "earning_test": {
+    "prediction": "members predict held-out edges better than the same atoms' pair counts",
+    "control": "intervening on one composite leaves a bystander composite unchanged",
+    "decision": "an interval including zero means the primitive is bookkeeping and the charter fails"
+  },
+  "open_questions": [
+    "are members atoms or carriers",
+    "what normalisation makes rotated paths collide deterministically",
+    "how is the store compacted without changing a resolution",
+    "is registration cheap enough to run per detected structure"
+  ]
+}
