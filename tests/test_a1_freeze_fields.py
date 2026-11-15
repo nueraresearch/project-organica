@@ -113,7 +113,10 @@ def test_a_stale_field_fails() -> None:
 def test_the_acts_still_withhold_the_signature() -> None:
     for act in ACTS:
         text = act.read_text(encoding="utf-8")
-        assert "AWAITING THE OWNER'S SIGNATURE" in text, act.name
+        if act.name == "A1-TARGET-FREEZE-ACT-N20.md":
+            assert "SIGNED BY OWNER" in text, act.name
+        else:
+            assert "AWAITING THE OWNER'S SIGNATURE" in text, act.name
         assert "not signable while any row above reads `NOT RECORDED`" in text, act.name
 
 

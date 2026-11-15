@@ -2,7 +2,7 @@
 
 **ID:** `A1-SIGNATURE-SHEET-1`
 **Date:** 2026-11-15
-**Status:** `TWO ADOPTED 2026-11-15 (D1, D2); ONE PENDING (D3); NOTHING FROZEN, GRANTED OR RUN`
+**Status:** `ALL THREE ADOPTED 2026-11-15; THE N=20 ACT SIGNED; NOTHING GRANTED, NOTHING RUN`
 
 This sheet is an index, not a binding record. The binding text is each decision file; signing means filling its
 **Decision owner** and **Signature and date** lines and replacing its `Status:` line. Withdrawing means writing
@@ -76,7 +76,7 @@ FORCE; NOTHING FROZEN, NOTHING RUN`.
 
 ## D3 — Targets are drawn from the baseline-competent population
 
-**Record:** `DECISION-A1-COMPETENT-ESTIMAND` (`DECISION-A1-COMPETENT-ESTIMAND-1`) · **Status:** `PENDING`
+**Record:** `DECISION-A1-COMPETENT-ESTIMAND` (`DECISION-A1-COMPETENT-ESTIMAND-1`) · **Status:** `ADOPTED BY OWNER 2026-11-15`
 
 **What you commit to.** An edge is an admissible target only if the no-arm A+K+ replay records **both** an `A` carrier and
 a `K` path for it. The estimand becomes conditional — *the pre-37 cycle-membership directed-edge effect, conditional on
@@ -107,7 +107,8 @@ re-issue is mechanical and is not a change to any threshold.
 **Also settled by either outcome:** the N=4 act should not be signed. Four targets per seed can never reach
 `N_min = 17`, and that incompatibility comes from C8's own adopted rule, not from this decision.
 
-**Sign:** `DECISION-A1-COMPETENT-ESTIMAND — ADOPTED`, owner, date. **Withdraw:** `WITHDRAWN`, owner, date, reason.
+**Signed 2026-11-15.** Status line: `ADOPTED BY OWNER 2026-11-15 — PATH A TARGETS ARE BASELINE-COMPETENT; THE
+ESTIMAND IS CONDITIONAL; NOT FROZEN, NOT RUN`.
 
 ---
 

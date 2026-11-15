@@ -14,9 +14,9 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 
 | status | count | meaning |
 | --- | --- | --- |
-| ADOPTED | 21 | in force; the document records it as implemented or effective |
+| ADOPTED | 22 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
-| PENDING | 6 | decided and not in force; the document says so |
+| PENDING | 5 | decided and not in force; the document says so |
 | **total** | **28** | |
 
 ## The decisions
@@ -558,7 +558,7 @@ uncomputable, and the cause that fired first is the one worth reporting.
 
 ### DECISION-A1-COMPETENT-ESTIMAND — Decision: Path A targets are drawn from the baseline-competent population
 
-**Status.** PENDING — *"PENDING — FOR OWNER ADOPTION; NOT IN FORCE; NO FREEZE, NO GRANT, NO RUN"*
+**Status.** ADOPTED — *"ADOPTED BY OWNER 2026-11-15 — PATH A TARGETS ARE BASELINE-COMPETENT; THE ESTIMAND IS CONDITIONAL; NOT FROZEN, NOT RUN"*
 
 **Decided.**
 

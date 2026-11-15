@@ -72,8 +72,8 @@ def test_row_states_are_a_function_of_the_index() -> None:
         row = next(line for line in body.splitlines() if "[`%s`]" % entry["decision_id"] in line)
         assert "| %s |" % a1_board._state(entry) in row, entry["decision_id"]
     awaiting = [row["id"] for row in a1_board.rows() if row["state"] == "**AWAITING SIGNATURE**"]
-    # C1-CEILING and C8-SELECTION were adopted 2026-11-15; the estimand is the one decision left.
-    assert awaiting == ["DECISION-A1-COMPETENT-ESTIMAND"]
+    # All three A1 decisions were adopted on 2026-11-15; nothing is awaiting a signature.
+    assert awaiting == []
 
 
 def test_a_decision_status_change_makes_both_blocks_stale() -> None:
@@ -99,9 +99,11 @@ def test_an_unmet_artifact_assertion_renders_open_not_closed() -> None:
 def test_the_freeze_acts_read_their_own_status_lines() -> None:
     branch = next(item for item in _branches() if item["id"] == "freeze-acts")
     state = a1_board.branch_state(branch, _entries())
-    assert state == "**NOT SIGNED**", state
+    # The N=20 act is signed on the competent block; the N=4 act cannot reach N_min and stays a draft.
+    assert state == "**PARTIALLY SIGNED**", state
     statuses = a1_board._status_lines(branch["docs"])
-    assert all("DRAFT" in line for line in statuses), statuses
+    assert any("SIGNED" in line for line in statuses), statuses
+    assert any("DRAFT" in line for line in statuses), statuses
 
 
 def test_the_prose_no_longer_claims_the_work_is_finished() -> None:
@@ -111,7 +113,8 @@ def test_the_prose_no_longer_claims_the_work_is_finished() -> None:
     body = a1_board.artifact_block(text)
     posture = next(line for line in body.splitlines() if "C4 posture clause 1" in line)
     assert "324" in posture and "1,944" in posture
-    assert "OPEN UNTIL THE ESTIMAND IS ADOPTED" in posture
+    # The estimand was adopted 2026-11-15, so the row now waits on the posture restatement, not the decision.
+    assert "OPEN — RESTATEMENT MISSING" in posture
 
 
 def test_every_link_in_both_blocks_resolves() -> None:

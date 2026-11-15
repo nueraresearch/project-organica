@@ -193,8 +193,12 @@ def branch_state(branch: dict, entries: list[dict] | None = None) -> str:
         return "**CLOSED — ARTIFACT EXISTS**" if ok else "**OPEN — ARTIFACT NOT PROVEN**"
     if kind == "act":
         statuses = _status_lines(branch.get("docs") or [])
-        signed = statuses and all("SIGNED" in status for status in statuses)
-        return "**CLOSED — SIGNED**" if signed else "**NOT SIGNED**"
+        signed = [("SIGNED" in status) for status in statuses]
+        if signed and all(signed):
+            return "**CLOSED — SIGNED**"
+        if any(signed):
+            return "**PARTIALLY SIGNED**"
+        return "**NOT SIGNED**"
     if kind == "conditional":
         entry = by_id.get(branch["when_pending"])
         holds = all(_has_strings(spec) for spec in branch.get("contains") or [])

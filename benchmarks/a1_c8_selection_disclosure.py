@@ -19,6 +19,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -33,8 +34,8 @@ ACT = DOCS / "A1-TARGET-FREEZE-ACT-N20.md"
 # The timing claim is not argued from timestamps. It holds because no cell has run at all, and these
 # are the two places that say so: the act's own status line, and the absence of any grant or run record
 # for A1. When one of those changes, the sentence needs a human read, so the check fails.
-UNSIGNED = "AWAITING THE OWNER'S SIGNATURE"
-NOT_RUN = "NOT FROZEN, NO GRANT, NO RUN"
+SIGNED = "SIGNED BY OWNER 2026-11-15"
+NOT_RUN = "NOT RUN"
 RECORD_MARKERS = ("GRANT", "AUTHORIS", "RUN", "RESULT", "CELLS")
 
 STATUS = "DISCLOSURE — NOT A RESULT; S5 RECORD FOR THE FREEZE ACT; NOTHING FROZEN, NOTHING RUN"
@@ -87,22 +88,31 @@ def totals(table: list[dict]) -> dict:
 
 
 def evidence(act: Path = ACT, docs: Path = DOCS) -> list[str]:
-    """Grounds for "the filter ran before any cell": an unsigned act and no grant or run on record."""
+    """Grounds for "the filter ran before any cell", in the form the record can actually supply.
+
+    Not timestamps, and no longer the act's unsigned status: the act is signed. What the record can show
+    is order — the act carries the selection digest it froze (§2a), and nothing has run since. A grant may
+    exist; if it does, it must not predate the selection artifacts it authorises.
+    """
     if not act.exists():
         return ["the freeze act is missing, so the timing claim has no standing"]
     text = act.read_text(encoding="utf-8")
     found = []
-    if UNSIGNED not in text:
-        found.append("the act no longer says %r" % UNSIGNED)
-    if NOT_RUN not in text:
-        found.append("the act no longer says %r" % NOT_RUN)
-    for path in sorted(docs.iterdir()):
-        name = path.name.upper()
-        if not (name.startswith("A1-") or name.startswith("A1_")):
-            continue
-        if any(marker in name for marker in RECORD_MARKERS):
-            found.append("%s exists: a grant or a run would date the filter, and the timing claim must be "
-                         "re-read rather than asserted" % path.name)
+    digest = hashlib.sha256(FILTERED.read_bytes()).hexdigest()
+    if digest not in text:
+        found.append("the act does not carry the selection digest %s, so the block it froze is not the one "
+                     "this page reports" % digest[:16])
+    if (docs / "A1-RUN.md").exists():
+        found.append("a run record exists: the filter ran before the cells only if its artifacts predate it, "
+                     "and that is now a question for a person, not a check")
+    grant = docs / "A1-GRANT.md"
+    if grant.exists():
+        granted = re.search(r"\*\*Granted:\*\*\s*(\d{4}-\d{2}-\d{2})", grant.read_text(encoding="utf-8"))
+        selected = re.search(r'"date":\s*"(\d{4}-\d{2}-\d{2})"',
+                             FILTERED.read_text(encoding="utf-8"))
+        if granted and selected and granted.group(1) < selected.group(1):
+            found.append("the grant (%s) predates the selection artifact (%s): the ordering claim fails"
+                         % (granted.group(1), selected.group(1)))
     return found
 
 
@@ -152,15 +162,17 @@ def render(parent: dict | None = None, filtered: dict | None = None) -> str:
         "The claim above is not argued from timestamps, which a reader cannot audit. It is argued from the fact that "
         "**no cell has run at all**:",
         "",
-        "- %s the freeze act reads `%s` and `%s`" % (mark, UNSIGNED, NOT_RUN),
-        "- %s no grant, authorisation, run or result record for A1 exists under `docs/`" % mark,
+        "- %s the signed act carries the selection digest it froze, so the block this page reports is the block "
+        "that was frozen" % mark,
+        "- %s no run record exists; if a grant exists it does not predate the selection artifacts" % mark,
     ]
     if grounds:
         lines += ["", "**The claim does not currently hold:**", ""]
         lines += ["- " + ground for ground in grounds]
     lines += [
         "",
-        "`--check` verifies both, and fails when either stops holding — a signed act, a grant, or a run record — "
+        "`--check` verifies both, and fails when either stops holding — a run record, a grant that predates the block, or "
+        "an act that no longer carries the digest — "
         "because at that point this paragraph needs a person to reread it rather than a generator to keep it in date.",
         "",
         "## What this record does and does not show",

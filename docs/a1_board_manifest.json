@@ -273,7 +273,7 @@
         "docs/A1-TARGET-FREEZE-ACT.md",
         "docs/A1-TARGET-FREEZE-ACT-N20.md"
       ],
-      "note": "the N=4 act freezes four targets per seed and can never reach N_min = 17; the N=20 act needs re-issuing against the competent digests",
+      "note": "the N=20 act is signed on the competent block, at the floor for two seeds and above it for one, with the scorer pinned; the N=4 act is below N_min = 17 and stays unsigned",
       "proved_by": [
         "tests/test_a1_prefreeze.py",
         "tests/test_a1_freeze_fields.py"

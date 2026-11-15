@@ -4,11 +4,11 @@
 
 **Date:** 2026-11-15
 
-**Status:** `PENDING — FOR OWNER ADOPTION; NOT IN FORCE; NO FREEZE, NO GRANT, NO RUN`
+**Status:** `ADOPTED BY OWNER 2026-11-15 — PATH A TARGETS ARE BASELINE-COMPETENT; THE ESTIMAND IS CONDITIONAL; NOT FROZEN, NOT RUN`
 
-**Decision owner:** ____________________
+**Decision owner:** Owner
 
-**Signature and date:** ____________________
+**Signature and date:** 2026-11-15, adoption instructed in session; no personal name is recorded in this repository
 
 **Scope:** the target population, the estimand's wording, and the C4 multiplicity restatement that follows from the
 row counts. Changes no threshold, no endpoint cap, no gate and no seed. Freezes nothing and runs nothing.

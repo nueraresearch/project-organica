@@ -119,6 +119,41 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: D3 signed, the act re-issued on the competent block, the scorer pinned
+
+`DECISION-A1-COMPETENT-ESTIMAND` was adopted, and `A1-TARGET-FREEZE-N20-1` was re-issued and signed against the block it
+adopts: **20 / 17 / 20 / 20 / 18 / 20** rows from the baseline-competent population, 115 observations over 90 unique
+edges, with the conditional estimand recorded in both the act and its machine record.
+
+**Three things had to be re-established rather than inherited, and each found something.**
+
+**The target sets were regenerated, not transcribed.** `a1_act_blocks` renders §2 of the act from the selection artifact
+and fails `--check` when the act drifts, so the 115 edge strings and their per-seed digests cannot be wrong in one place
+and right in another.
+
+**C5 timing had to be re-cleared on the new block.** The earlier clearance covered the *representative* block; the two
+share only 37 rows, so 78 had never been checked against the cycle-4 protocol. `a1_c5_competent_audit` replays the
+no-arm world for all 115 rows and reports **0 carriers before the cycle-4 `U`**, with every row carrying by cycle 120.
+The representative block had 11 of 24 current observations with no carrier at all; this one has none.
+
+**And the re-issue surfaced a consequence the estimand decision did not state: the competent block is not a superset.**
+Only **7 of the 24** previous Path A targets survive, and seeds `20740102` and `20740104` keep **none** of their four. The
+act records `current_targets_retained: false` and says in §4 that any continuity claim with the N=4 design does not
+survive this freeze. That is a real loss of comparability, and it is written where it will be seen rather than left in a
+diff.
+
+**The scorer is pinned.** `a1_scorer_pin` records the SHA-256 of `a1_arms` and `a1_result`; `a1_result.assemble` now
+**raises** rather than scoring when either differs, so a verdict cannot be produced by code chosen after the cells
+exist. Re-pinning stays possible and is a reviewed commit.
+
+**C8's tolerance follows each block's size.** `floor(0.05 × N)` allows one assertion at twenty rows and none at seventeen
+or eighteen, so the two short seeds must be perfect. The threshold is unchanged; what changed is how many rows it is read
+over. The board's freeze-act row now reads **PARTIALLY SIGNED** — the N=20 act is signed, the N=4 act cannot reach
+`N_min` and stays a draft.
+
+**Not done, and not claimed:** the grant and the run. The execution gate requires a granted, frozen manifest and 37 cells
+at 120 cycles, which is hours of compute and a separate recorded act.
+
 ## Addendum — 2026-11-15: D1 and D2 are signed; one decision is left
 
 `DECISION-A1-C1-CEILING` and `DECISION-A1-C8-SELECTION` were adopted by owner signature on 2026-11-15.

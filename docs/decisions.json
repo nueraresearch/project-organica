@@ -721,8 +721,8 @@
     {
       "decision_id": "DECISION-A1-COMPETENT-ESTIMAND",
       "date": "2026-11-15",
-      "status": "PENDING",
-      "status_quote": "PENDING \u2014 FOR OWNER ADOPTION; NOT IN FORCE; NO FREEZE, NO GRANT, NO RUN",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED BY OWNER 2026-11-15 \u2014 PATH A TARGETS ARE BASELINE-COMPETENT; THE ESTIMAND IS CONDITIONAL; NOT FROZEN, NOT RUN",
       "chosen": [
         "An edge is an admissible target only when the no-arm A+K+ replay records both an `A` carrier and a `K` path for it.",
         "Path A estimates *the pre-37 cycle-membership directed-edge effect, conditional on both paths being present in the no-arm baseline.*",

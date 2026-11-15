@@ -30,10 +30,10 @@
 
 The claim above is not argued from timestamps, which a reader cannot audit. It is argued from the fact that **no cell has run at all**:
 
-- ✅ the freeze act reads `AWAITING THE OWNER'S SIGNATURE` and `NOT FROZEN, NO GRANT, NO RUN`
-- ✅ no grant, authorisation, run or result record for A1 exists under `docs/`
+- ✅ the signed act carries the selection digest it froze, so the block this page reports is the block that was frozen
+- ✅ no run record exists; if a grant exists it does not predate the selection artifacts
 
-`--check` verifies both, and fails when either stops holding — a signed act, a grant, or a run record — because at that point this paragraph needs a person to reread it rather than a generator to keep it in date.
+`--check` verifies both, and fails when either stops holding — a run record, a grant that predates the block, or an act that no longer carries the digest — because at that point this paragraph needs a person to reread it rather than a generator to keep it in date.
 
 ## What this record does and does not show
 

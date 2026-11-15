@@ -35,9 +35,9 @@ block disagrees with its source, and `--verify` runs the checks the manifest poi
 | Competent-selection construction | **CLOSED — ARTIFACT EXISTS** | 20/17/20/20/18/20; every larger size proved impossible on both short seeds — [`A1-C8-TARGET-SELECTION-COMPETENT.md`](A1-C8-TARGET-SELECTION-COMPETENT.md) | [`tests/test_a1_c8_selection_competent.py`](../tests/test_a1_c8_selection_competent.py) |
 | C4 measurability semantics | **CLOSED — ARTIFACT EXISTS** | an unmeasurable quantity is VOID, never a pass or a crash — [`A1-C1-C4-VOID-GATE.md`](A1-C1-C4-VOID-GATE.md) | [`tests/test_a1_gate_measurability.py`](../tests/test_a1_gate_measurability.py) |
 | C4 completeness detection | **CLOSED — ARTIFACT EXISTS** | an absent or short treated stream VOIDs instead of passing on the control's own rows — [`A1-C1-C4-VOID-GATE.md`](A1-C1-C4-VOID-GATE.md) | [`tests/test_a1_c4_completeness.py`](../tests/test_a1_c4_completeness.py) |
-| C4 posture clause 1 (declared multiplicity) | **OPEN UNTIL THE ESTIMAND IS ADOPTED** | the posture still declares 324 / 1,944, the N=4 figures; the operative block needs 276–285 / 1,671 | [`tests/test_a1_target_viability_adopted.py`](../tests/test_a1_target_viability_adopted.py) |
+| C4 posture clause 1 (declared multiplicity) | **OPEN — RESTATEMENT MISSING** | the posture still declares 324 / 1,944, the N=4 figures; the operative block needs 276–285 / 1,671 | [`tests/test_a1_target_viability_adopted.py`](../tests/test_a1_target_viability_adopted.py) |
 | C1 ceiling — preplanned-universe clause | **OPEN — RESTATEMENT MISSING** | the >64 VOID is narrowed to the candidate-plan count it was written against; its function is carried by the scored denominator equalling the preplanned universe, 79 / 64 / 79 / 74 / 72 / 74 | [`tests/test_a1_c1_ceiling.py`](../tests/test_a1_c1_ceiling.py) |
-| Freeze acts | **NOT SIGNED** | the N=4 act freezes four targets per seed and can never reach N_min = 17; the N=20 act needs re-issuing against the competent digests | [`tests/test_a1_prefreeze.py`](../tests/test_a1_prefreeze.py), [`tests/test_a1_freeze_fields.py`](../tests/test_a1_freeze_fields.py) |
+| Freeze acts | **PARTIALLY SIGNED** | the N=20 act is signed on the competent block, at the floor for two seeds and above it for one, with the scorer pinned; the N=4 act is below N_min = 17 and stays unsigned | [`tests/test_a1_prefreeze.py`](../tests/test_a1_prefreeze.py), [`tests/test_a1_freeze_fields.py`](../tests/test_a1_freeze_fields.py) |
 | Grant, run | **NOT ISSUED, NOT STARTED** | neither exists; the board would have to be re-read if one appeared | — |
 <!-- a1-artifacts:end -->
 
@@ -59,11 +59,10 @@ not hand-maintained, so a status change makes it stale until `python -m benchmar
 regenerates it.
 
 <!-- a1-board:start -->
-**Owner decisions** — 12 A1 records in `docs/decisions.json`: 10 adopted, 0 withdrawn, 1 awaiting signature, 1 pending and blocking nothing. Generated from the index and each record's own scope line; a status change on disk makes this block stale until it is regenerated.
+**Owner decisions** — 12 A1 records in `docs/decisions.json`: 11 adopted, 0 withdrawn, 0 awaiting signature, 1 pending and blocking nothing. Generated from the index and each record's own scope line; a status change on disk makes this block stale until it is regenerated.
 
 | Decision | State | What it decides |
 | --- | --- | --- |
-| [`DECISION-A1-COMPETENT-ESTIMAND`](DECISION-A1-COMPETENT-ESTIMAND.md) | **AWAITING SIGNATURE** | The target population, the estimand's wording, and the C4 multiplicity restatement that follows from the row counts. Changes no threshold, no endpoint cap, no gate and no seed. Freezes nothing and runs nothing. |
 | [`DECISION-A1-PATH-A-C1-C4`](DECISION-A1-PATH-A-C1-C4.md) | **PENDING — NOT BLOCKING** | Owner decision memo — A1 Path A and C1/C4 gate order |
 | [`DECISION-A1-DISPOSITION`](DECISION-A1-DISPOSITION.md) | **ADOPTED** | Program disposition only. This document assigns no seed, freezes no manifest, authorises no cell, changes no engine file and records no result. |
 | [`DECISION-A1-PATH-A-C1-RULE`](DECISION-A1-PATH-A-C1-RULE.md) | **ADOPTED** | A1 Path A estimand and C1 acceptance rule |
@@ -74,6 +73,7 @@ regenerates it.
 | [`DECISION-A1-C4-POSTURE`](DECISION-A1-C4-POSTURE.md) | **ADOPTED** | The C4 posture text only. It changes no threshold, no row set, no gate and no code. Adoption is a signature and a date. |
 | [`DECISION-A1-C8-NMIN`](DECISION-A1-C8-NMIN.md) | **ADOPTED** | The C8 competence rule only. This decision changes no threshold, freezes no manifest, reserves no seed, authorises no cell and measures no effect. |
 | [`DECISION-A1-C8-SELECTION`](DECISION-A1-C8-SELECTION.md) | **ADOPTED** | The procedure by which C8's rows are chosen, and what happens when it is violated. It changes no threshold, no denominator, no floor, no gate, no engine file and no seed … |
+| [`DECISION-A1-COMPETENT-ESTIMAND`](DECISION-A1-COMPETENT-ESTIMAND.md) | **ADOPTED** | The target population, the estimand's wording, and the C4 multiplicity restatement that follows from the row counts. Changes no threshold, no endpoint cap, no gate and no seed. Freezes nothing and runs nothing. |
 | [`DECISION-A1-DISPOSITION-2`](DECISION-A1-DISPOSITION-2.md) | **ADOPTED** | Program disposition only. This document assigns no seed, freezes no target, authorises no cell, changes no engine file and records no result … |
 
 _Also `PENDING` in the index, outside A1 (`PENDING` is not an open question; these are decided and not in force): `DECISION-ADMISSION-STEP`, `DECISION-CAP-LEVEL`, `DECISION-DENSITY-EXCLUSION`, `DECISION-PERSISTENCE-INTERVENTION`._

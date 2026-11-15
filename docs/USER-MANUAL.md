@@ -723,25 +723,21 @@ python benchmarks/study_health.py
 
 Ordered by how much they cost you if you skip them.
 
-### 7.0 Waiting on you — the A1 chain cannot move without these
+### 7.0 Waiting on you — nothing, as of 2026-11-15
 
-**These are the owner's, not the agent's.** Everything that can be prepared has been: the paperwork below is
-complete, checked, and regenerated from committed artifacts. Nothing further happens on A1 until one of these is
-answered, so if a turn produces more documents instead of a decision, it is going in a circle.
+**All three A1 decisions are signed and the N=20 act is signed against the competent block.** What remains is not a
+decision but an execution: the grant record and the run itself.
 
-| # | Waiting on you | Why it is blocking | Where |
+| # | Next | Why it is the next act | Where |
 |---|---|---|---|
-| A1-1 | **Sign or withdraw `DECISION-A1-COMPETENT-ESTIMAND`** | declined, every seed is C2-VOID before any treatment effect is read | [`A1-SIGNATURE-SHEET`](A1-SIGNATURE-SHEET.md) D3 |
-| A1-2 | **Sign the N=20 freeze act** — *after* A1-1, which requires its block re-issued on the competent selection | unsigned, nothing freezes, no grant, no cell | [`A1-TARGET-FREEZE-ACT-N20`](A1-TARGET-FREEZE-ACT-N20.md) |
+| A1-1 | **Issue the grant** — record the dated authorisation for the 36 treatment cells plus the determinism control | the execution gate refuses without it, and it is a recorded act, not a switch | [`A1-TARGET-FREEZE-ACT-N20`](A1-TARGET-FREEZE-ACT-N20.md) §6 |
+| A1-2 | **Launch the run** — `python -m benchmarks.a1_two_path --measure`, then assemble through the pinned scorer | 37 cells at 120 cycles; it does not finish inside one session, so it is launched deliberately | [`A1-TARGET-FREEZE-ACT-N20`](A1-TARGET-FREEZE-ACT-N20.md) §7 |
 
-**Adopted 2026-11-15, and no longer waiting on you:** `DECISION-A1-C1-CEILING` (the ceiling is the preplanned universe, not
-the number 64) and `DECISION-A1-C8-SELECTION` (the selection procedure is binding, S1–S7). Both were signed as recommended;
-neither moved a threshold, floor, cap, seed or cell.
-
-The three decisions are collected on **one page** with their commitment, cost, decline consequence and the exact status
-line to write: [`A1-SIGNATURE-SHEET`](A1-SIGNATURE-SHEET.md). `tests/test_a1_signature_sheet.py` fails if a record is
-signed and the sheet still lists it, and this table is checked the same way, so it cannot go stale while you are away
-from the project.
+**Signed 2026-11-15:** `DECISION-A1-C1-CEILING`, `DECISION-A1-C8-SELECTION`, `DECISION-A1-COMPETENT-ESTIMAND`, and the
+N=20 act. The act freezes **20 / 17 / 20 / 20 / 18 / 20** rows on the competent block, re-clears C5 on those 115 rows,
+and pins the scorer, so a verdict cannot be produced by code other than the one that was frozen. The three
+records, their status lines and what each signature committed to are kept on
+[`A1-SIGNATURE-SHEET`](A1-SIGNATURE-SHEET.md).
 
 ### 7.1 Do today
 
@@ -4434,3 +4430,4 @@ Things that look like findings but are not, and things that look fine but are no
 | 2026-11-15 | **The three pending decisions are on one sheet.** `A1-SIGNATURE-SHEET.md` gives each record its commitment, cost, decline consequence and exact status line, so all three can be signed or withdrawn in one pass. It also records that adopting the competent estimand invalidates the current N20 act's block, which must be re-issued against the competent selection before signature. |
 | 2026-11-15 | **The manual now opens its action list with what is waiting on the owner.** §7.0 names the three A1 decisions and the N20 act signature, with what each blocks and where to sign, because the agent had been producing paperwork turn after turn without saying plainly that the chain was stopped on four owner actions. The table is checked against the records, like the signature sheet. |
 | 2026-11-15 | **D1 and D2 are signed.** `DECISION-A1-C1-CEILING` and `DECISION-A1-C8-SELECTION` were adopted by owner signature: the C1 ceiling now governs the candidate-plan count it names (rather than voiding five seeds on a unit mismatch), and the selection procedure that the code already follows is now binding rather than drafted. The signature sheet and §7.0 record both; `DECISION-A1-COMPETENT-ESTIMAND` is the one decision left, and the N20 act follows it. |
+| 2026-11-15 | **D3 signed, act re-issued and signed, scorer pinned, C5 re-cleared.** The competent estimand was adopted; the N20 act was re-issued on the competent block (20/17/20/20/18/20), its target sets and scorer table generated, `a1_arms`/`a1_result` pinned with a hard refusal on mismatch, and C5 re-audited on the 115 frozen rows (0 carriers before the cycle-4 U). Two consequences recorded rather than hidden: the block keeps only 7 of 24 previous targets (0 of 4 on two seeds), and the two short seeds may spend no C8 assertion. Grant and run remain. |

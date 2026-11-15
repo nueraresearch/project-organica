@@ -17,6 +17,7 @@ import json
 from pathlib import Path
 
 from benchmarks import a1_arms
+from benchmarks import a1_scorer_pin
 from benchmarks.a1_gate_readiness import C1_MIN, C4_MAX
 
 KIND = "a1_result_assembly"
@@ -103,6 +104,10 @@ def assemble(payloads: list[dict], c1_tolerance: float | None = None,
     are scored over the expected six-seed, six-cell target coverage as well;
     their failure does not rewrite the separate C1/C4 disposition.
     """
+    blocked = a1_scorer_pin.verify()
+    if blocked:
+        raise RuntimeError("the scorer does not match its pin, so no verdict may be assembled: %s"
+                           % "; ".join(blocked))
     c1 = a1_arms.score_c1(payloads, c1_tolerance)
     c4 = a1_arms.score_c4(payloads, c4_tolerance)
     has_targets = any(isinstance(payload.get("targets"), list)

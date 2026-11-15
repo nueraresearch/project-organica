@@ -309,10 +309,18 @@ def target_set_problems(doc: dict) -> list[str]:
     expected = {str(seed) for seed in SEEDS}
     if set(by_seed) != expected:
         found.append("the target sets do not cover exactly the six seeds")
+    n_min = targets.get("n_min")
+    if n_min is not None and not (isinstance(n_min, int) and 1 <= n_min <= n):
+        found.append("the declared N_min is not a size between 1 and %d" % n)
     for seed in SEEDS:
         raw = by_seed.get(str(seed), by_seed.get(seed))
-        if not isinstance(raw, list) or len(raw) != n:
-            found.append("seed %d does not have %d targets" % (seed, n))
+        # A block may be shorter than the nominal N when the target set declares the adopted floor:
+        # DECISION-A1-C8-NMIN adjudicates at N_min, so a 17-row seed is admissible, a 16-row one is not.
+        size_ok = (len(raw) == n if not n_min else
+                   (isinstance(n_min, int) and n_min <= len(raw) <= n))
+        if not isinstance(raw, list) or not size_ok:
+            found.append("seed %d does not have %d targets%s"
+                         % (seed, n, "" if not n_min else " or between %d and %d" % (n_min, n)))
             continue
         parsed: list[tuple[str, str]] = []
         for value in raw:
@@ -354,7 +362,13 @@ def target_set_problems(doc: dict) -> list[str]:
     except (OSError, ValueError) as exc:
         found.append("the target selection artifact is unreadable: %s" % exc)
         return found
-    found.extend("selection: %s" % problem for problem in selection.problems(selection_doc))
+    if selection_doc.get("kind") == "a1_c8_target_selection_competent":
+        # The operative block since 2026-11-15 is the competent one, and it validates against its own module:
+        # the representative artifact's rules cannot judge rows it never selected.
+        from benchmarks import a1_c8_target_selection_competent as competent
+        found.extend("selection: %s" % problem for problem in competent.problems(selection_doc))
+    else:
+        found.extend("selection: %s" % problem for problem in selection.problems(selection_doc))
     for seed in SEEDS:
         row = (selection_doc.get("per_seed") or {}).get(str(seed)) or {}
         if row.get("selected") != by_seed.get(str(seed), by_seed.get(seed)):

@@ -50,27 +50,33 @@ def test_the_timing_claim_has_grounds() -> None:
     assert disclosure.evidence() == []
     text = disclosure.PAGE.read_text(encoding="utf-8")
     assert "## Grounds for the timing claim" in text
-    assert "✅ the freeze act reads" in text
+    assert "✅ the signed act carries the selection digest" in text
 
 
-def test_a_grant_record_breaks_the_claim(tmp_path: Path) -> None:
-    (tmp_path / "A1-GRANT-EXAMPLE-1.md").write_text("a grant\n", encoding="utf-8")
+def test_a_grant_record_does_not_break_the_claim_when_it_postdates_the_block(tmp_path: Path) -> None:
+    """A grant is allowed; what the claim needs is that the block predates it."""
+    (tmp_path / "A1-GRANT.md").write_text("**Granted:** 2026-11-15\n", encoding="utf-8")
+    assert disclosure.evidence(docs=tmp_path) == []
+
+
+def test_a_predating_grant_breaks_the_claim(tmp_path: Path) -> None:
+    (tmp_path / "A1-GRANT.md").write_text("**Granted:** 2026-11-01\n", encoding="utf-8")
     found = disclosure.evidence(docs=tmp_path)
-    assert any("A1-GRANT-EXAMPLE-1.md" in problem for problem in found), found
+    assert any("predates the selection artifact" in problem for problem in found), found
 
 
 def test_a_run_record_breaks_the_claim(tmp_path: Path) -> None:
-    (tmp_path / "a1_run_cells.json").write_text("{}\n", encoding="utf-8")
+    (tmp_path / "A1-RUN.md").write_text("a run\n", encoding="utf-8")
     found = disclosure.evidence(docs=tmp_path)
-    assert any("a1_run_cells.json" in problem for problem in found), found
+    assert any("a run record exists" in problem for problem in found), found
 
 
-def test_a_signed_act_breaks_the_claim(tmp_path: Path) -> None:
-    signed = tmp_path / "act.md"
-    signed.write_text(disclosure.ACT.read_text(encoding="utf-8")
-                      .replace(disclosure.UNSIGNED, "SIGNED"), encoding="utf-8")
-    found = disclosure.evidence(act=signed, docs=tmp_path)
-    assert any("no longer says" in problem for problem in found), found
+def test_an_act_without_the_selection_digest_breaks_the_claim(tmp_path: Path) -> None:
+    stripped = tmp_path / "act.md"
+    stripped.write_text(disclosure.ACT.read_text(encoding="utf-8").replace(
+        disclosure._digest(disclosure.FILTERED), "0" * 64), encoding="utf-8")
+    found = disclosure.evidence(act=stripped, docs=tmp_path)
+    assert any("does not carry the selection digest" in problem for problem in found), found
 
 
 def test_the_page_records_when_the_filter_ran() -> None:
