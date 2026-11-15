@@ -112,6 +112,93 @@ def candidate_problems(docs=None) -> list[str]:
     return found
 
 
+def shared_blocks(doc: dict | None = None) -> list[dict]:
+    """Seed blocks that more than one artifact declares on purpose."""
+    doc = registry() if doc is None else doc
+    out = []
+    for row in doc.get("shared_blocks") or []:
+        out.append({
+            "label": row.get("label", ""),
+            "seeds": [int(seed) for seed in row.get("seeds") or []],
+            "artifacts": list(row.get("artifacts") or []),
+            "declared_by": row.get("declared_by", ""),
+            "basis": row.get("basis", ""),
+            "provenance": row.get("provenance", ""),
+            "pending": row.get("pending", ""),
+        })
+    return out
+
+
+def _reservation_holders() -> set[str]:
+    """Artifacts a reservation already speaks for, by path."""
+    holders: set[str] = set()
+    for row in reservations():
+        holders.add(_relative(Path(row["owner"])))
+        holders.update(_relative(Path(entry)) for entry in row["restated_by"])
+    return holders
+
+
+def shared_block_problems(doc: dict | None = None,
+                          blocks=None) -> list[str]:
+    """Declared sharing is verified; undeclared sharing is refused.
+
+    Two artifacts declaring the same seeds is only a defect if nothing says
+    why. Each `shared_blocks` entry must name artifacts that really declare
+    that block, each of which must carry the declared field, and the seeding
+    source it names must hold those seeds. Sharing that no entry covers — and
+    that no reservation already speaks for — is refused.
+    """
+    doc = registry() if doc is None else doc
+    entries = shared_blocks(doc)
+    blocks = candidate_blocks() if blocks is None else list(blocks)
+    found: list[str] = []
+    declared: set[frozenset[int]] = set()
+    for row in entries:
+        seeds = frozenset(row["seeds"])
+        label = row["label"] or "unnamed shared block"
+        declared.add(seeds)
+        if not row["basis"]:
+            found.append("%s: no basis is recorded" % label)
+        if not row["declared_by"] and not row["pending"]:
+            found.append("%s: no declaring field is named and nothing is pending"
+                         % label)
+        for entry in row["artifacts"]:
+            declared_doc = ROOT / entry
+            if not entry or not declared_doc.exists():
+                found.append("%s: %s is missing" % (label, entry))
+                continue
+            own = declared_seeds(_load(declared_doc))
+            if frozenset(own) != seeds:
+                found.append("%s: %s does not declare that block" % (label, entry))
+                continue
+            if not row["declared_by"]:
+                continue
+            declared_value = _load(declared_doc).get(row["declared_by"])
+            if not isinstance(declared_value, str) or not declared_value.strip():
+                found.append("%s: %s does not carry %s"
+                             % (label, entry, row["declared_by"]))
+        if row["provenance"]:
+            source = ROOT / row["provenance"]
+            if not source.exists():
+                found.append("%s: the seeding source %s is missing"
+                             % (label, row["provenance"]))
+            elif not seeds <= _seeds_of(_load(source)):
+                found.append("%s: the seeding source %s does not hold those seeds"
+                             % (label, row["provenance"]))
+    holders = _reservation_holders()
+    groups: dict[frozenset[int], list[str]] = {}
+    for rel, seeds in blocks:
+        if not seeds or rel in holders:
+            continue
+        groups.setdefault(frozenset(seeds), []).append(rel)
+    for seeds, artifacts in sorted(groups.items(), key=lambda item: sorted(item[1])):
+        if len(artifacts) < 2 or seeds in declared:
+            continue
+        found.append("a block is declared by %s and is not a recorded shared block"
+                     % " and ".join(sorted(artifacts)))
+    return found
+
+
 def reservations(doc: dict | None = None) -> list[dict]:
     """The reserved blocks, each with its seed set as integers."""
     doc = registry() if doc is None else doc
@@ -224,15 +311,20 @@ def self_test() -> list[str]:
 def check() -> int:
     if not REGISTRY_PATH.exists():
         raise SystemExit("no seed-reservation registry")
-    found = problems() + candidate_problems()
+    found = problems() + candidate_problems() + shared_block_problems()
     if found:
         raise SystemExit("FAIL: " + "; ".join(found))
     total = sum(len(row["seeds"]) for row in reservations() if not row["spent"])
     blocks = candidate_blocks()
     for rel, seeds in blocks:
         print("  %-45s %d seed(s)" % (rel, len(seeds)))
-    print("seed reservations: clean (%d unspent seeds held, %d declared block(s) checked)"
-          % (total, len(blocks)))
+    shared = shared_blocks()
+    for row in shared:
+        print("  shared: %s -- %s" % (row["label"], ", ".join(row["artifacts"])))
+        if row["pending"]:
+            print("  PENDING: %s" % row["pending"])
+    print("seed reservations: clean (%d unspent seeds held, %d declared block(s) "
+          "checked, %d declared shared block(s))" % (total, len(blocks), len(shared)))
     return 0
 
 

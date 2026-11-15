@@ -129,3 +129,56 @@ def test_a_bare_list_candidate_is_refused():
 def test_the_reserving_artifact_is_not_refused_by_the_block_scan():
     assert reservations.candidate_problems(
         [("docs/a1_offset_discriminator_spec.json", {"seed_block": PAIR_SPLIT})]) == []
+
+
+CAP112_AUDIT_SEEDS = [20261100, 20261101, 20261102, 20261103,
+                      20261104, 20261105]
+
+
+def test_the_shared_cap112_block_is_declared_and_verified():
+    rows = {row["label"]: row for row in reservations.shared_blocks()}
+    assert len(rows) == 2
+    entry = rows["the six historical audit seeds at cap 112"]
+    assert entry["seeds"] == CAP112_AUDIT_SEEDS
+    assert entry["declared_by"] == "seed_reuse"
+    assert entry["pending"] == ""
+    assert entry["artifacts"] == ["docs/presence_comparator_112_prereg.json",
+                                  "docs/presence_construct_1_112_prereg.json"]
+    for path in entry["artifacts"]:
+        doc = json.loads(Path(path).read_text(encoding="utf-8"))
+        assert doc["seed_block"] == CAP112_AUDIT_SEEDS
+        assert "paired" in doc["seed_reuse"]
+        assert "presence_assertion_audit_0.14.0.json" in doc["seed_reuse"]
+    assert reservations.shared_block_problems() == []
+
+
+def test_the_two_path_block_is_recorded_as_reused_not_fresh():
+    rows = {row["label"]: row for row in reservations.shared_blocks()}
+    entry = rows["the cap-112 baseline-availability block, adopted by the "
+                 "two-path manifest"]
+    assert entry["seeds"] == [20630101, 20630102, 20630103,
+                              20630104, 20630105, 20630106]
+    assert entry["declared_by"] == ""
+    assert entry["pending"]
+    assert "PROVISIONAL CANDIDATE" in entry["basis"]
+
+
+def test_undeclared_sharing_is_refused():
+    shared = [("docs/a1_successor_candidate.json", [9, 10]),
+              ("docs/a1_larger_universe_candidate.json", [9, 10])]
+    found = reservations.shared_block_problems(blocks=shared)
+    assert len(found) == 1
+    assert "not a recorded shared block" in found[0]
+
+
+def test_a_shared_entry_that_the_artifact_contradicts_is_refused():
+    doc = reservations.registry()
+    doc["shared_blocks"][0]["seeds"] = CAP112_AUDIT_SEEDS[:3]
+    found = reservations.shared_block_problems(doc)
+    assert any("does not declare that block" in row for row in found)
+
+
+def test_a_recorded_shared_block_is_not_refused():
+    shared = [("docs/presence_comparator_112_prereg.json", CAP112_AUDIT_SEEDS),
+              ("docs/presence_construct_1_112_prereg.json", CAP112_AUDIT_SEEDS)]
+    assert reservations.shared_block_problems(blocks=shared) == []
