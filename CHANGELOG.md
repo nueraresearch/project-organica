@@ -119,6 +119,36 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: the branch half is generated from a manifest, and the mapping is verified
+
+The board's decision half was a render; the branch half was the last hand-written table left on it. Both are now
+generated, and the difference matters in the direction that had been failing: a branch row's state is derived from what
+settles it, so nothing can go stale silently.
+
+`docs/a1_board_manifest.json` maps ten branches to their source and their proof. Five source kinds cover the rows: a
+**decision** (state follows the index — `CLOSED — ADOPTED`, `AWAITING SIGNATURE`, `WITHDRAWN`), an **artifact** (closed
+only if the file exists *and* contains the strings the manifest asserts), an **act** (closed only if every named act's
+own `Status:` line says `SIGNED`), a **conditional** (open while another decision is pending, and checked for the
+restated figures once it is adopted), and an **absent** (a claim that would be re-read if the file appeared). Each row
+also names the check that proves it, and `--verify` runs those checks — six files, 61 tests.
+
+The hand table is gone from the checklist; the section is now two generated blocks plus its prose. Ten branches render:
+7 closed, one `OPEN UNTIL THE ESTIMAND IS ADOPTED` (C4 posture clause 1), one `NOT SIGNED` (the freeze acts), one
+`NOT ISSUED, NOT STARTED` (grant and run).
+
+Three defects were caught while wiring it. The first two by the render itself; the third by the probe that was
+supposed to demonstrate the render working. Renaming `CONTROL_NOT_SCORED` to `CONTROL_NOT_SCORED_PROBE` left the C4
+completeness branch **closed**, because the manifest's assertion was a plain substring test and the new name still
+contained the old one. Identifier-like needles now have to match whole; the same probe then made `--check` fail, rendered
+`OPEN — ARTIFACT NOT PROVEN`, and dropped the closed count from 7 to 6. A probe that fails to make a guard fail is
+evidence about the guard, not about the code it watches.
+
+The other two were render defects. The competent-construction row read
+`OPEN — ARTIFACT NOT PROVEN` because the manifest asserted `20 / 17 / 20 / 20 / 18 / 20` with spaces while the page
+writes `20/17/20/20/18/20` — the branch was closed and the assertion was wrong. And the row-completeness check looked
+for a link labelled with the full path, which the link formatter no longer emits. Both are fixed; the first is the kind
+of error the derived state exists to surface rather than hide.
+
 ## Addendum — 2026-11-15: the decision half of the board is generated, not described
 
 The guard added an hour earlier checked one direction: every `PENDING` decision had to appear on the board. The reverse

@@ -16,18 +16,27 @@ separate registered design; it is not the current target set and is not frozen.
 **This section is the board.** It is the place to read the state instead of reconstructing it: every row below names the
 record that decides it, and a row is only `closed` when that record is adopted or the artifact exists.
 
-| Branch | State | Record or artifact |
-| --- | --- | --- |
-| C1 denominator definition | **CLOSED — ADOPTED** | [`DECISION-A1-C1-DENOMINATOR-1`](DECISION-A1-C1-DENOMINATOR.md): the recorded cell row, non-target edges included |
-| C1 denominator invariance | **CLOSED — MEASURED** | C1 counts every recorded row, so the target set cannot change it; the competent selection reproduces 79/64/79/74/72/74 exactly ([`a1_c8_target_selection_competent.json`](a1_c8_target_selection_competent.json)) |
-| C1 unit of evidence | **CLOSED — ADOPTED** | [`DECISION-A1-C1-UNIT-1`](DECISION-A1-C1-UNIT.md): the directed edge, relation reported on its own denominator |
-| Competence contract, `N_min`, capacity | **CLOSED — ADOPTED** | [`DECISION-A1-C8-NMIN-1`](DECISION-A1-C8-NMIN.md): unit, threshold 0.05, cap 3, `N_min = 17` |
-| Competent-selection construction | **CLOSED — ARTIFACT EXISTS, EXHAUSTIVE** | [`A1-C8-TARGET-SELECTION-COMPETENT.md`](A1-C8-TARGET-SELECTION-COMPETENT.md): 20/17/20/20/18/20, every larger size proved impossible |
-| C4 measurability semantics | **CLOSED — IMPLEMENTED** | [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md): unmeasurable is VOID, never a pass or a crash |
-| C4 completeness detection | **CLOSED — REPAIRED 2026-11-15** | absent or short treated stream now VOIDs (`CONTROL_NOT_SCORED`, `AWAITING_TREATED_ROW`) |
-| C4 posture clause 1 (declared multiplicity) | **OPEN UNTIL THE ESTIMAND IS ADOPTED** | `A1-C4-POSTURE-1` still declares **324 / 1,944**, the N=4 figures; the operative block needs **276–285 / 1,671**. The estimand decision is the record that restates it |
-| Freeze acts | **NOT SIGNED — ONE UNSIGNABLE** | `A1-TARGET-FREEZE-1` freezes four targets per seed and can never reach `N_min = 17`; `A1-TARGET-FREEZE-N20-1` needs re-issuing against the competent digests |
-| Grant, run | **NOT ISSUED, NOT STARTED** | — |
+Both halves below are generated: the branch table from `docs/a1_board_manifest.json` (each row names the
+record, artifact or act that settles it, and the check that proves it), the decision table from
+`docs/decisions.json`. Regenerate with `python -m benchmarks.a1_board --write`; `--check` fails when either
+block disagrees with its source, and `--verify` runs the checks the manifest points at.
+
+<!-- a1-artifacts:start -->
+**Branches and artifacts** — 10 branches, 7 closed. Each state is derived from the record, artifact or act named in its row, via `docs/a1_board_manifest.json`; nothing in this table is typed, and a branch whose artifact is missing renders `OPEN — ARTIFACT NOT PROVEN`.
+
+| Branch | State | What the row rests on | Check |
+| --- | --- | --- | --- |
+| C1 denominator definition | **CLOSED — ADOPTED** | the recorded cell row, non-target edges included — [`DECISION-A1-C1-DENOMINATOR`](DECISION-A1-C1-DENOMINATOR.md) | [`tests/test_a1_c1_ceiling.py`](../tests/test_a1_c1_ceiling.py) |
+| C1 denominator invariance | **CLOSED — ARTIFACT EXISTS** | C1 counts every recorded row, so the target set cannot move it; the competent selection reproduces 79/64/79/74/72/74 — [`a1_c8_target_selection_competent.json`](a1_c8_target_selection_competent.json) | [`tests/test_a1_c8_selection_competent.py`](../tests/test_a1_c8_selection_competent.py) |
+| C1 unit of evidence | **CLOSED — ADOPTED** | the directed edge; the relation is a declared dependence class on its own denominator — [`DECISION-A1-C1-UNIT`](DECISION-A1-C1-UNIT.md) | [`A1-C1-UNIT-OF-EVIDENCE.md`](A1-C1-UNIT-OF-EVIDENCE.md) |
+| Competence contract, N_min, capacity | **CLOSED — ADOPTED** | unit, threshold 0.05, endpoint cap 3, N_min = 17 — [`DECISION-A1-C8-NMIN`](DECISION-A1-C8-NMIN.md) | [`tests/test_a1_target_viability_adopted.py`](../tests/test_a1_target_viability_adopted.py) |
+| Competent-selection construction | **CLOSED — ARTIFACT EXISTS** | 20/17/20/20/18/20; every larger size proved impossible on both short seeds — [`A1-C8-TARGET-SELECTION-COMPETENT.md`](A1-C8-TARGET-SELECTION-COMPETENT.md) | [`tests/test_a1_c8_selection_competent.py`](../tests/test_a1_c8_selection_competent.py) |
+| C4 measurability semantics | **CLOSED — ARTIFACT EXISTS** | an unmeasurable quantity is VOID, never a pass or a crash — [`A1-C1-C4-VOID-GATE.md`](A1-C1-C4-VOID-GATE.md) | [`tests/test_a1_gate_measurability.py`](../tests/test_a1_gate_measurability.py) |
+| C4 completeness detection | **CLOSED — ARTIFACT EXISTS** | an absent or short treated stream VOIDs instead of passing on the control's own rows — [`A1-C1-C4-VOID-GATE.md`](A1-C1-C4-VOID-GATE.md) | [`tests/test_a1_c4_completeness.py`](../tests/test_a1_c4_completeness.py) |
+| C4 posture clause 1 (declared multiplicity) | **OPEN UNTIL THE ESTIMAND IS ADOPTED** | the posture still declares 324 / 1,944, the N=4 figures; the operative block needs 276–285 / 1,671 | [`tests/test_a1_target_viability_adopted.py`](../tests/test_a1_target_viability_adopted.py) |
+| Freeze acts | **NOT SIGNED** | the N=4 act freezes four targets per seed and can never reach N_min = 17; the N=20 act needs re-issuing against the competent digests | [`tests/test_a1_prefreeze.py`](../tests/test_a1_prefreeze.py) |
+| Grant, run | **NOT ISSUED, NOT STARTED** | neither exists; the board would have to be re-read if one appeared | — |
+<!-- a1-artifacts:end -->
 
 The owner-decision half of the board is generated from `docs/decisions.json` and spliced here; it is
 not hand-maintained, so a status change makes it stale until `python -m benchmarks.a1_board --write`
