@@ -10,8 +10,8 @@ document is void for that build and the test beside it says so.
 V1 stores pairwise relations and counts. Higher-order structures are reconstructed rather than persisted. The public
 retrieval and manipulation surface contains no operation that directly targets a composite structure. Therefore the
 experimental spill is expected from the architecture alone, and A1's measurements bound its magnitude rather than
-establishing its existence. The one thing this does not settle is whether a key derived from the stored state could
-isolate a composite — a functional address; §5 says what that would and would not change.
+establishing its existence. A composite is nonetheless uniquely recoverable from the state at the instant it is rebuilt —
+so V1 has identity *within* a cycle, and no identity *across* cycles; §5 and `docs/v1_carrier_identity.json` measure both.
 
 ## 1. Why this exists
 
@@ -85,10 +85,27 @@ estimand needs — name a structure, then operate on that structure alone — do
 structural fact of V1, and it is derivable from the code rather than from any run.
 
 **What that "no" covers, and what it does not.** It establishes the absence of an **explicit** address. It is *not* a
-claim that no **functional** address exists: if some key computed from the stored state — an exact path signature, a
-subgraph hash, a feature vector unique to one carrier — reliably isolates a composite, then an address has effectively
-emerged without ever being stored. Whether such a key exists is **open**, and it is a different question from the one this
-document answers.
+claim that no **functional** address exists: if some key computed from the stored state isolates a composite, then an
+address has effectively emerged without ever being stored.
+
+**That question has now been asked, and the answer has a time axis.** `benchmarks/v1_carrier_identity.py` replays one
+no-arm world (seed 20740101, 177 distinct carrier paths over 158 node sets,
+1299 appearances) and compares the key to the same key next cycle. The four properties separate:
+
+| Property | V1 | Evidence |
+|---|---|---|
+| **Selection** | yes, within a cycle | the directed path names exactly one carrier; 177 distinct paths, 0 id collisions |
+| **Retrieval** | yes, by recomputation | two replays reproduce the same carriers, in the same cycles |
+| **Diachronic identity** | **no** | 19 node sets are emitted in both directions, always in different cycles; the directed key — and its id — changes with the direction |
+| **Independent mutation** | **no** | §6: mutation acts on shared pairs |
+
+The emitted id is not an address even synchronically: it is the first 8 hex characters of a SHA-256 (32 bits), so it
+cannot be inverted to recover the path, and it changes when the direction flips. A carrier is a uniquely recoverable
+entity *at the instant it is recomputed*, and no object persists across the recomputations that would let it be the same
+carrier twice.
+
+Two limits on that table: one seed, one world, 120 cycles, and the direction a triangle is emitted in is a property of
+the current count ordering rather than of the triangle. Whether direction flips are rarer in a denser world is untested.
 
 The distinction matters because the two addresses buy different things. A derived key would buy *selection and
 retrieval*. It would not buy *non-colliding mutation*, because the mutation still acts on shared pairs, and every carrier
@@ -148,9 +165,9 @@ Three deliberate falsifiers, which is what makes this a model rather than a desc
    counterexample to §6's corollary; §6 predicts none exists while carriers are paths over a shared graph.
 3. **Precision exceeds the ceiling with a count-derived key.** If a count-based ordering clears 0.3438 on the same world
    family, §7's first bullet is wrong.
-4. **A derived address is found.** A key computed from the stored state that isolates one composite and nothing else
-   would refute the *functional* reading of §5, while leaving its explicit claim and the mutation argument intact — which
-   is why the two are stated separately.
+4. **A derived address is found — it partly was.** A directed path key isolates one carrier, so the functional reading of
+   §5 holds *within* a cycle; what fails is identity across cycles, where the direction can flip and the key with it. The
+   explicit claim and the mutation argument are untouched either way, which is why the three are stated separately.
 
 ## 10. What follows for the programme
 

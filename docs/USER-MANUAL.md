@@ -750,7 +750,9 @@ from the code: event rows and pair counts, retrieval by recency or content, stru
 no primitive that takes an identifier. Two things follow as derivations rather than measurements: the carrier spill is
 forced by defining carriers as paths and removal by path membership, and the ranking key is count-only. That is why A1's
 `VOID` was derivable before the block ran, and why the ranking precision stayed flat at 0.3438. The document's claims are
-labelled by kind, and a test fails if the engine ever gains an addressing primitive.
+labelled by kind, and a test fails if the engine ever gains an addressing primitive. A follow-up check on one no-arm
+world finds **identity without locality and without persistence**: a carrier is uniquely recoverable within a cycle, but 19
+node sets are emitted in both directions in different cycles, so the key changes for the same triangle across cycles.
 
 **Closed today:** the run, the acceptance, and the scorer repair. The manifest reads `GRANTED, RUN — VOID (C4_DELTA)`
 and refuses a second run; the repaired pin is `5ce958b7…` for `a1_arms` with `a1_result` unchanged. The readable record
@@ -4462,3 +4464,4 @@ Things that look like findings but are not, and things that look fine but are no
 | 2026-11-15 | **G3/G4 line and mutable identity added to the charter draft.** The draft now records that G0–G3 are expressible over pair counts while G4–G8 presuppose objects that persist through revision, requires a stored composite with identity independent of content and non-colliding mutation, and requires an earning test against the pair-count baseline. |
 | 2026-11-15 | **Explicit vs functional address distinguished.** `V1-STRUCTURAL-MODEL` now claims only the absence of an explicit address, records the existence of a state-derived key as open, and explains that such a key buys retrieval but not non-colliding mutation. A fourth falsifier names what it would refute. |
 | 2026-11-15 | **Structural model gains a one-paragraph thesis.** The document now opens with the chain it supports: pairwise storage, reconstructed structures, no composite-targeted operation, spill expected from the architecture, measurements bounding magnitude rather than establishing existence. |
+| 2026-11-15 | **Carrier identity checked: synchronic yes, diachronic no.** `v1_carrier_identity` finds 177 paths over 158 node sets, 19 emitted in both directions in different cycles, and no id collisions; the emitted 32-bit hash is not an address. Recorded as identity without locality and without persistence. |

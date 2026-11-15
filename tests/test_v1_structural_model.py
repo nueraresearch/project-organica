@@ -64,8 +64,23 @@ def test_the_document_states_its_scope_and_its_limits() -> None:
     assert "**No — no explicit one.**" in text
     assert "**explicit** address" in text
     assert "**functional** address" in text
-    assert "Whether such a key exists is **open**" in text
     assert "satisfy the charter's mutable-identity requirement" in text
+
+
+def test_the_identity_result_matches_its_artifact() -> None:
+    doc = json.loads((DOCS / "v1_carrier_identity.json").read_text(encoding="utf-8"))
+    text = _text()
+    assert "Diachronic identity** | **no**" in text
+    assert "**Selection** | yes, within a cycle" in text
+    assert str(doc["distinct_paths"]) in text
+    assert str(doc["node_sets_with_two_directions"]) in text
+    assert doc["stable_identity_across_cycles"] is False
+    assert doc["node_sets_where_both_directions_share_a_cycle"] == 0
+    assert doc["identical_including_cycle"] is True
+    labels = {claim["id"]: claim["label"] for claim in _model()["claims"]}
+    assert labels["derived-address-synchronic"] == "MEASURED"
+    assert labels["no-diachronic-identity"] == "MEASURED"
+    assert "derived-address-open" not in labels
     assert "## In one paragraph" in text
     assert "expected from the architecture alone" in text
     assert "It does **not** say nothing is stored" in text
@@ -81,7 +96,17 @@ def test_the_spill_is_labelled_a_derivation_and_its_numbers_as_measurements() ->
     assert labels["spill-is-a-theorem"] == "DERIVED"
     assert labels["spill-magnitude"] == "MEASURED"
     assert labels["readout-consistency"] == "ARGUMENT"
-    assert labels["derived-address-open"] == "OPEN"
+    assert labels["derived-address-synchronic"] == "MEASURED"
+    assert labels["no-diachronic-identity"] == "MEASURED"
+
+
+def test_the_identity_check_is_reproducible() -> None:
+    doc = json.loads((DOCS / "v1_carrier_identity.json").read_text(encoding="utf-8"))
+    assert doc["identical_including_cycle"] is True
+    assert doc["paths_per_node_set"] == {"1": 139, "2": 19}
+    assert doc["id_is_injective"] is True
+    assert doc["id_is_invertible"] is False
+    assert doc["distinct_paths"] == 177
 
 
 def test_the_falsifiers_are_named() -> None:

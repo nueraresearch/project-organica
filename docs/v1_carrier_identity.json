@@ -1,0 +1,24 @@
+{
+  "seed": 20740101,
+  "appearances": 1299,
+  "distinct_paths": 177,
+  "distinct_node_sets": 158,
+  "distinct_ids": 177,
+  "id_collisions": 0,
+  "collision_examples": [],
+  "reversed_three_cycles_present": 38,
+  "node_sets_with_two_directions": 19,
+  "paths_per_node_set": {
+    "1": 139,
+    "2": 19
+  },
+  "directions_appear_in_different_cycles": 19,
+  "node_sets_where_both_directions_share_a_cycle": 0,
+  "stable_identity_across_cycles": false,
+  "id_bits": 32,
+  "birthday_collision_probability": 4e-06,
+  "id_is_injective": true,
+  "id_is_invertible": false,
+  "recomputed_deterministically": true,
+  "identical_including_cycle": true
+}

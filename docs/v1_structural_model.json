@@ -114,11 +114,21 @@
       ]
     },
     {
-      "id": "derived-address-open",
-      "label": "OPEN",
-      "statement": "Whether a key computed from the stored state can reliably isolate one composite is unsettled. If one exists it is a functional address: it buys selection and retrieval, not non-colliding mutation, because mutation still acts on shared pairs.",
+      "id": "derived-address-synchronic",
+      "label": "MEASURED",
+      "statement": "A directed path key isolates one carrier within a cycle (177 distinct paths, 0 id collisions), so a functional address exists synchronically. It does not exist diachronically: 19 node sets are emitted in both directions, always in different cycles.",
       "evidence": [
-        "docs/V1-STRUCTURAL-MODEL.md#5"
+        "docs/V1-STRUCTURAL-MODEL.md#5",
+        "docs/v1_carrier_identity.json",
+        "benchmarks/v1_carrier_identity.py"
+      ]
+    },
+    {
+      "id": "no-diachronic-identity",
+      "label": "MEASURED",
+      "statement": "No key survives a recomputation: the emitted direction, and with it the id, can change between cycles for the same node set, so 'the same carrier' is not representable across cycles.",
+      "evidence": [
+        "docs/v1_carrier_identity.json"
       ]
     }
   ],

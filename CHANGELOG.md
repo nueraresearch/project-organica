@@ -138,6 +138,22 @@ baseline, and the charter says in advance that a tie means the addresses are boo
 Addressability is necessary for G4 and beyond; it is not sufficient, and the draft now says so rather than treating the
 primitive as the goal.
 
+## Addendum — 2026-11-15: identity within a cycle, none across cycles
+
+The open question in the structural model was whether a state-derived key can isolate a carrier. `benchmarks/v1_carrier_identity.py`
+asks it on one no-arm world (seed 20740101, 1299 appearances, 177 distinct paths over 158 node sets) and
+separates four properties the record had been treating as one.
+
+Selection holds: a directed path names exactly one carrier, with 0 id collisions. Retrieval holds: two replays
+reproduce the same carriers in the same cycles. **Diachronic identity does not hold**: 19 node sets are emitted in
+both directions, always in different cycles (0 share a cycle), so the directed key and its id change for the
+same triangle. Independent mutation was already ruled out by the representation.
+
+The emitted id is not an address even synchronically: it is the first 8 hex characters of a SHA-256 (32 bits), not
+invertible, and unstable when the direction flips. So V1 has **identity without locality and without persistence** — a
+sharper characterization than either "composites do not exist" or "composites are stored objects", and the fourth
+falsifier is recorded as having partly fired rather than as still open.
+
 ## Addendum — 2026-11-15: explicit addresses and functional addresses are different claims
 
 The structural model said "identifiers exist, addresses do not". That is an explicit-address claim, and the document now
