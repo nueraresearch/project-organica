@@ -63,6 +63,10 @@ Post-freeze validity avoids all three:
 
 This is why the circularity is not a defect in the experiment. It is a defect in a gate order that puts validity before the freeze. The freeze fixes **what is tested**; C1/C4 decide **whether the test is admissible**.
 
+## 5. Index disposition
+
+The five proposals above were each taken in a separate adopting record: the C1/C4 gate order and the VOID disposition in [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md), and the Path A estimand and C1 acceptance rule in [`A1-PATH-A-C1-RULE-1`](DECISION-A1-PATH-A-C1-RULE.md). What remains of this memo is the Path A confirmation and the provisional-freeze act, neither signed, so the memo is indexed as PENDING rather than adopted and its signature block is left blank.
+
 ## 4. Gate order
 
 ```text

@@ -611,6 +611,40 @@
         "docs/DECISION-A1-C1-DENOMINATOR.md"
       ],
       "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-A1-PATH-A-C1-RULE",
+      "date": "2026-11-14",
+      "status": "ADOPTED",
+      "status_quote": "RECORDED — BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN",
+      "chosen": [
+        "Path A is the A1 estimand",
+        "It does not freeze the targets, reserve seeds or authorise the run.",
+        "There is no averaging across seeds or paths.",
+        "The fraction cannot rescue a denominator below the designed resolution.",
+        "a missing denominator is not a zero-row pass."
+      ],
+      "rejected": [],
+      "evidence": [
+        "docs/A1-C1-C4-VOID-GATE.md",
+        "docs/A1-TARGET-SELECTION-PROTOCOL.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-A1-PATH-A-C1-C4",
+      "date": "2026-11-14",
+      "status": "PENDING",
+      "status_quote": "DRAFT — C1/C4 GATE ADOPTED ELSEWHERE; PATH A CONFIRMATION AND PROVISIONAL FREEZE NOT ADOPTED",
+      "chosen": [
+        "The five proposals above were each taken in a separate adopting record: the C1/C4 gate order and the VOID disposition in [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md), and the Path A estimand and C1 acceptance rule in [`A1-PATH-A-C1-RULE-1`](DECISION-A1-PATH-A-C1-RULE.md)."
+      ],
+      "rejected": [],
+      "evidence": [
+        "docs/A1-C1-C4-VOID-GATE.md",
+        "docs/DECISION-A1-PATH-A-C1-RULE.md"
+      ],
+      "superseded_by": null
     }
   ]
 }

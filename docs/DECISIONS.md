@@ -14,10 +14,10 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 
 | status | count | meaning |
 | --- | --- | --- |
-| ADOPTED | 15 | in force; the document records it as implemented or effective |
+| ADOPTED | 16 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
-| PENDING | 4 | decided and not in force; the document says so |
-| **total** | **20** | |
+| PENDING | 5 | decided and not in force; the document says so |
+| **total** | **22** | |
 
 ## The decisions
 
@@ -451,6 +451,46 @@ written down cannot be re-examined later.
 **Evidence.** `docs/A1-C1-UNIT-OF-EVIDENCE.md`, `docs/A1-DESIGN-VIABILITY.md`, `docs/a1_design_viability.json`, `docs/DECISION-A1-C1-DENOMINATOR.md`
 
 **Record.** `docs/DECISION-A1-C1-UNIT.md`
+
+### DECISION-A1-PATH-A-C1-RULE — A1 Path A estimand and C1 acceptance rule — decision record
+
+**Status.** ADOPTED — *"RECORDED — BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN"*
+
+**Decided.**
+
+- Path A is the A1 estimand
+- It does not freeze the targets, reserve seeds or authorise the run.
+- There is no averaging across seeds or paths.
+- The fraction cannot rescue a denominator below the designed resolution.
+- a missing denominator is not a zero-row pass.
+
+**Rejected.** None recorded in the document. That is a gap in the record, not a
+statement that no alternative existed: a decision whose alternatives were never
+written down cannot be re-examined later.
+
+**Rests on.** Q054 (open)
+
+**Evidence.** `docs/A1-C1-C4-VOID-GATE.md`, `docs/A1-TARGET-SELECTION-PROTOCOL.md`
+
+**Record.** `docs/DECISION-A1-PATH-A-C1-RULE.md`
+
+### DECISION-A1-PATH-A-C1-C4 — Owner decision memo — A1 Path A and C1/C4 gate order
+
+**Status.** PENDING — *"DRAFT — C1/C4 GATE ADOPTED ELSEWHERE; PATH A CONFIRMATION AND PROVISIONAL FREEZE NOT ADOPTED"*
+
+**Decided.**
+
+- The five proposals above were each taken in a separate adopting record: the C1/C4 gate order and the VOID disposition in [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md), and the Path A estimand and C1 acceptance rule in [`A1-PATH-A-C1-RULE-1`](DECISION-A1-PATH-A-C1-RULE.md).
+
+**Rejected.** None recorded in the document. That is a gap in the record, not a
+statement that no alternative existed: a decision whose alternatives were never
+written down cannot be re-examined later.
+
+**Rests on.** Q054 (open)
+
+**Evidence.** `docs/A1-C1-C4-VOID-GATE.md`, `docs/DECISION-A1-PATH-A-C1-RULE.md`
+
+**Record.** `docs/DECISION-A1-PATH-A-C1-C4.md`
 
 ## What this graph is not
 

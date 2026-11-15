@@ -53,6 +53,16 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
+## Addendum — 2026-11-15: the decision graph runs clean — 22 decisions, no drift
+
+Two Path A records sat on disk outside the index, so `decision_graph --check` reported three errors against
+a tree whose records were all present and consistent. Both are now indexed and tallied under Q054:
+`A1-PATH-A-C1-RULE-1` as ADOPTED (quoting its own status line, `RECORDED — BINDING FOR A1; NO FREEZE, NO
+GRANT, NO RUN`), and the C1/C4 owner memo as PENDING — it never became the adopting act, and a new "Index
+disposition" section records that each of its five proposals was taken in a separate adopting record, which
+is why PENDING rather than ADOPTED is the honest classification. `--check` now exits 0: 22 decisions
+(16 ADOPTED, 1 WITHDRAWN, 5 PENDING), no missing quotes, no drift findings.
+
 ## Addendum — 2026-11-15: an unmeasurable C4 delta was reading as a pass, and now fails the gate
 
 Found while drafting the C4 declaration, and fixed before it could be signed. `gate_c4` compared
