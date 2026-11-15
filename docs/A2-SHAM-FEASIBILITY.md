@@ -31,7 +31,7 @@ on all six seeds: worst mean absolute difference 2.76 cycles, worst total gap 8.
 
 ## What this decides
 
-**Per edge: not constructible.** Three of six seeds put fewer than 95%% of non-target edges within six cycles of the target block, with worst-case differences of 30 to 78 cycles. A C4' that judges every non-target edge separately therefore cannot be satisfied by this selection, and a stronger max-first search did not improve it (89.3%%, 75.9%%, 85.7%% on the three failing seeds).
+**Per edge: no construction found.** Three of six seeds put fewer than 95% of non-target edges within six cycles of the target block, with worst-case differences of 30 to 78 cycles, and a stronger max-first search did not find one either (89.3%, 75.9%, 85.7% on the three failing seeds). A C4' that judges every non-target edge separately is therefore left without a witnessed construction from this selection — which does not establish that none exists.
 
 **This is not evidence about the organism.** It is a matching check on the no-arm carriers. A feasible
 sham makes the pre-registration possible; it does not show the arms behave the same, and it must not be

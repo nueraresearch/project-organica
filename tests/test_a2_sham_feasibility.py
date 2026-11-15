@@ -40,6 +40,8 @@ def test_the_per_edge_verdict_is_not_rescued_by_the_aggregate_one() -> None:
 
 def test_the_page_states_both_verdicts() -> None:
     page = (DOCS / "A2-SHAM-FEASIBILITY.md").read_text(encoding="utf-8")
-    assert "Per edge: not constructible" in page
+    assert "Per edge: no construction found" in page
+    assert "does not establish that none exists" in page
+    assert "95%%" not in page, "a doubled percent sign is a formatting defect, not a figure"
     assert "different design" in page
     assert "not evidence about the organism" in page

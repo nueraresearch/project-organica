@@ -331,8 +331,8 @@
         {
           "path": "docs/A2-SHAM-FEASIBILITY.md",
           "strings": [
-            "Per edge: not constructible",
-            "different design"
+            "Per edge: no construction found",
+            "does not establish that none exists"
           ]
         }
       ],

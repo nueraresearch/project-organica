@@ -119,6 +119,17 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: "not found" is not "not constructible"
+
+The A2 sham page and the estimand decision both said the per-edge placebo "is not constructible". That is wider than
+the check behind it: two search regimes failed to find a matched sham on three seeds, which leaves the criterion without a
+witnessed construction and does not establish that none exists.
+
+The language is now *no construction found*, with the limit stated beside it, and the page's "cannot be satisfied" became
+"left without a witnessed construction from this selection". A doubled `%%` in the same sentence — printed literally as
+`95%%` because that line carried no format operator — is fixed too, and a test asserts the page contains no doubled
+percent sign. Both documents now carry the distinction, and `tests/test_a2_estimand_decision.py` fails if it is dropped.
+
 ## Addendum — 2026-11-15: A2's fork is an estimand choice, not an empirical one
 
 The sham check leaves two coherent A2 branches and no measurement that separates them. `docs/DECISION-A2-ESTIMAND.md` is

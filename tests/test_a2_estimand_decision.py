@@ -30,6 +30,8 @@ def test_both_branches_are_named_with_their_cost() -> None:
 
 def test_the_aggregate_criterion_is_never_a_rescue() -> None:
     text = _text()
+    assert "has no witnessed construction" in text
+    assert "does not establish that no such construction exists" in text
     assert "a different criterion, not a rescue criterion" in text
     assert "no document may describe it as the per-edge design succeeding" in text
 

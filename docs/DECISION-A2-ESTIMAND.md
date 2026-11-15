@@ -14,9 +14,10 @@ here.
 Three things are no longer open.
 
 1. **A1 is `VOID` and stays `VOID`.** The assembly is the study's outcome; nothing here rescinds it or re-scores it.
-2. **A per-edge placebo is not constructible from this selection.** On three of six seeds fewer than 95% of non-target
-   edges land within the 6-cycle tolerance — 90.2%, 88.4%, 92.9%, with worst differences of 30, 51 and 78 cycles — and a
-   max-first search over the same budget did not improve them (89.3%, 75.9%, 85.7%).
+2. **A per-edge placebo has no witnessed construction from this selection.** On three of six seeds fewer than 95% of
+   non-target edges land within the 6-cycle tolerance — 90.2%, 88.4%, 92.9%, with worst differences of 30, 51 and 78
+   cycles — and a max-first search over the same budget did not find one either (89.3%, 75.9%, 85.7%). Two search
+   regimes, not a proof: this does not establish that no such construction exists.
 3. **An aggregate placebo is constructible.** On all six seeds the mean absolute per-edge difference is at most 2.76
    cycles and the two arms' predicted total losses agree within 8.1%.
 
@@ -45,7 +46,8 @@ The two survivors differ in what they ask, not in how well they are engineered.
 - If the claim is about carriers — "this carrier's removal changed behaviour" — choose **A2b**, and state in the charter
   that the estimand changed, so nothing later can be compared to A1 as if it had not.
 
-There is no fourth option in which the edge-level estimand keeps its per-edge criterion: item 2 above closes it.
+There is no fourth option in which the edge-level estimand keeps its per-edge criterion without a witnessed
+construction: item 2 above leaves that option unbuilt.
 
 ### The record, in three sentences
 
