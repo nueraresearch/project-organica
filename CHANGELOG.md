@@ -119,6 +119,26 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: the checklist board is now the board, and a guard reads it
+
+The A1 state was being reconstructed in conversation while `A1-PRE-FREEZE-CHECKLIST.md` still opened with "no substantive
+owner choice remains open" and still quoted **324 / 1,944** as the operative C4 veto. Both were true when written and
+false by the time anyone read them, which is the failure mode a status section exists to avoid.
+
+The section is replaced with a table that names, per branch, the state and the record or artifact that decides it: closed
+rows point at adopted records or existing artifacts, the two signature-ready drafts are marked `AWAITING SIGNATURE`, and
+the C4 posture's clause 1 is marked **open until the estimand is adopted** because its declared number matches no
+operative target count. The closing line now says two owner choices remain open and both are audited for signature.
+
+`tests/test_a1_board_state.py` reads the index and the board together and fails on the three ways this drifted: a
+`PENDING` A1 decision with no board row, a pending row that neither awaits a signature nor says why not, and the stale
+sentence surviving while decisions are pending. It also fails if an adopted record declares a multiplicity the operative
+block cannot produce without the board saying so.
+
+On its first run the guard found a third pending decision the board had never shown — `DECISION-A1-PATH-A-C1-C4`, whose five
+proposals were adopted in separate records and which therefore sits `PENDING` with nothing left to sign. It now appears as
+`NOT BLOCKING THE FREEZE` rather than being marked done, because the corpus does not close an entry by assertion.
+
 ## Addendum — 2026-11-15: C1's ceiling decision drafted, priced in both directions
 
 `A1-PATH-A-C1-RULE-1` voids any run whose observed minimum C1 denominator is above 64, and the adopted block's own

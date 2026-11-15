@@ -13,24 +13,40 @@ separate registered design; it is not the current target set and is not frozen.
 
 ## Where the tree stands — 2026-11-15
 
-The competence branch is **closed by decision and feasibility certification**: the unit, the threshold,
-the interpretation, the constructor and the floor are all fixed before any run, and `N_min = 17` was not
-chosen but bounded — `20740102` cannot field eighteen competent rows under the cap, proved by enumerating
-all 4,686,825 candidate subsets.
+**This section is the board.** It is the place to read the state instead of reconstructing it: every row below names the
+record that decides it, and a row is only `closed` when that record is adopted or the artifact exists.
 
-**No substantive owner choice remains open.** C4's exposure was the last one, and it is adopted: posture
-A, the veto kept as a maximum over 324 deltas per seed and 1,944 per block against a fixed 0.05, with the
-failure probability declared unmeasured rather than assumed small
-([`DECISION-A1-C4-POSTURE-1`](DECISION-A1-C4-POSTURE.md)). What remains is not a question but a sequence of acts:
-the disposition (adopted 2026-11-15), then the two freeze acts, then the grant, then the run.
+| Branch | State | Record or artifact |
+| --- | --- | --- |
+| C1 denominator definition | **CLOSED — ADOPTED** | [`DECISION-A1-C1-DENOMINATOR-1`](DECISION-A1-C1-DENOMINATOR.md): the recorded cell row, non-target edges included |
+| C1 denominator invariance | **CLOSED — MEASURED** | C1 counts every recorded row, so the target set cannot change it; the competent selection reproduces 79/64/79/74/72/74 exactly ([`a1_c8_target_selection_competent.json`](a1_c8_target_selection_competent.json)) |
+| C1 unit of evidence | **CLOSED — ADOPTED** | [`DECISION-A1-C1-UNIT-1`](DECISION-A1-C1-UNIT.md): the directed edge, relation reported on its own denominator |
+| Competence contract, `N_min`, capacity | **CLOSED — ADOPTED** | [`DECISION-A1-C8-NMIN-1`](DECISION-A1-C8-NMIN.md): unit, threshold 0.05, cap 3, `N_min = 17` |
+| Competent-selection construction | **CLOSED — ARTIFACT EXISTS, EXHAUSTIVE** | [`A1-C8-TARGET-SELECTION-COMPETENT.md`](A1-C8-TARGET-SELECTION-COMPETENT.md): 20/17/20/20/18/20, every larger size proved impossible |
+| C4 measurability semantics | **CLOSED — IMPLEMENTED** | [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md): unmeasurable is VOID, never a pass or a crash |
+| C4 completeness detection | **CLOSED — REPAIRED 2026-11-15** | absent or short treated stream now VOIDs (`CONTROL_NOT_SCORED`, `AWAITING_TREATED_ROW`) |
+| A1 Path A / C1-C4 umbrella (`A1-PATH-A-C1-C4-1`) | **`PENDING` — NOT BLOCKING THE FREEZE; IN PART SUPERSEDED BY ITS OWN ADOPTED PARTS** | [`DECISION-A1-PATH-A-C1-C4`](DECISION-A1-PATH-A-C1-C4.md) proposed five items; the C1/C4 gate and the Path A estimand rule were each adopted in separate records, which is why this one is still `PENDING`. What it never adopted — a Path A *confirmation* beyond the estimand sentence and the provisional-freeze wrapper — is not needed for the freeze (the act is a separate signature), but the entry stays open rather than being quietly marked done. |
+| **Competent estimand** | **AWAITING SIGNATURE — `PENDING`** | [`DECISION-A1-COMPETENT-ESTIMAND-1`](DECISION-A1-COMPETENT-ESTIMAND.md): fixes 20/17/20/20/18/20, restates C4 to 276–285/1,671, amends one sentence of `A1-PATH-A-C1-RULE-1` |
+| **C1 denominator ceiling** | **AWAITING SIGNATURE — `PENDING`** | [`DECISION-A1-C1-CEILING-1`](DECISION-A1-C1-CEILING.md): the `>64` clause governs the candidate-plan count, not the cell row; the universe comparison carries its function |
+| C4 posture clause 1 (declared multiplicity) | **OPEN UNTIL THE ESTIMAND IS ADOPTED** | `A1-C4-POSTURE-1` still declares **324 / 1,944**, the N=4 figures; the operative block needs **276–285 / 1,671**. The estimand decision is the record that restates it |
+| Freeze acts | **NOT SIGNED — ONE UNSIGNABLE** | `A1-TARGET-FREEZE-1` freezes four targets per seed and can never reach `N_min = 17`; `A1-TARGET-FREEZE-N20-1` needs re-issuing against the competent digests |
+| Grant, run | **NOT ISSUED, NOT STARTED** | — |
 
-**C1's unit of evidence** was the second, and is now decided: the directed edge is the unit, the relation
-is a declared dependence class reported once per relation on its own denominator, C4's protected set stays
-directed (108 / 92), and no threshold moved ([`DECISION-A1-C1-UNIT-1`](DECISION-A1-C1-UNIT.md)).
+So the honest headline is **two owner choices remain open, and both are drafted and audited for signature** — not "no
+substantive choice remains". An earlier version of this section said the latter, and it was written before the
+competence measurement showed that the two population wordings could not both hold; that sentence has been replaced
+rather than left to go stale.
 
-Everything else follows from that choice: the disposition settles against it, and freeze and grant are
-consequences of the disposition rather than independent questions. **No definitional decision
-remains open** — what is left is risk acceptance.
+**What is genuinely settled.** The competence branch is closed by decision and by construction: the unit, threshold,
+interpretation, constructor and floor are fixed before any run, `N_min = 17` is bounded rather than chosen (`20740102`
+cannot field eighteen competent rows at the cap, proved by enumeration), and the block itself is now built and bounded
+from above on every seed. Nothing about the **design** is still being discovered; what remains is whether the owner
+wants that design.
+
+**C4's exposure is decided in form and undecided in number.** Posture A is adopted and its five clauses stand, but
+clause 1's *declared* multiplicity — 324 deltas per seed, 1,944 per block — is the N=4 design's figure and matches no
+operative target count. The estimand decision restates it to 276–285 per seed and 1,671 per block; until that decision is
+adopted, an adopted record carries a number the design no longer produces.
 
 ## Must pass before freeze
 
@@ -96,7 +112,7 @@ machine checks for the artifact and its page.
 | **C1 ceiling decision drafted (2026-11-15)** | **PENDING — FOR OWNER ADOPTION; AMENDS ONE CLAUSE OF `A1-PATH-A-C1-RULE-1`** | [`DECISION-A1-C1-CEILING.md`](DECISION-A1-C1-CEILING.md). Narrows the `>64` VOID to the 63–64 **candidate-plan count** it was written against, and does not apply it to the cell-row denominator `DECISION-A1-C1-DENOMINATOR-1` adopted a day later; the ceiling's function is carried by *scored denominator = preplanned universe*, so any addition is VOID at any size. Baseline minima 79/64/79/74/72/74 (**five of six above 64**, one exactly on it). Amends §2.1's planned-bound row and §2.3's third paragraph only — 0.95, the 60 floor, the three-loss band and the C4 ceiling stand. Numbers and quotes pinned by [`tests/test_a1_c1_ceiling.py`](../tests/test_a1_c1_ceiling.py). |
 | **Competence estimand drafted (2026-11-15)** | **PENDING — FOR OWNER ADOPTION; FIXES 20/17/20/20/18/20 AND THE C4 RESTATEMENT** | [`DECISION-A1-COMPETENT-ESTIMAND-1`](DECISION-A1-COMPETENT-ESTIMAND.md): target rows drawn from the baseline-competent population (both paths present in the no-arm replay), the estimand made conditional on that, the counts fixed at C8's adopted operative sizes, and C4 clause 1 restated from 324/1,944 to **276–285 per seed, 1,671 per block**. Rejected: representative-eligible, uniform 17, cap 4, post-hoc competent-only scoring. It also records that the existing selection artifact must be re-derived — it is a representative selection.  Adoption amends **one sentence** of `A1-PATH-A-C1-RULE-1` (its §1 estimand wording) and nothing else: the C1 acceptance rule, the 60-row floor and its other clauses stay binding. The index cannot express a partial supersession, so the amendment is carried in that record's note. The 276–285 / 1,671 prose figures are pinned to the recomputation by the same test, not only the table. |
 | **C4 declared multiplicity is bound to N=4 (2026-11-15)** | **REQUIREMENT ATTACHED TO THE ESTIMAND CHOICE — RESTATE ONCE THE TARGET COUNT IS FIXED** | Clause 1 of [`DECISION-A1-C4-POSTURE-1`](DECISION-A1-C4-POSTURE.md) declares the veto as "the maximum over 324 deltas per seed, 1,944 across the block". Those are **108 non-target rows × 3 paths × 6 seeds**, i.e. the **N=4** design on the adopted block (112 rows/seed). A competent act at 17 rows gives 95 × 3 = **285** per seed and **1,710** per block; at 20 it is 276 and 1,656. The acceptance does not change with the count, but the *declared* number does, so re-issuing an act at any other target count makes clause 1 false unless it is restated. |
-| **C1 denominator ceiling conflict (2026-11-15)** | **FLAGGED — TWO ADOPTED RECORDS DISAGREE; OWNER DECISION REQUIRED** | [`A1-C1-CEILING-CONFLICT`](A1-C1-CEILING-CONFLICT.md): the binding 2026-11-14 rule voids a denominator above 64, while the 2026-11-15 denominator decision makes the recorded cell row operative and the adopted baseline observes 79/64/79/74/72/74 — five seeds above the band. Neither record supersedes the other. Resolution is one of two decisions: narrow the ceiling to the candidate quantity, or accept that the block cannot support a readable C1. |
+| **C1 denominator ceiling conflict (2026-11-15)** | **DRAFTED — `PENDING` FOR OWNER ADOPTION; NO LONGER AN UNDECIDED CONFLICT** | [`A1-C1-CEILING-CONFLICT`](A1-C1-CEILING-CONFLICT.md) records that the binding 2026-11-14 rule voids a denominator above 64 while the 2026-11-15 denominator decision makes the recorded cell row operative, and the adopted baseline observes 79/64/79/74/72/74 — five seeds above the band. [`DECISION-A1-C1-CEILING-1`](DECISION-A1-C1-CEILING.md) resolves it the first way: the clause governs the candidate-plan count it was written against, and its function is carried by *scored denominator = preplanned universe*. Adopting it makes the conflict closed; until then both records stand and the block cannot be read against the literal ceiling. |
 | **Target competence measured on the adopted block (2026-11-15)** | **FLAGGED — 0/6 SEEDS C2-VIABLE AT BOTH N4 AND N20** | [`A1-TARGET-VIABILITY-ADOPTED`](A1-TARGET-VIABILITY-ADOPTED.md): the frozen target strings checked against the adopted block's own no-arm baseline, not the spent block's. N4 has 4/24 targets with no `A` carrier and 11/24 with no `K` served; N20 has 34/120 and 43/120; no seed in either design can satisfy C2's per-row requirement. This is what holds both freeze acts. The same record finds the construction frontier: a competent block of **17** exists on all six seeds, while **18 already fails on `20740102`** — so C8's adopted `N_min = 17` is exactly the level at which the competence screen is solvable, and the blocker is a selection rule, not capacity. |
 | **A1 disposition adopted (2026-11-15)** | **ADOPTED BY OWNER — PATH A CONTINUES; D1–D6 MET, D7–D9 OUTSTANDING** | [`A1-DISPOSITION-2`](DECISION-A1-DISPOSITION-2.md): Path A continues with the commitment restated as freeze review → provisional target freeze → dated grant → one run → C1/C4 → PASS or VOID. Four premises of the 2026-11-14 disposition are replaced by records (C1 denominator, C1 unit, C8 `N_min = 17`, C4 posture A) and a fifth by the measurability repair. Limitations declared: zero C8 slack on the two 17–18-row seeds, C4's unmeasured VOID probability over 1,944 comparisons; the C1 label gap was closed by `DECISION-A1-C1-UNMEASURABLE-1`. The 2026-12-14 lapse clock is **not** extended. |
 | **Measurability audit extended below the gates (2026-11-15)** | **JOIN AND C1 SCORER REPAIRED; REASON-CODE GAP DECIDED AND CLOSED** | [`A1-GATE-MEASURABILITY-AUDIT`](A1-GATE-MEASURABILITY-AUDIT.md): `attach_neighbor_deltas` raised on a null rate rather than representing a delta that does not exist (`TypeError`), and `score_c1`'s per-seed rows repeated the gate's `nan`-as-retained defect. Both now use `measurable_fraction` / `_rate_delta`. **Decided 2026-11-15:** a failed C1 with a sound denominator and an unmeasurable rate now VOIDs as `C1_UNMEASURABLE` (`DECISION-A1-C1-UNMEASURABLE-1`); `C1_THRESHOLD` is narrowed to a measured rate below 0.95. |
@@ -223,4 +239,6 @@ still true — the owner's decision supplies the reading the text leaves open.
 
 **Decided but not in force** (`PENDING` in `docs/decisions.json`, not open questions):
 `DECISION-DENSITY-EXCLUSION`, `DECISION-CAP-LEVEL`, `DECISION-ADMISSION-STEP`,
-`DECISION-PERSISTENCE-INTERVENTION`.
+`DECISION-PERSISTENCE-INTERVENTION`, `DECISION-A1-PATH-A-C1-C4`, **`DECISION-A1-COMPETENT-ESTIMAND`** and
+**`DECISION-A1-C1-CEILING`** — seven of 27. The last two are the ones a signature would move, and both appear in the
+board table above with what they would close.
