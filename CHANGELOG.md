@@ -53,6 +53,26 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
+## Addendum — 2026-11-15: the preparation record read as one record
+
+No measurement was run for this. `docs/A1-INTERPRETATION.md` puts the committed A1 measurements
+beside each other and states what they imply together, which none of them states alone: **C8's
+twenty-row failure is combinatorial before it is empirical, and the two ways to relieve it cancel.**
+
+The arithmetic uses committed numbers only. Cap 3 over 16 tags admits `16 × 3 / 2 = 24` relations
+against 20 required — four edges of slack, 20% headroom — and the measured 16-tag competent pool
+bottoms out at exactly twenty on one seed, so any tag imbalance spends the whole margin. The N=4
+disjoint design admits 8 against 4: also four edges of slack, but 100% relative room. Raising the
+tag count to 28 lifts the ceiling to 42 with 22 edges of slack and drops the pool to 15–26, because
+A&K density falls 63.2% → 24.4% while candidate edges rise 161% and K rises 0.8%. So more tags
+relieve the cap and destroy the supply, and no measured tag count does both.
+
+The same reading reframes two earlier findings: K is window-limited rather than universe-limited
+(loop cap 15 → 120 raises K 109.8%, and the 16-tag blocks reach 382/383 candidates K-available at
+cap 120), and the C1 verdict is block-dependent rather than a property of the design (2063 clears
+4/6, 2074 6/6, 2065 0/6), with three rows of margin on the tightest adopted seed. The record also
+shows which lever has never been tested — event density per cycle at fixed tag count.
+
 ## Addendum — 2026-11-15: C1's unit of evidence is the open question, and my own table compared across units
 
 The denominator decision settled which rows participate. It did not settle what one observation
