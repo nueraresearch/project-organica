@@ -106,3 +106,41 @@ def test_score_c1_does_not_report_a_nan_rate_as_a_pass():
     assert report["seeds"]["1"]["pass"] is False
     assert report["seeds"]["1"]["a_minus_fraction"] is None
     assert report["a_minus"]["fraction"] is None
+
+
+def test_void_reason_names_an_unmeasurable_c1_rate_rather_than_a_threshold():
+    """Two causes, two labels: `C1_THRESHOLD` asserts a rate that was computed."""
+    from benchmarks import a1_arms, a1_result
+    edges = ["e%d>f%d" % (i, i) for i in range(60)]
+    payloads = [
+        {"seed": 1, "cell": "A+K+", "rows": [
+            {"seed": 1, "cell": "A+K+", "edge": edge, "A": 1, "K": 1, "Y": 1}
+            for edge in edges]},
+        # A sound 60-row denominator, one unmeasured carrier readout.
+        {"seed": 1, "cell": "A-K+", "rows": [
+            {"seed": 1, "cell": "A-K+", "edge": edge, "A": 0,
+             "K": (None if index == 0 else 1), "Y": 1}
+            for index, edge in enumerate(edges)]},
+        {"seed": 1, "cell": "A+K-", "rows": [
+            {"seed": 1, "cell": "A+K-", "edge": edge, "A": 1, "K": 0, "Y": 0}
+            for edge in edges]},
+    ]
+    c1 = a1_arms.score_c1(payloads)
+    assert c1["unmeasurable"] == [{"seed": 1, "path": "A-"}]
+    assert c1["a_minus"]["fraction"] is None
+    assert a1_result._void_reasons(payloads, c1, {"pass": True}) == ["C1_UNMEASURABLE"]
+
+
+def test_a_below_floor_denominator_still_outranks_unmeasurable():
+    """The structural cause fired first, so it is the code that is reported."""
+    from benchmarks import a1_arms, a1_result
+    payloads = [
+        {"seed": 1, "cell": "A+K+", "rows": [
+            {"seed": 1, "cell": "A+K+", "edge": "a>b", "A": 1, "K": 1, "Y": 1}]},
+        {"seed": 1, "cell": "A-K+", "rows": [
+            {"seed": 1, "cell": "A-K+", "edge": "a>b", "A": 0, "K": None, "Y": 1}]},
+        {"seed": 1, "cell": "A+K-", "rows": [
+            {"seed": 1, "cell": "A+K-", "edge": "a>b", "A": 1, "K": 0, "Y": 0}]},
+    ]
+    c1 = a1_arms.score_c1(payloads)
+    assert a1_result._void_reasons(payloads, c1, {"pass": True}) == ["C1_DENOMINATOR_BELOW_FLOOR"]

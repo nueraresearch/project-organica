@@ -14,10 +14,10 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 
 | status | count | meaning |
 | --- | --- | --- |
-| ADOPTED | 17 | in force; the document records it as implemented or effective |
+| ADOPTED | 18 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
 | PENDING | 6 | decided and not in force; the document says so |
-| **total** | **24** | |
+| **total** | **25** | |
 
 ## The decisions
 
@@ -533,6 +533,26 @@ written down cannot be re-examined later.
 **Evidence.** `docs/A1-DISPOSITION-REREAD.md`, `docs/DECISION-A1-C4-POSTURE.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`
 
 **Record.** `docs/DECISION-A1-DISPOSITION-2.md`
+
+### DECISION-A1-C1-UNMEASURABLE — C1 gains an unmeasurable reason code; `C1_THRESHOLD` keeps its one meaning
+
+**Status.** ADOPTED — *"ADOPTED — BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN"*
+
+**Decided.**
+
+- C1 gains `C1_UNMEASURABLE`. `C1_THRESHOLD` is not widened; it keeps exactly one meaning.
+- Structural causes outrank unmeasurability because a missing or below-floor denominator also makes the rate
+uncomputable, and the cause that fired first is the one worth reporting.
+
+**Rejected.**
+
+- *Widen `C1_THRESHOLD` to cover "not measurable".* — because *"Rejected on the naming rule this project already applies to counts: a label must name what it counts."*
+
+**Rests on.** Q054 (open)
+
+**Evidence.** `docs/A1-GATE-MEASURABILITY-AUDIT.md`, `docs/A1-C1-C4-VOID-GATE.md`
+
+**Record.** `docs/DECISION-A1-C1-UNMEASURABLE.md`
 
 ## What this graph is not
 

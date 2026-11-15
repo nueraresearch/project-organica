@@ -110,6 +110,7 @@ This memo does not reserve seeds. Seed reservation and the grant remain separate
 | C1 | No paired-control denominator is available for a required seed or required row. A missing denominator is not zero. | `C1_NO_DENOMINATOR` |
 | C1 | The observed minimum paired-control denominator is below **60** on any seed or path, even if every available row is retained. The 60-row floor is recorded in [`DECISION-A1-PATH-A-C1-RULE.md`](DECISION-A1-PATH-A-C1-RULE.md). | `C1_DENOMINATOR_BELOW_FLOOR` |
 | C1 | On any seed, `A−` carrier preservation is below 0.95, or `K−` served preservation is below 0.95. | `C1_THRESHOLD` |
+| C1 | On any seed, the paired-control denominator is sound but an `A−` or `K−` retention rate is **not measurable**. | `C1_UNMEASURABLE` |
 | C4 | The non-target stream is absent, incomplete, or has no measurable paired delta. | `C4_UNMEASURABLE` |
 | C4 | Any measurable non-target A, K or Y neighbour delta exceeds 0.05. | `C4_DELTA` |
 | Assembly | Required cell parts are missing, duplicated, or cannot be paired for C1/C4. The gate is unmeasurable; it is not a zero-row pass. | `C1_C4_INCOMPLETE` |

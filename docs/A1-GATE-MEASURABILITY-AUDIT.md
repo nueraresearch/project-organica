@@ -2,7 +2,7 @@
 
 **Date:** 2026-11-15
 
-**Status:** `AUDIT — FOUR GATES REPAIRED, PLUS THE JOIN AND THE C1 SCORER; THE REASON-CODE VOCABULARY HAS ONE GAP`
+**Status:** `AUDIT — FOUR GATES REPAIRED, PLUS THE JOIN AND THE C1 SCORER; THE REASON-CODE GAP IS DECIDED`
 
 **Scope:** the eight gate functions in `benchmarks/a1_gate_readiness.py` plus C6, which is read from its
 committed block rather than computed. No threshold, row set, denominator or verdict on a measured stream
@@ -67,18 +67,19 @@ gate's own defect one layer down — its per-seed rows and reported fractions us
 `measurable_fraction`, the single rule the gates use, which is why the repair is a rename rather than a third
 copy of the check.
 
-## Known gap: C1's reason code for an unmeasurable rate
+## The reason-code gap, and how it was decided
 
 `_c1_reason` classifies a failed C1 by its **denominators** — no denominator, below floor, or otherwise
 `C1_THRESHOLD`. A seed whose denominator is fine but whose retention rate is unmeasurable therefore VOIDs with
 `C1_THRESHOLD`, which says *"retention fell below 0.95"* about a rate that was never computed. The disposition
 is right (VOID, not pass); the label is wrong.
 
-This is **not** repaired here, because the reason codes are adopted vocabulary in
-[`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md) and inventing `C1_UNMEASURABLE` would amend an owner decision
-in a bug fix. It is recorded as a question for the owner: either the vocabulary gains an unmeasurable code, or
-`C1_THRESHOLD` is redefined to cover "not measurable". Until then, a `C1_THRESHOLD` VOID must be read together
-with the reported `null` fractions.
+This was **not** repaired in the audit, because the reason codes are adopted vocabulary in
+[`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md) and inventing a code would amend an owner decision inside a bug
+fix. It was put to the owner the same day and decided:
+[`DECISION-A1-C1-UNMEASURABLE-1`](DECISION-A1-C1-UNMEASURABLE.md) adds `C1_UNMEASURABLE` and narrows
+`C1_THRESHOLD` to a measured rate below 0.95, with the precedence
+`C1_NO_DENOMINATOR` → `C1_DENOMINATOR_BELOW_FLOOR` → `C1_UNMEASURABLE` → `C1_THRESHOLD`.
 
 ## What this does not claim
 

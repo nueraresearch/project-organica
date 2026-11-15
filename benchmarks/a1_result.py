@@ -66,6 +66,11 @@ def _c1_reason(c1: dict) -> str:
         return "C1_NO_DENOMINATOR"
     if min(denominators) < C1_DENOMINATOR_FLOOR:
         return "C1_DENOMINATOR_BELOW_FLOOR"
+    # Structural failures outrank this one: a missing or below-floor
+    # denominator also makes the rate uncomputable, and the more specific
+    # cause is the one that fired first.
+    if c1.get("unmeasurable"):
+        return "C1_UNMEASURABLE"
     return "C1_THRESHOLD"
 
 

@@ -696,6 +696,27 @@
         "docs/A1-PRE-FREEZE-CHECKLIST.md"
       ],
       "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-A1-C1-UNMEASURABLE",
+      "date": "2026-11-15",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED — BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN",
+      "chosen": [
+        "C1 gains `C1_UNMEASURABLE`. `C1_THRESHOLD` is not widened; it keeps exactly one meaning.",
+        "Structural causes outrank unmeasurability because a missing or below-floor denominator also makes the rate\nuncomputable, and the cause that fired first is the one worth reporting."
+      ],
+      "rejected": [
+        {
+          "alternative": "Widen `C1_THRESHOLD` to cover \"not measurable\".",
+          "reason": "Rejected on the naming rule this project already applies to counts: a label must name what it counts."
+        }
+      ],
+      "evidence": [
+        "docs/A1-GATE-MEASURABILITY-AUDIT.md",
+        "docs/A1-C1-C4-VOID-GATE.md"
+      ],
+      "superseded_by": null
     }
   ]
 }

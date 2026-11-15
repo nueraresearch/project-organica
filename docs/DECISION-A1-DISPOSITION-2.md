@@ -64,16 +64,16 @@ can tell which ones were met for the run that happened.
 | D2 | C1's unit is the **directed edge**; a relation is reported once per relation on its own denominator | **met** | `DECISION-A1-C1-UNIT-1` |
 | D3 | C8 reads on **at least `N_min = 17`** competent rows, operative sizes `20/17/20/20/18/20` | **met** | `DECISION-A1-C8-NMIN-1` |
 | D4 | C4's exposure is **accepted as posture A**, not assumed small | **met** | `DECISION-A1-C4-POSTURE-1` |
-| D5 | An **unmeasurable** quantity VOIDs; it never passes and never crashes | **met, one gap** | `A1-GATE-MEASURABILITY-AUDIT` |
+| D5 | An **unmeasurable** quantity VOIDs; it never passes and never crashes | **met** | `A1-GATE-MEASURABILITY-AUDIT`, `DECISION-A1-C1-UNMEASURABLE-1` |
 | D6 | No first-order pre-freeze question is open | **met** | `A1-PRE-FREEZE-CHECKLIST` |
 | D7 | Both **provisional target freeze** acts are signed and dated | **not met** — owner act | `A1-PRE-FREEZE-CHECKLIST` |
 | D8 | A **dated grant** authorises the seed block and the attempt | **not met** — owner act | `A1-PRE-FREEZE-CHECKLIST` |
 | D9 | The planned cells run **once**, and C1/C4 are assembled before any model is read | **not met** — follows D7 and D8 | `A1-C1-C4-VOID-GATE` |
 
-D5's gap is named rather than closed: a C1 failure with a sound denominator but an unmeasurable retention rate
-VOIDs as `C1_THRESHOLD`, which is the right disposition under the wrong label. Adding a code would amend the
-adopted reason-code vocabulary, so it stays an open question for the owner and must be read alongside the
-reported `null` fractions.
+D5 required one vocabulary decision, taken on 2026-11-15: a C1 failure with a sound denominator but an
+unmeasurable retention rate used to VOID as `C1_THRESHOLD`, which named the wrong cause. It now carries
+`C1_UNMEASURABLE`, with `C1_THRESHOLD` narrowed to a measured rate below 0.95
+([`DECISION-A1-C1-UNMEASURABLE-1`](DECISION-A1-C1-UNMEASURABLE.md)). No condition in this table is left open.
 
 ## 5. Limitations this disposition accepts, stated as costs
 

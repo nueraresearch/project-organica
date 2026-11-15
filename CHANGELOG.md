@@ -53,6 +53,21 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
+## Addendum — 2026-11-15: C1 gains `C1_UNMEASURABLE`; `C1_THRESHOLD` keeps one meaning
+
+The measurability audit closed the gates but left a labelling defect above them: `_c1_reason` classified a
+failed C1 by its denominators alone, so a seed with a sound 60-row denominator and an uncomputable retention rate
+VOIDed as `C1_THRESHOLD` — a code that asserts a *measured* rate fell below 0.95. Decided on 2026-11-15:
+**`C1_UNMEASURABLE` is added and `C1_THRESHOLD` is not widened**, with precedence
+`C1_NO_DENOMINATOR` → `C1_DENOMINATOR_BELOW_FLOOR` → `C1_UNMEASURABLE` → `C1_THRESHOLD`.
+
+The reason is the one already applied to counts: a label must name what it counts, and widening would restore at
+the reporting layer the defect the audit removed at the gate layer — a run reading as *failed the bar* when it
+never reached the bar. C4 already separates `C4_UNMEASURABLE` from `C4_DELTA`, so this removes an asymmetry
+rather than adding a concept. `score_c1` now reports the unmeasurable paths per seed, `_c1_reason` reads them, and
+two tests pin both the new code and the precedence. No threshold, gate, row set or disposition moves; no A1 cell
+has run, so no historical label changes.
+
 ## Addendum — 2026-11-15: the A1 disposition is drafted as continue, with its conditions named
 
 The branch question was re-opened because all four premises of the 2026-11-14 disposition had been replaced:

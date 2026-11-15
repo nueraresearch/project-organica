@@ -290,6 +290,8 @@ def score_c1(payloads: list[dict], tolerance: float | None = None) -> dict:
                   if row["cell"] == "A+K-" and row.get("control_A")]
         a_fraction = fraction(a_seed, "K")
         k_fraction = fraction(k_seed, "A")
+        unmeasurable = [path for path, value in (("A-", a_fraction), ("K-", k_fraction))
+                        if value is None]
         seeds[str(seed)] = {
             "a_minus_denominator": len(a_seed),
             "a_minus_available": available(a_seed, "K"),
@@ -297,6 +299,7 @@ def score_c1(payloads: list[dict], tolerance: float | None = None) -> dict:
             "k_minus_denominator": len(k_seed),
             "k_minus_available": available(k_seed, "A"),
             "k_minus_fraction": shown(k_fraction),
+            "unmeasurable": unmeasurable,
             # An unmeasurable rate is not a pass and not a zero.
             "pass": bool(a_seed and k_seed and a_fraction is not None
                          and k_fraction is not None
@@ -318,6 +321,13 @@ def score_c1(payloads: list[dict], tolerance: float | None = None) -> dict:
             "fraction": shown(fraction(k_rows, "A")),
         },
         "seeds": seeds,
+        # Named, so the reason code can say "not measurable" instead of
+        # "below threshold": two causes, two labels.
+        "unmeasurable": [
+            {"seed": int(seed), "path": path}
+            for seed, row in seeds.items()
+            for path in row["unmeasurable"]
+        ],
     }
 
 

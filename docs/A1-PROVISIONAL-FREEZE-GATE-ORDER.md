@@ -68,6 +68,7 @@ A VOID stops the result. It does not trigger a second run, a repaired denominato
 | C1 | No paired-control denominator is available for a required seed or required row. A missing denominator is not zero. | `C1_NO_DENOMINATOR` |
 | C1 | The observed minimum paired-control denominator is below **60** on any seed or path, even if every available row is retained. The floor is adopted by [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md) and recorded in [`DECISION-A1-PATH-A-C1-RULE.md`](DECISION-A1-PATH-A-C1-RULE.md). | `C1_DENOMINATOR_BELOW_FLOOR` |
 | C1 | On any seed, `A−` carrier preservation is below 0.95, or `K−` served preservation is below 0.95. | `C1_THRESHOLD` |
+| C1 | On any seed, the paired-control denominator is sound but an `A−` or `K−` retention rate is **not measurable**. | `C1_UNMEASURABLE` |
 | C4 | The non-target stream is absent, incomplete, or has no measurable paired delta. | `C4_UNMEASURABLE` |
 | C4 | Any measurable non-target A, K or Y neighbour delta exceeds 0.05. | `C4_DELTA` |
 | Assembly | Required cell parts are missing, duplicated, or cannot be paired for C1/C4. The gate is unmeasurable; it is not a zero-row pass. | `C1_C4_INCOMPLETE` |
@@ -75,6 +76,18 @@ A VOID stops the result. It does not trigger a second run, a repaired denominato
 A run with any one of these conditions is **`A1 VOID — C1/C4`**. If both gates fail, both reason codes are recorded; one gate cannot be suppressed by the other.
 
 **Denominator floor.** The 60-row floor is **ADOPTED — BINDING FOR A1** in [`A1-C1-C4-VOID-GATE.md`](A1-C1-C4-VOID-GATE.md), with the rule recorded in [`DECISION-A1-PATH-A-C1-RULE.md`](DECISION-A1-PATH-A-C1-RULE.md). A perfect 59/59 is VOID; the fraction cannot rescue a denominator below 60.
+
+## Amendment — 2026-11-15: `C1_UNMEASURABLE` added, `C1_THRESHOLD` narrowed
+
+The table above originally had no code for a sound denominator with an uncomputable retention rate, so that case
+reported `C1_THRESHOLD` — a label asserting a rate below 0.95 about a rate that was never computed. By owner
+direction on 2026-11-15 the vocabulary gains **`C1_UNMEASURABLE`**, and `C1_THRESHOLD` keeps only its original
+meaning: a **measured** rate below 0.95. Precedence is `C1_NO_DENOMINATOR` →
+`C1_DENOMINATOR_BELOW_FLOOR` → `C1_UNMEASURABLE` → `C1_THRESHOLD`, because a missing or below-floor denominator
+also makes the rate uncomputable and the structural cause fired first. No threshold, gate, row set or
+disposition moves; the reasoning and the rejected alternative are in
+[`DECISION-A1-C1-UNMEASURABLE-1`](DECISION-A1-C1-UNMEASURABLE.md).
+
 
 ## 5. What a VOID run means
 
@@ -121,7 +134,7 @@ A result-assembly record for this gate must carry at least:
 ```text
 status: PASS | VOID
 void_gates: [] | [C1_PATH_SEPARATION, C4_NO_INTERFERENCE]
-reason_codes: [] | [C1_NO_DENOMINATOR, C1_DENOMINATOR_BELOW_FLOOR, C1_THRESHOLD, C4_UNMEASURABLE, C4_DELTA, C1_C4_INCOMPLETE]
+reason_codes: [] | [C1_NO_DENOMINATOR, C1_DENOMINATOR_BELOW_FLOOR, C1_UNMEASURABLE, C1_THRESHOLD, C4_UNMEASURABLE, C4_DELTA, C1_C4_INCOMPLETE]
 observed_denominator:
   c1: {a_minus, k_minus, by_seed}
   c4: {rows, measured, unmeasured}
