@@ -637,8 +637,14 @@ def self_test() -> list[str]:
     # A status flip on disk must make the decision block stale.
     flipped = json.loads(json.dumps(entries))
     target = next(entry for entry in flipped if entry["decision_id"] == "DECISION-A1-C1-CEILING")
-    target["status"] = "ADOPTED"
-    target["status_quote"] = "ADOPTED"
+    # Invert whichever way the record currently reads, so the probe tests the property rather than
+    # today's status: a flip in either direction must make the committed block stale.
+    if "FOR OWNER ADOPTION" in (target.get("status_quote") or ""):
+        target["status"] = "ADOPTED"
+        target["status_quote"] = "ADOPTED BY OWNER 2026-11-15 — PROBE"
+    else:
+        target["status"] = "PENDING"
+        target["status_quote"] = "PENDING — FOR OWNER ADOPTION; PROBE"
     if not any("decision block is stale" in problem
                for problem in block_problems(text, flipped, branches)):
         found.append("an adopted decision left its AWAITING SIGNATURE row in place")

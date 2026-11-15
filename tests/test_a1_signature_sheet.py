@@ -42,8 +42,11 @@ def pending() -> set[str]:
             if file_status(path.stem) == "PENDING"}
 
 
-def test_the_sheet_lists_exactly_the_pending_records() -> None:
-    assert {record_of(block) for block in blocks()} == pending()
+def test_the_sheet_lists_every_pending_record() -> None:
+    listed = {record_of(block) for block in blocks()}
+    assert pending() <= listed, pending() - listed
+    assert listed == {"DECISION-A1-C1-CEILING", "DECISION-A1-C8-SELECTION",
+                      "DECISION-A1-COMPETENT-ESTIMAND"}
 
 
 def test_each_block_states_the_record_s_real_status() -> None:
@@ -51,17 +54,22 @@ def test_each_block_states_the_record_s_real_status() -> None:
         assert sheet_status(block) == file_status(record_of(block)), record_of(block)
 
 
-def test_each_block_can_be_signed_or_withdrawn() -> None:
+def test_each_block_says_what_a_signature_would_do() -> None:
+    """A pending record carries its sign/withdraw lines; a signed one records the status it wrote."""
     for block in blocks():
-        assert "**Sign:**" in block
-        assert "**Withdraw:**" in block
+        stem = record_of(block)
+        if file_status(stem) == "PENDING":
+            assert "**Sign:**" in block and "**Withdraw:**" in block, stem
+        else:
+            assert "**Signed 2026-11-15.**" in block, stem
 
 
-def test_a_signed_record_makes_the_sheet_stale(tmp_path: Path) -> None:
-    """Simulate adoption: the sheet's PENDING must stop matching the record's ADOPTED."""
-    stem = record_of(blocks()[0])
-    assert file_status(stem) == "PENDING"
-    assert sheet_status(blocks()[0]) != "ADOPTED"
+def test_the_signed_blocks_name_the_status_line_they_wrote() -> None:
+    """A reader must be able to check the sheet's claim against the record without opening two files."""
+    for block in blocks():
+        stem = record_of(block)
+        if file_status(stem) == "ADOPTED":
+            assert "ADOPTED BY OWNER 2026-11-15" in block, stem
 
 
 def test_the_manual_says_what_is_waiting_on_the_owner() -> None:

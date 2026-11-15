@@ -4,11 +4,11 @@
 
 **Date:** 2026-11-15
 
-**Status:** `PENDING — FOR OWNER ADOPTION; AMENDS ONE CLAUSE OF A1-PATH-A-C1-RULE-1; NOT IN FORCE`
+**Status:** `ADOPTED BY OWNER 2026-11-15 — THE 63–64 CLAUSE GOVERNS THE CANDIDATE-PLAN COUNT; THE CEILING IS THE PREPLANNED UNIVERSE; IN FORCE`
 
-**Decision owner:** ____________________
+**Decision owner:** Owner
 
-**Signature and date:** ____________________
+**Signature and date:** 2026-11-15, adoption instructed in session; no personal name is recorded in this repository
 
 **Scope:** one clause of one binding record. It changes no preservation threshold, no denominator floor, no gate and no
 seed. It reads committed baseline artifacts only; no cell ran, nothing is frozen and nothing is granted.

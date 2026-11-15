@@ -14,9 +14,9 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 
 | status | count | meaning |
 | --- | --- | --- |
-| ADOPTED | 19 | in force; the document records it as implemented or effective |
+| ADOPTED | 21 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
-| PENDING | 8 | decided and not in force; the document says so |
+| PENDING | 6 | decided and not in force; the document says so |
 | **total** | **28** | |
 
 ## The decisions
@@ -581,7 +581,7 @@ uncomputable, and the cause that fired first is the one worth reporting.
 
 ### DECISION-A1-C1-CEILING — Decision: the C1 ceiling is the preplanned universe, not the number 64
 
-**Status.** PENDING — *"PENDING — FOR OWNER ADOPTION; AMENDS ONE CLAUSE OF A1-PATH-A-C1-RULE-1; NOT IN FORCE"*
+**Status.** ADOPTED — *"ADOPTED BY OWNER 2026-11-15 — THE 63–64 CLAUSE GOVERNS THE CANDIDATE-PLAN COUNT; THE CEILING IS THE PREPLANNED UNIVERSE; IN FORCE"*
 
 **Decided.**
 
@@ -604,7 +604,7 @@ uncomputable, and the cause that fired first is the one worth reporting.
 
 ### DECISION-A1-C8-SELECTION — Decision: the selection procedure for C8 is binding, not drafted
 
-**Status.** PENDING — *"PENDING — FOR OWNER ADOPTION; PUTS THE SELECTION PROCEDURE IN FORCE; NOT IN FORCE, NOTHING FROZEN, NOTHING RUN"*
+**Status.** ADOPTED — *"ADOPTED BY OWNER 2026-11-15 — THE SELECTION PROCEDURE IS BINDING; S1–S7 IN FORCE; NOTHING FROZEN, NOTHING RUN"*
 
 **Decided.**
 

@@ -4,6 +4,11 @@
 
 **Status:** `DRAFT — FOR OWNER DECISION; NOT IN FORCE; NO CELL RUN`
 
+> **The rule is in force; this document is not.** The competence contract is binding through
+> [`DECISION-A1-C8-NMIN`](DECISION-A1-C8-NMIN.md) and the selection procedure through
+> [`DECISION-A1-C8-SELECTION`](DECISION-A1-C8-SELECTION.md), adopted 2026-11-15 (S1–S7). This draft remains the
+> clause-by-clause wording those records adopted, and is not itself the binding text.
+
 **Scope:** target selection and adjudication for C8, and for the C2 cells that ride on the same rows. This document freezes no manifest, assigns no seed, changes no threshold, authorises no cell and measures no treatment effect. Nothing in it is in force until the owner chooses the options in the last section.
 
 ## Why this document exists

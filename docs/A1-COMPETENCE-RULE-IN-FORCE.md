@@ -29,19 +29,10 @@ records no result.
 
 ## What does not bind yet
 
-- **The selection procedure.** Select only from the competent pool, record the pool before the freeze, add no fallback
-  row, disclose the unfiltered selection — those clauses are drafted in
-  [`A1-C2-C8-COMPETENCE-RULE`](A1-C2-C8-COMPETENCE-RULE.md), and that document carries `DRAFT — FOR OWNER DECISION; NOT IN
-  FORCE`. **No adopted record states them.** They are now put forward for adoption in
-  [`DECISION-A1-C8-SELECTION`](DECISION-A1-C8-SELECTION.md), which is pending; until it is signed the implemented selector
-  follows a draft, and nothing in force requires it to.
-- **The freeze.** Neither target-freeze act is signed, so no block is frozen and no pool is committed.
-- **The C1 ceiling clause.** [`DECISION-A1-C1-CEILING`](DECISION-A1-C1-CEILING.md) is drafted, not adopted; on the board
-  its row reads `AWAITING THE CEILING DECISION`.
-- **The C4 posture restatement.** Its first clause stays open until
-  [`DECISION-A1-COMPETENT-ESTIMAND`](DECISION-A1-COMPETENT-ESTIMAND.md) is adopted, because the multiplicity follows from
-  the row counts that decision fixes.
-- **Any run.** No cell has been run, and none is authorised by this page.
+- **Nothing, as of 2026-11-15.** The selection procedure was the last item here; it binds now through the record
+  adopted that day. The clause-by-clause wording in
+  [`A1-C2-C8-COMPETENCE-RULE`](A1-C2-C8-COMPETENCE-RULE.md) is still stamped `DRAFT` and is not itself binding — it
+  is the wording the adopted records took up, and a reader who needs the rule should cite those records.
 
 ## Where the constants live, and why not here
 

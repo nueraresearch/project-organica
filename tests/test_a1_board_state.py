@@ -72,8 +72,8 @@ def test_row_states_are_a_function_of_the_index() -> None:
         row = next(line for line in body.splitlines() if "[`%s`]" % entry["decision_id"] in line)
         assert "| %s |" % a1_board._state(entry) in row, entry["decision_id"]
     awaiting = [row["id"] for row in a1_board.rows() if row["state"] == "**AWAITING SIGNATURE**"]
-    assert awaiting == ["DECISION-A1-C1-CEILING", "DECISION-A1-C8-SELECTION",
-                        "DECISION-A1-COMPETENT-ESTIMAND"]
+    # C1-CEILING and C8-SELECTION were adopted 2026-11-15; the estimand is the one decision left.
+    assert awaiting == ["DECISION-A1-COMPETENT-ESTIMAND"]
 
 
 def test_a_decision_status_change_makes_both_blocks_stale() -> None:
@@ -175,7 +175,9 @@ def test_the_ceiling_clause_is_armed_and_cannot_close_without_the_rule() -> None
     than inherit the decision's status — which is what a purely status-derived row would do.
     """
     branch = next(item for item in _branches() if item["id"] == "c1-ceiling-universe")
-    assert a1_board.branch_state(branch, _entries()) == "**AWAITING THE CEILING DECISION**"
+    # The decision was adopted 2026-11-15; the branch stays open because the clause it amends has not
+    # been restated in the N20 act yet. Adoption alone must not turn the row green.
+    assert a1_board.branch_state(branch, _entries()) == "**OPEN — RESTATEMENT MISSING**"
 
     adopted = json.loads(json.dumps(_entries()))
     entry = next(item for item in adopted if item["decision_id"] == "DECISION-A1-C1-CEILING")

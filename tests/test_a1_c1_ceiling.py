@@ -73,7 +73,8 @@ def test_the_decision_quotes_are_the_index_quotes() -> None:
     entry = next(d for d in index["decisions"]
                  if d["decision_id"] == "DECISION-A1-C1-CEILING")
     doc = _flat(_doc())
-    assert entry["status"] == "PENDING"
+    # Adopted 2026-11-15; the quote moves with the status line and must still be verbatim.
+    assert entry["status"] == "ADOPTED"
     assert _flat(entry["status_quote"]) in doc
     for phrase in entry["chosen"]:
         assert _flat(phrase) in doc, phrase

@@ -119,6 +119,28 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: D1 and D2 are signed; one decision is left
+
+`DECISION-A1-C1-CEILING` and `DECISION-A1-C8-SELECTION` were adopted by owner signature on 2026-11-15.
+
+**D1** settles the unit conflict between two adopted records. The `>64` ceiling now governs the 63–64 **candidate-plan**
+count it was written against, and the band's top is carried by a comparison — the scored denominator must equal the
+preplanned universe — instead of a number lifted from a superseded quantity. Measured on the adopted block the minima are
+79 / 64 / 79 / 74 / 72 / 74, so this is the difference between five seeds reading `VOID — design inconsistency` on
+arrival and the band being closed at both ends.
+
+**D2** makes the selection procedure binding: S1–S7, the clauses the implemented selector already follows and that until
+today lived only in a document stamped `DRAFT — NOT IN FORCE`. Nothing measurable moved, which is the point — a run no
+longer follows a rule that nothing requires.
+
+Both records carry the adoption in their status lines, the index quotes those lines verbatim, and the board closed both
+rows (13 branches, 9 closed; one record awaiting signature, down from three). The reading page's *What does not bind yet*
+section now reads **nothing**, because the selection procedure was its last entry.
+
+`DECISION-A1-COMPETENT-ESTIMAND` is the one decision still pending, and it is the one that matters most: it changes the
+population the experiment would estimate. The N=20 act follows it, not before, because adopting it requires the act's
+block re-issued on the competent selection.
+
 ## Addendum — 2026-11-15: the manual's action list opens with what is waiting on the owner
 
 The owner said the agent had been going in circles for a while and had not been clear about what needed their attention.

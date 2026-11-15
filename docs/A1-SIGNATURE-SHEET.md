@@ -2,7 +2,7 @@
 
 **ID:** `A1-SIGNATURE-SHEET-1`
 **Date:** 2026-11-15
-**Status:** `PENDING — THREE RECORDS AWAITING THE OWNER; NOTHING IN FORCE, NOTHING FROZEN, GRANTED OR RUN`
+**Status:** `TWO ADOPTED 2026-11-15 (D1, D2); ONE PENDING (D3); NOTHING FROZEN, GRANTED OR RUN`
 
 This sheet is an index, not a binding record. The binding text is each decision file; signing means filling its
 **Decision owner** and **Signature and date** lines and replacing its `Status:` line. Withdrawing means writing
@@ -19,7 +19,7 @@ sheet exists so all three can be dealt with in one pass instead of three.
 
 ## D1 — The C1 ceiling is the preplanned universe, not the number 64
 
-**Record:** `DECISION-A1-C1-CEILING` · **Status:** `PENDING`
+**Record:** `DECISION-A1-C1-CEILING` · **Status:** `ADOPTED BY OWNER 2026-11-15`
 
 **What you commit to.** The `>64` clause in `A1-PATH-A-C1-RULE-1` is narrowed to the quantity its own table names — the
 63–64 **candidate-plan count** — and stops governing the recorded cell row. The top of the band is then carried by a
@@ -42,13 +42,14 @@ block can live.
 targets included, so 79 / 64 / 79 / 74 / 72 / 74 is a property of the 112-row universe and the competent selection
 reproduces it exactly.
 
-**Sign:** `DECISION-A1-C1-CEILING — ADOPTED`, owner, date. **Withdraw:** `WITHDRAWN`, owner, date, reason.
+**Signed 2026-11-15.** Status line: `ADOPTED BY OWNER 2026-11-15 — THE 63–64 CLAUSE GOVERNS THE CANDIDATE-PLAN
+COUNT; THE CEILING IS THE PREPLANNED UNIVERSE; IN FORCE`.
 
 ---
 
 ## D2 — The selection procedure is binding, not drafted
 
-**Record:** `DECISION-A1-C8-SELECTION` · **Status:** `PENDING`
+**Record:** `DECISION-A1-C8-SELECTION` · **Status:** `ADOPTED BY OWNER 2026-11-15`
 
 **What you commit to.** Seven clauses on **how** C8's rows are chosen: the pool is the competent pool (S1); pool, block
 and constructor identity are recorded in the act before any cell (S2); no fallback row to reach a size (S3); no
@@ -68,7 +69,8 @@ The threshold, floor, cap and seeds are not restated — they stay in `DECISION-
 create a second place where the rule is written — the drift failure this corpus has already paid for twice. The
 procedure stays changeable by any commit that nobody reviews as a decision.
 
-**Sign:** `DECISION-A1-C8-SELECTION — ADOPTED`, owner, date. **Withdraw:** `WITHDRAWN`, owner, date, reason.
+**Signed 2026-11-15.** Status line: `ADOPTED BY OWNER 2026-11-15 — THE SELECTION PROCEDURE IS BINDING; S1–S7 IN
+FORCE; NOTHING FROZEN, NOTHING RUN`.
 
 ---
 

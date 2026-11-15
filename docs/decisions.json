@@ -131,7 +131,7 @@
         },
         {
           "alternative": "Drop Q028 from the licence (option C)",
-          "reason": "removes a claim that cannot be resolved — premature while B is untested and cheap"
+          "reason": "removes a claim that cannot be resolved \u2014 premature while B is untested and cheap"
         }
       ],
       "evidence": [
@@ -149,7 +149,7 @@
       "chosen": [
         "The gate precedes every scientific bucket.",
         "A void run is not an unrun experiment",
-        "one run, one certificate, one verdict — or none."
+        "one run, one certificate, one verdict \u2014 or none."
       ],
       "rejected": [
         {
@@ -316,11 +316,11 @@
       ],
       "rejected": [
         {
-          "alternative": "B — raise the cap to 80.",
+          "alternative": "B \u2014 raise the cap to 80.",
           "reason": "The midpoint is descriptive, not judged: its mean gain is 3.50 asserted edges and no interval was registered for it, so choosing 80 would trade the one pre-registered comparison for a smaller step with no passed criterion."
         },
         {
-          "alternative": "A — keep the cap at 40.",
+          "alternative": "A \u2014 keep the cap at 40.",
           "reason": "Keeping 40 would record the CAP LIMITING reading and then discard the only pre-registered comparison that cleared its bar, closing the budget route at this cap and world family."
         }
       ],
@@ -340,17 +340,17 @@
       "status": "PENDING",
       "status_quote": "Decided, not in force: the cap is still 40, no cap-112 runner exists, and the three cap-112 records are frozen and unrun. Nothing on disk in the engine changes. **Superseded later on 2026-11-11:** the level landed in 0.15.0 and the three runners are runnable; the decision and its acceptance condition are unchanged, and the amendment below records the build state.",
       "chosen": [
-        "Name the step: the loss is constructed but not admitted — 179 of 671 candidate world edges, 16–41 per seed, never entered a served window.",
+        "Name the step: the loss is constructed but not admitted \u2014 179 of 671 candidate world edges, 16\u201341 per seed, never entered a served window.",
         "Do not change the engine on this record: a stage measurement authorises no cap, allocation, ranking or threshold edit.",
         "Test the step with an allocation arm, not another description: the registered cap-112 records raise the guaranteed transition budget from 20 to 56; at 112 the band arm observed 64-69 transitions because unused cooccurrence slots were backfilled, and the arm is the designated counterfactual.",
-        "Accept the allocation explanation only if the 21–40 transitions are served at 112 and the block's own gates pass; if they are not, the explanation is refuted and the next step is the admission rule.",
+        "Accept the allocation explanation only if the 21\u201340 transitions are served at 112 and the block's own gates pass; if they are not, the explanation is refuted and the next step is the admission rule.",
         "No capability, retention or transfer claim follows from this record; it locates a loss, it does not measure an ability.",
         "Record BAND-5 as a fresh-world confirmation of the allocation-law mechanism, not as a re-score of BAND-1 and not as acceptance of the named-Q4-edge condition."
       ],
       "rejected": [
         {
-          "alternative": "Treat the 62 rank-21–40 misses as a ranking defect and change the ranking.",
-          "reason": "The 62 rank-21–40 misses are outside the 20-slot transition allocation, so changing the ranking would answer a defect the record did not find."
+          "alternative": "Treat the 62 rank-21\u201340 misses as a ranking defect and change the ranking.",
+          "reason": "The 62 rank-21\u201340 misses are outside the 20-slot transition allocation, so changing the ranking would answer a defect the record did not find."
         },
         {
           "alternative": "Close the conversion route as assertion losing nothing.",
@@ -423,9 +423,9 @@
       "decision_id": "DECISION-PROGRESSION-BEYOND-G8",
       "date": "2026-11-14",
       "status": "ADOPTED",
-      "status_quote": "PLANNING DECISION — GENERATION 9 REMAINS LOCKED",
+      "status_quote": "PLANNING DECISION \u2014 GENERATION 9 REMAINS LOCKED",
       "chosen": [
-        "Generation 9 — self-modeling — remains locked.",
+        "Generation 9 \u2014 self-modeling \u2014 remains locked.",
         "One A3 design and one registered run.",
         "No G9 design is written before X1 passes."
       ],
@@ -444,7 +444,7 @@
       "decision_id": "DECISION-A1-DISPOSITION",
       "date": "2026-11-14",
       "status": "ADOPTED",
-      "status_quote": "ADOPTED — COMMITTED TO TARGET RESOLUTION; NO RUN AUTHORISED",
+      "status_quote": "ADOPTED \u2014 COMMITTED TO TARGET RESOLUTION; NO RUN AUTHORISED",
       "chosen": [
         "A1 is **committed to target resolution**.",
         "This is a commitment to the preparation path, not to a run.",
@@ -477,14 +477,14 @@
       "decision_id": "DECISION-0X-ENGINEERING-CHARTER",
       "date": "2026-11-14",
       "status": "ADOPTED",
-      "status_quote": "ADOPTED — IN FORCE",
+      "status_quote": "ADOPTED \u2014 IN FORCE",
       "chosen": [
         "The 0.x engineering charter is adopted as the dated engineering boundary for the 0.x line.",
         "This adoption is a planning and engineering decision, not a scientific result."
       ],
       "rejected": [
         {
-          "alternative": "Adopt a fixed 0.16–0.20 version schedule.",
+          "alternative": "Adopt a fixed 0.16\u20130.20 version schedule.",
           "reason": "version numbers should describe actual changes, not anticipated milestones"
         },
         {
@@ -507,16 +507,16 @@
       "decision_id": "DECISION-A1-C1-DENOMINATOR",
       "date": "2026-11-15",
       "status": "ADOPTED",
-      "status_quote": "ADOPTED — THE PROTOCOL DENOMINATOR IS AUTHORITATIVE; NO RUN AUTHORISED",
+      "status_quote": "ADOPTED \u2014 THE PROTOCOL DENOMINATOR IS AUTHORITATIVE; NO RUN AUTHORISED",
       "chosen": [
         "The protocol's C1 denominator is authoritative: C1 counts the observed paired-control rows across the cell stream, including baseline-available non-target edges.",
-        "The 63–64 candidate-count figure is a planning quantity, not C1's denominator.",
+        "The 63\u201364 candidate-count figure is a planning quantity, not C1's denominator.",
         "The operative row is the recorded cell row, which is what `c1_rows` counts and `score_c1` scores.",
         "No cell is authorised by this decision."
       ],
       "rejected": [
         {
-          "alternative": "Treat 63–64 as the C1 denominator.",
+          "alternative": "Treat 63\u201364 as the C1 denominator.",
           "reason": "the protocol defines the denominator and `c1_rows` implements it; the candidate count is a planning quantity that the downstream reading mistook for the definition."
         },
         {
@@ -543,7 +543,7 @@
       "decision_id": "DECISION-A1-C8-NMIN",
       "date": "2026-11-15",
       "status": "ADOPTED",
-      "status_quote": "ADOPTED BY OWNER 2026-11-15 — AT-LEAST-N_min REPLACES EXACT-N; N_min = 17 CERTIFIED; NOT FROZEN, NOT RUN",
+      "status_quote": "ADOPTED BY OWNER 2026-11-15 \u2014 AT-LEAST-N_min REPLACES EXACT-N; N_min = 17 CERTIFIED; NOT FROZEN, NOT RUN",
       "chosen": [
         "C8 is adjudicated on any block containing at least N_min competent directed target rows; exact-N construction is preferred but not required.",
         "N_min is 17, certified as the largest block the binding adopted seed can reach.",
@@ -577,7 +577,7 @@
       "decision_id": "DECISION-A1-C1-UNIT",
       "date": "2026-11-15",
       "status": "ADOPTED",
-      "status_quote": "ADOPTED BY OWNER 2026-11-15 — DIRECTED EDGE IS THE UNIT; RELATION IS A DECLARED SENSITIVITY; NOT FROZEN, NOT RUN",
+      "status_quote": "ADOPTED BY OWNER 2026-11-15 \u2014 DIRECTED EDGE IS THE UNIT; RELATION IS A DECLARED SENSITIVITY; NOT FROZEN, NOT RUN",
       "chosen": [
         "C1's unit of evidence is the directed edge. The undirected relation is a dependence class, not a competing denominator.",
         "The estimate is directed.",
@@ -601,7 +601,7 @@
         },
         {
           "alternative": "Adopt the directed unit and drop the relation reading.",
-          "reason": "the orientations differ on 15–28 of 64 relations; without the relation-level proportion a reader cannot see how much of the directed result is two views of one coupling."
+          "reason": "the orientations differ on 15\u201328 of 64 relations; without the relation-level proportion a reader cannot see how much of the directed result is two views of one coupling."
         }
       ],
       "evidence": [
@@ -616,7 +616,7 @@
       "decision_id": "DECISION-A1-PATH-A-C1-RULE",
       "date": "2026-11-14",
       "status": "ADOPTED",
-      "status_quote": "RECORDED — BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN",
+      "status_quote": "RECORDED \u2014 BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN",
       "chosen": [
         "Path A is the A1 estimand",
         "It does not freeze the targets, reserve seeds or authorise the run.",
@@ -635,7 +635,7 @@
       "decision_id": "DECISION-A1-PATH-A-C1-C4",
       "date": "2026-11-14",
       "status": "PENDING",
-      "status_quote": "DRAFT — C1/C4 GATE ADOPTED ELSEWHERE; PATH A CONFIRMATION AND PROVISIONAL FREEZE NOT ADOPTED",
+      "status_quote": "DRAFT \u2014 C1/C4 GATE ADOPTED ELSEWHERE; PATH A CONFIRMATION AND PROVISIONAL FREEZE NOT ADOPTED",
       "chosen": [
         "The five proposals above were each taken in a separate adopting record: the C1/C4 gate order and the VOID disposition in [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md), and the Path A estimand and C1 acceptance rule in [`A1-PATH-A-C1-RULE-1`](DECISION-A1-PATH-A-C1-RULE.md)."
       ],
@@ -650,7 +650,7 @@
       "decision_id": "DECISION-A1-C4-POSTURE",
       "date": "2026-11-15",
       "status": "ADOPTED",
-      "status_quote": "ADOPTED — BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN",
+      "status_quote": "ADOPTED \u2014 BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN",
       "chosen": [
         "The multiplicity is declared, not corrected.",
         "A failure names what fired.",
@@ -675,7 +675,7 @@
       "decision_id": "DECISION-A1-DISPOSITION-2",
       "date": "2026-11-15",
       "status": "ADOPTED",
-      "status_quote": "ADOPTED — PATH A CONTINUES; NO FREEZE, NO GRANT, NO RUN",
+      "status_quote": "ADOPTED \u2014 PATH A CONTINUES; NO FREEZE, NO GRANT, NO RUN",
       "chosen": [
         "Path A continues.",
         "Continuing is conditional."
@@ -701,7 +701,7 @@
       "decision_id": "DECISION-A1-C1-UNMEASURABLE",
       "date": "2026-11-15",
       "status": "ADOPTED",
-      "status_quote": "ADOPTED — BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN",
+      "status_quote": "ADOPTED \u2014 BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN",
       "chosen": [
         "C1 gains `C1_UNMEASURABLE`. `C1_THRESHOLD` is not widened; it keeps exactly one meaning.",
         "Structural causes outrank unmeasurability because a missing or below-floor denominator also makes the rate\nuncomputable, and the cause that fired first is the one worth reporting."
@@ -722,11 +722,11 @@
       "decision_id": "DECISION-A1-COMPETENT-ESTIMAND",
       "date": "2026-11-15",
       "status": "PENDING",
-      "status_quote": "PENDING — FOR OWNER ADOPTION; NOT IN FORCE; NO FREEZE, NO GRANT, NO RUN",
+      "status_quote": "PENDING \u2014 FOR OWNER ADOPTION; NOT IN FORCE; NO FREEZE, NO GRANT, NO RUN",
       "chosen": [
         "An edge is an admissible target only when the no-arm A+K+ replay records both an `A` carrier and a `K` path for it.",
         "Path A estimates *the pre-37 cycle-membership directed-edge effect, conditional on both paths being present in the no-arm baseline.*",
-        "The veto is therefore **the maximum over 276–285 deltas per seed, 1,671 across the block**."
+        "The veto is therefore **the maximum over 276\u2013285 deltas per seed, 1,671 across the block**."
       ],
       "rejected": [
         {
@@ -739,7 +739,7 @@
         },
         {
           "alternative": "Raise the endpoint cap to 4 so twenty rows exist everywhere",
-          "reason": "It works — at cap 4 all six seeds take twenty — but it changes the registered selection rule, and it concentrates more target edges on fewer tags."
+          "reason": "It works \u2014 at cap 4 all six seeds take twenty \u2014 but it changes the registered selection rule, and it concentrates more target edges on fewer tags."
         },
         {
           "alternative": "Score only the competent rows of the current selection, post hoc",
@@ -758,11 +758,11 @@
     {
       "decision_id": "DECISION-A1-C1-CEILING",
       "date": "2026-11-15",
-      "status": "PENDING",
-      "status_quote": "PENDING — FOR OWNER ADOPTION; AMENDS ONE CLAUSE OF A1-PATH-A-C1-RULE-1; NOT IN FORCE",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED BY OWNER 2026-11-15 \u2014 THE 63\u201364 CLAUSE GOVERNS THE CANDIDATE-PLAN COUNT; THE CEILING IS THE PREPLANNED UNIVERSE; IN FORCE",
       "chosen": [
-        "The `>64` clause is narrowed to the quantity it names — the 63–64 candidate-plan count — and does not govern the operative cell-row denominator that `DECISION-A1-C1-DENOMINATOR-1` adopted.",
-        "The ceiling's function is carried by a comparison rather than a constant: the scored denominator must equal the preplanned universe recorded in the freeze act, and any denominator larger than that universe is `VOID — design inconsistency`.",
+        "The `>64` clause is narrowed to the quantity it names \u2014 the 63\u201364 candidate-plan count \u2014 and does not govern the operative cell-row denominator that `DECISION-A1-C1-DENOMINATOR-1` adopted.",
+        "The ceiling's function is carried by a comparison rather than a constant: the scored denominator must equal the preplanned universe recorded in the freeze act, and any denominator larger than that universe is `VOID \u2014 design inconsistency`.",
         "The preplanned universe is restated from the pre-treatment baseline artifact before either act is signed, and the restated value is written into the act it freezes."
       ],
       "rejected": [
@@ -795,8 +795,8 @@
     {
       "decision_id": "DECISION-A1-C8-SELECTION",
       "date": "2026-11-15",
-      "status": "PENDING",
-      "status_quote": "PENDING — FOR OWNER ADOPTION; PUTS THE SELECTION PROCEDURE IN FORCE; NOT IN FORCE, NOTHING FROZEN, NOTHING RUN",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED BY OWNER 2026-11-15 \u2014 THE SELECTION PROCEDURE IS BINDING; S1\u2013S7 IN FORCE; NOTHING FROZEN, NOTHING RUN",
       "chosen": [
         "Every C8 row is drawn from the competent pool.",
         "The pool and the selected block are written into the freeze act, together with the identity of the constructor that produced the block, before any cell runs.",

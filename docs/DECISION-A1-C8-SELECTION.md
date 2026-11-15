@@ -4,11 +4,11 @@
 
 **Date:** 2026-11-15
 
-**Status:** `PENDING — FOR OWNER ADOPTION; PUTS THE SELECTION PROCEDURE IN FORCE; NOT IN FORCE, NOTHING FROZEN, NOTHING RUN`
+**Status:** `ADOPTED BY OWNER 2026-11-15 — THE SELECTION PROCEDURE IS BINDING; S1–S7 IN FORCE; NOTHING FROZEN, NOTHING RUN`
 
-**Decision owner:** ____________________
+**Decision owner:** Owner
 
-**Signature and date:** ____________________
+**Signature and date:** 2026-11-15, adoption instructed in session; no personal name is recorded in this repository
 
 **Scope:** the procedure by which C8's rows are chosen, and what happens when it is violated. It changes no threshold,
 no denominator, no floor, no gate, no engine file and no seed; it freezes no manifest and authorises no cell. The floor,
@@ -106,5 +106,6 @@ python -m benchmarks.decision_graph --check    # the index, the counts and DISCO
 python -m pytest tests/test_a1_freeze_fields.py -q   # S2's fields, held to one list across both acts
 ```
 
-Nothing else follows from it until it is signed. On adoption its status line changes, the board row closes, and the
-reading page's gap section loses this entry — which is what the reading page's test checks.
+**Adopted 2026-11-15.** Its status line changed, the board row closed and the reading page's gap section lost this
+entry, which is what the reading page's test checks. Nothing else follows: no threshold, floor, cap, seed or cell
+moved, and no manifest is frozen.
