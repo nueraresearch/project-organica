@@ -16,6 +16,14 @@ seeds `20630101–20630106`. The freeze acts moved to `20740101–20740106` afte
 finding was never re-derived for the new targets. This record does that from committed data, so the acts are not held on
 a number belonging to a different block.
 
+## Relationship to the competence record
+
+The headline competence counts already exist in [`A1-COMPETENCE-ADOPTED`](A1-COMPETENCE-ADOPTED.md)
+(`A1-COMPETENCE-ADOPTED-1`, generated) — 12 of 24 and 58 of 120 competent, competent pool 27–40, 0/6 clean blocks.
+This record does not restate them as its own: it adds the **per-path split** (how many targets lack `A` versus `K`,
+which is why the union exceeds either marginal) and the **construction frontier** below, which neither record
+computed.
+
 ## What C2 needs from a target row
 
 `a1_arms.gate_c2` requires, per non-target and target row: in `A-K+`, `A` blocked **and** `K` present; in `A+K-`, `A`
@@ -54,6 +62,31 @@ it survives the re-derivation on its own data.
 A freeze of either act would freeze target sets that C2 cannot score on any of the six seeds. That is a target-competence
 blocker, and it is independent of the C1 denominator: the adopted block's cell-stream C1 minimum is **64** against the
 floor of **60**, so C1 is met on its operative row while C2 is not.
+
+## Construction frontier at C8's adopted floor
+
+Competence is necessary but not sufficient: the block also has to be *constructible* under the endpoint cap of 3
+that `A1-C8-EXPANSION-1` and the N20 rule share. Reading the competent pool from the same artifacts and searching
+exactly for a `k`-row subset with every tag's degree ≤ 3:
+
+| Seed | Competent pool | `k = 20` | `k = 18` | `k = 17` |
+| ---: | ---: | --- | --- | --- |
+| `20740101` | 38 | witness | witness | witness |
+| `20740102` | 27 | **impossible** (exhaustive) | **impossible** (exhaustive) | witness |
+| `20740103` | 37 | witness | witness | witness |
+| `20740104` | 40 | witness | witness | witness |
+| `20740105` | 32 | undecided (node budget) | witness | witness |
+| `20740106` | 31 | witness | witness | witness |
+
+**A competent block of 17 exists on all six seeds. At 18 it already fails on `20740102`.** C8's adopted floor is
+`N_min = 17`, decided on 2026-11-15 for tolerance reasons that had nothing to do with construction; the two
+decisions meet exactly at that number. That is the one piece of good news in this record: the competence blocker is
+a **selection** problem, and the adopted floor is the level at which it is solvable on every seed.
+
+What it costs is stated in [`A1-COMPETENCE-FILTER-DRAFT`](A1-COMPETENCE-FILTER-DRAFT.md) and is not a repair: a
+screen on baseline `A` and `K` changes the target population from *representative eligible edges* to
+*baseline-competent edges*. That is a new estimand, and it needs the owner's adoption before any act is re-issued
+against it.
 
 ## Limits
 

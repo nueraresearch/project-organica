@@ -96,3 +96,66 @@ def test_the_viability_checker_can_fail() -> None:
     except AssertionError:
         return
     raise AssertionError("a drifted count passed the viability check")
+
+
+def _competent_pool(seed: int) -> list[str]:
+    """The protocol's eligible universe screened to both baseline paths."""
+    import importlib
+
+    module = importlib.import_module("benchmarks.a1_competence_filter_draft")
+    availability = module._load(module.AVAILABILITY_PATH)
+    universe = module._load(module.N4_PATH)
+    flags = {row["edge"]: (bool(row["A"]), bool(row["K"]))
+             for record in availability["per_seed"] if int(record["seed"]) == seed
+             for row in record["rows"]}
+    block = (universe.get("per_seed") or {})[str(seed)]
+    u, members = block["u"], block["cycle_member"]
+    return [edge for edge in sorted(u)
+            if int((u.get(edge) or {}).get("strength") or 0) > 0
+            and members.get(edge) is True
+            and flags.get(edge, (False, False))[0]
+            and flags.get(edge, (False, False))[1]]
+
+
+def _feasible(pool: list[str], need: int, cap: int = 3, budget: int = 4_000_000) -> bool:
+    """Exactly: is there a ``need``-subset with every tag's degree at most ``cap``?"""
+    total = len(pool)
+    nodes = 0
+
+    def choose(start: int, degree: dict[str, int], taken: int) -> bool:
+        nonlocal nodes
+        nodes += 1
+        if nodes > budget:
+            raise TimeoutError("node budget exhausted")
+        if taken == need:
+            return True
+        if total - start < need - taken:
+            return False
+        for index in range(start, total):
+            left, right = pool[index].split(">")
+            if degree.get(left, 0) >= cap or degree.get(right, 0) >= cap:
+                continue
+            degree[left] = degree.get(left, 0) + 1
+            degree[right] = degree.get(right, 0) + 1
+            if choose(index + 1, degree, taken + 1):
+                return True
+            degree[left] -= 1
+            degree[right] -= 1
+            if not degree[left]:
+                del degree[left]
+            if not degree[right]:
+                del degree[right]
+        return False
+
+    return choose(0, {}, 0)
+
+
+def test_a_competent_block_of_seventeen_exists_on_every_seed() -> None:
+    """C8's adopted floor is the frontier: 17 forms everywhere, 18 already fails on one seed."""
+    for seed in (20740101, 20740102, 20740103, 20740104, 20740105, 20740106):
+        pool = _competent_pool(seed)
+        assert _feasible(pool, 17), seed
+
+    narrow = _competent_pool(20740102)
+    assert not _feasible(narrow, 18), "18 was recorded as impossible on 20740102"
+    assert not _feasible(narrow, 20), "20 was recorded as impossible on 20740102"

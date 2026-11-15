@@ -53,7 +53,21 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
-## Addendum — 2026-11-15: the freeze blocker is target competence, not the C1 denominator
+## Addendum — 2026-11-15: the competence blocker is solvable at exactly 17 rows
+
+The competence finding looked like a dead end and is not one. Searching the competent pool exactly, under the
+endpoint cap of 3 that the N20 rule already uses, a block of **17** rows exists on **all six seeds**; at **18** it
+already fails on `20740102`, and at 20 on that seed no subset exists at all (exhaustive). C8's adopted floor is
+`N_min = 17`, chosen on 2026-11-15 for a tolerance argument that had nothing to do with construction — the two
+independent decisions land on the same number.
+
+So the freeze is not blocked by the world's capacity: the competent pool is 27–40 rows per seed against 20 needed in
+count. It is blocked by the **selection rule**, which admits rows without asking whether either path is present.
+What a repair costs is not the run but the estimand: screening on baseline `A` and `K` turns *representative eligible
+edges* into *baseline-competent edges*, which `A1-COMPETENCE-FILTER-DRAFT` states plainly. That is the owner's call,
+and it is why both acts stay in draft.
+
+
 
 Resolving why the acts were held turned up an error in this changelog's own earlier entries. The C1 floor is **met** on
 the adopted block: its baseline (`A1-BASELINE-AVAILABILITY-ADOPTED-1`, 2026-11-15) observes cell-stream minima of
