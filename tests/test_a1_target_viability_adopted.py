@@ -159,3 +159,10 @@ def test_a_competent_block_of_seventeen_exists_on_every_seed() -> None:
     narrow = _competent_pool(20740102)
     assert not _feasible(narrow, 18), "18 was recorded as impossible on 20740102"
     assert not _feasible(narrow, 20), "20 was recorded as impossible on 20740102"
+
+
+def test_the_frontier_moves_with_the_endpoint_cap() -> None:
+    """17 is not corroborated twice: the cap decides whether it binds."""
+    narrow = _competent_pool(20740102)
+    assert not _feasible(narrow, 17, cap=2), "cap 2 was recorded as failing 17 on 20740102"
+    assert _feasible(narrow, 20, cap=4), "cap 4 was recorded as taking 20 on 20740102"

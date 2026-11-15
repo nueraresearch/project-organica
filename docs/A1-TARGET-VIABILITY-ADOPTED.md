@@ -78,6 +78,23 @@ exactly for a `k`-row subset with every tag's degree ≤ 3:
 | `20740105` | 32 | undecided (node budget) | witness | witness |
 | `20740106` | 31 | witness | witness | witness |
 
+## The frontier is a function of the cap, not a coincidence
+
+Repeating the search at other endpoint caps shows what the number 17 is and is not:
+
+| Cap | `k = 17` | `k = 18` | `k = 20` |
+| ---: | --- | --- | --- |
+| 2 | fails on `20740102`, `20740105`, `20740106` | fails on the same three | fails on the same three |
+| **3** | **forms on all six** | fails on `20740102` | fails on `20740102` |
+| 4 | forms on all six | forms on all six | forms on all six |
+
+With a cap of 4 every seed takes twenty rows; with a cap of 2 not even seventeen does. So **17 is not overdetermined
+by two independent arguments** — it is one point on a `(cap, k)` feasibility surface, and both the cap of 3 and the
+floor of 17 were chosen by the project. What the agreement does establish is narrower and still useful: **given the
+cap already in use, 17 is the largest block that forms on every seed, so C8's floor sits exactly at the ceiling.** A
+larger `N_min` would have been infeasible at the cap; a smaller one would have been feasible at a cap the design does
+not use. The number is tight, not corroborated twice.
+
 **A competent block of 17 exists on all six seeds. At 18 it already fails on `20740102`.** C8's adopted floor is
 `N_min = 17`, decided on 2026-11-15 for tolerance reasons that had nothing to do with construction; the two
 decisions meet exactly at that number. That is the one piece of good news in this record: the competence blocker is

@@ -53,6 +53,18 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
+## Addendum — 2026-11-15: the 17-row frontier is set by the endpoint cap, not by two agreeing arguments
+
+The convergence at 17 read as independent corroboration — tolerance arithmetic and feasibility certification landing
+on the same number. Sweeping the endpoint cap shows it is not: with a cap of 4, all six seeds take twenty rows; with a
+cap of 2, not even seventeen forms (three seeds fail). Both the cap of 3 and the floor of 17 were project choices, so
+17 is one point on a `(cap, k)` feasibility surface rather than a number two arguments derived.
+
+What survives is tighter and worth more than the coincidence: **at the cap in use, 17 is the largest block that forms
+on every seed**, so C8's floor sits exactly at that ceiling — larger would have been infeasible, smaller would have
+been feasible at a cap the design does not use. A floor that coincides with a constraint is a floor that cannot be
+raised without changing the selection rule.
+
 ## Addendum — 2026-11-15: the competence blocker is solvable at exactly 17 rows
 
 The competence finding looked like a dead end and is not one. Searching the competent pool exactly, under the
