@@ -2,7 +2,7 @@
   "kind": "a1_target_freeze_act_n20",
   "id": "A1-TARGET-FREEZE-N20-1",
   "date": "2026-11-15",
-  "status": "DRAFT \u2014 RE-ISSUED FOR THE ADOPTED BLOCK; C1 VIABILITY CONFIRMED BELOW FLOOR ON THIS STREAM (BLOCKING); AWAITING AN OWNER DECISION ON THE C1 DENOMINATOR; NOT FROZEN; NO GRANT, NO RUN",
+  "status": "DRAFT \u2014 RE-ISSUED FOR THE ADOPTED BLOCK; C1 DENOMINATOR RECONCILED TO THE PROTOCOL (FLOOR REACHABLE AT MIN 64, NOT SCORED); C4 EXPOSURE AND C2/C8 COMPETENCE OUTSTANDING; AWAITING OWNER CONFIRMATION; NOT FROZEN, NO GRANT, NO RUN",
   "signed": false,
   "owner_signature": null,
   "effective_date": null,
@@ -404,7 +404,7 @@
   "grant_after_signature": "NOT ISSUED",
   "run_after_signature": "NOT STARTED",
   "blocking_preconditions": [
-    "C1_viability_unverified"
+    "C1_denominator_confirmation"
   ],
   "preconditions": [
     {
@@ -612,7 +612,7 @@
     "applies_to_the_adopted_block": "MEASURED on 2026-11-15 \u2014 see measured_for_adopted_block; the adopted stream's own ceiling is below the floor",
     "what_signing_leaves_open": "whether the frozen stream can produce a 60-row C1 denominator at all. The only measurement in the repository says a sibling stream could not, and the disposition on that record is 'do not freeze'; this act does not repair that, re-measure it, or take a position on it",
     "is_a_signature_blocker": true,
-    "blocker_id": "C1_viability_unverified",
+    "blocker_id": "C1_denominator_confirmation",
     "note": "The C1 ceiling is a property of the candidate stream, not of the target block: target selection partitions rows and cannot create them. So the recorded flag does not transfer to the adopted block as a measurement, and it does not lapse either \u2014 it says the one stream this design has in common with the record (its construction) failed the floor. Signing freezes targets on a stream whose ceiling is unknown.",
     "measured_for_adopted_block": {
       "artifact": "docs/a1_baseline_availability_adopted.json",
@@ -703,7 +703,48 @@
       "stream_divergence": 290,
       "blocker_effect": "CONFIRMED, not inferred: the measurement that the acts were blocked for has now been made on the adopted block, and it fails the floor on the candidate stream"
     },
-    "blocker_state": "CONFIRMED \u2014 C1 CEILING BELOW FLOOR ON THE ADOPTED STREAM",
-    "cleared": false
+    "blocker_state": "RECONCILED \u2014 THE EARLIER BLOCKER USED THE PLANNING QUANTITY; C1 FLOOR REACHABLE UNDER THE PROTOCOL DENOMINATOR (MIN 64 vs 60); AWAITING OWNER CONFIRMATION",
+    "cleared": false,
+    "denominator_reconciliation": {
+      "defined_by": "docs/A1-TARGET-SELECTION-PROTOCOL.md",
+      "definition_quote": "`c1_rows` includes baseline-available non-target edges in the C1 denominator",
+      "definition": "the observed paired-control denominator: rows available in the paired A+K+ control, target and non-target edges alike",
+      "planning_quantity": "63-64 rows \u2014 a candidate-count upper bound, labelled in three committed documents as 'not an observed baseline-availability denominator' (docs/A1-POWER-REVIEW.md, docs/A1-C1-C4-VOID-GATE.md, docs/DECISION-A1-PATH-A-C1-RULE.md)",
+      "why_this_is_reconciliation_not_choice": "the protocol, the gate record and the decision rule all define the denominator before this measurement existed; the earlier blocker reasoned about the planning quantity as though it were the scored one",
+      "measured_under_the_protocol_definition": {
+        "artifact": "docs/a1_baseline_availability_adopted.json",
+        "denominator_by_seed": [
+          79,
+          64,
+          79,
+          74,
+          72,
+          74
+        ],
+        "min": 64,
+        "floor": 60,
+        "floor_reachable": true,
+        "candidate_stream_for_comparison": {
+          "denominator_by_seed": [
+            45,
+            34,
+            47,
+            48,
+            38,
+            41
+          ],
+          "min": 34,
+          "floor_reachable": false,
+          "status": "A different quantity: the planning upper bound, not the denominator"
+        }
+      },
+      "what_this_does_not_establish": "that C1 passes. The measurement is baseline availability in the paired control; C1 is retained / denominator and has not been scored, because no cell has run. The floor is reachable, not met",
+      "disclosed_consequences": {
+        "power_figure": "the 80% power target and the 63-row reference denominator in docs/DECISION-A1-PATH-A-C1-RULE.md were computed on the planning quantity; a larger true denominator is conservative for power, but the figure is not the quantity it names and should be corrected with disclosure rather than left standing",
+        "c4_exposure": "the same non-target stream that widens C1's denominator is C4's row set, and C4 requires every measurable non-target delta within 0.05; the wider denominator therefore moves the binding constraint from C1's row count to C4's delta ceiling, which no pre-run measurement can settle",
+        "viability_record": "docs/a1_design_viability.json reads C1 through the planning quantity, so its 'do not freeze' disposition is premised on the same reading; it is left intact and flagged here rather than rewritten"
+      },
+      "owner_action": "confirm that the protocol sentence is authoritative and the planning quantity was a sizing premise; that confirmation is the owner's, and this act records the reconciliation rather than adopting it"
+    }
   }
 }

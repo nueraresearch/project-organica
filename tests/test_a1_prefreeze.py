@@ -240,7 +240,7 @@ def test_target_freeze_act_is_prepared_not_executed():
     assert act["manifest_frozen_after_signature"] is True
     assert act["grant_after_signature"] == "NOT ISSUED"
     assert act["run_after_signature"] == "NOT STARTED"
-    assert act["blocking_preconditions"] == ["C1_viability_unverified"]
+    assert act["blocking_preconditions"] == ["C1_denominator_confirmation"]
 
     viability = json.loads(Path("docs/a1_design_viability.json").read_text(encoding="utf-8"))
     recorded = {str(row["seed"]): row["max_attainable"]
@@ -261,9 +261,19 @@ def test_target_freeze_act_is_prepared_not_executed():
         assert recorded["max_attainable"] == row["protocol"]["c1_min_denominator"]
         assert recorded["reaches_floor"] is False
     assert act["design_viability"]["cleared"] is False
-    assert act["design_viability"]["blocker_state"].startswith("CONFIRMED")
+    assert act["design_viability"]["blocker_state"].startswith("RECONCILED")
+    reconciliation = act["design_viability"]["denominator_reconciliation"]
+    assert reconciliation["defined_by"].endswith("A1-TARGET-SELECTION-PROTOCOL.md")
+    assert "non-target edges" in reconciliation["definition_quote"]
+    measured = reconciliation["measured_under_the_protocol_definition"]
+    assert measured["min"] == min(measured["denominator_by_seed"])
+    assert measured["floor_reachable"] is True
+    assert measured["floor_reachable"] != measured[
+        "candidate_stream_for_comparison"]["floor_reachable"]
+    assert reconciliation["what_this_does_not_establish"].startswith(
+        "that C1 passes")
     assert act["design_viability"]["is_a_signature_blocker"] is True
-    assert "C1 VIABILITY CONFIRMED BELOW FLOOR" in act["status"]
+    assert "C1 DENOMINATOR RECONCILED TO THE PROTOCOL" in act["status"]
 
     c5 = json.loads(Path("docs/a1_c5_target_timing.json").read_text(encoding="utf-8"))
     assert act["c5_timing"]["status"].startswith("PASS")
@@ -291,10 +301,11 @@ def test_target_freeze_act_is_prepared_not_executed():
     assert "NO GRANT, NO RUN" in page
     assert "FIXED BEFORE FREEZE" in page
     assert "Re-issued 2026-11-15" in page
-    assert "C1 VIABILITY CONFIRMED BELOW FLOOR" in page
+    assert "the floor is reachable" in page
+    assert "used the planning quantity as though it were the scored one" in page
     assert "45 / 34 / 47 / 48 / 38 / 41" in page
     assert "Do not freeze or run the current A1 design" in page
-    assert "44 / 31 / 39 / 35 / 43 / 36" in page
+    assert "79 / 64 / 79 / 74 / 72 / 74" in page
     assert "`20630101`" not in page
 
 def test_n20_target_freeze_act_preserves_targets_and_prepares_c8():
@@ -362,7 +373,7 @@ def test_n20_target_freeze_act_preserves_targets_and_prepares_c8():
     assert act["c8_resolution"]["adjudicable_after_signature"] is True
     assert act["c7_c1_c4_effect"]["C7_status"].startswith("UNCHANGED")
     assert act["c7_c1_c4_effect"]["C1_target_only_status"].startswith("STILL BELOW")
-    assert act["blocking_preconditions"] == ["C1_viability_unverified"]
+    assert act["blocking_preconditions"] == ["C1_denominator_confirmation"]
     blockers = {row["id"] for row in act["preconditions"] if row["blocking"]}
     assert blockers == set()
     assert act["c5_timing"]["status"].startswith("PASS")
