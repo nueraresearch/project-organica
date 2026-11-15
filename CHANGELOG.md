@@ -53,6 +53,30 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
+## Addendum — 2026-11-15: the C4 noise measurement is feasible only by amending blindness — and I had the premise wrong
+
+`docs/A1-C4-NOISE-FEASIBILITY.md` answers whether the VOID probability can be measured pre-freeze, and
+begins by correcting a load-bearing claim of mine. The C4 declaration said the engine is deterministic so
+two replays differ by exactly zero. **It is not.** CPython randomises string hashing per process, which is
+why `benchmarks/process_noise.py` exists; across six `PYTHONHASHSEED` values **16 of 17 recorded fields
+have exactly zero spread and one varies slightly**. The engine is deterministic *within* a process and
+nearly — not exactly — invariant across processes.
+
+That makes the measurement well-posed: replay the arms on a declared block under several hash seeds and
+record the dispersion of the non-target deltas, the same design the noise harness already uses, at 144
+cell-runs for a six-seed block. It is also forbidden as things stand, and not by implication — the gate
+order states that *no outcome is observed before the target manifest and grant are fixed*, and this
+observes outcomes. Doing it without breaking what matters needs four written amendments: a disjoint named
+block, dispersion-only output with no verdict or sign, a sealed number that cannot move any design
+parameter, and one run only. Even then the honest sentence is "no outcome from the **reserved** block",
+not "no outcome".
+
+The recommendation is not to run it. It spends the blindness rule and the project's first grant to learn a
+dispersion that the measured near-invariance suggests is small, while the larger source of C4 spread is
+the world rather than hash order and no replay reduces that. The cheap alternative is recorded: a
+hash-seed replay of a **single no-arm cell** — no treatment outcome, no amendment — which would raise or
+settle the prior before anything expensive is considered.
+
 ## Addendum — 2026-11-15: the C4 posture written as adoptable text
 
 `docs/A1-C4-DECLARATION.md` turns the accepted posture into five clauses the owner can sign without

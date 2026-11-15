@@ -22,7 +22,7 @@
 >
 > **2. A failure names what fired.** A C4 failure carries `C4_DELTA` together with every violation, each with its **seed, cell, edge, quantity (A, K or Y) and delta**, ordered by delta descending, at the recorded precision. A C4 failure that cannot name its edges is not a C4 result and may not be reported as one.
 >
-> **3. The VOID probability is unmeasured.** No distribution of a non-target neighbour delta under these arms has been measured, and it cannot be cheaply measured before the freeze: the engine is deterministic, so two no-arm replays are identical and their delta is exactly zero, which measures the harness and not the intervention. The run therefore proceeds with an **unquantified** probability of `A1 VOID — C1/C4`. This is recorded as a known unknown, not as a small risk.
+> **3. The VOID probability is unmeasured.** No distribution of a non-target neighbour delta under these arms has been measured, and it cannot be measured before the freeze without amending the blindness rule ([`A1-C4-NOISE-FEASIBILITY`](A1-C4-NOISE-FEASIBILITY.md)). The engine is deterministic within a process and **nearly invariant across processes** — across six `PYTHONHASHSEED` values, 16 of 17 recorded fields have exactly zero spread and one varies slightly — so run-to-run dispersion exists but is small, and its size for a C4 delta is unknown. The run therefore proceeds with an **unquantified** probability of `A1 VOID — C1/C4`. This is recorded as a known unknown, not as a small risk.
 >
 > **4. A VOID is a result about the design.** Under `A1-C1-C4-VOID-GATE-1`, a C4 failure makes the run `A1 VOID — C1/C4`, with C7 and C8 reported as `NOT ADJUDICATED — RUN VOID`. No second run, repaired denominator, threshold change, subsetting or post-hoc correction follows from a VOID. The reason code and the named violations are the deliverable.
 >
@@ -35,7 +35,7 @@
 | 1 — multiplicity | `rows`, `measured`, `unmeasured` (comparisons = `measured` × 3) | `score_c4` return |
 | 1 — sensitivity | `max_delta` = {A, K, Y} | `score_c4` return |
 | 2 — names the failure | `violations[]` = {`seed`, `cell`, `edge`, `path`, `delta`} | `score_c4` return |
-| 3 — unmeasured probability | no field; a statement, not a measurement | this document |
+| 3 — unmeasured probability | no field; a statement, with the near-invariance evidence | this document; `docs/process_noise.json` |
 | 4 — VOID disposition | `C4_DELTA`, `C4_UNMEASURABLE`, `C1_C4_INCOMPLETE` | `a1_result._void_reasons` |
 
 One optional addition, and only if the owner wants it: `score_c4` could record the two rates whose difference a violation reports. The delta and the edge already identify the failure, so this is a convenience, not a requirement, and adding it now would make the declaration depend on a code change it does not need.
