@@ -26,6 +26,15 @@ The protocol already fixes the denominator, `benchmarks/a1_arms.py:c1_rows()` al
 - **Which row.** The recorded cell row — a directed orientation — because that is the row the adopting code counts and scores. The protocol text alone does not disambiguate a directed row from an undirected relation; this decision supplies the reading the implementation already has, rather than leaving two records to mean different things by one word.
 - **C1 floor reachability.** Under that row, the adopted block's ceiling is **79, 64, 79, 74, 72, 74** against a floor of **60**, so the floor is reachable on every seed. Under a relation-level row it would not be. The reachability claim therefore rests on this decision, and is recorded as such.
 
+## Boundary — one level below this decision
+
+This decision fixes which rows participate and which denominator adjudicates. It does **not**
+fix what counts as one observation within that denominator: whether `a → b` and `b → a` are two
+C1 rows or one relation counted once. The protocol does not say, the implementation reads
+directed edges, and target selection reads one orientation per unordered pair, so the repository
+currently uses both units in different places. That question is set out on one page in
+[`A1-C1-UNIT-OF-EVIDENCE`](A1-C1-UNIT-OF-EVIDENCE.md); it is an owner definition and remains open.
+
 ## What this does not settle
 
 C1 has not been scored: no cell has run, and the floor applies to observed paired-control rows at run time, not to a ceiling. This decision does not make the A1 design viable, does not resolve C2/C8 target competence, does not resolve the C4 exposure over 108 non-target rows per seed, and does not authorise a freeze, a grant or a cell. The two freeze acts remain `DRAFT` and their blocker moves from the denominator to those two questions.

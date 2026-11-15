@@ -52,7 +52,7 @@ The 112-row cell stream reaches 60 on four seeds, but that is reverse-orientatio
 
 **Totals:** 382 candidate rows, 286 reverse orientations, 4 extra orientations, 672 cell rows, 384 unique undirected edges. The unique-edge C1 ceiling is **31-44**, still below 60.
 
-The 112-row cell stream is the candidate stream plus its reverse orientations, not a wider independent universe. Availability is orientation-specific, so those reverse rows are not copies of the candidate rows' availability, but whether two orientations of one relation are independent C1 observations is a convention the protocol does not fix. Counting each relation once leaves the ceiling below the floor on every seed (see denominator_reconciliation).
+The 112-row cell stream is the candidate stream plus its reverse orientations, not a wider independent universe. Availability is orientation-specific, so those reverse rows are not copies of the candidate rows' availability, but whether two orientations of one relation are independent C1 observations is a convention the protocol does not fix. Counting each relation once leaves the ceiling below the **count** 60 on every seed (see denominator_reconciliation). That is a count comparison at the planning denominator, not a verdict: the floor is a 0.95 proportion, so at relation scale the bar is 0.95 of that seed's relations (one failure tolerated at 35 relations, two at 51). The unit question itself is open — see A1-C1-UNIT-OF-EVIDENCE.md.
 
 ### What the ceiling means
 

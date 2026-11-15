@@ -53,6 +53,28 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
+## Addendum — 2026-11-15: C1's unit of evidence is the open question, and my own table compared across units
+
+The denominator decision settled which rows participate. It did not settle what one observation
+*is*, and the protocol never says whether `a → b` and `b → a` are two C1 rows or one relation. The
+one-page owner note is `docs/A1-C1-UNIT-OF-EVIDENCE.md`; the adopted denominator decision now names
+this as its own boundary.
+
+Writing it forced a correction to the viability record. The relation-level readings were reported as
+"below the floor on every seed", and the comparison behind that sentence pits relation **ceilings**
+(31–51) against 60 — a count derived at the *directed* planning denominator. The floor itself is a
+0.95 **proportion**, so it rescales with the unit: at 64–79 directed rows three failures still pass,
+at 35–51 relations one or two do, at 31–38 one does. The relation convention is therefore stricter,
+not impossible, and the earlier sentence read as a verdict when it was a cross-unit comparison. The
+module that generated it now says so and the artifact was regenerated; no number moved.
+
+What measurement can settle is recorded too: A availability differs across orientations on 15–28 of
+64 relations, and K is 97.2% concordant across pairs (278/286) — so the orientations are neither
+duplicates nor free observations. The repository also already uses both units, silently: selection
+takes one orientation per unordered pair while C1 scores directed rows. The recommendation, marked
+as one, is the directed edge as the unit of evidence with the relation declared as a dependence
+check; the decision is the owner's and nothing here is in force.
+
 ## Addendum — 2026-11-15: what would constitute competence, and the disposition re-read on a false premise
 
 The competence rule now answers the question a future run would actually need answered — not

@@ -215,8 +215,12 @@ def _composition(per_seed: list[dict]) -> dict:
             "candidate rows' availability, but whether two orientations of one "
             "relation are independent C1 observations is a convention the "
             "protocol does not fix. Counting each relation once leaves the "
-            "ceiling below the floor on every seed (see "
-            "denominator_reconciliation)."
+            "ceiling below the **count** 60 on every seed (see "
+            "denominator_reconciliation). That is a count comparison at the "
+            "planning denominator, not a verdict: the floor is a 0.95 proportion, "
+            "so at relation scale the bar is 0.95 of that seed's relations (one "
+            "failure tolerated at 35 relations, two at 51). The unit question "
+            "itself is open — see A1-C1-UNIT-OF-EVIDENCE.md."
         ),
     }
 
