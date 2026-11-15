@@ -57,7 +57,10 @@ def test_attach_neighbor_deltas_pairs_against_a_plus_k_plus():
     assert gate_c4(rows, 0.05) is False
     result = a1_arms.score_c4([baseline, treated])
     assert result["pass"] is False
-    assert result["measured"] == 2
+    # The control's own row is not a measurement: comparing it with itself is a
+    # comparison the run cannot fail.
+    assert result["measured"] == 1
+    assert result["control_rows"] == 1
 
 
 def test_attach_neighbor_deltas_leaves_rows_without_a_control_unmeasured():
@@ -123,7 +126,8 @@ def test_result_assembly_reports_c1_and_c4_pass():
         "denominator": 20, "available": 20, "fraction": 1.0,
     }
     assert report["c1"]["seeds"]["1"]["pass"] is True
-    assert report["c4"]["measured"] == 48
+    assert report["c4"]["measured"] == 32
+    assert report["c4"]["control_rows"] == 16
     assert report["c4"]["max_delta"] == {"A": 0.01, "K": 0.01, "Y": 0.04}
     assert report["gates"] == {
         "C1_path_separation": True,
@@ -145,7 +149,7 @@ def test_parts_command_reports_observed_denominator(tmp_path, capsys):
     out = capsys.readouterr().out
     assert "Observed denominator: OBSERVED; 3 part(s), 1 seed(s)" in out
     assert "C1 observed denominator: A- 20 rows; K- 20 rows" in out
-    assert "C4 observed denominator: 48 rows; 48 measured; 0 unmeasured" in out
+    assert "C4 observed denominator: 32 rows; 32 measured; 0 unmeasured" in out
 
 
 def test_parts_command_assembles_a_six_cell_directory_end_to_end(tmp_path, capsys):
@@ -190,9 +194,9 @@ def test_parts_command_assembles_a_six_cell_directory_end_to_end(tmp_path, capsy
     out = capsys.readouterr().out
     assert "Observed denominator: OBSERVED; 6 part(s), 1 seed(s)" in out
     assert "C1 observed denominator: A- 20 rows; K- 20 rows" in out
-    assert "C4 observed denominator: 96 rows; 96 measured; 0 unmeasured" in out
+    assert "C4 observed denominator: 80 rows; 80 measured; 0 unmeasured" in out
     assert "C1 PASS: A- 19/20 = 0.950; K- 20/20 = 1.000" in out
-    assert "C4 PASS: 96 non-target rows, 96 measured" in out
+    assert "C4 PASS: 80 non-target rows, 80 measured" in out
 
 
 def test_parts_command_reports_not_run_without_cells(tmp_path, capsys):

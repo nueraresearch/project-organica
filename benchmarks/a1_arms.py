@@ -235,25 +235,66 @@ def attach_neighbor_deltas(payloads: list[dict]) -> list[dict]:
 
     The cell output records raw availability rates.  This join is deliberately
     separate: a treated cell can be written before its paired control exists.
+
+    Three properties are enforced here because the C4 gate is only as wide as
+    this stream:
+
+    * the control cell is never scored against itself — its rows are marked
+      ``CONTROL_NOT_SCORED`` and carry no delta, so a tautological zero can
+      never stand in for a comparison;
+    * a treated cell must cover every non-target edge the control emits; an
+      absent or short stream synthesises ``AWAITING_TREATED_ROW`` rows for the
+      missing edges instead of quietly shrinking the judged population;
+    * a treated edge with no control row keeps ``AWAITING_PAIRED_CONTROL``.
+
+    A cell that did not run at all is not invented here: cell-set completeness
+    belongs to ``score_complete_gates``.
     """
     baseline: dict[tuple[int, str], dict] = {}
+    control_edges: dict[int, set[str]] = {}
     for payload in payloads:
         if payload.get("cell") != "A+K+":
             continue
+        seed = int(payload["seed"])
         for row in payload.get("neighbor_rows", []):
-            baseline[(int(payload["seed"]), row["edge"])] = row
+            if row.get("target"):
+                continue
+            baseline[(seed, row["edge"])] = row
+            control_edges.setdefault(seed, set()).add(row["edge"])
     for payload in payloads:
-        for row in payload.get("neighbor_rows", []):
-            base = baseline.get((int(payload["seed"]), row["edge"]))
+        seed = int(payload["seed"])
+        cell = payload.get("cell")
+        rows = payload.get("neighbor_rows", [])
+        seen: set[str] = set()
+        for row in rows:
+            if row.get("target"):
+                continue
+            if cell == "A+K+":
+                # Comparing the control with itself always yields zero, and a
+                # zero that cannot fail must not be counted as a measurement.
+                row.pop("neighbor_delta", None)
+                row["paired_control"] = None
+                row["delta_status"] = "CONTROL_NOT_SCORED"
+                continue
+            seen.add(row["edge"])
+            base = baseline.get((seed, row["edge"]))
             if base is None:
-                row.setdefault("delta_status", "AWAITING_PAIRED_CONTROL")
+                row["delta_status"] = "AWAITING_PAIRED_CONTROL"
                 continue
             deltas = {path: _rate_delta(row.get(path + "_rate"), base.get(path + "_rate"))
                       for path in ("A", "K", "Y")}
             row["neighbor_delta"] = deltas
-            row["paired_control"] = "%d/A+K+" % int(payload["seed"])
+            row["paired_control"] = "%d/A+K+" % seed
             row["delta_status"] = ("MEASURED" if all(value is not None for value in deltas.values())
                                    else "UNMEASURABLE")
+        if cell == "A+K+":
+            continue
+        # An empty treated stream used to pass: the control's own rows filled
+        # the judged population.  Missing edges are now rows that fail.
+        for edge in sorted(control_edges.get(seed, set()) - seen):
+            rows.append({"seed": seed, "cell": cell, "edge": edge, "target": False,
+                         "delta_status": "AWAITING_TREATED_ROW", "neighbor_delta": None,
+                         "paired_control": "%d/A+K+" % seed, "synthetic": True})
     return payloads
 
 
@@ -338,16 +379,21 @@ def score_c4(payloads: list[dict], tolerance: float | None = None) -> dict:
     tolerance = C4_MAX if tolerance is None else tolerance
     attach_neighbor_deltas(payloads)
     rows = c4_neighbor_rows(payloads)
-    measured = [row for row in rows
+    control_rows = [row for row in rows
+                    if row.get("delta_status") == "CONTROL_NOT_SCORED"]
+    judged = [row for row in rows
+              if row.get("delta_status") != "CONTROL_NOT_SCORED"]
+    measured = [row for row in judged
                 if row.get("delta_status", "MEASURED") == "MEASURED" and "neighbor_delta" in row]
     max_delta = {"A": 0.0, "K": 0.0, "Y": 0.0}
     violations: list[dict] = []
     unmeasured: list[dict] = []
-    for row in rows:
+    for row in judged:
         delta = row.get("neighbor_delta")
         if delta is None:
             unmeasured.append({"seed": row.get("seed"), "cell": row.get("cell"),
-                               "edge": row.get("edge")})
+                               "edge": row.get("edge"),
+                               "reason": row.get("delta_status") or "delta_missing"})
             continue
         for path in ("A", "K", "Y"):
             value = delta.get(path)
@@ -379,7 +425,8 @@ def score_c4(payloads: list[dict], tolerance: float | None = None) -> dict:
     return {
         "pass": gate_c4(rows, tolerance),
         "tolerance": tolerance,
-        "rows": len(rows),
+        "rows": len(judged),
+        "control_rows": len(control_rows),
         "measured": len(measured),
         "max_delta": {path: round(value, 6) for path, value in max_delta.items()},
         "violations": violations,

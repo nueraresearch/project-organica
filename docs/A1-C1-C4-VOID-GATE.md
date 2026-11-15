@@ -71,6 +71,23 @@ A VOID stops the result. It does not trigger a second run, a repaired denominato
 
 A run with any one of these conditions is `A1 VOID — C1/C4`. If both gates fail, both reason codes are recorded; one gate cannot be suppressed by the other.
 
+### Amendment — 2026-11-15: `C4_UNMEASURABLE` now detects "absent" and "incomplete"
+
+The C4 row above named three conditions and the code enforced one. A treated cell that emitted **no** non-target rows
+still passed, because the control cell's rows were indexed as their own baseline and each was compared with itself:
+delta `0.0`, status `MEASURED`. A treated cell that emitted one edge of the control's five was judged on that edge
+alone. The gate could not fire on two of the three conditions it claimed.
+
+`attach_neighbor_deltas` now marks control rows `CONTROL_NOT_SCORED` and gives them no delta, so a tautological zero
+can never count as a measurement; it synthesises `AWAITING_TREATED_ROW` rows for every control edge a treated cell did
+not emit, so a short stream fails on the missing edges rather than shrinking the judged population; and
+`AWAITING_PAIRED_CONTROL` remains for a treated edge the control never emitted. `gate_c4` judges only non-control rows
+and requires at least one. `score_c4` reports `control_rows` separately from `rows`, so the two populations cannot be
+confused again. Tests: [`tests/test_a1_c4_completeness.py`](../tests/test_a1_c4_completeness.py).
+
+What this changes: a cell whose non-target stream is absent or short now VOIDs instead of passing. No threshold, row
+count or target changed.
+
 **60-row denominator floor — adopted with this decision.** The floor is also recorded in [`A1-PATH-A-C1-RULE-1`](DECISION-A1-PATH-A-C1-RULE.md). At 59 rows the effective floor is 57/59 = 0.9661 with two losses; at 60 rows it is 57/60 = 0.95 with three. If the observed minimum is below 60, a perfect 59/59 is still VOID — the fraction cannot rescue a denominator below the designed resolution. The 63–64 planning range in the power review is an upper bound from candidate counts, not an observed baseline-availability denominator; see the [power-review risk note](A1-POWER-REVIEW.md#c1-denominator-feasibility-risk-note).
 
 ## Amendment — 2026-11-15: `C1_UNMEASURABLE` added, `C1_THRESHOLD` narrowed

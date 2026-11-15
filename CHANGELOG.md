@@ -53,7 +53,22 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
-## Addendum — 2026-11-15: competence estimand drafted, with the count and the C4 restatement it fixes
+## Addendum — 2026-11-15: C4's completeness conditions now fire
+
+The C4 gate's own failure row names three conditions — absent stream, incomplete stream, no measurable paired delta —
+and the code enforced only the third. A treated cell that emitted **no** non-target rows passed, because the control
+cell's rows were indexed as their own baseline and each was compared with itself (delta 0.0, status MEASURED). A treated
+cell emitting one edge of the control's five was judged on that edge alone. Both are the defect this corpus has now hit
+three times: a population defined by what happened to be emitted rather than by what the design requires.
+
+The repair removes the self-comparison (`CONTROL_NOT_SCORED`, no delta, so a zero that cannot fail is no longer counted
+as a measurement), synthesises `AWAITING_TREATED_ROW` rows for control edges a treated cell did not emit, keeps
+`AWAITING_PAIRED_CONTROL` for a treated edge the control never had, and has `gate_c4` judge only non-control rows with at
+least one required. `score_c4` now reports `control_rows` apart from `rows`, and the fixture counts in the C4 tests move
+accordingly (48 measured becomes 32, 96 becomes 80). No threshold, row count or target changed; what changed is that C4
+can VOID where it used to pass.
+
+
 
 `DECISION-A1-COMPETENT-ESTIMAND-1` is drafted and indexed as `PENDING`. It resolves the conflict between the freeze acts'
 "representative eligible" wording and `DECISION-A1-C8-NMIN-1`'s competent-row unit by moving the experiment to the

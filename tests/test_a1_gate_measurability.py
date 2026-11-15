@@ -84,7 +84,10 @@ def test_the_join_marks_an_unmeasurable_rate_instead_of_crashing():
         assert treated["delta_status"] == "UNMEASURABLE"
         assert treated["neighbor_delta"]["A"] is None
         assert report["pass"] is False
-        assert report["measured"] == 1
+        # The unmeasurable row is judged but not measured; the control row is
+        # neither, so a null rate cannot hide behind a tautological zero.
+        assert report["measured"] == 0
+        assert report["control_rows"] == 1
         assert report["unmeasured"]
 
 

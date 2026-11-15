@@ -292,14 +292,23 @@ def gate_c3(rows: list[dict], tolerance: float | None = None) -> bool:
 
 
 def gate_c4(rows: list[dict], tolerance: float | None) -> bool:
-    """Neighbour spillover stays within the precommitted tolerance."""
+    """Neighbour spillover stays within the precommitted tolerance.
+
+    The control cell's own rows are excluded: they carry no delta by design, so
+    including them would count a comparison the run cannot fail.  A treated
+    stream that is absent or short contributes ``AWAITING_TREATED_ROW`` rows
+    from ``attach_neighbor_deltas``, whose missing delta fails here — which is
+    what makes "absent or incomplete" a VOID rather than a pass.
+    """
     if tolerance is None:
         return False
-    non_target = [row for row in rows if not row.get("target")]
-    for row in non_target:
+    judged = [row for row in rows
+              if not row.get("target")
+              and row.get("delta_status") != "CONTROL_NOT_SCORED"]
+    for row in judged:
         if not _delta_clean(row.get("neighbor_delta"), ("A", "K", "Y"), tolerance):
             return False
-    return bool(non_target)
+    return bool(judged)
 
 
 def gate_c5(rows: list[dict], tolerance: float | None = None) -> bool:
