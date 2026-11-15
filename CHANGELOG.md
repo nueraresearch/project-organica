@@ -53,6 +53,21 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
+## Addendum — 2026-11-15: the C4 posture written as adoptable text
+
+`docs/A1-C4-DECLARATION.md` turns the accepted posture into five clauses the owner can sign without
+changing anything else. It declares the multiplicity rather than correcting it (324 deltas per seed,
+1,944 per block, maximum by design), requires a failure to carry `C4_DELTA` with its seed, cell, edge,
+quantity and delta, records the VOID probability as **unquantified** with the reason it cannot be cheaply
+measured before the freeze, fixes that a VOID is a result about the design rather than a failed attempt,
+and states that nothing is relaxed.
+
+The useful property is that **it needs no code**: `score_c4` already returns `rows`, `measured`,
+`unmeasured`, `max_delta` and a `violations` list whose entries carry `edge`, `path` and `delta`, so the
+three declarations map onto fields that exist. The only optional addition is the pair of rates behind a
+delta, which the edge and delta already identify. Adoption satisfies `C4_exposure_acceptance` — the last
+unsatisfied freeze precondition — and the acts are then re-issued by a separate owner act.
+
 ## Addendum — 2026-11-15: the two C8 repairs costed, and neither is required any more
 
 With C8 adjudicable at ≥ 17 rows, the cap and tag-count repairs stop being requirements. What they still

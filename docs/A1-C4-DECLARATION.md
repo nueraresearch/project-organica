@@ -1,0 +1,63 @@
+# C4 declaration — adoptable text, verbatim
+
+**Date:** 2026-11-15
+
+**Status:** `DRAFT — FOR OWNER ADOPTION; NOT IN FORCE; NO CELL, NO FREEZE, NO GRANT`
+
+**Scope:** the C4 posture text only. It changes no threshold, no row set, no gate and no code. Adoption is a signature and a date.
+
+## Why this is a text and not a build
+
+[`A1-C4-RISK-POSTURE`](A1-C4-RISK-POSTURE.md) recommends accepting the exposure and declaring three things about it: the multiplicity, what a failure must name, and the fact that the failure probability is unmeasured. This document writes those three as adoptable clauses.
+
+**Every field it requires already exists.** `a1_arms.score_c4` records `rows`, `measured`, `unmeasured`, `max_delta` and a `violations` list whose entries already carry `seed`, `cell`, `edge`, `path` (A, K or Y) and `delta`. So the declaration can be adopted **without touching a line of code or a single artifact schema** — which is the only form of declaration a pre-freeze record should take.
+
+## The declaration, verbatim
+
+> **C4 non-interference posture, adopted 2026-11-15.**
+>
+> C4 remains a post-freeze VOID gate at the unchanged **0.05** absolute neighbour-delta ceiling, read as the **maximum** over every measurable non-target A, K and Y delta. On the adopted block that is **108 non-target rows × 3 quantities = 324 deltas per seed and 1,944 across six seeds** (N=20: 92 rows, 276 per seed, 1,656 across the block). The exposure is fixed by N and the stream, not by target identity: no target filter, competence screen or estimand change alters it.
+>
+> **1. The multiplicity is declared, not corrected.** No multiple-comparison correction is applied before or after the run. The gate is a maximum by design — a veto on interference anywhere in the stream — and its sensitivity is that of 1,944 comparisons rather than of one test. A C4 pass may be reported as the absence of any delta above the ceiling, and may not be reported as evidence that interference is small or absent on average.
+>
+> **2. A failure names what fired.** A C4 failure carries `C4_DELTA` together with every violation, each with its **seed, cell, edge, quantity (A, K or Y) and delta**, ordered by delta descending, at the recorded precision. A C4 failure that cannot name its edges is not a C4 result and may not be reported as one.
+>
+> **3. The VOID probability is unmeasured.** No distribution of a non-target neighbour delta under these arms has been measured, and it cannot be cheaply measured before the freeze: the engine is deterministic, so two no-arm replays are identical and their delta is exactly zero, which measures the harness and not the intervention. The run therefore proceeds with an **unquantified** probability of `A1 VOID — C1/C4`. This is recorded as a known unknown, not as a small risk.
+>
+> **4. A VOID is a result about the design.** Under `A1-C1-C4-VOID-GATE-1`, a C4 failure makes the run `A1 VOID — C1/C4`, with C7 and C8 reported as `NOT ADJUDICATED — RUN VOID`. No second run, repaired denominator, threshold change, subsetting or post-hoc correction follows from a VOID. The reason code and the named violations are the deliverable.
+>
+> **5. Nothing is relaxed.** The ceiling, the maximum, the 108/92-row non-target set, the six-seed scope and the `C4_UNMEASURABLE` condition are unchanged by this declaration. What is fixed here is only what the record must say.
+
+## The field map the clauses rely on
+
+| Clause | Field | Where it lives |
+| --- | --- | --- |
+| 1 — multiplicity | `rows`, `measured`, `unmeasured` (comparisons = `measured` × 3) | `score_c4` return |
+| 1 — sensitivity | `max_delta` = {A, K, Y} | `score_c4` return |
+| 2 — names the failure | `violations[]` = {`seed`, `cell`, `edge`, `path`, `delta`} | `score_c4` return |
+| 3 — unmeasured probability | no field; a statement, not a measurement | this document |
+| 4 — VOID disposition | `C4_DELTA`, `C4_UNMEASURABLE`, `C1_C4_INCOMPLETE` | `a1_result._void_reasons` |
+
+One optional addition, and only if the owner wants it: `score_c4` could record the two rates whose difference a violation reports. The delta and the edge already identify the failure, so this is a convenience, not a requirement, and adding it now would make the declaration depend on a code change it does not need.
+
+## What adoption does and does not do
+
+**Does:** satisfies `C4_exposure_acceptance`, the last unsatisfied precondition on both freeze acts; fixes the vocabulary (unquantified risk rather than small risk; maximum rather than average) before any outcome is seen; and makes a VOID attributable rather than mysterious.
+
+**Does not:** freeze a target, reserve a seed, authorise a cell, change a threshold, narrow the protected set, or re-issue the freeze acts. Those remain separate owner acts — the acts still read `HELD` until they are re-issued.
+
+## If the owner chooses differently
+
+This text is posture A. Under posture **B** (narrow the protected set) clause 5 must be amended and the row counts replaced, and C1's denominator shrinks with them — the trade recorded on the risk page. Under posture **C** (accept a possible VOID explicitly) clauses 1–3 survive and clause 4 becomes the centre of the posture. The three clauses are independent enough that any combination can be adopted by editing only the sentences they touch.
+
+## Adoption record, if signed
+
+Adopting this text means, in order: sign and date it here; record the decision as `DECISION-A1-C4-POSTURE-1` with this declaration as its body; then re-issue both freeze acts against it. Until the first of those happens this document is a draft, and the checklist keeps C4 as an open owner decision.
+
+## Reproduce
+
+```bash
+python -m benchmarks.a1_design_viability --check     # non-target rows 108 / 92, by N
+```
+
+The 324 / 1,944 figures are multiplication on those row counts (×3 quantities, ×6 seeds). No engine ran for this document.
