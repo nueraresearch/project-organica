@@ -61,35 +61,46 @@ def test_selection_refuses_to_reduce_below_n():
     assert selected == []
 
 
-def test_target_set_problems_accepts_four_disjoint_world_edges():
+def _n4_target_doc():
+    """The N=4 protocol's own document. The live manifest now freezes the N=20 competent block, so the
+    N=4 rules have to be exercised on a document that declares the N=4 size, not on whatever is frozen."""
     doc = a1_two_path.manifest()
-    doc["targets"]["status"] = "FIXED BEFORE FREEZE"
-    doc["targets"]["by_seed"] = {
-        str(seed): a1_two_path._artifact_targets(seed) for seed in a1_two_path.SEEDS
-    }
-    assert a1_two_path.target_set_problems(doc) == []
+    for key in ("n_min", "max_endpoint_degree", "selection_artifact_digest", "freeze_act",
+                "freeze_act_id", "estimand", "current_targets_retained"):
+        doc["targets"].pop(key, None)
+    doc["targets"].update({
+        "status": "FIXED BEFORE FREEZE",
+        "protocol": a1_two_path.TARGET_PROTOCOL,
+        "n_per_seed": a1_two_path.TARGET_N,
+        "disjoint": True,
+        "selection_artifact": "docs/a1_target_selection.json",
+        "by_seed": {str(seed): a1_two_path._artifact_targets(seed)
+                    for seed in a1_two_path.SEEDS},
+    })
+    return doc
+
+
+def test_target_set_problems_accepts_four_disjoint_world_edges():
+    assert a1_two_path.target_set_problems(_n4_target_doc()) == []
 
 
 def test_target_set_problems_rejects_short_and_overlapping_sets():
-    doc = a1_two_path.manifest()
-    doc["targets"]["status"] = "FIXED BEFORE FREEZE"
-    doc["targets"]["by_seed"] = {
-        str(seed): a1_two_path._artifact_targets(seed) for seed in a1_two_path.SEEDS
-    }
+    doc = _n4_target_doc()
     first_seed = str(a1_two_path.SEEDS[0])
-    doc["targets"]["by_seed"][first_seed] = doc["targets"]["by_seed"][first_seed][:3]
+    short = dict(doc["targets"]["by_seed"])
+    short[first_seed] = short[first_seed][:3]
+    doc["targets"]["by_seed"] = short
     problems = a1_two_path.target_set_problems(doc)
-    assert any("does not have 4 targets" in problem for problem in problems)
+    assert any("does not have 4 targets" in problem for problem in problems), problems
 
-    doc["targets"]["by_seed"] = {
-        str(seed): a1_two_path._artifact_targets(seed) for seed in a1_two_path.SEEDS
-    }
-    edges = doc["targets"]["by_seed"][first_seed]
+    doc = _n4_target_doc()
+    edges = list(doc["targets"]["by_seed"][first_seed])
     a, _ = edges[0].split(">", 1)
     _, b = edges[1].split(">", 1)
-    doc["targets"]["by_seed"][first_seed][1] = "%s>%s" % (a, b)
+    edges[1] = "%s>%s" % (a, b)
+    doc["targets"]["by_seed"][first_seed] = edges
     problems = a1_two_path.target_set_problems(doc)
-    assert any("disjoint" in problem for problem in problems)
+    assert any("disjoint" in problem for problem in problems), problems
 
 
 def _n20_target_doc():
@@ -285,15 +296,19 @@ def test_target_freeze_act_is_prepared_not_executed():
     assert act["c5_timing"]["current_carriers_before_u"] == 0
 
     manifest = json.loads(Path("docs/a1_two_path_manifest.json").read_text(encoding="utf-8"))
-    assert manifest["frozen"] is False
-    assert manifest["targets"]["status"].startswith("UNRESOLVED")
+    # The N=20 act is signed and the manifest frozen on its block; the N=4 act itself remains a draft.
+    assert manifest["frozen"] is True
+    assert manifest["status"] == "GRANTED, NOT RUN"
+    assert manifest["targets"]["n_per_seed"] == 20
+    assert act["status"].startswith("DRAFT")
+    assert manifest["targets"]["status"].startswith("FIXED BEFORE FREEZE")
     assert manifest["seed_block"]["status"].startswith("PROVISIONAL")
-    assert manifest["authorisation"]["granted"] is False
+    assert manifest["authorisation"]["granted"] is True
+    assert manifest["authorisation"]["document"] == "docs/A1-GRANT.md"
 
     from benchmarks import a1_two_path
-    check = a1_two_path.manifest()
-    check["targets"]["status"] = "FIXED BEFORE FREEZE"
-    check["targets"]["by_seed"] = by_seed
+    check = _n4_target_doc()
+    assert check["targets"]["by_seed"] == by_seed
     assert a1_two_path.target_set_problems(check) == []
 
     page = Path("docs/A1-TARGET-FREEZE-ACT.md").read_text(encoding="utf-8")
@@ -363,12 +378,37 @@ def test_n20_target_freeze_act_freezes_the_competent_block():
 
     # Nothing blocks, no grant exists, no cell ran.
     assert [row["id"] for row in act["preconditions"] if row["blocking"]] == []
-    assert act["grant_after_signature"] == "NOT ISSUED"
+    assert act["grant_after_signature"].startswith("ISSUED 2026-11-15")
+    assert "A1-GRANT" in act["grant_after_signature"]
     assert act["run_after_signature"] == "NOT STARTED"
     assert act["held_on"]["reason"] == "CLEARED_BY_DECISION-A1-COMPETENT-ESTIMAND"
 
     # The block validates between the floor and the nominal size.
     assert a1_two_path.target_set_problems(_n20_target_doc()) == []
+
+
+def test_the_execution_gate_opens_under_the_grant_and_still_refuses_without_it():
+    """A gate that cannot refuse is decoration; a gate that refuses a granted, frozen manifest is broken."""
+    from benchmarks import a1_two_path
+    from benchmarks.authorisation_guard import preparation_only
+
+    assert a1_two_path.preflight() == []
+    assert a1_two_path.refuse() is None  # returns instead of SystemExit
+
+    ungranted = a1_two_path.manifest()
+    ungranted["authorisation"] = {"granted": False, "granted_on": None,
+                                  "document": None, "quote": None}
+    refusals = a1_two_path.preflight(ungranted)
+    assert "the dated grant is not recorded" in refusals
+
+    unprepared = a1_two_path.manifest()
+    unprepared["authorisation"]["quote"] = "Write the dated grant document, without running anything."
+    assert any("preparation-only" in reason for reason in a1_two_path.preflight(unprepared))
+    assert preparation_only(unprepared["authorisation"]["quote"]) is True
+
+    unfrozen = a1_two_path.manifest()
+    unfrozen["frozen"] = False
+    assert "the manifest is not frozen" in a1_two_path.preflight(unfrozen)
 
 
 def test_n20_target_freeze_act_applies_to_manifest_validator():

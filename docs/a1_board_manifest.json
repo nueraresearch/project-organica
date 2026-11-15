@@ -289,14 +289,28 @@
     {
       "id": "grant-run",
       "branch": "Grant, run",
-      "kind": "absent",
-      "state": "NOT ISSUED, NOT STARTED",
-      "must_not_exist": [
-        "docs/A1-GRANT.md",
-        "docs/A1-RUN.md"
+      "kind": "artifact",
+      "artifact": "docs/A1-GRANT.md",
+      "contains": [
+        {
+          "path": "docs/A1-GRANT.md",
+          "strings": [
+            "**Granted:** 2026-11-15",
+            "GRANTED, NOT RUN"
+          ]
+        },
+        {
+          "path": "docs/a1_two_path_manifest.json",
+          "strings": [
+            "\"status\": \"GRANTED, NOT RUN\"",
+            "docs/A1-GRANT.md"
+          ]
+        }
       ],
-      "note": "neither exists; the board would have to be re-read if one appeared",
-      "proved_by": []
+      "note": "the grant is recorded and the execution gate opens; no cell has run and no result artifact exists",
+      "proved_by": [
+        "tests/test_a1_prefreeze.py"
+      ]
     }
   ],
   "bare_allowlist": {

@@ -18,7 +18,7 @@ def test_report_is_clean_and_flags_both_designs():
     assert doc["status"] == "FLAGGED — C2 NOT PASSABLE UNDER EITHER TARGET SET"
     assert doc["designs"]["N4"]["totals"]["c2_viable_seeds"] == 0
     assert doc["designs"]["N20"]["totals"]["c2_viable_seeds"] == 0
-    assert a1_two_path.manifest()["frozen"] is False
+    assert a1_two_path.manifest()["frozen"] is True
 
 
 def test_n4_and_n20_missing_carrier_counts_are_exact():

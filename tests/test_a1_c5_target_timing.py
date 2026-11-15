@@ -46,7 +46,8 @@ def test_manifest_uses_the_earlier_cycle_for_c5_and_keeps_selection_diagnostic()
     assert doc["targets"]["u_cycle"] == 4
     assert doc["targets"]["selection_u_cycle"] == 36
     assert doc["U"]["measured_cycle"] == 4
-    assert doc["targets"]["c5_timing_audit"] == "docs/a1_c5_target_timing.json"
+    # The manifest carries the clearance for the block it froze: the competent audit, not the earlier one.
+    assert doc["targets"]["c5_timing_audit"] == "docs/a1_c5_target_timing_competent.json"
     problems = a1_two_path.manifest_problems(doc)
     assert not any("U cycle" in problem or "C5 timing audit" in problem
                    for problem in problems)

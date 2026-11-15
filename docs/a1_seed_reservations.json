@@ -49,7 +49,12 @@
         "docs/a1_c5_carrier_divergence.json",
         "docs/a1_design_viability.json",
         "docs/a1_competence_adopted.json",
-        "docs/a1_competence_filter_draft.json"
+        "docs/a1_competence_filter_draft.json",
+        "docs/a1_c8_target_selection_competent.json",
+        "docs/a1_c5_target_timing_competent.json",
+        "docs/a1_scorer_pin.json",
+        "docs/decisions.json",
+        "docs/a1_viability_levers.json"
       ],
       "seeds": [
         20740101,

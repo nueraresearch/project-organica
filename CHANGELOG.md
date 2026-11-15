@@ -119,6 +119,30 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: grant issued, manifest frozen, gate open
+
+`A1-GRANT.md` records the dated authorisation the owner gave in session, and `docs/a1_two_path_manifest.json` moved from
+`REGISTERED DESIGN — NOT FROZEN, NOT RUN, NO GRANT` to **`GRANTED, NOT RUN`**: frozen on the block the signed N=20 act
+freezes, carrying that act's id, its selection digest and its `n_min`, with the C5 clearance for *that* block.
+
+**The targets are read from the act, not restated.** `manifest()` calls `_signed_act()` and copies the 115 edge strings,
+the digest and the estimand out of it, so the manifest cannot drift from the act it claims to implement. `--check`
+regenerates and compares.
+
+**The gate opens, and it still refuses.** `preflight()` returns `[]` and `--check` prints `gate clear`; the new test
+`test_the_execution_gate_opens_under_the_grant_and_still_refuses_without_it` proves the gate fires on an ungranted
+record, on a preparation-only quote ("prepare the document, without running") and on an unfrozen manifest. A gate that
+passes everything is decoration; one that refuses a granted, frozen manifest is broken, and both directions are checked.
+
+**Three defects surfaced while wiring it, and each was fixed rather than worked around.** (a) `target_set_problems`
+skipped the duplicate, degree and universe checks for a block shorter than `N` — a `n_min` block was validated only on
+size. (b) The duplicate check compared the set against `N` instead of the block length, so every 17- and 18-row seed
+reported a duplicate edge. (c) The seed-reservation registry did not know the competent artifacts, so the two-path
+manifest's own block read as a collision with itself; the registry now lists those artifacts as restatements.
+
+**Not done, and not claimed:** the run. `--measure` is 36 cells plus a determinism control at 120 cycles; nothing here
+is a result, no cell has opened a database, and no result artifact exists.
+
 ## Addendum — 2026-11-15: D3 signed, the act re-issued on the competent block, the scorer pinned
 
 `DECISION-A1-COMPETENT-ESTIMAND` was adopted, and `A1-TARGET-FREEZE-N20-1` was re-issued and signed against the block it

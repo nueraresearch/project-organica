@@ -18,7 +18,7 @@
 
 **Date:** 2026-11-15
 
-**Status:** `SIGNED BY OWNER 2026-11-15 — PATH A FROZEN ON THE COMPETENT BLOCK (20/17/20/20/18/20); ESTIMAND CONDITIONAL ON BOTH BASELINE PATHS; SCORER PINNED; C5 RE-CLEARED ON THIS BLOCK; NOT GRANTED, NO RUN`
+**Status:** `SIGNED BY OWNER 2026-11-15 — PATH A FROZEN ON THE COMPETENT BLOCK (20/17/20/20/18/20); ESTIMAND CONDITIONAL ON BOTH BASELINE PATHS; SCORER PINNED; C5 RE-CLEARED ON THIS BLOCK; GRANT ISSUED 2026-11-15 (docs/A1-GRANT.md); STILL NOT RUN`
 
 **Decision owner:** Owner
 
@@ -195,7 +195,7 @@ The table records the state at signature.
 | Scorer pinned before cells | **PASS** — `a1_arms` and `a1_result` pinned; `a1_result.assemble` refuses on a mismatch |
 | C1 acceptance rule | **ADOPTED — BINDING FOR A1 (2026-11-15)** |
 | C1/C4 gate order and 60-row floor | **ADOPTED — BINDING FOR A1 (2026-11-14)** |
-| Grant | **NOT ISSUED** |
+| Grant | **ISSUED 2026-11-15** — [`A1-GRANT`](A1-GRANT.md) |
 | Run | **NOT STARTED** |
 
 **The retention row is not a failure of this act; it is a consequence of the estimand decision, recorded where it
@@ -220,7 +220,8 @@ carrier is clear by the rule; on this block every row has one, and none appears 
 
 ## 6. After signature
 
-1. **Grant:** record the separate dated run-authorising grant. Until it exists, the execution gate must refuse.
+1. **Grant — done:** the separate dated grant was issued on 2026-11-15 and is recorded in [`A1-GRANT`](A1-GRANT.md);
+   the manifest now reads `GRANTED, NOT RUN` and its execution gate opens. Without that record the gate still refuses.
 2. **Run and measure:** execute the planned cells and assemble C1/C4 and the remaining gate records through the pinned
    scorer.
 3. **Report:** every gate reads from the pinned code or is not reported.

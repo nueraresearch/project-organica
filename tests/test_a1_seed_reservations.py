@@ -97,6 +97,7 @@ DECLARED_BLOCKS = {
     "docs/a1_baseline_availability.json",
     "docs/a1_baseline_availability_adopted.json",
     "docs/a1_c5_carrier_divergence.json",
+    "docs/a1_c8_target_selection_competent.json",
     "docs/a1_competence_adopted.json",
     "docs/a1_competence_filter_draft.json",
     "docs/a1_design_viability.json",

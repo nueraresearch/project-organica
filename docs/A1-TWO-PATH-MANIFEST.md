@@ -1,7 +1,7 @@
 # A1 two-path dry-run manifest
 
 **ID:** `A1-TWO-PATH-1`  
-**Status:** `REGISTERED DESIGN — NOT FROZEN, NOT RUN, NO GRANT`
+**Status:** `GRANTED, NOT RUN`
 
 **This is not an experimental result. No cell, seed or database is used.**
 
@@ -17,17 +17,17 @@ The treatments are implemented; it does not authorise a run.
 | Seeds | 20740101, 20740102, 20740103, 20740104, 20740105, 20740106 |
 | Cycles | 120 |
 | Cap | 40 |
-| Frozen | no |
+| Frozen | yes |
 | C5 U cycle | 4 |
 | Target-selection U cycle | 36 |
-| Target edges | UNRESOLVED — MUST BE FIXED BEFORE FREEZE |
+| Target edges | FIXED BEFORE FREEZE — FROZEN BY A1-TARGET-FREEZE-N20-1, SIGNED 2026-11-15 |
 | Cells | 36 |
 | Determinism control | seed 20740101, `A+K+` |
 
 The seeds are **provisional candidates**, not reserved or frozen. The C5 `U` is fixed before
 carrier, K and Y, and every cell of a seed must carry one object fingerprint. The cycle-36
 sample remains the target-selection diagnostic. The target edges are **unresolved** and must
-be fixed before freeze: `UNRESOLVED — MUST BE FIXED BEFORE FREEZE`.
+be fixed before freeze: `FIXED BEFORE FREEZE — FROZEN BY A1-TARGET-FREEZE-N20-1, SIGNED 2026-11-15`.
 
 ## Cells
 
@@ -48,7 +48,7 @@ planned cell set, the fixed target set, the object fields and seed freshness.
 
 A grant must be recorded in this manifest as `authorisation.granted: true`, with
 `granted_on`, an existing `document`, and a run-authorising `quote`. A preparation-only
-quote fails. The manifest is currently `REGISTERED DESIGN — NOT FROZEN, NOT RUN, NO GRANT` and its target edges are `UNRESOLVED — MUST BE FIXED BEFORE FREEZE`, so the gate
+quote fails. The manifest is currently `GRANTED, NOT RUN` and its target edges are `FIXED BEFORE FREEZE — FROZEN BY A1-TARGET-FREEZE-N20-1, SIGNED 2026-11-15`, so the gate
 refuses every cell. The A-/K-/Y- treatments are implemented; only the gate is closed.
 
 ## Commands
@@ -62,4 +62,4 @@ python -m benchmarks.a1_two_path --cell A+K+ --seed 20630101
 python -m benchmarks.a1_two_path --measure
 ```
 
-**Not evidence:** A dry-run manifest and grant gate. No cell, seed or database is used; this is not a result and does not authorise a run.
+**Not evidence:** A frozen manifest with a recorded grant. No cell has run, no seed has been drawn and no database exists; a grant is permission, not a result.

@@ -22,7 +22,7 @@ proves it), the decision table from `docs/decisions.json`. Regenerate with `pyth
 block disagrees with its source, and `--verify` runs the checks the manifest points at.
 
 <!-- a1-artifacts:start -->
-**Branches and artifacts** — 13 branches, 9 closed. Each state is derived from the record, artifact or act named in its row, via `docs/a1_board_manifest.json`; nothing in this table is typed, and a branch whose artifact is missing renders `OPEN — ARTIFACT NOT PROVEN`.
+**Branches and artifacts** — 13 branches, 10 closed. Each state is derived from the record, artifact or act named in its row, via `docs/a1_board_manifest.json`; nothing in this table is typed, and a branch whose artifact is missing renders `OPEN — ARTIFACT NOT PROVEN`.
 
 | Branch | State | What the row rests on | Check |
 | --- | --- | --- | --- |
@@ -38,7 +38,7 @@ block disagrees with its source, and `--verify` runs the checks the manifest poi
 | C4 posture clause 1 (declared multiplicity) | **OPEN — RESTATEMENT MISSING** | the posture still declares 324 / 1,944, the N=4 figures; the operative block needs 276–285 / 1,671 | [`tests/test_a1_target_viability_adopted.py`](../tests/test_a1_target_viability_adopted.py) |
 | C1 ceiling — preplanned-universe clause | **OPEN — RESTATEMENT MISSING** | the >64 VOID is narrowed to the candidate-plan count it was written against; its function is carried by the scored denominator equalling the preplanned universe, 79 / 64 / 79 / 74 / 72 / 74 | [`tests/test_a1_c1_ceiling.py`](../tests/test_a1_c1_ceiling.py) |
 | Freeze acts | **PARTIALLY SIGNED** | the N=20 act is signed on the competent block, at the floor for two seeds and above it for one, with the scorer pinned; the N=4 act is below N_min = 17 and stays unsigned | [`tests/test_a1_prefreeze.py`](../tests/test_a1_prefreeze.py), [`tests/test_a1_freeze_fields.py`](../tests/test_a1_freeze_fields.py) |
-| Grant, run | **NOT ISSUED, NOT STARTED** | neither exists; the board would have to be re-read if one appeared | — |
+| Grant, run | **CLOSED — ARTIFACT EXISTS** | the grant is recorded and the execution gate opens; no cell has run and no result artifact exists — [`A1-GRANT.md`](A1-GRANT.md) | [`tests/test_a1_prefreeze.py`](../tests/test_a1_prefreeze.py) |
 <!-- a1-artifacts:end -->
 
 The inventory below is what the pinning layer is worth, counted rather than claimed: claims, the numbers

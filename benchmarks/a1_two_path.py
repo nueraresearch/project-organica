@@ -3,7 +3,7 @@
 The manifest fixes the planned cells, candidate seed block, cycles, cap and object
 fingerprint for the A-/K-/Y- design. The treatments are implemented in
 ``benchmarks.a1_arms``, but every executing path calls ``refuse()`` before a
-database is opened; the current manifest has no target edges, no freeze and no grant.
+database is opened; the manifest's targets are frozen by the signed N=20 act and its grant is recorded.
 
     python -m benchmarks.a1_two_path --dry-run
     python -m benchmarks.a1_two_path --write
@@ -101,6 +101,19 @@ ADVERSARIAL_AUDIT_PATH = DOCS / "a1_adversarial_audit.json"
 POWER_REVIEW_PATH = DOCS / "a1_power_review.json"
 TARGET_FREEZE_ACT_PATH = DOCS / "a1_target_freeze_act.json"
 N20_TARGET_FREEZE_ACT_PATH = DOCS / "a1_target_freeze_act_n20.json"
+C8_TARGET_SELECTION_COMPETENT_PATH = DOCS / "a1_c8_target_selection_competent.json"
+C5_TIMING_COMPETENT_PATH = DOCS / "a1_c5_target_timing_competent.json"
+SCORER_PIN_PATH = DOCS / "a1_scorer_pin.json"
+DECISIONS_PATH = DOCS / "decisions.json"
+VIABILITY_LEVERS_PATH = DOCS / "a1_viability_levers.json"
+GRANT_PATH = DOCS / "A1-GRANT.md"
+GRANT_DATE = "2026-11-15"
+GRANT_QUOTE = "Sign updated freeze act. Grant. Run."
+
+
+def _signed_act() -> dict:
+    """The signed N=20 act. The manifest's targets are the block it froze, not a second copy."""
+    return json.loads(N20_TARGET_FREEZE_ACT_PATH.read_text(encoding="utf-8"))
 
 
 def manifest() -> dict:
@@ -108,8 +121,8 @@ def manifest() -> dict:
         "kind": "a1_two_path_manifest",
         "id": ID,
         "date": DATE,
-        "status": "REGISTERED DESIGN — NOT FROZEN, NOT RUN, NO GRANT",
-        "frozen": False,
+        "status": "GRANTED, NOT RUN",
+        "frozen": True,
         "design": "docs/TWO-PATH-ADMISSION-CARRIER-DESIGN.md",
         "thresholds": "docs/A1-PRECOMMITTED-THRESHOLDS.md",
         "engine": "0.15.0",
@@ -145,19 +158,29 @@ def manifest() -> dict:
             "rule": "every cell of a seed must carry one fingerprint",
         },
         "targets": {
-            "status": "UNRESOLVED — MUST BE FIXED BEFORE FREEZE",
-            "protocol": TARGET_PROTOCOL,
-            "n_per_seed": TARGET_N,
-            "selection_artifact": TARGET_SELECTION_PATH.relative_to(ROOT).as_posix(),
-            "by_seed": {},
+            "status": "FIXED BEFORE FREEZE — FROZEN BY " + _signed_act()["id"] + ", SIGNED " + GRANT_DATE,
+            "protocol": C8_TARGET_PROTOCOL,
+            "n_per_seed": _signed_act()["n_per_seed"],
+            "n_min": _signed_act()["n_min"],
+            "disjoint": False,
+            "max_endpoint_degree": C8_MAX_ENDPOINT_DEGREE,
+            "selection_artifact": _signed_act()["selection_artifact"],
+            "selection_artifact_digest": _signed_act()["selection_artifact_digest"],
+            "freeze_act": N20_TARGET_FREEZE_ACT_PATH.relative_to(ROOT).as_posix(),
+            "freeze_act_id": _signed_act()["id"],
+            "by_seed": _signed_act()["targets_by_seed"],
             "u_cycle": C5_U_CYCLE,
             "selection_u_cycle": C5_SELECTION_U_CYCLE,
-            "c5_timing_audit": C5_TIMING_PATH.relative_to(ROOT).as_posix(),
+            "c5_timing_audit": C5_TIMING_COMPETENT_PATH.relative_to(ROOT).as_posix(),
+            "estimand": _signed_act()["estimand"],
+            "current_targets_retained": _signed_act()["current_targets_retained"],
             "rule": (
-                "Directed world edges fixed per seed before any cell; one target set "
-                "is applied in every cell of that seed; no post-outcome target selection. "
-                "C5 U is measured at cycle 4, before the earliest observed target carrier "
-                "at cycle 5; the cycle-36 sample remains the target-selection diagnostic."
+                "Directed world edges fixed per seed by the signed N=20 act, on the block "
+                "DECISION-A1-COMPETENT-ESTIMAND adopts; one target set is applied in every cell "
+                "of that seed; no post-outcome target selection. C5 U is measured at cycle 4, "
+                "before the earliest observed target carrier at cycle 5; the cycle-36 sample "
+                "remains the target-selection diagnostic. The block is not a superset of the "
+                "previous N=4 targets: 7 of 24 survive."
             ),
         },
         "U": {
@@ -169,10 +192,10 @@ def manifest() -> dict:
             "sampling": "after cycle-4 observations, before the cycle-4 sleep call",
         },
         "authorisation": {
-            "granted": False,
-            "granted_on": None,
-            "document": None,
-            "quote": None,
+            "granted": True,
+            "granted_on": GRANT_DATE,
+            "document": GRANT_PATH.relative_to(ROOT).as_posix(),
+            "quote": GRANT_QUOTE,
         },
         "runner": {
             "built": True,
@@ -181,8 +204,8 @@ def manifest() -> dict:
         },
         "result": {"path": "docs/a1_two_path_result.json", "exists": False},
         "not_evidence": (
-            "A dry-run manifest and grant gate. No cell, seed or database is used; "
-            "this is not a result and does not authorise a run."
+            "A frozen manifest with a recorded grant. No cell has run, no seed has been "
+            "drawn and no database exists; a grant is permission, not a result."
         ),
     }
 
@@ -332,7 +355,7 @@ def target_set_problems(doc: dict) -> list[str]:
                 found.append("seed %d has an empty or self target edge" % seed)
                 continue
             parsed.append((a, b))
-        if len(parsed) != n:
+        if len(parsed) != len(raw):
             continue
         if disjoint:
             used: set[str] = set()
@@ -341,7 +364,7 @@ def target_set_problems(doc: dict) -> list[str]:
                     found.append("seed %d targets do not have disjoint endpoints" % seed)
                 used.update((a, b))
         else:
-            if len(set(parsed)) != n:
+            if len(set(parsed)) != len(raw):
                 found.append("seed %d repeats a target edge" % seed)
             degree: dict[str, int] = {}
             for a, b in parsed:
@@ -448,6 +471,8 @@ def preflight(doc: dict | None = None) -> list[str]:
                  DESIGN_VIABILITY_PATH, COMPETENCE_ADOPTED_PATH,
                  COMPETENCE_FILTER_PATH,
                  N20_COMPETENT_PREREG_PATH,
+                 C8_TARGET_SELECTION_COMPETENT_PATH, C5_TIMING_COMPETENT_PATH,
+                 SCORER_PIN_PATH, DECISIONS_PATH, VIABILITY_LEVERS_PATH,
                  K_DECOMPOSITION_PATH, SUCCESSOR_PREFLIGHT_PATH,
                  SUCCESSOR_CANDIDATE_PATH, LARGER_UNIVERSE_CANDIDATE_PATH,
                  LARGER_UNIVERSE_PREFLIGHT_PATH, K_TOTAL_PREDICTORS_PATH,
@@ -493,7 +518,8 @@ def dry_run() -> int:
         for cell in CELLS:
             print(command(seed, cell["id"]))
     print(command(CONTROL["seed"], CONTROL["cell"], control=True))
-    print("36 cells + 1 determinism control; no grant, no fixed targets, no database.",
+    print("36 cells + 1 determinism control; targets frozen by the signed act, grant recorded, "
+          "and this path opens no database.",
           file=sys.stderr)
     return 0
 
@@ -607,8 +633,8 @@ def check() -> int:
         for problem in found:
             print("FAIL:", problem)
         return 1
-    print("A1 two-path manifest: clean; %d cells + 1 control; gate refuses (no grant, not frozen, targets unresolved)"
-          % doc["cell_count"])
+    print("A1 two-path manifest: clean; %d cells + 1 control; %s"
+          % (doc["cell_count"], "gate clear" if not preflight(doc) else "gate refuses"))
     for reason in preflight(doc):
         print("  -", reason)
     return 0
