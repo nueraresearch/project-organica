@@ -70,3 +70,43 @@ def test_the_superseded_numbers_are_named_against_their_artifacts():
         "a1_band_frontier.json")
     assert provenance["constants.decision_ceiling"]["artifact"] == (
         "a1_offset_discriminator_spec.json")
+
+
+PAIR_SPLIT_SEEDS = (20690101, 20690102, 20690103, 20690104, 20690105, 20690106)
+PAIR_SPLIT_ARTIFACTS = {
+    "docs/a1_offset_discriminator_spec.json",
+    "docs/a1_pair_split_rule_amended.json",
+}
+
+
+def _integers(node, out):
+    if isinstance(node, dict):
+        for value in node.values():
+            _integers(value, out)
+    elif isinstance(node, list):
+        for value in node:
+            _integers(value, out)
+    elif isinstance(node, bool):
+        return
+    elif isinstance(node, int):
+        out.add(node)
+    elif isinstance(node, float) and node.is_integer():
+        out.add(int(node))
+
+
+def test_the_reserved_seeds_appear_in_no_committed_artifact():
+    """The pair-split block must be unspent: no other artifact may name a seed."""
+    offenders = {}
+    for path in sorted(Path("docs").glob("*.json")):
+        values = set()
+        _integers(json.loads(path.read_text(encoding="utf-8")), values)
+        shared = sorted(values & set(PAIR_SPLIT_SEEDS))
+        if shared and path.as_posix() not in PAIR_SPLIT_ARTIFACTS:
+            offenders[path.as_posix()] = shared
+    assert offenders == {}
+
+
+def test_the_reserved_seeds_are_not_the_manifest_block():
+    manifest = json.loads(
+        Path("docs/a1_two_path_manifest.json").read_text(encoding="utf-8"))
+    assert not set(manifest["seed_block"]["seeds"]) & set(PAIR_SPLIT_SEEDS)
