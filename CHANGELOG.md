@@ -53,6 +53,25 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
+## Addendum — 2026-11-15: the competence filter is drafted, applied, and it does not cover every seed
+
+Option A of the C2/C8 competence draft asked for a rule and a measurement, and both now exist.
+`A1-COMPETENCE-FILTER-DRAFT-1` (`docs/a1_competence_filter_draft.json`,
+`docs/A1-COMPETENCE-FILTER-DRAFT.md`, `benchmarks/a1_competence_filter_draft.py`) states the rule —
+the published selection with eligibility narrowed to A-and-K-available rows, everything else
+unchanged, no fallback — and applies it to the adopted block. The unfiltered pass reproduces both
+published selections edge for edge on all six seeds, which is what licenses calling it a restriction
+rather than a new rule.
+
+The result corrects the reading the competence record invited. On the four-row design the filter is
+easy: a competent block forms on **6/6** seeds (10 of 24 rows kept, 14 replaced). On the twenty-row
+design it is not: blocks form on **4/6**, the published walk manages 3/6, and on **20740102 no
+twenty-row competent block exists at all** — all 888,030 candidate subsets were enumerated and none
+satisfies the endpoint cap — while `20740105` stays undecided with a best block of 18. A count
+comparison of competent rows against the block size was therefore never a construction, and the
+competence record now says so. The choice is no longer "filter or not": it is a declared cap change,
+a wider universe, or declining to adjudicate C8 on this block.
+
 ## Versioning in this repository — three separate namespaces
 
 The words "v1" and "v2" appear in this project in three different senses.

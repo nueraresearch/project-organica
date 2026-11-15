@@ -34,7 +34,7 @@ Competent pool: **27-40** per seed, 20 required for an N=20 block; sufficient on
 
 ## What the record establishes
 
-On the adopted block the current N=4 selection supplies 12 competent rows of 24 and the N=20 selection 58 of 120, while the competent pool is 27-40 per seed against 20 required. The block has no seed on which either selection can be adjudicated, and the pool is large enough to build one.
+On the adopted block the current N=4 selection supplies 12 competent rows of 24 and the N=20 selection 58 of 120, while the competent pool is 27-40 per seed against 20 required. The block has no seed on which either selection can be adjudicated. The pool comparison is a count, not a construction: with the endpoint cap in force no twenty-row competent block exists on every adopted seed (see A1-COMPETENCE-FILTER-DRAFT-1).
 
 under the drafted C2/C8 competence rule a block with any non-competent row is VOID rather than partial-scored, so both current selections would be void as recorded
 

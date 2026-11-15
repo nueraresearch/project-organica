@@ -176,8 +176,10 @@ def build() -> dict:
                 "On the adopted block the current N=4 selection supplies %d competent "
                 "rows of %d and the N=20 selection %d of %d, while the competent pool "
                 "is %d-%d per seed against %d required. The block has no seed on which "
-                "either selection can be adjudicated, and the pool is large enough to "
-                "build one." % (n4["competent"], n4["rows"], n20["competent"],
+                "either selection can be adjudicated. The pool comparison is a "
+                "count, not a construction: with the endpoint cap in force no "
+                "twenty-row competent block exists on every adopted seed (see "
+                "A1-COMPETENCE-FILTER-DRAFT-1)." % (n4["competent"], n4["rows"], n20["competent"],
                                 n20["rows"], min(pools), max(pools),
                                 REQUIRED["N20"])),
             "what_this_does_not_establish": (

@@ -47,13 +47,13 @@ The two blocks agree on the shape of the finding: **no seed supplies a clean C8 
 
 ## Three options for the owner
 
-**Option A — adopt the filter.** C8 rows are re-selected from the A- and K-available pool under a declared rule. The pool is sufficient on both blocks (2063: 23–36, 2074: 27–40 against 20 required). Cost: both target tables are regenerated, the freeze acts' recorded target sets change, and the estimand moves from *any selected edge* to *competent selected edge* — which must be recorded as a design change, not slipped in as a selection detail. This is the only option under which C8 becomes adjudicable.
+**Option A — adopt the filter.** C8 rows are re-selected from the A- and K-available pool under a declared rule. The pool holds more competent rows than a block needs on both blocks (2063: 23–36, 2074: 27–40 against 20 required) — but that is a count comparison, not a construction. [`A1-COMPETENCE-FILTER-DRAFT-1`](A1-COMPETENCE-FILTER-DRAFT.md) applies this rule: a competent four-row block forms on all six adopted seeds, and a competent twenty-row block forms on only four, because the endpoint cap binds — on `20740102` no twenty-row competent block exists at all, exhaustively, and `20740105` is undecided with a best block of eighteen. Cost: both target tables are regenerated, the freeze acts' recorded target sets change, and the estimand moves from *any selected edge* to *competent selected edge* — which must be recorded as a design change, not slipped in as a selection detail. This is the only option under which C8 becomes adjudicable.
 
 **Option B — declare C8 not adjudicable.** Keep the current selections and record on the act that C8 cannot be scored on them. Cost: nothing today, and C8 never becomes measurable under this design. It is the honest option only if the owner intends never to score C8 on this universe.
 
 **Option C — redesign the universe** to raise A∩K per seed. Cost: the largest, and it contradicts what is already known about K (window-limited, and the loop cap moved it only sublinearly). It is listed because it is the alternative that could make competence abundant rather than merely sufficient.
 
-**A recommendation, marked as one:** Option A. It is the only option that costs a selection rule and a regenerated table rather than a measurement or a permanent hole in the gate, and the pool is large enough on both blocks that the filter does not create a new supply problem.
+**A recommendation, marked as one:** Option A, but not alone. The filter is necessary and not sufficient — the draft shows it cannot produce a twenty-row block on every adopted seed while the endpoint cap stands, and one seed is proven impossible. The defensible step is the filter together with a declared cap (a rule change that must be recorded as such), or Option C; Option B remains the honest fallback if neither is acceptable.
 
 ## What this rule does not decide
 
