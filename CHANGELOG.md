@@ -142,6 +142,12 @@ categories of exclusion are non-zero in every seed — an edge can fail the pred
 block the constructor found. A single "dropped" column would have merged an exclusion with a substitution, and the
 addendum I wrote an hour earlier proposed exactly that table; the data refused it.
 
+Both paragraphs are now grounded rather than merely present. The timing paragraph does not argue from timestamps,
+which no reader can audit; it argues from the fact that no cell has run at all, and `--check` verifies the two places
+that say so — the act still reading `AWAITING THE OWNER'S SIGNATURE; ... NO GRANT, NO RUN`, and no grant, authorisation,
+run or result record for A1 existing under `docs/`. Sign the act, grant it, or run a cell and the page renders ❌ and
+`--check` fails, because at that point the sentence needs a person to reread rather than a generator to keep it in date.
+
 With that row filled the N=20 act reads **ten of ten recorded, nothing blocking the signature**, and the board carries a
 thirteenth branch, `S5 unfiltered-selection disclosure`, closed as an artifact. The act's status line still reads
 `AWAITING THE OWNER'S SIGNATURE` — record-complete is not signed.

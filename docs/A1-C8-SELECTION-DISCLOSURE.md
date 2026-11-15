@@ -26,6 +26,15 @@
 
 **This is not a subtraction, and reading it as one would be wrong.** The unfiltered block and the filtered block come from different candidate pools, so the filtered block is not the unfiltered block with rows removed: it keeps a few of the same edges and adds edges the unfiltered rule never chose, while the unfiltered block contains edges that are competent but were not selected. The three right-hand columns separate those cases; a single "dropped" figure would merge an exclusion with a substitution.
 
+## Grounds for the timing claim
+
+The claim above is not argued from timestamps, which a reader cannot audit. It is argued from the fact that **no cell has run at all**:
+
+- ✅ the freeze act reads `AWAITING THE OWNER'S SIGNATURE` and `NOT FROZEN, NO GRANT, NO RUN`
+- ✅ no grant, authorisation, run or result record for A1 exists under `docs/`
+
+`--check` verifies both, and fails when either stops holding — a signed act, a grant, or a run record — because at that point this paragraph needs a person to reread it rather than a generator to keep it in date.
+
 ## What this record does and does not show
 
 - **Shown:** which edges the unfiltered rule chose, which the competent construction chose, how many they share, and how the exclusions divide between rows that fail the predicate and rows that pass it but were not selected.

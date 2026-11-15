@@ -45,6 +45,34 @@ def test_the_blocks_are_different_sets_so_the_page_says_so() -> None:
     assert "not a subtraction" in text
 
 
+def test_the_timing_claim_has_grounds() -> None:
+    """The sentence is only true while no cell has run; the checks say so instead of the prose."""
+    assert disclosure.evidence() == []
+    text = disclosure.PAGE.read_text(encoding="utf-8")
+    assert "## Grounds for the timing claim" in text
+    assert "✅ the freeze act reads" in text
+
+
+def test_a_grant_record_breaks_the_claim(tmp_path: Path) -> None:
+    (tmp_path / "A1-GRANT-EXAMPLE-1.md").write_text("a grant\n", encoding="utf-8")
+    found = disclosure.evidence(docs=tmp_path)
+    assert any("A1-GRANT-EXAMPLE-1.md" in problem for problem in found), found
+
+
+def test_a_run_record_breaks_the_claim(tmp_path: Path) -> None:
+    (tmp_path / "a1_run_cells.json").write_text("{}\n", encoding="utf-8")
+    found = disclosure.evidence(docs=tmp_path)
+    assert any("a1_run_cells.json" in problem for problem in found), found
+
+
+def test_a_signed_act_breaks_the_claim(tmp_path: Path) -> None:
+    signed = tmp_path / "act.md"
+    signed.write_text(disclosure.ACT.read_text(encoding="utf-8")
+                      .replace(disclosure.UNSIGNED, "SIGNED"), encoding="utf-8")
+    found = disclosure.evidence(act=signed, docs=tmp_path)
+    assert any("no longer says" in problem for problem in found), found
+
+
 def test_the_page_records_when_the_filter_ran() -> None:
     text = disclosure.PAGE.read_text(encoding="utf-8")
     assert disclosure.TIMING in text
