@@ -1,8 +1,8 @@
 # Project report — status, evidence and research timeline
 
 **Status: synthesis, not a result.** This page adds no measurement and changes no verdict. The
-cited artifacts and `docs/RESEARCH-FINDINGS.md` are authoritative. It is dated **2026-11-13**;
-figures are read from the committed records on that date.
+cited artifacts and `docs/RESEARCH-FINDINGS.md` are authoritative. Sections 1–8 are dated
+**2026-11-13**; §9 was added **2026-11-14** and cites the holdout artifacts of that date.
 
 ## 1. One-paragraph status
 
@@ -210,5 +210,68 @@ synthesis, not a second plan.
 - Retention: `docs/retention_formation_anchored.json`, `docs/RETENTION-FORMATION-ANCHORED.md`,
   `docs/RETENTION-ENTRY-TRANSITION-PREREGISTRATION.md`
 - Acquisition: `docs/ACQUISITION-ENDPOINT-AUDIT.md`, `docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`
+- Cap-response curve and cap holdout: `docs/a1_cap_response_curve.json`, `docs/A1-CAP-RESPONSE-CURVE.md`,
+  `docs/a1_cap_response_holdout.json`, `docs/A1-CAP-RESPONSE-HOLDOUT.md`
+- Offset predictors and seed holdout: `docs/a1_offset_predictors.json`, `docs/a1_offset_density.json`,
+  `docs/a1_cap_response_seed_holdout.json`, `docs/A1-CAP-RESPONSE-SEED-HOLDOUT.md`
 - Current hierarchy: `docs/RESEARCH-HIERARCHY.md`, `docs/FINDINGS-LEDGER.md`
 - Registry and claims: `docs/RESEARCH-FINDINGS.md`, `docs/claim_ledger.json`
+
+## 9. Predictability (2026-11-14)
+
+**Synthesis, no new measurement.** This section restates what three committed artifacts show
+about whether the normalized A-coverage surface can be predicted rather than only described. It
+changes no verdict and adds no cell.
+
+### 9.1 What the holdouts show
+
+| Axis | Held out | Result |
+| --- | --- | --- |
+| Cap | 28/64/96, between fitted caps | predicted at RMSE **0.0139** (max **0.0237**), inside the fit's own LOO **0.0193** |
+| Cap | 128, above the fitted range | predicted at **0.0142** (max **0.0223**), one step past the fit with no measurable degradation |
+| Block | current-16 / fresh-16 | interpolated at **0.0216** / **0.0197** |
+| Block | larger-28 | **not identified**: training blocks differ by **0.0026** in log candidate size, coefficient **−5.17**, predicted coverage **−4.33** |
+| Seed | fresh 16-tag block `20670101–20670106` | level **missed**: cell RMSE **0.0321** (max **0.0432**, mean **−0.0313**) against a 16-tag LOO of **0.0216**; seed RMSE **0.0592**, inside the 16-tag seed LOO **0.0747** |
+
+The cap axis is predicted; the block axis is estimable only inside the candidate-size range it
+was trained on; the seed axis fails at the level. The decisive case is the last: the new block's
+mean log candidate size, **4.156258**, is exactly fresh-16's, so the model assigns it fresh-16's
+offset (**0.4128**) and cannot tell the two apart — yet its coverage,
+**0.5797/0.6789/0.8096/0.8826** at caps 20/40/80/112 against current-16's
+**0.6362/0.7356/0.8299/0.9032**, sits **0.0171 to 0.0369** below the fresh-16 bracket at every
+cap.
+
+### 9.2 What this licenses
+
+- **The response shape is predictable within a defined region.** One shared `sqrt(cap)` curve
+  plus a block offset fits the 12 committed cells at LOO **0.0193** and predicts unfitted caps
+  at **0.0139–0.0142**, so over **cap 20–128** A-coverage behaves like a predictable quantity
+  rather than a post-hoc description.
+- **The baseline level is not predicted by candidate size.** Size replaces the block label among
+  the fitted blocks, but two blocks of equal candidate size differ by **0.017–0.037**, so size is
+  a within-range surrogate for block identity, not the quantity that sets a new block's level.
+- **The overlap constraint is stable across the cap lever.** Raising cap 80 to 112 adds **140** A
+  edges and drops **0**, and the new edges carry K at the retained rate (**1.000** on the
+  K-complete 16-tag seeds, **0.812** against **0.791** on larger-28); the pooled fall (**0.893**
+  against **0.908**) is composition, not a lower membership propensity.
+
+### 9.3 What it constrains
+
+The surface is **smooth and concave over 20–128**: no cliff, discontinuity or threshold appears,
+and the fitted curve crosses coverage 1.0 only at cap **152** (current-16) and **160**
+(fresh-16), outside the tested range — though both 16-tag blocks already sit below the curve at
+caps 96 and 128 as they approach those caps. A mechanism has to produce, together, a smooth
+concave cap response, a stable overlap fraction under the cap lever, and a block offset that
+survives equal candidate size.
+
+### 9.4 What remains weakly characterized
+
+| Unknown | State |
+| --- | --- |
+| New seed blocks | one block tested; its level moved, so the curve is partly a property of the fitted draws |
+| New world families | untested beyond the 16-tag and 28-tag constructions |
+| World-family offsets | not a function of candidate size or density; the quantity that sets them is unidentified |
+
+The cap response, the loop-cap response, overlap stability and cap interpolation are now
+reasonably characterized. The next informative discriminator is not another cap value: it is
+what sets the level across blocks of equal candidate size.
