@@ -106,6 +106,7 @@ DERIVED = {
     "a1_cap_response_seed_holdout.py",  # unseen-seed-block validation of the curve
     "a1_prediction_cap112_unserved.py",  # cap-112 unserved-edge trace by rank and family
     "a1_offset_discriminator_spec.py",  # pair-split construction spec; derives candidates only
+    "a1_within_block_level.py",  # within-block quantities against committed coverage cells
     "a1_successor_preflight.py",  # no-arm gate harness; selects, freezes and runs nothing
     "a1_successor_candidate.py",  # no-arm candidate spec; selects, freezes and runs nothing
     "a1_successor_schema.py",  # schema/validator writer; selects, freezes and runs nothing

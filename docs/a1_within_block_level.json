@@ -1,0 +1,641 @@
+{
+ "kind": "a1_within_block_level",
+ "id": "A1-WITHIN-BLOCK-LEVEL-1",
+ "date": "2026-11-14",
+ "status": "DESCRIPTIVE \u2014 WITHIN-BLOCK CANDIDATE-SPACE QUANTITIES AGAINST THE 16-TAG LEVEL; NO TARGET, FREEZE, GRANT OR A1 CELL",
+ "not_a_result": true,
+ "question": "Which within-block candidate-space quantity, if any, tracks the coverage level across the equal-size 16-tag blocks?",
+ "definition": "Three blocks of six seeds, each with 16 tags and 63-64 candidate edges: current-16, fresh-16 and the seed-holdout block 20670101-20670106. Level is the fitted cap-0 offset, computed as the mean over caps 20/40/80/112 of coverage minus the shared sqrt(cap) slope, from committed cells only.",
+ "method": "Join committed per-seed coverage cells to candidate-space quantities computed from the same acquisition stream with the committed candidate rule and the committed support helper. Support values are checked edge by edge against the cap-112 decomposition where it covers the same seed.",
+ "constants": {
+  "caps": [
+   20,
+   40,
+   80,
+   112
+  ],
+  "slope": 0.04698668,
+  "cycles": 120,
+  "events_per_cycle": 8,
+  "blocks": 3,
+  "seeds": 18
+ },
+ "governance": {
+  "freeze": false,
+  "grant": false,
+  "run": false,
+  "authorization": "none"
+ },
+ "reading": "No measured within-block quantity tracks the 16-tag level. The three equal-size blocks differ in fitted offset by at most **0.0385** (**0.4200** / **0.4065** / **0.3815**), which is **0.39** to **1.68** standard errors of the pairwise difference at six seeds each and no wider than the within-block seed spread (**0.043** / **0.073** / **0.036**). Their candidate-space quantities barely move: mean support **22.90** / **22.61** / **22.62**, support mass **1458** / **1443** / **1444**, support dispersion **7.88** / **7.77** / **8.14**, tag entropy **3.9060** / **3.9021** / **3.8955**, pair saturation **0.442** / **0.443** / **0.443**, and **9** cell pairs in all three. Three of eight quantities order the three block means the way the level does \u2014 median support (**22.33** / **22.00** / **21.50**), tag entropy and the share at support <= 10 (**0.045** / **0.034** / **0.029**) \u2014 which is what a chance ordering returns about one time in six, and none keeps a consistent sign at seed resolution: median support runs **-0.62** / **+0.38** / **-0.09**, tag entropy **-0.77** / **+0.14** / **-0.46**, and the floor share reverses the block ordering outright, **+0.14** / **-0.60** / **-0.82**. The sharpest single case against a support account is fresh-16's lowest seed, `20650105` at offset **+0.2589**, which has that block's **highest** mean support (**23.0**). The lowest block matches fresh-16 on every quantity measured, including candidate count (**63.8** against **63.8**) and K completeness (**1.000**), so the level is not carried by candidate support, support mass, support dispersion, entropy, cell-pair coverage or pair saturation: it varies more inside a block than between equal-size blocks, and the fitted block offset is a mean of draws rather than a property of the candidate space.",
+ "found": {
+  "blocks": 3,
+  "seeds": 18,
+  "statistics": 8,
+  "level_spread": 0.038504,
+  "level_blocks": [
+   0.420022,
+   0.406464,
+   0.381518
+  ],
+  "max_within_block_sd": 0.072798,
+  "any_statistics_track": 0,
+  "any_sign_consistent": 0
+ },
+ "blocks": [
+  {
+   "label": "current-16",
+   "seeds": [
+    20630101,
+    20630102,
+    20630103,
+    20630104,
+    20630105,
+    20630106
+   ],
+   "offset_mean": 0.420022,
+   "offset_sd": 0.04341,
+   "offset_se": 0.017722,
+   "offset_min": 0.358638,
+   "offset_max": 0.483638,
+   "candidates_mean": 63.666667,
+   "k_completeness": [
+    1.0
+   ]
+  },
+  {
+   "label": "fresh-16",
+   "seeds": [
+    20650101,
+    20650102,
+    20650103,
+    20650104,
+    20650105,
+    20650106
+   ],
+   "offset_mean": 0.406464,
+   "offset_sd": 0.072798,
+   "offset_se": 0.02972,
+   "offset_min": 0.258874,
+   "offset_max": 0.491451,
+   "candidates_mean": 63.833333,
+   "k_completeness": [
+    1.0
+   ]
+  },
+  {
+   "label": "seed-2067",
+   "seeds": [
+    20670101,
+    20670102,
+    20670103,
+    20670104,
+    20670105,
+    20670106
+   ],
+   "offset_mean": 0.381518,
+   "offset_sd": 0.035742,
+   "offset_se": 0.014592,
+   "offset_min": 0.335201,
+   "offset_max": 0.429509,
+   "candidates_mean": 63.833333,
+   "k_completeness": [
+    1.0
+   ]
+  }
+ ],
+ "gap_tests": [
+  {
+   "blocks": [
+    "current-16",
+    "fresh-16"
+   ],
+   "difference": 0.013558,
+   "se": 0.034603,
+   "z": 0.392
+  },
+  {
+   "blocks": [
+    "current-16",
+    "seed-2067"
+   ],
+   "difference": 0.038504,
+   "se": 0.022956,
+   "z": 1.677
+  },
+  {
+   "blocks": [
+    "fresh-16",
+    "seed-2067"
+   ],
+   "difference": 0.024946,
+   "se": 0.033109,
+   "z": 0.753
+  }
+ ],
+ "statistics": [
+  {
+   "name": "mean_support",
+   "description": "mean directed-pair support over candidate edges",
+   "block_means": [
+    22.897156,
+    22.609499,
+    22.618469
+   ],
+   "relative_spread": 0.012667,
+   "orders_like_level": [
+    false,
+    false,
+    true
+   ],
+   "orders_like_level_all": false,
+   "within_block_spearman": [
+    -0.7714,
+    0.116,
+    -0.2899
+   ],
+   "sign_consistent": false,
+   "tracks": false
+  },
+  {
+   "name": "median_support",
+   "description": "median directed-pair support over candidate edges",
+   "block_means": [
+    22.333333,
+    22.0,
+    21.5
+   ],
+   "relative_spread": 0.037975,
+   "orders_like_level": [
+    true,
+    true,
+    true
+   ],
+   "orders_like_level_all": true,
+   "within_block_spearman": [
+    -0.6172,
+    0.3769,
+    -0.0924
+   ],
+   "sign_consistent": false,
+   "tracks": false
+  },
+  {
+   "name": "support_mass",
+   "description": "total directed-pair support over candidate edges",
+   "block_means": [
+    1457.833333,
+    1443.166667,
+    1443.833333
+   ],
+   "relative_spread": 0.010127,
+   "orders_like_level": [
+    false,
+    false,
+    true
+   ],
+   "orders_like_level_all": false,
+   "within_block_spearman": [
+    -0.7714,
+    0.4058,
+    -0.5508
+   ],
+   "sign_consistent": false,
+   "tracks": false
+  },
+  {
+   "name": "support_sd",
+   "description": "standard deviation of candidate support",
+   "block_means": [
+    7.882348,
+    7.771061,
+    8.144668
+   ],
+   "relative_spread": 0.047097,
+   "orders_like_level": [
+    false,
+    false,
+    false
+   ],
+   "orders_like_level_all": false,
+   "within_block_spearman": [
+    0.0857,
+    -0.2571,
+    -0.058
+   ],
+   "sign_consistent": false,
+   "tracks": false
+  },
+  {
+   "name": "frac_le_10",
+   "description": "share of candidate edges with support <= 10",
+   "block_means": [
+    0.04456,
+    0.033896,
+    0.028646
+   ],
+   "relative_spread": 0.445762,
+   "orders_like_level": [
+    true,
+    true,
+    true
+   ],
+   "orders_like_level_all": true,
+   "within_block_spearman": [
+    0.1429,
+    -0.6,
+    -0.821
+   ],
+   "sign_consistent": false,
+   "tracks": false
+  },
+  {
+   "name": "tag_entropy",
+   "description": "Shannon entropy (bits) of acquisition tag frequency",
+   "block_means": [
+    3.905986,
+    3.902093,
+    3.895547
+   ],
+   "relative_spread": 0.002676,
+   "orders_like_level": [
+    true,
+    true,
+    true
+   ],
+   "orders_like_level_all": true,
+   "within_block_spearman": [
+    -0.7714,
+    0.1429,
+    -0.4638
+   ],
+   "sign_consistent": false,
+   "tracks": false
+  },
+  {
+   "name": "cell_pairs",
+   "description": "distinct (source cell, target cell) transitions exercised",
+   "block_means": [
+    9.0,
+    9.0,
+    9.0
+   ],
+   "relative_spread": 0.0,
+   "orders_like_level": [
+    false,
+    true,
+    false
+   ],
+   "orders_like_level_all": false,
+   "within_block_spearman": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "sign_consistent": false,
+   "tracks": false
+  },
+  {
+   "name": "pair_saturation",
+   "description": "candidate edges / (cell pairs x 16)",
+   "block_means": [
+    0.442129,
+    0.443287,
+    0.443287
+   ],
+   "relative_spread": 0.002615,
+   "orders_like_level": [
+    false,
+    true,
+    false
+   ],
+   "orders_like_level_all": false,
+   "within_block_spearman": [
+    -0.207,
+    0.6547,
+    -0.6642
+   ],
+   "sign_consistent": false,
+   "tracks": false
+  }
+ ],
+ "rows": [
+  {
+   "block": "current-16",
+   "seed": 20630101,
+   "candidate_edges": 64,
+   "committed_candidates": 64,
+   "k_completeness": 1.0,
+   "offset": 0.378169,
+   "mean_coverage": 0.734375,
+   "mean_support": 22.828125,
+   "median_support": 22,
+   "support_mass": 1461,
+   "support_sd": 8.036158,
+   "frac_le_10": 0.03125,
+   "tag_entropy": 3.917173,
+   "cell_pairs": 9,
+   "pair_saturation": 0.444444
+  },
+  {
+   "block": "current-16",
+   "seed": 20630102,
+   "candidate_edges": 63,
+   "committed_candidates": 63,
+   "k_completeness": 1.0,
+   "offset": 0.405699,
+   "mean_coverage": 0.761905,
+   "mean_support": 23.063492,
+   "median_support": 23,
+   "support_mass": 1453,
+   "support_sd": 6.156357,
+   "frac_le_10": 0.031746,
+   "tag_entropy": 3.932529,
+   "cell_pairs": 9,
+   "pair_saturation": 0.4375
+  },
+  {
+   "block": "current-16",
+   "seed": 20630103,
+   "candidate_edges": 64,
+   "committed_candidates": 64,
+   "k_completeness": 1.0,
+   "offset": 0.483638,
+   "mean_coverage": 0.839844,
+   "mean_support": 22.59375,
+   "median_support": 21,
+   "support_mass": 1446,
+   "support_sd": 8.020908,
+   "frac_le_10": 0.046875,
+   "tag_entropy": 3.8795,
+   "cell_pairs": 9,
+   "pair_saturation": 0.444444
+  },
+  {
+   "block": "current-16",
+   "seed": 20630104,
+   "candidate_edges": 64,
+   "committed_candidates": 64,
+   "k_completeness": 1.0,
+   "offset": 0.358638,
+   "mean_coverage": 0.714844,
+   "mean_support": 23.53125,
+   "median_support": 23,
+   "support_mass": 1506,
+   "support_sd": 8.253728,
+   "frac_le_10": 0.0625,
+   "tag_entropy": 3.915283,
+   "cell_pairs": 9,
+   "pair_saturation": 0.444444
+  },
+  {
+   "block": "current-16",
+   "seed": 20630105,
+   "candidate_edges": 64,
+   "committed_candidates": 64,
+   "k_completeness": 1.0,
+   "offset": 0.440669,
+   "mean_coverage": 0.796875,
+   "mean_support": 22.921875,
+   "median_support": 23,
+   "support_mass": 1467,
+   "support_sd": 8.265714,
+   "frac_le_10": 0.015625,
+   "tag_entropy": 3.911482,
+   "cell_pairs": 9,
+   "pair_saturation": 0.444444
+  },
+  {
+   "block": "current-16",
+   "seed": 20630106,
+   "candidate_edges": 63,
+   "committed_candidates": 63,
+   "k_completeness": 1.0,
+   "offset": 0.453318,
+   "mean_coverage": 0.809524,
+   "mean_support": 22.444444,
+   "median_support": 22,
+   "support_mass": 1414,
+   "support_sd": 8.561223,
+   "frac_le_10": 0.079365,
+   "tag_entropy": 3.879947,
+   "cell_pairs": 9,
+   "pair_saturation": 0.4375
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650101,
+   "candidate_edges": 64,
+   "committed_candidates": 64,
+   "k_completeness": 1.0,
+   "offset": 0.440669,
+   "mean_coverage": 0.796875,
+   "mean_support": 22.515625,
+   "median_support": 20,
+   "support_mass": 1441,
+   "support_sd": 8.261341,
+   "frac_le_10": 0.03125,
+   "tag_entropy": 3.909373,
+   "cell_pairs": 9,
+   "pair_saturation": 0.444444
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650102,
+   "candidate_edges": 64,
+   "committed_candidates": 64,
+   "k_completeness": 1.0,
+   "offset": 0.393794,
+   "mean_coverage": 0.75,
+   "mean_support": 22.390625,
+   "median_support": 21,
+   "support_mass": 1433,
+   "support_sd": 8.377084,
+   "frac_le_10": 0.0625,
+   "tag_entropy": 3.889596,
+   "cell_pairs": 9,
+   "pair_saturation": 0.444444
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650103,
+   "candidate_edges": 64,
+   "committed_candidates": 64,
+   "k_completeness": 1.0,
+   "offset": 0.491451,
+   "mean_coverage": 0.847656,
+   "mean_support": 22.765625,
+   "median_support": 24,
+   "support_mass": 1457,
+   "support_sd": 6.793246,
+   "frac_le_10": 0.0,
+   "tag_entropy": 3.911932,
+   "cell_pairs": 9,
+   "pair_saturation": 0.444444
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650104,
+   "candidate_edges": 64,
+   "committed_candidates": 64,
+   "k_completeness": 1.0,
+   "offset": 0.444576,
+   "mean_coverage": 0.800781,
+   "mean_support": 22.515625,
+   "median_support": 22,
+   "support_mass": 1441,
+   "support_sd": 8.044781,
+   "frac_le_10": 0.015625,
+   "tag_entropy": 3.888772,
+   "cell_pairs": 9,
+   "pair_saturation": 0.444444
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650105,
+   "candidate_edges": 63,
+   "committed_candidates": 63,
+   "k_completeness": 1.0,
+   "offset": 0.258874,
+   "mean_coverage": 0.615079,
+   "mean_support": 23.047619,
+   "median_support": 22,
+   "support_mass": 1452,
+   "support_sd": 7.520192,
+   "frac_le_10": 0.015873,
+   "tag_entropy": 3.896907,
+   "cell_pairs": 9,
+   "pair_saturation": 0.4375
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650106,
+   "candidate_edges": 64,
+   "committed_candidates": 64,
+   "k_completeness": 1.0,
+   "offset": 0.409419,
+   "mean_coverage": 0.765625,
+   "mean_support": 22.421875,
+   "median_support": 23,
+   "support_mass": 1435,
+   "support_sd": 7.629721,
+   "frac_le_10": 0.078125,
+   "tag_entropy": 3.915981,
+   "cell_pairs": 9,
+   "pair_saturation": 0.444444
+  },
+  {
+   "block": "seed-2067",
+   "seed": 20670101,
+   "candidate_edges": 63,
+   "committed_candidates": 63,
+   "k_completeness": 1.0,
+   "offset": 0.429509,
+   "mean_coverage": 0.785714,
+   "mean_support": 22.492063,
+   "median_support": 21,
+   "support_mass": 1417,
+   "support_sd": 8.75572,
+   "frac_le_10": 0.0,
+   "tag_entropy": 3.885262,
+   "cell_pairs": 9,
+   "pair_saturation": 0.4375
+  },
+  {
+   "block": "seed-2067",
+   "seed": 20670102,
+   "candidate_edges": 64,
+   "committed_candidates": 64,
+   "k_completeness": 1.0,
+   "offset": 0.354732,
+   "mean_coverage": 0.710938,
+   "mean_support": 22.234375,
+   "median_support": 19,
+   "support_mass": 1423,
+   "support_sd": 8.973472,
+   "frac_le_10": 0.046875,
+   "tag_entropy": 3.885722,
+   "cell_pairs": 9,
+   "pair_saturation": 0.444444
+  },
+  {
+   "block": "seed-2067",
+   "seed": 20670103,
+   "candidate_edges": 64,
+   "committed_candidates": 64,
+   "k_completeness": 1.0,
+   "offset": 0.409419,
+   "mean_coverage": 0.765625,
+   "mean_support": 22.21875,
+   "median_support": 22,
+   "support_mass": 1422,
+   "support_sd": 7.659693,
+   "frac_le_10": 0.015625,
+   "tag_entropy": 3.886159,
+   "cell_pairs": 9,
+   "pair_saturation": 0.444444
+  },
+  {
+   "block": "seed-2067",
+   "seed": 20670104,
+   "candidate_edges": 64,
+   "committed_candidates": 64,
+   "k_completeness": 1.0,
+   "offset": 0.350826,
+   "mean_coverage": 0.707031,
+   "mean_support": 22.53125,
+   "median_support": 22,
+   "support_mass": 1442,
+   "support_sd": 8.374009,
+   "frac_le_10": 0.03125,
+   "tag_entropy": 3.88979,
+   "cell_pairs": 9,
+   "pair_saturation": 0.444444
+  },
+  {
+   "block": "seed-2067",
+   "seed": 20670105,
+   "candidate_edges": 64,
+   "committed_candidates": 64,
+   "k_completeness": 1.0,
+   "offset": 0.409419,
+   "mean_coverage": 0.765625,
+   "mean_support": 23.28125,
+   "median_support": 23,
+   "support_mass": 1490,
+   "support_sd": 7.364333,
+   "frac_le_10": 0.03125,
+   "tag_entropy": 3.923831,
+   "cell_pairs": 9,
+   "pair_saturation": 0.444444
+  },
+  {
+   "block": "seed-2067",
+   "seed": 20670106,
+   "candidate_edges": 64,
+   "committed_candidates": 64,
+   "k_completeness": 1.0,
+   "offset": 0.335201,
+   "mean_coverage": 0.691406,
+   "mean_support": 22.953125,
+   "median_support": 22,
+   "support_mass": 1469,
+   "support_sd": 7.74078,
+   "frac_le_10": 0.046875,
+   "tag_entropy": 3.90252,
+   "cell_pairs": 9,
+   "pair_saturation": 0.444444
+  }
+ ],
+ "limits": [
+  "Three blocks and six seeds each: the block-level ordering has three points, so agreement of a block mean with the level ordering is necessary but far from sufficient.",
+  "Within-block Spearman has n=6 per block and no multiplicity control; it is reported as a sign pattern, not a p-value.",
+  "Support is measured on the acquisition stream; the engine's own temporal graph also includes within-event pairs, so these are stream-side quantities, not engine state.",
+  "The level is a fitted intercept on committed coverage cells; it inherits the shared-slope assumption of the cap-response fit.",
+  "No arm was run: every coverage number is read from a committed artifact."
+ ],
+ "not_evidence": "A descriptive join of committed coverage cells to stream-side candidate quantities. It does not show that no quantity anywhere tracks the level, only that these eight do not, and it does not change any verdict, target, freeze or grant.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__"
+}

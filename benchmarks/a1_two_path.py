@@ -82,6 +82,7 @@ OFFSET_DENSITY_PATH = DOCS / "a1_offset_density.json"
 SEED_HOLDOUT_PATH = DOCS / "a1_cap_response_seed_holdout.json"
 CAP112_UNSERVED_PATH = DOCS / "a1_prediction_cap112_unserved.json"
 OFFSET_DISCRIMINATOR_PATH = DOCS / "a1_offset_discriminator_spec.json"
+WITHIN_BLOCK_LEVEL_PATH = DOCS / "a1_within_block_level.json"
 TARGET_SELECTION_PATH = DOCS / "a1_target_selection.json"
 C8_TARGET_SELECTION_PATH = DOCS / "a1_c8_target_selection.json"
 C8_EXPANSION_PATH = DOCS / "a1_c8_expansion.json"
@@ -414,7 +415,8 @@ def preflight(doc: dict | None = None) -> list[str]:
                  CAP_RESPONSE_CURVE_PATH, OFFSET_PREDICTORS_PATH,
                  CAP_RESPONSE_HOLDOUT_PATH, PREDICTION_CAP_TURNOVER_PATH,
                  OFFSET_DENSITY_PATH, SEED_HOLDOUT_PATH,
-                 CAP112_UNSERVED_PATH, OFFSET_DISCRIMINATOR_PATH)
+                 CAP112_UNSERVED_PATH, OFFSET_DISCRIMINATOR_PATH,
+                 WITHIN_BLOCK_LEVEL_PATH)
         collisions = seed_collisions(list(doc.get("seed_block", {}).get("seeds") or []),
                                      allow=allow)
         if collisions:
