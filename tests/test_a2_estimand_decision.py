@@ -38,6 +38,16 @@ def test_it_does_not_overclaim_impossibility_or_authorise_work() -> None:
     assert "authorises **no code, no cells, no engine change and no spending**" in text
 
 
+def test_the_two_closures_are_distinguished_and_scoped() -> None:
+    text = _text()
+    assert "The two closures are not the same kind" in text
+    assert "its **control failed**" in text
+    assert "**control can only be obtained by changing the question**" in text
+    assert "within this engine, world family and" in text
+    assert "not about every design a" in text
+    assert "not rejected as science, only as A1's continuation" in text
+
+
 def test_a1_is_untouched() -> None:
     text = _text()
     assert "A1 remains `VOID`, frozen and un-rescored" in text

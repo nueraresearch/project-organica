@@ -119,6 +119,18 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: the two closures are different kinds
+
+`DECISION-A2-ESTIMAND` now records what separates A1's closure from A2's. A1 ended because its **control failed** — the
+intervention perturbed non-target edges enough that C4 could not pass. A2 ended because its **control can only be obtained
+by changing the question** — no sham in this family is local at the edge, and the construction that restores locality makes
+the carrier the unit of inference.
+
+The second is the more informative statement, and it is scoped to the evidence: within this engine, world family and
+carrier-removal family, an edge-level removal effect cannot be estimated against a control local at the edge. The record
+also keeps the nuance that A2b is rejected as A1's continuation, not as science: a carrier-level study may be worth
+running, and would need its own charter.
+
 ## Addendum — 2026-11-15: A2 is closed
 
 `DECISION-A2-ESTIMAND` is **ADOPTED**: A2 is closed and no A2 arm runs. Q058 is answered and closed.

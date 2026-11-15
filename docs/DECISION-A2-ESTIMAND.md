@@ -48,6 +48,23 @@ denominators and its own criterion.
 **So the fork does not reduce to an estimand preference.** Both branches were coherent as designs; neither is a test of
 the question A1 asked. The choice is to close the line rather than to run a study that cannot answer it.
 
+### The two closures are not the same kind
+
+A1 ended because its **control failed**: the intervention perturbed non-target edges enough that C4 could not pass, and
+the block was `VOID` on the assembly rather than on the idea.
+
+A2 ends because its **control can only be obtained by changing the question**: no sham in this family is local at the
+edge, and the one construction that restores locality makes the carrier the unit of inference.
+
+The second closure is the more informative one. It does not say *we could not build the control*; it says the estimand
+and this intervention family are mismatched. Stated no wider than the evidence: **within this engine, world family and
+carrier-removal family, an edge-level removal effect cannot be estimated against a control that is local at the edge —
+obtaining one requires changing the unit of inference.** That is a statement about this family, not about every design a
+future charter might contain.
+
+One nuance the record should not lose: **A2b is not rejected as science, only as A1's continuation.** A carrier-level
+study may be worth running; it is simply not this study, and the difference is the estimand rather than the quality.
+
 ## 4. The decision
 
 A2 is closed: the edge-level question A1 asked is not testable with this intervention, because the only control that can be matched differs from the treatment on the same per-edge quantity the estimand depends on.

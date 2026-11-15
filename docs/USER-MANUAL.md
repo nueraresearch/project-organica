@@ -741,7 +741,9 @@ exactly as recorded and nothing about V2 is authorised; declining costs one line
 only control the sham can match differs from the treatment on the same per-edge quantity the estimand depends on, so the
 edge-level effect is not identified; and the carrier-level unit makes the locality criterion true by construction, so it
 cannot fail and is a different study's estimand. Nothing runs, A1 stays `VOID`, and a carrier study would need its own
-charter. [`A2-SHAM-FEASIBILITY`](A2-SHAM-FEASIBILITY.md) · [`DECISION-A2-ESTIMAND`](DECISION-A2-ESTIMAND.md)
+charter. The record also separates the two closures: A1 ended because its control failed, A2 because its control can
+only be obtained by changing the question — the more informative of the two.
+[`A2-SHAM-FEASIBILITY`](A2-SHAM-FEASIBILITY.md) · [`DECISION-A2-ESTIMAND`](DECISION-A2-ESTIMAND.md)
 
 **Closed today:** the run, the acceptance, and the scorer repair. The manifest reads `GRANTED, RUN — VOID (C4_DELTA)`
 and refuses a second run; the repaired pin is `5ce958b7…` for `a1_arms` with `a1_result` unchanged. The readable record
@@ -4448,3 +4450,4 @@ Things that look like findings but are not, and things that look fine but are no
 | 2026-11-15 | **A2's fork recorded as an estimand choice.** `DECISION-A2-ESTIMAND` is `PENDING`: edge-level unit with an aggregate interference criterion (A2c′), or carrier-level unit with a strict one (A2b). No measurement separates them; the record states what each can and cannot claim, and authorises neither to run. |
 | 2026-11-15 | **Wording repaired where it outran the check.** The A2 sham page and `DECISION-A2-ESTIMAND` now say the per-edge placebo has *no witnessed construction* rather than that it is *not constructible*, and state that two failed search regimes do not prove impossibility. A literal `95%%` printing defect on the same line was fixed and guarded. |
 | 2026-11-15 | **A2 closed by adopted decision.** `DECISION-A2-ESTIMAND` is `ADOPTED`: the aggregate sham matches totals but leaves per-edge differences of 30–78 cycles, so it cannot carry a per-edge estimand, and the carrier-level unit makes locality unfalsifiable. No A2 arm runs; Q058 answered. |
+| 2026-11-15 | **The two A1/A2 closures recorded as different kinds.** A1 closed because its control failed; A2 because its control can only be obtained by changing the question. The durable statement is scoped to this engine, world family and carrier-removal family, and A2b is recorded as rejected as A1's continuation, not as science. |
