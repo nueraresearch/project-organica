@@ -146,7 +146,7 @@ No further count study is warranted except as a control. The count question has 
 - Retention entry-transition prereg: `docs/retention_entry_transition_prereg.json` / `docs/RETENTION-ENTRY-TRANSITION-PREREGISTRATION.md` (`FROZEN, NOT RUN`, runner built, no grant, no result)
 - Entry-transition runner: `benchmarks/retention_entry_transition.py` (full appearance-cycle capture, D1-D10 adjudication, grant-gated dry-run)
 - Reverse-model overlap audit: `docs/RETENTION-REVERSE-OVERLAP-AUDIT.md` (diagnostic of the recorded reverse model; no new cells)
-- Authorisation provenance: `docs/AUTHORISATION-PROVENANCE-AUDIT.md` (14 documents, 21 records; the cap-112 run records cite a preparation-only quote) and `docs/CAP-112-PROVENANCE-DISPOSITION.md` (2026-11-14: the two runs are provisional and not owner-authorised)
+- Authorisation provenance: `docs/AUTHORISATION-PROVENANCE-AUDIT.md` (14 documents and 21 records at that audit's 2026-11-13 date; the cap-112 run records cite a preparation-only quote — the sets have since grown to 16 and 23, and the audit covers the earlier scope) and `docs/CAP-112-PROVENANCE-DISPOSITION.md` (2026-11-14: the two runs are provisional and not owner-authorised)
 - Formation-anchored retention: `docs/retention_formation_anchored_prereg.json`, `docs/RETENTION-FORMATION-ANCHORED-PREREGISTRATION.md`, `docs/AUTHORISATION-RETENTION-FORMATION-ANCHORED-1.md`, `docs/retention_formation_anchored.json`, `docs/RETENTION-FORMATION-ANCHORED.md`; runner `benchmarks/retention_formation_anchored.py`
 - Registry: `docs/RESEARCH-FINDINGS.md`, `docs/research_question_registry.json`
 

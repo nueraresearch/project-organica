@@ -94,4 +94,6 @@ grant.
 - It does not re-score a gate, coefficient, verdict or result.
 - It does not change any `status`, `cells_run`, `authorisation.granted` or result artifact.
 - It does not establish that the cap-112 runs were unauthorised. It establishes that their records do not show the run authorisation.
-- It does not change Stage B: **1644** consumed seeds across **209** artifacts.
+- It does not change Stage B: **1644** consumed seeds across **209** artifacts *at this audit's date*.
+  *(Superseded 2026-11-15: `docs/stage_b_protocol.json` now reads **1,668** consumed seeds across **228**
+  artifacts. The sentence was true of the tree on 2026-11-13 and is left as written.)*

@@ -53,6 +53,24 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
+## Addendum — 2026-11-15: live counts in undated prose were stale in three documents
+
+The Stage B figure was one instance of a class, so the corpus was censused rather than spot-checked: every
+`<number> <noun>` with a countable noun in `CHANGELOG.md` and `docs/*.md`, compared against its live source and
+then classified by where the line sits. A figure inside a dated revision row records what was true on that date
+and is left as written; a figure in undated prose is a claim about today and must match its source.
+
+Three were claims about today and all three had drifted. `CONTEXT.md` said "23 questions in
+`docs/RESEARCH-QUESTION-REGISTRY.md`" against a registry of 54. `docs/AUTHORISATION-PROVENANCE-AUDIT.md` said
+"1644 consumed seeds across 209 artifacts", now 1,668 and 228. `docs/RESEARCH-HIERARCHY.md` restated that
+audit's scope as 14 documents and 21 records, now 16 and 23. The first is corrected with an as-of marker and
+guarded by `tests/test_live_counts.py`, which carries a control asserted to reject the stale value; the other
+two are dated in place, because their numbers belong to a specific audit rather than to the tree. The manual's
+revision log and the dated changelog entries stay as history. Generated documents and the machine-written
+test-count line are excluded: they are maintained by tooling and already checked. (That line is not quoted
+literally here: a markdown file containing the marker string becomes one of the files the figure check
+counts, which is how writing this audit broke that check once.)
+
 ## Addendum — 2026-11-15: C1 gains `C1_UNMEASURABLE`; `C1_THRESHOLD` keeps one meaning
 
 The measurability audit closed the gates but left a labelling defect above them: `_c1_reason` classified a
