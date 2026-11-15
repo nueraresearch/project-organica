@@ -53,6 +53,20 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
+## Addendum — 2026-11-15: the two C8 repairs costed, and neither is required any more
+
+With C8 adjudicable at ≥ 17 rows, the cap and tag-count repairs stop being requirements. What they still
+buy is the nominal twenty on every seed, and `docs/A1-C8-REPAIRS.md` prices each. Raising the endpoint cap
+to 4 restores twenty everywhere on the existing pool (27 / 20 / 30 / 29 / 22 / 26 at that cap) inside the
+same world, and charges in **dependence** rather than arithmetic: a 20-row block already spans 13–16 of
+the 16 tags at a maximum load of 3, so the extra edge buys a fourth row on a tag that already carries
+three — the block's nominal resolution overstates its effective sample, and nothing in the contract
+corrects that. Raising the tag count is measured fatal at its only measured point (28 tags: A&K 15–26,
+density 63.2% → 24.4%, `FAIL 0/6`) and would retire the entire 16-tag preparation — universe, baseline,
+competence pools, C1 ceilings and C4 exposure all — rather than adjust it. The recommendation, marked as
+one, is to take neither; if the nominal block is wanted anyway, cap 4 is cheaper by a wide margin provided
+the dependence cost is declared in the act.
+
 ## Addendum — 2026-11-15: C8 is adjudicated on at least N_min competent rows, and N_min = 17 is certified
 
 The owner rejected the exact-N reading on 2026-11-15 and the rule follows: **C8 reads on any block with
