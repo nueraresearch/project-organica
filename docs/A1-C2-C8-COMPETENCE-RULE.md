@@ -84,15 +84,102 @@ The two blocks agree on the shape of the finding: **no seed supplies a clean C8 
 
 **A recommendation, marked as one:** Option A, but not alone. The filter fixes the population a C8 result would speak about; it cannot produce a twenty-row block on every adopted seed while the endpoint cap stands. The defensible step is the filter together with a declared cap change, or Option C; Option B remains the honest fallback if neither is acceptable.
 
-## What this rule does not decide — the five questions it exposes
+## The five questions, answered as recommendations
 
-These are the ambiguities the "run tomorrow" exercise surfaced. Each needs an owner answer; none is decided here.
+The "run tomorrow" exercise surfaced five ambiguities. Each is answered below with the reason, what
+the answer commits to, and what would overturn it. They are recommendations for the owner to ratify
+or amend; none is in force.
 
-1. **A short block.** If a seed can field 18 competent rows and not 20, does the block (a) VOID, (b) run at reduced N with the threshold read at that N's step — which, as shown, is the *stricter* test at 18 — or (c) require a declared reduced-N threshold in advance? The threshold does not answer this; the step changes with N.
-2. **Where the filter applies.** Is competence a selection predicate applied before the run, or an analysis predicate applied to the rows afterwards? The first is a design; the second is an exclusion, and the two read differently even when the row set is identical.
-3. **Uninducible paths.** If the unblocked arm can induce an absent baseline path, competence-at-baseline stops being the right precondition for C2. No no-arm rule can settle this, and the current text says so rather than assuming it away.
-4. **Which block C8 reads.** C8 needs 20 rows; Path A supplies 4. If Path A runs without C8, the competence condition applies to the C8 block only, and the two blocks' target sets must be declared independently.
-5. **The one-in-twenty bar.** At N=20 the ceiling 0.05 admits exactly one asserting row. That follows from the committed threshold, but it is worth stating in the act so nobody reads "at most 0.05" as "a small number" when it is precisely one row.
+### 1. A short block: **VOID. Do not run a partial C8 block, and do not substitute a reduced N.**
+
+The gate reads **per seed**, and three reasons make VOID the only answer consistent with that.
+
+- **Uniformity.** C8 fails if *any* seed's rate exceeds the ceiling. If one seed runs 20 rows and
+  another 18, their steps are `1/20` and `1/18` — different bars, not the same gate at different
+  precision. "Any seed above the ceiling" would compare incomparable quantities.
+- **It is not a weaker test, it is a different one.** At 18 rows the step `0.0556` exceeds 0.05, so
+  zero asserting rows are tolerated, against one at twenty. A short block is *stricter* per row.
+  Choosing it after discovering that only 18 are available is choosing which gate to run with
+  knowledge of feasibility — the same class of freedom the pre-registration exists to remove.
+- **A reduced N is a new design, not a fallback.** It needs its own precommitment, its own step and
+  its own statement of what it estimates. Declaring it in advance is legitimate; discovering it at
+  selection time is not.
+
+**Commits to:** C8 VOID on any seed fielding fewer than twenty competent rows — which on the adopted
+block is two seeds today, so C8 is VOID unless the cap or the universe changes. **Overturns if:** the
+owner pre-declares a reduced-N ladder with its steps and tolerances before the block is fixed.
+
+### 2. Where the filter applies: **a selection predicate, applied before the run, recorded in the freeze.**
+
+Competence is measured on the **no-arm baseline**, so it is available before any treatment and there
+is no timing excuse for applying it later. Applied after the run it is an exclusion, and an exclusion
+that produces the same row set is indistinguishable in the table from a pre-declared selection — the
+distinction is entirely in when it was fixed. Since the filter changes the population the result
+speaks about, it belongs with the target rule, the block and the digest.
+
+**Commits to:** the freeze names the pool, the selection rule and the filter's effect (on the adopted
+block: 14 of 24 N=4 rows and 42 of 80 N=20 rows replaced), and the unfiltered selection is reported
+beside it. **Overturns if:** competence is ever computable only from treatment data — it is not.
+
+### 3. Uninducible paths: **keep the screen, and declare C2's scope rather than its coverage.**
+
+Baseline absence is the right precondition for *selecting* a row that can exercise four cells, and it
+is not evidence that the absent path stays absent under A− or K+. So the screen stays, and the act
+carries one sentence of scope: **C2 is scored on competent rows; C2 on baseline-incompetent rows is
+unmeasured, not failed.** Writing that sentence is the honest close. The alternative — closing the
+gap — needs an unblocked-arm diagnostic on a single seed, which is a different act and cannot be
+replaced by rule text.
+
+**Commits to:** C2's claim is scoped to the competent population, and the vocabulary "unmeasured"
+is fixed in advance so it cannot later be read as "failed" or "passed". **Overturns if:** a
+diagnostic shows an unblocked arm induces baseline-absent paths, in which case the screen is not a
+precondition for C2 and this rule must be re-drafted.
+
+### 4. Which block C8 reads: **one screen, two independently drawn blocks.**
+
+Path A's four-row block and the C8 twenty-row block are separate target sets with separate digests,
+and **both** are drawn from the competent pool. The alternative — C2 scored on the old unfiltered
+four and C8 on a filtered twenty — would have the two gates speaking about different populations in
+the same act, which is exactly the kind of quiet mismatch this project keeps finding after the fact.
+
+The cost is already measured and declared: the filtered four-row block forms on 6 of 6 seeds by
+replacing 14 of 24 rows, and that replacement set is a **new estimand**, not the representative
+sample the published selection describes.
+
+**Commits to:** both blocks report their pool, digest and replacement count; neither is described as
+"the" target set. **Overturns if:** the owner prefers C2 on the published representative rows and
+accepts that C2 and C8 then address different populations, which must be stated in the act.
+
+### 5. The one-in-twenty bar: **declare it, and report the count, not only the verdict.**
+
+At N=20 the ceiling 0.05 admits exactly one asserting row, and both 0 and 1 read as PASS. The act
+should say so in those words, because "at most 0.05" invites the reading "a small number" when it is
+precisely one row out of twenty. The report should carry the per-seed assertion count beside the
+verdict, since the verdict discards the only information that distinguishes a clean block from one
+that spent its entire allowance.
+
+**Commits to:** one sentence in the act and one column in the report. **Overturns if:** the ceiling
+is renegotiated, which is a threshold change and outside this rule.
+
+## If the five are ratified, the rule issues as
+
+The decision this document becomes, stated so it can be adopted verbatim:
+
+> **C2/C8 competence rule, adopted [date].** A target row is competent when both baseline paths A and
+> K are present in the recorded no-arm A+K+ replay. C8 rows are drawn only from the competent pool by
+> the declared selection rule, before the run, and the pool, rule, block, digest and replacement
+> count are recorded in the freeze with the unfiltered selection reported beside them. C8 reads per
+> seed over exactly **N = 20** competent rows at the unchanged 0.05 ceiling — at most one asserting
+> row — and a seed fielding fewer than twenty is **not adjudicable**, never run short and never
+> re-filtered afterwards. Path A's four-row block is drawn under the same screen and reported
+> separately. C2 is scored on competent rows and is **unmeasured**, not failed, on baseline-
+> incompetent rows.
+
+What that adoption would change, from the measured record: C8 is VOID on the adopted block as it
+stands (two seeds short of twenty), the four-row block becomes the filtered set (6 of 6 seeds, 14 of
+24 rows replaced, a new estimand), and C8 becomes adjudicable only if the endpoint cap or the tag
+count is changed — the two repairs whose cancellation is recorded in
+[`A1-INTERPRETATION`](A1-INTERPRETATION.md).
 
 ## What would change this
 
@@ -100,7 +187,7 @@ A measurement showing that baseline-absent paths are inducible by an unblocked a
 
 ## Closure
 
-The owner selects A (with its cap or rule change), B or C, and answers the five questions above. This document is then re-issued with the choices recorded: under A it gains the declared selection rule, cap and block; under B it becomes the recorded limitation on the freeze act; under C it becomes the specification for a new universe. Until then the checklist row stays **undecided**, and no C8 block is adjudicable.
+The owner selects A (with its cap or rule change), B or C, and ratifies or amends the five answers above. This document is then re-issued with the choices recorded: under A it gains the declared selection rule, cap and block; under B it becomes the recorded limitation on the freeze act; under C it becomes the specification for a new universe. Until then the checklist row stays **undecided**, and no C8 block is adjudicable.
 
 ## Reproduce the adopted-block figures
 

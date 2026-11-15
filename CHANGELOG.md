@@ -53,6 +53,27 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
+## Addendum — 2026-11-15: the competence rule answers its own five questions and becomes decidable
+
+The rule draft exposed five ambiguities and left them open. They are now answered as recommendations,
+each with its reason, what it commits to and what would overturn it, and the document ends with the
+adoption text the owner can ratify verbatim.
+
+A short block is **VOID**, not run at reduced N: C8 reads per seed and fails if any seed is above the
+ceiling, so seeds with different N would have different steps (`1/20` versus `1/18`) and "any seed
+above the ceiling" would compare incomparable bars — and because a short block is *stricter* per row,
+choosing it after discovering only eighteen are available is choosing which gate to run with
+knowledge of feasibility. The filter is a **selection** predicate recorded in the freeze, not an
+analysis exclusion, because competence is measured no-arm and is therefore available beforehand.
+C2's claim is **scoped** to competent rows, with baseline-incompetent rows recorded as *unmeasured*;
+that gap cannot be closed by rule text. Both the four-row and twenty-row blocks are drawn under the
+same screen, so C2 and C8 do not address different populations in one act. And the one-in-twenty bar
+is declared in the act with the per-seed assertion count reported beside the verdict, since zero and
+one assertions both pass and only the count separates a clean block from one that spent its allowance.
+
+Adoption would make C8 VOID on the adopted block as it stands and replace fourteen of the twenty-four
+four-row targets — a new estimand, already measured at 6 of 6 seeds.
+
 ## Addendum — 2026-11-15: the preparation record read as one record
 
 No measurement was run for this. `docs/A1-INTERPRETATION.md` puts the committed A1 measurements
