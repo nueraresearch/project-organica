@@ -5,6 +5,14 @@ document, and it makes no behavioural claim.**
 **Scope:** Organica 1 at the `v0.9.0` pin. Every code reference is to the frozen files; if any of them changes, this
 document is void for that build and the test beside it says so.
 
+## In one paragraph
+
+V1 stores pairwise relations and counts. Higher-order structures are reconstructed rather than persisted. The public
+retrieval and manipulation surface contains no operation that directly targets a composite structure. Therefore the
+experimental spill is expected from the architecture alone, and A1's measurements bound its magnitude rather than
+establishing its existence. The one thing this does not settle is whether a key derived from the stored state could
+isolate a composite — a functional address; §5 says what that would and would not change.
+
 ## 1. Why this exists
 
 Three results have been read as separate failures: the ranking ceiling (precision never above 0.3438, coverage needing

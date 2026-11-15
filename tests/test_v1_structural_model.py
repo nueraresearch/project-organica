@@ -66,6 +66,8 @@ def test_the_document_states_its_scope_and_its_limits() -> None:
     assert "**functional** address" in text
     assert "Whether such a key exists is **open**" in text
     assert "satisfy the charter's mutable-identity requirement" in text
+    assert "## In one paragraph" in text
+    assert "expected from the architecture alone" in text
     assert "It does **not** say nothing is stored" in text
     assert "does **not** convert the measured magnitudes into derivations" in text
     assert "void for that build" in text
