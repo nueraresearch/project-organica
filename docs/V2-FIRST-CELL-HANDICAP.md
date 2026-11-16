@@ -44,8 +44,8 @@ The estimable effects are therefore two, and they add exactly: composite evidenc
 revision effect (-0.000465) and is not separately identifiable.
 
 **The predicted ordering `A < B < C` is not what the null shows.** C pays less than B: revision *reduces* the penalty by
-0.000465 — 35% of the pseudo-count cost — because it prunes member edges from
-2.571 to 0.783 per composite. The prior that β pseudo-counts dominate
+0.000465 — 35% of the pseudo-count cost — because it holds fewer member edges per composite,
+2.571 against 0.783. The prior that β pseudo-counts dominate
 is confirmed; the prior that revision adds a second penalty is reversed here.
 
 ## 2. Can it be made unbiased?

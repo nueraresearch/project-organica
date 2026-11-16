@@ -162,7 +162,7 @@ that measured it. It adds no evidence, and it names the single remaining action 
 ## Addendum — 2026-11-16: the null handicap decomposed, and why it cannot be debiased
 
 `benchmarks/v2_first_cell_handicap.py` separates the +0.000847 nats null handicap using the stored arms: frozen membership's
-β pseudo-counts cost **+0.001312** nats, and the revision rule **gives back −0.000465** by cutting member edges per composite
+β pseudo-counts cost **+0.001312** nats, and the revision rule **gives back −0.000465** by holding fewer member edges per composite
 from 2.571 to 0.783, for a net of **+0.000847**. Both arms selected β = 1 throughout.
 
 The four-arm factorial has a structural zero: a revision-only arm (no composite term) is exactly the baseline, measured

@@ -162,7 +162,7 @@ def build(seeds=None) -> dict:
                             "interaction equals the revision effect and is not separately identifiable"),
         "interaction": round(net - decomposition["beta_only_mean"], 6),
         "prediction": ("A < B < C (revision adds a second penalty) is not what the null shows: C pays less than B, "
-                       "because revision prunes member edges from 2.571 to 0.783 per composite"),
+                       "because it holds fewer member edges, 2.571 to 0.783 per composite"),
     }
     return engine_stamp.stamp({
         "factorial": factorial,
@@ -253,8 +253,8 @@ The estimable effects are therefore two, and they add exactly: composite evidenc
 revision effect ({fact['interaction']:.6f}) and is not separately identifiable.
 
 **The predicted ordering `A < B < C` is not what the null shows.** C pays less than B: revision *reduces* the penalty by
-{abs(fact['effects']['revision_given_composite']):.6f} — 35% of the pseudo-count cost — because it prunes member edges from
-{mass['mean_edges_frozen']:.3f} to {mass['mean_edges_maintained']:.3f} per composite. The prior that β pseudo-counts dominate
+{abs(fact['effects']['revision_given_composite']):.6f} — 35% of the pseudo-count cost — because it holds fewer member edges per composite,
+{mass['mean_edges_frozen']:.3f} against {mass['mean_edges_maintained']:.3f}. The prior that β pseudo-counts dominate
 is confirmed; the prior that revision adds a second penalty is reversed here.
 
 ## 2. Can it be made unbiased?
