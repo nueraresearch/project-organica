@@ -5,6 +5,17 @@ All notable changes to Project Organica are recorded here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project follows [Semantic Versioning 2.0.0](https://semver.org/).
 
+## Addendum — 2026-11-16: the first-cell runner is one-shot and writes atomically
+
+`v2_first_cell_runner --run` now writes `docs/v2_first_cell_run.json` before replaying any world.
+A run marker or a result already on disk refuses the next attempt, so the spent ten-seed block
+cannot be executed a second time or have its single report replaced. The result is written to a
+temporary file and linked into place, and the writer refuses an existing destination. The marker
+records `STARTED` and then `COMPLETED` with the result SHA-256.
+
+Tests cover the marker refusal, the existing-result refusal, and the gate-failure `VOID` path,
+including no temporary files left behind. No cell has run.
+
 ## Addendum — 2026-11-16: the first V2 cell is signed and the block is spent
 
 `DECISION-V2-FIRST-CELL` is `ADOPTED 2026-11-16 — THE TEN-SEED BLOCK IS SPENT; THE CELL IS AUTHORISED AND NOT RUN`.

@@ -116,8 +116,11 @@ def test_an_a1_cell_stream_failure_voids_before_an_arm(monkeypatch, tmp_path):
     monkeypatch.setattr(runner, "cell_streams", fail_a1)
     monkeypatch.setattr(runner.readout, "arms_for", arms_ran)
 
+    monkeypatch.setattr(runner, "RUN", tmp_path / "default-run.json")
+    monkeypatch.setattr(runner, "OUT", tmp_path / "default-result.json")
     out = tmp_path / "result.json"
-    assert runner.run(control_path=tmp_path / "no-control.json", out=out) == 0
+    assert runner.run(control_path=tmp_path / "no-control.json", out=out,
+                      marker_path=tmp_path / "run.json") == 0
     result = json.loads(out.read_text(encoding="utf-8"))
     assert result["outcome"] == "VOID"
     assert result["gates"]["A1"]["status"] == "FAIL"
@@ -155,11 +158,89 @@ def test_a_clean_cell_stream_is_added_to_the_a1_evidence_before_scoring(monkeypa
 
     monkeypatch.setattr(runner, "cell_streams", lambda: streams)
     monkeypatch.setattr(runner.readout, "arms_for", fake_arms_for)
+    monkeypatch.setattr(runner, "RUN", tmp_path / "default-run.json")
+    monkeypatch.setattr(runner, "OUT", tmp_path / "default-result.json")
 
     out = tmp_path / "result.json"
-    assert runner.run(control_path=tmp_path / "no-control.json", out=out) == 0
+    assert runner.run(control_path=tmp_path / "no-control.json", out=out,
+                      marker_path=tmp_path / "run.json") == 0
     result = json.loads(out.read_text(encoding="utf-8"))
     assert calls == [120] * 10
     assert result["gates"]["A1"]["status"] == "PASS"
     assert "Cell-stream check: 10 seeds replayed" in result["gates"]["A1"]["evidence"]
     assert report.validate(result) == []
+
+
+def test_a_run_marker_refuses_a_second_attempt_before_any_gate_read(monkeypatch, tmp_path):
+    monkeypatch.setattr(runner, "authorisation", lambda: (True, "authorised"))
+    monkeypatch.setattr(runner, "pins", lambda: [])
+    monkeypatch.setattr(runner, "RUN", tmp_path / "default-run.json")
+    monkeypatch.setattr(runner, "OUT", tmp_path / "default-result.json")
+    monkeypatch.setattr(runner, "load_gates", lambda path: (_ for _ in ()).throw(
+        AssertionError("gates were read after the run marker refused")))
+    marker = tmp_path / "run.json"
+    marker.write_text("{}", encoding="utf-8")
+    out = tmp_path / "result.json"
+
+    assert runner.run(control_path=tmp_path / "no-control.json", out=out, marker_path=marker) == 1
+    assert not out.exists()
+    assert json.loads(marker.read_text(encoding="utf-8")) == {}
+
+
+def test_an_existing_result_is_never_overwritten(monkeypatch, tmp_path):
+    monkeypatch.setattr(runner, "authorisation", lambda: (True, "authorised"))
+    monkeypatch.setattr(runner, "pins", lambda: [])
+    monkeypatch.setattr(runner, "RUN", tmp_path / "default-run.json")
+    monkeypatch.setattr(runner, "OUT", tmp_path / "default-result.json")
+    out = tmp_path / "result.json"
+    out.write_text("the one report\n", encoding="utf-8")
+    marker = tmp_path / "run.json"
+
+    assert runner.run(control_path=tmp_path / "no-control.json", out=out, marker_path=marker) == 1
+    assert out.read_text(encoding="utf-8") == "the one report\n"
+    assert not marker.exists()
+
+
+def test_the_canonical_paths_block_even_a_custom_attempt(monkeypatch, tmp_path):
+    monkeypatch.setattr(runner, "authorisation", lambda: (True, "authorised"))
+    monkeypatch.setattr(runner, "pins", lambda: [])
+    monkeypatch.setattr(runner, "RUN", tmp_path / "default-run.json")
+    monkeypatch.setattr(runner, "OUT", tmp_path / "default-result.json")
+    monkeypatch.setattr(runner, "load_gates", lambda path: (_ for _ in ()).throw(
+        AssertionError("gates were read after the canonical guard refused")))
+    custom_marker = tmp_path / "custom-run.json"
+    custom_out = tmp_path / "custom-result.json"
+
+    (tmp_path / "default-run.json").write_text("{}", encoding="utf-8")
+    assert runner.run(control_path=tmp_path / "no-control.json", out=custom_out,
+                      marker_path=custom_marker) == 1
+    assert not custom_out.exists()
+
+    (tmp_path / "default-run.json").unlink()
+    (tmp_path / "default-result.json").write_text("the one report\n", encoding="utf-8")
+    assert runner.run(control_path=tmp_path / "no-control.json", out=custom_out,
+                      marker_path=custom_marker) == 1
+    assert not custom_marker.exists()
+
+
+def test_a_gate_failure_writes_a_marker_and_void_once(monkeypatch, tmp_path):
+    monkeypatch.setattr(runner, "authorisation", lambda: (True, "authorised"))
+    monkeypatch.setattr(runner, "pins", lambda: [])
+    monkeypatch.setattr(runner, "load_gates", lambda path: runner.synthetic_gates(failing=("A3",)))
+    monkeypatch.setattr(runner, "RUN", tmp_path / "default-run.json")
+    monkeypatch.setattr(runner, "OUT", tmp_path / "default-result.json")
+    marker = tmp_path / "run.json"
+    out = tmp_path / "result.json"
+
+    assert runner.run(control_path=tmp_path / "no-control.json", out=out, marker_path=marker) == 0
+    result = json.loads(out.read_text(encoding="utf-8"))
+    completed = json.loads(marker.read_text(encoding="utf-8"))
+    assert result["outcome"] == "VOID"
+    assert "A3_MUTATION" in result["void"]["codes"]
+    assert completed["status"] == "COMPLETED"
+    assert completed["result_sha256"] == runner.hashlib.sha256(out.read_bytes()).hexdigest()
+    assert not list(tmp_path.glob(".*.tmp-*"))
+
+    before = out.read_bytes()
+    assert runner.run(control_path=tmp_path / "no-control.json", out=out, marker_path=marker) == 1
+    assert out.read_bytes() == before

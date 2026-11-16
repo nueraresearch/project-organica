@@ -13,10 +13,15 @@ a cell cannot be written in a shape the report would reject.
 
 `--check` executes no world and writes nothing. `--run` requires the signed
 decision and the spent seed block, both of which are now recorded; no seed has
-been executed.
+been executed. It is one-shot: a run marker or result already on disk refuses a
+second attempt, and the result is created atomically rather than overwritten.
 
 Inputs:
 
+* `docs/v2_first_cell_run.json` — the one-shot run marker, written before the first
+  world is replayed; its presence refuses every later run.
+* `docs/v2_first_cell_result.json` — the single result; its presence also refuses a
+  later run, and it is never replaced.
 * `docs/v2_first_cell_gates.json` — written by `benchmarks.v2_first_cell_gates`. It
   records A1–A5 PASS, so the gate block is cleared.
 * `docs/v2_first_cell_control.json` — still absent; the section 8 control is recorded
@@ -32,7 +37,9 @@ import copy
 import datetime
 import hashlib
 import json
+import os
 import sys
+import uuid
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
@@ -45,6 +52,7 @@ RESERVATIONS = REPO / "docs" / "a1_seed_reservations.json"
 PIN = REPO / "docs" / "v2_first_cell_scorer_pin.json"
 GATES = REPO / "docs" / "v2_first_cell_gates.json"
 CONTROL = REPO / "docs" / "v2_first_cell_control.json"
+RUN = REPO / "docs" / "v2_first_cell_run.json"
 OUT = REPO / "docs" / "v2_first_cell_result.json"
 AUTHORISATION = "DECISION-V2-FIRST-CELL"
 SEED_OWNER = "docs/v2_first_cell_seeds.json"
@@ -53,6 +61,10 @@ CELL_CYCLES = 120
 
 class GateError(ValueError):
     """The gate record is missing or unusable; no cell can be run under it."""
+
+
+class RunGuardError(RuntimeError):
+    """A run marker or result already exists; the cell has already been attempted."""
 
 
 class A1StreamError(RuntimeError):
@@ -198,6 +210,96 @@ def a1_cell_evidence(streams: list[dict]) -> str:
     )
 
 
+def _json_text(value: dict) -> str:
+    return json.dumps(value, indent=2, ensure_ascii=False) + "\n"
+
+
+def _write_temp(path: Path, text: str) -> Path:
+    """Write the complete payload beside the destination, never to it."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp = path.with_name(".%s.tmp-%s" % (path.name, uuid.uuid4().hex))
+    try:
+        with temp.open("w", encoding="utf-8") as handle:
+            handle.write(text)
+            handle.flush()
+            os.fsync(handle.fileno())
+    except Exception:
+        temp.unlink(missing_ok=True)
+        raise
+    return temp
+
+
+def _write_once(path: Path, text: str, what: str) -> None:
+    """Create `path` atomically, refusing to replace an existing artifact."""
+    if path.exists():
+        raise RunGuardError("%s already exists at %s; the first cell runs once" % (what, path))
+    temp = _write_temp(path, text)
+    try:
+        try:
+            os.link(temp, path)
+        except FileExistsError:
+            raise RunGuardError("%s already exists at %s; the first cell runs once" % (what, path))
+        except (OSError, NotImplementedError):
+            # Some filesystems do not support hard links. The exclusive create still
+            # refuses to replace an existing report; the shared guard uses the marker.
+            try:
+                with path.open("xb") as destination:
+                    destination.write(text.encode("utf-8"))
+                    destination.flush()
+                    os.fsync(destination.fileno())
+            except FileExistsError:
+                raise RunGuardError("%s already exists at %s; the first cell runs once" % (what, path))
+            except Exception:
+                path.unlink(missing_ok=True)
+                raise
+    finally:
+        temp.unlink(missing_ok=True)
+
+
+def run_guard(marker_path: Path = RUN, out: Path = OUT) -> None:
+    """Refuse if this cell was already attempted or a result already exists."""
+    found = []
+    seen = set()
+    for label, path in (("a run marker", marker_path), ("the default run marker", RUN),
+                        ("a result", out), ("the default result", OUT)):
+        key = path.resolve()
+        if key in seen:
+            continue
+        seen.add(key)
+        if path.exists():
+            found.append("%s at %s" % (label, path))
+    if found:
+        raise RunGuardError(
+            "; ".join(found) + "; the first cell runs once and its result is never overwritten"
+        )
+
+
+def _start_run(marker_path: Path, out: Path) -> None:
+    """Write the one-shot marker before a world is replayed."""
+    marker = {
+        "kind": "v2_first_cell_run",
+        "id": "V2-FIRST-CELL-RUN-1",
+        "date": datetime.date.today().isoformat(),
+        "status": "STARTED",
+        "decision": AUTHORISATION,
+        "seed_declaration": "docs/v2_first_cell_seeds.json",
+        "command": "python -m benchmarks.v2_first_cell_runner --run",
+        "result": str(out),
+        "result_sha256": None,
+    }
+    _write_once(marker_path, _json_text(marker), "a run marker")
+
+
+def _finish_run(marker_path: Path, out: Path) -> None:
+    """Mark the attempt complete and bind it to the result's digest."""
+    marker = _load(marker_path)
+    marker["status"] = "COMPLETED"
+    marker["result"] = str(out)
+    marker["result_sha256"] = hashlib.sha256(out.read_bytes()).hexdigest()
+    temp = _write_temp(marker_path, _json_text(marker))
+    os.replace(temp, marker_path)
+
+
 def unmeasured_rows(reason: str) -> list[dict]:
     return [{"seed": seed, "measurable": False, "exclusion": reason} for seed in report.declared_seeds()]
 
@@ -299,7 +401,8 @@ def _seed_row(seed: int, record: dict) -> dict:
     }
 
 
-def run(gates_path: Path = GATES, control_path: Path = CONTROL, out: Path = OUT) -> int:
+def run(gates_path: Path = GATES, control_path: Path = CONTROL, out: Path = OUT,
+        marker_path: Path = RUN) -> int:
     allowed, reason = authorisation()
     if not allowed:
         print("refused: %s" % reason, file=sys.stderr)
@@ -309,12 +412,22 @@ def run(gates_path: Path = GATES, control_path: Path = CONTROL, out: Path = OUT)
         print("refused:\n  " + "\n  ".join(pin_errors), file=sys.stderr)
         return 1
     try:
+        run_guard(marker_path, out)
+    except RunGuardError as error:
+        print("refused: %s" % error, file=sys.stderr)
+        return 1
+    try:
         gates = load_gates(gates_path)
     except GateError as error:
         print("refused: %s" % error, file=sys.stderr)
         return 1
 
     control = _load(control_path) if control_path.exists() else no_control()
+    try:
+        _start_run(marker_path, out)
+    except RunGuardError as error:
+        print("refused: %s" % error, file=sys.stderr)
+        return 1
     failed = [g for g in report.GATE_IDS if gates[g]["status"] != "PASS"]
     if failed:
         result = assemble(
@@ -349,7 +462,16 @@ def run(gates_path: Path = GATES, control_path: Path = CONTROL, out: Path = OUT)
             result = assemble(rows, cell_gates, control)
 
     result = engine_stamp.stamp(result)
-    out.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    try:
+        _write_once(out, _json_text(result), "a result")
+    except RunGuardError as error:
+        print("refused: %s" % error, file=sys.stderr)
+        return 1
+    try:
+        _finish_run(marker_path, out)
+    except OSError as error:
+        print("warning: the result is written, but the run marker could not be completed: %s"
+              % error, file=sys.stderr)
     print("wrote %s: %s" % (out, result["outcome"]))
     if result["interval"]:
         print("mean d %.6f, 99%% interval [%.6f, %.6f]"
@@ -411,7 +533,7 @@ def main(argv: list[str] | None = None) -> int:
     group.add_argument("--run", action="store_true", help="run the ten seeds, only when authorised")
     parser.add_argument("--gates", default=str(GATES), help="the A1-A5 gate record")
     parser.add_argument("--control", default=str(CONTROL), help="the section 8 control record")
-    parser.add_argument("--out", default=str(OUT), help="where to write the result artifact")
+    parser.add_argument("--out", default=str(OUT), help="where to write the result artifact; never overwritten")
     args = parser.parse_args(argv)
 
     if args.check:
