@@ -1,0 +1,219 @@
+{
+  "kind": "v2_first_cell_power",
+  "id": "V2-FIRST-CELL-POWER-1",
+  "date": "2026-11-16",
+  "status": "PROTOCOL DIAGNOSTIC — POWER AT THE MEASURED NULL NOISE, NOT A CELL AND NOT A VERDICT",
+  "source": {
+    "null_artifact": "docs/v2_first_cell_null.json",
+    "null_seeds": [
+      20920101,
+      20920102,
+      20920103,
+      20920104,
+      20920105,
+      20920106,
+      20920107,
+      20920108,
+      20920109,
+      20920110,
+      20920111,
+      20920112,
+      20920113,
+      20920114,
+      20920115,
+      20920116,
+      20920117,
+      20920118,
+      20920119,
+      20920120
+    ],
+    "null_mean_d": 0.000847,
+    "null_sd_d": 0.000645
+  },
+  "method": {
+    "injection": "a known benefit `b` shifts every seed's measured null d by -b (constant-shift model); the bootstrap interval shifts with it, so power is the fraction of cells whose null upper bound lies below b",
+    "cells": 1000,
+    "cell_size": 10,
+    "resamples": 2000,
+    "level": 0.99,
+    "cell_rng_seed": 20261118,
+    "grid_step": 0.0001,
+    "assumption": "the treatment shifts the mean of d without changing its seed-to-seed variance; if a real benefit varies across seeds, the benefit needed for the same power is larger"
+  },
+  "upper_bounds": {
+    "min": 0.000878,
+    "p50": 0.001292,
+    "p80": 0.001399,
+    "p90": 0.001449,
+    "p95": 0.001478,
+    "max": 0.001557
+  },
+  "power_curve": [
+    {
+      "benefit": 0.0,
+      "power": 0.0
+    },
+    {
+      "benefit": 0.0001,
+      "power": 0.0
+    },
+    {
+      "benefit": 0.0002,
+      "power": 0.0
+    },
+    {
+      "benefit": 0.0003,
+      "power": 0.0
+    },
+    {
+      "benefit": 0.0004,
+      "power": 0.0
+    },
+    {
+      "benefit": 0.0005,
+      "power": 0.0
+    },
+    {
+      "benefit": 0.0006,
+      "power": 0.0
+    },
+    {
+      "benefit": 0.0007,
+      "power": 0.0
+    },
+    {
+      "benefit": 0.0008,
+      "power": 0.0
+    },
+    {
+      "benefit": 0.0009,
+      "power": 0.001
+    },
+    {
+      "benefit": 0.001,
+      "power": 0.025
+    },
+    {
+      "benefit": 0.0011,
+      "power": 0.11
+    },
+    {
+      "benefit": 0.0012,
+      "power": 0.281
+    },
+    {
+      "benefit": 0.0013,
+      "power": 0.528
+    },
+    {
+      "benefit": 0.0014,
+      "power": 0.806
+    },
+    {
+      "benefit": 0.0015,
+      "power": 0.976
+    },
+    {
+      "benefit": 0.0016,
+      "power": 1.0
+    },
+    {
+      "benefit": 0.0017,
+      "power": 1.0
+    },
+    {
+      "benefit": 0.0018,
+      "power": 1.0
+    },
+    {
+      "benefit": 0.0019,
+      "power": 1.0
+    },
+    {
+      "benefit": 0.002,
+      "power": 1.0
+    },
+    {
+      "benefit": 0.0021,
+      "power": 1.0
+    },
+    {
+      "benefit": 0.0022,
+      "power": 1.0
+    },
+    {
+      "benefit": 0.0023,
+      "power": 1.0
+    },
+    {
+      "benefit": 0.0024,
+      "power": 1.0
+    },
+    {
+      "benefit": 0.0025,
+      "power": 1.0
+    },
+    {
+      "benefit": 0.0026,
+      "power": 1.0
+    },
+    {
+      "benefit": 0.0027,
+      "power": 1.0
+    },
+    {
+      "benefit": 0.0028,
+      "power": 1.0
+    },
+    {
+      "benefit": 0.0029,
+      "power": 1.0
+    },
+    {
+      "benefit": 0.003,
+      "power": 1.0
+    },
+    {
+      "benefit": 0.0031,
+      "power": 1.0
+    },
+    {
+      "benefit": 0.0032,
+      "power": 1.0
+    },
+    {
+      "benefit": 0.0033,
+      "power": 1.0
+    },
+    {
+      "benefit": 0.0034,
+      "power": 1.0
+    },
+    {
+      "benefit": 0.0035,
+      "power": 1.0
+    }
+  ],
+  "mde": {
+    "0.8": 0.001399,
+    "0.9": 0.001449,
+    "0.95": 0.001478
+  },
+  "required_mean_d": {
+    "0.8": -0.000552,
+    "0.9": -0.000602,
+    "0.95": -0.000631
+  },
+  "power_at_null_bias": 0.0,
+  "convergence": {
+    "cells": 100,
+    "resamples_fine": 10000,
+    "resamples_coarse": 2000,
+    "max_abs_upper_bound_delta": 5.13e-05
+  },
+  "note": "the null was measured on structureless worlds, so this is the rule's sensitivity at that noise, not a prediction about any real effect. A benefit smaller than the measured null handicap cannot produce a negative observed difference at all.",
+  "engine_version": "0.15.0",
+  "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+  "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+  "runner": "__main__"
+}

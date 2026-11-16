@@ -153,6 +153,22 @@ This addendum replaces the first version of the same study, which reported 20 re
 all 186 retirement rows and the conservative figures above stand. The correction is recorded in the page and the artifact,
 not silently applied.
 
+## Addendum — 2026-11-16: the ten-seed interval's power at the measured null noise
+
+`benchmarks/v2_first_cell_power.py` injects a known benefit into the 20 measured null differences as a constant shift —
+exact for a percentile bootstrap, since every resampled mean moves with it — and reads power as the fraction of ten-seed
+cells whose null upper bound lies below the injected benefit.
+
+At the measured null noise (mean `d` **+0.000847**, sd **0.000645**), the directional criterion detects a gross benefit of
+**0.001399** nats at 80% power, **0.001449** at 90% and **0.001478** at 95%. Because the null handicap must be overcome
+first, those correspond to an observed mean difference of **−0.000552**, **−0.000602** and **−0.000631** nats. Power at the
+null's own mean benefit is **0.000**, matching the null calibration's zero false-pass rate — the anchor check that the curve
+is placed correctly. The 2,000-resample calibration agrees with the protocol's 10,000 to a maximum upper-bound difference of
+**0.0000513** nats on the first 100 cells.
+
+This is a property of the rule at that noise under a constant-shift, equal-variance assumption, not a prediction about any
+real effect. `docs/V2-FIRST-CELL-POWER.md` is rendered from `docs/v2_first_cell_power.json`.
+
 ## Addendum — 2026-11-16: the interval on null worlds, and the criterion made directional
 
 `benchmarks/v2_first_cell_null.py` puts 20 **structureless worlds** through the same engine, admission, `m = 2`, β grid,

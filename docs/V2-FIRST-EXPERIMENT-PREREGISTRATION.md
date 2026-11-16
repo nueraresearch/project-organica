@@ -143,7 +143,9 @@ diagnostic, not a criterion.
 For each seed `s`, `d_s = L_C(s) − L_A(s)` is the difference in held-out log-loss. The endpoint is the mean of `d_s`. The
 interval is a **paired bootstrap over seeds** — 10,000 resamples, 99% percentile — because the world is the unit of inference;
 resampling events would multiply n without adding a world. With ten seeds this interval is deliberately wide, which makes a
-pass harder, not easier. **The charter passes only if the interval lies entirely below zero**; an interval including zero fails, and so does one entirely above it (§3, Amendment 2). `d_B` is reported beside it as a
+pass harder, not easier. **The charter passes only if the interval lies entirely below zero**; an interval including zero fails, and so does one entirely above it (§3, Amendment 2). Two diagnostics are recorded beside the rule and neither is a criterion: the null-world false-pass rate
+([`V2-FIRST-CELL-NULL`](V2-FIRST-CELL-NULL.md)) and the power curve at that noise
+([`V2-FIRST-CELL-POWER`](V2-FIRST-CELL-POWER.md)). `d_B` is reported beside it as a
 decomposition, not a second criterion.
 
 A seed with no held-out positives is not measurable and is excluded with the exclusion reported; if fewer than **8 of 10**
