@@ -24,6 +24,7 @@ import argparse
 import collections
 import hashlib
 import json
+import random
 import sys
 from pathlib import Path
 
@@ -47,6 +48,7 @@ TRAIN_BLOCKS = 96
 CALIBRATION = (80, 96)
 HOLDOUT = (96, 120)
 DRY_SEED = 20911101
+BOOTSTRAP_SEED = 20261116
 ARMS = ("A", "B", "C")
 
 
@@ -68,9 +70,14 @@ def member_pairs(path) -> set[frozenset[str]]:
     return {frozenset((a, b)) for a, b in zip(path, path[1:]) if a != b}
 
 
-def replay(seed: int, cycles: int) -> dict:
-    """Replay the world once and return per-event tags and per-cycle loop paths."""
-    world = generate_compositional_world(seed=seed, cycles=cycles)
+def replay(seed: int, cycles: int, stream: dict | None = None) -> dict:
+    """Replay the world once and return per-event tags and per-cycle loop paths.
+
+    `stream` overrides the generated world (`events` and `trainable`), which is
+    how the null diagnostic runs a world with no temporal law through the same
+    engine, the same admission and the same scorer.
+    """
+    world = generate_compositional_world(seed=seed, cycles=cycles) if stream is None else stream
     db_path = _make_scratch_db("v2_first_cell")
     memory = _CountingMemoryService(str(db_path))
     service = a1_arms.A1ArmSleepService(memory)
@@ -222,11 +229,9 @@ def select_beta(tags, detections, window: int, upto: int, calibration,
     return (best if best else (0, None))
 
 
-def run(seed: int, cycles: int = 120) -> dict:
+def arms_for(tags, detections, cycles: int) -> dict:
+    """Score the three arms on one replayed stream, using the declared split."""
     train, calib, holdout, window = boundaries(cycles)
-    data = replay(seed, cycles)
-    tags = data["tags"]
-
     counts, totals, vocab = transition_counts(tags, 0, train)
     start, stop = holdout[0] * EVENTS_PER_CYCLE, min(holdout[1] * EVENTS_PER_CYCLE, len(tags))
     contexts = [tags[t] for t in range(start, stop - 1)]
@@ -234,19 +239,52 @@ def run(seed: int, cycles: int = 120) -> dict:
     pure = _score("A", probability(counts, totals, vocab, collections.Counter(), 0),
                   contexts, observations, vocab)
 
-    beta_b, calibration_b = select_beta(tags, data["detections"], window, calib[0] - 1, calib, False)
-    arm_b = evaluate(tags, data["detections"], window, train - 1, holdout, beta_b, False)
+    beta_b, calibration_b = select_beta(tags, detections, window, calib[0] - 1, calib, False)
+    arm_b = evaluate(tags, detections, window, train - 1, holdout, beta_b, False)
     arm_b["calibration_log_loss"] = calibration_b
-    beta, calibration_loss = select_beta(tags, data["detections"], window, calib[0] - 1, calib, True)
-    arm_c = evaluate(tags, data["detections"], window, train - 1, holdout, beta, True)
-    arm_c["calibration_log_loss"] = calibration_loss
-
-    arms = {
-        "A": {"beta": None, "log_loss": pure["log_loss"], "composites": 0,
-              "mutations": 0, "scored": pure["scored_binary_labels"]},
-        "B": arm_b,
-        "C": arm_c,
+    beta_c, calibration_c = select_beta(tags, detections, window, calib[0] - 1, calib, True)
+    arm_c = evaluate(tags, detections, window, train - 1, holdout, beta_c, True)
+    arm_c["calibration_log_loss"] = calibration_c
+    return {
+        "arms": {
+            "A": {"beta": None, "log_loss": pure["log_loss"], "composites": 0,
+                  "mutations": 0, "scored": pure["scored_binary_labels"]},
+            "B": arm_b,
+            "C": arm_c,
+        },
+        "boundaries": {"train": train, "calibration": list(calib), "holdout": list(holdout),
+                       "window": window},
     }
+
+
+def paired_interval(diffs, level: float = 0.99, resamples: int = 10_000) -> dict:
+    """The protocol's interval: a percentile bootstrap over seeds.
+
+    Seeds are the unit of inference, so the resample is of the ten per-seed
+    differences, not of their events. The bootstrap RNG is fixed so the
+    interval is a deterministic function of the differences.
+    """
+    values = [float(d) for d in diffs]
+    if not values:
+        raise ValueError("no differences to resample")
+    rng = random.Random(BOOTSTRAP_SEED)
+    means = []
+    for _ in range(resamples):
+        total = 0.0
+        for _ in range(len(values)):
+            total += values[rng.randrange(len(values))]
+        means.append(total / len(values))
+    means.sort()
+    lo = means[int(round((1 - level) / 2 * (resamples - 1)))]
+    hi = means[int(round((1 + level) / 2 * (resamples - 1)))]
+    return {"mean": sum(values) / len(values), "lo": lo, "hi": hi,
+            "includes_zero": lo <= 0.0 <= hi, "level": level, "resamples": resamples}
+
+
+def run(seed: int, cycles: int = 120, stream: dict | None = None) -> dict:
+    data = replay(seed, cycles, stream)
+    scored = arms_for(data["tags"], data["detections"], cycles)
+    arms = scored["arms"]
     return {
         "kind": "v2_first_cell_dry_run",
         "id": "V2-FIRST-CELL-DRY-RUN-1",
@@ -254,8 +292,10 @@ def run(seed: int, cycles: int = 120) -> dict:
         "status": "DRY RUN — NOT A CELL, NOT A VERDICT AND NOT SCORED AGAINST THE CHARTER",
         "seed": seed, "cycles": cycles, "blocks": data["blocks"],
         "m": M, "alpha": ALPHA, "beta_grid": list(BETA_GRID),
-        "window": window, "train_blocks": train, "calibration": list(calib),
-        "holdout": list(holdout),
+        "window": scored["boundaries"]["window"],
+        "train_blocks": scored["boundaries"]["train"],
+        "calibration": scored["boundaries"]["calibration"],
+        "holdout": scored["boundaries"]["holdout"],
         "arms": arms,
         "difference_c_minus_a": (round(arms["C"]["log_loss"] - arms["A"]["log_loss"], 6)
                                  if arms["C"]["log_loss"] is not None and arms["A"]["log_loss"] is not None

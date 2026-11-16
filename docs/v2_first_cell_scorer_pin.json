@@ -11,7 +11,7 @@
   },
   "adapter": {
     "path": "benchmarks/v2_first_cell_readout.py",
-    "sha256": "13e7f4a5eda41cb9c48301a442699ba9f900bed3ba3f6be8b52039efb008cfad",
+    "sha256": "fd6f5152e5cef2cafe0d0cb36e2c7e20aa6883b160e7642ac8d600683b0c7c76",
     "note": "implemented and pinned before the cell; the cell still needs the authorisation decision"
   }
 }

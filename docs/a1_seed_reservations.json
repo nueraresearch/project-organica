@@ -115,6 +115,34 @@
         20911101
       ],
       "spent": true
+    },
+    {
+      "label": "null-world calibration, structureless worlds (diagnostic, never a cell)",
+      "owner": "docs/v2_first_cell_null.json",
+      "restated_by": [],
+      "seeds": [
+        20920101,
+        20920102,
+        20920103,
+        20920104,
+        20920105,
+        20920106,
+        20920107,
+        20920108,
+        20920109,
+        20920110,
+        20920111,
+        20920112,
+        20920113,
+        20920114,
+        20920115,
+        20920116,
+        20920117,
+        20920118,
+        20920119,
+        20920120
+      ],
+      "spent": true
     }
   ],
   "shared_blocks": [

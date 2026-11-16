@@ -1,0 +1,712 @@
+{
+  "kind": "v2_first_cell_null",
+  "id": "V2-FIRST-CELL-NULL-1",
+  "date": "2026-11-16",
+  "status": "PROTOCOL DIAGNOSTIC — A NULL-WORLD CALIBRATION, NOT A CELL AND NOT A VERDICT",
+  "protocol": {
+    "m": 2,
+    "alpha": 0.5,
+    "beta_grid": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "window": 20,
+    "cells": 1000,
+    "cell_size": 10,
+    "cell_resamples": 2000,
+    "level": 0.99,
+    "failure_rule": "an interval including zero fails the charter"
+  },
+  "null_world": {
+    "construction": "each event draws two tags independently from the same 16-tag pool, at the same 8 events per block and the same block count; no temporal law",
+    "tag_pool_size": 16,
+    "events_per_cycle": 8,
+    "cycles": 120,
+    "seeds": [
+      20920101,
+      20920102,
+      20920103,
+      20920104,
+      20920105,
+      20920106,
+      20920107,
+      20920108,
+      20920109,
+      20920110,
+      20920111,
+      20920112,
+      20920113,
+      20920114,
+      20920115,
+      20920116,
+      20920117,
+      20920118,
+      20920119,
+      20920120
+    ]
+  },
+  "per_seed": [
+    {
+      "seed": 20920101,
+      "blocks": 120,
+      "detections": 1712,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.37621,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 6112
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.377164,
+          "composites": 97,
+          "mutations": 0,
+          "scored": 6112,
+          "calibration_log_loss": 0.378543
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.377027,
+          "composites": 97,
+          "mutations": 219,
+          "scored": 6112,
+          "calibration_log_loss": 0.377659
+        }
+      },
+      "d": 0.000817
+    },
+    {
+      "seed": 20920102,
+      "blocks": 120,
+      "detections": 1693,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.38136,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 6112
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.382899,
+          "composites": 114,
+          "mutations": 0,
+          "scored": 6112,
+          "calibration_log_loss": 0.384144
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.38225,
+          "composites": 114,
+          "mutations": 323,
+          "scored": 6112,
+          "calibration_log_loss": 0.384683
+        }
+      },
+      "d": 0.00089
+    },
+    {
+      "seed": 20920103,
+      "blocks": 120,
+      "detections": 1721,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.382719,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 6112
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.383522,
+          "composites": 149,
+          "mutations": 0,
+          "scored": 6112,
+          "calibration_log_loss": 0.38125
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.383837,
+          "composites": 149,
+          "mutations": 280,
+          "scored": 6112,
+          "calibration_log_loss": 0.38129
+        }
+      },
+      "d": 0.001118
+    },
+    {
+      "seed": 20920104,
+      "blocks": 120,
+      "detections": 1730,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.375018,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 6112
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.378279,
+          "composites": 122,
+          "mutations": 0,
+          "scored": 6112,
+          "calibration_log_loss": 0.376693
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.376923,
+          "composites": 122,
+          "mutations": 310,
+          "scored": 6112,
+          "calibration_log_loss": 0.376916
+        }
+      },
+      "d": 0.001905
+    },
+    {
+      "seed": 20920105,
+      "blocks": 120,
+      "detections": 1700,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.37687,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 6112
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.378481,
+          "composites": 86,
+          "mutations": 0,
+          "scored": 6112,
+          "calibration_log_loss": 0.38381
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.377758,
+          "composites": 86,
+          "mutations": 229,
+          "scored": 6112,
+          "calibration_log_loss": 0.383108
+        }
+      },
+      "d": 0.000888
+    },
+    {
+      "seed": 20920106,
+      "blocks": 120,
+      "detections": 1701,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.379284,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 6112
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.381238,
+          "composites": 113,
+          "mutations": 0,
+          "scored": 6112,
+          "calibration_log_loss": 0.368439
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.380397,
+          "composites": 113,
+          "mutations": 255,
+          "scored": 6112,
+          "calibration_log_loss": 0.367772
+        }
+      },
+      "d": 0.001113
+    },
+    {
+      "seed": 20920107,
+      "blocks": 120,
+      "detections": 1724,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.379603,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 6112
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.381953,
+          "composites": 158,
+          "mutations": 0,
+          "scored": 6112,
+          "calibration_log_loss": 0.377301
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.381042,
+          "composites": 158,
+          "mutations": 391,
+          "scored": 6112,
+          "calibration_log_loss": 0.379049
+        }
+      },
+      "d": 0.001439
+    },
+    {
+      "seed": 20920108,
+      "blocks": 120,
+      "detections": 1684,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.375153,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 6112
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.375795,
+          "composites": 125,
+          "mutations": 0,
+          "scored": 6112,
+          "calibration_log_loss": 0.383985
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.374963,
+          "composites": 125,
+          "mutations": 403,
+          "scored": 6112,
+          "calibration_log_loss": 0.384199
+        }
+      },
+      "d": -0.00019
+    },
+    {
+      "seed": 20920109,
+      "blocks": 120,
+      "detections": 1719,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.379253,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 6112
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.380775,
+          "composites": 130,
+          "mutations": 0,
+          "scored": 6112,
+          "calibration_log_loss": 0.386311
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.380875,
+          "composites": 130,
+          "mutations": 314,
+          "scored": 6112,
+          "calibration_log_loss": 0.387345
+        }
+      },
+      "d": 0.001622
+    },
+    {
+      "seed": 20920110,
+      "blocks": 120,
+      "detections": 1702,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.38091,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 6112
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.383522,
+          "composites": 87,
+          "mutations": 0,
+          "scored": 6112,
+          "calibration_log_loss": 0.382079
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.382371,
+          "composites": 87,
+          "mutations": 236,
+          "scored": 6112,
+          "calibration_log_loss": 0.382096
+        }
+      },
+      "d": 0.001461
+    },
+    {
+      "seed": 20920111,
+      "blocks": 120,
+      "detections": 1702,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.37833,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 6112
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.37854,
+          "composites": 129,
+          "mutations": 0,
+          "scored": 6112,
+          "calibration_log_loss": 0.376895
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.378868,
+          "composites": 129,
+          "mutations": 277,
+          "scored": 6112,
+          "calibration_log_loss": 0.37733
+        }
+      },
+      "d": 0.000538
+    },
+    {
+      "seed": 20920112,
+      "blocks": 120,
+      "detections": 1699,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.382271,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 6112
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.383586,
+          "composites": 130,
+          "mutations": 0,
+          "scored": 6112,
+          "calibration_log_loss": 0.384657
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.382963,
+          "composites": 130,
+          "mutations": 320,
+          "scored": 6112,
+          "calibration_log_loss": 0.384297
+        }
+      },
+      "d": 0.000692
+    },
+    {
+      "seed": 20920113,
+      "blocks": 120,
+      "detections": 1710,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.381869,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 6112
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.382928,
+          "composites": 119,
+          "mutations": 0,
+          "scored": 6112,
+          "calibration_log_loss": 0.374933
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.382751,
+          "composites": 119,
+          "mutations": 250,
+          "scored": 6112,
+          "calibration_log_loss": 0.373882
+        }
+      },
+      "d": 0.000882
+    },
+    {
+      "seed": 20920114,
+      "blocks": 120,
+      "detections": 1693,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.377264,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 6112
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.378309,
+          "composites": 133,
+          "mutations": 0,
+          "scored": 6112,
+          "calibration_log_loss": 0.388992
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.378144,
+          "composites": 133,
+          "mutations": 420,
+          "scored": 6112,
+          "calibration_log_loss": 0.389621
+        }
+      },
+      "d": 0.00088
+    },
+    {
+      "seed": 20920115,
+      "blocks": 120,
+      "detections": 1711,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.378543,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 6112
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.380907,
+          "composites": 170,
+          "mutations": 0,
+          "scored": 6112,
+          "calibration_log_loss": 0.380039
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.379845,
+          "composites": 170,
+          "mutations": 438,
+          "scored": 6112,
+          "calibration_log_loss": 0.379474
+        }
+      },
+      "d": 0.001302
+    },
+    {
+      "seed": 20920116,
+      "blocks": 120,
+      "detections": 1715,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.38074,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 6112
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.382377,
+          "composites": 132,
+          "mutations": 0,
+          "scored": 6112,
+          "calibration_log_loss": 0.377472
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.381854,
+          "composites": 132,
+          "mutations": 288,
+          "scored": 6112,
+          "calibration_log_loss": 0.375728
+        }
+      },
+      "d": 0.001114
+    },
+    {
+      "seed": 20920117,
+      "blocks": 120,
+      "detections": 1707,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.38233,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 6112
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.383408,
+          "composites": 145,
+          "mutations": 0,
+          "scored": 6112,
+          "calibration_log_loss": 0.379851
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.382621,
+          "composites": 145,
+          "mutations": 366,
+          "scored": 6112,
+          "calibration_log_loss": 0.378658
+        }
+      },
+      "d": 0.000291
+    },
+    {
+      "seed": 20920118,
+      "blocks": 120,
+      "detections": 1720,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.378315,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 6112
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.378136,
+          "composites": 111,
+          "mutations": 0,
+          "scored": 6112,
+          "calibration_log_loss": 0.380255
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.377389,
+          "composites": 111,
+          "mutations": 224,
+          "scored": 6112,
+          "calibration_log_loss": 0.379851
+        }
+      },
+      "d": -0.000926
+    },
+    {
+      "seed": 20920119,
+      "blocks": 120,
+      "detections": 1725,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.372795,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 6112
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.37378,
+          "composites": 123,
+          "mutations": 0,
+          "scored": 6112,
+          "calibration_log_loss": 0.381524
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.373027,
+          "composites": 123,
+          "mutations": 360,
+          "scored": 6112,
+          "calibration_log_loss": 0.378888
+        }
+      },
+      "d": 0.000232
+    },
+    {
+      "seed": 20920120,
+      "blocks": 120,
+      "detections": 1721,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.376692,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 6112
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.376164,
+          "composites": 151,
+          "mutations": 0,
+          "scored": 6112,
+          "calibration_log_loss": 0.378371
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.377563,
+          "composites": 151,
+          "mutations": 426,
+          "scored": 6112,
+          "calibration_log_loss": 0.377649
+        }
+      },
+      "d": 0.000871
+    }
+  ],
+  "summary": {
+    "n": 20,
+    "mean_d": 0.000847,
+    "sd_d": 0.000645,
+    "min_d": -0.000926,
+    "max_d": 0.001905,
+    "median_composites_c": 127.0,
+    "median_detections": 1710.5
+  },
+  "calibration": {
+    "cells": 1000,
+    "cell_size": 10,
+    "resamples": 2000,
+    "level": 0.99,
+    "excludes_zero_rate": 0.943,
+    "includes_zero_rate": 0.057,
+    "excludes_above_zero": 943,
+    "excludes_below_zero": 0,
+    "directional_false_pass_rate": 0.0,
+    "coverage_of_pool_mean": 0.982,
+    "median_width": 0.00097,
+    "monte_carlo_se": 0.0073,
+    "directional_se": 0.0,
+    "bootstrap_rng_seed": 20261116,
+    "cell_rng_seed": 20261117
+  },
+  "reference_interval_20_seeds": {
+    "mean": 0.00084695,
+    "lo": 0.00045399999999999987,
+    "hi": 0.0011757999999999998,
+    "includes_zero": false,
+    "level": 0.99,
+    "resamples": 10000
+  },
+  "note": "the null removes the temporal law, not the apparatus: detections, admission, beta selection and the scorer are unchanged. A false pass is an interval that excludes zero on a world with nothing to learn; the charter's own error is the opposite one, an interval that includes zero when there is something to find, which this diagnostic does not measure.",
+  "engine_version": "0.15.0",
+  "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+  "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+  "runner": "__main__",
+  "page_note": "Amendment 2 makes the criterion directional; the null's false-pass rate is the fraction of cells whose interval lies entirely below zero."
+}

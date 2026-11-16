@@ -115,6 +115,16 @@ def test_the_dry_run_amendment_is_disclosed() -> None:
     assert "%.6f" % dry["arms"]["C"]["log_loss"] in text
 
 
+def test_amendment_2_is_directional() -> None:
+    text = _text()
+    assert "## 10b. Amendment 2 — the criterion is directional" in text
+    assert "entirely **below** zero" in text
+    cal = json.loads((ROOT / "docs" / "v2_first_cell_null.json").read_text(encoding="utf-8"))["calibration"]
+    assert "%.4f" % cal["includes_zero_rate"] in text
+    assert str(cal["excludes_above_zero"]) in text
+    assert "0 of 1,000" in text
+
+
 def test_the_authorisation_is_drafted_and_unsigned() -> None:
     decision = json.loads((ROOT / "docs" / "decisions.json").read_text(encoding="utf-8"))
     entry = [d for d in decision["decisions"] if d["decision_id"] == "DECISION-V2-FIRST-CELL"]

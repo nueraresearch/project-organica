@@ -153,6 +153,23 @@ This addendum replaces the first version of the same study, which reported 20 re
 all 186 retirement rows and the conservative figures above stand. The correction is recorded in the page and the artifact,
 not silently applied.
 
+## Addendum — 2026-11-16: the interval on null worlds, and the criterion made directional
+
+`benchmarks/v2_first_cell_null.py` puts 20 **structureless worlds** through the same engine, admission, `m = 2`, β grid,
+revision rule and scorer: every event draws two tags independently from the same 16-tag pool, so nothing about a
+composite's membership can predict a held-out edge. It then applies the protocol's 99% paired bootstrap to 1,000 ten-seed
+cells and records how often the interval excludes zero.
+
+The answer is not the comfortable one. The interval **included zero in only 57 of 1,000 cells** (0.0570): on null worlds arm
+C is slower by **0.000847** nats (sd 0.000645), and at ten seeds the interval resolves that handicap. All **943** exclusions
+lay **above** zero, so the rule as signed — two-sided, asking only whether zero was inside — would have counted a reliably
+*worse* arm as a pass. Amendment 2 therefore makes the criterion directional: the charter passes only when the interval lies
+entirely **below** zero; an interval including zero fails as bookkeeping, and one entirely above zero fails as a reversal.
+Under the amended rule the null's false-pass rate is **0 of 1,000** cells. The diagnostic is pre-observation, and the
+calibration's coverage of the null mean is 98.2%, close to the nominal 99%.
+
+`docs/V2-FIRST-CELL-NULL.md` is rendered from `docs/v2_first_cell_null.json`; the 20 null seeds are reserved and spent.
+
 ## Addendum — 2026-11-16: the readout adapter is built, pinned and dry-run
 
 `benchmarks/v2_first_cell_readout.py` implements the signed protocol: one engine replay per world, composites admitted on

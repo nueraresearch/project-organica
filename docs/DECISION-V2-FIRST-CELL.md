@@ -28,7 +28,7 @@ reports the first experiment once: a second cell would re-score a verdict that h
 | World | `generate_compositional_world(seed, cycles=120)`, blocks `0–95` train, `80–95` calibration, `96–119` held out |
 | Arms | A pair counts, B frozen membership, C maintained membership; same readout and scorer |
 | Endpoint | mean paired difference in held-out next-edge log-loss, arm C − arm A |
-| Decision rule | paired bootstrap over seeds, 10,000 resamples, 99% percentile; an interval including zero fails the charter |
+| Decision rule | paired bootstrap over seeds, 10,000 resamples, 99% percentile, directional since Amendment 2: pass only if the interval lies entirely below zero |
 | Gates | `A1`–`A5` before any arm; any failure is `VOID` |
 | Build | one new module, `benchmarks/v2_first_cell_readout.py`, written and pinned by digest before this decision |
 | Stop | one report; the charter closes, pass or fail |

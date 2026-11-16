@@ -30,7 +30,8 @@ comparator.
 From requirement 7 and [`V2-MUTABLE-IDENTITY-SPEC`](V2-MUTABLE-IDENTITY-SPEC.md) §8.3:
 
 > **If the prediction arm's interval includes zero, the primitive is bookkeeping and the charter fails at its first
-> experiment.**
+> experiment.** The test is directional: the charter passes only when the interval lies entirely **below** zero, and an
+> interval entirely above zero is a reversal that fails it too (Amendment 2).
 
 That is the whole criterion, and it is one endpoint. A tie is a result. Adding features to rescue it, re-reading the
 endpoint, or reporting a secondary measure as the headline are protocol violations, not judgement calls. This document also
@@ -142,7 +143,7 @@ diagnostic, not a criterion.
 For each seed `s`, `d_s = L_C(s) − L_A(s)` is the difference in held-out log-loss. The endpoint is the mean of `d_s`. The
 interval is a **paired bootstrap over seeds** — 10,000 resamples, 99% percentile — because the world is the unit of inference;
 resampling events would multiply n without adding a world. With ten seeds this interval is deliberately wide, which makes a
-pass harder, not easier. **If the interval includes zero, the charter fails** (§3). `d_B` is reported beside it as a
+pass harder, not easier. **The charter passes only if the interval lies entirely below zero**; an interval including zero fails, and so does one entirely above it (§3, Amendment 2). `d_B` is reported beside it as a
 decomposition, not a second criterion.
 
 A seed with no held-out positives is not measurable and is excluded with the exclusion reported; if fewer than **8 of 10**
@@ -192,6 +193,19 @@ calibration band, which makes the membership term vanish and reproduces arm A ex
 distinct — A `0.280457`, B `0.289424` (`β = 1`), C `0.285669` (`β = 1`) — on one smoke seed, which is a check that the arms
 separate, not a result. No cell has run and no seed from the ten-seed block has been spent, so this changes the protocol
 before its first observation.
+
+
+## 10b. Amendment 2 — the criterion is directional (2026-11-16, before any cell)
+
+The null-world calibration ([`V2-FIRST-CELL-NULL`](V2-FIRST-CELL-NULL.md)) put 20 structureless worlds through the same
+engine, admission, β grid and scorer, then applied this interval to 1,000 ten-seed cells. It **included zero in only 57**
+cells (0.0570): arm C is slower by **0.000847** nats (sd 0.000645) on a world with nothing to learn, and at ten seeds the
+interval resolves that handicap. All **943** exclusions lay **above** zero. Under the two-sided wording as signed, a cell in
+which the primitive was reliably *worse* would count as a pass, because the rule asked only whether the interval contained
+zero. The criterion is therefore directional: the charter passes only when the interval lies entirely **below** zero; an
+interval including zero is bookkeeping; an interval entirely above zero is a reversal. Both fail. Under the amended rule the
+null's false-pass rate is **0 of 1,000** cells. No cell has run, so this is a pre-observation correction, disclosed with its
+evidence.
 
 ## 11. What this pre-registration does not decide
 
