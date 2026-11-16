@@ -38,6 +38,7 @@ reports the first experiment once: a second cell would re-score a verdict that h
 | Gates | `A1`–`A5` before any arm; any failure is `VOID` |
 | Build | one new module, `benchmarks/v2_first_cell_readout.py`, written and pinned by digest before this decision |
 | Stop | one report; the charter closes, pass or fail |
+| Report | the fixed shape in [`V2-FIRST-CELL-REPORT-TEMPLATE`](V2-FIRST-CELL-REPORT-TEMPLATE.md); a result that does not fit is refused |
 
 ## 3. What this decision does not authorise
 
@@ -60,6 +61,7 @@ signed; the adapter is already pinned.
 
 - [`V2-FIRST-EXPERIMENT-PREREGISTRATION`](V2-FIRST-EXPERIMENT-PREREGISTRATION.md) — the signed protocol.
 - [`DECISION-V2-FIRST-CELL-INTERPRETATION`](DECISION-V2-FIRST-CELL-INTERPRETATION.md) — the four readings and the scope of each.
+- [`V2-FIRST-CELL-REPORT-TEMPLATE`](V2-FIRST-CELL-REPORT-TEMPLATE.md) — the one report shape and the refusals.
 - [`v2_first_cell_seeds.json`](v2_first_cell_seeds.json) — the declared block.
 - [`v2_first_cell_scorer_pin.json`](v2_first_cell_scorer_pin.json) — the pinned modules and the adapter rule.
 - [`V2-MUTABLE-IDENTITY-SPEC`](V2-MUTABLE-IDENTITY-SPEC.md) §8 — the earning test and the `I1`–`I5`/`M1`–`M5` battery.
