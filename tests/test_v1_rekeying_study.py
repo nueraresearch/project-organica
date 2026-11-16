@@ -79,11 +79,11 @@ def test_the_two_seed_page_is_rendered_from_both_artifacts() -> None:
     assert TWO_SEEDS.read_text(encoding="utf-8") == study.render_two_seed(first, second)
 
 
-def test_the_pending_decision_cites_the_two_seed_result() -> None:
+def test_the_adopted_decision_cites_the_two_seed_result() -> None:
     decisions = json.loads((ROOT / "docs" / "decisions.json").read_text(encoding="utf-8"))
     entry = next(d for d in decisions["decisions"]
                  if d["decision_id"] == "DECISION-V2-PRIMITIVE-RESOLUTIONS")
-    assert entry["status"] == "PENDING"
+    assert entry["status"] == "ADOPTED"
     assert "docs/V1-REKEYING-TWO-SEEDS.md" in entry["evidence"]
     record = (ROOT / "docs" / "DECISION-V2-PRIMITIVE-RESOLUTIONS.md").read_text(encoding="utf-8")
     assert "Evidence update" in record

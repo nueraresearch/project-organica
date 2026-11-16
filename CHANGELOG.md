@@ -153,6 +153,18 @@ This addendum replaces the first version of the same study, which reported 20 re
 all 186 retirement rows and the conservative figures above stand. The correction is recorded in the page and the artifact,
 not silently applied.
 
+## Addendum — 2026-11-16: the V2 charter and its primitive resolutions are signed
+
+`DECISION-V2-CHARTER` and `DECISION-V2-PRIMITIVE-RESOLUTIONS` are **`ADOPTED 2026-11-16`**. The charter commissions the V2
+design document with its one question, one failure criterion, requirement 6 and the earning test; the resolutions are the
+content of requirement 6, adopted as one sentence. `DECISION-V2-SCOPE` D1's prohibition is narrowed to the charter's scope.
+
+The signatures authorise **no cell, no module, no build and no engine change**. The charter's requirement 4 still requires
+the first cell to be authorised separately, requirement 5 still closes the charter after the first experiment reports, and
+the frozen engine is untouched. The decision index moves to **26 adopted, 1 withdrawn, 5 pending**; the action list's two V2
+rows are marked signed, and the tests that asserted the drafts were pending now assert the adopted state and that the
+signature blocks are filled.
+
 ## Addendum — 2026-11-16: requirement 6 is drafted, not deferred
 
 The V2 charter's requirement 6 no longer points at four open questions and asks the owner to resolve them while signing. It

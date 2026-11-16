@@ -1,8 +1,9 @@
 # `DECISION-V2-CHARTER` — commission a V2 charter
 
-**Status:** `DRAFT — AWAITING THE OWNER'S SIGNATURE; A CHARTER, NOT A BUILD`
+**Status:** `ADOPTED 2026-11-16 — A V2 CHARTER IS COMMISSIONED; NO BUILD IS AUTHORISED`
 
-**Decision ID:** `DECISION-V2-CHARTER-1` · **Date:** 2026-11-15
+**Decision ID:** `DECISION-V2-CHARTER-1` · **Date:** 2026-11-15 · **Adopted:** 2026-11-16
+**Instruction:** sign the V2 charter and record it as adopted (owner, 2026-11-16).
 
 **Narrows:** clause D1 of [`DECISION-V2-SCOPE`](DECISION-V2-SCOPE.md) (2026-10-30), the prohibition on *designing* a V2.
 **Leaves untouched:** D2 of that decision — the G13-D diagnostic, which ran and is recorded — together with every frozen
@@ -172,8 +173,10 @@ No V2 cell, module or engine change is authorised by this decision; the charter 
 
 ## 7. Signature
 
-**Sign:** `DECISION-V2-CHARTER — ADOPTED`, owner, date. **Narrow further:** `ADOPTED WITH LIMITS`, owner, date, and the
-limits in the same line. **Withdraw:** `WITHDRAWN`, owner, date, reason.
+**Signed:** `DECISION-V2-CHARTER — ADOPTED`, owner, 2026-11-16.
 
-Until signed, this document is a **draft**: it commissions nothing, and the prohibition in `DECISION-V2-SCOPE` D1 stands
-exactly as recorded.
+This signature is the adoption the decision's fourth sentence reserved — "the charter returns to the owner for its own
+adoption" — and it is the only thing this document adds to that sentence. The charter is adopted and it still authorises
+**no code, no cells, no module and no engine change**: requirements 1–7 are the charter's content, and the first V2 cell needs
+its own authorisation under requirement 4. The resolutions that give requirement 6 its content are adopted the same day in
+[`DECISION-V2-PRIMITIVE-RESOLUTIONS`](DECISION-V2-PRIMITIVE-RESOLUTIONS.md).

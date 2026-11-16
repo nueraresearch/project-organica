@@ -1,8 +1,9 @@
 # `DECISION-V2-PRIMITIVE-RESOLUTIONS` — adopt the primitive's four resolutions
 
-**Status:** `DRAFT — AWAITING THE OWNER'S SIGNATURE; RECOMMENDATIONS, NOT A BUILD`
+**Status:** `ADOPTED 2026-11-16 — THE FOUR RESOLUTIONS ARE THE CHARTER'S REQUIREMENT 6; NO BUILD IS AUTHORISED`
 
-**Decision ID:** `DECISION-V2-PRIMITIVE-RESOLUTIONS` · **Date:** 2026-11-15
+**Decision ID:** `DECISION-V2-PRIMITIVE-RESOLUTIONS` · **Date:** 2026-11-15 · **Adopted:** 2026-11-16
+**Instruction:** adopt the four resolutions as the content of the charter's requirement 6 (owner, 2026-11-16).
 
 **Tallied by:** Q057 — the charter question. This is content *for* that charter, so it is one more decision resting on the
 same question rather than a new question of its own.
@@ -91,14 +92,14 @@ reject a stable object that alternates orientation, and the flips are measured, 
 reclamation answer (resolution 3) still rests on the storage accounting, not on a measurement of forgetting — the boundary
 measurement in [`V1-CARRIER-FORGETTING`](V1-CARRIER-FORGETTING.md) found the engine never forgets a live carrier, which
 removes a suspected failure mode but does not by itself justify the reclamation rule. And the decision still authorises no
-build: the sentence in §1, the four answers, the rejected alternatives and the signature table are unchanged, and the record
-remains `PENDING`.
+build: the sentence in §1, the four answers and the rejected alternatives are unchanged. The record was `PENDING` when this
+evidence was added; it was adopted with the charter on 2026-11-16.
 
 ## 9. Signature
 
 | | |
 |---|---|
-| **Owner** | _unsigned_ |
-| **Adopt / reject** | _pending_ |
-| **Date** | _pending_ |
+| **Owner** | owner |
+| **Adopt / reject** | `ADOPTED` |
+| **Date** | 2026-11-16 |
 | **Note** | One sentence above; the four alternatives and their reasons are in the decision index. |

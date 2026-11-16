@@ -16,13 +16,14 @@ def _record() -> dict:
     return next(d for d in _decisions() if d["decision_id"] == "DECISION-V2-CHARTER")
 
 
-def test_the_charter_is_pending_so_it_authorises_nothing() -> None:
+def test_the_charter_is_adopted_and_still_authorises_nothing() -> None:
     record = _record()
-    assert record["status"] == "PENDING"
+    assert record["status"] == "ADOPTED"
     assert record["superseded_by"] is None
     text = (DOCS / "DECISION-V2-CHARTER.md").read_text(encoding="utf-8")
-    assert "DRAFT — AWAITING THE OWNER'S SIGNATURE" in text
-    assert "commissions nothing" in text
+    assert "ADOPTED 2026-11-16" in text
+    assert "AWAITING THE OWNER'S SIGNATURE" not in text
+    assert "authorises\n**no code, no cells, no module and no engine change**" in text
 
 
 def test_it_carries_the_untested_arm_and_the_three_lines() -> None:

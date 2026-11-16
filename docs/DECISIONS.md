@@ -14,9 +14,9 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 
 | status | count | meaning |
 | --- | --- | --- |
-| ADOPTED | 24 | in force; the document records it as implemented or effective |
+| ADOPTED | 26 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
-| PENDING | 7 | decided and not in force; the document says so |
+| PENDING | 5 | decided and not in force; the document says so |
 | **total** | **32** | |
 
 ## The decisions
@@ -654,7 +654,7 @@ uncomputable, and the cause that fired first is the one worth reporting.
 
 ### DECISION-V2-CHARTER — `DECISION-V2-CHARTER` — commission a V2 charter
 
-**Status.** PENDING — *"DRAFT — AWAITING THE OWNER'S SIGNATURE; A CHARTER, NOT A BUILD"*
+**Status.** ADOPTED — *"ADOPTED 2026-11-16 — A V2 CHARTER IS COMMISSIONED; NO BUILD IS AUTHORISED"*
 
 **Decided.**
 
@@ -704,7 +704,7 @@ uncomputable, and the cause that fired first is the one worth reporting.
 
 ### DECISION-V2-PRIMITIVE-RESOLUTIONS — `DECISION-V2-PRIMITIVE-RESOLUTIONS` — adopt the primitive's four resolutions
 
-**Status.** PENDING — *"DRAFT — AWAITING THE OWNER'S SIGNATURE; RECOMMENDATIONS, NOT A BUILD"*
+**Status.** ADOPTED — *"ADOPTED 2026-11-16 — THE FOUR RESOLUTIONS ARE THE CHARTER'S REQUIREMENT 6; NO BUILD IS AUTHORISED"*
 
 **Decided.**
 

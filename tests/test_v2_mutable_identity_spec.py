@@ -70,8 +70,8 @@ def test_requirement_six_states_its_content_and_signs_with_the_resolutions() -> 
     assert "adopts or rejects them explicitly" not in charter
     decisions = json.loads((ROOT / "docs" / "decisions.json").read_text(encoding="utf-8"))
     status = {d["decision_id"]: d["status"] for d in decisions["decisions"]}
-    assert status["DECISION-V2-CHARTER"] == "PENDING"
-    assert status["DECISION-V2-PRIMITIVE-RESOLUTIONS"] == "PENDING"
+    assert status["DECISION-V2-CHARTER"] == "ADOPTED"
+    assert status["DECISION-V2-PRIMITIVE-RESOLUTIONS"] == "ADOPTED"
 
 
 def test_the_primitives_cannot_be_built_by_accident() -> None:
@@ -81,8 +81,11 @@ def test_the_primitives_cannot_be_built_by_accident() -> None:
     assert not engine_hits, engine_hits
     decisions = json.loads((ROOT / "docs" / "decisions.json").read_text(encoding="utf-8"))
     adopted = [d["decision_id"] for d in decisions["decisions"]
-               if d.get("status") == "ADOPTED" and "MUTABLE-IDENTITY" in d["decision_id"]]
-    assert not adopted, adopted
+               if d.get("status") == "ADOPTED"
+               and ("MUTABLE-IDENTITY" in d["decision_id"] or "PRIMITIVE-RESOLUTIONS" in d["decision_id"])]
+    status = {d["decision_id"]: d["status"] for d in decisions["decisions"]}
+    if adopted:
+        assert status["DECISION-V2-CHARTER"] == "ADOPTED", "a primitive cannot be adopted before the charter"
     charter = (ROOT / "docs" / "DECISION-V2-CHARTER.md").read_text(encoding="utf-8")
     assert "V2-MUTABLE-IDENTITY-SPEC.md" in charter
     assert "planning only" in charter
