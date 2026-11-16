@@ -5,6 +5,20 @@ All notable changes to Project Organica are recorded here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project follows [Semantic Versioning 2.0.0](https://semver.org/).
 
+## Addendum — 2026-11-16: signature review of the first cell
+
+The gate record is A1–A5 PASS, the scorer pins match, and the ten cell seeds are held and unspent. The runner still
+refuses while `DECISION-V2-FIRST-CELL` is `PENDING`.
+
+Three stale statements were corrected before signature: the gate record's note still said A4 was NOT RUN, the runner
+docstring still said A2–A5 NOT RUN, and the brief said only that the gates were written. The decision now names the
+signature bookkeeping explicitly: the signature commit must set the decision to `ADOPTED` and the seed block to
+`spent: true`; the runner refuses until both.
+
+Two disclosures remain for the signer. A1's PASS is the canonicalisation rule, both committed regressions and the spent
+smoke stream — not a replay of the cell's own detection stream. The section 8 control has no record, so it will be
+reported `NOT RUN` with a reason, which the signed interpretation permits. No cell ran.
+
 ## Addendum — 2026-11-16: the base seed is released to A4, and A1–A5 pass
 
 `DECISION-V2-A4-BASE-WORLD` releases 20740101 from the A1-TWO-PATH-1 reservation and reallocates it as A4's base

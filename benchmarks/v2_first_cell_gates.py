@@ -414,9 +414,9 @@ def build(date: str | None = None) -> dict:
         "base_seed": BASE_SEED,
         "note": (
             "A gate record is not a result. PASS means the gate's checks ran and held; it does not "
-            "make the primitive predictive. A4 is NOT RUN because its base world is held for another "
-            "block; the cell has not run and the ten reserved seeds are untouched. Any non-PASS gate "
-            "is a gate failure and the runner assembles VOID."
+            "make the primitive predictive. A4 was measured on the base seed released by "
+            "DECISION-V2-A4-BASE-WORLD; the cell has not run and the ten reserved cell seeds are "
+            "untouched. Any non-PASS gate is a gate failure and the runner assembles VOID."
         ),
     }
     return record

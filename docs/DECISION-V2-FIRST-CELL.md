@@ -34,8 +34,9 @@ and clearing the gates does not authorise the cell or make the primitive predict
 [`V2-FIRST-EXPERIMENT-PREREGISTRATION`](V2-FIRST-EXPERIMENT-PREREGISTRATION.md) is signed: the endpoint, the arms, the
 `A1`–`A5` gates, `m = 2`, the world and boundary, the seed block, the readout, the revision rule and the 99% paired-bootstrap
 interval are fixed, and `docs/v2_first_cell_scorer_pin.json` fixes the world generator, the detector and the log-loss
-instrument. The authorisation is the only thing between that protocol and a run, and it is one cell because the charter
-reports the first experiment once: a second cell would re-score a verdict that had already been delivered.
+instrument. The signature and its bookkeeping are the only steps between that protocol and a run, and it is one cell
+because the charter reports the first experiment once: a second cell would re-score a verdict that had already been
+delivered.
 
 | | |
 |---|---|
@@ -45,16 +46,17 @@ reports the first experiment once: a second cell would re-score a verdict that h
 | Endpoint | mean paired difference in held-out next-edge log-loss, arm C − arm A |
 | Decision rule | paired bootstrap over seeds, 10,000 resamples, 99% percentile, directional since Amendment 2: pass only if the interval lies entirely below zero |
 | Gates | `A1`–`A5` before any arm; any failure is `VOID` |
-| Build | one new module, `benchmarks/v2_first_cell_readout.py`, written and pinned by digest before this decision |
+| Build | one new module, `benchmarks/v2_first_cell_readout.py`, written and pinned by digest before this decision; the level-1 primitive is a separate decision, already built |
 | Stop | one report; the charter closes, pass or fail |
 | Report | the fixed shape in [`V2-FIRST-CELL-REPORT-TEMPLATE`](V2-FIRST-CELL-REPORT-TEMPLATE.md); a result that does not fit is refused, including the section 8 control arm and its `M1` bystander check |
 
 ## 3. What this decision does not authorise
 
-No engine change, no change to the pinned modules, no new V2 module beyond the one readout adapter, no promotion, no
-extension of the first report, and no seed beyond the declared block. It does not adopt the primitive, does not amend
-`m`, and does not permit a second experiment. The seeds stop being *held* and become *spent* when this decision is
-signed; the adapter is already pinned.
+No engine change, no change to the pinned modules, no new V2 module under this authorisation beyond the one readout
+adapter (the level-1 primitive was authorised separately and is already built), no promotion, no extension of the first
+report, and no seed beyond the declared block. It does not change the separately adopted primitive, does not amend `m`,
+and does not permit a second experiment. The seeds stop being *held* and become *spent* in the signature commit; the
+adapter is already pinned.
 
 ## 4. Alternatives rejected
 
@@ -83,8 +85,17 @@ signed; the adapter is already pinned.
 
 ## 6. Signature
 
-**Unsigned.** Signing spends the seed block and authorises the cell; the signature line records the owner, the date, and the
-commit that adds the adapter's digest to the scorer pin.
+**Unsigned.** Signing authorises the cell and spends the block. The signature commit must set this decision's
+`docs/decisions.json` row to `ADOPTED` and the `docs/v2_first_cell_seeds.json` block in `docs/a1_seed_reservations.json` to
+`spent: true`. The runner refuses until both; a signature on the page alone does not pass the guard.
+
+| Check | State at this review |
+|---|---|
+| Gates | A1–A5 PASS (`docs/v2_first_cell_gates.json`) |
+| Pins | match (`v2_first_cell_runner --check`) |
+| Seeds | ten held and unspent; become spent in the signature commit |
+| Control | no `docs/v2_first_cell_control.json`; section 8 records `NOT RUN` with a reason |
+| A1 scope | the rule and the spent smoke stream, not the cell's own detection stream; the gate record says so |
 
 | | |
 |---|---|

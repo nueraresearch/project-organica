@@ -15,11 +15,11 @@ One cell, on the already-declared block, with the already-built readout:
 | Arms | A pair counts, B frozen membership, C maintained membership |
 | Endpoint | mean paired difference in held-out next-edge log-loss, C − A |
 | Rule | 99% paired bootstrap over seeds, 10,000 resamples, directional since Amendment 2 |
-| Gates | `A1`–`A5` before any arm; any failure is `VOID` |
+| Gates | `A1`–`A5` **PASS** before any arm; any failure is `VOID` |
 | Stop | one report; the charter closes, pass or fail |
 
-Signing spends the seed block, authorises no engine change, no second report and no promotion. The readout adapter exists and
-is pinned; nothing has run.
+The signature commit marks the seed block spent and authorises no engine change, no second report and no promotion. The
+readout adapter exists and is pinned; nothing has run.
 
 ## What the diagnostics say
 
@@ -52,8 +52,8 @@ cell's world contains such a motif.
 ## The single remaining action
 
 **Sign [`DECISION-V2-FIRST-CELL`](DECISION-V2-FIRST-CELL.md).** Nothing else is open: the protocol is signed, the readout is
-built and pinned, the 10 seeds are held, the gates are written, and the three diagnostics are recorded. The
-signature is the only step between the protocol and a run.
+built and pinned, the 10 seeds are held, the gates pass, and the three diagnostics are recorded. The signature
+commit is the only step between the protocol and a run; it must also mark the seed block spent.
 
 ## Where the evidence lives
 

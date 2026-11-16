@@ -16,8 +16,8 @@ authorisation is pending, which is its state now.
 Inputs:
 
 * `docs/v2_first_cell_gates.json` — written by `benchmarks.v2_first_cell_gates`. It
-  currently records A1 PASS and A2–A5 NOT RUN, because the primitive those gates test is
-  not built; the runner therefore assembles a `VOID` without executing a seed.
+  currently records A1–A5 PASS, so the gate block is cleared; the runner still refuses while
+  the authorisation is PENDING.
 * `docs/v2_first_cell_control.json` — still absent; the section 8 control is recorded
   NOT RUN with a reason, which is admissible because the arm is secondary.
 
