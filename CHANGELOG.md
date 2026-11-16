@@ -153,6 +153,12 @@ This addendum replaces the first version of the same study, which reported 20 re
 all 186 retirement rows and the conservative figures above stand. The correction is recorded in the page and the artifact,
 not silently applied.
 
+## Addendum — 2026-11-16: the one-page brief for the first cell's signature
+
+`docs/V2-FIRST-CELL-BRIEF.md` is a one-page brief for `DECISION-V2-FIRST-CELL`: the ask, the four-row protocol, the null
+false-pass rate, the power curve at the measured noise, and the handicap decomposition, each number read from the artifact
+that measured it. It adds no evidence, and it names the single remaining action — the signature.
+
 ## Addendum — 2026-11-16: the null handicap decomposed, and why it cannot be debiased
 
 `benchmarks/v2_first_cell_handicap.py` separates the +0.000847 nats null handicap using the stored arms: frozen membership's

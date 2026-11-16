@@ -3,6 +3,8 @@
 **Status:** `DRAFT — AWAITING THE OWNER'S SIGNATURE; ONE CELL AND NO ENGINE CHANGE`
 
 **Decision ID:** `DECISION-V2-FIRST-CELL` · **Date:** 2026-11-16
+
+**Brief for signature:** [`V2-FIRST-CELL-BRIEF`](V2-FIRST-CELL-BRIEF.md) — one page, every number from its artifact.
 **Instruction:** draft the authorisation decision that follows the signed pre-registration, for the owner's signature
 (owner, 2026-11-16).
 
