@@ -137,6 +137,9 @@ No V2 cell, module or engine change is authorised by this decision; the charter 
 7. **An earning test**: the first experiment compares the addressed object against the pair-count baseline, on prediction
    or on control, and the charter states in advance that a tie means the addresses are bookkeeping and the charter fails.
    Addressability is necessary for G4 and beyond; it is not sufficient, and the charter has to be able to discover that.
+   The pre-registration skeleton for this experiment is
+   [`V2-FIRST-EXPERIMENT-PREREGISTRATION`](V2-FIRST-EXPERIMENT-PREREGISTRATION.md) — a draft that fixes `m = 2`, the
+   endpoint, the arms and the acceptance gates, and lists every field still open before a cell can run.
 
 ## 4. What this does not do
 

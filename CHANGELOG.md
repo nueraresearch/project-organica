@@ -153,6 +153,19 @@ This addendum replaces the first version of the same study, which reported 20 re
 all 186 retirement rows and the conservative figures above stand. The correction is recorded in the page and the artifact,
 not silently applied.
 
+## Addendum — 2026-11-16: the first experiment's pre-registration skeleton
+
+`docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md` is a draft skeleton that fixes the things a protocol must not choose after a
+result: the endpoint (held-out next-edge log-loss, arm C against arm A, with arm B as a label-only decomposition), the
+failure rule (an interval including zero closes the charter), the three arms, the `A1`–`A5` acceptance gates built around
+requirement 6's tests, and the admission threshold.
+
+**`m` is fixed in §5 at `m = 2`**, with the value's provenance stated against `docs/v2_primitive_sizing.json` (115 of 158 node
+sets admitted, 345 references, 135,168 bytes, 2.538× the pair tables and 0.698% of the store) and the lock stated: a change
+after signature voids any cell run under it. Seeds, n, world, training boundary, interval method, scorer pin and the readout
+are listed as open fields that must be filled before authorisation; none is reserved, and no cell, seed or code is authorised
+by the draft.
+
 ## Addendum — 2026-11-16: the V2 charter and its primitive resolutions are signed
 
 `DECISION-V2-CHARTER` and `DECISION-V2-PRIMITIVE-RESOLUTIONS` are **`ADOPTED 2026-11-16`**. The charter commissions the V2
