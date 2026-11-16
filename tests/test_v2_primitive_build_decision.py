@@ -1,4 +1,4 @@
-"""The primitive build is drafted, not authorised: no module exists and the cell still blocks."""
+"""Adoption authorises the primitive build, and this record writes no code."""
 import json
 from pathlib import Path
 
@@ -12,10 +12,10 @@ def _entry():
     return next(d for d in data["decisions"] if d["decision_id"] == "DECISION-V2-PRIMITIVE-BUILD")
 
 
-def test_the_decision_is_pending_and_authorises_no_code():
+def test_adoption_authorises_the_build_but_writes_no_code():
     entry = _entry()
-    assert entry["status"] == "PENDING"
-    assert "NO CODE IS AUTHORISED" in entry["status_quote"]
+    assert entry["status"] == "ADOPTED"
+    assert "THIS RECORD WRITES NO CODE" in entry["status_quote"]
     assert not (ROOT / "benchmarks" / "v2_primitive.py").exists()
 
 

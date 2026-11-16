@@ -27,7 +27,8 @@ than inventing a PASS. `--check` assembles PASS, BOOKKEEPING, REVERSAL and VOID 
 **The gate record exists, and it blocks the cell.** `docs/v2_first_cell_gates.json` records A1 PASS and A2–A5
 NOT RUN: the mutable-identity primitive those gates test is not built. Signing this decision therefore does not make
 the cell runnable; `--run` would write a `VOID` artifact without executing a seed. The gate suite is
-`benchmarks/v2_first_cell_gates.py`; `NOT RUN` is not a pass.
+`benchmarks/v2_first_cell_gates.py`; `NOT RUN` is not a pass. The primitive build is authorised separately in
+`DECISION-V2-PRIMITIVE-BUILD` and has not been performed.
 
 ## 2. What the cell is, and why it is one cell
 

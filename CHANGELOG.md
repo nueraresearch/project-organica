@@ -5,6 +5,16 @@ All notable changes to Project Organica are recorded here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project follows [Semantic Versioning 2.0.0](https://semver.org/).
 
+## Addendum — 2026-11-16: the primitive build is authorised, and no code is written
+
+`DECISION-V2-PRIMITIVE-BUILD` is adopted. The bounded level-1 build it describes may proceed in
+`benchmarks/v2_primitive.py`: a separate SQLite store, monotone content-free ids, a canonical-key registry, versioned
+copy-on-write members, tombstones and reference-count reclamation, solely so A2–A5 can run.
+
+Adoption authorises the build; it does not perform it. This change writes no module and no test, leaves the engine pin,
+readout, `m`, endpoint and seed block untouched, and the gate record remains A1 PASS, A2–A5 NOT RUN. The cell still
+needs its own signed authorisation.
+
 ## Addendum — 2026-11-16: the primitive build is drafted, not authorised
 
 `DECISION-V2-PRIMITIVE-BUILD` is recorded `PENDING`. It would authorise a bounded build of the level-1

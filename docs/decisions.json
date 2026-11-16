@@ -1091,8 +1091,8 @@
     {
       "decision_id": "DECISION-V2-PRIMITIVE-BUILD",
       "date": "2026-11-16",
-      "status": "PENDING",
-      "status_quote": "PENDING 2026-11-16 — THE PRIMITIVE BUILD IS DRAFTED; NO CODE IS AUTHORISED",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED 2026-11-16 — THE BOUNDED BUILD IS AUTHORISED; THIS RECORD WRITES NO CODE",
       "chosen": [
         "Authorise a bounded build of the level-1 mutable-identity primitive — a separate SQLite store with a monotone content-free id, a canonical-key registry, versioned member references, copy-on-write add and remove, tombstones and reference-count reclamation — solely so the A2–A5 gates can be run.",
         "The build is confined to one new benchmark module and its tests; it writes only its own scratch store, never the live memory.db, and it may not change the readout, `m`, the endpoint or any frozen engine file.",

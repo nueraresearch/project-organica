@@ -1,11 +1,11 @@
 # `DECISION-V2-PRIMITIVE-BUILD` — authorise the primitive build, not the cell
 
-**Status:** `PENDING 2026-11-16 — THE PRIMITIVE BUILD IS DRAFTED; NO CODE IS AUTHORISED`
+**Status:** `ADOPTED 2026-11-16 — THE BOUNDED BUILD IS AUTHORISED; THIS RECORD WRITES NO CODE`
 
 **Decision ID:** `DECISION-V2-PRIMITIVE-BUILD-1` · **Date:** 2026-11-16
 
-**Instruction:** draft the decision that would authorise building the mutable-identity primitive, for the owner's
-signature (owner, 2026-11-16).
+**Instruction:** adopt the decision that authorises building the mutable-identity primitive, without writing the primitive
+(owner, 2026-11-16).
 
 **Narrows:** the planning-only status of [`V2-MUTABLE-IDENTITY-SPEC`](V2-MUTABLE-IDENTITY-SPEC.md), and only enough to
 build the object its §2–§6 specify. **Leaves untouched:** the frozen engine, the readout pin, `m`, the endpoint, the seed
@@ -20,6 +20,9 @@ block, and [`DECISION-V2-FIRST-CELL`](DECISION-V2-FIRST-CELL.md), which still au
    memory.db, and it may not change the readout, `m`, the endpoint or any frozen engine file.
 3. The build stops when A2–A5 have a gate record and the named tests pass; running the cell still needs
    `DECISION-V2-FIRST-CELL`, and any second feature needs a new decision.
+
+Adoption authorises the build; it does not perform it. This record writes no module and no test, and the gate record
+remains A1 PASS, A2–A5 NOT RUN until the build lands and the gates are rerun.
 
 ## 2. Why the cell is blocked
 
@@ -101,10 +104,11 @@ endpoint, and the cell still needs its own authorisation and its own seed block.
 
 ## 8. Signature
 
-**Unsigned.** Signing authorises the bounded build in §1 and nothing else; the cell remains unauthorised.
+Adoption authorises the bounded build in §1 and nothing else; the cell remains unauthorised.
 
 | | |
 |---|---|
-| **Owner** | _unsigned_ |
-| **Status** | `PENDING 2026-11-16 — THE PRIMITIVE BUILD IS DRAFTED; NO CODE IS AUTHORISED` |
+| **Owner** | owner |
+| **Adopt / reject** | `ADOPTED` |
 | **Date** | 2026-11-16 |
+| **Note** | The build is authorised; this record writes no code. |

@@ -14,9 +14,9 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 
 | status | count | meaning |
 | --- | --- | --- |
-| ADOPTED | 27 | in force; the document records it as implemented or effective |
+| ADOPTED | 28 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
-| PENDING | 7 | decided and not in force; the document says so |
+| PENDING | 6 | decided and not in force; the document says so |
 | **total** | **35** | |
 
 ## The decisions
@@ -773,7 +773,7 @@ uncomputable, and the cause that fired first is the one worth reporting.
 
 ### DECISION-V2-PRIMITIVE-BUILD — `DECISION-V2-PRIMITIVE-BUILD` — authorise the primitive build, not the cell
 
-**Status.** PENDING — *"PENDING 2026-11-16 — THE PRIMITIVE BUILD IS DRAFTED; NO CODE IS AUTHORISED"*
+**Status.** ADOPTED — *"ADOPTED 2026-11-16 — THE BOUNDED BUILD IS AUTHORISED; THIS RECORD WRITES NO CODE"*
 
 **Decided.**
 
