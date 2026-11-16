@@ -33,7 +33,9 @@ them PASS would claim a check that was never made.
 
 Because the runner treats `NOT RUN` as a gate failure, the cell is **not runnable**: if the
 authorisation were signed now, `--run` would write a `VOID` artifact without executing a
-seed. The missing input is the primitive the charter specified but did not authorise.
+seed. The missing input is the primitive the charter specified but did not authorise; a bounded
+build is drafted in [`DECISION-V2-PRIMITIVE-BUILD`](DECISION-V2-PRIMITIVE-BUILD.md) and remains
+unsigned.
 
 ## Not evidence
 

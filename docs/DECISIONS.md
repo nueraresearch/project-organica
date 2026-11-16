@@ -16,8 +16,8 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 | --- | --- | --- |
 | ADOPTED | 27 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
-| PENDING | 6 | decided and not in force; the document says so |
-| **total** | **34** | |
+| PENDING | 7 | decided and not in force; the document says so |
+| **total** | **35** | |
 
 ## The decisions
 
@@ -770,6 +770,30 @@ uncomputable, and the cause that fired first is the one worth reporting.
 **Evidence.** `docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md`, `docs/v2_first_cell_null.json`, `docs/v2_first_cell_power.json`, `docs/v2_first_cell_handicap.json`, `docs/v2_first_cell_mass_match.json`, `docs/v2_first_cell_planted.json`, `docs/v2_first_cell_planted_selection.json`, `docs/v2_first_cell_seeds.json`, `docs/a1_seed_reservations.json`, `docs/DECISION-A1-VOID-ACCEPTED.md`
 
 **Record.** `docs/DECISION-V2-FIRST-CELL-INTERPRETATION.md`
+
+### DECISION-V2-PRIMITIVE-BUILD — `DECISION-V2-PRIMITIVE-BUILD` — authorise the primitive build, not the cell
+
+**Status.** PENDING — *"PENDING 2026-11-16 — THE PRIMITIVE BUILD IS DRAFTED; NO CODE IS AUTHORISED"*
+
+**Decided.**
+
+- Authorise a bounded build of the level-1 mutable-identity primitive — a separate SQLite store with a monotone content-free id, a canonical-key registry, versioned member references, copy-on-write add and remove, tombstones and reference-count reclamation — solely so the A2–A5 gates can be run.
+- The build is confined to one new benchmark module and its tests; it writes only its own scratch store, never the live memory.db, and it may not change the readout, `m`, the endpoint or any frozen engine file.
+- The build stops when A2–A5 have a gate record and the named tests pass; running the cell still needs `DECISION-V2-FIRST-CELL`, and any second feature needs a new decision.
+
+**Rejected.**
+
+- *Build the primitive inside organica/* — because *"Adding a module moves the engine pin and the frozen reference object, and the first experiment's primitive can live in the harness without changing V1."*
+- *Authorise the cell and let A2–A5 fail there* — because *"The runner treats a failed or unrun gate as `VOID`, so the block would be spent without scoring an arm."*
+- *Use a content hash as the id* — because *"A hash is a function of the members, so it changes when the object is revised; `I2` is the invariant the primitive exists to satisfy."*
+- *Keep a history row for every version* — because *"A4 forbids a per-mutation history table and the sizing puts it about a third higher; the current version plus a tombstone is the specification's surface."*
+- *Build the primitive and run the cell in one act* — because *"It would confound the primitive's validity gates with the cell's endpoint, and the cell still needs its own authorisation and its own seed block."*
+
+**Rests on.** Q057 (open)
+
+**Evidence.** `docs/V2-MUTABLE-IDENTITY-SPEC.md`, `docs/DECISION-V2-PRIMITIVE-RESOLUTIONS.md`, `docs/V2-FIRST-CELL-GATES.md`, `docs/v2_first_cell_gates.json`, `docs/V2-PRIMITIVE-SIZING.md`, `docs/v2_primitive_sizing.json`, `docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md`, `docs/DECISION-V2-FIRST-CELL.md`, `benchmarks/v2_first_cell_runner.py`
+
+**Record.** `docs/DECISION-V2-PRIMITIVE-BUILD.md`
 
 ## What this graph is not
 

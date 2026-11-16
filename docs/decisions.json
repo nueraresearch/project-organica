@@ -1087,6 +1087,51 @@
         "docs/DECISION-A1-VOID-ACCEPTED.md"
       ],
       "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-V2-PRIMITIVE-BUILD",
+      "date": "2026-11-16",
+      "status": "PENDING",
+      "status_quote": "PENDING 2026-11-16 — THE PRIMITIVE BUILD IS DRAFTED; NO CODE IS AUTHORISED",
+      "chosen": [
+        "Authorise a bounded build of the level-1 mutable-identity primitive — a separate SQLite store with a monotone content-free id, a canonical-key registry, versioned member references, copy-on-write add and remove, tombstones and reference-count reclamation — solely so the A2–A5 gates can be run.",
+        "The build is confined to one new benchmark module and its tests; it writes only its own scratch store, never the live memory.db, and it may not change the readout, `m`, the endpoint or any frozen engine file.",
+        "The build stops when A2–A5 have a gate record and the named tests pass; running the cell still needs `DECISION-V2-FIRST-CELL`, and any second feature needs a new decision."
+      ],
+      "rejected": [
+        {
+          "alternative": "Build the primitive inside organica/",
+          "reason": "Adding a module moves the engine pin and the frozen reference object, and the first experiment's primitive can live in the harness without changing V1."
+        },
+        {
+          "alternative": "Authorise the cell and let A2–A5 fail there",
+          "reason": "The runner treats a failed or unrun gate as `VOID`, so the block would be spent without scoring an arm."
+        },
+        {
+          "alternative": "Use a content hash as the id",
+          "reason": "A hash is a function of the members, so it changes when the object is revised; `I2` is the invariant the primitive exists to satisfy."
+        },
+        {
+          "alternative": "Keep a history row for every version",
+          "reason": "A4 forbids a per-mutation history table and the sizing puts it about a third higher; the current version plus a tombstone is the specification's surface."
+        },
+        {
+          "alternative": "Build the primitive and run the cell in one act",
+          "reason": "It would confound the primitive's validity gates with the cell's endpoint, and the cell still needs its own authorisation and its own seed block."
+        }
+      ],
+      "evidence": [
+        "docs/V2-MUTABLE-IDENTITY-SPEC.md",
+        "docs/DECISION-V2-PRIMITIVE-RESOLUTIONS.md",
+        "docs/V2-FIRST-CELL-GATES.md",
+        "docs/v2_first_cell_gates.json",
+        "docs/V2-PRIMITIVE-SIZING.md",
+        "docs/v2_primitive_sizing.json",
+        "docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md",
+        "docs/DECISION-V2-FIRST-CELL.md",
+        "benchmarks/v2_first_cell_runner.py"
+      ],
+      "superseded_by": null
     }
   ]
 }

@@ -5,6 +5,19 @@ All notable changes to Project Organica are recorded here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project follows [Semantic Versioning 2.0.0](https://semver.org/).
 
+## Addendum — 2026-11-16: the primitive build is drafted, not authorised
+
+`DECISION-V2-PRIMITIVE-BUILD` is recorded `PENDING`. It would authorise a bounded build of the level-1
+mutable-identity primitive — a separate SQLite store with a monotone content-free id, a canonical-key registry,
+versioned copy-on-write members, tombstones and reference-count reclamation — solely so A2–A5 can be run.
+
+It confines the build to `benchmarks/v2_primitive.py` and its tests, forbids any write to the live `memory.db`, and
+leaves the engine pin, the readout, `m`, the endpoint and the seed block untouched. It authorises no cell, no level 2,
+no `fork` and no per-version history. Acceptance is the A2–A5 gate record and the named tests; the build stops there.
+
+The gate record remains A1 PASS, A2–A5 NOT RUN, and the cell remains unrunnable until both the build and the cell
+authorisation are signed.
+
 ## Addendum — 2026-11-16: the A1–A5 gate record is written, and A2–A5 cannot run
 
 `benchmarks/v2_first_cell_gates.py` writes `docs/v2_first_cell_gates.json` and its page. A1 passes: the

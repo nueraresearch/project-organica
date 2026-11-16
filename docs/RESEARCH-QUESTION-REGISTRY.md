@@ -686,7 +686,7 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Evidence.** `docs/DECISION-V2-SCOPE.md`, `docs/claim_ledger.json`, `docs/BOTTLENECK-MAP.md`, `docs/A1-RUN.md`
 
-**Decision record.** `docs/DECISION-V2-CHARTER.md`, `docs/DECISION-V2-PRIMITIVE-RESOLUTIONS.md`, `docs/DECISION-V2-FIRST-CELL.md`, `docs/DECISION-V2-FIRST-CELL-INTERPRETATION.md`
+**Decision record.** `docs/DECISION-V2-CHARTER.md`, `docs/DECISION-V2-PRIMITIVE-RESOLUTIONS.md`, `docs/DECISION-V2-FIRST-CELL.md`, `docs/DECISION-V2-FIRST-CELL-INTERPRETATION.md`, `docs/DECISION-V2-PRIMITIVE-BUILD.md`
 
 ## 3. Retired — no longer worth resources
 
