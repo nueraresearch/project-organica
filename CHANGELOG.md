@@ -5,6 +5,18 @@ All notable changes to Project Organica are recorded here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project follows [Semantic Versioning 2.0.0](https://semver.org/).
 
+## Addendum — 2026-11-16: the A1–A5 gate record is written, and A2–A5 cannot run
+
+`benchmarks/v2_first_cell_gates.py` writes `docs/v2_first_cell_gates.json` and its page. A1 passes: the
+canonicalisation rule is total on paths, holds on the spent smoke stream (`20911101`, not a cell seed), and both
+committed identity regressions reproduce (177→158 with multiplicities {1: 139, 2: 19}; 138→125). A2–A5 are
+**NOT RUN**, not passed: the primitive those gates test has no stored composite id, no mutation API, no rebuilt store
+and no id/version/tombstone sequence. The sizing artifact is an estimate, not a page count.
+
+The record is the one the runner accepts, and its consequence is that the cell is not runnable: the runner treats
+`NOT RUN` as a gate failure and would write a `VOID` artifact without executing a seed. No cell ran and no reserved
+seed was spent.
+
 ## Addendum — 2026-11-16: the ten-seed runner is built, and refuses to run
 
 `benchmarks/v2_first_cell_runner.py` owns the protocol order: it refuses while `DECISION-V2-FIRST-CELL` is `PENDING` or

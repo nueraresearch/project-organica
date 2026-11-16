@@ -13,13 +13,13 @@ cell cannot be written in a shape the report would reject.
 `--check` executes no world and writes nothing. `--run` is refused while the
 authorisation is pending, which is its state now.
 
-Inputs the cell still needs, neither of which exists yet:
+Inputs:
 
-* `docs/v2_first_cell_gates.json` — the A1–A5 gate record. Without it the runner
-  refuses; it does not invent a PASS.
-* `docs/v2_first_cell_control.json` — the section 8 control arm. Without it the result
-  records the control as NOT RUN with a reason, which is admissible because the arm is
-  secondary and adds no VOID trigger.
+* `docs/v2_first_cell_gates.json` — written by `benchmarks.v2_first_cell_gates`. It
+  currently records A1 PASS and A2–A5 NOT RUN, because the primitive those gates test is
+  not built; the runner therefore assembles a `VOID` without executing a seed.
+* `docs/v2_first_cell_control.json` — still absent; the section 8 control is recorded
+  NOT RUN with a reason, which is admissible because the arm is secondary.
 
 The `--control` record is the object the report template's section 8 expects.
 """
@@ -81,14 +81,8 @@ def pins() -> list[str]:
     return errors
 
 
-def load_gates(path: Path = GATES) -> dict:
-    """Read the A1–A5 record, or refuse. A gate that was not run is not a pass."""
-    if not path.exists():
-        raise GateError(
-            "no gate record at %s; A1-A5 must run and be committed before the cell" % path
-        )
-    record = _load(path)
-    gates = record.get("gates", record)
+def validate_gates(gates: dict) -> None:
+    """The record's structure; a gate that was not run is not a pass."""
     if set(gates) != set(report.GATE_IDS):
         raise GateError("the gate record must name exactly A1-A5")
     for gate in report.GATE_IDS:
@@ -99,6 +93,17 @@ def load_gates(path: Path = GATES) -> dict:
             raise GateError("gate %s status must be PASS, FAIL or NOT RUN" % gate)
         if not str(row.get("evidence") or "").strip():
             raise GateError("gate %s needs its evidence" % gate)
+
+
+def load_gates(path: Path = GATES) -> dict:
+    """Read the A1–A5 record, or refuse."""
+    if not path.exists():
+        raise GateError(
+            "no gate record at %s; A1-A5 must run and be committed before the cell" % path
+        )
+    record = _load(path)
+    gates = record.get("gates", record)
+    validate_gates(gates)
     return gates
 
 
