@@ -146,7 +146,8 @@ resampling events would multiply n without adding a world. With ten seeds this i
 pass harder, not easier. **The charter passes only if the interval lies entirely below zero**; an interval including zero fails, and so does one entirely above it (§3, Amendment 2). Two diagnostics are recorded beside the rule and neither is a criterion: the null-world false-pass rate
 ([`V2-FIRST-CELL-NULL`](V2-FIRST-CELL-NULL.md)), the power curve at that noise
 ([`V2-FIRST-CELL-POWER`](V2-FIRST-CELL-POWER.md)), the handicap's decomposition
-([`V2-FIRST-CELL-HANDICAP`](V2-FIRST-CELL-HANDICAP.md)), and a planted-signal positive control
+([`V2-FIRST-CELL-HANDICAP`](V2-FIRST-CELL-HANDICAP.md)), a matched control on the revision offset
+([`V2-FIRST-CELL-MASS-MATCH`](V2-FIRST-CELL-MASS-MATCH.md)), and a planted-signal positive control
 ([`V2-FIRST-CELL-PLANTED`](V2-FIRST-CELL-PLANTED.md)). `d_B` is reported beside it as a
 decomposition, not a second criterion.
 

@@ -91,7 +91,7 @@ handicap, that corresponds to an observed mean difference of **{('%.6f' % power[
 
 **The handicap is the treatment's price, not a bug.** Frozen membership's β pseudo-counts cost
 **+{decomposition['beta_only_mean']:.6f}** nats on a world with nothing to learn; the revision rule gives back
-**{decomposition['revision_mean']:.6f}** by pruning member edges, for a net of **+{decomposition['net_mean']:.6f}**. The
+**{decomposition['revision_mean']:.6f}** by holding fewer member edges, for a net of **+{decomposition['net_mean']:.6f}**; a matched control shows that reduction is mass, not a better edge selection. The
 revision-only arm is exactly the baseline on every seed (`D − A = {factorial['arms']['D']['mean_d']:.6f}`), so the effect is
 β-dependent and there is no implementation asymmetry. No non-trivial readout is unbiased on a structureless world; the
 handicap is already inside the power numbers above.

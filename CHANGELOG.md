@@ -159,6 +159,19 @@ not silently applied.
 false-pass rate, the power curve at the measured noise, and the handicap decomposition, each number read from the artifact
 that measured it. It adds no evidence, and it names the single remaining action — the signature.
 
+## Addendum — 2026-11-16: the revision offset is mass, not selection
+
+`benchmarks/v2_first_cell_mass_match.py` holds member mass equal on the 20 null worlds. At the maintained arm's total edge
+count, a random frozen allocation scores **0.000387** against maintained's **0.000847** (Δ **−0.000460**, 99% interval
+`[−0.000753, −0.000134]`). At equal total mass *and* equal non-empty composite count, the random control still scores
+**0.000350** (Δ **−0.000497**, interval `[−0.000812, −0.000133]`).
+
+So the revision improvement over frozen is the composites it drops, not the edges it keeps. At matched mass the maintained
+selection is worse than chance on a structureless world, which is what one should expect when frequency is noise. The
+key-matched control is 1.8 edges per world lighter than maintained because its chosen keys cannot always hold the full
+mass; the mass-matched control has no shortfall and reaches the same sign, so the conclusion does not rest on it. Neither
+control says anything about a structured world, where selection could retain signal.
+
 ## Addendum — 2026-11-16: the planted positive control — a composite gain above the handicap
 
 `benchmarks/v2_first_cell_planted.py` builds a world where five three-tag motifs are repeated in training and the

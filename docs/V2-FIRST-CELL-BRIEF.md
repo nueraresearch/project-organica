@@ -38,7 +38,7 @@ handicap, that corresponds to an observed mean difference of **−0.000602** nat
 
 **The handicap is the treatment's price, not a bug.** Frozen membership's β pseudo-counts cost
 **+0.001312** nats on a world with nothing to learn; the revision rule gives back
-**-0.000465** by pruning member edges, for a net of **+0.000847**. The
+**-0.000465** by holding fewer member edges, for a net of **+0.000847**; a matched control shows that reduction is mass, not a better edge selection. The
 revision-only arm is exactly the baseline on every seed (`D − A = 0.000000`), so the effect is
 β-dependent and there is no implementation asymmetry. No non-trivial readout is unbiased on a structureless world; the
 handicap is already inside the power numbers above.

@@ -119,7 +119,9 @@
     {
       "label": "null-world calibration, structureless worlds (diagnostic, never a cell)",
       "owner": "docs/v2_first_cell_null.json",
-      "restated_by": [],
+      "restated_by": [
+        "docs/v2_first_cell_mass_match.json"
+      ],
       "seeds": [
         20920101,
         20920102,

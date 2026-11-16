@@ -70,7 +70,10 @@ a sparse member set — 0.783 edges per composite — concentrates the tilt inst
 
 **The handicap is the price of the treatment, not a calibration defect.** It is reducible by adding **less mass** — a
 smaller β, or fewer member edges, which is what the revision rule already does — but every reduction also shrinks the tilt
-that could help on a structured world, and the null cannot measure that trade.
+that could help on a structured world, and the null cannot measure that trade. A matched control on the same null
+worlds separates mass from selection: at equal total mass a random frozen allocation is cheaper than maintained, and it
+is still cheaper at equal mass and non-empty composite count, so the revision offset is a mass effect and the retained
+selection is not a recency advantage ([`V2-FIRST-CELL-MASS-MATCH`](V2-FIRST-CELL-MASS-MATCH.md)).
 
 ## 3. What this means for the cell
 
