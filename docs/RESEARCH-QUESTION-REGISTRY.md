@@ -682,9 +682,11 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Why it is open.** H2 forecloses V2 design, and the claim ledger discloses that the arm which would have tested it never ran. Three independent lines — Gate 13 ranking, the capacity-1,000 readout, and A1's C4 VOID — name the same missing capability, so the question is now whether to commission a charter rather than whether to run another diagnostic.
 
+**Preregistered in.** `V2-FIRST-EXPERIMENT-PREREGISTRATION.md`
+
 **Evidence.** `docs/DECISION-V2-SCOPE.md`, `docs/claim_ledger.json`, `docs/BOTTLENECK-MAP.md`, `docs/A1-RUN.md`
 
-**Decision record.** `docs/DECISION-V2-CHARTER.md`, `docs/DECISION-V2-PRIMITIVE-RESOLUTIONS.md`
+**Decision record.** `docs/DECISION-V2-CHARTER.md`, `docs/DECISION-V2-PRIMITIVE-RESOLUTIONS.md`, `docs/DECISION-V2-FIRST-CELL.md`
 
 ## 3. Retired — no longer worth resources
 

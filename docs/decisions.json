@@ -998,6 +998,47 @@
         "docs/V1-REKEYING-STUDY-20900101.md",
         "docs/V1-CARRIER-FORGETTING.md"
       ]
+    },
+    {
+      "decision_id": "DECISION-V2-FIRST-CELL",
+      "date": "2026-11-16",
+      "status": "PENDING",
+      "status_quote": "DRAFT — AWAITING THE OWNER'S SIGNATURE; ONE CELL AND NO ENGINE CHANGE",
+      "chosen": [
+        "Authorise one cell of the pre-registered first V2 experiment — ten seeds `20910101`–`20910110`, three arms on each, held-out next-edge log-loss under the pre-registered 99% paired-bootstrap rule, with `m = 2`, the pinned world, detector and log-loss instrument, and a build confined to `benchmarks/v2_first_cell_readout.py` — with no engine change, no V2 module, no promotion, no second report and no seed spent beyond that block, and with the cell refusing to run until the adapter's digest is in the scorer pin."
+      ],
+      "rejected": [
+        {
+          "alternative": "Run the cell without a signed pre-registration",
+          "reason": "The endpoint and `m` would be chosen after the first look, which is the failure the pre-registration exists to prevent."
+        },
+        {
+          "alternative": "Authorise the build without a cell",
+          "reason": "An open-ended build has no stop condition and would become the phase the charter forbids."
+        },
+        {
+          "alternative": "Authorise more than one cell",
+          "reason": "The charter reports the first experiment once; a second cell would re-score a verdict already delivered."
+        },
+        {
+          "alternative": "Settle the scorer or the β grid during the run",
+          "reason": "A scorer chosen after seeing held-out data is not a scorer, and the baseline would be tuned against the test."
+        },
+        {
+          "alternative": "Authorise an engine change at the same time",
+          "reason": "It would confound the cell: a changed substrate cannot be compared with the pinned one."
+        }
+      ],
+      "evidence": [
+        "docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md",
+        "docs/v2_first_cell_seeds.json",
+        "docs/v2_first_cell_scorer_pin.json",
+        "docs/V2-MUTABLE-IDENTITY-SPEC.md",
+        "docs/DECISION-V2-PRIMITIVE-RESOLUTIONS.md",
+        "docs/V2-PRIMITIVE-SIZING.md",
+        "docs/CODE-AS-EVIDENCE.md",
+        "docs/V1-REKEYING-TWO-SEEDS.md"
+      ]
     }
   ]
 }

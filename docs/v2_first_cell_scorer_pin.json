@@ -1,0 +1,17 @@
+{
+  "kind": "v2_first_cell_scorer_pin",
+  "id": "V2-FIRST-CELL-SCORER-PIN-1",
+  "date": "2026-11-16",
+  "status": "PINNED \u2014 THE WORLD, THE DETECTOR AND THE LOG-LOSS INSTRUMENT ARE FIXED; THE ADAPTER'S HASH IS ADDED IN THE AUTHORISATION COMMIT",
+  "rule": "the harness refuses to score when any module listed here differs from its digest; the readout adapter is added at authorisation and pinned the same way. Re-pinning is allowed and is a reviewed commit.",
+  "modules": {
+    "benchmarks/acquisition_compositional.py": "0d7a2231b599c547fe00135e430cfa6fd6b1eeebe98fe523f5d7005edfddcf3a",
+    "benchmarks/heldout_prediction.py": "5a313300052e6e1ceb894950fa349e2e07bfaa7cb2a5b9f6a40a1a56365fbd1e",
+    "organica/sleep_extraction.py": "56da7e2930347c323688803a77e26aa94ff4d23b6394ddebd14d33ccc17ac788"
+  },
+  "adapter": {
+    "path": "benchmarks/v2_first_cell_readout.py",
+    "sha256": null,
+    "note": "to be written, committed and hashed in the authorisation commit; a missing hash refuses the cell"
+  }
+}

@@ -88,6 +88,24 @@
         20900101
       ],
       "spent": false
+    },
+    {
+      "label": "first V2 cell, ten paired worlds",
+      "owner": "docs/v2_first_cell_seeds.json",
+      "restated_by": [],
+      "seeds": [
+        20910101,
+        20910102,
+        20910103,
+        20910104,
+        20910105,
+        20910106,
+        20910107,
+        20910108,
+        20910109,
+        20910110
+      ],
+      "spent": false
     }
   ],
   "shared_blocks": [

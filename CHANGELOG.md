@@ -153,6 +153,26 @@ This addendum replaces the first version of the same study, which reported 20 re
 all 186 retirement rows and the conservative figures above stand. The correction is recorded in the page and the artifact,
 not silently applied.
 
+## Addendum — 2026-11-16: the pre-registration is signed and the cell's authorisation is drafted
+
+`docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md` is now `SIGNED 2026-11-16`: every field it left open is filled.
+
+- **Seeds:** ten paired worlds, `20910101`–`20910110`, declared in `docs/v2_first_cell_seeds.json` and held in
+  `docs/a1_seed_reservations.json`; held, not spent.
+- **World and boundary:** the compositional 120-block world, blocks `0–95` training, `80–95` calibration, `96–119` held out;
+  the boundary is in blocks because only 92 of 120 blocks run a sleep cycle.
+- **Readout:** next-edge log-loss with `α = 0.5` and a per-arm `β` from `{0, 1, 2, 4, 8}` selected on the calibration band,
+  so the baseline is not handicapped; frozen counts for evaluation.
+- **Revision rule:** arm C's members are those meeting `m` in a trailing 20-cycle window; arm B freezes at admission.
+- **Interval:** paired bootstrap over seeds, 10,000 resamples, 99% percentile; an interval including zero fails the charter;
+  fewer than 8 measurable seeds is `VOID`.
+- **Scorer pin:** `docs/v2_first_cell_scorer_pin.json` fixes the world generator, detector and log-loss instrument by digest;
+  the readout adapter's digest is added in the authorisation commit.
+
+`docs/DECISION-V2-FIRST-CELL.md` is drafted and `PENDING`: one cell, no engine change, no second report, five rejected
+alternatives. The index is 33 decisions (26 adopted, 1 withdrawn, 6 pending), and the question registry now carries the
+preregistration and the decision under Q057.
+
 ## Addendum — 2026-11-16: the first experiment's pre-registration skeleton
 
 `docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md` is a draft skeleton that fixes the things a protocol must not choose after a

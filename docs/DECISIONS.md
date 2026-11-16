@@ -16,8 +16,8 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 | --- | --- | --- |
 | ADOPTED | 26 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
-| PENDING | 5 | decided and not in force; the document says so |
-| **total** | **32** | |
+| PENDING | 6 | decided and not in force; the document says so |
+| **total** | **33** | |
 
 ## The decisions
 
@@ -722,6 +722,28 @@ uncomputable, and the cause that fired first is the one worth reporting.
 **Evidence.** `docs/V2-MUTABLE-IDENTITY-SPEC.md`, `docs/v2_mutable_identity_spec.json`, `docs/v1_carrier_identity.json`, `docs/V2-PRIMITIVE-SIZING.md`, `docs/CODE-AS-EVIDENCE.md`, `docs/V1-REKEYING-STUDY.md`, `docs/V1-REKEYING-TWO-SEEDS.md`, `docs/v1_rekeying_study_20900101.json`, `docs/V1-REKEYING-STUDY-20900101.md`, `docs/V1-CARRIER-FORGETTING.md`
 
 **Record.** `docs/DECISION-V2-PRIMITIVE-RESOLUTIONS.md`
+
+### DECISION-V2-FIRST-CELL — `DECISION-V2-FIRST-CELL` — authorise one cell of the first V2 experiment
+
+**Status.** PENDING — *"DRAFT — AWAITING THE OWNER'S SIGNATURE; ONE CELL AND NO ENGINE CHANGE"*
+
+**Decided.**
+
+- Authorise one cell of the pre-registered first V2 experiment — ten seeds `20910101`–`20910110`, three arms on each, held-out next-edge log-loss under the pre-registered 99% paired-bootstrap rule, with `m = 2`, the pinned world, detector and log-loss instrument, and a build confined to `benchmarks/v2_first_cell_readout.py` — with no engine change, no V2 module, no promotion, no second report and no seed spent beyond that block, and with the cell refusing to run until the adapter's digest is in the scorer pin.
+
+**Rejected.**
+
+- *Run the cell without a signed pre-registration* — because *"The endpoint and `m` would be chosen after the first look, which is the failure the pre-registration exists to prevent."*
+- *Authorise the build without a cell* — because *"An open-ended build has no stop condition and would become the phase the charter forbids."*
+- *Authorise more than one cell* — because *"The charter reports the first experiment once; a second cell would re-score a verdict already delivered."*
+- *Settle the scorer or the β grid during the run* — because *"A scorer chosen after seeing held-out data is not a scorer, and the baseline would be tuned against the test."*
+- *Authorise an engine change at the same time* — because *"It would confound the cell: a changed substrate cannot be compared with the pinned one."*
+
+**Rests on.** Q057 (open)
+
+**Evidence.** `docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md`, `docs/v2_first_cell_seeds.json`, `docs/v2_first_cell_scorer_pin.json`, `docs/V2-MUTABLE-IDENTITY-SPEC.md`, `docs/DECISION-V2-PRIMITIVE-RESOLUTIONS.md`, `docs/V2-PRIMITIVE-SIZING.md`, `docs/CODE-AS-EVIDENCE.md`, `docs/V1-REKEYING-TWO-SEEDS.md`
+
+**Record.** `docs/DECISION-V2-FIRST-CELL.md`
 
 ## What this graph is not
 

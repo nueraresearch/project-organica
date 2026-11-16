@@ -1,16 +1,20 @@
-# V2 first experiment — pre-registration skeleton
+# V2 first experiment — pre-registration
 
-**Status:** `DRAFT SKELETON — NOT A PRE-REGISTRATION, AND NO CELL IS AUTHORISED`
+**Status:** `SIGNED 2026-11-16 — THE PROTOCOL IS FIXED; NO CELL IS AUTHORISED`
 
 **Serves:** requirements 2 and 7 of [`DECISION-V2-CHARTER`](DECISION-V2-CHARTER.md) (adopted 2026-11-16), and requirement 6's
-acceptance tests. **Authorises:** nothing — no cell, no module, no engine change, no seed, no spending.
+acceptance tests. **Authorises:** nothing — no cell, no module, no engine change and no spending until
+[`DECISION-V2-FIRST-CELL`](DECISION-V2-FIRST-CELL.md) is signed. The seeds are *held*, not spent.
 
-## 1. What this document fixes, and what it leaves open
+## 1. What this document fixes
 
-A pre-registration is only worth what it fixes *before* a result is seen. This skeleton therefore fixes the parts that would
-be tempting to choose afterwards — the endpoint, the failure rule, the arms, the gate order and the admission threshold — and
-lists, explicitly, the parts that cannot be fixed without an authorisation (seeds, n, world, scorer, interval method,
-readout). An open field is not a decision deferred to the analysis; it is a field that must be filled before the cell runs.
+A pre-registration is only worth what it fixes *before* a result is seen. This one fixes the endpoint, the failure rule, the
+arms, the gate order, the admission threshold `m`, the world and boundary, the seed block, the readout, the revision rule, the
+interval method and the scorer pin. It was signed on 2026-11-16, before any cell ran and before any readout existed.
+
+Two things are deliberately **not** fixed here, because they are not this document's to fix: the authorisation itself (a
+separate decision) and the readout adapter's hash (recorded in the scorer pin in the authorisation commit, when the adapter
+exists). Neither is a field the analysis may fill later; both are defined steps with defined locations.
 
 ## 2. The one question
 
@@ -37,8 +41,8 @@ inherits the discipline that a `VOID` stops interpretation before any effect is 
 | Arm | Primitive | Readout | What it isolates |
 |---|---|---|---|
 | **A — baseline** | none | pair counts only | the comparator the charter names |
-| **B — label** | content-free ids, **no** membership mutation | the same readout as C | whether an id alone buys anything |
-| **C — address** | content-free ids **and** membership mutation | the same readout | whether revision buys anything over a label |
+| **B — label** | content-free ids, membership **frozen** at admission | the same readout as C | whether an id alone buys anything |
+| **C — address** | content-free ids and **maintained** membership (§7.4) | the same readout | whether revision buys anything over a label |
 
 All three arms share the world, the cycle schedule, the caps, the scorer and the seed. The only difference is the primitive
 binding. Arm B exists because the code reading found three separate absences — a content-free id, a membership mutation and a
@@ -68,9 +72,9 @@ The higher thresholds are recorded so the choice is visible, not so it can be re
 | `m >= 10` | 33 | 53,248 |
 | `m >= 20` | 20 | 45,056 |
 
-**Changing `m` after this skeleton is signed is a new pre-registration.** It voids any cell already run under this one, because
-the population that cell measured would no longer be the population this document defines. The first experiment uses `m = 2`
-or it is not this experiment.
+**Changing `m` after this pre-registration is signed is a new pre-registration.** It voids any cell already run under this
+one, because the population that cell measured would no longer be the population this document defines. The first experiment
+uses `m = 2` or it is not this experiment.
 
 ## 6. Requirement 6's acceptance tests, fixed
 
@@ -89,28 +93,72 @@ store**, while the experiment's own world must satisfy the **invariant** (keys =
 multiplicity at most 2 for `cycle3`). A new world is allowed different numbers; it is not allowed a key that mixes two node
 sets.
 
-## 7. The behavioural cell: fixed here, open there
+## 7. The behavioural cell, fixed
 
-**Fixed.**
+### 7.1 Seeds and pairing
 
-- The endpoint is **held-out next-edge log-loss** on cycles after the training boundary, computed from the readout each arm
-  exposes, paired across arms by seed and cycle.
-- The comparison is **C against A** for the charter's question; **B against A** is a reported decomposition, not a second
-  failure criterion.
-- The failure rule is §3's: an interval for C − A that includes zero closes the charter.
-- The cell reports once. The charter then closes, pass or fail (requirement 5).
+**Ten seeds, `20910101`–`20910110`**, declared in [`v2_first_cell_seeds.json`](v2_first_cell_seeds.json) and held in
+`docs/a1_seed_reservations.json`. One world per seed; all three arms run on that world; comparisons are paired by seed. The
+block is *reserved*, not spent, until the authorisation decision is signed.
 
-**Open — every field below must be filled before authorisation, and none of them is decided by this draft.**
+### 7.2 World and boundary
 
-| Field | State |
-|---|---|
-| Seed block | **none reserved by this draft**; an unspent block must be declared in `docs/a1_seed_reservations.json` at authorisation |
-| Number of seeds | unset |
-| World family and size | unset (the development worlds were 120 blocks / 92 sleep cycles; this is evidence, not a specification) |
-| Training / evaluation boundary | unset |
-| Interval method and level | unset; must be named with the code that computes it |
-| Scorer pin | unset; the pre-registration must name the scorer's hash |
-| Readout implementation | unset; the consumer is a build item in its own right (requirement 6(h)) |
+The measured compositional family: `generate_compositional_world(seed, cycles=120)` with default events per cycle and no
+held cell. The boundary is expressed in **blocks**, not sleep cycles, because a block whose last event is skipped never runs a
+sleep cycle (92 of 120 in the measured replay) and a boundary in sleep cycles would move with the seed.
+
+- **Training:** blocks `0–95`.
+- **Calibration:** blocks `80–95` — used only to select `β`; counts for calibration scoring come from blocks `0–79`.
+- **Held out:** blocks `96–119`, scored once, with every model frozen at the end of block 95.
+
+### 7.3 The readout, fixed
+
+For consecutive events `e_t, e_{t+1}`, the asserted edges are `(u, v)` with `u ∈ tags(e_t)`, `v ∈ tags(e_{t+1})`, `u ≠ v`.
+The vocabulary `V` is every tag seen in training. Held-out tags outside `V` are reported as a novelty diagnostic and never
+scored. Log-loss per event is the mean over source tags in `e_t` and targets in `V` with `y = 1[v ∈ tags(e_{t+1})]`,
+reusing `benchmarks/heldout_prediction.py::_score`; `p` is clipped to `[1e-9, 1 − 1e-9]`.
+
+Counts are frozen from the training blocks. For each arm:
+
+- **Arm A:** `p_uv = (n_uv + α) / (n_u + α·|V|)`.
+- **Arms B and C:** `p_uv = (n_uv + α + β·c_uv) / (n_u + α·|V| + β·Σ_w c_uw)`, where `c_uv` is the number of admitted
+  composites that contain the edge `(u, v)` as a member — frozen at admission for B, maintained by §7.4 for C.
+
+`α = 0.5` (the value the existing instrument uses). `β` is selected **per arm** from the grid `{0, 1, 2, 4, 8}` on the
+calibration blocks by that arm's own calibration log-loss, so the baseline is not handicapped; the selected `β` is recorded
+and applied unchanged to the held-out blocks. Arm A selects no `β` (its readout has no membership term).
+
+### 7.4 The revision rule for arm C, fixed
+
+At the end of each training block, every admitted composite's member set is the set of its member edges that meet `m`
+appearances in a trailing window of **20 sleep cycles**; edges below `m` are removed and edges that close the cycle and meet
+`m` are added. Every change increments the version through `add_member`/`remove_member` and **never** changes the id. Arm B
+freezes the member set at the first block in which all three members met `m`. The rule lives in the readout harness, not in
+the engine; the primitive supplies only the mutation operations, and the harness reports the number of mutations per seed as a
+diagnostic, not a criterion.
+
+### 7.5 The interval and the decision, fixed
+
+For each seed `s`, `d_s = L_C(s) − L_A(s)` is the difference in held-out log-loss. The endpoint is the mean of `d_s`. The
+interval is a **paired bootstrap over seeds** — 10,000 resamples, 99% percentile — because the world is the unit of inference;
+resampling events would multiply n without adding a world. With ten seeds this interval is deliberately wide, which makes a
+pass harder, not easier. **If the interval includes zero, the charter fails** (§3). `d_B` is reported beside it as a
+decomposition, not a second criterion.
+
+A seed with no held-out positives is not measurable and is excluded with the exclusion reported; if fewer than **8 of 10**
+seeds remain, the cell is `VOID` rather than a negative result.
+
+### 7.6 The scorer pin, fixed
+
+[`v2_first_cell_scorer_pin.json`](v2_first_cell_scorer_pin.json) records the SHA-256 of the world generator, the detector and
+the log-loss instrument. The harness refuses to score when a digest differs. The readout adapter
+(`benchmarks/v2_first_cell_readout.py`) does not exist yet; its digest is committed into the same pin file in the
+authorisation commit, and a missing digest refuses the cell. Re-pinning is allowed and is a reviewed commit.
+
+### 7.7 What remains before the cell
+
+Only the authorisation: [`DECISION-V2-FIRST-CELL`](DECISION-V2-FIRST-CELL.md) must be signed, and its commit must add the
+adapter and its hash to §7.6's pin. Nothing else in this document is open.
 
 ## 8. The control arm, secondary
 
@@ -130,18 +178,19 @@ fixes one earning test and §3 fixes it here.
 ## 10. Deviations
 
 This document is not edited after a cell runs. A deviation is disclosed in an amendment, and the original text stays
-readable. `m` and the endpoint are locked at signature; a change to either is a new pre-registration and voids prior cells.
+readable. `m`, the endpoint, the interval and the readout are locked at signature; a change to any of them is a new
+pre-registration and voids prior cells.
 
-## 11. What this skeleton does not decide
+## 11. What this pre-registration does not decide
 
-It does not reserve seeds, choose a world, set n, pick an interval method, pin the scorer, design the readout, or authorise
-the cell. Those are the authorisation's business, and the authorisation is a separate decision from the charter.
+The authorisation, the adapter's implementation and its digest. It does not authorise a cell, reserve spending, or permit a
+second report.
 
 ## 12. Signature
 
 | | |
 |---|---|
-| **Owner** | _unsigned_ |
-| **Status** | `DRAFT SKELETON` |
-| **Date** | _pending_ |
-| **Note** | Filling the open fields in §7 and signing this document is the pre-registration; it still authorises no cell until the separate authorisation decision is signed. |
+| **Owner** | owner |
+| **Status** | `SIGNED 2026-11-16 — protocol fixed; no cell authorised` |
+| **Date** | 2026-11-16 |
+| **Note** | Signing fixes the protocol; the cell still needs the separate authorisation decision, and the adapter's digest is added to the pin in that commit. |

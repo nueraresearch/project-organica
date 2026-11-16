@@ -1,0 +1,25 @@
+{
+  "kind": "v2_first_cell_seeds",
+  "id": "V2-FIRST-CELL-SEEDS-1",
+  "date": "2026-11-16",
+  "status": "RESERVED \u2014 HELD FOR THE FIRST V2 CELL; NOT SPENT UNTIL THE AUTHORISATION IS SIGNED",
+  "owner": "docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md",
+  "seed_block": {
+    "lo": 20910101,
+    "hi": 20910110,
+    "seeds": [
+      20910101,
+      20910102,
+      20910103,
+      20910104,
+      20910105,
+      20910106,
+      20910107,
+      20910108,
+      20910109,
+      20910110
+    ]
+  },
+  "n": 10,
+  "note": "ten paired worlds, one per seed; the three arms run on each. Reserved with the pre-registration, spent only by the authorisation decision."
+}
