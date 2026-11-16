@@ -21,9 +21,9 @@ def test_the_record_is_the_one_the_runner_accepts():
     loaded = runner.load_gates(gates.OUT)
     assert loaded == record["gates"]
     assert [loaded[gate]["status"] for gate in report.GATE_IDS] == [
-        "PASS", "NOT RUN", "NOT RUN", "NOT RUN", "NOT RUN"
+        "PASS", "PASS", "PASS", "NOT RUN", "PASS"
     ]
-    assert "NOT RUN" in record["status"]
+    assert record["status"].startswith("GATES NOT CLEARED") and "A4" in record["status"]
 
 
 def test_a1_reproduces_both_committed_regressions():
@@ -45,23 +45,26 @@ def test_a1_uses_the_spent_smoke_seed_not_a_reserved_one():
     assert gates.SMOKE not in report.declared_seeds()
 
 
-def test_the_primitive_gates_say_why_they_were_not_run():
+def test_the_primitive_gates_record_their_checks():
     record = gates._load(gates.OUT)
-    assert "no stored composite id" in record["gates"]["A2"]["evidence"]
-    assert "no mutation API" in record["gates"]["A3"]["evidence"]
-    assert "no rebuilt primitive store" in record["gates"]["A4"]["evidence"]
-    assert "no ids, versions or retirements" in record["gates"]["A5"]["evidence"]
+    assert record["gates"]["A2"]["status"] == "PASS" and "I1-I5" in record["gates"]["A2"]["evidence"]
+    assert record["gates"]["A3"]["status"] == "PASS" and "M1-M5" in record["gates"]["A3"]["evidence"]
+    assert record["gates"]["A4"]["status"] == "NOT RUN"
+    assert "held by the A1-TWO-PATH-1" in record["gates"]["A4"]["evidence"]
+    assert record["gates"]["A5"]["status"] == "PASS" and "two builds" in record["gates"]["A5"]["evidence"]
 
 
-def test_not_run_gates_assemble_as_void():
+def test_a_failed_gate_assembles_as_void():
     record = gates._load(gates.OUT)
+    injected = {gate: dict(row) for gate, row in record["gates"].items()}
+    injected["A3"] = {"status": "FAIL", "evidence": "injected for the gate-failure path"}
     result = runner.assemble(
-        runner.unmeasured_rows("not run: the gate record did not pass"),
-        record["gates"],
+        runner.unmeasured_rows("the gate record did not pass"),
+        injected,
         runner.no_control("the gate record did not pass"),
     )
     assert result["outcome"] == "VOID"
-    assert "GATES_NOT_RUN" in result["void"]["codes"]
+    assert "A3_MUTATION" in result["void"]["codes"]
     assert "SEEDS_MEASURABLE" in result["void"]["codes"]
     assert report.validate(result) == []
 

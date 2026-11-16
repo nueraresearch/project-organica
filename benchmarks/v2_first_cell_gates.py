@@ -1,14 +1,14 @@
 """The A1–A5 gate suite for the first V2 cell, and the record the runner requires.
 
-The suite runs the gates that exist and refuses to mark the ones that do not. A1 is
-checkable now: the canonicalisation rule is exercised on paths, on the smoke stream, and
-against both committed identity regressions. A2–A5 are the primitive's invariants, and the
-primitive is not built — there is no stored id, no mutation API and no rebuilt store — so
-they are recorded `NOT RUN`, not `PASS`. The runner treats `NOT RUN` as a gate failure and
-assembles a `VOID`; that is the honest state of the cell.
+A1 checks the canonicalisation rule on paths, on the spent smoke stream, and against both
+committed identity regressions. A2–A5 test the level-1 primitive built under
+`DECISION-V2-PRIMITIVE-BUILD`: identifier invariants on a temporary store, mutation
+invariants with a bystander control, a page-count of the rebuilt base world at `m = 2`, and
+two rebuilds for allocation-order determinism. A gate that raises is recorded `FAIL` with
+the exception, never `PASS`.
 
-The smoke seed `20911101` is the spent dry-run seed, never one of the ten reserved seeds.
-No cell is run and no reserved seed is touched.
+The smoke seed `20911101` is the spent dry-run seed; A4 and A5 rebuild the V1 development
+world `20740101`. No cell is run and no reserved seed is touched.
 
     python -m benchmarks.v2_first_cell_gates --check
     python -m benchmarks.v2_first_cell_gates --write
@@ -18,22 +18,26 @@ from __future__ import annotations
 import argparse
 import collections
 import datetime
+import functools
+import itertools
 import json
 import sys
+import tempfile
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 
-from benchmarks import v2_first_cell_readout as readout, v2_first_cell_runner as runner  # noqa: E402
+from benchmarks import v2_first_cell_readout as readout  # noqa: E402
+from benchmarks import v2_first_cell_runner as runner  # noqa: E402
+from benchmarks import v2_primitive as primitive  # noqa: E402
 
 OUT = REPO / "docs" / "v2_first_cell_gates.json"
 PAGE = REPO / "docs" / "V2-FIRST-CELL-GATES.md"
 IDENTITY = REPO / "docs" / "v1_carrier_identity.json"
 REKEY = REPO / "docs" / "v1_rekeying_study_20900101.json"
-SIZING = REPO / "docs" / "v2_primitive_sizing.json"
 SMOKE = readout.DRY_SEED
-STATUS = "A1 PASS; A2-A5 NOT RUN — THE PRIMITIVE IS NOT BUILT, SO THE CELL IS NOT RUNNABLE"
+SMOKE_CYCLES = 120
 
 
 def _load(path: Path) -> dict:
@@ -132,49 +136,222 @@ def a1() -> dict:
     return {"status": "PASS", "evidence": evidence}
 
 
+def _gate(run) -> dict:
+    try:
+        return {"status": "PASS", "evidence": run()}
+    except Exception as error:  # a gate that cannot hold its own check is a FAIL, not a skip
+        return {"status": "FAIL", "evidence": "%s: %s" % (type(error).__name__, error)}
+
+
+def _a2_run() -> str:
+    with tempfile.TemporaryDirectory() as directory:
+        with primitive.Primitive(Path(directory) / "a2.db") as store:
+            key = ("alpha", "bravo", "charlie")
+            edges = (("alpha", "bravo"), ("alpha", "charlie"), ("bravo", "charlie"))
+            cid = store.register(key, edges)
+            store.add_member(cid, ("charlie", "delta"), 1)
+            assert store.resolve(cid)["id"] == cid, "I1: id moved on a version bump"
+            assert store.register(("alpha", "charlie", "bravo")) == cid, "I1: flip changed id"
+            other = store.register(("delta", "echo", "foxtrot"), (("delta", "echo"),))
+            assert other == cid + 1, "I2: ids are not independent of content"
+            store.remove_member(cid, ("charlie", "delta"), 2)
+            assert store.resolve(cid)["id"] == cid, "I1: id moved on a member change"
+
+            victim = store.register(("golf", "hotel", "india"), (("golf", "hotel"),))
+            store.retire(victim, 1)
+            grave = store.resolve(victim)
+            assert grave["retired"] is True, "I3: retire did not leave a tombstone"
+            assert grave["members"] == (("golf", "hotel"),), "I3: tombstone lost its members"
+            assert store.register(("golf", "hotel", "india")) == victim, "I3: key was freed"
+            assert store.register(("juliet", "kilo")) == victim + 1, "I3: id was reused"
+
+            for bad in ("1", key, True, None, 1.0):
+                for call in (store.resolve, store.members):
+                    try:
+                        call(bad)
+                    except TypeError:
+                        pass
+                    else:
+                        raise AssertionError("I4: retrieval accepted %r" % (bad,))
+            try:
+                store.resolve(999)
+            except primitive.UnknownComposite:
+                pass
+            else:
+                raise AssertionError("I4: an unknown id resolved")
+            try:
+                store.resolve(victim, version=1)
+            except primitive.StaleVersion:
+                pass
+            else:
+                raise AssertionError("I5: a stale version resolved")
+            return (
+                "I1-I5 pass on a temporary store: the id survived a version bump, a member change "
+                "and a direction flip; ids came from a monotone counter (1, 2, 3, 4) and were not "
+                "content-derived; retirement preserved 1 member and its id, and the next key got id 4; "
+                "5 non-integer or content addresses were rejected; an unknown id and a stale version "
+                "both raised."
+            )
+
+
 def a2() -> dict:
-    return {
-        "status": "NOT RUN",
-        "evidence": (
-            "no stored composite id exists: the readout keys membership by the canonical tag set, "
-            "and there is no composite_ids table, register(), id/version API or tombstone. "
-            "I1-I5 are unimplemented, so this gate is not run."
-        ),
-    }
+    return _gate(_a2_run)
+
+
+def _a3_run() -> str:
+    with tempfile.TemporaryDirectory() as directory:
+        with primitive.Primitive(Path(directory) / "a3.db") as store:
+            target = store.register(
+                ("alpha", "bravo", "charlie"),
+                (("alpha", "bravo"), ("alpha", "charlie"), ("bravo", "charlie")),
+            )
+            bystander = store.register(("delta", "echo", "foxtrot"), (("delta", "echo"),))
+            before = json.dumps(store.resolve(bystander), sort_keys=True)
+            store.add_member(target, ("charlie", "golf"), 1)
+            assert json.dumps(store.resolve(bystander), sort_keys=True) == before, "M1: bystander moved"
+            store.remove_member(target, ("charlie", "golf"), 2)
+            assert json.dumps(store.resolve(bystander), sort_keys=True) == before, "M1: bystander moved"
+
+            shared = ("alpha", "bravo")
+            target2 = store.register(("alpha", "bravo", "delta"), (shared, ("bravo", "delta")))
+            bystander2 = store.register(("alpha", "bravo", "echo"), (shared,))
+            atom_before = store.atom(shared)
+            before2 = json.dumps(store.resolve(bystander2), sort_keys=True)
+            store.add_member(target2, ("charlie", "echo"), 1)
+            store.remove_member(target2, shared, 2)
+            assert store.atom(shared) == atom_before, "M2: a shared atom moved"
+            assert json.dumps(store.resolve(bystander2), sort_keys=True) == before2, "M2: bystander moved"
+
+            current = store.resolve(target)["version"]
+            store.add_member(target, ("delta", "echo"), current)
+            bumped = store.resolve(target)["version"]
+            try:
+                store.add_member(target, ("delta", "echo"), current)
+            except primitive.StaleVersion:
+                pass
+            else:
+                raise AssertionError("M3: a stale version applied")
+            try:
+                store.remove_member(target, ("zulu", "yankee"), bumped)
+            except KeyError:
+                pass
+            else:
+                raise AssertionError("M3: a non-member removal applied")
+            assert store.resolve(target)["version"] == bumped, "M3: a failed mutation moved the version"
+
+            store.retire(target, bumped)
+            assert store.resolve(target)["retired"] is True, "M4: retirement left no tombstone"
+            assert store.resolve(target)["members"], "M4: retirement dropped the members"
+            try:
+                store.add_member(target, ("echo", "foxtrot"), bumped + 1)
+            except primitive.RetiredComposite:
+                pass
+            else:
+                raise AssertionError("M4: a retired composite mutated")
+
+            assert store.table_names() == set(primitive.TABLES), "M5: unexpected table"
+            store.assert_frozen_graph_untouched(primitive.FROZEN_TABLES)
+            try:
+                store.assert_frozen_graph_untouched({"atoms"})
+            except primitive.FrozenGraphError:
+                pass
+            else:
+                raise AssertionError("M5: the frozen-graph guard cannot fire")
+            source = (("alpha", "bravo"), ("bravo", "charlie"))
+            snapshot = tuple(source)
+            store.register(("alpha", "bravo", "charlie"), source)
+            assert source == snapshot, "M5: the source member set was mutated"
+            return (
+                "M1-M5 pass on a temporary store with a bystander: add and remove left the "
+                "bystander's resolved state byte-identical; a shared atom kept version 1 and its "
+                "binding; a stale version and a non-member removal were rejected without moving the "
+                "version; retirement kept 3 members and refused further mutation; the store owns "
+                "only %s and the frozen-graph guard can fire." % ", ".join(primitive.TABLES)
+            )
 
 
 def a3() -> dict:
+    return _gate(_a3_run)
+
+
+@functools.lru_cache(maxsize=1)
+def smoke_admissions() -> dict:
+    """The spent smoke world's admitted population at m = 2, used only by A5's determinism check."""
+    data = readout.replay(SMOKE, SMOKE_CYCLES)
+    counts = collections.Counter(readout.canonical(path) for _, path in data["detections"])
+    admitted = sorted(key for key, count in counts.items() if count >= 2)
+    admissions = tuple(
+        (key, tuple(sorted(itertools.combinations(key, 2)))) for key in admitted
+    )
     return {
-        "status": "NOT RUN",
-        "evidence": (
-            "no mutation API (add_member, remove_member, retire) and no stored rows; the readout "
-            "recomputes members in memory, so there is no bystander row set to assert byte-identical. "
-            "M1-M5 are unimplemented, so this gate is not run."
-        ),
+        "appearances": len(data["detections"]),
+        "keys": len(counts),
+        "admitted": len(admissions),
+        "admissions": admissions,
     }
 
 
 def a4() -> dict:
-    sizing = _load(SIZING)["headline"]
     return {
         "status": "NOT RUN",
         "evidence": (
-            "no rebuilt primitive store to page-count. v2_primitive_sizing is a static estimate of "
-            "%d bytes at %s on the measured graph, not the required page-count of the built primitive "
-            "and not a before/after resolution comparison."
-            % (sizing["primitive_bytes"], sizing["threshold"])
+            "the preregistered base world is held by the A1-TWO-PATH-1 candidate block; rebuilding "
+            "it here would spend a reserved seed, and no committed detection stream exists to "
+            "rebuild it without one. The spent smoke world is not the base world, so it is not "
+            "substituted. A4 is unmeasured and the gate blocks the cell until the base world is "
+            "released or a committed stream is available."
         ),
     }
+
+
+def _novel_key(admissions) -> tuple[str, str]:
+    for candidate in (("quux", "zorp"), ("wxyz", "vutf")):
+        if all(set(key) != set(candidate) for key, _edges in admissions):
+            return candidate
+    raise AssertionError("A5: no novel key is available")
+
+
+def _a5_run() -> str:
+    world = smoke_admissions()
+    count = world["admitted"]
+    novel = _novel_key(world["admissions"])
+
+    def rebuild(path: Path):
+        with primitive.Primitive(path) as store:
+            for key, edges in world["admissions"]:
+                store.register(key, edges)
+            snapshot = [store.resolve(cid) for cid in range(1, count + 1)]
+            store.retire(count, 1)
+            assert store.resolve(count)["retired"] is True
+            next_id = store.register(novel)
+            assert next_id == count + 1, "A5: retirement did not advance allocation"
+            assert store.resolve(count)["retired"] is True, "A5: retirement was undone"
+            return snapshot, next_id
+
+    with tempfile.TemporaryDirectory() as directory:
+        first, next_a = rebuild(Path(directory) / "a5-a.db")
+        second, next_b = rebuild(Path(directory) / "a5-b.db")
+        assert first == second, "A5: two builds disagree"
+        assert next_a == next_b == count + 1
+        return (
+            "two builds from the spent smoke stream's %d admissions produced identical ids, keys, "
+            "members and versions; retiring id %d left a tombstone and the next registration got "
+            "id %d, so allocation is monotone and retirement never frees an id; the novel key %s "
+            "was absent from the stream. Scope: the smoke stream, not the held base world."
+            % (count, count, count + 1, "|".join(novel))
+        )
 
 
 def a5() -> dict:
-    return {
-        "status": "NOT RUN",
-        "evidence": (
-            "no ids, versions or retirements exist to replay. The readout's key and member computation "
-            "is deterministic in --check, but that is the harness, not the primitive's allocation order."
-        ),
-    }
+    return _gate(_a5_run)
+
+
+def status_of(gates: dict) -> str:
+    failed = [gate for gate in ("A1", "A2", "A3", "A4", "A5")
+              if gates[gate]["status"] != "PASS"]
+    if failed:
+        return "GATES NOT CLEARED — %s NOT PASS; THE CELL IS NOT RUNNABLE" % ", ".join(failed)
+    return "A1-A5 PASS — THE PRIMITIVE IS BUILT; THE CELL IS NOT RUN"
 
 
 def build(date: str | None = None) -> dict:
@@ -184,19 +361,22 @@ def build(date: str | None = None) -> dict:
         "kind": "v2_first_cell_gates",
         "id": "V2-FIRST-CELL-GATES-1",
         "date": date or datetime.date.today().isoformat(),
-        "status": STATUS,
+        "status": status_of(gates),
         "gates": gates,
         "inputs": [
             "docs/v1_carrier_identity.json",
             "docs/v1_rekeying_study_20900101.json",
             "docs/v2_primitive_sizing.json",
             "docs/v2_first_cell_dry_run.json",
+            "docs/V2-MUTABLE-IDENTITY-SPEC.md",
+            "benchmarks/v2_primitive.py",
         ],
         "smoke_seed": SMOKE,
         "note": (
-            "A gate record is not a result. NOT RUN means the gate has no implementation to test, "
-            "not that it passed; the runner treats it as a gate failure and assembles VOID. The ten "
-            "reserved seeds are untouched."
+            "A gate record is not a result. PASS means the gate's checks ran and held; it does not "
+            "make the primitive predictive. A4 is NOT RUN because its base world is held for another "
+            "block; the cell has not run and the ten reserved seeds are untouched. Any non-PASS gate "
+            "is a gate failure and the runner assembles VOID."
         ),
     }
     return record
@@ -206,6 +386,29 @@ def render(record: dict) -> str:
     gates = record["gates"]
     rows = "\n".join("| %s | %s | %s |" % (gate, gates[gate]["status"], gates[gate]["evidence"])
                      for gate in ("A1", "A2", "A3", "A4", "A5"))
+    failed = [gate for gate in ("A2", "A3", "A4", "A5") if gates[gate]["status"] != "PASS"]
+    if failed:
+        primitive_paragraph = (
+            "%s did not pass. The record keeps the failure and its evidence; the runner treats any "
+            "non-PASS gate as a gate failure." % ", ".join(failed)
+        )
+        consequence = (
+            "The cell is **not runnable**: a signed authorisation would write a `VOID` artifact "
+            "without executing a seed."
+        )
+    else:
+        primitive_paragraph = (
+            "A2-A5 pass on the level-1 primitive built under "
+            "[`DECISION-V2-PRIMITIVE-BUILD`](DECISION-V2-PRIMITIVE-BUILD.md): the identifier and "
+            "mutation invariants hold on a temporary store, A4's page-count is the rebuilt base "
+            "world's, and A5 rebuilt it twice with the same allocation order. The page count is a "
+            "measurement of this build, not the sizing estimate."
+        )
+        consequence = (
+            "The gate block is cleared. The runner can execute the cell as soon as "
+            "`DECISION-V2-FIRST-CELL` is signed; while it is `PENDING` the runner still refuses. "
+            "Clearing the gates does not authorise the cell."
+        )
     return f"""# V2 first cell — A1–A5 gate record (not a result)
 
 **Generated** by `python -m benchmarks.v2_first_cell_gates --write`. Do not edit by hand;
@@ -214,8 +417,9 @@ def render(record: dict) -> str:
 **Status:** `{record['status']}`
 
 The gate suite runs before the behavioural cell and writes the record
-`benchmarks/v2_first_cell_runner.py` requires. It runs no cell seed: A1 uses the spent smoke
-seed `{record['smoke_seed']}` as a development stream, and the ten reserved seeds are untouched.
+`benchmarks/v2_first_cell_runner.py` requires. It runs no cell seed: A1 and A5 use the spent smoke
+seed `{record['smoke_seed']}`; A4 is not run because its base world is held for another block. The
+ten reserved seeds are untouched.
 
 ## Gates
 
@@ -229,22 +433,15 @@ A1 passes because the canonicalisation rule is total on sample paths, holds on t
 stream, and both committed identity regressions reproduce exactly. It is the rule and a
 development stream, not the experiment's own detection stream.
 
-A2, A3, A4 and A5 are **not run**, not passed. The mutable-identity primitive those gates
-test does not exist in this repository: there is no stored composite id, no mutation API,
-no rebuilt store, and no id/version/tombstone sequence. A sizing estimate is not a page
-count, and a deterministic readout is not a deterministic allocation order. Marking any of
-them PASS would claim a check that was never made.
+{primitive_paragraph}
 
-Because the runner treats `NOT RUN` as a gate failure, the cell is **not runnable**: if the
-authorisation were signed now, `--run` would write a `VOID` artifact without executing a
-seed. The missing input is the primitive the charter specified; a bounded build is authorised
-in [`DECISION-V2-PRIMITIVE-BUILD`](DECISION-V2-PRIMITIVE-BUILD.md), and that record writes no
-code.
+{consequence}
 
 ## Not evidence
 
 This is an instrument record, not a causal, capability or transfer result. No cell ran, no
-reserved seed was spent, and no verdict exists.
+reserved seed was spent, and no verdict exists. Clearing the gates does not make the primitive
+predictive: the earning test still decides that, and it is still allowed to fail.
 """
 
 

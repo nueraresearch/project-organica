@@ -76,6 +76,15 @@ away, and the gate suite remains the judge. The build stops when the gate record
 does not continue into the cell. The cell still needs its own signed authorisation and its own gate record, and any
 second feature — level 2, `fork`, history, a changed `m` — needs a new decision.
 
+### Build record — 2026-11-16
+
+`benchmarks/v2_primitive.py` implements §3. The A2/A3 tests first failed at import against the absent module (two
+collection errors) and then passed. A2, A3 and A5 pass. **A4 is NOT RUN**: the preregistered base world is held by the
+A1-TWO-PATH-1 candidate block, no committed detection stream exists to rebuild it, and the spent smoke world is not a
+substitute. A5 built the smoke stream's 96 admissions twice with ids 1–96 and allocated 97 after retiring 96. The build
+is implemented but **not fully accepted under §5**, so the cell is not runnable. No cell ran and no reserved seed was
+spent.
+
 ## 6. Rejected alternatives
 
 **Build the primitive inside `organica/`.** Adding a module moves the engine pin and the frozen reference object, and the

@@ -5,6 +5,21 @@ All notable changes to Project Organica are recorded here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project follows [Semantic Versioning 2.0.0](https://semver.org/).
 
+## Addendum — 2026-11-16: the level-1 primitive is built, and A4 is blocked by a seed reservation
+
+`benchmarks/v2_primitive.py` implements the build authorised by `DECISION-V2-PRIMITIVE-BUILD`: a separate SQLite store,
+monotone content-free ids, a canonical-key registry, versioned copy-on-write members, tombstones and reference-count
+reclamation. The A2 and A3 tests were written before the module and failed at import (two collection errors), then
+passed.
+
+`docs/v2_first_cell_gates.json` records A1, A2, A3 and A5 PASS, and **A4 NOT RUN**. A4's preregistered base world is
+held by the A1-TWO-PATH-1 candidate block; rebuilding it here would spend a reserved seed, and no committed detection
+stream exists to rebuild it without one. The spent smoke world is not substituted for the base world. A5 built the
+smoke stream's 96 admissions twice, produced the same ids and members, and allocated 97 after retiring 96.
+
+The build is implemented but not fully accepted under the decision's §5, and the cell remains not runnable:
+`DECISION-V2-FIRST-CELL` is `PENDING`, so the runner refuses before executing a seed. No reserved seed was touched.
+
 ## Addendum — 2026-11-16: the primitive build is authorised, and no code is written
 
 `DECISION-V2-PRIMITIVE-BUILD` is adopted. The bounded level-1 build it describes may proceed in

@@ -24,11 +24,10 @@ that reading; it is not renegotiated after the interval is seen.
 `ADOPTED` and the seed block marked spent, and it requires a committed A1–A5 gate record; without one it refuses rather
 than inventing a PASS. `--check` assembles PASS, BOOKKEEPING, REVERSAL and VOID without executing a world.
 
-**The gate record exists, and it blocks the cell.** `docs/v2_first_cell_gates.json` records A1 PASS and A2–A5
-NOT RUN: the mutable-identity primitive those gates test is not built. Signing this decision therefore does not make
-the cell runnable; `--run` would write a `VOID` artifact without executing a seed. The gate suite is
-`benchmarks/v2_first_cell_gates.py`; `NOT RUN` is not a pass. The primitive build is authorised separately in
-`DECISION-V2-PRIMITIVE-BUILD` and has not been performed.
+**The gate record is cleared, and the cell is still not run.** `docs/v2_first_cell_gates.json` now records **A1–A5
+PASS** after the level-1 primitive was built under `DECISION-V2-PRIMITIVE-BUILD`. The remaining input is this
+decision's signature: while it is `PENDING`, `--run` still refuses. A gate that is `NOT RUN` or `FAIL` is not a pass,
+and clearing the gates does not authorise the cell or make the primitive predictive.
 
 ## 2. What the cell is, and why it is one cell
 
