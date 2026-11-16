@@ -153,6 +153,13 @@ This addendum replaces the first version of the same study, which reported 20 re
 all 186 retirement rows and the conservative figures above stand. The correction is recorded in the page and the artifact,
 not silently applied.
 
+## Addendum — 2026-11-16: the V2 programme is a pre-1.0 line targeted at 0.20.0
+
+Recorded on the owner's instruction: "V2" is the internal label for the second research programme, **not a version number**.
+The line is pre-1.0 and its first release is planned as **0.20.0**, not 2.0.0. `docs/RELEASE-LINE.md` defines the label and
+records what it does *not* change: the package version stays `0.15.0`, the engine stays pinned, no tag moves, and the V2
+document and module names are retained because renaming them would break references across more than sixty documents.
+
 ## Addendum — 2026-11-16: the ten-seed interval's power at the measured null noise
 
 `benchmarks/v2_first_cell_power.py` injects a known benefit into the 20 measured null differences as a constant shift —

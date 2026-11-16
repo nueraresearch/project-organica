@@ -2,6 +2,9 @@
 
 **Status:** `ADOPTED 2026-11-16 — A V2 CHARTER IS COMMISSIONED; NO BUILD IS AUTHORISED`
 
+**Release line:** this programme is pre-1.0 and is planned to release as **0.20.0**, not 2.x — see
+[`RELEASE-LINE`](RELEASE-LINE.md).
+
 **Decision ID:** `DECISION-V2-CHARTER-1` · **Date:** 2026-11-15 · **Adopted:** 2026-11-16
 **Instruction:** sign the V2 charter and record it as adopted (owner, 2026-11-16).
 
