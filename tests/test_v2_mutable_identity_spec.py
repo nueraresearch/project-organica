@@ -62,6 +62,18 @@ def test_the_cycle3_acceptance_test_matches_the_measured_artifact() -> None:
     assert mult == {1: 139, 2: 19}
 
 
+def test_requirement_six_states_its_content_and_signs_with_the_resolutions() -> None:
+    charter = (ROOT / "docs" / "DECISION-V2-CHARTER.md").read_text(encoding="utf-8")
+    for phrase in ("composition-bearing", "content-free id", "copy-on-write at the level of **bindings**",
+                   "total", "never reclaim an id", "signed together"):
+        assert phrase in charter, phrase
+    assert "adopts or rejects them explicitly" not in charter
+    decisions = json.loads((ROOT / "docs" / "decisions.json").read_text(encoding="utf-8"))
+    status = {d["decision_id"]: d["status"] for d in decisions["decisions"]}
+    assert status["DECISION-V2-CHARTER"] == "PENDING"
+    assert status["DECISION-V2-PRIMITIVE-RESOLUTIONS"] == "PENDING"
+
+
 def test_the_primitives_cannot_be_built_by_accident() -> None:
     """A planning note must not be wired into the engine or adopted as a decision."""
     spec_name = "V2-MUTABLE-IDENTITY-SPEC"

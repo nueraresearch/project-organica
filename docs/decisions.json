@@ -904,7 +904,12 @@
         "docs/functional_structure_confirmatory.json",
         "docs/A1-RUN.md",
         "docs/a1_two_path_result.json",
-        "docs/DECISION-A1-VOID-ACCEPTED.md"
+        "docs/DECISION-A1-VOID-ACCEPTED.md",
+        "docs/V2-MUTABLE-IDENTITY-SPEC.md",
+        "docs/V2-PRIMITIVE-SIZING.md",
+        "docs/DECISION-V2-PRIMITIVE-RESOLUTIONS.md",
+        "docs/V1-REKEYING-TWO-SEEDS.md",
+        "docs/V1-CARRIER-FORGETTING.md"
       ],
       "superseded_by": null
     },

@@ -42,7 +42,9 @@ def test_the_dividing_line_and_the_mutable_identity_requirement_are_recorded() -
     assert "softly at G4, hard from G5" in text
     assert "nothing remains itself across a revision" in text
     assert "A mutable-identity primitive, specified before anything is built" in text
-    assert "ownership or" in text and "copy-on-write" in text
+    # Requirement 6 now answers the collision rule rather than leaving it as an either/or.
+    assert "copy-on-write at the level of **bindings**" in text
+    assert "not ownership of atoms" in text
     assert "An id column over recomputed structures does not satisfy this" in text
     assert "An earning test" in text
     assert "a tie means the addresses are bookkeeping and the charter fails" in text

@@ -672,7 +672,7 @@ uncomputable, and the cause that fired first is the one worth reporting.
 
 **Rests on.** Q057 (open)
 
-**Evidence.** `docs/claim_ledger.json`, `docs/DECISION-V2-SCOPE.md`, `docs/ORGANICA-V2-DESIGN-BRIEF.md`, `docs/GATE13-RANKING-CRITERION.md`, `docs/BOTTLENECK-MAP.md`, `docs/functional_structure_confirmatory.json`, `docs/A1-RUN.md`, `docs/a1_two_path_result.json`, `docs/DECISION-A1-VOID-ACCEPTED.md`
+**Evidence.** `docs/claim_ledger.json`, `docs/DECISION-V2-SCOPE.md`, `docs/ORGANICA-V2-DESIGN-BRIEF.md`, `docs/GATE13-RANKING-CRITERION.md`, `docs/BOTTLENECK-MAP.md`, `docs/functional_structure_confirmatory.json`, `docs/A1-RUN.md`, `docs/a1_two_path_result.json`, `docs/DECISION-A1-VOID-ACCEPTED.md`, `docs/V2-MUTABLE-IDENTITY-SPEC.md`, `docs/V2-PRIMITIVE-SIZING.md`, `docs/DECISION-V2-PRIMITIVE-RESOLUTIONS.md`, `docs/V1-REKEYING-TWO-SEEDS.md`, `docs/V1-CARRIER-FORGETTING.md`
 
 **Record.** `docs/DECISION-V2-CHARTER.md`
 

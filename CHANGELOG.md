@@ -153,6 +153,19 @@ This addendum replaces the first version of the same study, which reported 20 re
 all 186 retirement rows and the conservative figures above stand. The correction is recorded in the page and the artifact,
 not silently applied.
 
+## Addendum — 2026-11-16: requirement 6 is drafted, not deferred
+
+The V2 charter's requirement 6 no longer points at four open questions and asks the owner to resolve them while signing. It
+now states the object the charter requires — a composition-bearing level-1 composite over pair bindings, a content-free id
+that is never reused or freed, per-kind canonicalisation with the 177→158 and 138→125 acceptance tests, copy-on-write at the
+level of bindings, homogeneous levels with level 2 unbuilt, admission on total appearances (`m ≥ 2`, value fixed in the first
+pre-registration), reclamation that never frees an id or a tombstone — and names the consumer as the experiment's own build
+item rather than the primitive's.
+
+The one sentence that adopts (a)–(g) stays in `DECISION-V2-PRIMITIVE-RESOLUTIONS`; the two records are signed together, and
+both remain `PENDING`. The wording also absorbs the code reading's correction: the requirement asks for a composition-bearing
+object, not a "stored composite", because V1 already stores rows.
+
 ## Addendum — 2026-11-16: the two-world result enters the pending primitive decision
 
 `DECISION-V2-PRIMITIVE-RESOLUTIONS` now carries the replication as evidence in a new §8, with the signature section moved to
@@ -231,7 +244,7 @@ any code path starts mutating a path. A future engine change breaks the guard be
 
 `benchmarks/v2_primitive_sizing.py` sizes the primitive's four tables against the store measured by the identity replay, and
 `docs/V2-PRIMITIVE-SIZING.md` reports it: **135,168 bytes** at admission `m>=2` (115 composites, 345 references over 24
-atoms), which is 2.54× the pair tables it annotates and 0.70% of the store.
+atoms), which is 2.538× the pair tables it annotates and 0.70% of the store.
 
 Two things the measurement corrects. **The whole-store ratio is misleading**: events are 99.6% of the store, so overhead
 quoted against it is really a statement about event text — the pair tables (53,248 bytes) are the honest comparator.

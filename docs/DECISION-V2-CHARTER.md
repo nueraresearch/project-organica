@@ -84,16 +84,55 @@ No V2 cell, module or engine change is authorised by this decision; the charter 
    in which a `VOID` stops interpretation before any effect is quoted.
 5. **A stop condition** in the sense of rule 23(c): the charter closes after its first experiment reports, pass or fail.
    Extending it, or adding a feature to it, needs a new decision.
-6. **A mutable-identity primitive, specified before anything is built**: a stored composite, an identifier assigned
-   independently of its content, and a mutation that cannot alter a shared part — with the collision rule (ownership or
-   copy-on-write) stated. An id column over recomputed structures does not satisfy this; that is the difference between a
-   label and an address. Nor does a derived key, even one that isolates a composite perfectly: selection without a
-   collision rule is retrieval, not identity.
+6. **A mutable-identity primitive, specified before anything is built.** The object this requirement asks for is a
+   **composition-bearing** object, not a stored row — V1 already stores rows, and what it lacks is an object that can be
+   named, revised and read back (see `CODE-AS-EVIDENCE` §6). It has these properties:
 
-   The specification is drafted as [`V2-MUTABLE-IDENTITY-SPEC`](V2-MUTABLE-IDENTITY-SPEC.md) — planning only,
-   authorising no code: it fixes storage, identifier invariants, the registration/canonicalisation rule and the mutation
-   semantics, and states the earning test the primitive must pass. Its four open questions are argued with
-   recommendations in §10 of that document; signing this charter adopts or rejects them explicitly.
+   **(a) Composition and key.** A level-1 composite is three pair bindings over a canonical tag triple. The members are
+   **edges**, the triple is the key: a triple whose third edge is absent is not a composite.
+
+   **(b) Identifier.** A content-free id assigned at admission from a monotonic counter — never derived from content, never
+   reused, never freed, and persisted across versions. The canonical key is per kind: sorted triple for `cycle3`, least of the
+   `2n` rotations of a path and its reverse for `cycle_n`, order preserved for open paths. Acceptance is arithmetic on the
+   measured store: `cycle3` must map 177 directed paths to 158 keys with multiplicities `{1: 139, 2: 19}` and merge no two
+   node sets; replicated on a second world (138 → 125), with both runs reproducing their store's identities and retirement
+   rows ([`V1-REKEYING-TWO-SEEDS`](V1-REKEYING-TWO-SEEDS.md)).
+
+   **(c) Mutation.** Membership change is copy-on-write at the level of **bindings**: a composite that needs a different
+   binding takes its own reference to the atom version it needs, and no composite edits an atom or another composite's
+   reference. The id persists across the change, the version increments, and a retired composite keeps its id and tombstone,
+   with its member references kept so the control arm can still prove what it was.
+
+   **(d) Collision rule.** Copy-on-write at bindings — not ownership of atoms, and not a copy of the atom table. Removing a
+   member removes a reference that nothing else holds, so removal cannot spill into a neighbour.
+
+   **(e) Levels.** Members are typed and homogeneous within a composite. Level 1 is built first; level 2 (composites over
+   composites) is permitted by the schema and **unbuilt** until the first experiment needs it.
+
+   **(f) Registration.** A detected structure is a *candidate*, not an object, until it has appeared `m` times in total — at
+   least 2, and fixed in the first experiment's pre-registration rather than here. Total, not consecutive: orientation flips
+   are measured (55 and 18 across two worlds), so a streak rule would reject a perfectly stable object. The measured cost at
+   `m = 2` is 135,168 bytes, 2.538× the pair tables, and the population swings 5.75× across the unfixed `m`
+   ([`V2-PRIMITIVE-SIZING`](V2-PRIMITIVE-SIZING.md)).
+
+   **(g) Reclamation.** Reference-count references; reclaim an atom at zero references across live and retired composites;
+   never reclaim an id, a canonical key or a tombstone.
+
+   **(h) The consumer is the experiment's, not the primitive's.** The only reader of stored carriers currently discards the
+   cycle, so a carrier-level readout at Layer 2 is a build item in its own right. Without it the primitive is inert and
+   requirement 7 cannot run; with it, the earning test is still allowed to fail.
+
+   Two near-misses do not satisfy this. An id column over recomputed structures does not satisfy this — that is the
+   difference between a label and an address, because nothing can name the object between cycles. Nor does a derived key,
+   however cleanly it isolates a composite: selection without a collision rule is retrieval, not identity.
+
+   The argument and the four rejected alternatives are in [`V2-MUTABLE-IDENTITY-SPEC`](V2-MUTABLE-IDENTITY-SPEC.md) §10–§11;
+   the one-sentence adoption of (a)–(g) is [`DECISION-V2-PRIMITIVE-RESOLUTIONS`](DECISION-V2-PRIMITIVE-RESOLUTIONS.md) §1,
+   and that record is where the resolutions are signed. **The two are signed together:** signing the charter alone leaves
+   (a)–(h) as an outline with no adopted resolution, and signing the resolutions alone adopts content into a decision that
+   authorises nothing, because the charter that would carry it is unsigned. The specification remains **planning only** —
+   this requirement authorises no code.
+
 7. **An earning test**: the first experiment compares the addressed object against the pair-count baseline, on prediction
    or on control, and the charter states in advance that a tie means the addresses are bookkeeping and the charter fails.
    Addressability is necessary for G4 and beyond; it is not sufficient, and the charter has to be able to discover that.
@@ -127,6 +166,9 @@ No V2 cell, module or engine change is authorised by this decision; the charter 
 - `docs/functional_structure_confirmatory.json`
 - [`A1-RUN`](A1-RUN.md), `docs/a1_two_path_result.json`
 - [`DECISION-A1-VOID-ACCEPTED`](DECISION-A1-VOID-ACCEPTED.md)
+- [`V2-MUTABLE-IDENTITY-SPEC`](V2-MUTABLE-IDENTITY-SPEC.md), [`V2-PRIMITIVE-SIZING`](V2-PRIMITIVE-SIZING.md)
+- [`DECISION-V2-PRIMITIVE-RESOLUTIONS`](DECISION-V2-PRIMITIVE-RESOLUTIONS.md),
+  [`V1-REKEYING-TWO-SEEDS`](V1-REKEYING-TWO-SEEDS.md), [`V1-CARRIER-FORGETTING`](V1-CARRIER-FORGETTING.md)
 
 ## 7. Signature
 
