@@ -4,7 +4,7 @@
 
 **In one paragraph.** Yes, slightly, and not in the way that matters. Swapping V1's direction-bearing persistence key for a
 direction-free one would have saved **19 identities** (177 to 158) and **16 retirements**, and converted
-**55 orientation flips** from a restart into a reinforcement. Strength concentrates a little (mean live
+**55 orientation flips** from a restart into a reinforcement. Strength moves a little (mean live
 strength 0.8043 to 0.816, top-5 appearance share 0.2032 to 0.2194), and the share of identities that stay above the
 stability threshold moves from 16.4% to 17.1%. That is a real but small correction — the orientation flip was never the
 capability V1 lacks. The primitive specification already canonicalises direction, so this study confirms a design choice
@@ -13,7 +13,7 @@ rather than reopening it.
 ## 1. What was done
 
 One replay of the measured 120-cycle world (92 of its blocks ran a sleep cycle), reading back every
-`sleep:loop_candidate` row the engine wrote (4303 rows, 177 identities). V1's selection rules were re-implemented
+`sleep:loop_candidate` row the engine wrote (4,303 rows, 177 identities). V1's selection rules were re-implemented
 offline — +0.05 on the fresh detection, ×0.8 on absence, retirement below 0.15 — and run twice over the same detections:
 once keyed on the path in order (V1), once on the sorted tag set (the specification's `cycle3` key).
 
@@ -31,6 +31,9 @@ once keyed on the path in order (V1), once on the sorted tag set (the specificat
 
 Orientation flips observed: **55**. Each one is a cycle in which V1 retires nothing but stops reinforcing one
 identity and starts another from its raw strength.
+
+Loop `strength` is the engine's raw transition count (`min(counts)`), not a probability, so values above 1.0 are expected and
+are not a defect.
 
 ## 3. Validation
 
@@ -74,3 +77,5 @@ One seed, one world, 92 sleep cycles; the counterfactual is rules-simulated over
 both orientations of a node set appear in one cycle the free key keeps the last detection's strength, since a merged
 identity has only one; that choice is arbitrary and not measured. The study measures persistence bookkeeping, not
 behaviour: nothing here predicts whether an addressed composite would beat the pair-count baseline.
+
+The direction was replicated on a second world: see [`V1-REKEYING-TWO-SEEDS`](V1-REKEYING-TWO-SEEDS.md).

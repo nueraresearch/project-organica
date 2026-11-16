@@ -153,6 +153,18 @@ This addendum replaces the first version of the same study, which reported 20 re
 all 186 retirement rows and the conservative figures above stand. The correction is recorded in the page and the artifact,
 not silently applied.
 
+## Addendum — 2026-11-16: the re-keying result replicates on a second world
+
+`benchmarks/v1_rekeying_study.py` now takes `--seed`, and the study was re-run on seed **20900101**, reserved for this purpose
+in `docs/a1_seed_reservations.json`. The direction holds: **138 carriers, 13 identities and 11 retirement rows saved, 18 flips
+converted** (177 carriers, 19 identities, 16 retirement rows and 55 flips on seed 20740101). Both runs reproduce their store's
+identities and all retirement rows before the key is swapped.
+
+Two seeds replicate the *sign*, not the size: the worlds differ (138 vs 177 carriers, 2,765 vs 4,303 carrier rows), so no spread
+or interval is estimated. The second world also shows that loop `strength` is a raw transition count rather than a probability
+(mean live strength above 1.0); the pages now say so, and none of it changes the two real gaps — no consumer of a carrier's
+cycle, no membership mutation.
+
 ## Addendum — 2026-11-16: carriers are retired, not forgotten
 
 `benchmarks/v1_carrier_forgetting.py` records the 4,000-row sleep boundary before every cycle and reloads each cycle's prior

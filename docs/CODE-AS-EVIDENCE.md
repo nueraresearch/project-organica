@@ -104,7 +104,8 @@ right, and the code says why rather than the campaign.
 2. **Run the offline re-keying study** on stored rows — *done, [`V1-REKEYING-STUDY`](V1-REKEYING-STUDY.md)*. A direction-free
    key would have saved 19 identities and 16 retirements and turned 55 flips into reinforcements, with mean live strength
    0.8043 → 0.816. It confirms the specification's `cycle3` canonicalisation and leaves the consumer and mutation gaps
-   untouched. A boundary measurement ([`V1-CARRIER-FORGETTING`](V1-CARRIER-FORGETTING.md)) then showed the prior window
+   untouched. The direction was replicated on a second world ([`V1-REKEYING-TWO-SEEDS`](V1-REKEYING-TWO-SEEDS.md)).
+   A boundary measurement ([`V1-CARRIER-FORGETTING`](V1-CARRIER-FORGETTING.md)) then showed the prior window
    never forgets a live carrier: 147 of 177 identities retired, 30 stayed live, 0 vanished unrecorded.
 3. **Then** sign or reject the primitive decision with a narrower scope: content-free id, membership mutation, and a
    composition consumer — and with the storage question retired (135,168 bytes against a store that grows by megabytes of

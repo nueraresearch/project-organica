@@ -9,6 +9,8 @@ from benchmarks import v1_rekeying_study as study
 ROOT = Path(__file__).resolve().parents[1]
 ART = ROOT / "docs" / "v1_rekeying_study.json"
 DOC = ROOT / "docs" / "V1-REKEYING-STUDY.md"
+REPLICATION = ROOT / "docs" / "v1_rekeying_study_20900101.json"
+TWO_SEEDS = ROOT / "docs" / "V1-REKEYING-TWO-SEEDS.md"
 
 
 def _doc() -> dict:
@@ -50,6 +52,28 @@ def test_reinforcement_adds_to_the_fresh_detection() -> None:
     detections = [(1, ("a", "b", "c"), 0.4), (2, ("a", "b", "c"), 0.2)]
     got = study.simulate(detections, lambda path: path)
     assert got["strengths"] == {"a/b/c": 0.25}
+
+
+def test_the_replication_is_a_different_world_and_validates() -> None:
+    first, second = _doc(), json.loads(REPLICATION.read_text(encoding="utf-8"))
+    assert second["seed"] == 20900101
+    assert second["observed"]["stored_identities"] != first["observed"]["stored_identities"]
+    assert second["validation"]["identities_match"] is True
+    assert second["validation"]["deaths_match"] is True
+
+
+def test_the_direction_holds_on_both_seeds() -> None:
+    for doc in (_doc(), json.loads(REPLICATION.read_text(encoding="utf-8"))):
+        comparison = doc["comparison"]
+        assert comparison["identities_saved"] > 0
+        assert comparison["deaths_bearing"] > comparison["deaths_free"]
+        assert comparison["flip_events"] > 0
+
+
+def test_the_two_seed_page_is_rendered_from_both_artifacts() -> None:
+    first = _doc()
+    second = json.loads(REPLICATION.read_text(encoding="utf-8"))
+    assert TWO_SEEDS.read_text(encoding="utf-8") == study.render_two_seed(first, second)
 
 
 def test_the_free_key_is_the_sorted_tag_set() -> None:

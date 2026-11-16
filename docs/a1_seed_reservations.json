@@ -79,6 +79,15 @@
         20800101
       ],
       "spent": false
+    },
+    {
+      "label": "re-keying replication, second world",
+      "owner": "docs/v1_rekeying_study_20900101.json",
+      "restated_by": [],
+      "seeds": [
+        20900101
+      ],
+      "spent": false
     }
   ],
   "shared_blocks": [

@@ -23,6 +23,7 @@ from benchmarks.acquisition_harness import _CountingMemoryService, _make_scratch
 from benchmarks.a2_sham_feasibility import CYCLES
 
 SEED = 20740101
+REPLICATION_SEED = 20900101
 OUT = "docs/v1_rekeying_study.json"
 BOOST = 0.05
 DECAY = 0.8
@@ -30,9 +31,9 @@ DEATH = 0.15
 STABLE = 0.3
 
 
-def replay() -> tuple[list[tuple[int, tuple[str, ...], float]], list[dict], int]:
+def replay(seed: int = SEED) -> tuple[list[tuple[int, tuple[str, ...], float]], list[dict], int]:
     """Return per-cycle detections and every stored loop row, tagged with its cycle."""
-    world = generate_compositional_world(seed=SEED, cycles=CYCLES)
+    world = generate_compositional_world(seed=seed, cycles=CYCLES)
     db_path = _make_scratch_db("v1_rekeying")
     memory = _CountingMemoryService(str(db_path))
     service = a1_arms.A1ArmSleepService(memory)
@@ -120,8 +121,8 @@ def simulate(detections: list[tuple[int, tuple[str, ...], float]], key) -> dict:
     }
 
 
-def build() -> dict:
-    detections, rows, runs = replay()
+def build(seed: int = SEED) -> dict:
+    detections, rows, runs = replay(seed)
     bearing = simulate(detections, lambda path: path)
     free = simulate(detections, _free)
 
@@ -146,7 +147,8 @@ def build() -> dict:
                  "earlier version of this study reported 201 retirements and attributed the gap to the 4,000-event "
                  "window; that was wrong. The simulator reinforced from the prior strength instead of the fresh "
                  "detection, which is what _reinforce_current does. With the rule corrected the simulation reproduces "
-                 "all 186 retirements, and a separate measurement found the window never forgot a live carrier."),
+                 "all %d retirements, and a separate measurement found the window never forgot a live carrier."
+                 % len(retired)),
     }
 
     flips = 0
@@ -169,11 +171,11 @@ def build() -> dict:
     return {
         "kind": "v1_rekeying_study",
         "date": "2026-11-15",
-        "seed": SEED,
+        "seed": seed,
         "world_cycles": CYCLES,
         "note": ("counterfactual simulated under the engine's selection rules (+0.05 on the fresh detection, x0.8 "
                  "otherwise, death <0.15); the direction-bearing simulation reproduces the store's identities and "
-                 "all 186 retirement rows before the key is swapped"),
+                 "all %d retirement rows before the key is swapped" % len(retired)),
         "observed": observed,
         "validation": validation,
         "direction_bearing": {k: v for k, v in bearing.items() if k != "strengths"},
@@ -200,6 +202,13 @@ def build() -> dict:
 DOC = Path("docs/V1-REKEYING-STUDY.md")
 
 
+def artifact_paths(seed: int = SEED) -> tuple[Path, Path]:
+    """The artifact and page for a seed: the original keeps its names, a replication gets its own."""
+    if seed == SEED:
+        return Path(OUT), DOC
+    return Path(f"docs/v1_rekeying_study_{seed}.json"), Path(f"docs/V1-REKEYING-STUDY-{seed}.md")
+
+
 def render_doc(d: dict) -> str:
     b, f, c, o, v = d["direction_bearing"], d["direction_free"], d["comparison"], d["observed"], d["validation"]
     merged_rows = "\n".join(
@@ -213,7 +222,7 @@ def render_doc(d: dict) -> str:
 
 **In one paragraph.** Yes, slightly, and not in the way that matters. Swapping V1's direction-bearing persistence key for a
 direction-free one would have saved **{c['identities_saved']} identities** ({b['identities']} to {f['identities']}) and **{c['deaths_bearing'] - c['deaths_free']} retirements**, and converted
-**{c['flip_events']} orientation flips** from a restart into a reinforcement. Strength concentrates a little (mean live
+**{c['flip_events']} orientation flips** from a restart into a reinforcement. Strength moves a little (mean live
 strength {b['mean_live_strength']} to {f['mean_live_strength']}, top-5 appearance share {c['top5_appearance_share_bearing']} to {c['top5_appearance_share_free']}), and the share of identities that stay above the
 stability threshold moves from {stable_b}% to {stable_f}%. That is a real but small correction — the orientation flip was never the
 capability V1 lacks. The primitive specification already canonicalises direction, so this study confirms a design choice
@@ -222,7 +231,7 @@ rather than reopening it.
 ## 1. What was done
 
 One replay of the measured {d['world_cycles']}-cycle world ({o['sleep_cycles_run']} of its blocks ran a sleep cycle), reading back every
-`sleep:loop_candidate` row the engine wrote ({o['stored_rows']} rows, {o['stored_identities']} identities). V1's selection rules were re-implemented
+`sleep:loop_candidate` row the engine wrote ({o['stored_rows']:,} rows, {o['stored_identities']} identities). V1's selection rules were re-implemented
 offline — +0.05 on the fresh detection, ×0.8 on absence, retirement below 0.15 — and run twice over the same detections:
 once keyed on the path in order (V1), once on the sorted tag set (the specification's `cycle3` key).
 
@@ -240,6 +249,9 @@ once keyed on the path in order (V1), once on the sorted tag set (the specificat
 
 Orientation flips observed: **{c['flip_events']}**. Each one is a cycle in which V1 retires nothing but stops reinforcing one
 identity and starts another from its raw strength.
+
+Loop `strength` is the engine's raw transition count (`min(counts)`), not a probability, so values above 1.0 are expected and
+are not a defect.
 
 ## 3. Validation
 
@@ -279,34 +291,100 @@ One seed, one world, {o['sleep_cycles_run']} sleep cycles; the counterfactual is
 both orientations of a node set appear in one cycle the free key keeps the last detection's strength, since a merged
 identity has only one; that choice is arbitrary and not measured. The study measures persistence bookkeeping, not
 behaviour: nothing here predicts whether an addressed composite would beat the pair-count baseline.
+
+The direction was replicated on a second world: see [`V1-REKEYING-TWO-SEEDS`](V1-REKEYING-TWO-SEEDS.md).
+"""
+
+
+def render_two_seed(a: dict, b: dict) -> str:
+    rows = []
+    for d in (a, b):
+        c = d["comparison"]
+        stat = d["direction_bearing"]
+        rows.append({
+            "seed": d["seed"],
+            "identities": stat["identities"],
+            "saved": c["identities_saved"],
+            "deaths": c["deaths_bearing"],
+            "deaths_saved": c["deaths_bearing"] - c["deaths_free"],
+            "flips": c["flip_events"],
+            "strength": (stat["mean_live_strength"], d["direction_free"]["mean_live_strength"]),
+            "stable": (stat["stable"], d["direction_free"]["stable"]),
+            "valid": d["validation"]["identities_match"] and d["validation"]["deaths_match"],
+        })
+    table = "\n".join(
+        "| %d | %d | %d | %d | %d | %d | %s → %s | %d → %d | %s |" % (
+            r["seed"], r["identities"], r["saved"], r["deaths"], r["deaths_saved"], r["flips"],
+            r["strength"][0], r["strength"][1], r["stable"][0], r["stable"][1],
+            "pass" if r["valid"] else "**fail**")
+        for r in rows)
+    holds = all(r["saved"] > 0 and r["deaths_saved"] > 0 and r["flips"] > 0 for r in rows)
+    return f"""# Does a direction-free identity help in more than one world?
+
+**Status:** `OFFLINE COUNTERFACTUAL, TWO SEEDS. Rules simulated, not run. Authorises no code, no arm, no freeze.`
+
+**Answer: {'yes, in both worlds' if holds else 'no — the sign is not stable across these two worlds'}.** The direction is the same at seed {a['seed']} and
+seed {b['seed']}: a direction-free key creates fewer identities, records fewer retirements, and converts orientation flips into
+reinforcements. Both runs reproduce their store's identities and retirement rows before the key is swapped.
+
+| Seed | Identities | Saved | Retirement rows | Saved | Flips | Mean live strength | Stable (count) | Validation |
+|---|---|---|---|---|---|---|---|---|
+{table}
+
+## What this does and does not establish
+
+- **Does:** the sign of the effect is not an accident of seed {a['seed']}. The mechanism is the same one the specification's
+  `cycle3` key is designed for: two orientations of one triangle stop being two alternating carriers.
+- **Does not:** two seeds are not a distribution, and the stable column is a count, not a share: 177 and 138 carriers are
+  different denominators. The magnitudes differ because the worlds differ ({a['observed']['stored_identities']} and
+  {b['observed']['stored_identities']} carriers), and nothing here estimates a spread or a confidence interval. Read the table as a
+  replication of the direction, not of the size.
+- **Unchanged:** the two real gaps — no consumer of a carrier's cycle, no membership mutation. Re-keying gives an object a
+  longer life, not a use.
+
+## Provenance
+
+Each column comes from its own artifact: [`{artifact_paths(a['seed'])[0]}`]({artifact_paths(a['seed'])[0]}) and
+[`{artifact_paths(b['seed'])[0]}`]({artifact_paths(b['seed'])[0]}). The pages for the individual runs are
+[`V1-REKEYING-STUDY`]({artifact_paths(a['seed'])[1]}) and [`V1-REKEYING-STUDY-{b['seed']}`]({artifact_paths(b['seed'])[1]}).
 """
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
+    parser.add_argument("--seed", type=int, default=SEED)
     parser.add_argument("--write", action="store_true")
     parser.add_argument("--check", action="store_true")
     parser.add_argument("--doc", action="store_true")
+    parser.add_argument("--two-seed-doc", action="store_true")
     args = parser.parse_args()
+    if args.two_seed_doc:
+        first = json.loads(artifact_paths(SEED)[0].read_text(encoding="utf-8"))
+        second = json.loads(artifact_paths(REPLICATION_SEED)[0].read_text(encoding="utf-8"))
+        target = Path("docs/V1-REKEYING-TWO-SEEDS.md")
+        target.write_text(render_two_seed(first, second), encoding="utf-8")
+        print("wrote", target)
+        return 0
+    artifact, page = artifact_paths(args.seed)
     if args.check:
-        stored = json.loads(Path(OUT).read_text(encoding="utf-8"))
-        fresh = build()
+        stored = json.loads(artifact.read_text(encoding="utf-8"))
+        fresh = build(args.seed)
         if stored != fresh:
             differing = sorted(k for k in set(stored) | set(fresh) if stored.get(k) != fresh.get(k))
             print("FAIL: the artifact drifted from a fresh replay: %r" % (differing,))
             return 1
         print("re-keying study: clean (rebuild matches)")
         return 0
-    doc = build()
+    doc = build(args.seed)
     if args.doc:
-        DOC.write_text(render_doc(doc), encoding="utf-8")
-        print("wrote", DOC)
+        page.write_text(render_doc(doc), encoding="utf-8")
+        print("wrote", page)
         return 0
     if args.write:
-        with open(OUT, "w", encoding="utf-8") as handle:
+        with open(artifact, "w", encoding="utf-8") as handle:
             json.dump(doc, handle, indent=2, ensure_ascii=False)
             handle.write("\n")
-        print("wrote", OUT)
+        print("wrote", artifact)
     print(json.dumps(doc["validation"], indent=1))
     print(json.dumps(doc["comparison"], indent=1))
     return 0
