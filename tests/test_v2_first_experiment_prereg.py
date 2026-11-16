@@ -84,15 +84,16 @@ def test_every_open_field_is_now_filled() -> None:
     assert "Nothing else in this document is open" in text
 
 
-def test_the_seed_block_is_declared_and_held_not_spent() -> None:
+def test_the_seed_block_is_declared_and_spent_by_the_signature() -> None:
     declared = json.loads(SEEDS.read_text(encoding="utf-8"))
     assert declared["seed_block"]["seeds"] == list(range(20910101, 20910111))
     assert declared["owner"] == "docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md"
+    assert declared["status"].startswith("SPENT —")
     registry = json.loads((ROOT / "docs" / "a1_seed_reservations.json").read_text(encoding="utf-8"))
     held = [r for r in registry["reservations"] if r["owner"] == "docs/v2_first_cell_seeds.json"]
     assert len(held) == 1
     assert held[0]["seeds"] == list(range(20910101, 20910111))
-    assert held[0]["spent"] is False
+    assert held[0]["spent"] is True
 
 
 def test_the_scorer_pin_matches_the_files_on_disk() -> None:
@@ -125,11 +126,12 @@ def test_amendment_2_is_directional() -> None:
     assert "0 of 1,000" in text
 
 
-def test_the_authorisation_is_drafted_and_unsigned() -> None:
+def test_the_authorisation_is_signed_and_no_cell_has_run() -> None:
     decision = json.loads((ROOT / "docs" / "decisions.json").read_text(encoding="utf-8"))
     entry = [d for d in decision["decisions"] if d["decision_id"] == "DECISION-V2-FIRST-CELL"]
-    assert len(entry) == 1 and entry[0]["status"] == "PENDING"
+    assert len(entry) == 1 and entry[0]["status"] == "ADOPTED"
     doc = (ROOT / "docs" / "DECISION-V2-FIRST-CELL.md").read_text(encoding="utf-8")
-    assert "DRAFT — AWAITING THE OWNER'S SIGNATURE; ONE CELL AND NO ENGINE CHANGE" in doc
+    assert "ADOPTED 2026-11-16 — THE TEN-SEED BLOCK IS SPENT; THE CELL IS AUTHORISED AND NOT RUN" in doc
     assert "no engine change" in doc
-    assert "_unsigned_" in doc
+    assert "_unsigned_" not in doc
+    assert "no seed has been executed" in doc

@@ -14,9 +14,9 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 
 | status | count | meaning |
 | --- | --- | --- |
-| ADOPTED | 29 | in force; the document records it as implemented or effective |
+| ADOPTED | 30 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
-| PENDING | 6 | decided and not in force; the document says so |
+| PENDING | 5 | decided and not in force; the document says so |
 | **total** | **36** | |
 
 ## The decisions
@@ -725,7 +725,7 @@ uncomputable, and the cause that fired first is the one worth reporting.
 
 ### DECISION-V2-FIRST-CELL — `DECISION-V2-FIRST-CELL` — authorise one cell of the first V2 experiment
 
-**Status.** PENDING — *"DRAFT — AWAITING THE OWNER'S SIGNATURE; ONE CELL AND NO ENGINE CHANGE"*
+**Status.** ADOPTED — *"ADOPTED 2026-11-16 — THE TEN-SEED BLOCK IS SPENT; THE CELL IS AUTHORISED AND NOT RUN"*
 
 **Decided.**
 

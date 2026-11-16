@@ -5,6 +5,17 @@ All notable changes to Project Organica are recorded here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project follows [Semantic Versioning 2.0.0](https://semver.org/).
 
+## Addendum — 2026-11-16: the first V2 cell is signed and the block is spent
+
+`DECISION-V2-FIRST-CELL` is `ADOPTED 2026-11-16 — THE TEN-SEED BLOCK IS SPENT; THE CELL IS AUTHORISED AND NOT RUN`.
+The decision index moved to 36 decisions (30 adopted, 1 withdrawn, 5 pending); `v2_first_cell_seeds.json` now records
+the block as SPENT and the reservation registry records `spent: true`. The signature brief renders the signed state and
+no longer asks for a signature.
+
+The runner's authorisation guard returns `(True, 'authorised')`; `--check` reports the authorisation guard (authorised),
+pins match and ten seeds. `--run` was not invoked and no seed was executed; no cell result exists. The section 8 control
+remains absent and will be reported `NOT RUN` with a reason.
+
 ## Addendum — 2026-11-16: A1 on the cell's own detection stream
 
 The runner now replays each of the ten cell seeds and applies the A1 canonicalisation check to

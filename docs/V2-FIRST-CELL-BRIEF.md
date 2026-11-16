@@ -1,16 +1,16 @@
-# Signing the first V2 cell — one-page brief
+# The first V2 cell — signed brief
 
-**For the owner's signature.** The decision is [`DECISION-V2-FIRST-CELL`](DECISION-V2-FIRST-CELL.md), status
-**PENDING**. The protocol is [`V2-FIRST-EXPERIMENT-PREREGISTRATION`](V2-FIRST-EXPERIMENT-PREREGISTRATION.md),
-signed 2026-11-16. This brief adds no evidence; it collects what the diagnostics measured.
+**Signed 2026-11-16.** The decision is [`DECISION-V2-FIRST-CELL`](DECISION-V2-FIRST-CELL.md), status
+**ADOPTED**. The protocol is [`V2-FIRST-EXPERIMENT-PREREGISTRATION`](V2-FIRST-EXPERIMENT-PREREGISTRATION.md),
+signed 2026-11-16. This brief adds no evidence; it records the signed decision and the diagnostics.
 
-## What you are authorising
+## What was authorised
 
 One cell, on the already-declared block, with the already-built readout:
 
 | | |
 |---|---|
-| Seeds | **10**, `20910101`–`20910110`, held and unspent |
+| Seeds | **10**, `20910101`–`20910110`, spent |
 | World | compositional, 120 blocks; train blocks `0–95` (96 blocks), calibration `80–95`, held out `96–119` |
 | Arms | A pair counts, B frozen membership, C maintained membership |
 | Endpoint | mean paired difference in held-out next-edge log-loss, C − A |
@@ -18,8 +18,8 @@ One cell, on the already-declared block, with the already-built readout:
 | Gates | `A1`–`A5` **PASS** before any arm; the runner rechecks `A1` on each cell's own detection stream; any failure is `VOID` |
 | Stop | one report; the charter closes, pass or fail |
 
-The signature commit marks the seed block spent and authorises no engine change, no second report and no promotion. The
-readout adapter exists and is pinned; nothing has run.
+The signature commit marked the seed block spent and authorised no engine change, no second report and no
+promotion. The readout adapter exists and is pinned; no seed has been executed.
 
 ## What the diagnostics say
 
@@ -49,12 +49,11 @@ the handicap (0.051685 nats), and the frozen arm reaches it too, so the gain is 
 term's rather than revision's. That rules out a readout that cannot express a gain at all; it does not show that the
 cell's world contains such a motif.
 
-## The single remaining action
+## The signature is recorded
 
-**Sign [`DECISION-V2-FIRST-CELL`](DECISION-V2-FIRST-CELL.md).** Nothing else is open: the protocol is signed, the readout is
-built and pinned, the 10 seeds are held, the gates pass, and the three diagnostics are recorded. The signature
-commit is the only step between the protocol and a run; it must also mark the seed block spent. The section 8 control
-has no record; it will be reported `NOT RUN` with a reason, which the signed interpretation permits.
+**The decision is `ADOPTED` and the ten-seed block is spent.** The runner's authorisation guard now
+reports `authorised`; this brief neither runs the cell nor executes a seed. The section 8 control has no
+record and will be reported `NOT RUN` with a reason, which the signed interpretation permits.
 
 ## Where the evidence lives
 

@@ -11,14 +11,14 @@ a cell cannot be written in a shape the report would reject.
     python -m benchmarks.v2_first_cell_runner --check
     python -m benchmarks.v2_first_cell_runner --run [--gates PATH] [--control PATH] [--out PATH]
 
-`--check` executes no world and writes nothing. `--run` is refused while the
-authorisation is pending, which is its state now.
+`--check` executes no world and writes nothing. `--run` requires the signed
+decision and the spent seed block, both of which are now recorded; no seed has
+been executed.
 
 Inputs:
 
 * `docs/v2_first_cell_gates.json` — written by `benchmarks.v2_first_cell_gates`. It
-  currently records A1–A5 PASS, so the gate block is cleared; the runner still refuses while
-  the authorisation is PENDING.
+  records A1–A5 PASS, so the gate block is cleared.
 * `docs/v2_first_cell_control.json` — still absent; the section 8 control is recorded
   NOT RUN with a reason, which is admissible because the arm is secondary.
 

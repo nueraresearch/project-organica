@@ -29,13 +29,19 @@ def test_every_headline_number_comes_from_its_artifact() -> None:
     assert "%.2f×" % planted["comparison"]["gain_multiple_of_handicap"] in page
 
 
-def test_the_single_remaining_action_is_the_signature() -> None:
+def test_the_brief_tracks_the_signature_state() -> None:
     page = PAGE.read_text(encoding="utf-8")
-    assert "## The single remaining action" in page
-    assert "Sign [`DECISION-V2-FIRST-CELL`](DECISION-V2-FIRST-CELL.md)" in page
     decisions = json.loads((ROOT / "docs" / "decisions.json").read_text(encoding="utf-8"))
     entry = [row for row in decisions["decisions"] if row["decision_id"] == "DECISION-V2-FIRST-CELL"][0]
-    assert entry["status"] == "PENDING"
+    if entry["status"] == "PENDING":
+        assert "## The single remaining action" in page
+        assert "Sign [`DECISION-V2-FIRST-CELL`](DECISION-V2-FIRST-CELL.md)" in page
+    else:
+        assert entry["status"] == "ADOPTED"
+        assert "## The signature is recorded" in page
+        assert "**Signed 2026-11-16.**" in page
+        assert "single remaining action" not in page
+        assert "10**, `20910101`–`20910110`, spent" in page
 
 
 def test_the_check_entry_point_passes() -> None:

@@ -138,7 +138,7 @@
         20910109,
         20910110
       ],
-      "spent": false
+      "spent": true
     },
     {
       "label": "readout dry run, smoke world (never scored against the charter)",

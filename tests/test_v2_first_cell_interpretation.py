@@ -91,7 +91,7 @@ def test_no_cell_has_run_and_the_decision_is_indexed():
     reservations = artifact("a1_seed_reservations.json")
     block = [r for r in reservations["reservations"]
              if r["owner"] == "docs/v2_first_cell_seeds.json"][0]
-    assert block["spent"] is False
+    assert block["spent"] is True
     assert block["seeds"] == list(range(20910101, 20910111))
     assert not list((ROOT / "docs").glob("v2_first_cell_cell*.json"))
     data = artifact("decisions.json")

@@ -1,6 +1,6 @@
 # `DECISION-V2-FIRST-CELL` — authorise one cell of the first V2 experiment
 
-**Status:** `DRAFT — AWAITING THE OWNER'S SIGNATURE; ONE CELL AND NO ENGINE CHANGE`
+**Status:** `ADOPTED 2026-11-16 — THE TEN-SEED BLOCK IS SPENT; THE CELL IS AUTHORISED AND NOT RUN`
 
 **Decision ID:** `DECISION-V2-FIRST-CELL` · **Date:** 2026-11-16
 
@@ -20,27 +20,27 @@ Authorise one cell of the pre-registered first V2 experiment — ten seeds `2091
 (adopted 2026-11-16) fixes what PASS, BOOKKEEPING, REVERSAL and VOID each authorise. Signing this authorisation accepts
 that reading; it is not renegotiated after the interval is seen.
 
-**The runner is built and refuses to run.** `benchmarks/v2_first_cell_runner.py --run` requires this decision to be
-`ADOPTED` and the seed block marked spent, and it requires a committed A1–A5 gate record; without one it refuses rather
-than inventing a PASS. `--check` assembles PASS, BOOKKEEPING, REVERSAL and VOID without executing a world.
+**The runner is built and authorised.** `benchmarks/v2_first_cell_runner.py --run` required this decision to be
+`ADOPTED` and the seed block marked spent, and it requires a committed A1–A5 gate record; both bookkeeping conditions now
+hold, and without a gate record it refuses rather than inventing a PASS. `--check` assembles PASS, BOOKKEEPING, REVERSAL
+and VOID without executing a world.
 
-**The gate record is cleared, and the cell is still not run.** `docs/v2_first_cell_gates.json` now records **A1–A5
-PASS** after the level-1 primitive was built under `DECISION-V2-PRIMITIVE-BUILD`. The remaining input is this
-decision's signature: while it is `PENDING`, `--run` still refuses. A gate that is `NOT RUN` or `FAIL` is not a pass,
-and clearing the gates does not authorise the cell or make the primitive predictive.
+**The gate record is cleared, and the cell is not run.** `docs/v2_first_cell_gates.json` now records **A1–A5 PASS**
+after the level-1 primitive was built under `DECISION-V2-PRIMITIVE-BUILD`. This decision is signed and the seed block is
+spent, so the runner's authorisation guard reports `authorised`; no seed has been executed, and a gate that is `NOT RUN`
+or `FAIL` is not a pass. Clearing the gates does not make the primitive predictive.
 
 ## 2. What the cell is, and why it is one cell
 
 [`V2-FIRST-EXPERIMENT-PREREGISTRATION`](V2-FIRST-EXPERIMENT-PREREGISTRATION.md) is signed: the endpoint, the arms, the
 `A1`–`A5` gates, `m = 2`, the world and boundary, the seed block, the readout, the revision rule and the 99% paired-bootstrap
 interval are fixed, and `docs/v2_first_cell_scorer_pin.json` fixes the world generator, the detector and the log-loss
-instrument. The signature and its bookkeeping are the only steps between that protocol and a run, and it is one cell
-because the charter reports the first experiment once: a second cell would re-score a verdict that had already been
-delivered.
+instrument. The signature and its bookkeeping are complete, and it is one cell because the charter reports the first
+experiment once: a second cell would re-score a verdict that had already been delivered.
 
 | | |
 |---|---|
-| Seeds | ten, `20910101`–`20910110`, paired; declared in `docs/v2_first_cell_seeds.json`, held in `docs/a1_seed_reservations.json` |
+| Seeds | ten, `20910101`–`20910110`, paired; declared in `docs/v2_first_cell_seeds.json` and spent in `docs/a1_seed_reservations.json` |
 | World | `generate_compositional_world(seed, cycles=120)`, blocks `0–95` train, `80–95` calibration, `96–119` held out |
 | Arms | A pair counts, B frozen membership, C maintained membership; same readout and scorer |
 | Endpoint | mean paired difference in held-out next-edge log-loss, arm C − arm A |
@@ -85,20 +85,21 @@ adapter is already pinned.
 
 ## 6. Signature
 
-**Unsigned.** Signing authorises the cell and spends the block. The signature commit must set this decision's
+**Signed 2026-11-16.** Signing authorises the cell and spends the block. The signature commit set this decision's
 `docs/decisions.json` row to `ADOPTED` and the `docs/v2_first_cell_seeds.json` block in `docs/a1_seed_reservations.json` to
-`spent: true`. The runner refuses until both; a signature on the page alone does not pass the guard.
+`spent: true`. The runner's authorisation guard now reports `authorised`; this signature executes no seed.
 
 | Check | State at this review |
 |---|---|
 | Gates | A1–A5 PASS (`docs/v2_first_cell_gates.json`) |
 | Pins | match (`v2_first_cell_runner --check`) |
-| Seeds | ten held and unspent; become spent in the signature commit |
+| Seeds | ten spent in the signature commit; no seed executed |
 | Control | no `docs/v2_first_cell_control.json`; section 8 records `NOT RUN` with a reason |
-| A1 scope | the pre-cell gate is the rule and the spent smoke stream; the runner now replays each cell seed and checks its own stream before any arm, and a failure VOIDs |
+| A1 scope | the pre-cell gate is the rule and the spent smoke stream; the runner replays each cell seed and checks its own stream before any arm, and a failure VOIDs |
 
 | | |
 |---|---|
-| **Owner** | _unsigned_ |
-| **Status** | _unsigned_ |
-| **Date** | _unsigned_ |
+| **Owner** | owner |
+| **Status** | `ADOPTED` |
+| **Date** | 2026-11-16 |
+| **Note** | The ten-seed block is spent; the cell is authorised and not run. |

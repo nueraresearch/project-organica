@@ -1,4 +1,4 @@
-"""The one-page brief for the signature that starts the first cell.
+"""The one-page brief for the first cell's signature, and its signed record.
 
 Every number is read from the artifact that measured it: the null calibration,
 the power curve, the handicap decomposition, the seed declaration and the
@@ -54,19 +54,56 @@ def render() -> str:
     decomposition = handicap["decomposition"]
     factorial = handicap["factorial"]
     effects = factorial["effects"]
-    return f"""# Signing the first V2 cell — one-page brief
+    signed = decision["status"] == "ADOPTED"
+    title = ("The first V2 cell — signed brief" if signed
+             else "Signing the first V2 cell — one-page brief")
+    if signed:
+        intro = (
+            "**Signed 2026-11-16.** The decision is [`DECISION-V2-FIRST-CELL`](DECISION-V2-FIRST-CELL.md), status\n"
+            "**ADOPTED**. The protocol is [`V2-FIRST-EXPERIMENT-PREREGISTRATION`](V2-FIRST-EXPERIMENT-PREREGISTRATION.md),\n"
+            "signed 2026-11-16. This brief adds no evidence; it records the signed decision and the diagnostics."
+        )
+        authorising = "What was authorised"
+        signature_note = (
+            "The signature commit marked the seed block spent and authorised no engine change, no second report and no\n"
+            "promotion. The readout adapter exists and is pinned; no seed has been executed."
+        )
+        action_title = "The signature is recorded"
+        action_text = (
+            "**The decision is `ADOPTED` and the ten-seed block is spent.** The runner's authorisation guard now\n"
+            "reports `authorised`; this brief neither runs the cell nor executes a seed. The section 8 control has no\n"
+            "record and will be reported `NOT RUN` with a reason, which the signed interpretation permits."
+        )
+    else:
+        intro = (
+            "**For the owner's signature.** The decision is [`DECISION-V2-FIRST-CELL`](DECISION-V2-FIRST-CELL.md),\n"
+            "status **PENDING**. The protocol is [`V2-FIRST-EXPERIMENT-PREREGISTRATION`](V2-FIRST-EXPERIMENT-PREREGISTRATION.md),\n"
+            "signed 2026-11-16. This brief adds no evidence; it collects what the diagnostics measured."
+        )
+        authorising = "What you are authorising"
+        signature_note = (
+            "The signature commit marks the seed block spent and authorises no engine change, no second report and no\n"
+            "promotion. The readout adapter exists and is pinned; nothing has run."
+        )
+        action_title = "The single remaining action"
+        action_text = (
+            f"**Sign [`DECISION-V2-FIRST-CELL`](DECISION-V2-FIRST-CELL.md).** Nothing else is open: the protocol is\n"
+            f"signed, the readout is built and pinned, the {seeds['n']} seeds are held, the gates pass, and the three\n"
+            "diagnostics are recorded. The signature commit is the only step between the protocol and a run; it must\n"
+            "also mark the seed block spent. The section 8 control has no record; it will be reported `NOT RUN` with a\n"
+            "reason, which the signed interpretation permits."
+        )
+    return f"""# {title}
 
-**For the owner's signature.** The decision is [`DECISION-V2-FIRST-CELL`](DECISION-V2-FIRST-CELL.md), status
-**{decision['status']}**. The protocol is [`V2-FIRST-EXPERIMENT-PREREGISTRATION`](V2-FIRST-EXPERIMENT-PREREGISTRATION.md),
-signed 2026-11-16. This brief adds no evidence; it collects what the diagnostics measured.
+{intro}
 
-## What you are authorising
+## {authorising}
 
 One cell, on the already-declared block, with the already-built readout:
 
 | | |
 |---|---|
-| Seeds | **{seeds['n']}**, `{block['lo']}`–`{block['hi']}`, held and {'unspent' if not held['spent'] else 'spent'} |
+| Seeds | **{seeds['n']}**, `{block['lo']}`–`{block['hi']}`, {'spent' if held['spent'] else 'held and unspent'} |
 | World | compositional, {null['null_world']['cycles']} blocks; train blocks `0–{dry['train_blocks'] - 1}` ({dry['train_blocks']} blocks), calibration `{dry['calibration'][0]}–{dry['calibration'][1] - 1}`, held out `{dry['holdout'][0]}–{dry['holdout'][1] - 1}` |
 | Arms | A pair counts, B frozen membership, C maintained membership |
 | Endpoint | mean paired difference in held-out next-edge log-loss, C − A |
@@ -74,8 +111,7 @@ One cell, on the already-declared block, with the already-built readout:
 | Gates | `A1`–`A5` **{gate_state}** before any arm; the runner rechecks `A1` on each cell's own detection stream; any failure is `VOID` |
 | Stop | one report; the charter closes, pass or fail |
 
-The signature commit marks the seed block spent and authorises no engine change, no second report and no promotion. The
-readout adapter exists and is pinned; nothing has run.
+{signature_note}
 
 ## What the diagnostics say
 
@@ -105,12 +141,9 @@ the handicap ({planted['comparison']['mean_gain']:.6f} nats), and the frozen arm
 term's rather than revision's. That rules out a readout that cannot express a gain at all; it does not show that the
 cell's world contains such a motif.
 
-## The single remaining action
+## {action_title}
 
-**Sign [`DECISION-V2-FIRST-CELL`](DECISION-V2-FIRST-CELL.md).** Nothing else is open: the protocol is signed, the readout is
-built and pinned, the {seeds['n']} seeds are held, the gates pass, and the three diagnostics are recorded. The signature
-commit is the only step between the protocol and a run; it must also mark the seed block spent. The section 8 control
-has no record; it will be reported `NOT RUN` with a reason, which the signed interpretation permits.
+{action_text}
 
 ## Where the evidence lives
 
@@ -125,9 +158,9 @@ def check() -> None:
         raise SystemExit("brief is stale; rebuild with --write")
     decision = [row for row in _load(DECISIONS)["decisions"]
                 if row["decision_id"] == "DECISION-V2-FIRST-CELL"][0]
-    if decision["status"] != "PENDING":
-        raise SystemExit("the brief is for signing, but the decision is no longer pending")
-    print("check: brief is fresh and the decision is still pending")
+    if decision["status"] not in ("PENDING", "ADOPTED"):
+        raise SystemExit("the brief only describes a pending or signed decision")
+    print("check: brief is fresh; the decision is %s" % decision["status"].lower())
 
 
 def main() -> int:

@@ -1002,8 +1002,8 @@
     {
       "decision_id": "DECISION-V2-FIRST-CELL",
       "date": "2026-11-16",
-      "status": "PENDING",
-      "status_quote": "DRAFT — AWAITING THE OWNER'S SIGNATURE; ONE CELL AND NO ENGINE CHANGE",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED 2026-11-16 — THE TEN-SEED BLOCK IS SPENT; THE CELL IS AUTHORISED AND NOT RUN",
       "chosen": [
         "Authorise one cell of the pre-registered first V2 experiment — ten seeds `20910101`–`20910110`, three arms on each, held-out next-edge log-loss under the pre-registered 99% paired-bootstrap rule, with `m = 2`, the pinned world, detector and log-loss instrument, and a build confined to `benchmarks/v2_first_cell_readout.py` — with no engine change, no V2 module, no promotion, no second report and no seed spent beyond that block, and with the cell refusing to run until the adapter's digest is in the scorer pin."
       ],
