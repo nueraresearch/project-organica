@@ -20,6 +20,10 @@ Authorise one cell of the pre-registered first V2 experiment — ten seeds `2091
 (adopted 2026-11-16) fixes what PASS, BOOKKEEPING, REVERSAL and VOID each authorise. Signing this authorisation accepts
 that reading; it is not renegotiated after the interval is seen.
 
+**The runner is built and refuses to run.** `benchmarks/v2_first_cell_runner.py --run` requires this decision to be
+`ADOPTED` and the seed block marked spent, and it requires a committed A1–A5 gate record; without one it refuses rather
+than inventing a PASS. `--check` assembles PASS, BOOKKEEPING, REVERSAL and VOID without executing a world.
+
 ## 2. What the cell is, and why it is one cell
 
 [`V2-FIRST-EXPERIMENT-PREREGISTRATION`](V2-FIRST-EXPERIMENT-PREREGISTRATION.md) is signed: the endpoint, the arms, the
@@ -61,6 +65,7 @@ signed; the adapter is already pinned.
 
 - [`V2-FIRST-EXPERIMENT-PREREGISTRATION`](V2-FIRST-EXPERIMENT-PREREGISTRATION.md) — the signed protocol.
 - [`DECISION-V2-FIRST-CELL-INTERPRETATION`](DECISION-V2-FIRST-CELL-INTERPRETATION.md) — the four readings and the scope of each.
+- `benchmarks/v2_first_cell_runner.py` — the guarded ten-seed runner, built and unrun.
 - [`V2-FIRST-CELL-REPORT-TEMPLATE`](V2-FIRST-CELL-REPORT-TEMPLATE.md) — the one report shape and the refusals.
 - [`v2_first_cell_seeds.json`](v2_first_cell_seeds.json) — the declared block.
 - [`v2_first_cell_scorer_pin.json`](v2_first_cell_scorer_pin.json) — the pinned modules and the adapter rule.

@@ -350,7 +350,7 @@ def _fixture(label: str, seeds: list[int] | None = None) -> dict:
     if label == "PASS":
         values = [-0.0010 - index * 0.0001 for index in range(len(seeds))]
     elif label == "BOOKKEEPING":
-        values = [0.0008 + (index - 4.5) * 0.0002 for index in range(len(seeds))]
+        values = [-0.001 if index % 2 == 0 else 0.001 for index in range(len(seeds))]
     elif label == "REVERSAL":
         values = [0.0020 + index * 0.0001 for index in range(len(seeds))]
     else:

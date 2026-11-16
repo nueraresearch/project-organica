@@ -5,6 +5,16 @@ All notable changes to Project Organica are recorded here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project follows [Semantic Versioning 2.0.0](https://semver.org/).
 
+## Addendum — 2026-11-16: the ten-seed runner is built, and refuses to run
+
+`benchmarks/v2_first_cell_runner.py` owns the protocol order: it refuses while `DECISION-V2-FIRST-CELL` is `PENDING` or
+the block is still marked held, refuses without a committed A1–A5 gate record, and never invents a gate `PASS`. On a gate
+failure it writes a `VOID` artifact without executing a seed; otherwise it runs the ten declared seeds through the pinned
+readout, derives `d` and `d_B` and the per-arm betas, bootstraps the 99% interval, derives the label, and validates the
+artifact with the report renderer before writing. A missing section 8 control is recorded `NOT RUN`, which the report
+accepts because the arm is secondary. `--check` exercises the assembly paths without running a world. No cell ran; the
+A1–A5 gate record is the missing input.
+
 ## Addendum — 2026-11-16: the report shape now carries the section 8 control arm
 
 `benchmarks/v2_first_cell_report.py` adds the secondary control arm to the fixed shape: the intervention
