@@ -104,6 +104,82 @@ def test_gates_before_a_void_can_be_not_run():
     assert any("did not run requires VOID" in error for error in report.validate(outside))
 
 
+def test_the_control_arm_is_required_and_the_bystander_is_the_m1_check():
+    missing = report._fixture("PASS")
+    del missing["control"]
+    assert any("control must be an object" in error for error in report.validate(missing))
+
+    moved = report._fixture("PASS")
+    moved["control"]["bystander_delta"] = 0.001
+    assert any("contradicts bystander_delta" in error for error in report.validate(moved))
+
+    failed = report._fixture("PASS")
+    failed["control"]["status"] = "FAIL"
+    failed["control"]["bystander_delta"] = 0.001
+    assert any("requires VOID" in error for error in report.validate(failed))
+
+    failed["outcome"] = "VOID"
+    failed["interval"] = None
+    failed["void"] = {"codes": ["M1_CONTROL"], "detail": "the bystander moved"}
+    assert report.validate(failed) == []
+    text = report.render(failed)
+    assert "**Outcome:** `VOID`" in text
+    assert "M1 FAIL" in text
+    assert "the reason, not an effect estimate" in text
+
+
+def test_a_member_tie_is_secondary_and_does_not_fail_the_charter():
+    tie = report._fixture("PASS")
+    tie["control"]["member_delta"] = 0.0
+    assert report.validate(tie) == []
+    text = report.render(tie)
+    assert "**Outcome:** `PASS`" in text
+    assert "useless for control" in text
+    assert "not a charter criterion" in text
+
+
+def test_a_control_that_did_not_run_is_reported_without_inventing_a_void():
+    not_run = report._fixture("PASS")
+    not_run["control"] = {
+        "status": "NOT RUN",
+        "seed": not_run["per_seed"][0]["seed"],
+        "intervention": "remove_member",
+        "composite_id": "c-000001",
+        "removed_member": "a->b",
+        "bystander_id": "c-000002",
+        "metric": "resolved member count",
+        "detail": "the arm did not run",
+    }
+    assert report.validate(not_run) == []
+    text = report.render(not_run)
+    assert "**Outcome:** `PASS`" in text
+    assert "Not run" in text
+    assert "does not change the charter outcome" in text
+
+    unreasoned = copy.deepcopy(not_run)
+    unreasoned["control"].pop("detail")
+    assert any("needs a reason" in error for error in report.validate(unreasoned))
+
+
+def test_the_control_arm_names_its_target_and_metric():
+    same = report._fixture("PASS")
+    same["control"]["bystander_id"] = same["control"]["composite_id"]
+    assert any("must not be its target" in error for error in report.validate(same))
+
+    no_member = report._fixture("PASS")
+    no_member["control"]["removed_member"] = ""
+    assert any("needs the removed member" in error for error in report.validate(no_member))
+
+    no_metric = report._fixture("PASS")
+    no_metric["control"]["metric"] = ""
+    assert any("control metric" in error for error in report.validate(no_metric))
+
+    retired = report._fixture("PASS")
+    retired["control"]["intervention"] = "retire"
+    retired["control"]["removed_member"] = None
+    assert report.validate(retired) == []
+
+
 def test_void_carries_no_interval():
     result = report._fixture("VOID")
     result["interval"] = {"mean": 0.0, "lo": -0.1, "hi": 0.1,

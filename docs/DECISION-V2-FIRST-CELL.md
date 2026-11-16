@@ -38,7 +38,7 @@ reports the first experiment once: a second cell would re-score a verdict that h
 | Gates | `A1`–`A5` before any arm; any failure is `VOID` |
 | Build | one new module, `benchmarks/v2_first_cell_readout.py`, written and pinned by digest before this decision |
 | Stop | one report; the charter closes, pass or fail |
-| Report | the fixed shape in [`V2-FIRST-CELL-REPORT-TEMPLATE`](V2-FIRST-CELL-REPORT-TEMPLATE.md); a result that does not fit is refused |
+| Report | the fixed shape in [`V2-FIRST-CELL-REPORT-TEMPLATE`](V2-FIRST-CELL-REPORT-TEMPLATE.md); a result that does not fit is refused, including the section 8 control arm and its `M1` bystander check |
 
 ## 3. What this decision does not authorise
 

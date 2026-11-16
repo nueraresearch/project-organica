@@ -3,8 +3,8 @@
 No cell has run. This module fixes what a cell result must contain and emits the only
 report shape the project accepts. The label is derived from the interval, never typed:
 a result whose stated outcome contradicts its own interval is refused, as are an
-unaccounted seed, a missing beta selection, a VOID that still quotes an effect, and a
-stale scorer pin.
+unaccounted seed, a missing beta selection, a VOID that still quotes an effect, a stale
+scorer pin, and a control arm whose bystander moved without VOIDing the cell.
 
     python -m benchmarks.v2_first_cell_report --check
     python -m benchmarks.v2_first_cell_report --write-template
@@ -44,6 +44,7 @@ VOID_CODES = tuple(GATE_CODES.values()) + (
     "PARTS_INCOMPLETE",
     "SCORER_PIN",
     "GATES_NOT_RUN",
+    "M1_CONTROL",
 )
 MIN_MEASURABLE = 8
 LEVEL = 0.99
@@ -84,6 +85,67 @@ def derive_label(lo: float, hi: float) -> str:
     if lo > 0:
         return "REVERSAL"
     return "BOOKKEEPING"
+
+
+def derive_m1(bystander_delta: float) -> str:
+    """M1 is the bystander check: byte-identical means PASS, any movement means FAIL."""
+    return "PASS" if bystander_delta == 0 else "FAIL"
+
+
+def validate_control(control, is_void: bool, codes: list[str], declared: set[int], errors: list[str]) -> set[str]:
+    """Check the §8 control arm; return the VOID codes its condition supplies."""
+    present: set[str] = set()
+    if not isinstance(control, dict):
+        errors.append("control must be an object describing the section 8 arm")
+        return present
+
+    status = control.get("status")
+    if status not in ("PASS", "FAIL", "NOT RUN"):
+        errors.append("control status must be PASS, FAIL or NOT RUN")
+    if control.get("seed") not in declared:
+        errors.append("control seed %r is not declared" % (control.get("seed"),))
+    intervention = control.get("intervention")
+    if intervention not in ("remove_member", "retire"):
+        errors.append("control intervention must be remove_member or retire")
+    for field in ("composite_id", "bystander_id", "metric"):
+        if not isinstance(control.get(field), str) or not control[field].strip():
+            errors.append("control %s must be a non-empty string" % field)
+    if control.get("composite_id") and control.get("bystander_id"):
+        if control["composite_id"] == control["bystander_id"]:
+            errors.append("the control's bystander must not be its target composite")
+    if intervention == "remove_member":
+        if not str(control.get("removed_member") or "").strip():
+            errors.append("remove_member needs the removed member")
+    elif intervention == "retire" and control.get("removed_member") not in (None, ""):
+        errors.append("retire takes no removed_member")
+
+    if status == "NOT RUN":
+        if not str(control.get("detail") or "").strip():
+            errors.append("a control that did not run needs a reason")
+        if "member_delta" in control or "bystander_delta" in control:
+            errors.append("a control that did not run carries no deltas")
+        return present
+
+    member = control.get("member_delta")
+    bystander = control.get("bystander_delta")
+    if not _is_num(member):
+        errors.append("control member_delta must be numeric")
+    if not _is_num(bystander):
+        errors.append("control bystander_delta must be numeric")
+    if _is_num(bystander) and status in ("PASS", "FAIL"):
+        derived = derive_m1(bystander)
+        if status != derived:
+            errors.append(
+                "control status %s contradicts bystander_delta %.9f: the M1 check returns %s"
+                % (status, bystander, derived)
+            )
+    if status == "FAIL":
+        present.add("M1_CONTROL")
+        if not is_void:
+            errors.append("an M1 violation (control FAIL) requires VOID")
+        elif "M1_CONTROL" not in codes:
+            errors.append("an M1 violation requires the M1_CONTROL code")
+    return present
 
 
 def reading_quote(label: str) -> str:
@@ -231,10 +293,12 @@ def validate(result: dict, seeds: list[int] | None = None) -> list[str]:
     if pin_ok is not True and is_void and "SCORER_PIN" not in codes:
         errors.append("a stale scorer pin requires the SCORER_PIN code")
 
+    control_present = validate_control(result.get("control"), is_void, codes, declared, errors)
+
     if is_void:
         if result.get("interval") is not None:
             errors.append("a VOID report carries no interval")
-        present = set(GATE_CODES[g] for g in failed_gates)
+        present = set(GATE_CODES[g] for g in failed_gates) | control_present
         if not_run:
             present.add("GATES_NOT_RUN")
         if len(measurable) < MIN_MEASURABLE:
@@ -312,6 +376,16 @@ def _fixture(label: str, seeds: list[int] | None = None) -> dict:
             },
             "per_seed": rows,
             "interval": None,
+            "control": {
+                "status": "NOT RUN",
+                "seed": seeds[0],
+                "intervention": "remove_member",
+                "composite_id": "c-000001",
+                "removed_member": "a->b",
+                "bystander_id": "c-000002",
+                "metric": "resolved member count",
+                "detail": "the A3 gate failed before the control arm",
+            },
             "void": {
                 "codes": ["A3_MUTATION", "SEEDS_MEASURABLE"],
                 "detail": "the mutation invariant failed before the behavioural arms",
@@ -344,12 +418,74 @@ def _fixture(label: str, seeds: list[int] | None = None) -> dict:
             "level": LEVEL,
             "resamples": RESAMPLES,
         },
+        "control": {
+            "status": "PASS",
+            "seed": seeds[0],
+            "intervention": "remove_member",
+            "composite_id": "c-000001",
+            "removed_member": "a->b",
+            "bystander_id": "c-000002",
+            "metric": "resolved member count",
+            "member_delta": 1.0,
+            "bystander_delta": 0.0,
+            "detail": "the target lost one member; the bystander did not move",
+        },
         "void": None,
     }
 
 
 def _mean(rows: list[dict], field: str) -> float:
     return sum(row[field] for row in rows) / len(rows)
+
+
+def _control_section(control: dict) -> str:
+    how = (
+        "remove `%s`" % control["removed_member"]
+        if control["intervention"] == "remove_member"
+        else "retire the composite"
+    )
+    rows = [
+        "| | |",
+        "|---|---|",
+        "| Seed | %d |" % control["seed"],
+        "| Target | `%s` — %s |" % (control["composite_id"], how),
+        "| Bystander | `%s` |" % control["bystander_id"],
+        "| Metric | %s |" % control["metric"],
+    ]
+    if control["status"] == "NOT RUN":
+        rows.append("| Status | NOT RUN |")
+        detail = control["detail"].strip()
+        if detail[-1:] not in (".", "!", "?"):
+            detail += "."
+        body = (
+            "Not run: %s No M1 claim is made from this arm; it is secondary and does not change the "
+            "charter outcome." % detail
+        )
+    else:
+        rows += [
+            "| Member delta | `%+.6f` |" % control["member_delta"],
+            "| Bystander delta | `%+.6f` |" % control["bystander_delta"],
+            "| M1 | %s |" % control["status"],
+        ]
+        if control["status"] == "FAIL":
+            body = (
+                "M1 FAIL — the bystander moved, so the mutation was not local to its composite. "
+                "The cell is VOID; the deltas above are the reason, not an effect estimate."
+            )
+        else:
+            if control["member_delta"] == 0:
+                member = (
+                    "The members did not move: the intervention had no effect on its own composite — a tie "
+                    "on the members, which means the primitive is useless for control. This is the secondary "
+                    "finding and not a charter criterion."
+                )
+            else:
+                member = (
+                    "The members moved, so the intervention is local to its composite. This is the section 8 "
+                    "mechanism check, not a second earning test."
+                )
+            body = "M1 PASS — the bystander is unchanged (`0.000000`). " + member
+    return "\n## 8. Control arm (`M1`)\n\n" + "\n".join(rows) + "\n\n" + body + "\n"
 
 
 def render(result: dict, seeds: list[int] | None = None) -> str:
@@ -526,9 +662,10 @@ descriptive; `d_B` is not a second criterion.
 {common} {reading}
 """
 
+    control = _control_section(result["control"])
     quote = reading_quote(outcome)
     authorises = f"""
-## 8. What this authorises
+## 9. What this authorises
 
 > {quote}
 """
@@ -554,7 +691,7 @@ descriptive; `d_B` is not a second criterion.
         ),
     }[outcome]
     limits = f"""
-## 9. What this does not authorise
+## 10. What this does not authorise
 
 {floor}
 """
@@ -568,12 +705,13 @@ descriptive; `d_B` is not a second criterion.
         )
     )
     not_evidence = f"""
-## 10. Not evidence
+## 11. Not evidence
 
 {scope}
 """
 
-    return header + ran + gates + exclusions + interval + beta + decomposition + selection + authorises + limits + not_evidence
+    return (header + ran + gates + exclusions + interval + beta + decomposition + selection
+            + control + authorises + limits + not_evidence)
 
 
 def _example() -> dict:
@@ -599,6 +737,18 @@ def _example() -> dict:
             for seed in seeds[:-1]
         ] + [{"seed": seeds[-1], "measurable": False, "exclusion": "no held-out positives"}],
         "interval": {"mean": -0.001, "lo": -0.0012, "hi": -0.0008, "level": 0.99, "resamples": 10000},
+        "control": {
+            "status": "PASS",
+            "seed": seeds[0],
+            "intervention": "remove_member",
+            "composite_id": "c-000001",
+            "removed_member": "a->b",
+            "bystander_id": "c-000002",
+            "metric": "resolved member count",
+            "member_delta": 1.0,
+            "bystander_delta": 0.0,
+            "detail": "the target lost one member; the bystander did not move",
+        },
         "void": None,
     }
 
@@ -632,9 +782,10 @@ paraphrasing it.
 | 5. Beta selections | per seed, arm B and arm C; arm A selects none |
 | 6. Decomposition | mean `d_C`, mean `d_B`, and their difference |
 | 7. Selection comparison | the committed matched controls and the cell's margin against them |
-| 8. What this authorises | the adopted sentence for the label, quoted |
-| 9. What this does not authorise | the floor for that label |
-| 10. Not evidence | the scope of one cell |
+| 8. Control arm (`M1`) | target, intervention, bystander, metric, member and bystander deltas; a bystander change is `M1` FAIL |
+| 9. What this authorises | the adopted sentence for the label, quoted |
+| 10. What this does not authorise | the floor for that label |
+| 11. Not evidence | the scope of one cell |
 
 ## The result artifact
 
@@ -659,7 +810,20 @@ paraphrasing it.
 - a `VOID` that carries an interval;
 - a beta outside `{{1, 2, 4, 8}}`, a missing B or C selection, or a beta for arm A;
 - a stale or missing scorer pin without `VOID`;
+- a control arm that is missing, names its own composite as the bystander, or whose status contradicts
+  the bystander delta;
+- an `M1` violation without `VOID` and the `M1_CONTROL` code, or a control that did not run without
+  a reason;
 - a `VOID` whose codes name no condition the result shows.
+
+## The control arm
+
+The section 8 arm intervenes on one composite — `remove_member` or `retire` — and measures the effect on
+its members, with a bystander composite as the control. The bystander delta must be exactly zero: `M1`
+requires the bystander to be byte-identical, so any movement is `M1` FAIL and the cell is `VOID`. A member
+delta of zero is a tie on the members — the primitive is useless for control — and is reported as the
+secondary finding; it neither passes nor fails the charter. A control that was not run is reported with its
+reason and makes no `M1` claim, because the arm is secondary and adds no VOID trigger.
 
 ## The committed selection comparison
 
@@ -683,8 +847,8 @@ def _self_check() -> int:
         raise ReportError("the documented schema does not render")
     for heading in ("## 1. What ran", "## 2. Gates", "## 3. Exclusions", "## 4. Interval",
                     "## 5. Beta selections", "## 6. Decomposition", "## 7. Selection comparison",
-                    "## 8. What this authorises", "## 9. What this does not authorise",
-                    "## 10. Not evidence"):
+                    "## 8. Control arm (`M1`)", "## 9. What this authorises",
+                    "## 10. What this does not authorise", "## 11. Not evidence"):
         if heading not in pass_text:
             raise ReportError("the rendered report is missing %r" % heading)
     void_text = render(_fixture("VOID"))

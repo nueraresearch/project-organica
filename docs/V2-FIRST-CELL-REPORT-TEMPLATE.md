@@ -24,9 +24,10 @@ paraphrasing it.
 | 5. Beta selections | per seed, arm B and arm C; arm A selects none |
 | 6. Decomposition | mean `d_C`, mean `d_B`, and their difference |
 | 7. Selection comparison | the committed matched controls and the cell's margin against them |
-| 8. What this authorises | the adopted sentence for the label, quoted |
-| 9. What this does not authorise | the floor for that label |
-| 10. Not evidence | the scope of one cell |
+| 8. Control arm (`M1`) | target, intervention, bystander, metric, member and bystander deltas; a bystander change is `M1` FAIL |
+| 9. What this authorises | the adopted sentence for the label, quoted |
+| 10. What this does not authorise | the floor for that label |
+| 11. Not evidence | the scope of one cell |
 
 ## The result artifact
 
@@ -167,6 +168,18 @@ paraphrasing it.
     "level": 0.99,
     "resamples": 10000
   },
+  "control": {
+    "status": "PASS",
+    "seed": 20910101,
+    "intervention": "remove_member",
+    "composite_id": "c-000001",
+    "removed_member": "a->b",
+    "bystander_id": "c-000002",
+    "metric": "resolved member count",
+    "member_delta": 1.0,
+    "bystander_delta": 0.0,
+    "detail": "the target lost one member; the bystander did not move"
+  },
   "void": null
 }
 ```
@@ -186,7 +199,20 @@ paraphrasing it.
 - a `VOID` that carries an interval;
 - a beta outside `{1, 2, 4, 8}`, a missing B or C selection, or a beta for arm A;
 - a stale or missing scorer pin without `VOID`;
+- a control arm that is missing, names its own composite as the bystander, or whose status contradicts
+  the bystander delta;
+- an `M1` violation without `VOID` and the `M1_CONTROL` code, or a control that did not run without
+  a reason;
 - a `VOID` whose codes name no condition the result shows.
+
+## The control arm
+
+The section 8 arm intervenes on one composite — `remove_member` or `retire` — and measures the effect on
+its members, with a bystander composite as the control. The bystander delta must be exactly zero: `M1`
+requires the bystander to be byte-identical, so any movement is `M1` FAIL and the cell is `VOID`. A member
+delta of zero is a tie on the members — the primitive is useless for control — and is reported as the
+secondary finding; it neither passes nor fails the charter. A control that was not run is reported with its
+reason and makes no `M1` claim, because the arm is secondary and adds no VOID trigger.
 
 ## The committed selection comparison
 
