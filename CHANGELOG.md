@@ -5,6 +5,24 @@ All notable changes to Project Organica are recorded here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project follows [Semantic Versioning 2.0.0](https://semver.org/).
 
+## Addendum — 2026-11-16: an independent read-only auditor for the cell result
+
+`benchmarks/v2_first_cell_audit.py` audits a completed first-cell result without replaying a
+seed. It reads the result, the raw per-seed log, the committed gate record and the seed
+declaration, then recomputes the protocol's 99% percentile bootstrap independently: the fixed
+20261116 PRNG seed, 10,000 resamples and the same percentile-index rule, using the result's
+per-seed differences. The reported mean and bounds may differ only by the result's declared
+six-decimal rounding, and the label must agree with both the reported and the recomputed
+bounds so a boundary crossing cannot be hidden by rounding.
+
+The audit also requires every committed gate to agree with the result's gate block, checks
+every VOID condition and code, checks arm A has no beta and arms B/C use the declared grid and
+match the raw log, recomputes `d`/`d_B` from the raw arm losses, and verifies the control's
+`M1` bystander rule and its VOID coupling. The module imports no runner, readout or engine and
+writes nothing; `--check` runs synthetic fixtures only. Tests cover a valid result, label and
+bound tampering, gate and beta mismatches, control failures, raw-loss disagreement and a
+read-only CLI run. No cell has run.
+
 ## Addendum — 2026-11-16: the first-cell run is auditable without a re-run
 
 The runner now writes a provenance manifest before it replays any world and a raw per-seed
