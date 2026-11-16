@@ -131,8 +131,9 @@ def a1() -> dict:
         "smoke seed %d (%d cycles, spent dry-run seed, not a cell seed): %d detected paths -> "
         "%d keys over %d distinct node sets, 0 mixed, 0 flip failures; committed regressions "
         "177->158 with multiplicities {1: 139, 2: 19} and 138->125 reproduce; 0 id collisions. "
-        "Scope: the ten cell seeds are not replayed, so this is the rule and a development stream, "
-        "not the experiment's own detection stream."
+        "Scope: this gate does not replay the ten cell seeds; the runner replays each cell seed "
+        "and applies this canonicalisation check to the experiment's own detection stream before "
+        "any arm."
         % (rule["paths"], rule["keys"], rule["mixed"], stream["seed"], stream["cycles"],
            stream["detections"], stream["keys"], stream["node_sets"])
     )
@@ -470,8 +471,9 @@ storage measurement only. The ten reserved cell seeds are untouched.
 ## What this means
 
 A1 passes because the canonicalisation rule is total on sample paths, holds on the smoke
-stream, and both committed identity regressions reproduce exactly. It is the rule and a
-development stream, not the experiment's own detection stream.
+stream, and both committed identity regressions reproduce exactly. This gate is the rule and a
+development stream; at run time the runner replays each cell seed and applies the same check to
+the experiment's own detection stream before any arm.
 
 {primitive_paragraph}
 

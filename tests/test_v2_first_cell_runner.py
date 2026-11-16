@@ -1,5 +1,6 @@
 """The runner is built, and every path that could produce a result is exercised without a world."""
 import copy
+import json
 
 import pytest
 
@@ -77,3 +78,88 @@ def test_a_gate_record_needs_exactly_five_gates_and_evidence(tmp_path):
 def test_the_pins_and_the_seed_block_are_the_declared_ones():
     assert runner.pins() == []
     assert report.declared_seeds() == list(range(20910101, 20910111))
+
+
+def test_the_a1_cell_stream_accepts_a_clean_stream():
+    stats = runner.a1_cell_stream(
+        20910101,
+        {"detections": [(1, ("alpha", "beta")), (2, ("beta", "alpha"))]},
+    )
+    assert stats["detections"] == 2
+    assert stats["keys"] == 1
+    assert stats["node_sets"] == 1
+    assert stats["mixed"] == 0
+    assert stats["flips"] == 0
+
+
+def test_the_a1_cell_stream_rejects_a_key_that_mixes_node_sets(monkeypatch):
+    monkeypatch.setattr(runner.readout, "canonical", lambda path: ("mixed",))
+    with pytest.raises(runner.A1StreamError) as error:
+        runner.a1_cell_stream(
+            20910101,
+            {"detections": [(1, ("alpha", "beta")), (2, ("gamma", "delta"))]},
+        )
+    assert "mixed" in str(error.value)
+
+
+def test_an_a1_cell_stream_failure_voids_before_an_arm(monkeypatch, tmp_path):
+    monkeypatch.setattr(runner, "authorisation", lambda: (True, "authorised"))
+    monkeypatch.setattr(runner, "pins", lambda: [])
+    monkeypatch.setattr(runner, "load_gates", lambda path: runner.synthetic_gates())
+
+    def fail_a1():
+        raise runner.A1StreamError(20910101, ["one key mixed distinct node sets"])
+
+    def arms_ran(*args, **kwargs):
+        raise AssertionError("an arm was scored after the A1 cell-stream check failed")
+
+    monkeypatch.setattr(runner, "cell_streams", fail_a1)
+    monkeypatch.setattr(runner.readout, "arms_for", arms_ran)
+
+    out = tmp_path / "result.json"
+    assert runner.run(control_path=tmp_path / "no-control.json", out=out) == 0
+    result = json.loads(out.read_text(encoding="utf-8"))
+    assert result["outcome"] == "VOID"
+    assert result["gates"]["A1"]["status"] == "FAIL"
+    assert "A1_CANONICALISATION" in result["void"]["codes"]
+    assert result["interval"] is None
+    assert all(row["measurable"] is False for row in result["per_seed"])
+    assert "A1 failed on seed 20910101" in result["void"]["detail"]
+
+
+def test_a_clean_cell_stream_is_added_to_the_a1_evidence_before_scoring(monkeypatch, tmp_path):
+    monkeypatch.setattr(runner, "authorisation", lambda: (True, "authorised"))
+    monkeypatch.setattr(runner, "pins", lambda: [])
+    monkeypatch.setattr(runner, "load_gates", lambda path: runner.synthetic_gates())
+    seeds = report.declared_seeds()
+    streams = [
+        {
+            "seed": seed,
+            "data": {"tags": [], "detections": []},
+            "a1": {"seed": seed, "cycles": 120, "detections": 0, "keys": 0,
+                   "node_sets": 0, "mixed": 0, "flips": 0},
+        }
+        for seed in seeds
+    ]
+    calls = []
+
+    def fake_arms_for(tags, detections, cycles):
+        calls.append(cycles)
+        return {
+            "arms": {
+                "A": {"beta": None, "log_loss": 0.5, "scored": 10},
+                "B": {"beta": 1, "log_loss": 0.5005, "scored": 10},
+                "C": {"beta": 2, "log_loss": 0.4995, "scored": 10},
+            }
+        }
+
+    monkeypatch.setattr(runner, "cell_streams", lambda: streams)
+    monkeypatch.setattr(runner.readout, "arms_for", fake_arms_for)
+
+    out = tmp_path / "result.json"
+    assert runner.run(control_path=tmp_path / "no-control.json", out=out) == 0
+    result = json.loads(out.read_text(encoding="utf-8"))
+    assert calls == [120] * 10
+    assert result["gates"]["A1"]["status"] == "PASS"
+    assert "Cell-stream check: 10 seeds replayed" in result["gates"]["A1"]["evidence"]
+    assert report.validate(result) == []

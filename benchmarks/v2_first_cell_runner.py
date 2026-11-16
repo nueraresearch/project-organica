@@ -3,9 +3,10 @@
 The runner owns the protocol's order, not its design. It refuses to execute a world
 until `DECISION-V2-FIRST-CELL` is signed and the seed block is marked spent; it refuses
 to score any arm until a committed A1–A5 gate record is present and every gate is PASS,
-because the pre-registration puts those gates before the behavioural cell; and it
-assembles the result artifact through the same validator that renders the report, so a
-cell cannot be written in a shape the report would reject.
+because the pre-registration puts those gates before the behavioural cell; it replays
+every cell seed and checks A1 on that seed's own detections before scoring any arm; and
+it assembles the result artifact through the same validator that renders the report, so
+a cell cannot be written in a shape the report would reject.
 
     python -m benchmarks.v2_first_cell_runner --check
     python -m benchmarks.v2_first_cell_runner --run [--gates PATH] [--control PATH] [--out PATH]
@@ -26,6 +27,8 @@ The `--control` record is the object the report template's section 8 expects.
 from __future__ import annotations
 
 import argparse
+import collections
+import copy
 import datetime
 import hashlib
 import json
@@ -45,10 +48,20 @@ CONTROL = REPO / "docs" / "v2_first_cell_control.json"
 OUT = REPO / "docs" / "v2_first_cell_result.json"
 AUTHORISATION = "DECISION-V2-FIRST-CELL"
 SEED_OWNER = "docs/v2_first_cell_seeds.json"
+CELL_CYCLES = 120
 
 
 class GateError(ValueError):
     """The gate record is missing or unusable; no cell can be run under it."""
+
+
+class A1StreamError(RuntimeError):
+    """The experiment's own detection stream failed the A1 canonicalisation check."""
+
+    def __init__(self, seed: int, problems: list[str]):
+        self.seed = seed
+        self.problems = list(problems)
+        super().__init__("seed %d: %s" % (seed, "; ".join(problems)))
 
 
 def _load(path: Path) -> dict:
@@ -116,6 +129,73 @@ def synthetic_gates(status: str = "PASS", failing: tuple[str, ...] = ()) -> dict
         }
         for gate in report.GATE_IDS
     }
+
+
+def a1_cell_stream(seed: int, data: dict) -> dict:
+    """The pre-registered A1 check on one cell seed's own detections.
+
+    Every detected path's key must be its direction-free node set; paths with the
+    same node set must share a key and paths with different node sets must not.
+    This is checked before any arm is scored, so a broken key cannot leak into a
+    loss.
+    """
+    paths = [tuple(path) for _, path in data["detections"] if len(set(path)) >= 2]
+    by_key: dict[tuple[str, ...], set[frozenset[str]]] = collections.defaultdict(set)
+    problems: list[str] = []
+    flips = 0
+    for path in paths:
+        key = readout.canonical(path)
+        if key != tuple(sorted(set(path))):
+            problems.append("the canonical key is not the sorted tag set")
+        if readout.canonical(tuple(reversed(path))) != key:
+            flips += 1
+        by_key[key].add(frozenset(path))
+    mixed = [key for key, node_sets in by_key.items() if len(node_sets) > 1]
+    node_sets = {frozenset(path) for path in paths}
+    if flips:
+        problems.append("%d direction flip(s) changed a key" % flips)
+    if mixed:
+        problems.append("%d key(s) mixed distinct node sets" % len(mixed))
+    if len(by_key) != len(node_sets):
+        problems.append("keys and distinct node sets differ")
+    if problems:
+        raise A1StreamError(seed, problems)
+    return {
+        "seed": seed,
+        "cycles": CELL_CYCLES,
+        "detections": len(paths),
+        "keys": len(by_key),
+        "node_sets": len(node_sets),
+        "mixed": 0,
+        "flips": 0,
+    }
+
+
+def cell_streams(seeds: list[int] | None = None) -> list[dict]:
+    """Replay every cell seed and keep its stream for the arm phase.
+
+    No arm is scored here; the caller must receive all ten A1 checks before it
+    calls `arms_for`. A failure raises `A1StreamError`, and the runner assembles
+    a VOID without executing a seed in the behavioural arms.
+    """
+    records = []
+    for seed in (seeds if seeds is not None else report.declared_seeds()):
+        data = readout.replay(seed, CELL_CYCLES)
+        records.append({"seed": seed, "data": data, "a1": a1_cell_stream(seed, data)})
+    return records
+
+
+def a1_cell_evidence(streams: list[dict]) -> str:
+    """The cell-stream half of A1, appended to the gate record's rule evidence."""
+    detections = sum(stream["a1"]["detections"] for stream in streams)
+    keys = sum(stream["a1"]["keys"] for stream in streams)
+    node_sets = sum(stream["a1"]["node_sets"] for stream in streams)
+    return (
+        "Cell-stream check: %d seeds replayed at %d blocks; %d detected paths -> %d keys over "
+        "%d distinct node sets; 0 mixed keys and 0 direction flips changed a key. This is the "
+        "experiment's own detection stream, checked before any arm."
+        % (len(streams), CELL_CYCLES, detections, keys, node_sets)
+    )
 
 
 def unmeasured_rows(reason: str) -> list[dict]:
@@ -244,10 +324,29 @@ def run(gates_path: Path = GATES, control_path: Path = CONTROL, out: Path = OUT)
             detail="the cell did not run; gate(s) %s did not pass" % ", ".join(failed),
         )
     else:
-        rows = []
-        for seed in report.declared_seeds():
-            rows.append(_seed_row(seed, readout.run(seed)))
-        result = assemble(rows, gates, control)
+        try:
+            streams = cell_streams()
+        except A1StreamError as error:
+            failed_gates = copy.deepcopy(gates)
+            failed_gates["A1"] = {"status": "FAIL", "evidence": str(error)}
+            result = assemble(
+                unmeasured_rows("not run: the A1 cell-stream check failed on seed %d" % error.seed),
+                failed_gates,
+                no_control("the A1 cell-stream check failed, so the control arm did not run"),
+                detail="the cell did not run; A1 failed on seed %d: %s"
+                       % (error.seed, "; ".join(error.problems)),
+            )
+        else:
+            rows = []
+            for stream in streams:
+                scored = readout.arms_for(stream["data"]["tags"],
+                                           stream["data"]["detections"], CELL_CYCLES)
+                rows.append(_seed_row(stream["seed"], scored))
+            cell_gates = copy.deepcopy(gates)
+            cell_gates["A1"]["evidence"] = (
+                str(cell_gates["A1"]["evidence"]).rstrip() + " " + a1_cell_evidence(streams)
+            )
+            result = assemble(rows, cell_gates, control)
 
     result = engine_stamp.stamp(result)
     out.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
@@ -298,7 +397,10 @@ def check() -> None:
     if short["outcome"] != "VOID" or "SEEDS_MEASURABLE" not in short["void"]["codes"]:
         raise SystemExit("seven measurable seeds did not assemble as a measurable VOID")
 
-    print("check: authorisation guard (%s); pins match; ten seeds; "
+    clean = a1_cell_stream(0, {"detections": [(1, ("alpha", "beta")), (2, ("beta", "alpha"))]})
+    if clean["mixed"] or clean["flips"]:
+        raise SystemExit("the A1 cell-stream helper rejected a clean synthetic stream")
+    print("check: authorisation guard (%s); pins match; ten seeds; A1 cell-stream helper; "
           "PASS/BOOKKEEPING/REVERSAL assemble; gate and seed VOIDs fire" % reason)
 
 

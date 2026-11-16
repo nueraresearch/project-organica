@@ -95,7 +95,7 @@ adapter is already pinned.
 | Pins | match (`v2_first_cell_runner --check`) |
 | Seeds | ten held and unspent; become spent in the signature commit |
 | Control | no `docs/v2_first_cell_control.json`; section 8 records `NOT RUN` with a reason |
-| A1 scope | the rule and the spent smoke stream, not the cell's own detection stream; the gate record says so |
+| A1 scope | the pre-cell gate is the rule and the spent smoke stream; the runner now replays each cell seed and checks its own stream before any arm, and a failure VOIDs |
 
 | | |
 |---|---|

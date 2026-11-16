@@ -71,7 +71,7 @@ One cell, on the already-declared block, with the already-built readout:
 | Arms | A pair counts, B frozen membership, C maintained membership |
 | Endpoint | mean paired difference in held-out next-edge log-loss, C − A |
 | Rule | {power['method']['level']:.0%} paired bootstrap over seeds, 10,000 resamples, directional since Amendment 2 |
-| Gates | `A1`–`A5` **{gate_state}** before any arm; any failure is `VOID` |
+| Gates | `A1`–`A5` **{gate_state}** before any arm; the runner rechecks `A1` on each cell's own detection stream; any failure is `VOID` |
 | Stop | one report; the charter closes, pass or fail |
 
 The signature commit marks the seed block spent and authorises no engine change, no second report and no promotion. The
@@ -109,7 +109,8 @@ cell's world contains such a motif.
 
 **Sign [`DECISION-V2-FIRST-CELL`](DECISION-V2-FIRST-CELL.md).** Nothing else is open: the protocol is signed, the readout is
 built and pinned, the {seeds['n']} seeds are held, the gates pass, and the three diagnostics are recorded. The signature
-commit is the only step between the protocol and a run; it must also mark the seed block spent.
+commit is the only step between the protocol and a run; it must also mark the seed block spent. The section 8 control
+has no record; it will be reported `NOT RUN` with a reason, which the signed interpretation permits.
 
 ## Where the evidence lives
 

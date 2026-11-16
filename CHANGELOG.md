@@ -5,6 +5,17 @@ All notable changes to Project Organica are recorded here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project follows [Semantic Versioning 2.0.0](https://semver.org/).
 
+## Addendum — 2026-11-16: A1 on the cell's own detection stream
+
+The runner now replays each of the ten cell seeds and applies the A1 canonicalisation check to
+that seed's own detections before it scores any arm. A mixed key, a direction flip that changes a
+key, or a mismatch between keys and distinct node sets writes a `VOID` with
+`A1_CANONICALISATION`, marks A1 `FAIL` in the result, leaves every seed unmeasured, and never
+calls the arm scorer. A clean run appends the cell-stream counts to A1's evidence in the result.
+
+The pre-cell gate still uses the rule, both committed regressions and the spent smoke stream; the
+gate record now says the runner closes that scope on the experiment's own stream. No cell ran.
+
 ## Addendum — 2026-11-16: signature review of the first cell
 
 The gate record is A1–A5 PASS, the scorer pins match, and the ten cell seeds are held and unspent. The runner still

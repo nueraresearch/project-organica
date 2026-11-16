@@ -6,7 +6,7 @@
   "gates": {
     "A1": {
       "status": "PASS",
-      "evidence": "canonicalisation rule: 5 sample paths, 3 keys, 0 mixed keys, 0 flips changed a key; smoke seed 20911101 (120 cycles, spent dry-run seed, not a cell seed): 1216 detected paths -> 107 keys over 107 distinct node sets, 0 mixed, 0 flip failures; committed regressions 177->158 with multiplicities {1: 139, 2: 19} and 138->125 reproduce; 0 id collisions. Scope: the ten cell seeds are not replayed, so this is the rule and a development stream, not the experiment's own detection stream."
+      "evidence": "canonicalisation rule: 5 sample paths, 3 keys, 0 mixed keys, 0 flips changed a key; smoke seed 20911101 (120 cycles, spent dry-run seed, not a cell seed): 1216 detected paths -> 107 keys over 107 distinct node sets, 0 mixed, 0 flip failures; committed regressions 177->158 with multiplicities {1: 139, 2: 19} and 138->125 reproduce; 0 id collisions. Scope: this gate does not replay the ten cell seeds; the runner replays each cell seed and applies this canonicalisation check to the experiment's own detection stream before any arm."
     },
     "A2": {
       "status": "PASS",
