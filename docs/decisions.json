@@ -987,7 +987,11 @@
         "docs/v1_carrier_identity.json",
         "docs/V2-PRIMITIVE-SIZING.md",
         "docs/CODE-AS-EVIDENCE.md",
-        "docs/V1-REKEYING-STUDY.md"
+        "docs/V1-REKEYING-STUDY.md",
+        "docs/V1-REKEYING-TWO-SEEDS.md",
+        "docs/v1_rekeying_study_20900101.json",
+        "docs/V1-REKEYING-STUDY-20900101.md",
+        "docs/V1-CARRIER-FORGETTING.md"
       ]
     }
   ]

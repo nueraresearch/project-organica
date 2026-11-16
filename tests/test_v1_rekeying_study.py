@@ -65,6 +65,9 @@ def test_the_replication_is_a_different_world_and_validates() -> None:
 def test_the_direction_holds_on_both_seeds() -> None:
     for doc in (_doc(), json.loads(REPLICATION.read_text(encoding="utf-8"))):
         comparison = doc["comparison"]
+        observed = doc["observed"]
+        assert observed["distinct_paths"] == doc["direction_bearing"]["identities"]
+        assert observed["distinct_node_sets"] == doc["direction_free"]["identities"]
         assert comparison["identities_saved"] > 0
         assert comparison["deaths_bearing"] > comparison["deaths_free"]
         assert comparison["flip_events"] > 0
@@ -74,6 +77,17 @@ def test_the_two_seed_page_is_rendered_from_both_artifacts() -> None:
     first = _doc()
     second = json.loads(REPLICATION.read_text(encoding="utf-8"))
     assert TWO_SEEDS.read_text(encoding="utf-8") == study.render_two_seed(first, second)
+
+
+def test_the_pending_decision_cites_the_two_seed_result() -> None:
+    decisions = json.loads((ROOT / "docs" / "decisions.json").read_text(encoding="utf-8"))
+    entry = next(d for d in decisions["decisions"]
+                 if d["decision_id"] == "DECISION-V2-PRIMITIVE-RESOLUTIONS")
+    assert entry["status"] == "PENDING"
+    assert "docs/V1-REKEYING-TWO-SEEDS.md" in entry["evidence"]
+    record = (ROOT / "docs" / "DECISION-V2-PRIMITIVE-RESOLUTIONS.md").read_text(encoding="utf-8")
+    assert "Evidence update" in record
+    assert "20900101" in record and "20740101" in record
 
 
 def test_the_free_key_is_the_sorted_tag_set() -> None:

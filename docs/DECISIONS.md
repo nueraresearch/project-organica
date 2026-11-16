@@ -719,7 +719,7 @@ uncomputable, and the cause that fired first is the one worth reporting.
 
 **Rests on.** Q057 (open)
 
-**Evidence.** `docs/V2-MUTABLE-IDENTITY-SPEC.md`, `docs/v2_mutable_identity_spec.json`, `docs/v1_carrier_identity.json`, `docs/V2-PRIMITIVE-SIZING.md`, `docs/CODE-AS-EVIDENCE.md`, `docs/V1-REKEYING-STUDY.md`
+**Evidence.** `docs/V2-MUTABLE-IDENTITY-SPEC.md`, `docs/v2_mutable_identity_spec.json`, `docs/v1_carrier_identity.json`, `docs/V2-PRIMITIVE-SIZING.md`, `docs/CODE-AS-EVIDENCE.md`, `docs/V1-REKEYING-STUDY.md`, `docs/V1-REKEYING-TWO-SEEDS.md`, `docs/v1_rekeying_study_20900101.json`, `docs/V1-REKEYING-STUDY-20900101.md`, `docs/V1-CARRIER-FORGETTING.md`
 
 **Record.** `docs/DECISION-V2-PRIMITIVE-RESOLUTIONS.md`
 

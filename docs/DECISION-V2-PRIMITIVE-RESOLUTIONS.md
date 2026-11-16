@@ -67,7 +67,34 @@ A rejection leaves the specification planning-only and its §10 explicitly unans
 content to be signed against — the charter can still be signed, but not with a primitive it has defined. Rejection is
 therefore a decision to keep the question open, not a decision to build something else.
 
-## 8. Signature
+## 8. Evidence update — 2026-11-16
+
+Resolution 2's canonicalisation is no longer only argued. The offline re-keying study was replicated on a second world, and
+in both worlds a direction-free key merges the two orientations of one cycle without merging anything else:
+
+| | Seed 20740101 | Seed 20900101 |
+|---|---|---|
+| Directed paths → direction-free identities | 177 → 158 | 138 → 125 |
+| Retirement rows | 186 → 170 | 128 → 117 |
+| Orientation flips converted into reinforcements | 55 | 18 |
+| Store validation (identities, retirement rows) | pass | pass |
+
+The 19 and 13 identities removed are exactly the both-direction node sets, and `distinct_node_sets` equals the direction-free
+identity count in each world, so the sorted triple does not collapse two different node sets. This is what resolution 2 says
+the key must do, measured rather than asserted, in two worlds ([`V1-REKEYING-TWO-SEEDS`](V1-REKEYING-TWO-SEEDS.md);
+[`V1-REKEYING-STUDY`](V1-REKEYING-STUDY.md); [`V1-REKEYING-STUDY-20900101`](V1-REKEYING-STUDY-20900101.md)).
+
+The 55 and 18 flips are also direct support for resolution 4's reason: a rule that requires consecutive detections would
+reject a stable object that alternates orientation, and the flips are measured, not hypothetical.
+
+**What this does not settle.** Two seeds replicate a direction, not a magnitude, so no spread or interval is claimed. The
+reclamation answer (resolution 3) still rests on the storage accounting, not on a measurement of forgetting — the boundary
+measurement in [`V1-CARRIER-FORGETTING`](V1-CARRIER-FORGETTING.md) found the engine never forgets a live carrier, which
+removes a suspected failure mode but does not by itself justify the reclamation rule. And the decision still authorises no
+build: the sentence in §1, the four answers, the rejected alternatives and the signature table are unchanged, and the record
+remains `PENDING`.
+
+## 9. Signature
 
 | | |
 |---|---|

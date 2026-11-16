@@ -153,6 +153,16 @@ This addendum replaces the first version of the same study, which reported 20 re
 all 186 retirement rows and the conservative figures above stand. The correction is recorded in the page and the artifact,
 not silently applied.
 
+## Addendum — 2026-11-16: the two-world result enters the pending primitive decision
+
+`DECISION-V2-PRIMITIVE-RESOLUTIONS` now carries the replication as evidence in a new §8, with the signature section moved to
+§9. It records what the study settles — the direction-free key merges only the two orientations of one cycle in **both**
+worlds (177→158 and 138→125 identities, 186→170 and 128→117 retirement rows, 55 and 18 flips, both store validations
+passing) — and what it does not: two seeds are a direction, not a magnitude, and the reclamation resolution still rests on the
+storage accounting. The decision's sentence, four answers, rejected alternatives and signature table are unchanged, and it
+remains `PENDING`; the evidence list in `docs/decisions.json` gains the two-seed page, the second artifact and the
+forgetting measurement.
+
 ## Addendum — 2026-11-16: the re-keying result replicates on a second world
 
 `benchmarks/v1_rekeying_study.py` now takes `--seed`, and the study was re-run on seed **20900101**, reserved for this purpose
