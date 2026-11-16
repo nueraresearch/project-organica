@@ -9,18 +9,24 @@ it assembles the result artifact through the same validator that renders the rep
 a cell cannot be written in a shape the report would reject.
 
     python -m benchmarks.v2_first_cell_runner --check
+    python -m benchmarks.v2_first_cell_runner --status
     python -m benchmarks.v2_first_cell_runner --run [--gates PATH] [--control PATH] [--out PATH]
 
-`--check` executes no world and writes nothing. `--run` requires the signed
-decision and the spent seed block, both of which are now recorded; no seed has
-been executed. It is one-shot: a marker, manifest, raw log or result already on
-disk refuses a second attempt, and every artifact is created atomically rather
-than overwritten.
+`--check` executes no world and writes nothing. `--status` classifies the attempt
+from the marker and artifacts without running a world or writing anything. `--run`
+requires the signed decision and the spent seed block, both of which are now
+recorded; no seed has been executed. It is one-shot: a marker, manifest, raw log
+or result already on disk refuses a second attempt, and every artifact is created
+atomically rather than overwritten. The adopted runtime-failure policy
+(`DECISION-V2-RUNTIME-FAILURE`) makes an interrupted attempt `VOID`, never a
+retry: a crash cannot become a second execution.
 
 Inputs and provenance:
 
 * `docs/v2_first_cell_run.json` — the one-shot run marker, written before the first
-  world is replayed; its presence refuses every later run.
+  world is replayed; its presence refuses every later run. A `STARTED` marker, or
+  any artifact without a completed result, is classified `VOID` and is never
+  retried; no marker and no artifact is `UNRUN`.
 * `docs/v2_first_cell_manifest.json` — the input-side manifest: SHA-256 for the
   runner, report, gate record and suite, seed declaration and reservations, the
   decision index, scorer pin, readout and primitive; the Python version and
@@ -66,6 +72,7 @@ MANIFEST = REPO / "docs" / "v2_first_cell_manifest.json"
 RAW_LOG = REPO / "docs" / "v2_first_cell_run_log.json"
 OUT = REPO / "docs" / "v2_first_cell_result.json"
 AUTHORISATION = "DECISION-V2-FIRST-CELL"
+RUNTIME_POLICY = "DECISION-V2-RUNTIME-FAILURE"
 SEED_OWNER = "docs/v2_first_cell_seeds.json"
 CELL_CYCLES = 120
 
@@ -344,7 +351,12 @@ def _finish_manifest(manifest_path: Path, out: Path, log_path: Path) -> None:
 
 def run_guard(marker_path: Path = RUN, out: Path = OUT, manifest_path: Path = MANIFEST,
               log_path: Path = RAW_LOG) -> None:
-    """Refuse if this cell was already attempted or its artifacts exist."""
+    """Refuse if this cell was already attempted or its artifacts exist.
+
+    The refusal is the enforcement half of `DECISION-V2-RUNTIME-FAILURE`: no
+    deletion, resume or alternate output path turns an unfinished attempt into a
+    second execution.
+    """
     found = []
     seen = set()
     for label, path in (("a run marker", marker_path), ("the default run marker", RUN),
@@ -359,8 +371,89 @@ def run_guard(marker_path: Path = RUN, out: Path = OUT, manifest_path: Path = MA
             found.append("%s at %s" % (label, path))
     if found:
         raise RunGuardError(
-            "; ".join(found) + "; the first cell runs once and its artifacts are never overwritten"
+            "; ".join(found)
+            + "; the first cell runs once; a started-but-unfinished run is VOID and is never retried"
         )
+
+
+def run_status(marker_path: Path | None = None, out: Path | None = None,
+               manifest_path: Path | None = None, log_path: Path | None = None) -> dict:
+    """Classify the one cell attempt without executing or writing anything.
+
+    The policy is pre-committed in `DECISION-V2-RUNTIME-FAILURE`. The marker is
+    written before the first world, so its existence is evidence that an attempt
+    started. A started attempt that did not finish is `VOID`; it is not a result,
+    not a negative result and never a retry. Only an absent marker with an absent
+    artifact set is `UNRUN`.
+    """
+    marker_path = RUN if marker_path is None else marker_path
+    out = OUT if out is None else out
+    manifest_path = MANIFEST if manifest_path is None else manifest_path
+    log_path = RAW_LOG if log_path is None else log_path
+    paths = {"marker": marker_path, "result": out, "manifest": manifest_path, "log": log_path}
+    present = [name for name, path in paths.items() if path.exists()]
+    record = {
+        "policy": RUNTIME_POLICY,
+        "status": "UNRUN",
+        "started": False,
+        "retry_allowed": False,
+        "present": present,
+        "detail": "no run marker or artifact exists; the first attempt has not started",
+    }
+    if not present:
+        return record
+
+    record["started"] = True
+    if not marker_path.exists():
+        record.update(
+            status="VOID",
+            detail="artifact(s) exist without the run marker; the attempt is incomplete and is "
+                   "never retried",
+        )
+        return record
+
+    try:
+        marker = _load(marker_path)
+    except (OSError, ValueError) as error:
+        record.update(
+            status="VOID",
+            detail="the run marker cannot be read (%s); the attempt is VOID and is never retried"
+                   % error,
+        )
+        return record
+    if not isinstance(marker, dict):
+        record.update(
+            status="VOID",
+            detail="the run marker is not an object; the attempt is VOID and is never retried",
+        )
+        return record
+
+    marker_status = marker.get("status")
+    if marker_status == "COMPLETED":
+        missing = [name for name in ("result", "manifest", "log") if not paths[name].exists()]
+        if missing:
+            record.update(
+                status="VOID",
+                detail="the marker says COMPLETED, but %s is missing; the attempt is unfinished "
+                       "and is never retried" % ", ".join(missing),
+            )
+        else:
+            record.update(
+                status="COMPLETED",
+                detail="the attempt completed; the result is audit-only and is never re-executed",
+            )
+        return record
+
+    if marker_status == "STARTED":
+        detail = "the run marker says STARTED; the attempt is VOID and is never retried"
+    elif marker_status is None:
+        detail = "the run marker has no status; the attempt is VOID and is never retried"
+    else:
+        detail = "the run marker has unknown status %r; the attempt is VOID and is never retried" % (
+            marker_status,
+        )
+    record.update(status="VOID", detail=detail)
+    return record
 
 
 def _start_run(marker_path: Path, out: Path, manifest_path: Path, log_path: Path) -> None:
@@ -621,13 +714,15 @@ def run(gates_path: Path = GATES, control_path: Path = CONTROL, out: Path = OUT,
     try:
         _finish_manifest(manifest_path, out, log_path)
     except OSError as error:
-        print("warning: the result and raw log are written, but the manifest could not be completed: %s"
-              % error, file=sys.stderr)
+        print("run status: VOID — the result and raw log are written, but the manifest could not "
+              "be completed: %s; this attempt is never retried" % error, file=sys.stderr)
+        return 1
     try:
         _finish_run(marker_path, out, manifest_path, log_path)
     except OSError as error:
-        print("warning: the outputs are written, but the run marker could not be completed: %s"
-              % error, file=sys.stderr)
+        print("run status: VOID — the outputs are written, but the run marker could not be "
+              "completed: %s; this attempt is never retried" % error, file=sys.stderr)
+        return 1
     print("wrote %s: %s" % (out, result["outcome"]))
     if result["interval"]:
         print("mean d %.6f, 99%% interval [%.6f, %.6f]"
@@ -686,6 +781,8 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--check", action="store_true", help="exercise assembly without running a world")
+    group.add_argument("--status", action="store_true",
+                       help="classify UNRUN, VOID or COMPLETED without writing or running a world")
     group.add_argument("--run", action="store_true", help="run the ten seeds, only when authorised")
     parser.add_argument("--gates", default=str(GATES), help="the A1-A5 gate record")
     parser.add_argument("--control", default=str(CONTROL), help="the section 8 control record")
@@ -694,6 +791,16 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.check:
         check()
+        return 0
+    if args.status:
+        state = run_status(marker_path=RUN, out=Path(args.out), manifest_path=MANIFEST,
+                           log_path=RAW_LOG)
+        print("run status: %s" % state["status"])
+        print(state["detail"])
+        if state["status"] == "UNRUN":
+            print("retry: not applicable; no attempt has started")
+        else:
+            print("retry: refused; this attempt is never re-executed")
         return 0
     return run(Path(args.gates), Path(args.control), Path(args.out))
 

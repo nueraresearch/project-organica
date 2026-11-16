@@ -1170,6 +1170,45 @@
         "docs/v2_primitive_sizing.json"
       ],
       "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-V2-RUNTIME-FAILURE",
+      "date": "2026-11-16",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED 2026-11-16 — A STARTED-BUT-UNFINISHED RUN IS VOID OR UNRUN AND IS NEVER RETRIED",
+      "chosen": [
+        "A run is started when `docs/v2_first_cell_run.json` exists; an attempt with a `STARTED` marker, a missing result, or an incomplete artifact set is VOID, while a run with no marker or artifact is UNRUN.",
+        "A VOID run reports no interval, no effect estimate and no scientific reading, and it is not a negative result.",
+        "A started-but-unfinished run is never retried: no resume, deletion, replacement or second execution is permitted, and the one-shot guard refuses every later --run.",
+        "A completed attempt is audit-only; a further attempt needs a new pre-registration, a fresh seed block and a new dated grant, not a retry of this cell."
+      ],
+      "rejected": [
+        {
+          "alternative": "Delete the marker and retry the block",
+          "reason": "Deleting the marker to run again is a second execution and would make the stop condition depend on inspecting the outcome."
+        },
+        {
+          "alternative": "Resume from the partial raw log",
+          "reason": "Resuming from a partial raw log would start a new run with state the protocol never fixed, and the interval would not be the pre-registered one."
+        },
+        {
+          "alternative": "Report the crash as a null result",
+          "reason": "Reporting a crash as a null or negative result converts an instrument failure into evidence, which the adopted reading forbids."
+        },
+        {
+          "alternative": "Treat every missing result as unrun",
+          "reason": "Calling an interrupted attempt unrun erases the marker that proves the one-shot attempt began."
+        }
+      ],
+      "evidence": [
+        "docs/DECISION-V2-FIRST-CELL-INTERPRETATION.md",
+        "docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md",
+        "benchmarks/v2_first_cell_runner.py",
+        "tests/test_v2_first_cell_runner.py",
+        "docs/USER-MANUAL.md",
+        "CHANGELOG.md"
+      ],
+      "superseded_by": null
     }
   ]
 }

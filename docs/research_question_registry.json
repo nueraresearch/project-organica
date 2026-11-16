@@ -1205,7 +1205,8 @@
         "DECISION-V2-FIRST-CELL.md",
         "DECISION-V2-FIRST-CELL-INTERPRETATION.md",
         "DECISION-V2-PRIMITIVE-BUILD.md",
-        "DECISION-V2-A4-BASE-WORLD.md"
+        "DECISION-V2-A4-BASE-WORLD.md",
+        "DECISION-V2-RUNTIME-FAILURE.md"
       ],
       "preregistrations": [
         "V2-FIRST-EXPERIMENT-PREREGISTRATION.md"

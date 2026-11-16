@@ -202,6 +202,118 @@ def test_a_clean_cell_stream_is_added_to_the_a1_evidence_before_scoring(monkeypa
     assert manifest["python"]["version_info"][:2] == list(runner.sys.version_info[:2])
 
 
+def test_a_run_with_no_marker_or_artifact_is_unrun(tmp_path):
+    state = runner.run_status(
+        marker_path=tmp_path / "run.json", out=tmp_path / "result.json",
+        manifest_path=tmp_path / "manifest.json", log_path=tmp_path / "log.json",
+    )
+    assert state["status"] == "UNRUN"
+    assert state["started"] is False
+    assert state["retry_allowed"] is False
+    assert state["policy"] == runner.RUNTIME_POLICY
+
+
+def test_a_started_marker_is_void_and_is_never_retried(tmp_path):
+    marker = tmp_path / "run.json"
+    marker.write_text('{"status": "STARTED"}', encoding="utf-8")
+    state = runner.run_status(
+        marker_path=marker, out=tmp_path / "result.json",
+        manifest_path=tmp_path / "manifest.json", log_path=tmp_path / "log.json",
+    )
+    assert state["status"] == "VOID"
+    assert state["started"] is True
+    assert state["retry_allowed"] is False
+    assert "STARTED" in state["detail"]
+    assert "never retried" in state["detail"]
+    with pytest.raises(runner.RunGuardError, match="never retried"):
+        runner.run_guard(marker_path=marker, out=tmp_path / "result.json",
+                         manifest_path=tmp_path / "manifest.json", log_path=tmp_path / "log.json")
+
+
+def test_a_completed_attempt_is_audit_only(tmp_path):
+    marker = tmp_path / "run.json"
+    marker.write_text('{"status": "COMPLETED"}', encoding="utf-8")
+    out = tmp_path / "result.json"
+    manifest = tmp_path / "manifest.json"
+    log = tmp_path / "log.json"
+    for path in (out, manifest, log):
+        path.write_text("{}", encoding="utf-8")
+    state = runner.run_status(marker_path=marker, out=out, manifest_path=manifest, log_path=log)
+    assert state["status"] == "COMPLETED"
+    assert state["started"] is True
+    assert state["retry_allowed"] is False
+    assert "audit-only" in state["detail"]
+
+
+def test_a_completed_marker_without_its_artifacts_is_void(tmp_path):
+    marker = tmp_path / "run.json"
+    marker.write_text('{"status": "COMPLETED"}', encoding="utf-8")
+    state = runner.run_status(
+        marker_path=marker, out=tmp_path / "result.json",
+        manifest_path=tmp_path / "manifest.json", log_path=tmp_path / "log.json",
+    )
+    assert state["status"] == "VOID"
+    assert state["retry_allowed"] is False
+    assert "unfinished" in state["detail"]
+
+
+def test_artifacts_without_a_marker_are_void_and_unfinished(tmp_path):
+    out = tmp_path / "result.json"
+    out.write_text("{}", encoding="utf-8")
+    state = runner.run_status(
+        marker_path=tmp_path / "run.json", out=out,
+        manifest_path=tmp_path / "manifest.json", log_path=tmp_path / "log.json",
+    )
+    assert state["status"] == "VOID"
+    assert state["started"] is True
+    assert state["retry_allowed"] is False
+    assert "without the run marker" in state["detail"]
+
+
+def test_status_is_read_only_and_names_the_policy(monkeypatch, tmp_path, capsys):
+    marker = tmp_path / "run.json"
+    marker.write_text('{"status": "STARTED"}', encoding="utf-8")
+    before = marker.read_bytes()
+    out = tmp_path / "result.json"
+    monkeypatch.setattr(runner, "RUN", marker)
+    monkeypatch.setattr(runner, "OUT", out)
+    monkeypatch.setattr(runner, "MANIFEST", tmp_path / "manifest.json")
+    monkeypatch.setattr(runner, "RAW_LOG", tmp_path / "log.json")
+    assert runner.main(["--status"]) == 0
+    text = capsys.readouterr().out
+    assert "run status: VOID" in text
+    assert "never retried" in text
+    assert "retry: refused" in text
+    assert marker.read_bytes() == before
+    assert not out.exists()
+
+
+def test_a_finalization_failure_is_void_and_returns_failure(monkeypatch, tmp_path):
+    monkeypatch.setattr(runner, "authorisation", lambda: (True, "authorised"))
+    monkeypatch.setattr(runner, "pins", lambda: [])
+    monkeypatch.setattr(runner, "load_gates", lambda path: runner.synthetic_gates(failing=("A3",)))
+    monkeypatch.setattr(runner, "RUN", tmp_path / "default-run.json")
+    monkeypatch.setattr(runner, "OUT", tmp_path / "default-result.json")
+    monkeypatch.setattr(runner, "MANIFEST", tmp_path / "default-manifest.json")
+    monkeypatch.setattr(runner, "RAW_LOG", tmp_path / "default-log.json")
+    monkeypatch.setattr(runner, "_finish_run",
+                        lambda *args: (_ for _ in ()).throw(OSError("simulated finalization failure")))
+    marker = tmp_path / "run.json"
+    out = tmp_path / "result.json"
+    manifest = tmp_path / "manifest.json"
+    log = tmp_path / "run-log.json"
+    assert runner.run(control_path=tmp_path / "no-control.json", out=out, marker_path=marker,
+                      manifest_path=manifest, log_path=log) == 1
+    assert json.loads(marker.read_text(encoding="utf-8"))["status"] == "STARTED"
+    state = runner.run_status(marker_path=marker, out=out, manifest_path=manifest, log_path=log)
+    assert state["status"] == "VOID"
+    assert state["retry_allowed"] is False
+    before = out.read_bytes()
+    assert runner.run(control_path=tmp_path / "no-control.json", out=out, marker_path=marker,
+                      manifest_path=manifest, log_path=log) == 1
+    assert out.read_bytes() == before
+
+
 def test_a_run_marker_refuses_a_second_attempt_before_any_gate_read(monkeypatch, tmp_path):
     monkeypatch.setattr(runner, "authorisation", lambda: (True, "authorised"))
     monkeypatch.setattr(runner, "pins", lambda: [])

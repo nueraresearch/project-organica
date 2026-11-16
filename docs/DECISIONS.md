@@ -14,10 +14,10 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 
 | status | count | meaning |
 | --- | --- | --- |
-| ADOPTED | 30 | in force; the document records it as implemented or effective |
+| ADOPTED | 31 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
 | PENDING | 5 | decided and not in force; the document says so |
-| **total** | **36** | |
+| **total** | **37** | |
 
 ## The decisions
 
@@ -817,6 +817,30 @@ uncomputable, and the cause that fired first is the one worth reporting.
 **Evidence.** `docs/a1_two_path_manifest.json`, `docs/a1_two_path_result.json`, `docs/a1_seed_reservations.json`, `docs/v2_first_cell_gates.json`, `docs/V2-PRIMITIVE-SIZING.md`, `docs/v2_primitive_sizing.json`
 
 **Record.** `docs/DECISION-V2-A4-BASE-WORLD.md`
+
+### DECISION-V2-RUNTIME-FAILURE — `DECISION-V2-RUNTIME-FAILURE` — a started-but-unfinished run is VOID or unrun, and is never retried
+
+**Status.** ADOPTED — *"ADOPTED 2026-11-16 — A STARTED-BUT-UNFINISHED RUN IS VOID OR UNRUN AND IS NEVER RETRIED"*
+
+**Decided.**
+
+- A run is started when `docs/v2_first_cell_run.json` exists; an attempt with a `STARTED` marker, a missing result, or an incomplete artifact set is VOID, while a run with no marker or artifact is UNRUN.
+- A VOID run reports no interval, no effect estimate and no scientific reading, and it is not a negative result.
+- A started-but-unfinished run is never retried: no resume, deletion, replacement or second execution is permitted, and the one-shot guard refuses every later --run.
+- A completed attempt is audit-only; a further attempt needs a new pre-registration, a fresh seed block and a new dated grant, not a retry of this cell.
+
+**Rejected.**
+
+- *Delete the marker and retry the block* — because *"Deleting the marker to run again is a second execution and would make the stop condition depend on inspecting the outcome."*
+- *Resume from the partial raw log* — because *"Resuming from a partial raw log would start a new run with state the protocol never fixed, and the interval would not be the pre-registered one."*
+- *Report the crash as a null result* — because *"Reporting a crash as a null or negative result converts an instrument failure into evidence, which the adopted reading forbids."*
+- *Treat every missing result as unrun* — because *"Calling an interrupted attempt unrun erases the marker that proves the one-shot attempt began."*
+
+**Rests on.** Q057 (open)
+
+**Evidence.** `docs/DECISION-V2-FIRST-CELL-INTERPRETATION.md`, `docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md`, `benchmarks/v2_first_cell_runner.py`, `tests/test_v2_first_cell_runner.py`, `docs/USER-MANUAL.md`, `CHANGELOG.md`
+
+**Record.** `docs/DECISION-V2-RUNTIME-FAILURE.md`
 
 ## What this graph is not
 

@@ -5,6 +5,21 @@ All notable changes to Project Organica are recorded here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project follows [Semantic Versioning 2.0.0](https://semver.org/).
 
+## Addendum — 2026-11-16: a runtime failure is a pre-committed disposition, not a retry
+
+`DECISION-V2-RUNTIME-FAILURE` is adopted before the first V2 cell executes. A run is
+started when `docs/v2_first_cell_run.json` exists; a `STARTED` marker, a missing result,
+or an incomplete artifact set is `VOID`, while no marker and no artifact is `UNRUN`.
+`VOID` is not a negative result and reports no interval or effect estimate. A
+`COMPLETED` attempt with all its artifacts is audit-only.
+
+`benchmarks/v2_first_cell_runner.py --status` reports the state without writing or
+executing a world. The one-shot `--run` guard refuses every marker, manifest, raw log or
+result, including an interrupted one, so a crash cannot become a second execution. A
+further attempt needs a new pre-registration, a fresh seed block and a new dated grant.
+The new tests cover `UNRUN`, a `STARTED`-marker `VOID`, an incomplete artifact set, an
+audit-only `COMPLETED` attempt and the read-only status command. No seed was executed.
+
 ## Addendum — 2026-11-16: an independent read-only auditor for the cell result
 
 `benchmarks/v2_first_cell_audit.py` audits a completed first-cell result without replaying a
