@@ -13,13 +13,21 @@ a cell cannot be written in a shape the report would reject.
 
 `--check` executes no world and writes nothing. `--run` requires the signed
 decision and the spent seed block, both of which are now recorded; no seed has
-been executed. It is one-shot: a run marker or result already on disk refuses a
-second attempt, and the result is created atomically rather than overwritten.
+been executed. It is one-shot: a marker, manifest, raw log or result already on
+disk refuses a second attempt, and every artifact is created atomically rather
+than overwritten.
 
-Inputs:
+Inputs and provenance:
 
 * `docs/v2_first_cell_run.json` — the one-shot run marker, written before the first
   world is replayed; its presence refuses every later run.
+* `docs/v2_first_cell_manifest.json` — the input-side manifest: SHA-256 for the
+  runner, report, gate record and suite, seed declaration and reservations, the
+  decision index, scorer pin, readout and primitive; the Python version and
+  platform; and the output paths.
+* `docs/v2_first_cell_run_log.json` — the raw per-seed log: detections, A1 stats,
+  and each arm's beta, log-loss, scored count, composites and mutations. It is a
+  raw log, not a result or a verdict.
 * `docs/v2_first_cell_result.json` — the single result; its presence also refuses a
   later run, and it is never replaced.
 * `docs/v2_first_cell_gates.json` — written by `benchmarks.v2_first_cell_gates`. It
@@ -38,6 +46,7 @@ import datetime
 import hashlib
 import json
 import os
+import platform
 import sys
 import uuid
 from pathlib import Path
@@ -53,6 +62,8 @@ PIN = REPO / "docs" / "v2_first_cell_scorer_pin.json"
 GATES = REPO / "docs" / "v2_first_cell_gates.json"
 CONTROL = REPO / "docs" / "v2_first_cell_control.json"
 RUN = REPO / "docs" / "v2_first_cell_run.json"
+MANIFEST = REPO / "docs" / "v2_first_cell_manifest.json"
+RAW_LOG = REPO / "docs" / "v2_first_cell_run_log.json"
 OUT = REPO / "docs" / "v2_first_cell_result.json"
 AUTHORISATION = "DECISION-V2-FIRST-CELL"
 SEED_OWNER = "docs/v2_first_cell_seeds.json"
@@ -256,11 +267,89 @@ def _write_once(path: Path, text: str, what: str) -> None:
         temp.unlink(missing_ok=True)
 
 
-def run_guard(marker_path: Path = RUN, out: Path = OUT) -> None:
-    """Refuse if this cell was already attempted or a result already exists."""
+def _sha256_file(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _relative(path: Path) -> str:
+    try:
+        return path.resolve().relative_to(REPO).as_posix()
+    except ValueError:
+        return str(path)
+
+
+def _input_hashes(gates_path: Path = GATES, control_path: Path = CONTROL) -> dict:
+    """The exact harness, gate and seed inputs the run is bound to."""
+    paths = {
+        "runner": Path(__file__).resolve(),
+        "report": REPO / "benchmarks" / "v2_first_cell_report.py",
+        "gate_record": gates_path,
+        "gate_suite": REPO / "benchmarks" / "v2_first_cell_gates.py",
+        "seed_declaration": REPO / "docs" / "v2_first_cell_seeds.json",
+        "seed_reservations": RESERVATIONS,
+        "decision_index": DECISIONS,
+        "scorer_pin": PIN,
+        "readout": REPO / "benchmarks" / "v2_first_cell_readout.py",
+        "primitive": REPO / "benchmarks" / "v2_primitive.py",
+        "engine_pin": REPO / "docs" / "engine_pin.json",
+    }
+    hashes = {
+        name: {"path": _relative(path), "sha256": _sha256_file(path)}
+        for name, path in paths.items()
+    }
+    hashes["control"] = {
+        "path": _relative(control_path),
+        "sha256": _sha256_file(control_path) if control_path.exists() else None,
+    }
+    return hashes
+
+
+def _python_environment() -> dict:
+    return {
+        "version": sys.version,
+        "version_info": list(sys.version_info[:3]),
+        "executable": sys.executable,
+        "platform": platform.platform(),
+    }
+
+
+def _start_manifest(manifest_path: Path, marker_path: Path, out: Path, log_path: Path,
+                    gates_path: Path, control_path: Path) -> None:
+    """Write the input-side manifest before any world is replayed."""
+    manifest = {
+        "kind": "v2_first_cell_run_manifest",
+        "id": "V2-FIRST-CELL-MANIFEST-1",
+        "date": datetime.date.today().isoformat(),
+        "status": "STARTED",
+        "command": "python -m benchmarks.v2_first_cell_runner --run",
+        "python": _python_environment(),
+        "inputs": _input_hashes(gates_path, control_path),
+        "seeds": report.declared_seeds(),
+        "artifacts": {"marker": str(marker_path), "raw_log": str(log_path), "result": str(out)},
+        "result_sha256": None,
+        "raw_log_sha256": None,
+    }
+    _write_once(manifest_path, _json_text(manifest), "a run manifest")
+
+
+def _finish_manifest(manifest_path: Path, out: Path, log_path: Path) -> None:
+    """Bind the completed manifest to the result and raw log."""
+    manifest = _load(manifest_path)
+    manifest["status"] = "COMPLETED"
+    manifest["result_sha256"] = _sha256_file(out)
+    manifest["raw_log_sha256"] = _sha256_file(log_path)
+    temp = _write_temp(manifest_path, _json_text(manifest))
+    os.replace(temp, manifest_path)
+
+
+def run_guard(marker_path: Path = RUN, out: Path = OUT, manifest_path: Path = MANIFEST,
+              log_path: Path = RAW_LOG) -> None:
+    """Refuse if this cell was already attempted or its artifacts exist."""
     found = []
     seen = set()
     for label, path in (("a run marker", marker_path), ("the default run marker", RUN),
+                        ("a run manifest", manifest_path), ("the default run manifest", MANIFEST),
+                        ("a raw run log", log_path), ("the default raw run log", RAW_LOG),
                         ("a result", out), ("the default result", OUT)):
         key = path.resolve()
         if key in seen:
@@ -270,11 +359,11 @@ def run_guard(marker_path: Path = RUN, out: Path = OUT) -> None:
             found.append("%s at %s" % (label, path))
     if found:
         raise RunGuardError(
-            "; ".join(found) + "; the first cell runs once and its result is never overwritten"
+            "; ".join(found) + "; the first cell runs once and its artifacts are never overwritten"
         )
 
 
-def _start_run(marker_path: Path, out: Path) -> None:
+def _start_run(marker_path: Path, out: Path, manifest_path: Path, log_path: Path) -> None:
     """Write the one-shot marker before a world is replayed."""
     marker = {
         "kind": "v2_first_cell_run",
@@ -284,20 +373,66 @@ def _start_run(marker_path: Path, out: Path) -> None:
         "decision": AUTHORISATION,
         "seed_declaration": "docs/v2_first_cell_seeds.json",
         "command": "python -m benchmarks.v2_first_cell_runner --run",
+        "manifest": str(manifest_path),
+        "raw_log": str(log_path),
         "result": str(out),
+        "manifest_sha256": None,
+        "run_log_sha256": None,
         "result_sha256": None,
     }
     _write_once(marker_path, _json_text(marker), "a run marker")
 
 
-def _finish_run(marker_path: Path, out: Path) -> None:
-    """Mark the attempt complete and bind it to the result's digest."""
+def _finish_run(marker_path: Path, out: Path, manifest_path: Path, log_path: Path) -> None:
+    """Mark the attempt complete and bind it to every output's digest."""
     marker = _load(marker_path)
     marker["status"] = "COMPLETED"
-    marker["result"] = str(out)
-    marker["result_sha256"] = hashlib.sha256(out.read_bytes()).hexdigest()
+    marker["manifest"] = str(manifest_path)
+    marker["raw_log"] = str(log_path)
+    marker["manifest_sha256"] = _sha256_file(manifest_path)
+    marker["run_log_sha256"] = _sha256_file(log_path)
+    marker["result_sha256"] = _sha256_file(out)
     temp = _write_temp(marker_path, _json_text(marker))
     os.replace(temp, marker_path)
+
+
+def _arm_record(arm: dict) -> dict:
+    return {
+        field: arm.get(field)
+        for field in ("beta", "log_loss", "calibration_log_loss", "scored", "composites", "mutations")
+    }
+
+
+def _raw_seed(stream: dict, scored: dict, row: dict) -> dict:
+    return {
+        "seed": stream["seed"],
+        "cycles": CELL_CYCLES,
+        "detections": len(stream["data"]["detections"]),
+        "a1": stream["a1"],
+        "measurable": row["measurable"],
+        "exclusion": row.get("exclusion"),
+        "arms": {arm: _arm_record(scored["arms"][arm]) for arm in ("A", "B", "C")},
+    }
+
+
+def _raw_log(seeds: list[dict], reason: str | None = None) -> dict:
+    if reason is not None:
+        entries = [
+            {"seed": seed, "cycles": CELL_CYCLES, "detections": None, "a1": None,
+             "measurable": False, "exclusion": reason, "arms": None}
+            for seed in report.declared_seeds()
+        ]
+    else:
+        entries = seeds
+    return {
+        "kind": "v2_first_cell_run_log",
+        "id": "V2-FIRST-CELL-RUN-LOG-1",
+        "date": datetime.date.today().isoformat(),
+        "status": "RAW EXECUTION LOG — NOT A RESULT AND NOT A VERDICT",
+        "seeds": entries,
+        "note": ("Per-seed arm losses, betas and counts. The result is assembled from the same arm "
+                 "records; no label or interval is defined here."),
+    }
 
 
 def unmeasured_rows(reason: str) -> list[dict]:
@@ -402,7 +537,8 @@ def _seed_row(seed: int, record: dict) -> dict:
 
 
 def run(gates_path: Path = GATES, control_path: Path = CONTROL, out: Path = OUT,
-        marker_path: Path = RUN) -> int:
+        marker_path: Path = RUN, manifest_path: Path = MANIFEST,
+        log_path: Path = RAW_LOG) -> int:
     allowed, reason = authorisation()
     if not allowed:
         print("refused: %s" % reason, file=sys.stderr)
@@ -412,7 +548,7 @@ def run(gates_path: Path = GATES, control_path: Path = CONTROL, out: Path = OUT,
         print("refused:\n  " + "\n  ".join(pin_errors), file=sys.stderr)
         return 1
     try:
-        run_guard(marker_path, out)
+        run_guard(marker_path, out, manifest_path, log_path)
     except RunGuardError as error:
         print("refused: %s" % error, file=sys.stderr)
         return 1
@@ -424,43 +560,58 @@ def run(gates_path: Path = GATES, control_path: Path = CONTROL, out: Path = OUT,
 
     control = _load(control_path) if control_path.exists() else no_control()
     try:
-        _start_run(marker_path, out)
-    except RunGuardError as error:
+        _start_run(marker_path, out, manifest_path, log_path)
+        _start_manifest(manifest_path, marker_path, out, log_path, gates_path, control_path)
+    except (RunGuardError, OSError) as error:
         print("refused: %s" % error, file=sys.stderr)
         return 1
     failed = [g for g in report.GATE_IDS if gates[g]["status"] != "PASS"]
     if failed:
+        reason = "not run: gate(s) " + ", ".join(failed) + " did not pass"
         result = assemble(
-            unmeasured_rows("not run: gate(s) " + ", ".join(failed) + " did not pass"),
+            unmeasured_rows(reason),
             gates,
             no_control("the gate record did not pass, so the control arm did not run"),
             detail="the cell did not run; gate(s) %s did not pass" % ", ".join(failed),
         )
+        raw_log = _raw_log([], reason=reason)
     else:
         try:
             streams = cell_streams()
         except A1StreamError as error:
+            reason = "not run: the A1 cell-stream check failed on seed %d" % error.seed
             failed_gates = copy.deepcopy(gates)
             failed_gates["A1"] = {"status": "FAIL", "evidence": str(error)}
             result = assemble(
-                unmeasured_rows("not run: the A1 cell-stream check failed on seed %d" % error.seed),
+                unmeasured_rows(reason),
                 failed_gates,
                 no_control("the A1 cell-stream check failed, so the control arm did not run"),
                 detail="the cell did not run; A1 failed on seed %d: %s"
                        % (error.seed, "; ".join(error.problems)),
             )
+            raw_log = _raw_log([], reason=reason)
         else:
             rows = []
+            raw_seeds = []
             for stream in streams:
                 scored = readout.arms_for(stream["data"]["tags"],
                                            stream["data"]["detections"], CELL_CYCLES)
-                rows.append(_seed_row(stream["seed"], scored))
+                row = _seed_row(stream["seed"], scored)
+                rows.append(row)
+                raw_seeds.append(_raw_seed(stream, scored, row))
             cell_gates = copy.deepcopy(gates)
             cell_gates["A1"]["evidence"] = (
                 str(cell_gates["A1"]["evidence"]).rstrip() + " " + a1_cell_evidence(streams)
             )
             result = assemble(rows, cell_gates, control)
+            raw_log = _raw_log(raw_seeds)
 
+    raw_log = engine_stamp.stamp(raw_log)
+    try:
+        _write_once(log_path, _json_text(raw_log), "a raw run log")
+    except RunGuardError as error:
+        print("refused: %s" % error, file=sys.stderr)
+        return 1
     result = engine_stamp.stamp(result)
     try:
         _write_once(out, _json_text(result), "a result")
@@ -468,9 +619,14 @@ def run(gates_path: Path = GATES, control_path: Path = CONTROL, out: Path = OUT,
         print("refused: %s" % error, file=sys.stderr)
         return 1
     try:
-        _finish_run(marker_path, out)
+        _finish_manifest(manifest_path, out, log_path)
     except OSError as error:
-        print("warning: the result is written, but the run marker could not be completed: %s"
+        print("warning: the result and raw log are written, but the manifest could not be completed: %s"
+              % error, file=sys.stderr)
+    try:
+        _finish_run(marker_path, out, manifest_path, log_path)
+    except OSError as error:
+        print("warning: the outputs are written, but the run marker could not be completed: %s"
               % error, file=sys.stderr)
     print("wrote %s: %s" % (out, result["outcome"]))
     if result["interval"]:

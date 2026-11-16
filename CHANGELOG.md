@@ -5,6 +5,27 @@ All notable changes to Project Organica are recorded here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project follows [Semantic Versioning 2.0.0](https://semver.org/).
 
+## Addendum — 2026-11-16: the first-cell run is auditable without a re-run
+
+The runner now writes a provenance manifest before it replays any world and a raw per-seed
+log after the arms run. `docs/v2_first_cell_manifest.json` records SHA-256 digests for the
+runner, report, gate record and gate suite, seed declaration and reservations, decision index,
+scorer pin, readout, primitive and engine pin, plus the Python version, platform, executable
+and the three output paths. It starts `STARTED` and is completed with the result and raw-log
+hashes.
+
+`docs/v2_first_cell_run_log.json` records, for every declared seed, its detections, A1 stats,
+measurability and each arm's beta, log-loss, calibration log-loss, scored count, composites
+and mutations. The file is explicitly marked a raw log, not a result or a verdict, and is
+stamped with the engine identity. An A1 or gate failure records the ten seeds as not run with
+no arm values rather than inventing measurements.
+
+The one-shot guard now refuses an existing marker, manifest, raw log or result, and the new
+artifacts are written through the existing temporary-file/exclusive-create path. The manifest
+and marker bind the result and raw log by SHA-256, so the completed cell can be audited
+without replaying a seed. Tests cover the successful path, both failure paths and the new
+refusals. No cell has run.
+
 ## Addendum — 2026-11-16: the first-cell runner is one-shot and writes atomically
 
 `v2_first_cell_runner --run` now writes `docs/v2_first_cell_run.json` before replaying any world.

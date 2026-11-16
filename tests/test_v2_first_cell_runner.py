@@ -118,9 +118,12 @@ def test_an_a1_cell_stream_failure_voids_before_an_arm(monkeypatch, tmp_path):
 
     monkeypatch.setattr(runner, "RUN", tmp_path / "default-run.json")
     monkeypatch.setattr(runner, "OUT", tmp_path / "default-result.json")
+    monkeypatch.setattr(runner, "MANIFEST", tmp_path / "default-manifest.json")
+    monkeypatch.setattr(runner, "RAW_LOG", tmp_path / "default-log.json")
     out = tmp_path / "result.json"
     assert runner.run(control_path=tmp_path / "no-control.json", out=out,
-                      marker_path=tmp_path / "run.json") == 0
+                      marker_path=tmp_path / "run.json", manifest_path=tmp_path / "manifest.json",
+                      log_path=tmp_path / "run-log.json") == 0
     result = json.loads(out.read_text(encoding="utf-8"))
     assert result["outcome"] == "VOID"
     assert result["gates"]["A1"]["status"] == "FAIL"
@@ -128,6 +131,8 @@ def test_an_a1_cell_stream_failure_voids_before_an_arm(monkeypatch, tmp_path):
     assert result["interval"] is None
     assert all(row["measurable"] is False for row in result["per_seed"])
     assert "A1 failed on seed 20910101" in result["void"]["detail"]
+    raw = json.loads((tmp_path / "run-log.json").read_text(encoding="utf-8"))
+    assert raw["seeds"] and all(seed["arms"] is None for seed in raw["seeds"])
 
 
 def test_a_clean_cell_stream_is_added_to_the_a1_evidence_before_scoring(monkeypatch, tmp_path):
@@ -156,19 +161,45 @@ def test_a_clean_cell_stream_is_added_to_the_a1_evidence_before_scoring(monkeypa
             }
         }
 
-    monkeypatch.setattr(runner, "cell_streams", lambda: streams)
+    def streams_after_manifest():
+        initial = json.loads((tmp_path / "manifest.json").read_text(encoding="utf-8"))
+        assert initial["status"] == "STARTED"
+        return streams
+
+    monkeypatch.setattr(runner, "cell_streams", streams_after_manifest)
     monkeypatch.setattr(runner.readout, "arms_for", fake_arms_for)
     monkeypatch.setattr(runner, "RUN", tmp_path / "default-run.json")
     monkeypatch.setattr(runner, "OUT", tmp_path / "default-result.json")
+    monkeypatch.setattr(runner, "MANIFEST", tmp_path / "default-manifest.json")
+    monkeypatch.setattr(runner, "RAW_LOG", tmp_path / "default-log.json")
 
     out = tmp_path / "result.json"
+    log = tmp_path / "run-log.json"
     assert runner.run(control_path=tmp_path / "no-control.json", out=out,
-                      marker_path=tmp_path / "run.json") == 0
+                      marker_path=tmp_path / "run.json", manifest_path=tmp_path / "manifest.json",
+                      log_path=log) == 0
     result = json.loads(out.read_text(encoding="utf-8"))
     assert calls == [120] * 10
     assert result["gates"]["A1"]["status"] == "PASS"
     assert "Cell-stream check: 10 seeds replayed" in result["gates"]["A1"]["evidence"]
     assert report.validate(result) == []
+    raw = json.loads(log.read_text(encoding="utf-8"))
+    manifest = json.loads((tmp_path / "manifest.json").read_text(encoding="utf-8"))
+    assert raw["kind"] == "v2_first_cell_run_log"
+    assert len(raw["seeds"]) == 10
+    assert raw["seeds"][0]["arms"]["A"]["log_loss"] == 0.5
+    assert raw["seeds"][0]["arms"]["B"]["log_loss"] == 0.5005
+    assert raw["seeds"][0]["arms"]["C"]["log_loss"] == 0.4995
+    assert result["per_seed"][0]["d"] == round(0.4995 - 0.5, 6)
+    assert manifest["status"] == "COMPLETED"
+    assert manifest["artifacts"]["raw_log"] == str(log)
+    assert manifest["result_sha256"] == runner.hashlib.sha256(out.read_bytes()).hexdigest()
+    assert manifest["raw_log_sha256"] == runner.hashlib.sha256(log.read_bytes()).hexdigest()
+    assert manifest["inputs"]["runner"]["sha256"] == runner.hashlib.sha256(
+        runner.Path(runner.__file__).read_bytes()).hexdigest()
+    assert manifest["inputs"]["report"]["sha256"] == runner.hashlib.sha256(
+        (runner.REPO / "benchmarks" / "v2_first_cell_report.py").read_bytes()).hexdigest()
+    assert manifest["python"]["version_info"][:2] == list(runner.sys.version_info[:2])
 
 
 def test_a_run_marker_refuses_a_second_attempt_before_any_gate_read(monkeypatch, tmp_path):
@@ -176,13 +207,16 @@ def test_a_run_marker_refuses_a_second_attempt_before_any_gate_read(monkeypatch,
     monkeypatch.setattr(runner, "pins", lambda: [])
     monkeypatch.setattr(runner, "RUN", tmp_path / "default-run.json")
     monkeypatch.setattr(runner, "OUT", tmp_path / "default-result.json")
+    monkeypatch.setattr(runner, "MANIFEST", tmp_path / "default-manifest.json")
+    monkeypatch.setattr(runner, "RAW_LOG", tmp_path / "default-log.json")
     monkeypatch.setattr(runner, "load_gates", lambda path: (_ for _ in ()).throw(
         AssertionError("gates were read after the run marker refused")))
     marker = tmp_path / "run.json"
     marker.write_text("{}", encoding="utf-8")
     out = tmp_path / "result.json"
 
-    assert runner.run(control_path=tmp_path / "no-control.json", out=out, marker_path=marker) == 1
+    assert runner.run(control_path=tmp_path / "no-control.json", out=out, marker_path=marker,
+                      manifest_path=tmp_path / "manifest.json", log_path=tmp_path / "log.json") == 1
     assert not out.exists()
     assert json.loads(marker.read_text(encoding="utf-8")) == {}
 
@@ -192,11 +226,14 @@ def test_an_existing_result_is_never_overwritten(monkeypatch, tmp_path):
     monkeypatch.setattr(runner, "pins", lambda: [])
     monkeypatch.setattr(runner, "RUN", tmp_path / "default-run.json")
     monkeypatch.setattr(runner, "OUT", tmp_path / "default-result.json")
+    monkeypatch.setattr(runner, "MANIFEST", tmp_path / "default-manifest.json")
+    monkeypatch.setattr(runner, "RAW_LOG", tmp_path / "default-log.json")
     out = tmp_path / "result.json"
     out.write_text("the one report\n", encoding="utf-8")
     marker = tmp_path / "run.json"
 
-    assert runner.run(control_path=tmp_path / "no-control.json", out=out, marker_path=marker) == 1
+    assert runner.run(control_path=tmp_path / "no-control.json", out=out, marker_path=marker,
+                      manifest_path=tmp_path / "manifest.json", log_path=tmp_path / "log.json") == 1
     assert out.read_text(encoding="utf-8") == "the one report\n"
     assert not marker.exists()
 
@@ -206,6 +243,8 @@ def test_the_canonical_paths_block_even_a_custom_attempt(monkeypatch, tmp_path):
     monkeypatch.setattr(runner, "pins", lambda: [])
     monkeypatch.setattr(runner, "RUN", tmp_path / "default-run.json")
     monkeypatch.setattr(runner, "OUT", tmp_path / "default-result.json")
+    monkeypatch.setattr(runner, "MANIFEST", tmp_path / "default-manifest.json")
+    monkeypatch.setattr(runner, "RAW_LOG", tmp_path / "default-log.json")
     monkeypatch.setattr(runner, "load_gates", lambda path: (_ for _ in ()).throw(
         AssertionError("gates were read after the canonical guard refused")))
     custom_marker = tmp_path / "custom-run.json"
@@ -213,14 +252,42 @@ def test_the_canonical_paths_block_even_a_custom_attempt(monkeypatch, tmp_path):
 
     (tmp_path / "default-run.json").write_text("{}", encoding="utf-8")
     assert runner.run(control_path=tmp_path / "no-control.json", out=custom_out,
-                      marker_path=custom_marker) == 1
+                      marker_path=custom_marker, manifest_path=tmp_path / "custom-manifest.json",
+                      log_path=tmp_path / "custom-log.json") == 1
     assert not custom_out.exists()
 
     (tmp_path / "default-run.json").unlink()
     (tmp_path / "default-result.json").write_text("the one report\n", encoding="utf-8")
     assert runner.run(control_path=tmp_path / "no-control.json", out=custom_out,
-                      marker_path=custom_marker) == 1
+                      marker_path=custom_marker, manifest_path=tmp_path / "custom-manifest.json",
+                      log_path=tmp_path / "custom-log.json") == 1
     assert not custom_marker.exists()
+
+
+def test_an_existing_manifest_or_log_refuses_a_second_attempt(monkeypatch, tmp_path):
+    monkeypatch.setattr(runner, "authorisation", lambda: (True, "authorised"))
+    monkeypatch.setattr(runner, "pins", lambda: [])
+    monkeypatch.setattr(runner, "RUN", tmp_path / "default-run.json")
+    monkeypatch.setattr(runner, "OUT", tmp_path / "default-result.json")
+    monkeypatch.setattr(runner, "MANIFEST", tmp_path / "default-manifest.json")
+    monkeypatch.setattr(runner, "RAW_LOG", tmp_path / "default-log.json")
+    monkeypatch.setattr(runner, "load_gates", lambda path: (_ for _ in ()).throw(
+        AssertionError("gates were read after a provenance artifact refused")))
+    marker = tmp_path / "run.json"
+    out = tmp_path / "result.json"
+    manifest = tmp_path / "manifest.json"
+    log = tmp_path / "run-log.json"
+
+    manifest.write_text("{}", encoding="utf-8")
+    assert runner.run(control_path=tmp_path / "no-control.json", out=out, marker_path=marker,
+                      manifest_path=manifest, log_path=log) == 1
+    assert not marker.exists() and not out.exists()
+
+    manifest.unlink()
+    log.write_text("{}", encoding="utf-8")
+    assert runner.run(control_path=tmp_path / "no-control.json", out=out, marker_path=marker,
+                      manifest_path=manifest, log_path=log) == 1
+    assert not marker.exists() and not out.exists()
 
 
 def test_a_gate_failure_writes_a_marker_and_void_once(monkeypatch, tmp_path):
@@ -229,18 +296,34 @@ def test_a_gate_failure_writes_a_marker_and_void_once(monkeypatch, tmp_path):
     monkeypatch.setattr(runner, "load_gates", lambda path: runner.synthetic_gates(failing=("A3",)))
     monkeypatch.setattr(runner, "RUN", tmp_path / "default-run.json")
     monkeypatch.setattr(runner, "OUT", tmp_path / "default-result.json")
+    monkeypatch.setattr(runner, "MANIFEST", tmp_path / "default-manifest.json")
+    monkeypatch.setattr(runner, "RAW_LOG", tmp_path / "default-log.json")
     marker = tmp_path / "run.json"
     out = tmp_path / "result.json"
+    manifest = tmp_path / "manifest.json"
+    log = tmp_path / "run-log.json"
 
-    assert runner.run(control_path=tmp_path / "no-control.json", out=out, marker_path=marker) == 0
+    assert runner.run(control_path=tmp_path / "no-control.json", out=out, marker_path=marker,
+                      manifest_path=manifest, log_path=log) == 0
     result = json.loads(out.read_text(encoding="utf-8"))
     completed = json.loads(marker.read_text(encoding="utf-8"))
+    manifest_data = json.loads(manifest.read_text(encoding="utf-8"))
+    raw = json.loads(log.read_text(encoding="utf-8"))
     assert result["outcome"] == "VOID"
     assert "A3_MUTATION" in result["void"]["codes"]
     assert completed["status"] == "COMPLETED"
     assert completed["result_sha256"] == runner.hashlib.sha256(out.read_bytes()).hexdigest()
+    assert completed["manifest_sha256"] == runner.hashlib.sha256(manifest.read_bytes()).hexdigest()
+    assert completed["run_log_sha256"] == runner.hashlib.sha256(log.read_bytes()).hexdigest()
+    assert manifest_data["status"] == "COMPLETED"
+    assert manifest_data["inputs"]["gate_record"]["sha256"] == runner.hashlib.sha256(
+        runner.GATES.read_bytes()).hexdigest()
+    assert manifest_data["inputs"]["seed_declaration"]["sha256"] == runner.hashlib.sha256(
+        (runner.REPO / "docs" / "v2_first_cell_seeds.json").read_bytes()).hexdigest()
+    assert raw["seeds"] and all(seed["arms"] is None for seed in raw["seeds"])
     assert not list(tmp_path.glob(".*.tmp-*"))
 
     before = out.read_bytes()
-    assert runner.run(control_path=tmp_path / "no-control.json", out=out, marker_path=marker) == 1
+    assert runner.run(control_path=tmp_path / "no-control.json", out=out, marker_path=marker,
+                      manifest_path=manifest, log_path=log) == 1
     assert out.read_bytes() == before
