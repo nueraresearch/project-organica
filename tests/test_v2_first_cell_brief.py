@@ -20,11 +20,13 @@ def test_every_headline_number_comes_from_its_artifact() -> None:
     null = json.loads((ROOT / "docs" / "v2_first_cell_null.json").read_text(encoding="utf-8"))
     power = json.loads((ROOT / "docs" / "v2_first_cell_power.json").read_text(encoding="utf-8"))
     handicap = json.loads((ROOT / "docs" / "v2_first_cell_handicap.json").read_text(encoding="utf-8"))
+    planted = json.loads((ROOT / "docs" / "v2_first_cell_planted.json").read_text(encoding="utf-8"))
     assert "%.4f" % null["calibration"]["directional_false_pass_rate"] in page
     assert "%.6f" % power["mde"]["0.9"] in page
     assert ("−" + "%.6f" % abs(power["required_mean_d"]["0.9"])) in page
     assert "%.6f" % handicap["decomposition"]["beta_only_mean"] in page
     assert "%.6f" % handicap["decomposition"]["net_mean"] in page
+    assert "%.2f×" % planted["comparison"]["gain_multiple_of_handicap"] in page
 
 
 def test_the_single_remaining_action_is_the_signature() -> None:

@@ -1,0 +1,549 @@
+{
+  "kind": "v2_first_cell_planted",
+  "id": "V2-FIRST-CELL-PLANTED-1",
+  "date": "2026-11-16",
+  "status": "POSITIVE-CONTROL DIAGNOSTIC — A PLANTED-SIGNAL WORLD, NOT A CELL AND NOT A VERDICT",
+  "question": "can the readout express a gain larger than the null handicap when the composite is the only evidence for the held-out transition?",
+  "world": {
+    "construction": "training repeats five three-tag motifs a->b->c, 51 times each; the held-out stream asks for a->c, the motif closure read forwards, 19 times per motif",
+    "why_the_baseline_cannot": "training shows c->a and never a->c, so the pair-count arm has zero support for the held-out transition and only its smoothing remains",
+    "why_the_composite_can": "the admitted motif {a,b,c} contains the undirected member edge {a,c}, so the membership term can raise c when it sees a",
+    "motifs_per_world": 5,
+    "repetitions": 51,
+    "train_blocks": 96,
+    "holdout": [
+      96,
+      120
+    ],
+    "cycles": 120
+  },
+  "protocol": {
+    "m": 2,
+    "alpha": 0.5,
+    "beta_grid": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "window": 20,
+    "level": 0.99,
+    "resamples": 10000,
+    "bootstrap_seed": 20261116
+  },
+  "seeds": [
+    20930102,
+    20930103,
+    20930104,
+    20930105,
+    20930106,
+    20930107,
+    20930108,
+    20930109,
+    20930110,
+    20930111
+  ],
+  "smoke_seed": 20930101,
+  "per_seed": [
+    {
+      "seed": 20930102,
+      "detections": 1359,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.243242,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 2790
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.191727,
+          "composites": 20,
+          "mutations": 0,
+          "scored": 2790,
+          "calibration_log_loss": 0.071639
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.191567,
+          "composites": 20,
+          "mutations": 1,
+          "scored": 2790,
+          "calibration_log_loss": 0.071623
+        }
+      },
+      "membership": {
+        "composites": 20,
+        "mutations": 1,
+        "edges": 29,
+        "closure_edges": 10,
+        "closure_share": 0.344828
+      },
+      "d": -0.051675,
+      "d_beta_only": -0.051515,
+      "d_revision_only": -0.00016,
+      "motifs": [
+        "ochreverdantfern",
+        "slatecrimsoncedar",
+        "oliveindigomaple",
+        "willowyarrowbirch",
+        "ambertealumber"
+      ]
+    },
+    {
+      "seed": 20930103,
+      "detections": 1359,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.243242,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 2790
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.191727,
+          "composites": 20,
+          "mutations": 0,
+          "scored": 2790,
+          "calibration_log_loss": 0.071639
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.191553,
+          "composites": 20,
+          "mutations": 1,
+          "scored": 2790,
+          "calibration_log_loss": 0.071639
+        }
+      },
+      "membership": {
+        "composites": 20,
+        "mutations": 1,
+        "edges": 29,
+        "closure_edges": 10,
+        "closure_share": 0.344828
+      },
+      "d": -0.051689,
+      "d_beta_only": -0.051515,
+      "d_revision_only": -0.000174,
+      "motifs": [
+        "tealverdantyarrow",
+        "ferncedarsable",
+        "willowambercrimson",
+        "indigoumbermaple",
+        "bircholiveslate"
+      ]
+    },
+    {
+      "seed": 20930104,
+      "detections": 1359,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.243242,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 2790
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.191727,
+          "composites": 20,
+          "mutations": 0,
+          "scored": 2790,
+          "calibration_log_loss": 0.071639
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.191553,
+          "composites": 20,
+          "mutations": 1,
+          "scored": 2790,
+          "calibration_log_loss": 0.071639
+        }
+      },
+      "membership": {
+        "composites": 20,
+        "mutations": 1,
+        "edges": 29,
+        "closure_edges": 10,
+        "closure_share": 0.344828
+      },
+      "d": -0.051689,
+      "d_beta_only": -0.051515,
+      "d_revision_only": -0.000174,
+      "motifs": [
+        "umbertealwillow",
+        "ochreyarrowmaple",
+        "crimsonsableamber",
+        "indigoverdantbirch",
+        "fernslateolive"
+      ]
+    },
+    {
+      "seed": 20930105,
+      "detections": 1359,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.243242,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 2790
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.191727,
+          "composites": 20,
+          "mutations": 0,
+          "scored": 2790,
+          "calibration_log_loss": 0.071639
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.191567,
+          "composites": 20,
+          "mutations": 1,
+          "scored": 2790,
+          "calibration_log_loss": 0.071623
+        }
+      },
+      "membership": {
+        "composites": 20,
+        "mutations": 1,
+        "edges": 29,
+        "closure_edges": 10,
+        "closure_share": 0.344828
+      },
+      "d": -0.051675,
+      "d_beta_only": -0.051515,
+      "d_revision_only": -0.00016,
+      "motifs": [
+        "verdantumbercrimson",
+        "sablewillowfern",
+        "mapleyarrowindigo",
+        "olivetealcedar",
+        "slateochreamber"
+      ]
+    },
+    {
+      "seed": 20930106,
+      "detections": 1359,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.243242,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 2790
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.191727,
+          "composites": 20,
+          "mutations": 0,
+          "scored": 2790,
+          "calibration_log_loss": 0.071639
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.191567,
+          "composites": 20,
+          "mutations": 1,
+          "scored": 2790,
+          "calibration_log_loss": 0.071623
+        }
+      },
+      "membership": {
+        "composites": 20,
+        "mutations": 1,
+        "edges": 29,
+        "closure_edges": 10,
+        "closure_share": 0.344828
+      },
+      "d": -0.051675,
+      "d_beta_only": -0.051515,
+      "d_revision_only": -0.00016,
+      "motifs": [
+        "ambertealumber",
+        "yarrowolivesable",
+        "slatemaplecrimson",
+        "birchverdantcedar",
+        "willowindigofern"
+      ]
+    },
+    {
+      "seed": 20930107,
+      "detections": 1359,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.243242,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 2790
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.191727,
+          "composites": 20,
+          "mutations": 0,
+          "scored": 2790,
+          "calibration_log_loss": 0.071639
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.191553,
+          "composites": 20,
+          "mutations": 1,
+          "scored": 2790,
+          "calibration_log_loss": 0.071639
+        }
+      },
+      "membership": {
+        "composites": 20,
+        "mutations": 1,
+        "edges": 29,
+        "closure_edges": 10,
+        "closure_share": 0.344828
+      },
+      "d": -0.051689,
+      "d_beta_only": -0.051515,
+      "d_revision_only": -0.000174,
+      "motifs": [
+        "yarrowcrimsonumber",
+        "amberindigoslate",
+        "sablemapleverdant",
+        "fernolivecedar",
+        "birchwillowochre"
+      ]
+    },
+    {
+      "seed": 20930108,
+      "detections": 1359,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.243242,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 2790
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.191727,
+          "composites": 20,
+          "mutations": 0,
+          "scored": 2790,
+          "calibration_log_loss": 0.071639
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.191553,
+          "composites": 20,
+          "mutations": 1,
+          "scored": 2790,
+          "calibration_log_loss": 0.071639
+        }
+      },
+      "membership": {
+        "composites": 20,
+        "mutations": 1,
+        "edges": 29,
+        "closure_edges": 10,
+        "closure_share": 0.344828
+      },
+      "d": -0.051689,
+      "d_beta_only": -0.051515,
+      "d_revision_only": -0.000174,
+      "motifs": [
+        "ambertealolive",
+        "sablefernwillow",
+        "cedarumberbirch",
+        "mapleindigoverdant",
+        "ochreslateyarrow"
+      ]
+    },
+    {
+      "seed": 20930109,
+      "detections": 1359,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.243242,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 2790
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.191727,
+          "composites": 20,
+          "mutations": 0,
+          "scored": 2790,
+          "calibration_log_loss": 0.071639
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.191553,
+          "composites": 20,
+          "mutations": 1,
+          "scored": 2790,
+          "calibration_log_loss": 0.071639
+        }
+      },
+      "membership": {
+        "composites": 20,
+        "mutations": 1,
+        "edges": 29,
+        "closure_edges": 10,
+        "closure_share": 0.344828
+      },
+      "d": -0.051689,
+      "d_beta_only": -0.051515,
+      "d_revision_only": -0.000174,
+      "motifs": [
+        "sabletealcedar",
+        "mapleslateumber",
+        "yarrowcrimsonverdant",
+        "willowochrefern",
+        "olivebirchamber"
+      ]
+    },
+    {
+      "seed": 20930110,
+      "detections": 1359,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.243242,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 2790
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.191727,
+          "composites": 20,
+          "mutations": 0,
+          "scored": 2790,
+          "calibration_log_loss": 0.071639
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.191553,
+          "composites": 20,
+          "mutations": 1,
+          "scored": 2790,
+          "calibration_log_loss": 0.071639
+        }
+      },
+      "membership": {
+        "composites": 20,
+        "mutations": 1,
+        "edges": 29,
+        "closure_edges": 10,
+        "closure_share": 0.344828
+      },
+      "d": -0.051689,
+      "d_beta_only": -0.051515,
+      "d_revision_only": -0.000174,
+      "motifs": [
+        "slateambersable",
+        "ochrecedaryarrow",
+        "tealfernverdant",
+        "indigowillowumber",
+        "crimsonmaplebirch"
+      ]
+    },
+    {
+      "seed": 20930111,
+      "detections": 1359,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.243242,
+          "composites": 0,
+          "mutations": 0,
+          "scored": 2790
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.191727,
+          "composites": 20,
+          "mutations": 0,
+          "scored": 2790,
+          "calibration_log_loss": 0.071639
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.191553,
+          "composites": 20,
+          "mutations": 1,
+          "scored": 2790,
+          "calibration_log_loss": 0.071639
+        }
+      },
+      "membership": {
+        "composites": 20,
+        "mutations": 1,
+        "edges": 29,
+        "closure_edges": 10,
+        "closure_share": 0.344828
+      },
+      "d": -0.051689,
+      "d_beta_only": -0.051515,
+      "d_revision_only": -0.000174,
+      "motifs": [
+        "cedartealbirch",
+        "verdantochrecrimson",
+        "oliveslatemaple",
+        "indigosableumber",
+        "willowamberyarrow"
+      ]
+    }
+  ],
+  "summary": {
+    "n": 10,
+    "mean_d": -0.051685,
+    "sd_d": 7e-06,
+    "min_d": -0.051689,
+    "max_d": -0.051675,
+    "positive": 0,
+    "negative": 10,
+    "mean_d_beta_only": -0.051515,
+    "mean_d_revision_only": -0.00017,
+    "mean_composites": 20.0,
+    "mean_closure_share": 0.344828
+  },
+  "interval": {
+    "mean": -0.051684799999999996,
+    "lo": -0.051689,
+    "hi": -0.0516792,
+    "includes_zero": false,
+    "level": 0.99,
+    "resamples": 10000
+  },
+  "comparison": {
+    "null_handicap": 0.000847,
+    "required_mean_d_90": -0.000602,
+    "mean_gain": 0.051685,
+    "gain_multiple_of_handicap": 61.02,
+    "clears_handicap": true,
+    "clears_power_bar": true,
+    "revision_share_of_gain": 0.003285
+  },
+  "verdict": {
+    "clears": true,
+    "reason": "the planted composite is the only evidence for the held-out transition; a gain that clears the handicap shows the readout can express it, and says nothing about whether the first cell's world contains such a motif",
+    "label": "GAIN CLEARS THE NULL HANDICAP"
+  },
+  "note": "a diagnostic, never a cell. The world is built to be the readout's best case: the held-out transition is absent from training, and only the composite's undirected member edge binds it. The result licenses no claim about mutable identity.",
+  "engine_version": "0.15.0",
+  "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+  "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+  "runner": "__main__"
+}

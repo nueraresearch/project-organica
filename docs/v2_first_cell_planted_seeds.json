@@ -1,0 +1,26 @@
+{
+  "kind": "v2_first_cell_planted_seeds",
+  "id": "V2-FIRST-CELL-PLANTED-SEEDS-1",
+  "date": "2026-11-16",
+  "status": "SPENT — THE TEN MEASUREMENT SEEDS WERE USED BY THE POSITIVE-CONTROL RUN; THE SMOKE SEED WAS SPENT BY THE PROTOTYPE AND IS NOT SCORED",
+  "owner": "docs/V2-FIRST-CELL-PLANTED.md",
+  "seed_block": {
+    "lo": 20930102,
+    "hi": 20930111,
+    "seeds": [
+      20930102,
+      20930103,
+      20930104,
+      20930105,
+      20930106,
+      20930107,
+      20930108,
+      20930109,
+      20930110,
+      20930111
+    ]
+  },
+  "smoke_seed": 20930101,
+  "n": 10,
+  "note": "A diagnostic, never a cell. The smoke seed proves the planted world produces the structure the diagnostic needs; the ten measurement seeds are the positive control."
+}

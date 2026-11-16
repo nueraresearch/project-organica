@@ -43,6 +43,12 @@ revision-only arm is exactly the baseline on every seed (`D − A = 0.000000`), 
 β-dependent and there is no implementation asymmetry. No non-trivial readout is unbiased on a structureless world; the
 handicap is already inside the power numbers above.
 
+**The readout can express a gain.** In the planted positive control — five repeating three-tag motifs whose held-out
+law is the closure direction training never showed — the gain is **61.02×**
+the handicap (0.051685 nats), and the frozen arm reaches it too, so the gain is the composite
+term's rather than revision's. That rules out a readout that cannot express a gain at all; it does not show that the
+cell's world contains such a motif.
+
 ## The single remaining action
 
 **Sign [`DECISION-V2-FIRST-CELL`](DECISION-V2-FIRST-CELL.md).** Nothing else is open: the protocol is signed, the readout is

@@ -143,6 +143,27 @@
         20920120
       ],
       "spent": true
+    },
+    {
+      "label": "first V2 cell positive control, planted-signal worlds (diagnostic, never a cell)",
+      "owner": "docs/v2_first_cell_planted_seeds.json",
+      "restated_by": [
+        "docs/v2_first_cell_planted.json"
+      ],
+      "seeds": [
+        20930101,
+        20930102,
+        20930103,
+        20930104,
+        20930105,
+        20930106,
+        20930107,
+        20930108,
+        20930109,
+        20930110,
+        20930111
+      ],
+      "spent": true
     }
   ],
   "shared_blocks": [

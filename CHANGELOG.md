@@ -159,6 +159,20 @@ not silently applied.
 false-pass rate, the power curve at the measured noise, and the handicap decomposition, each number read from the artifact
 that measured it. It adds no evidence, and it names the single remaining action — the signature.
 
+## Addendum — 2026-11-16: the planted positive control — a composite gain above the handicap
+
+`benchmarks/v2_first_cell_planted.py` builds a world where five three-tag motifs are repeated in training and the
+held-out stream asks for each motif's closure read forwards (`a -> c`), a transition training never showed. The
+pair-count arm has no support for it; the admitted motif contains the undirected member edge `{a,c}`, so the composite
+term does. Across ten seeds the mean difference is **−0.051685** nats, **61×** the null handicap, with a 99% interval
+of `[−0.051689, −0.051679]`.
+
+The gain is the composite term's, not revision's: the frozen arm reaches −0.051515 and maintenance adds −0.000170, a
+revision share of 0.3%. The ten seeds vary only the tag-to-role mapping, so the interval measures mapping variation
+rather than a population of worlds, and the world is deliberately the readout's best case. The result establishes
+that the readout can express a composite gain above the handicap; it does not establish that the first cell's world
+contains such a motif, and it spends none of the cell's seeds.
+
 ## Addendum — 2026-11-16: the null handicap decomposed, and why it cannot be debiased
 
 `benchmarks/v2_first_cell_handicap.py` separates the +0.000847 nats null handicap using the stored arms: frozen membership's

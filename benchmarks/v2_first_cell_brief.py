@@ -22,6 +22,7 @@ PAGE = Path("docs/V2-FIRST-CELL-BRIEF.md")
 NULL = Path("docs/v2_first_cell_null.json")
 POWER = Path("docs/v2_first_cell_power.json")
 HANDICAP = Path("docs/v2_first_cell_handicap.json")
+PLANTED = Path("docs/v2_first_cell_planted.json")
 SEEDS = Path("docs/v2_first_cell_seeds.json")
 DECISIONS = Path("docs/decisions.json")
 RESERVATIONS = Path("docs/a1_seed_reservations.json")
@@ -36,6 +37,7 @@ def render() -> str:
     null = _load(NULL)
     power = _load(POWER)
     handicap = _load(HANDICAP)
+    planted = _load(PLANTED)
     seeds = _load(SEEDS)
     decisions = _load(DECISIONS)
     reservations = _load(RESERVATIONS)
@@ -93,6 +95,12 @@ handicap, that corresponds to an observed mean difference of **{('%.6f' % power[
 revision-only arm is exactly the baseline on every seed (`D − A = {factorial['arms']['D']['mean_d']:.6f}`), so the effect is
 β-dependent and there is no implementation asymmetry. No non-trivial readout is unbiased on a structureless world; the
 handicap is already inside the power numbers above.
+
+**The readout can express a gain.** In the planted positive control — five repeating three-tag motifs whose held-out
+law is the closure direction training never showed — the gain is **{planted['comparison']['gain_multiple_of_handicap']:.2f}×**
+the handicap ({planted['comparison']['mean_gain']:.6f} nats), and the frozen arm reaches it too, so the gain is the composite
+term's rather than revision's. That rules out a readout that cannot express a gain at all; it does not show that the
+cell's world contains such a motif.
 
 ## The single remaining action
 
