@@ -1202,7 +1202,8 @@
       "decisions": [
         "DECISION-V2-CHARTER.md",
         "DECISION-V2-PRIMITIVE-RESOLUTIONS.md",
-        "DECISION-V2-FIRST-CELL.md"
+        "DECISION-V2-FIRST-CELL.md",
+        "DECISION-V2-FIRST-CELL-INTERPRETATION.md"
       ],
       "preregistrations": [
         "V2-FIRST-EXPERIMENT-PREREGISTRATION.md"

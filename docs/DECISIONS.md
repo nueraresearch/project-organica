@@ -14,10 +14,10 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 
 | status | count | meaning |
 | --- | --- | --- |
-| ADOPTED | 26 | in force; the document records it as implemented or effective |
+| ADOPTED | 27 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
 | PENDING | 6 | decided and not in force; the document says so |
-| **total** | **33** | |
+| **total** | **34** | |
 
 ## The decisions
 
@@ -744,6 +744,32 @@ uncomputable, and the cause that fired first is the one worth reporting.
 **Evidence.** `docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md`, `docs/v2_first_cell_seeds.json`, `docs/v2_first_cell_scorer_pin.json`, `docs/V2-MUTABLE-IDENTITY-SPEC.md`, `docs/DECISION-V2-PRIMITIVE-RESOLUTIONS.md`, `docs/V2-PRIMITIVE-SIZING.md`, `docs/CODE-AS-EVIDENCE.md`, `docs/V1-REKEYING-TWO-SEEDS.md`
 
 **Record.** `docs/DECISION-V2-FIRST-CELL.md`
+
+### DECISION-V2-FIRST-CELL-INTERPRETATION — `DECISION-V2-FIRST-CELL-INTERPRETATION` — what each cell outcome authorises, fixed before the cell
+
+**Status.** ADOPTED — *"ADOPTED 2026-11-16 — THE FOUR READINGS ARE FIXED BEFORE THE CELL; NO CELL IS AUTHORISED"*
+
+**Decided.**
+
+- A cell outcome is read by one of four labels fixed here before the cell runs: PASS when the interval lies entirely below zero, BOOKKEEPING when it includes zero, REVERSAL when it lies entirely above zero, and VOID when no admissible interval was produced.
+- PASS authorises one report that the primitive earned held-out prediction beyond the counts on the measured world family, and no build, promotion or attribution of the gain to maintained selection.
+- BOOKKEEPING authorises the report that the primitive is bookkeeping and the charter fails at its first experiment, and no feature, rescore or second run of the same block.
+- REVERSAL authorises the report that maintained membership cost held-out prediction, which is a failure and is not evidence that selection found signal with the wrong sign.
+- VOID authorises no effect estimate and no scientific reading at all, because a failure to produce an admissible comparison is not a negative result and a further attempt needs a new pre-registration, a fresh seed block and a new dated grant.
+
+**Rejected.**
+
+- *Choose the reading after seeing the interval* — because *"The reading is what turns an interval into a claim, and choosing it after the interval is seen is how a failed criterion becomes a rescued one. This document exists so that sentence is not available."*
+- *Treat VOID as a negative result* — because *"A run that produced no admissible comparison is not evidence for or against the primitive, and reporting it as a null converts an instrument failure into a scientific finding."*
+- *Attribute a PASS to maintained selection* — because *"The matched selection measurement is `+0.002091` on a deliberately best-case planted world and `−0.000497` on a structureless one, so its sign depends on the world and a pass does not establish the mechanism."*
+- *Rescore the block after BOOKKEEPING or REVERSAL* — because *"The endpoint, the power and the seed block were fixed before the run, so a second look at the same block is a new experiment reported as if it were the first."*
+- *Read a REVERSAL as signal found backwards* — because *"On structureless worlds the same rule excluded zero above zero in 943 of 1,000 cells, so a reversal is what no signal looks like, not a signal found in reverse."*
+
+**Rests on.** Q057 (open)
+
+**Evidence.** `docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md`, `docs/v2_first_cell_null.json`, `docs/v2_first_cell_power.json`, `docs/v2_first_cell_handicap.json`, `docs/v2_first_cell_mass_match.json`, `docs/v2_first_cell_planted.json`, `docs/v2_first_cell_planted_selection.json`, `docs/v2_first_cell_seeds.json`, `docs/a1_seed_reservations.json`, `docs/DECISION-A1-VOID-ACCEPTED.md`
+
+**Record.** `docs/DECISION-V2-FIRST-CELL-INTERPRETATION.md`
 
 ## What this graph is not
 

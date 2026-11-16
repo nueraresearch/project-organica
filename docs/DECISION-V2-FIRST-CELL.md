@@ -16,6 +16,10 @@ one-report stop.
 
 Authorise one cell of the pre-registered first V2 experiment — ten seeds `20910101`–`20910110`, three arms on each, held-out next-edge log-loss under the pre-registered 99% paired-bootstrap rule, with `m = 2`, the pinned world, detector and log-loss instrument, and a build confined to `benchmarks/v2_first_cell_readout.py` — with no engine change, no V2 module, no promotion, no second report and no seed spent beyond that block, and with the cell refusing to run until the adapter's digest is in the scorer pin.
 
+**The reading is fixed before the run.** [`DECISION-V2-FIRST-CELL-INTERPRETATION`](DECISION-V2-FIRST-CELL-INTERPRETATION.md)
+(adopted 2026-11-16) fixes what PASS, BOOKKEEPING, REVERSAL and VOID each authorise. Signing this authorisation accepts
+that reading; it is not renegotiated after the interval is seen.
+
 ## 2. What the cell is, and why it is one cell
 
 [`V2-FIRST-EXPERIMENT-PREREGISTRATION`](V2-FIRST-EXPERIMENT-PREREGISTRATION.md) is signed: the endpoint, the arms, the
@@ -55,6 +59,7 @@ signed; the adapter is already pinned.
 ## 5. Evidence
 
 - [`V2-FIRST-EXPERIMENT-PREREGISTRATION`](V2-FIRST-EXPERIMENT-PREREGISTRATION.md) — the signed protocol.
+- [`DECISION-V2-FIRST-CELL-INTERPRETATION`](DECISION-V2-FIRST-CELL-INTERPRETATION.md) — the four readings and the scope of each.
 - [`v2_first_cell_seeds.json`](v2_first_cell_seeds.json) — the declared block.
 - [`v2_first_cell_scorer_pin.json`](v2_first_cell_scorer_pin.json) — the pinned modules and the adapter rule.
 - [`V2-MUTABLE-IDENTITY-SPEC`](V2-MUTABLE-IDENTITY-SPEC.md) §8 — the earning test and the `I1`–`I5`/`M1`–`M5` battery.

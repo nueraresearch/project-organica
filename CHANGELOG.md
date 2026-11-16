@@ -5,6 +5,17 @@ All notable changes to Project Organica are recorded here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project follows [Semantic Versioning 2.0.0](https://semver.org/).
 
+## Addendum — 2026-11-16: the four outcomes have a fixed reading, before any cell
+
+`DECISION-V2-FIRST-CELL-INTERPRETATION` is adopted with no cell run. It fixes what each outcome of the pre-registered
+interval authorises: **PASS** — one report that the primitive earned held-out prediction beyond the counts, with no build
+and no attribution to maintained selection; **BOOKKEEPING** — the charter fails at its first experiment, with no feature,
+rescore or second run; **REVERSAL** — a measured cost, reported as a failure rather than as signal found backwards;
+**VOID** — no reading at all, not a negative result. It also writes the selection sign reversal into the reading: at equal
+mass and key count the matched control is **−0.000497** on null worlds and **+0.002091** on the planted world (4.05% of
+that gain), so neither sign is assumed for the cell and a PASS is not a selection result. The decision index moves to 34
+(27 adopted, 1 withdrawn, 6 pending). No cell ran; the ten seeds remain held.
+
 ## Addendum — 2026-11-15: the C1 denominator has a convention the protocol does not fix
 
 `A1-DESIGN-VIABILITY-1` is re-issued, and it is the last record that still read the 63–64
