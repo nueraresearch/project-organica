@@ -153,6 +153,21 @@ This addendum replaces the first version of the same study, which reported 20 re
 all 186 retirement rows and the conservative figures above stand. The correction is recorded in the page and the artifact,
 not silently applied.
 
+## Addendum — 2026-11-16: the readout adapter is built, pinned and dry-run
+
+`benchmarks/v2_first_cell_readout.py` implements the signed protocol: one engine replay per world, composites admitted on
+`m = 2` with direction-free keys, arm B's membership frozen at admission, arm C's maintained by the 20-cycle rule, and
+next-edge log-loss through the pinned `heldout_prediction._score` instrument. `--check` verifies all four digests and a
+deterministic two-run comparison; `--pin` records the adapter's own digest; `--dry-run` scored smoke seed `20911101` and
+wrote `docs/v2_first_cell_dry_run.json`.
+
+**The dry run found a protocol defect.** With `0` in the β grid, arm C selected `β = 0` and reproduced arm A exactly, and
+arm B was also scored at `β = 0`: a treatment arm could select itself into the null. Amendment 1 of the pre-registration
+therefore drops zero, gives each arm its own β, and is disclosed as pre-observation — no cell ran and no seed from the
+ten-seed block was spent. Rescored, the arms separate on the smoke seed: A `0.280457`, B `0.289424` (`β = 1`), C `0.285669`
+(`β = 1`), difference C−A `0.005212`. That is one seed, so it is a check that the machinery discriminates, not evidence
+about the primitive.
+
 ## Addendum — 2026-11-16: the pre-registration is signed and the cell's authorisation is drafted
 
 `docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md` is now `SIGNED 2026-11-16`: every field it left open is filled.

@@ -12,9 +12,9 @@ A pre-registration is only worth what it fixes *before* a result is seen. This o
 arms, the gate order, the admission threshold `m`, the world and boundary, the seed block, the readout, the revision rule, the
 interval method and the scorer pin. It was signed on 2026-11-16, before any cell ran and before any readout existed.
 
-Two things are deliberately **not** fixed here, because they are not this document's to fix: the authorisation itself (a
-separate decision) and the readout adapter's hash (recorded in the scorer pin in the authorisation commit, when the adapter
-exists). Neither is a field the analysis may fill later; both are defined steps with defined locations.
+One thing is deliberately **not** fixed here, because it is not this document's to fix: the authorisation itself (a
+separate decision). The readout adapter is written and its digest is in the scorer pin; an amendment below records the one
+protocol change the dry run forced, made before any cell and before any observation.
 
 ## 2. The one question
 
@@ -124,7 +124,7 @@ Counts are frozen from the training blocks. For each arm:
 - **Arms B and C:** `p_uv = (n_uv + α + β·c_uv) / (n_u + α·|V| + β·Σ_w c_uw)`, where `c_uv` is the number of admitted
   composites that contain the edge `(u, v)` as a member — frozen at admission for B, maintained by §7.4 for C.
 
-`α = 0.5` (the value the existing instrument uses). `β` is selected **per arm** from the grid `{0, 1, 2, 4, 8}` on the
+`α = 0.5` (the value the existing instrument uses). `β` is selected **per arm** from the grid `{1, 2, 4, 8}` — zero excluded since Amendment 1 — on the
 calibration blocks by that arm's own calibration log-loss, so the baseline is not handicapped; the selected `β` is recorded
 and applied unchanged to the held-out blocks. Arm A selects no `β` (its readout has no membership term).
 
@@ -152,13 +152,14 @@ seeds remain, the cell is `VOID` rather than a negative result.
 
 [`v2_first_cell_scorer_pin.json`](v2_first_cell_scorer_pin.json) records the SHA-256 of the world generator, the detector and
 the log-loss instrument. The harness refuses to score when a digest differs. The readout adapter
-(`benchmarks/v2_first_cell_readout.py`) does not exist yet; its digest is committed into the same pin file in the
-authorisation commit, and a missing digest refuses the cell. Re-pinning is allowed and is a reviewed commit.
+(`benchmarks/v2_first_cell_readout.py`) is implemented and its digest is recorded in the same pin file;
+`python -m benchmarks.v2_first_cell_readout --check` verifies every digest and a deterministic small-world run, and a stale
+digest refuses the cell. Re-pinning is allowed and is a reviewed commit.
 
 ### 7.7 What remains before the cell
 
-Only the authorisation: [`DECISION-V2-FIRST-CELL`](DECISION-V2-FIRST-CELL.md) must be signed, and its commit must add the
-adapter and its hash to §7.6's pin. Nothing else in this document is open.
+Only the authorisation: [`DECISION-V2-FIRST-CELL`](DECISION-V2-FIRST-CELL.md) must be signed; the adapter and its digest
+are already in §7.6's pin. Nothing else in this document is open.
 
 ## 8. The control arm, secondary
 
@@ -180,6 +181,17 @@ fixes one earning test and §3 fixes it here.
 This document is not edited after a cell runs. A deviation is disclosed in an amendment, and the original text stays
 readable. `m`, the endpoint, the interval and the readout are locked at signature; a change to any of them is a new
 pre-registration and voids prior cells.
+
+
+## 10a. Amendment 1 — the β grid excludes zero (2026-11-16, before any cell)
+
+The first executable dry run (`docs/v2_first_cell_dry_run.json`, smoke seed `20911101`) selected `β = 0` for arm C on the
+calibration band, which makes the membership term vanish and reproduces arm A exactly; arm B was also being scored at
+`β = 0`. A treatment arm that can select itself into the null is not a test of the treatment, so the grid is now
+`{1, 2, 4, 8}` and **each** arm selects its own β on the calibration band with its own membership. The rescorings are
+distinct — A `0.280457`, B `0.289424` (`β = 1`), C `0.285669` (`β = 1`) — on one smoke seed, which is a check that the arms
+separate, not a result. No cell has run and no seed from the ten-seed block has been spent, so this changes the protocol
+before its first observation.
 
 ## 11. What this pre-registration does not decide
 

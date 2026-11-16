@@ -1,0 +1,58 @@
+{
+  "kind": "v2_first_cell_dry_run",
+  "id": "V2-FIRST-CELL-DRY-RUN-1",
+  "date": "2026-11-16",
+  "status": "DRY RUN — NOT A CELL, NOT A VERDICT AND NOT SCORED AGAINST THE CHARTER",
+  "seed": 20911101,
+  "cycles": 120,
+  "blocks": 86,
+  "m": 2,
+  "alpha": 0.5,
+  "beta_grid": [
+    1,
+    2,
+    4,
+    8
+  ],
+  "window": 20,
+  "train_blocks": 96,
+  "calibration": [
+    80,
+    96
+  ],
+  "holdout": [
+    96,
+    120
+  ],
+  "arms": {
+    "A": {
+      "beta": null,
+      "log_loss": 0.280457,
+      "composites": 0,
+      "mutations": 0,
+      "scored": 5472
+    },
+    "B": {
+      "beta": 1,
+      "log_loss": 0.289424,
+      "composites": 81,
+      "mutations": 0,
+      "scored": 5472,
+      "calibration_log_loss": 0.262691
+    },
+    "C": {
+      "beta": 1,
+      "log_loss": 0.285669,
+      "composites": 81,
+      "mutations": 108,
+      "scored": 5472,
+      "calibration_log_loss": 0.258746
+    }
+  },
+  "difference_c_minus_a": 0.005212,
+  "note": "one seed, one world; a variance estimate needs the ten paired seeds. This run exists to prove the protocol is executable end to end and that its three arms produce finite scores.",
+  "engine_version": "0.15.0",
+  "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+  "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+  "runner": "__main__"
+}

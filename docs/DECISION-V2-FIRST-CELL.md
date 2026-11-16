@@ -30,15 +30,15 @@ reports the first experiment once: a second cell would re-score a verdict that h
 | Endpoint | mean paired difference in held-out next-edge log-loss, arm C − arm A |
 | Decision rule | paired bootstrap over seeds, 10,000 resamples, 99% percentile; an interval including zero fails the charter |
 | Gates | `A1`–`A5` before any arm; any failure is `VOID` |
-| Build | one new module, `benchmarks/v2_first_cell_readout.py`, pinned by digest in the authorisation commit |
+| Build | one new module, `benchmarks/v2_first_cell_readout.py`, written and pinned by digest before this decision |
 | Stop | one report; the charter closes, pass or fail |
 
 ## 3. What this decision does not authorise
 
 No engine change, no change to the pinned modules, no new V2 module beyond the one readout adapter, no promotion, no
 extension of the first report, and no seed beyond the declared block. It does not adopt the primitive, does not amend
-`m`, and does not permit a second experiment. The seeds stop being *held* and become *spent* only when this decision is
-signed and the adapter's digest is in the pin.
+`m`, and does not permit a second experiment. The seeds stop being *held* and become *spent* when this decision is
+signed; the adapter is already pinned.
 
 ## 4. Alternatives rejected
 

@@ -73,7 +73,7 @@ def test_every_open_field_is_now_filled() -> None:
     assert "92 of 120" in text
     # readout: target, smoothing, grid, per-arm selection
     assert "`α = 0.5`" in text
-    assert "`{0, 1, 2, 4, 8}`" in text
+    assert "`{1, 2, 4, 8}`" in text
     assert "selected **per arm**" in text
     # revision rule
     assert "trailing window of **20 sleep cycles**" in text
@@ -99,8 +99,20 @@ def test_the_scorer_pin_matches_the_files_on_disk() -> None:
     pin = json.loads(PIN.read_text(encoding="utf-8"))
     for module, digest in pin["modules"].items():
         assert hashlib.sha256((ROOT / module).read_bytes()).hexdigest() == digest, module
-    assert pin["adapter"]["sha256"] is None
+    adapter = ROOT / pin["adapter"]["path"]
+    assert hashlib.sha256(adapter.read_bytes()).hexdigest() == pin["adapter"]["sha256"]
     assert "benchmarks/v2_first_cell_readout.py" in _text()
+
+
+def test_the_dry_run_amendment_is_disclosed() -> None:
+    text = _text()
+    assert "## 10a. Amendment 1 — the β grid excludes zero" in text
+    assert "before any cell" in text
+    dry = json.loads((ROOT / "docs" / "v2_first_cell_dry_run.json").read_text(encoding="utf-8"))
+    assert "DRY RUN" in dry["status"] and "NOT A CELL" in dry["status"]
+    assert "%.6f" % dry["arms"]["A"]["log_loss"] in text
+    assert "%.6f" % dry["arms"]["B"]["log_loss"] in text
+    assert "%.6f" % dry["arms"]["C"]["log_loss"] in text
 
 
 def test_the_authorisation_is_drafted_and_unsigned() -> None:

@@ -106,6 +106,15 @@
         20910110
       ],
       "spent": false
+    },
+    {
+      "label": "readout dry run, smoke world (never scored against the charter)",
+      "owner": "docs/v2_first_cell_dry_run.json",
+      "restated_by": [],
+      "seeds": [
+        20911101
+      ],
+      "spent": true
     }
   ],
   "shared_blocks": [
