@@ -28,6 +28,23 @@ def test_the_decomposition_is_the_stored_null_and_adds_up() -> None:
     assert dec["revision_mean"] < 0 < dec["beta_only_mean"]
 
 
+def test_the_revision_only_arm_is_the_baseline_on_every_seed() -> None:
+    record = _record()
+    assert record["factorial"]["arms"]["D"]["mean_d"] == 0.0
+    assert all(row["d_revision_only"] == 0.0 for row in record["per_seed"])
+    effects = record["factorial"]["effects"]
+    assert effects["revision_given_no_composite"] == 0.0
+    assert effects["revision_given_composite"] == record["factorial"]["interaction"]
+    assert abs(effects["composite_given_frozen"] + effects["revision_given_composite"]
+               - record["decomposition"]["net_mean"]) < 1e-9
+
+
+def test_revision_reduces_the_penalty_against_the_predicted_ordering() -> None:
+    record = _record()
+    assert record["decomposition"]["net_mean"] < record["decomposition"]["beta_only_mean"]
+    assert record["factorial"]["effects"]["revision_given_composite"] < 0
+
+
 def test_the_revision_rule_reduces_the_member_mass() -> None:
     mass = _record()["mass"]
     assert mass["mean_edges_maintained"] < mass["mean_edges_frozen"]
@@ -55,6 +72,8 @@ def test_the_verdict_is_no_and_the_alternative_is_priced_in() -> None:
     assert "%.6f" % record["decomposition"]["beta_only_mean"] in page
     assert "%.6f" % record["decomposition"]["revision_mean"] in page
     assert "%.6f" % record["mixture"]["0.1"]["C"]["mean"] in page
+    assert "%.6f" % record["factorial"]["interaction"] in page
+    assert "%.6f" % record["factorial"]["effects"]["composite_given_frozen"] in page
 
 
 def test_the_check_entry_point_passes() -> None:

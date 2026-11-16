@@ -159,6 +159,11 @@ not silently applied.
 β pseudo-counts cost **+0.001312** nats, and the revision rule **gives back −0.000465** by cutting member edges per composite
 from 2.571 to 0.783, for a net of **+0.000847**. Both arms selected β = 1 throughout.
 
+The four-arm factorial has a structural zero: a revision-only arm (no composite term) is exactly the baseline, measured
+at 0.000000 on all 20 seeds, so revision acts only through the composite term and the interaction is not separately
+identifiable. The estimable effects are +0.001312 (composite, frozen) and −0.000465 (revision, given a composite), which
+add to the net. That reverses the predicted ordering `A < B < C`: C pays less than B.
+
 A row-preserving mixture — `p' = (1−λ)p_counts + λq_member`, the construction most likely to be unbiased if row sums were the
 problem — is not a fix: bias **rises** with λ (frozen +0.000572 at λ = 0.1, +0.002357 at 0.2), and the maintained arm's
 mixture (+0.001546) is worse than its additive form because normalising a sparse member set concentrates the tilt. Every

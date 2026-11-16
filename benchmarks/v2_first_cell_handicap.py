@@ -103,12 +103,15 @@ def measure(seed: int) -> dict:
     detections = data["detections"]
     frozen, _ = readout.evolve(detections, boundary["train"] - 1, boundary["window"], False)
     maintained, mutations = readout.evolve(detections, boundary["train"] - 1, boundary["window"], True)
+    revision_only = round(readout.score(tags, boundary["holdout"], maintained, 0)["log_loss"]
+                          - arms["A"]["log_loss"], 9)
     frozen_edges = readout.membership_counts(frozen)
     maintained_edges = readout.membership_counts(maintained)
     return {
         "seed": seed,
         "d_beta_only": round(arms["B"]["log_loss"] - arms["A"]["log_loss"], 6),
         "d_net": round(arms["C"]["log_loss"] - arms["A"]["log_loss"], 6),
+        "d_revision_only": revision_only,
         "mutations": mutations,
         "composites": len(frozen),
         "mean_edges_frozen": round(statistics.fmean(len(edges) for edges in frozen.values()), 6),
@@ -138,7 +141,31 @@ def build(seeds=None) -> dict:
                 "sd": round(statistics.stdev(values), 6) if len(values) > 1 else None,
                 "positive": sum(1 for value in values if value > 0),
             }
+    revision_only = [row["d_revision_only"] for row in rows]
+    net = round(statistics.fmean([row["d_net"] for row in rows]), 6)
+    factorial = {
+        "arms": {
+            "A": {"composite_term": False, "revision": False, "mean_d": 0.0},
+            "D": {"composite_term": False, "revision": True,
+                  "mean_d": round(statistics.fmean(revision_only), 9),
+                  "note": "structurally equal to A: with beta = 0 the membership term is multiplied by zero"},
+            "B": {"composite_term": True, "revision": False, "mean_d": decomposition["beta_only_mean"]},
+            "C": {"composite_term": True, "revision": True, "mean_d": net},
+        },
+        "effects": {
+            "composite_given_frozen": decomposition["beta_only_mean"],
+            "composite_given_revision": net,
+            "revision_given_no_composite": round(statistics.fmean(revision_only), 9),
+            "revision_given_composite": round(net - decomposition["beta_only_mean"], 6),
+        },
+        "structural_zero": ("a revision-only arm is the baseline; the 2x2 design has one empty cell, so the "
+                            "interaction equals the revision effect and is not separately identifiable"),
+        "interaction": round(net - decomposition["beta_only_mean"], 6),
+        "prediction": ("A < B < C (revision adds a second penalty) is not what the null shows: C pays less than B, "
+                       "because revision prunes member edges from 2.571 to 0.783 per composite"),
+    }
     return engine_stamp.stamp({
+        "factorial": factorial,
         "kind": "v2_first_cell_handicap",
         "id": "V2-FIRST-CELL-HANDICAP-1",
         "date": "2026-11-16",
@@ -174,6 +201,7 @@ def render_doc(record: dict) -> str:
     dec = record["decomposition"]
     mass = record["mass"]
     power = json.loads((REPO / "docs" / "v2_first_cell_power.json").read_text(encoding="utf-8"))
+    fact = record["factorial"]
     mix_rows = "\n".join(
         "| %.1f | %.6f | %d/%d | %.6f | %d/%d |" % (
             float(lam), record["mixture"][lam]["B"]["mean"], record["mixture"][lam]["B"]["positive"],
@@ -204,6 +232,31 @@ Arm B is frozen membership and arm C is maintained membership, both at the same 
 {mass['mean_composites']:.0f} composites — fewer edges, less added mass, less tilt. Both arms selected β =
 {dec['betas'][0]} throughout, so the difference is not a different β.
 
+### 1a. The factorial, and the structural zero
+
+The four-arm decomposition has one cell that cannot be filled:
+
+| Arm | Composite term | Revision | Mean `d` |
+|---|---|---|---|
+| A | no | no | 0.000000 (reference) |
+| D | no | yes | **{fact['arms']['D']['mean_d']:.6f}** on all {dec['n']} seeds |
+| B | yes | no | **{dec['beta_only_mean']:.6f}** |
+| C | yes | yes | **{dec['net_mean']:.6f}** |
+
+**D is A by construction.** With the composite term absent, β multiplies an empty membership table, so the revision rule
+cannot reach the prediction; measured on every null seed, D − A is exactly 0.000000. That is not a failed arm — it is the
+proof that revision acts only through the composite term.
+
+The estimable effects are therefore two, and they add exactly: composite evidence given frozen membership
+**{fact['effects']['composite_given_frozen']:.6f}**, revision given a composite term
+**{fact['effects']['revision_given_composite']:.6f}**. The 2×2 has a structural zero, so the interaction equals the
+revision effect ({fact['interaction']:.6f}) and is not separately identifiable.
+
+**The predicted ordering `A < B < C` is not what the null shows.** C pays less than B: revision *reduces* the penalty by
+{abs(fact['effects']['revision_given_composite']):.6f} — 35% of the pseudo-count cost — because it prunes member edges from
+{mass['mean_edges_frozen']:.3f} to {mass['mean_edges_maintained']:.3f} per composite. The prior that β pseudo-counts dominate
+is confirmed; the prior that revision adds a second penalty is reversed here.
+
 ## 2. Can it be made unbiased?
 
 **No — not on a structureless world, for any readout that uses membership at all.** On such a world the true next-tag
@@ -233,6 +286,8 @@ The handicap is already priced into the decision rule. The power diagnostic at t
 of **{power['mde']['0.9']:.6f}** nats for 90% power, which corresponds to an observed mean difference of **{power['required_mean_d']['0.9']:.6f}** nats: the benefit has
 to clear the handicap before the observed difference turns negative at all.
 
+The factorial separates the two outcomes cleanly: the handicap is **β-dependent** — removing the composite term returns
+exactly to the baseline on every seed — so there is no implementation asymmetry and no repair is indicated before the cell.
 The alternative — subtracting a null-calibrated offset from `d` — would make the statistic zero-mean on null worlds **by
 construction**, but the null worlds are structureless and their detection statistics are not the cell's, so the offset is
 not transferable. It would also be a protocol change after signature, and it would hide the cost rather than report it.
