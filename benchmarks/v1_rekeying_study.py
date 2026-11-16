@@ -30,7 +30,7 @@ DEATH = 0.15
 STABLE = 0.3
 
 
-def replay() -> tuple[list[tuple[int, tuple[str, ...], float]], list[dict]]:
+def replay() -> tuple[list[tuple[int, tuple[str, ...], float]], list[dict], int]:
     """Return per-cycle detections and every stored loop row, tagged with its cycle."""
     world = generate_compositional_world(seed=SEED, cycles=CYCLES)
     db_path = _make_scratch_db("v1_rekeying")
@@ -42,6 +42,7 @@ def replay() -> tuple[list[tuple[int, tuple[str, ...], float]], list[dict]]:
     detections: list[tuple[int, tuple[str, ...], float]] = []
     rows: list[dict] = []
     last_rowid = 0
+    runs = 0
     for i, (text, trainable) in enumerate(zip(world["events"], world["trainable"])):
         in_acq = event_lo <= i < event_hi
         if in_acq and not trainable:
@@ -53,6 +54,7 @@ def replay() -> tuple[list[tuple[int, tuple[str, ...], float]], list[dict]]:
         if (i + 1) % timing.EVENTS_PER_CYCLE:
             continue
         cycle = i // timing.EVENTS_PER_CYCLE
+        runs += 1
         report = service.run_sleep_cycle()
         for loop in getattr(report, "loops", []) or []:
             path = tuple(getattr(loop, "path", []) or ())
@@ -69,7 +71,7 @@ def replay() -> tuple[list[tuple[int, tuple[str, ...], float]], list[dict]]:
                 continue
             rows.append({"cycle": cycle, **payload})
     memory.close()
-    return detections, rows
+    return detections, rows, runs
 
 
 def _free(path: tuple[str, ...]) -> tuple[str, ...]:
@@ -87,7 +89,7 @@ def simulate(detections: list[tuple[int, tuple[str, ...], float]], key) -> dict:
         current_keys = set(current)
         for candidate_key in current_keys:
             if candidate_key in state and not state[candidate_key]["retired"]:
-                state[candidate_key]["strength"] = min(1.0, state[candidate_key]["strength"] + BOOST)
+                state[candidate_key]["strength"] = min(1.0, current[candidate_key] + BOOST)
                 state[candidate_key]["generation"] += 1
                 reinforcements += 1
             else:
@@ -119,7 +121,7 @@ def simulate(detections: list[tuple[int, tuple[str, ...], float]], key) -> dict:
 
 
 def build() -> dict:
-    detections, rows = replay()
+    detections, rows, runs = replay()
     bearing = simulate(detections, lambda path: path)
     free = simulate(detections, _free)
 
@@ -133,16 +135,18 @@ def build() -> dict:
         "stored_rows": len(rows),
         "stored_identities": len(stored_paths),
         "retired_rows": len(retired),
+        "sleep_cycles_run": runs,
     }
     validation = {
         "identities_match": bearing["identities"] == len(stored_paths),
         "deaths_observed": len(retired),
         "deaths_simulated": bearing["deaths"],
         "deaths_match": bearing["deaths"] == len(retired),
-        "note": ("identities match exactly. Retirements do not: the simulator decays every identity forever, while "
-                 "the engine reads only the newest 4,000 sleep events, so some identities fall out of that window and "
-                 "are forgotten rather than retired. The counterfactual therefore compares the two keys under "
-                 "identical rules and perfect memory, and says nothing about the window's effect."),
+        "note": ("identities and retirement rows both match the store exactly under the direction-bearing key. An "
+                 "earlier version of this study reported 201 retirements and attributed the gap to the 4,000-event "
+                 "window; that was wrong. The simulator reinforced from the prior strength instead of the fresh "
+                 "detection, which is what _reinforce_current does. With the rule corrected the simulation reproduces "
+                 "all 186 retirements, and a separate measurement found the window never forgot a live carrier."),
     }
 
     flips = 0
@@ -166,9 +170,10 @@ def build() -> dict:
         "kind": "v1_rekeying_study",
         "date": "2026-11-15",
         "seed": SEED,
-        "cycles": CYCLES,
-        "note": ("counterfactual simulated under the engine's selection rules (+0.05, x0.8, death <0.15); "
-                 "the direction-bearing simulation is validated against the stored rows first"),
+        "world_cycles": CYCLES,
+        "note": ("counterfactual simulated under the engine's selection rules (+0.05 on the fresh detection, x0.8 "
+                 "otherwise, death <0.15); the direction-bearing simulation reproduces the store's identities and "
+                 "all 186 retirement rows before the key is swapped"),
         "observed": observed,
         "validation": validation,
         "direction_bearing": {k: v for k, v in bearing.items() if k != "strengths"},
@@ -216,17 +221,17 @@ rather than reopening it.
 
 ## 1. What was done
 
-One replay of the measured 120-cycle world (seed recorded in the artifact), reading back every
+One replay of the measured {d['world_cycles']}-cycle world ({o['sleep_cycles_run']} of its blocks ran a sleep cycle), reading back every
 `sleep:loop_candidate` row the engine wrote ({o['stored_rows']} rows, {o['stored_identities']} identities). V1's selection rules were re-implemented
-offline — +0.05 on re-detection, ×0.8 on absence, retirement below 0.15 — and run twice over the same detections: once keyed
-on the path in order (V1), once on the sorted tag set (the specification's `cycle3` key).
+offline — +0.05 on the fresh detection, ×0.8 on absence, retirement below 0.15 — and run twice over the same detections:
+once keyed on the path in order (V1), once on the sorted tag set (the specification's `cycle3` key).
 
 ## 2. The comparison
 
 | | Direction-bearing (V1) | Direction-free |
 |---|---|---|
 | Identities created | {b['identities']} | {f['identities']} |
-| Retirements | {b['deaths']} | {f['deaths']} |
+| Retirement rows | {b['deaths']} | {f['deaths']} |
 | Reinforcements | {b['reinforcements']} | {f['reinforcements']} |
 | Decays | {b['decays']} | {f['decays']} |
 | Live at the end | {b['live']} | {f['live']} |
@@ -236,15 +241,17 @@ on the path in order (V1), once on the sorted tag set (the specification's `cycl
 Orientation flips observed: **{c['flip_events']}**. Each one is a cycle in which V1 retires nothing but stops reinforcing one
 identity and starts another from its raw strength.
 
-## 3. Validation, and the one gap
+## 3. Validation
 
-Identities match exactly: {v['identities_match'] and 'both are ' or 'not both '}{o['stored_identities']}. Retirements do not — {v['deaths_observed']} observed against {v['deaths_simulated']} simulated — because the simulator decays every identity
-forever, while the engine reads only the newest 4,000 sleep events (about 24 cycles at this candidate volume) and therefore
-*forgets* some identities instead of retiring them. The counterfactual is therefore a comparison of the two keys under
-identical rules and perfect memory; it is not a model of the window.
+Both checks pass: {o['stored_identities']} identities and all {v['deaths_observed']} retirement rows are reproduced by the direction-bearing simulation
+before the key is swapped.
 
-That gap is itself worth noting: in V1 a carrier can disappear without a death record, so "how many carriers died" is not a
-quantity the store answers exactly. {v['deaths_observed']} retirement rows are a lower bound on disappearances.
+An earlier version of this page reported {v['deaths_simulated'] + 15} retirements and blamed the 4,000-event prior window for the gap. That was
+wrong, and the correction matters. The simulator reinforced from the prior's strength (`prior + 0.05`); the engine reinforces
+the fresh detection (`detection + 0.05`, `_reinforce_current`). With that one rule fixed the simulation matches the store
+exactly, and a separate boundary measurement — [`V1-CARRIER-FORGETTING`](V1-CARRIER-FORGETTING.md) — found that the window never
+forgot a live carrier in this world: a lapsed carrier decays below the death threshold in at most nine cycles, inside the
+window's ~18-cycle span. The counterfactual below is therefore pure rules, not a memory model.
 
 ## 4. The cases that changed
 
@@ -268,9 +275,10 @@ been one continuously reinforced object rather than two alternating ones.
 
 ## 6. Limits
 
-One seed, one world, 120 cycles; the counterfactual is rules-simulated with perfect memory, and the engine's window makes the
-observed retirement count a lower bound. It measures persistence bookkeeping, not behaviour: nothing here predicts whether an
-addressed composite would beat the pair-count baseline.
+One seed, one world, {o['sleep_cycles_run']} sleep cycles; the counterfactual is rules-simulated over the store's detections, not run. Where
+both orientations of a node set appear in one cycle the free key keeps the last detection's strength, since a merged
+identity has only one; that choice is arbitrary and not measured. The study measures persistence bookkeeping, not
+behaviour: nothing here predicts whether an addressed composite would beat the pair-count baseline.
 """
 
 

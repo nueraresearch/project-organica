@@ -138,20 +138,34 @@ baseline, and the charter says in advance that a tie means the addresses are boo
 Addressability is necessary for G4 and beyond; it is not sufficient, and the draft now says so rather than treating the
 primitive as the goal.
 
-## Addendum — 2026-11-15: the offline re-keying study — a small, real correction
+## Addendum — 2026-11-16: the offline re-keying study, corrected
 
 `benchmarks/v1_rekeying_study.py` replays one world, reads back the 4,303 `sleep:loop_candidate` rows it wrote, reproduces
 V1's selection rules offline, and re-runs them with a direction-free key over the same detections.
 
-Direction-free identity would have saved **19 identities** (177 → 158) and **20 retirements** (201 → 181), and turned **55
-orientation flips** from a restart into a reinforcement; mean live strength rises 0.8067 → 0.8191 and the top-5 appearance
+Direction-free identity would have saved **19 identities** (177 → 158) and **16 retirement rows** (186 → 170), and turned **55
+orientation flips** from a restart into a reinforcement; mean live strength rises 0.8043 → 0.816 and the top-5 appearance
 share 0.2032 → 0.2194. Real, and small: the largest merged case is `maple/sable/slate`, 60 appearances with 13 flips.
 
-Two honest limits. The simulation validates on identities (177 exactly) but not on retirements: it decays every identity
-forever, while the engine reads only the newest 4,000 sleep events and forgets some identities instead of retiring them, so
-186 retirement rows are a lower bound on disappearances — a carrier can vanish without a death record. And the study is
-bookkeeping, not behaviour: it confirms the specification's `cycle3` key rather than reopening it, and leaves the two real
-gaps — no consumer of composition, no membership mutation — exactly where the code reading put them.
+This addendum replaces the first version of the same study, which reported 20 retirements saved (201 → 181) and blamed a
+15-retirement validation gap on the 4,000-event prior window. Both claims were wrong. `_reinforce_current` adds 0.05 to the
+**fresh detection**, not to the prior; the simulator added it to the prior. With that one rule fixed the simulation reproduces
+all 186 retirement rows and the conservative figures above stand. The correction is recorded in the page and the artifact,
+not silently applied.
+
+## Addendum — 2026-11-16: carriers are retired, not forgotten
+
+`benchmarks/v1_carrier_forgetting.py` records the 4,000-row sleep boundary before every cycle and reloads each cycle's prior
+from the store exactly as `_load_prior_candidates` would, so what cognition could see is read rather than simulated.
+
+The answer is zero. All 177 carrier identities end in one of two states: **147 with a death record, 30 still live** at the
+last cycle; none leaves the window while alive. The arithmetic says why: a carrier not re-detected decays ×0.8 per cycle from
+at most 1.0, crossing 0.15 within nine cycles, while the window holds about 18 cycles of sleep rows. Forgetting a live carrier
+would require it to sit above the threshold for longer than the window holds, which decay does not permit.
+
+The study also closes the re-keying study's validation gap: re-running the rules with the store's own visibility reproduces
+**186 of 186** retirement rows, including their cycles. The death count is therefore not a lower bound in this world — there
+is no third category of carrier — and the window's cost is disk growth, not lost identities.
 
 ## Addendum — 2026-11-15: the primitive's per-object cost does not fall with world size
 

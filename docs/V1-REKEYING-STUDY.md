@@ -3,44 +3,46 @@
 **Status:** `OFFLINE COUNTERFACTUAL. Rules simulated, not run. Authorises no code, no arm, no freeze.`
 
 **In one paragraph.** Yes, slightly, and not in the way that matters. Swapping V1's direction-bearing persistence key for a
-direction-free one would have saved **19 identities** (177 to 158) and **20 retirements**, and converted
+direction-free one would have saved **19 identities** (177 to 158) and **16 retirements**, and converted
 **55 orientation flips** from a restart into a reinforcement. Strength concentrates a little (mean live
-strength 0.8067 to 0.8191, top-5 appearance share 0.2032 to 0.2194), and the share of identities that stay above the
+strength 0.8043 to 0.816, top-5 appearance share 0.2032 to 0.2194), and the share of identities that stay above the
 stability threshold moves from 16.4% to 17.1%. That is a real but small correction — the orientation flip was never the
 capability V1 lacks. The primitive specification already canonicalises direction, so this study confirms a design choice
 rather than reopening it.
 
 ## 1. What was done
 
-One replay of the measured 120-cycle world (seed recorded in the artifact), reading back every
+One replay of the measured 120-cycle world (92 of its blocks ran a sleep cycle), reading back every
 `sleep:loop_candidate` row the engine wrote (4303 rows, 177 identities). V1's selection rules were re-implemented
-offline — +0.05 on re-detection, ×0.8 on absence, retirement below 0.15 — and run twice over the same detections: once keyed
-on the path in order (V1), once on the sorted tag set (the specification's `cycle3` key).
+offline — +0.05 on the fresh detection, ×0.8 on absence, retirement below 0.15 — and run twice over the same detections:
+once keyed on the path in order (V1), once on the sorted tag set (the specification's `cycle3` key).
 
 ## 2. The comparison
 
 | | Direction-bearing (V1) | Direction-free |
 |---|---|---|
 | Identities created | 177 | 158 |
-| Retirements | 201 | 181 |
-| Reinforcements | 1069 | 1091 |
-| Decays | 2863 | 2600 |
-| Live at the end | 29 | 27 |
+| Retirement rows | 186 | 170 |
+| Reinforcements | 1083 | 1101 |
+| Decays | 3004 | 2735 |
+| Live at the end | 30 | 28 |
 | Above the stability threshold | 29 (16.4%) | 27 (17.1%) |
-| Mean live strength | 0.8067 | 0.8191 |
+| Mean live strength | 0.8043 | 0.816 |
 
 Orientation flips observed: **55**. Each one is a cycle in which V1 retires nothing but stops reinforcing one
 identity and starts another from its raw strength.
 
-## 3. Validation, and the one gap
+## 3. Validation
 
-Identities match exactly: both are 177. Retirements do not — 186 observed against 201 simulated — because the simulator decays every identity
-forever, while the engine reads only the newest 4,000 sleep events (about 24 cycles at this candidate volume) and therefore
-*forgets* some identities instead of retiring them. The counterfactual is therefore a comparison of the two keys under
-identical rules and perfect memory; it is not a model of the window.
+Both checks pass: 177 identities and all 186 retirement rows are reproduced by the direction-bearing simulation
+before the key is swapped.
 
-That gap is itself worth noting: in V1 a carrier can disappear without a death record, so "how many carriers died" is not a
-quantity the store answers exactly. 186 retirement rows are a lower bound on disappearances.
+An earlier version of this page reported 201 retirements and blamed the 4,000-event prior window for the gap. That was
+wrong, and the correction matters. The simulator reinforced from the prior's strength (`prior + 0.05`); the engine reinforces
+the fresh detection (`detection + 0.05`, `_reinforce_current`). With that one rule fixed the simulation matches the store
+exactly, and a separate boundary measurement — [`V1-CARRIER-FORGETTING`](V1-CARRIER-FORGETTING.md) — found that the window never
+forgot a live carrier in this world: a lapsed carrier decays below the death threshold in at most nine cycles, inside the
+window's ~18-cycle span. The counterfactual below is therefore pure rules, not a memory model.
 
 ## 4. The cases that changed
 
@@ -68,6 +70,7 @@ been one continuously reinforced object rather than two alternating ones.
 
 ## 6. Limits
 
-One seed, one world, 120 cycles; the counterfactual is rules-simulated with perfect memory, and the engine's window makes the
-observed retirement count a lower bound. It measures persistence bookkeeping, not behaviour: nothing here predicts whether an
-addressed composite would beat the pair-count baseline.
+One seed, one world, 92 sleep cycles; the counterfactual is rules-simulated over the store's detections, not run. Where
+both orientations of a node set appear in one cycle the free key keeps the last detection's strength, since a merged
+identity has only one; that choice is arbitrary and not measured. The study measures persistence bookkeeping, not
+behaviour: nothing here predicts whether an addressed composite would beat the pair-count baseline.
