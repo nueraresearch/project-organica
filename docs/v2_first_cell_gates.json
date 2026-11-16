@@ -2,7 +2,7 @@
   "kind": "v2_first_cell_gates",
   "id": "V2-FIRST-CELL-GATES-1",
   "date": "2026-11-16",
-  "status": "GATES NOT CLEARED — A4 NOT PASS; THE CELL IS NOT RUNNABLE",
+  "status": "A1-A5 PASS — THE PRIMITIVE IS BUILT; THE CELL IS NOT RUN",
   "gates": {
     "A1": {
       "status": "PASS",
@@ -17,8 +17,8 @@
       "evidence": "M1-M5 pass on a temporary store with a bystander: add and remove left the bystander's resolved state byte-identical; a shared atom kept version 1 and its binding; a stale version and a non-member removal were rejected without moving the version; retirement kept 3 members and refused further mutation; the store owns only atoms, composite_ids, composites, members, tombstones and the frozen-graph guard can fire."
     },
     "A4": {
-      "status": "NOT RUN",
-      "evidence": "the preregistered base world is held by the A1-TWO-PATH-1 candidate block; rebuilding it here would spend a reserved seed, and no committed detection stream exists to rebuild it without one. The spent smoke world is not the base world, so it is not substituted. A4 is unmeasured and the gate blocks the cell until the base world is released or a committed stream is available."
+      "status": "PASS",
+      "evidence": "reallocated base seed 20740101, 120 cycles: 115 of 158 keys admitted at m=2, 275 observed member references (the sizing model assumed 3 per composite, 345); the rebuilt store is 16 pages / 65536 bytes, at or below the 135168-byte budget; compaction reclaimed 0 atoms and left all 115 resolutions identical; tables atoms, composite_ids, composites, members, tombstones carry no history table."
     },
     "A5": {
       "status": "PASS",
@@ -34,5 +34,6 @@
     "benchmarks/v2_primitive.py"
   ],
   "smoke_seed": 20911101,
+  "base_seed": 20740101,
   "note": "A gate record is not a result. PASS means the gate's checks ran and held; it does not make the primitive predictive. A4 is NOT RUN because its base world is held for another block; the cell has not run and the ten reserved seeds are untouched. Any non-PASS gate is a gate failure and the runner assembles VOID."
 }

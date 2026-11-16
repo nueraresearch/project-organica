@@ -20,10 +20,8 @@ def test_the_record_is_the_one_the_runner_accepts():
     record = gates._load(gates.OUT)
     loaded = runner.load_gates(gates.OUT)
     assert loaded == record["gates"]
-    assert [loaded[gate]["status"] for gate in report.GATE_IDS] == [
-        "PASS", "PASS", "PASS", "NOT RUN", "PASS"
-    ]
-    assert record["status"].startswith("GATES NOT CLEARED") and "A4" in record["status"]
+    assert [loaded[gate]["status"] for gate in report.GATE_IDS] == ["PASS"] * 5
+    assert record["status"].startswith("A1-A5 PASS")
 
 
 def test_a1_reproduces_both_committed_regressions():
@@ -49,8 +47,8 @@ def test_the_primitive_gates_record_their_checks():
     record = gates._load(gates.OUT)
     assert record["gates"]["A2"]["status"] == "PASS" and "I1-I5" in record["gates"]["A2"]["evidence"]
     assert record["gates"]["A3"]["status"] == "PASS" and "M1-M5" in record["gates"]["A3"]["evidence"]
-    assert record["gates"]["A4"]["status"] == "NOT RUN"
-    assert "held by the A1-TWO-PATH-1" in record["gates"]["A4"]["evidence"]
+    assert record["gates"]["A4"]["status"] == "PASS"
+    assert "reallocated base seed" in record["gates"]["A4"]["evidence"]
     assert record["gates"]["A5"]["status"] == "PASS" and "two builds" in record["gates"]["A5"]["evidence"]
 
 

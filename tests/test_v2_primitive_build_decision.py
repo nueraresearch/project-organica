@@ -26,10 +26,10 @@ def test_the_build_is_bounded_to_one_benchmark_module():
     assert "`m`" in chosen and "`DECISION-V2-FIRST-CELL`" in chosen
 
 
-def test_the_gate_record_reports_a2_a3_and_a5_passing_and_a4_blocked():
+def test_the_gate_record_reports_all_five_gates_passing():
     record = gates._load(gates.OUT)
     assert [record["gates"][gate]["status"] for gate in ("A1", "A2", "A3", "A4", "A5")] == [
-        "PASS", "PASS", "PASS", "NOT RUN", "PASS"
+        "PASS", "PASS", "PASS", "PASS", "PASS"
     ]
 
 

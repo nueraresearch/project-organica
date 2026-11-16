@@ -62,7 +62,6 @@
         "docs/v1_carrier_forgetting.json"
       ],
       "seeds": [
-        20740101,
         20740102,
         20740103,
         20740104,
@@ -70,6 +69,40 @@
         20740106
       ],
       "spent": false
+    },
+    {
+      "label": "A1-TWO-PATH-1 base seed, released to the V2 A4 storage measurement (no cell)",
+      "owner": "docs/a1_two_path_manifest.json",
+      "restated_by": [
+        "docs/a1_target_selection.json",
+        "docs/a1_c8_target_selection.json",
+        "docs/a1_c5_target_timing.json",
+        "docs/a1_adversarial_audit.json",
+        "docs/a1_target_freeze_act.json",
+        "docs/a1_target_freeze_act_n20.json",
+        "docs/a1_c8_expansion.json",
+        "docs/a1_baseline_availability_adopted.json",
+        "docs/a1_c5_carrier_divergence.json",
+        "docs/a1_design_viability.json",
+        "docs/a1_competence_adopted.json",
+        "docs/a1_competence_filter_draft.json",
+        "docs/a1_c8_target_selection_competent.json",
+        "docs/a1_c5_target_timing_competent.json",
+        "docs/a1_scorer_pin.json",
+        "docs/decisions.json",
+        "docs/a1_viability_levers.json",
+        "docs/a1_two_path_result.json",
+        "docs/a2_sham_feasibility.json",
+        "docs/v1_carrier_identity.json",
+        "docs/v1_rekeying_study.json",
+        "docs/v1_carrier_forgetting.json",
+        "docs/v2_first_cell_gates.json",
+        "docs/DECISION-V2-A4-BASE-WORLD.md"
+      ],
+      "seeds": [
+        20740101
+      ],
+      "spent": true
     },
     {
       "label": "primitive sizing across world size",

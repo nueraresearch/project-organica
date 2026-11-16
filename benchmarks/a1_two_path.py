@@ -105,6 +105,9 @@ C8_TARGET_SELECTION_COMPETENT_PATH = DOCS / "a1_c8_target_selection_competent.js
 C5_TIMING_COMPETENT_PATH = DOCS / "a1_c5_target_timing_competent.json"
 SCORER_PIN_PATH = DOCS / "a1_scorer_pin.json"
 RESULT_PATH = DOCS / "a1_two_path_result.json"
+# 20740101 was released to A4's storage measurement (DECISION-V2-A4-BASE-WORLD); the
+# V2 gate record is therefore an allowed restatement, not a collision with this block.
+V2_GATES_PATH = DOCS / "v2_first_cell_gates.json"
 A2_SHAM_PATH = DOCS / "a2_sham_feasibility.json"
 V1_IDENTITY_PATH = DOCS / "v1_carrier_identity.json"
 V1_REKEYING_PATH = DOCS / "v1_rekeying_study.json"
@@ -479,7 +482,7 @@ def preflight(doc: dict | None = None) -> list[str]:
                  N20_COMPETENT_PREREG_PATH,
                  C8_TARGET_SELECTION_COMPETENT_PATH, C5_TIMING_COMPETENT_PATH,
                  SCORER_PIN_PATH, DECISIONS_PATH, VIABILITY_LEVERS_PATH,
-                 RESULT_PATH, A2_SHAM_PATH, V1_IDENTITY_PATH, V1_REKEYING_PATH, V1_FORGETTING_PATH,
+                 RESULT_PATH, V2_GATES_PATH, A2_SHAM_PATH, V1_IDENTITY_PATH, V1_REKEYING_PATH, V1_FORGETTING_PATH,
                  K_DECOMPOSITION_PATH, SUCCESSOR_PREFLIGHT_PATH,
                  SUCCESSOR_CANDIDATE_PATH, LARGER_UNIVERSE_CANDIDATE_PATH,
                  LARGER_UNIVERSE_PREFLIGHT_PATH, K_TOTAL_PREDICTORS_PATH,

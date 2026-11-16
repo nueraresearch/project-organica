@@ -14,10 +14,10 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 
 | status | count | meaning |
 | --- | --- | --- |
-| ADOPTED | 28 | in force; the document records it as implemented or effective |
+| ADOPTED | 29 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
 | PENDING | 6 | decided and not in force; the document says so |
-| **total** | **35** | |
+| **total** | **36** | |
 
 ## The decisions
 
@@ -794,6 +794,29 @@ uncomputable, and the cause that fired first is the one worth reporting.
 **Evidence.** `docs/V2-MUTABLE-IDENTITY-SPEC.md`, `docs/DECISION-V2-PRIMITIVE-RESOLUTIONS.md`, `docs/V2-FIRST-CELL-GATES.md`, `docs/v2_first_cell_gates.json`, `docs/V2-PRIMITIVE-SIZING.md`, `docs/v2_primitive_sizing.json`, `docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md`, `docs/DECISION-V2-FIRST-CELL.md`, `benchmarks/v2_first_cell_runner.py`
 
 **Record.** `docs/DECISION-V2-PRIMITIVE-BUILD.md`
+
+### DECISION-V2-A4-BASE-WORLD — `DECISION-V2-A4-BASE-WORLD` — release one A1 seed for A4's storage measurement
+
+**Status.** ADOPTED — *"ADOPTED 2026-11-16 — ONE A1 SEED IS RELEASED TO A4; THE 135,168-BYTE CAP IS UNCHANGED"*
+
+**Decided.**
+
+- Release seed 20740101 from the A1-TWO-PATH-1 reservation and reallocate it as the base world for A4, which is a storage measurement and not an A1 cell.
+- A1-TWO-PATH-1 is frozen on a VOID synthetic-fixture assembly and refuses a second run, so the released seed has no remaining A1 use; the other five seeds stay held and the ten V2 cell seeds are untouched.
+- The 135,168-byte A4 cap is unchanged; only the reservation that made the seed unavailable is changed.
+
+**Rejected.**
+
+- *Reuse the seed without releasing it* — because *"The reservation would still hold a seed that another artifact uses, and the collision scan would refuse the gate record."*
+- *Substitute the spent smoke world* — because *"It is not the base world and cannot support the 135,168-byte criterion."*
+- *Allocate a different seed* — because *"A4's budget was measured on this world; a different world would be a new criterion, not the same gate."*
+- *Mark the whole A1 block spent* — because *"A1 ran a synthetic fixture, not cells; marking all six spent would discard five unspent seeds and overstate what A1 used."*
+
+**Rests on.** Q057 (open)
+
+**Evidence.** `docs/a1_two_path_manifest.json`, `docs/a1_two_path_result.json`, `docs/a1_seed_reservations.json`, `docs/v2_first_cell_gates.json`, `docs/V2-PRIMITIVE-SIZING.md`, `docs/v2_primitive_sizing.json`
+
+**Record.** `docs/DECISION-V2-A4-BASE-WORLD.md`
 
 ## What this graph is not
 

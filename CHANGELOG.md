@@ -5,6 +5,19 @@ All notable changes to Project Organica are recorded here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project follows [Semantic Versioning 2.0.0](https://semver.org/).
 
+## Addendum — 2026-11-16: the base seed is released to A4, and A1–A5 pass
+
+`DECISION-V2-A4-BASE-WORLD` releases 20740101 from the A1-TWO-PATH-1 reservation and reallocates it as A4's base
+world. A1 is frozen on a VOID synthetic-fixture assembly and refuses a second run; it keeps the other five held seeds,
+and the released seed is recorded as spent in its own row with the A1 artifacts and the A4 record as restatements.
+
+The 135,168-byte cap is unchanged. A4 rebuilds 115 composites at `m = 2` with 275 observed member references at
+16 pages / 65,536 bytes, and compaction leaves all 115 resolutions identical. `docs/v2_first_cell_gates.json` now
+records **A1–A5 PASS**.
+
+The cell is still not run: `DECISION-V2-FIRST-CELL` is `PENDING`, so the runner refuses before executing a seed. No V2
+cell seed was touched.
+
 ## Addendum — 2026-11-16: the level-1 primitive is built, and A4 is blocked by a seed reservation
 
 `benchmarks/v2_primitive.py` implements the build authorised by `DECISION-V2-PRIMITIVE-BUILD`: a separate SQLite store,

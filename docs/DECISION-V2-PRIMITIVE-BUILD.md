@@ -85,6 +85,11 @@ substitute. A5 built the smoke stream's 96 admissions twice with ids 1–96 and 
 is implemented but **not fully accepted under §5**, so the cell is not runnable. No cell ran and no reserved seed was
 spent.
 
+**Update — 2026-11-16.** A4 is no longer blocked. [`DECISION-V2-A4-BASE-WORLD`](DECISION-V2-A4-BASE-WORLD.md)
+released the base seed from the A1 reservation, and A4 now measures 16 pages / 65,536 bytes at `m = 2`, with all 115
+resolutions unchanged by compaction. `docs/v2_first_cell_gates.json` records **A1–A5 PASS**, so the build is accepted
+under §5. The cell is still not run.
+
 ## 6. Rejected alternatives
 
 **Build the primitive inside `organica/`.** Adding a module moves the engine pin and the frozen reference object, and the

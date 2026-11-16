@@ -38,6 +38,9 @@ IDENTITY = REPO / "docs" / "v1_carrier_identity.json"
 REKEY = REPO / "docs" / "v1_rekeying_study_20900101.json"
 SMOKE = readout.DRY_SEED
 SMOKE_CYCLES = 120
+BASE_SEED = 20740101
+BASE_CYCLES = 120
+SIZING = REPO / "docs" / "v2_primitive_sizing.json"
 
 
 def _load(path: Path) -> dict:
@@ -291,17 +294,53 @@ def smoke_admissions() -> dict:
     }
 
 
-def a4() -> dict:
+@functools.lru_cache(maxsize=1)
+def base_admissions() -> dict:
+    """The reallocated base world rebuilt at m = 2, with its observed edge sets."""
+    data = readout.replay(BASE_SEED, BASE_CYCLES)
+    counts = collections.Counter(readout.canonical(path) for _, path in data["detections"])
+    admitted = sorted(key for key, count in counts.items() if count >= 2)
+    admissions = tuple(
+        (key, tuple(sorted(itertools.combinations(key, 2)))) for key in admitted
+    )
     return {
-        "status": "NOT RUN",
-        "evidence": (
-            "the preregistered base world is held by the A1-TWO-PATH-1 candidate block; rebuilding "
-            "it here would spend a reserved seed, and no committed detection stream exists to "
-            "rebuild it without one. The spent smoke world is not the base world, so it is not "
-            "substituted. A4 is unmeasured and the gate blocks the cell until the base world is "
-            "released or a committed stream is available."
-        ),
+        "appearances": len(data["detections"]),
+        "keys": len(counts),
+        "admitted": len(admissions),
+        "admissions": admissions,
     }
+
+
+def _a4_run() -> str:
+    world = base_admissions()
+    budget = _load(SIZING)["headline"]
+    with tempfile.TemporaryDirectory() as directory:
+        with primitive.Primitive(Path(directory) / "a4.db") as store:
+            for key, edges in world["admissions"]:
+                store.register(key, edges)
+            count = world["admitted"]
+            before = {cid: store.resolve(cid) for cid in range(1, count + 1)}
+            reclaimed = store.compact()
+            after = {cid: store.resolve(cid) for cid in range(1, count + 1)}
+            assert after == before, "A4: compaction changed a resolution"
+            pages, size = store.page_count(), store.byte_size()
+            references = sum(len(edges) for _, edges in world["admissions"])
+            assert size <= budget["primitive_bytes"], (
+                "A4: %d bytes exceeds the %d-byte budget" % (size, budget["primitive_bytes"])
+            )
+            return (
+                "reallocated base seed %d, %d cycles: %d of %d keys admitted at m=2, %d observed "
+                "member references (the sizing model assumed 3 per composite, %d); the rebuilt "
+                "store is %d pages / %d bytes, at or below the %d-byte budget; compaction reclaimed "
+                "%d atoms and left all %d resolutions identical; tables %s carry no history table."
+                % (BASE_SEED, BASE_CYCLES, count, world["keys"], references,
+                   budget["references"], pages, size, budget["primitive_bytes"], reclaimed, count,
+                   ", ".join(primitive.TABLES))
+            )
+
+
+def a4() -> dict:
+    return _gate(_a4_run)
 
 
 def _novel_key(admissions) -> tuple[str, str]:
@@ -372,6 +411,7 @@ def build(date: str | None = None) -> dict:
             "benchmarks/v2_primitive.py",
         ],
         "smoke_seed": SMOKE,
+        "base_seed": BASE_SEED,
         "note": (
             "A gate record is not a result. PASS means the gate's checks ran and held; it does not "
             "make the primitive predictive. A4 is NOT RUN because its base world is held for another "
@@ -418,8 +458,8 @@ def render(record: dict) -> str:
 
 The gate suite runs before the behavioural cell and writes the record
 `benchmarks/v2_first_cell_runner.py` requires. It runs no cell seed: A1 and A5 use the spent smoke
-seed `{record['smoke_seed']}`; A4 is not run because its base world is held for another block. The
-ten reserved seeds are untouched.
+seed `{record['smoke_seed']}`; A4 rebuilds the reallocated base world `{record['base_seed']}` for a
+storage measurement only. The ten reserved cell seeds are untouched.
 
 ## Gates
 
