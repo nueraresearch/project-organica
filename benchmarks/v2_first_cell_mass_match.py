@@ -337,6 +337,10 @@ The key-matched arm is slightly lighter than maintained (the residual shortfall 
 the random control; the mass-matched arm has no such shortfall and reaches the same sign, so the conclusion does not rest
 on it.
 
+On the planted motif world the key-matched sign reverses: maintained selection beats the random control by
+**0.002091** nats at equal mass and key count ([`V2-FIRST-CELL-PLANTED-SELECTION`](V2-FIRST-CELL-PLANTED-SELECTION.md)),
+so the null result describes selection under noise, not an inherent inability to select signal.
+
 It does not establish that random thinning is the right counterfactual, and a random subset discards any structure the
 frozen set had. On a structureless world there is no structure to discard, which is why this is the right place to ask
 the question; on a structured world the same controls would be weaker tests. It also says nothing about the cell's world.

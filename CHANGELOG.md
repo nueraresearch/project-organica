@@ -159,6 +159,18 @@ not silently applied.
 false-pass rate, the power curve at the measured noise, and the handicap decomposition, each number read from the artifact
 that measured it. It adds no evidence, and it names the single remaining action — the signature.
 
+## Addendum — 2026-11-16: selection captures signal when the world carries one
+
+The matched controls were run on the planted motif world. At equal total mass, maintained and a random frozen allocation are
+statistically indistinguishable (Δ **+0.000834**, 99% interval `[−0.000036, +0.002555]`). At equal total mass *and* equal
+non-empty composite count, maintained selection beats the random control by **+0.002091** nats (interval
+`[0.000414, 0.003802]`).
+
+The sign is the reverse of the null worlds, where the same key-matched control was **−0.000497**: selection overfits noise
+when there is none and captures a planted motif when there is one. The effect is real but small beside the planted gain
+itself (0.051685); the composite term still carries most of it. This remains the positive control's deliberately best-case
+world, and no cell seed was spent.
+
 ## Addendum — 2026-11-16: the revision offset is mass, not selection
 
 `benchmarks/v2_first_cell_mass_match.py` holds member mass equal on the 20 null worlds. At the maintained arm's total edge

@@ -150,7 +150,8 @@
       "label": "first V2 cell positive control, planted-signal worlds (diagnostic, never a cell)",
       "owner": "docs/v2_first_cell_planted_seeds.json",
       "restated_by": [
-        "docs/v2_first_cell_planted.json"
+        "docs/v2_first_cell_planted.json",
+        "docs/v2_first_cell_planted_selection.json"
       ],
       "seeds": [
         20930101,

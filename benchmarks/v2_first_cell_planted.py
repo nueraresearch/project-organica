@@ -255,6 +255,10 @@ maintenance adds `{summary['mean_d_revision_only']:.6f}`; revision accounts for
 {comparison['revision_share_of_gain']:.1%} of the gain. This world has stable motifs, so there is nothing for the
 maintenance rule to discover. It is a positive control for the **composite term**, not for mutation.
 
+A matched control on this world ([`V2-FIRST-CELL-PLANTED-SELECTION`](V2-FIRST-CELL-PLANTED-SELECTION.md))
+finds that at equal mass and non-empty key count maintained selection beats a random frozen subset by
+**0.002091** nats, so the retained selection does carry signal here; it is a small part of the planted gain.
+
 **The interval's scope is narrow.** The ten seeds vary only the tag-to-role mapping; the planted structure is
 identical, so the interval measures mapping variation, not a population of worlds. The magnitude does not depend on
 that distinction, but its width should not be read as a between-world estimate.

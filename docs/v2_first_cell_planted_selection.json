@@ -1,0 +1,537 @@
+{
+  "kind": "v2_first_cell_planted_selection",
+  "id": "V2-FIRST-CELL-PLANTED-SELECTION-1",
+  "date": "2026-11-16",
+  "status": "DIAGNOSTIC — THE MATCHED CONTROLS ON THE PLANTED MOTIF WORLD, NOT A CELL AND NOT A VERDICT",
+  "question": "on a world where the composite is the only evidence for the held-out transition, does maintained selection beat random frozen membership at equal mass and key count?",
+  "world": {
+    "construction": "training repeats five three-tag motifs a->b->c; the held-out stream asks for a->c, the motif closure read forwards, which training never showed",
+    "seeds": "the positive control's ten measurement seeds, reused by restatement",
+    "cycles": 120
+  },
+  "design": {
+    "controls": "total mass, and total mass plus non-empty key count; both select their own beta",
+    "quantity": "delta = d_matched - d_maintained; positive means maintained is better than the control",
+    "reading": "99% interval above zero -> selection captures signal; includes zero -> no detectable advantage; below zero -> selection is worse than random even with signal",
+    "level": 0.99,
+    "resamples": 10000,
+    "bootstrap_seed": 20261116
+  },
+  "seeds": [
+    20930102,
+    20930103,
+    20930104,
+    20930105,
+    20930106,
+    20930107,
+    20930108,
+    20930109,
+    20930110,
+    20930111
+  ],
+  "per_seed": [
+    {
+      "seed": 20930102,
+      "motifs": [
+        "ochreverdantfern",
+        "slatecrimsoncedar",
+        "oliveindigomaple",
+        "willowyarrowbirch",
+        "ambertealumber"
+      ],
+      "arms": {
+        "A": 0.243242,
+        "C": 0.191567,
+        "MASS": 0.191519,
+        "KEYS": 0.195827
+      },
+      "d_maintained": -0.051675,
+      "mass": {
+        "maintained": {
+          "composites": 20,
+          "nonempty": 19,
+          "edges": 29,
+          "mean_edges": 1.526316
+        },
+        "mass": {
+          "composites": 20,
+          "nonempty": 20,
+          "edges": 29,
+          "mean_edges": 1.45
+        },
+        "keys": {
+          "composites": 20,
+          "nonempty": 19,
+          "edges": 29,
+          "mean_edges": 1.526316
+        }
+      },
+      "beta_mass": 1,
+      "shortfall_mass": 0,
+      "delta_mass": -4.799999999999249e-05,
+      "d_mass": -0.05172300000000002,
+      "beta_keys": 1,
+      "shortfall_keys": 0,
+      "delta_keys": 0.004260000000000014,
+      "d_keys": -0.04741500000000001
+    },
+    {
+      "seed": 20930103,
+      "motifs": [
+        "tealverdantyarrow",
+        "ferncedarsable",
+        "willowambercrimson",
+        "indigoumbermaple",
+        "bircholiveslate"
+      ],
+      "arms": {
+        "A": 0.243242,
+        "C": 0.191553,
+        "MASS": 0.195827,
+        "KEYS": 0.195438
+      },
+      "d_maintained": -0.051689,
+      "mass": {
+        "maintained": {
+          "composites": 20,
+          "nonempty": 19,
+          "edges": 29,
+          "mean_edges": 1.526316
+        },
+        "mass": {
+          "composites": 20,
+          "nonempty": 20,
+          "edges": 29,
+          "mean_edges": 1.45
+        },
+        "keys": {
+          "composites": 20,
+          "nonempty": 19,
+          "edges": 27,
+          "mean_edges": 1.421053
+        }
+      },
+      "beta_mass": 1,
+      "shortfall_mass": 0,
+      "delta_mass": 0.004274,
+      "d_mass": -0.04741500000000001,
+      "beta_keys": 1,
+      "shortfall_keys": 2,
+      "delta_keys": 0.0038849999999999996,
+      "d_keys": -0.04780400000000001
+    },
+    {
+      "seed": 20930104,
+      "motifs": [
+        "umbertealwillow",
+        "ochreyarrowmaple",
+        "crimsonsableamber",
+        "indigoverdantbirch",
+        "fernslateolive"
+      ],
+      "arms": {
+        "A": 0.243242,
+        "C": 0.191553,
+        "MASS": 0.195837,
+        "KEYS": 0.191519
+      },
+      "d_maintained": -0.051689,
+      "mass": {
+        "maintained": {
+          "composites": 20,
+          "nonempty": 19,
+          "edges": 29,
+          "mean_edges": 1.526316
+        },
+        "mass": {
+          "composites": 20,
+          "nonempty": 20,
+          "edges": 29,
+          "mean_edges": 1.45
+        },
+        "keys": {
+          "composites": 20,
+          "nonempty": 19,
+          "edges": 29,
+          "mean_edges": 1.526316
+        }
+      },
+      "beta_mass": 1,
+      "shortfall_mass": 0,
+      "delta_mass": 0.00428400000000001,
+      "d_mass": -0.047405,
+      "beta_keys": 1,
+      "shortfall_keys": 0,
+      "delta_keys": -3.400000000000625e-05,
+      "d_keys": -0.05172300000000002
+    },
+    {
+      "seed": 20930105,
+      "motifs": [
+        "verdantumbercrimson",
+        "sablewillowfern",
+        "mapleyarrowindigo",
+        "olivetealcedar",
+        "slateochreamber"
+      ],
+      "arms": {
+        "A": 0.243242,
+        "C": 0.191567,
+        "MASS": 0.191519,
+        "KEYS": 0.191567
+      },
+      "d_maintained": -0.051675,
+      "mass": {
+        "maintained": {
+          "composites": 20,
+          "nonempty": 19,
+          "edges": 29,
+          "mean_edges": 1.526316
+        },
+        "mass": {
+          "composites": 20,
+          "nonempty": 20,
+          "edges": 29,
+          "mean_edges": 1.45
+        },
+        "keys": {
+          "composites": 20,
+          "nonempty": 19,
+          "edges": 29,
+          "mean_edges": 1.526316
+        }
+      },
+      "beta_mass": 1,
+      "shortfall_mass": 0,
+      "delta_mass": -4.799999999999249e-05,
+      "d_mass": -0.05172300000000002,
+      "beta_keys": 1,
+      "shortfall_keys": 0,
+      "delta_keys": 0.0,
+      "d_keys": -0.051675000000000026
+    },
+    {
+      "seed": 20930106,
+      "motifs": [
+        "ambertealumber",
+        "yarrowolivesable",
+        "slatemaplecrimson",
+        "birchverdantcedar",
+        "willowindigofern"
+      ],
+      "arms": {
+        "A": 0.243242,
+        "C": 0.191567,
+        "MASS": 0.191553,
+        "KEYS": 0.195837
+      },
+      "d_maintained": -0.051675,
+      "mass": {
+        "maintained": {
+          "composites": 20,
+          "nonempty": 19,
+          "edges": 29,
+          "mean_edges": 1.526316
+        },
+        "mass": {
+          "composites": 20,
+          "nonempty": 20,
+          "edges": 29,
+          "mean_edges": 1.45
+        },
+        "keys": {
+          "composites": 20,
+          "nonempty": 19,
+          "edges": 29,
+          "mean_edges": 1.526316
+        }
+      },
+      "beta_mass": 1,
+      "shortfall_mass": 0,
+      "delta_mass": -1.3999999999986246e-05,
+      "d_mass": -0.05168900000000001,
+      "beta_keys": 1,
+      "shortfall_keys": 0,
+      "delta_keys": 0.004270000000000024,
+      "d_keys": -0.047405
+    },
+    {
+      "seed": 20930107,
+      "motifs": [
+        "yarrowcrimsonumber",
+        "amberindigoslate",
+        "sablemapleverdant",
+        "fernolivecedar",
+        "birchwillowochre"
+      ],
+      "arms": {
+        "A": 0.243242,
+        "C": 0.191553,
+        "MASS": 0.191519,
+        "KEYS": 0.191519
+      },
+      "d_maintained": -0.051689,
+      "mass": {
+        "maintained": {
+          "composites": 20,
+          "nonempty": 19,
+          "edges": 29,
+          "mean_edges": 1.526316
+        },
+        "mass": {
+          "composites": 20,
+          "nonempty": 20,
+          "edges": 29,
+          "mean_edges": 1.45
+        },
+        "keys": {
+          "composites": 20,
+          "nonempty": 19,
+          "edges": 29,
+          "mean_edges": 1.526316
+        }
+      },
+      "beta_mass": 1,
+      "shortfall_mass": 0,
+      "delta_mass": -3.400000000000625e-05,
+      "d_mass": -0.05172300000000002,
+      "beta_keys": 1,
+      "shortfall_keys": 0,
+      "delta_keys": -3.400000000000625e-05,
+      "d_keys": -0.05172300000000002
+    },
+    {
+      "seed": 20930108,
+      "motifs": [
+        "ambertealolive",
+        "sablefernwillow",
+        "cedarumberbirch",
+        "mapleindigoverdant",
+        "ochreslateyarrow"
+      ],
+      "arms": {
+        "A": 0.243242,
+        "C": 0.191553,
+        "MASS": 0.191519,
+        "KEYS": 0.195827
+      },
+      "d_maintained": -0.051689,
+      "mass": {
+        "maintained": {
+          "composites": 20,
+          "nonempty": 19,
+          "edges": 29,
+          "mean_edges": 1.526316
+        },
+        "mass": {
+          "composites": 20,
+          "nonempty": 19,
+          "edges": 29,
+          "mean_edges": 1.526316
+        },
+        "keys": {
+          "composites": 20,
+          "nonempty": 19,
+          "edges": 29,
+          "mean_edges": 1.526316
+        }
+      },
+      "beta_mass": 1,
+      "shortfall_mass": 0,
+      "delta_mass": -3.400000000000625e-05,
+      "d_mass": -0.05172300000000002,
+      "beta_keys": 1,
+      "shortfall_keys": 0,
+      "delta_keys": 0.004274,
+      "d_keys": -0.04741500000000001
+    },
+    {
+      "seed": 20930109,
+      "motifs": [
+        "sabletealcedar",
+        "mapleslateumber",
+        "yarrowcrimsonverdant",
+        "willowochrefern",
+        "olivebirchamber"
+      ],
+      "arms": {
+        "A": 0.243242,
+        "C": 0.191553,
+        "MASS": 0.191532,
+        "KEYS": 0.195827
+      },
+      "d_maintained": -0.051689,
+      "mass": {
+        "maintained": {
+          "composites": 20,
+          "nonempty": 19,
+          "edges": 29,
+          "mean_edges": 1.526316
+        },
+        "mass": {
+          "composites": 20,
+          "nonempty": 20,
+          "edges": 29,
+          "mean_edges": 1.45
+        },
+        "keys": {
+          "composites": 20,
+          "nonempty": 19,
+          "edges": 29,
+          "mean_edges": 1.526316
+        }
+      },
+      "beta_mass": 1,
+      "shortfall_mass": 0,
+      "delta_mass": -2.0999999999993246e-05,
+      "d_mass": -0.051710000000000006,
+      "beta_keys": 1,
+      "shortfall_keys": 0,
+      "delta_keys": 0.004274,
+      "d_keys": -0.04741500000000001
+    },
+    {
+      "seed": 20930110,
+      "motifs": [
+        "slateambersable",
+        "ochrecedaryarrow",
+        "tealfernverdant",
+        "indigowillowumber",
+        "crimsonmaplebirch"
+      ],
+      "arms": {
+        "A": 0.243242,
+        "C": 0.191553,
+        "MASS": 0.191553,
+        "KEYS": 0.191553
+      },
+      "d_maintained": -0.051689,
+      "mass": {
+        "maintained": {
+          "composites": 20,
+          "nonempty": 19,
+          "edges": 29,
+          "mean_edges": 1.526316
+        },
+        "mass": {
+          "composites": 20,
+          "nonempty": 20,
+          "edges": 29,
+          "mean_edges": 1.45
+        },
+        "keys": {
+          "composites": 20,
+          "nonempty": 19,
+          "edges": 29,
+          "mean_edges": 1.526316
+        }
+      },
+      "beta_mass": 1,
+      "shortfall_mass": 0,
+      "delta_mass": 0.0,
+      "d_mass": -0.05168900000000001,
+      "beta_keys": 1,
+      "shortfall_keys": 0,
+      "delta_keys": 0.0,
+      "d_keys": -0.05168900000000001
+    },
+    {
+      "seed": 20930111,
+      "motifs": [
+        "cedartealbirch",
+        "verdantochrecrimson",
+        "oliveslatemaple",
+        "indigosableumber",
+        "willowamberyarrow"
+      ],
+      "arms": {
+        "A": 0.243242,
+        "C": 0.191553,
+        "MASS": 0.191532,
+        "KEYS": 0.191567
+      },
+      "d_maintained": -0.051689,
+      "mass": {
+        "maintained": {
+          "composites": 20,
+          "nonempty": 19,
+          "edges": 29,
+          "mean_edges": 1.526316
+        },
+        "mass": {
+          "composites": 20,
+          "nonempty": 19,
+          "edges": 29,
+          "mean_edges": 1.526316
+        },
+        "keys": {
+          "composites": 20,
+          "nonempty": 19,
+          "edges": 29,
+          "mean_edges": 1.526316
+        }
+      },
+      "beta_mass": 1,
+      "shortfall_mass": 0,
+      "delta_mass": -2.0999999999993246e-05,
+      "d_mass": -0.051710000000000006,
+      "beta_keys": 1,
+      "shortfall_keys": 0,
+      "delta_keys": 1.3999999999986246e-05,
+      "d_keys": -0.051675000000000026
+    }
+  ],
+  "summary": {
+    "n": 10,
+    "mean_d_maintained": -0.0516848,
+    "mean_d_mass": -0.050851,
+    "mean_d_keys": -0.0495939,
+    "mean_delta_mass": 0.0008338,
+    "mean_delta_keys": 0.0020909,
+    "sd_delta_mass": 0.001815841,
+    "sd_delta_keys": 0.002218402,
+    "positive_delta_mass": 2,
+    "positive_delta_keys": 6,
+    "mean_edges_maintained": 29.0,
+    "mean_edges_mass": 29.0,
+    "mean_edges_keys": 28.8,
+    "mean_nonempty_maintained": 19.0,
+    "mean_nonempty_mass": 19.8,
+    "mean_nonempty_keys": 19.0,
+    "shortfall": 2
+  },
+  "intervals": {
+    "mass": {
+      "mean": 0.000833800000000004,
+      "lo": -3.5599999999999524e-05,
+      "hi": 0.0025550000000000043,
+      "includes_zero": true,
+      "level": 0.99,
+      "resamples": 10000
+    },
+    "keys": {
+      "mean": 0.002090900000000001,
+      "lo": 0.0004137999999999975,
+      "hi": 0.003802300000000011,
+      "includes_zero": false,
+      "level": 0.99,
+      "resamples": 10000
+    }
+  },
+  "comparison": {
+    "null_mean_delta_keys": -0.00049725,
+    "planted_mean_delta_keys": 0.0020909,
+    "null_mean_delta_mass": -0.00045975,
+    "planted_mean_delta_mass": 0.0008338
+  },
+  "verdict": {
+    "mass": "TOTAL MASS ALONE REPRODUCES THE MAINTAINED COST WITH SIGNAL",
+    "keys": "MAINTAINED SELECTION CAPTURES SIGNAL BEYOND MASS AND KEY COUNT",
+    "conclusion": "with a planted motif, maintained selection beats a random frozen control at equal mass and key count, unlike the null. The null's selection cost is a property of noise, not an inability to select signal."
+  },
+  "note": "the positive control's world is deliberately the readout's best case; this diagnostic asks whether its selection advantage is real at matched mass, not whether the cell's world contains such motifs. It spends no new seeds.",
+  "engine_version": "0.15.0",
+  "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+  "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+  "runner": "__main__"
+}
