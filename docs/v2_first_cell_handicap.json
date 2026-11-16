@@ -1,0 +1,476 @@
+{
+  "kind": "v2_first_cell_handicap",
+  "id": "V2-FIRST-CELL-HANDICAP-1",
+  "date": "2026-11-16",
+  "status": "PROTOCOL DIAGNOSTIC — WHERE THE NULL HANDICAP COMES FROM, NOT A CELL AND NOT A VERDICT",
+  "source": {
+    "null_artifact": "docs/v2_first_cell_null.json",
+    "seeds": [
+      20920101,
+      20920102,
+      20920103,
+      20920104,
+      20920105,
+      20920106,
+      20920107,
+      20920108,
+      20920109,
+      20920110,
+      20920111,
+      20920112,
+      20920113,
+      20920114,
+      20920115,
+      20920116,
+      20920117,
+      20920118,
+      20920119,
+      20920120
+    ],
+    "cycles": 120
+  },
+  "decomposition": {
+    "n": 20,
+    "beta_only_mean": 0.001312,
+    "beta_only_sd": 0.000927,
+    "revision_mean": -0.000465,
+    "revision_sd": 0.000641,
+    "net_mean": 0.000847,
+    "beta_only_positive": 18,
+    "revision_positive": 4,
+    "net_positive": 18,
+    "betas": [
+      1
+    ]
+  },
+  "mass": {
+    "mean_edges_frozen": 2.570739,
+    "mean_edges_maintained": 0.783126,
+    "mean_composites": 126.2,
+    "mean_mutations": 316.45
+  },
+  "mixture": {
+    "0.1": {
+      "B": {
+        "mean": 0.000572,
+        "sd": 0.000756,
+        "positive": 17
+      },
+      "C": {
+        "mean": 0.001546,
+        "sd": 0.000912,
+        "positive": 19
+      }
+    },
+    "0.2": {
+      "B": {
+        "mean": 0.002357,
+        "sd": 0.001671,
+        "positive": 19
+      },
+      "C": {
+        "mean": 0.004937,
+        "sd": 0.001661,
+        "positive": 20
+      }
+    }
+  },
+  "beta_zero": {
+    "B": 0.0,
+    "C": 0.0,
+    "note": "beta = 0 removes the membership term exactly, so d = 0 by construction; it is the baseline, not a fix"
+  },
+  "verdict": {
+    "unbiased_possible": false,
+    "reason": "on a structureless world the true next-tag distribution is uniform, so any non-trivial tilt away from the counts estimate raises expected log-loss by convexity; only beta = 0 is unbiased, and that is arm A",
+    "reducible": true,
+    "reducible_by": "less added mass — a smaller beta or fewer member edges, which the revision rule already does; a row-preserving mixture does not reduce it, because normalising a sparse member set concentrates the tilt"
+  },
+  "per_seed": [
+    {
+      "seed": 20920101,
+      "d_beta_only": 0.000954,
+      "d_net": 0.000817,
+      "mutations": 219,
+      "composites": 97,
+      "mean_edges_frozen": 2.546392,
+      "mean_edges_maintained": 0.948454,
+      "mixture": {
+        "0.1": {
+          "B": 0.000795,
+          "C": 0.001729
+        },
+        "0.2": {
+          "B": 0.003404,
+          "C": 0.005499
+        }
+      }
+    },
+    {
+      "seed": 20920102,
+      "d_beta_only": 0.001539,
+      "d_net": 0.00089,
+      "mutations": 323,
+      "composites": 114,
+      "mean_edges_frozen": 2.578947,
+      "mean_edges_maintained": 0.640351,
+      "mixture": {
+        "0.1": {
+          "B": 0.00062,
+          "C": 0.001099
+        },
+        "0.2": {
+          "B": 0.002518,
+          "C": 0.00365
+        }
+      }
+    },
+    {
+      "seed": 20920103,
+      "d_beta_only": 0.000803,
+      "d_net": 0.001118,
+      "mutations": 280,
+      "composites": 149,
+      "mean_edges_frozen": 2.651007,
+      "mean_edges_maintained": 1.013423,
+      "mixture": {
+        "0.1": {
+          "B": 3.6e-05,
+          "C": 0.00178
+        },
+        "0.2": {
+          "B": 0.001012,
+          "C": 0.005352
+        }
+      }
+    },
+    {
+      "seed": 20920104,
+      "d_beta_only": 0.003261,
+      "d_net": 0.001905,
+      "mutations": 310,
+      "composites": 122,
+      "mean_edges_frozen": 2.606557,
+      "mean_edges_maintained": 0.893443,
+      "mixture": {
+        "0.1": {
+          "B": 0.00183,
+          "C": 0.003222
+        },
+        "0.2": {
+          "B": 0.005017,
+          "C": 0.007981
+        }
+      }
+    },
+    {
+      "seed": 20920105,
+      "d_beta_only": 0.001611,
+      "d_net": 0.000888,
+      "mutations": 229,
+      "composites": 86,
+      "mean_edges_frozen": 2.627907,
+      "mean_edges_maintained": 0.697674,
+      "mixture": {
+        "0.1": {
+          "B": 0.000728,
+          "C": 0.00197
+        },
+        "0.2": {
+          "B": 0.003332,
+          "C": 0.005385
+        }
+      }
+    },
+    {
+      "seed": 20920106,
+      "d_beta_only": 0.001954,
+      "d_net": 0.001113,
+      "mutations": 255,
+      "composites": 113,
+      "mean_edges_frozen": 2.504425,
+      "mean_edges_maintained": 0.743363,
+      "mixture": {
+        "0.1": {
+          "B": 0.001543,
+          "C": 0.002751
+        },
+        "0.2": {
+          "B": 0.004342,
+          "C": 0.007298
+        }
+      }
+    },
+    {
+      "seed": 20920107,
+      "d_beta_only": 0.00235,
+      "d_net": 0.001439,
+      "mutations": 391,
+      "composites": 158,
+      "mean_edges_frozen": 2.607595,
+      "mean_edges_maintained": 1.177215,
+      "mixture": {
+        "0.1": {
+          "B": 0.000867,
+          "C": 0.00178
+        },
+        "0.2": {
+          "B": 0.002578,
+          "C": 0.005134
+        }
+      }
+    },
+    {
+      "seed": 20920108,
+      "d_beta_only": 0.000642,
+      "d_net": -0.00019,
+      "mutations": 403,
+      "composites": 125,
+      "mean_edges_frozen": 2.632,
+      "mean_edges_maintained": 0.848,
+      "mixture": {
+        "0.1": {
+          "B": 0.000216,
+          "C": 0.000318
+        },
+        "0.2": {
+          "B": 0.001676,
+          "C": 0.002862
+        }
+      }
+    },
+    {
+      "seed": 20920109,
+      "d_beta_only": 0.001522,
+      "d_net": 0.001622,
+      "mutations": 314,
+      "composites": 130,
+      "mean_edges_frozen": 2.6,
+      "mean_edges_maintained": 0.984615,
+      "mixture": {
+        "0.1": {
+          "B": 0.000911,
+          "C": 0.002319
+        },
+        "0.2": {
+          "B": 0.002791,
+          "C": 0.006847
+        }
+      }
+    },
+    {
+      "seed": 20920110,
+      "d_beta_only": 0.002612,
+      "d_net": 0.001461,
+      "mutations": 236,
+      "composites": 87,
+      "mean_edges_frozen": 2.471264,
+      "mean_edges_maintained": 0.965517,
+      "mixture": {
+        "0.1": {
+          "B": 0.002579,
+          "C": 0.002787
+        },
+        "0.2": {
+          "B": 0.006924,
+          "C": 0.006995
+        }
+      }
+    },
+    {
+      "seed": 20920111,
+      "d_beta_only": 0.00021,
+      "d_net": 0.000538,
+      "mutations": 277,
+      "composites": 129,
+      "mean_edges_frozen": 2.550388,
+      "mean_edges_maintained": 0.72093,
+      "mixture": {
+        "0.1": {
+          "B": -8.5e-05,
+          "C": 0.000767
+        },
+        "0.2": {
+          "B": 0.000831,
+          "C": 0.002895
+        }
+      }
+    },
+    {
+      "seed": 20920112,
+      "d_beta_only": 0.001315,
+      "d_net": 0.000692,
+      "mutations": 320,
+      "composites": 130,
+      "mean_edges_frozen": 2.569231,
+      "mean_edges_maintained": 0.915385,
+      "mixture": {
+        "0.1": {
+          "B": 0.000157,
+          "C": 0.000731
+        },
+        "0.2": {
+          "B": 0.001422,
+          "C": 0.003094
+        }
+      }
+    },
+    {
+      "seed": 20920113,
+      "d_beta_only": 0.001059,
+      "d_net": 0.000882,
+      "mutations": 250,
+      "composites": 119,
+      "mean_edges_frozen": 2.596639,
+      "mean_edges_maintained": 0.697479,
+      "mixture": {
+        "0.1": {
+          "B": 7.5e-05,
+          "C": 0.001467
+        },
+        "0.2": {
+          "B": 0.00112,
+          "C": 0.005235
+        }
+      }
+    },
+    {
+      "seed": 20920114,
+      "d_beta_only": 0.001045,
+      "d_net": 0.00088,
+      "mutations": 420,
+      "composites": 133,
+      "mean_edges_frozen": 2.518797,
+      "mean_edges_maintained": 0.421053,
+      "mixture": {
+        "0.1": {
+          "B": 0.00023,
+          "C": 0.001369
+        },
+        "0.2": {
+          "B": 0.001564,
+          "C": 0.004152
+        }
+      }
+    },
+    {
+      "seed": 20920115,
+      "d_beta_only": 0.002364,
+      "d_net": 0.001302,
+      "mutations": 438,
+      "composites": 170,
+      "mean_edges_frozen": 2.552941,
+      "mean_edges_maintained": 0.711765,
+      "mixture": {
+        "0.1": {
+          "B": 0.000724,
+          "C": 0.001955
+        },
+        "0.2": {
+          "B": 0.002151,
+          "C": 0.00599
+        }
+      }
+    },
+    {
+      "seed": 20920116,
+      "d_beta_only": 0.001637,
+      "d_net": 0.001114,
+      "mutations": 288,
+      "composites": 132,
+      "mean_edges_frozen": 2.545455,
+      "mean_edges_maintained": 0.75,
+      "mixture": {
+        "0.1": {
+          "B": 0.000779,
+          "C": 0.001802
+        },
+        "0.2": {
+          "B": 0.002588,
+          "C": 0.004992
+        }
+      }
+    },
+    {
+      "seed": 20920117,
+      "d_beta_only": 0.001078,
+      "d_net": 0.000291,
+      "mutations": 366,
+      "composites": 145,
+      "mean_edges_frozen": 2.6,
+      "mean_edges_maintained": 0.531034,
+      "mixture": {
+        "0.1": {
+          "B": 6.3e-05,
+          "C": 0.000617
+        },
+        "0.2": {
+          "B": 0.001329,
+          "C": 0.003546
+        }
+      }
+    },
+    {
+      "seed": 20920118,
+      "d_beta_only": -0.000179,
+      "d_net": -0.000926,
+      "mutations": 224,
+      "composites": 111,
+      "mean_edges_frozen": 2.603604,
+      "mean_edges_maintained": 0.675676,
+      "mixture": {
+        "0.1": {
+          "B": -0.000328,
+          "C": -0.000595
+        },
+        "0.2": {
+          "B": 0.000689,
+          "C": 0.001743
+        }
+      }
+    },
+    {
+      "seed": 20920119,
+      "d_beta_only": 0.000985,
+      "d_net": 0.000232,
+      "mutations": 360,
+      "composites": 123,
+      "mean_edges_frozen": 2.528455,
+      "mean_edges_maintained": 0.764228,
+      "mixture": {
+        "0.1": {
+          "B": 0.000339,
+          "C": 0.001096
+        },
+        "0.2": {
+          "B": 0.002183,
+          "C": 0.004185
+        }
+      }
+    },
+    {
+      "seed": 20920120,
+      "d_beta_only": -0.000528,
+      "d_net": 0.000871,
+      "mutations": 426,
+      "composites": 151,
+      "mean_edges_frozen": 2.523179,
+      "mean_edges_maintained": 0.562914,
+      "mixture": {
+        "0.1": {
+          "B": -0.000633,
+          "C": 0.001956
+        },
+        "0.2": {
+          "B": -0.00034,
+          "C": 0.005904
+        }
+      }
+    }
+  ],
+  "note": "the handicap is priced into the decision rule: the power diagnostic needs 0.001449 nats gross and an observed mean difference of -0.000602 at 90% power, which already includes it.",
+  "engine_version": "0.15.0",
+  "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+  "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+  "runner": "__main__"
+}

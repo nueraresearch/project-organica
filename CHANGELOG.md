@@ -153,6 +153,19 @@ This addendum replaces the first version of the same study, which reported 20 re
 all 186 retirement rows and the conservative figures above stand. The correction is recorded in the page and the artifact,
 not silently applied.
 
+## Addendum — 2026-11-16: the null handicap decomposed, and why it cannot be debiased
+
+`benchmarks/v2_first_cell_handicap.py` separates the +0.000847 nats null handicap using the stored arms: frozen membership's
+β pseudo-counts cost **+0.001312** nats, and the revision rule **gives back −0.000465** by cutting member edges per composite
+from 2.571 to 0.783, for a net of **+0.000847**. Both arms selected β = 1 throughout.
+
+A row-preserving mixture — `p' = (1−λ)p_counts + λq_member`, the construction most likely to be unbiased if row sums were the
+problem — is not a fix: bias **rises** with λ (frozen +0.000572 at λ = 0.1, +0.002357 at 0.2), and the maintained arm's
+mixture (+0.001546) is worse than its additive form because normalising a sparse member set concentrates the tilt. Every
+non-trivial variant is positive; β = 0 is exactly arm A. The handicap is the convexity cost of using membership at all, which
+is why the recommendation is to keep the readout and report the handicap beside the result rather than subtract a
+null-calibrated offset that would not transfer to the cell's worlds.
+
 ## Addendum — 2026-11-16: the V2 programme is a pre-1.0 line targeted at 0.20.0
 
 Recorded on the owner's instruction: "V2" is the internal label for the second research programme, **not a version number**.
