@@ -39,6 +39,7 @@ if str(REPO) not in sys.path:
 
 from benchmarks.ablation_metrics import edges_implied_by_structures  # noqa: E402
 from benchmarks import engine_stamp
+from benchmarks import phase_k_campaign as checkpoint_reader  # noqa: E402
 
 # ----------------------------------------------------------------------
 # Protocol constants. Every one of these is declared in the frozen
@@ -1177,6 +1178,14 @@ def _label_order(arm: str) -> list[str]:
 # The campaign runner
 # ----------------------------------------------------------------------
 
+#: The fields that name one Phase L cell, and the fields that are its
+#: measurement.  The resume reads the live recording with the campaign's shared
+#: strict reader, so a repeated cell is kept once and a malformed row refuses
+#: the resume instead of being skipped.
+RESUME_KEY_FIELDS = ("arm", "label", "seed")
+RESUME_CELL_FIELDS = ("params", "results")
+
+
 def load_resume_records(out_path: Path | None,
                          checkpoint_path: Path | None) -> tuple[list, str]:
     """Rebuild the set of already-completed cells for a resumed run.
@@ -1193,6 +1202,19 @@ def load_resume_records(out_path: Path | None,
     expected and is disclosed in the protocol block; it is not a sign of lost
     work.
 
+    The recording is read through the same strict reader the Phase K campaign
+    and the K2 block use, with this harness's own key fields: one record per
+    cell, a torn final line truncated before this run appends past it, and an
+    unreadable, non-cell or disagreeing row refused rather than skipped.
+    Skipping one would silently drop or silently choose a completed cell's
+    measurement, which is a wrong result rather than a smaller one.
+
+    It is read on every resume, not only when the results file is missing,
+    because this run appends to it: the results file still supplies the records
+    whenever it can, but a recording that cannot be read must not be appended
+    to. The documented fallback is unchanged -- a missing or unreadable results
+    file still rebuilds from the recording.
+
     Returns (records, source_label).
     """
     source = "results file"
@@ -1204,23 +1226,20 @@ def load_resume_records(out_path: Path | None,
         except Exception:
             records = []
             source = "results file (unreadable)"
-    if not records and checkpoint_path is not None and checkpoint_path.exists():
-        rebuilt = []
-        try:
-            with open(checkpoint_path, "r", encoding="utf-8") as fh:
-                for line in fh:
-                    line = line.strip()
-                    if not line:
-                        continue
-                    try:
-                        rebuilt.append(json.loads(line))
-                    except Exception:
-                        # A torn final line from a hard kill. Everything
-                        # before it is still good.
-                        continue
-        except Exception:
-            rebuilt = []
-        records = rebuilt
+    repaired = None
+    if checkpoint_path is not None and checkpoint_path.exists():
+        # A torn tail is harmless only while it is the last line: the moment
+        # this run appends the next cell it becomes an unreadable row in the
+        # middle of the file. Repair and read it before anything appends,
+        # whichever source supplies the records; the tail was never a record,
+        # so cutting it back loses nothing.
+        repaired = checkpoint_reader.repair_partial_final_row(
+            checkpoint_path,
+            key_fields=RESUME_KEY_FIELDS,
+            cell_fields=RESUME_CELL_FIELDS,
+        )
+    if not records and repaired is not None:
+        records = repaired["records"]
         source = "NDJSON live recording"
     return records, source
 
