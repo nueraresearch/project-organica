@@ -798,11 +798,13 @@ def _check(entries: str) -> list[dict]:
     # --- E26. The licensing role is already recorded ------------------------
     extraction = (ROOT / "organica/sleep_extraction.py").read_text(
         encoding="utf-8").splitlines()
-    add("762", "organica/sleep_extraction.py:762-763",
-        (extraction[761].strip(), extraction[762].strip()),
-        "source_role_id" in extraction[761] and "target_role_id" in extraction[762])
-    add("480", "organica/sleep_extraction.py:480", extraction[479].strip(),
-        "schema_prior" in extraction[479])
+    # The 0.16.0 admission change moved these two blocks; the changelog's cited
+    # line numbers were moved with them so the pointer still names the code.
+    add("743", "organica/sleep_extraction.py:743-744",
+        (extraction[742].strip(), extraction[743].strip()),
+        "source_role_id" in extraction[742] and "target_role_id" in extraction[743])
+    add("484", "organica/sleep_extraction.py:484", extraction[483].strip(),
+        "schema_prior" in extraction[483])
     add("14", "docs/transfer_provenance.json .measurement.transfer_events",
         _at(prov, "measurement", "transfer_events"),
         _at(prov, "measurement", "transfer_events") == 14)
@@ -1106,8 +1108,8 @@ def _check(entries: str) -> list[dict]:
         len(runnable), len(runnable) == 20)
     stage_b = _load("docs/stage_b_protocol.json")
     proved = _find_key(stage_b, "disjoint_proved_against")
-    add("**228** artifacts", "docs/stage_b_protocol.json disjoint_proved_against", proved,
-        proved == 228 and ("**%d** artifacts" % proved) in entries,
+    add("**265** artifacts", "docs/stage_b_protocol.json disjoint_proved_against", proved,
+        proved == 265 and ("**%d** artifacts" % proved) in entries,
         "the Stage B figure is quoted with its noun, so a drift in either is caught; "
         "the count moved 169 -> 173 when the three conversion blocks wrote their run "
         "artifacts, to 178 when the presence band arm was frozen, to 179 when the T1 run "
@@ -1131,7 +1133,9 @@ def _check(entries: str) -> list[dict]:
         "landed, to 214 when the entry-transition run result landed, and to 228 as "
         "fourteen more artifacts landed on 2026-11-14 — the value the artifact holds "
         "now and the changelog quotes, re-readable with git show <sha>:docs/stage_b_protocol.json "
-        "at 217, 218, 219, 220, 221, 222, 223, 225, 226, 227 and 228")
+        "at 217, 218, 219, 220, 221, 222, 223, 225, 226, 227 and 228; it moved to 255 as "
+        "the later 2026-11-16 records landed, and to 265 as the V2 result, K2 "
+        "retirement, K1 registration and the K1S/0.16.0 records landed")
     overlap = _find_key(stage_b, "overlap_with_consumed")
     add("0", "docs/stage_b_protocol.json overlap_with_consumed",
         overlap, overlap == [], "the candidate block does not intersect the consumed seeds")
@@ -1182,8 +1186,8 @@ def test_the_figure_check_fires_when_a_quoted_number_drifts():
 
     # The control must reach the rows added with the 2026-11-09 entries too,
     # or a new block could be inert and nothing would say so.
-    stage_b_drift = entries.replace("**228** artifacts", "**227** artifacts")
-    assert "**227** artifacts" in stage_b_drift, "the control's anchor moved"
+    stage_b_drift = entries.replace("**265** artifacts", "**263** artifacts")
+    assert "**263** artifacts" in stage_b_drift, "the control's anchor moved"
     stage_b_failures = _failures(stage_b_drift)
     assert stage_b_failures, "the control did not fire"
 

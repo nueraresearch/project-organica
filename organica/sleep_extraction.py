@@ -53,6 +53,12 @@ def role_polarity_match(
 class SleepExtractionMixin:
     """Extraction and low-level candidate construction methods."""
 
+    # 0.16.0, allocation law (a): a temporal relation is a prediction candidate
+    # only when its unordered pair co-occurs within an event at least this often.
+    # The floor is fixed by the owner's grant (docs/COOCCURRENCE-A-T1-GRANT.json);
+    # it is not swept on the judged block.
+    PREDICTION_COOCURRENCE_FLOOR = 35
+
     # ==================================================================
     # Tag scoring (internal)
     # ==================================================================
@@ -357,21 +363,20 @@ class SleepExtractionMixin:
         if prior_schemas is None:
             prior_schemas = getattr(self, "_current_prior_schemas", None)
         cooc = getattr(self, "_current_cooc", None)
-        cooc_pairs = set()
+        # Admission by within-event support (allocation law (a), 0.16.0).
+        # _load_cooccurrences mirrors both directions with the same count, so the
+        # pair's count is unambiguous and a plain assignment is enough.
+        cooc_counts: dict[tuple[str, str], int] = {}
         if cooc:
             for a, targets in cooc.items():
-                for b in targets:
-                    cooc_pairs.add(tuple(sorted([a, b])))
+                for b, count in targets.items():
+                    cooc_counts[tuple(sorted([a, b]))] = int(count)
 
         tag_events = getattr(self, "_current_tag_events", {})
         # Collect outgoing counts for transition probability P(target | source)
         out_counts: dict[str, int] = defaultdict(int)
-        raw_out_counts: dict[str, int] = defaultdict(int)
-        raw_in_counts: dict[str, int] = defaultdict(int)
         for tag_from, targets in temporal.items():
             for tag_to, count in targets.items():
-                raw_out_counts[tag_from] += count
-                raw_in_counts[tag_to] += count
                 if count >= self.PREDICTION_MIN_COUNT:
                     out_counts[tag_from] += count
 
@@ -425,8 +430,7 @@ class SleepExtractionMixin:
                         ent -= p * math.log2(p)
             source_entropy[tag_from] = round(ent, 4)
 
-        transitions: list[PredictionCandidate] = []
-        cooccurrences: list[PredictionCandidate] = []
+        admitted: list[PredictionCandidate] = []
 
         for tag_from in sorted(temporal.keys()):
             targets = temporal[tag_from]
@@ -450,11 +454,11 @@ class SleepExtractionMixin:
                         schema_congruent = True
                         matching_schema_id = best_schema.get("id", "")
 
-                if meets_direct:
+                pair = tuple(sorted([tag_from, tag_to]))
+                if meets_direct and cooc_counts.get(pair, 0) >= self.PREDICTION_COOCURRENCE_FLOOR:
                     ratio = count / max(source_freq, 1)
                     trans_prob = count / max(out_counts[tag_from], 1)
                     pid = _make_id("pred", tag_from, tag_to)
-                    is_cooc = tuple(sorted([tag_from, tag_to])) in cooc_pairs
                     
                     # Grounding Layer 1 Lineage to Events (Defect D3)
                     supporting_events = [eid for eid in tag_events.get(tag_from, []) if eid in tag_events.get(tag_to, [])][:10]
@@ -474,7 +478,7 @@ class SleepExtractionMixin:
                         "ratio": round(ratio, 3),
                         "transition_prob": round(trans_prob, 4),
                         "target_entropy": ent,
-                        "is_cooccurrence": is_cooc,
+                        "is_cooccurrence": True,
                     }
                     if schema_congruent and matching_schema_id:
                         evidence_dict["schema_prior"] = matching_schema_id
@@ -488,41 +492,18 @@ class SleepExtractionMixin:
                         strength=cand_strength,
                         evidence=evidence_dict,
                     )
-                    if is_cooc:
-                        cooccurrences.append(cand)
-                    else:
-                        transitions.append(cand)
+                    admitted.append(cand)
 
-        # Sort transitions by predictive information:
-        # 1. Target entropy ascending (lower entropy = more deterministic/unique successor)
-        # 2. Transition probability descending P(v|u)
-        # 3. Temporal count descending
-        transitions.sort(key=lambda p: (
-            0 if p.evidence.get("schema_prior") else 1,
-            p.evidence.get("target_entropy", 999.0),
-            -p.evidence.get("transition_prob", 0.0),
+        # Allocation law (a), 0.16.0: one ranked list.  Admission is already by
+        # support at PREDICTION_COOCURRENCE_FLOOR, so the served window is the
+        # first MAX_PREDICTIONS candidates ordered by temporal count, with the
+        # existing source/target tie-break.  No partition and no backfill.
+        admitted.sort(key=lambda p: (
             -p.evidence["temporal_count"],
             p.source,
-            p.target
+            p.target,
         ))
-        # Sort cooccurrences by count
-        cooccurrences.sort(key=lambda p: (-p.evidence["temporal_count"], p.source, p.target))
-
-        # Stratified allocation:
-        # Guarantee transitions a minimum allocation of half the budget (e.g. 10 of 20),
-        # letting transitions expand into any unused cooccurrence quota.
-        returned_budget = self.MAX_PREDICTIONS
-        transition_budget = returned_budget // 2
-        selected_transitions = transitions[:transition_budget]
-        remaining_budget = returned_budget - len(selected_transitions)
-        selected_cooc = cooccurrences[:remaining_budget]
-
-        candidates = selected_transitions + selected_cooc
-        # Fill any remainder with more transitions if cooccurrences didn't fill the quota
-        if len(candidates) < returned_budget:
-            more_trans = [t for t in transitions[transition_budget:] if t not in candidates]
-            candidates.extend(more_trans[:returned_budget - len(candidates)])
-        return candidates[:returned_budget]
+        return admitted[:self.MAX_PREDICTIONS]
 
     def _build_anomalies(self, temporal, freqs) -> list[AnomalyCandidate]:
         anomalies = []

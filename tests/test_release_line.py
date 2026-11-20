@@ -1,5 +1,6 @@
 """The programme label and the release line must not be confused with a version number."""
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 from pathlib import Path
 
@@ -30,5 +31,7 @@ def test_the_manual_holds_the_three_namespaces_and_the_release_line() -> None:
     assert "planned as **0.20.0**" in manual
 
 
-def test_no_version_was_bumped_and_the_pin_still_describes_the_package() -> None:
-    assert organica.__version__ == "0.15.0"
+def test_the_shipped_version_is_the_one_the_release_line_records() -> None:
+    # 0.16.0 is the K1S admission build. This is the stop-check for the next bump:
+    # a version that moves without this line moving is a build nobody recorded.
+    assert organica.__version__ == "0.16.0"

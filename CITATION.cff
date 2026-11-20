@@ -11,7 +11,7 @@ abstract: >-
   provenance, cognitive isolation, grounded dreaming, epistemic attention, and
   natural selection.
 type: software
-version: 0.15.0
+version: 0.16.0
 # 0.15.0 is unreleased working-tree work: the prediction budget's split into named allocations (E1) is
 # in the engine, with no behaviour change. The deposit is 0.12.0, cut and tagged on 2026-11-06; `date-released` below is that tag
 # date. v0.9.0 remains the archival reference for the frozen Organica 1 engine alone; the engine in

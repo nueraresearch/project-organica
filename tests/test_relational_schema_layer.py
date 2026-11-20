@@ -295,7 +295,9 @@ def test_no_prediction_reports_an_inflated_count(fresh_engine):
             mem.store("delta ember flora", event_type="observe", source="env:A")
     svc.run_sleep_cycle()
 
-    for _ in range(8):
+    # 0.16.0 admits a pair only at PREDICTION_COOCURRENCE_FLOOR co-occurrences, so
+    # context B needs 35 within-event repetitions before it can serve anything.
+    for _ in range(svc.PREDICTION_COOCURRENCE_FLOOR):
         with mem.batch():
             mem.store("quartz prism", event_type="observe", source="env:B")
             mem.store("tidal lunar", event_type="observe", source="env:B")

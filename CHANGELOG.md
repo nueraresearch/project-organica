@@ -5,6 +5,24 @@ All notable changes to Project Organica are recorded here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project follows [Semantic Versioning 2.0.0](https://semver.org/).
 
+## [0.16.0] — (unreleased)
+
+### Changed
+
+- **Prediction admission is support-gated, and the stratified allocation is gone.**
+  `_build_predictions` admits a temporal relation only when its unordered pair co-occurs
+  within an event at least `PREDICTION_COOCURRENCE_FLOOR = 35` times, serves one list
+  ranked by temporal count with the existing source/target tie-break, and truncates at
+  `MAX_PREDICTIONS = 112`. `transition_budget`, the co-occurrence quota and the backfill
+  are deleted because there is no longer a window to divide. Every admitted candidate
+  carries `is_cooccurrence: true`, so the presence gates keyed to two populations
+  (`transitions + cooccurrences = 112`, `transitions >= 56`, `cooccurrences <= 56`) no
+  longer describe a window and must be re-expressed before a block reads them.
+- The floor is the owner's, not the engine's to sweep: registered as
+  `CONSTRAINT-COOCCURRENCE-A-T1-1` and granted one 20-cell block on 2026-11-20
+  (`docs/COOCCURRENCE-A-T1-GRANT.json`). No cell has run. The engine modules under
+  `organica/` are re-pinned at 0.16.0.
+
 ## Addendum — 2026-11-16: a runtime failure is a pre-committed disposition, not a retry
 
 `DECISION-V2-RUNTIME-FAILURE` is adopted before the first V2 cell executes. A run is
@@ -2650,10 +2668,10 @@ reason. The counts stated inside the entries below are the values recorded on th
   closed over **52** questions; Q054, the Q4 conversion-repair protocol, is the twenty-fourth never-closed row and joined as a first answer on 2026-11-10. Three tests in `tests/test_research_registry.py` check that every
   closed or retired question is classified, that the three groups partition the registry with
   reopened answers open, and that removing Q052 fires the check.
-- **The Stage B block follows the artifact that landed.** The seed scan covers **228** artifacts, up from the **180** artifacts it held after the band run (amended 2026-11-10, and again when the three conversion blocks wrote their run artifacts: the D3 seed-varying, engine-replication, G1-recalibrated-preregistration and run, the presence/assertion audit, the presence-to-assertion ladder, the construct-audit and cap preregistrations, and Tier-1 records raised the count from 157; the count moves as records land: the pruning-reachability, pruning-by-type, temporal-presence, question-survival, pre-flight and Q006 records were added that day, and the construct-audit, cap and conversion-observer run artifacts took it from 169 to 173, the presence band arm's frozen record carried one, and its run artifact the next, and BAND-2's frozen record, and PERSISTENCE-MECHANISM-1's frozen record, and BAND-3's frozen record after it, and BAND-5's record and run artifact after that, the fresh-block provenance replication, and the never-served assertion model's preregistration and result after that, and the matched carrier replication's preregistration and result after that, and the never-served assertion model replication's preregistration and result after that, the loop-only assertion model's preregistration and result after that, the loop persistence extension after that, the schema-priority gate after that, the stored-field tie-break after that, the source-diversified top-20 diagnostic after that, the core+band block after that, the retention preregistration, the retention run result, the formation-anchored retention preregistration, its run result, and the entry-transition preregistration after that) with
+- **The Stage B block follows the artifact that landed.** The seed scan covers **265** artifacts, up from the **180** artifacts it held after the band run (amended 2026-11-10, and again when the three conversion blocks wrote their run artifacts: the D3 seed-varying, engine-replication, G1-recalibrated-preregistration and run, the presence/assertion audit, the presence-to-assertion ladder, the construct-audit and cap preregistrations, and Tier-1 records raised the count from 157; the count moves as records land: the pruning-reachability, pruning-by-type, temporal-presence, question-survival, pre-flight and Q006 records were added that day, and the construct-audit, cap and conversion-observer run artifacts took it from 169 to 173, the presence band arm's frozen record carried one, and its run artifact the next, and BAND-2's frozen record, and PERSISTENCE-MECHANISM-1's frozen record, and BAND-3's frozen record after it, and BAND-5's record and run artifact after that, the fresh-block provenance replication, and the never-served assertion model's preregistration and result after that, and the matched carrier replication's preregistration and result after that, and the never-served assertion model replication's preregistration and result after that, the loop-only assertion model's preregistration and result after that, the loop persistence extension after that, the schema-priority gate after that, the stored-field tie-break after that, the source-diversified top-20 diagnostic after that, the core+band block after that, the retention preregistration, the retention run result, the formation-anchored retention preregistration, its run result, and the entry-transition preregistration after that) with
   **0** overlap against the candidate block, **54** more than the **146** it recorded before
   `docs/ablation_study_0.13.0.json` existed, and the stored artifact and the quoted block are rebuilt
-  together so they describe the same state. (Figure brought onto the artifact on 2026-11-15: **214 → 228** as fourteen artifacts landed on 2026-11-14, read by field path from `docs/stage_b_protocol.json`; the earlier value was accurate when written and is not rewritten here, only superseded.)
+  together so they describe the same state. (Figure brought onto the artifact on 2026-11-15: **214 → 228** as fourteen artifacts landed on 2026-11-14, then **228 → 255 → 264 → 265** as later records landed (the last step when the K1S registration and 0.16.0 build records landed), read by field path from `docs/stage_b_protocol.json`; the earlier value was accurate when written and is not rewritten here, only superseded.)
 - **`docs/RERUN-CAMPAIGN-PLAN.md` splits the registry into two halves and runs nothing:** after
   Q006 and Q021 closed, **12** re-derivations remain with a comparator and **23** first answers
   have none, **18** of the first answers runnable now. `tests/test_rerun_plan.py` recomputes every
@@ -3068,8 +3086,8 @@ reason. The counts stated inside the entries below are the values recorded on th
 ### Decided — the licensing role is not recorded, because it is already recorded (2026-11-07)
 
 - **The decision**: no engine change. `organica/sleep_extraction.py` already writes
-  `source_role_id` and `target_role_id` on every schema (`:762-763`) and `schema_prior` on every
-  primed prediction (`:480`), so the role behind a transfer is already stored twice.
+  `source_role_id` and `target_role_id` on every schema (`:743-744`) and `schema_prior` on every
+  primed prediction (`:484`), so the role behind a transfer is already stored twice.
 - **Why the trace read zero**: `role_match` in `benchmarks/transfer_provenance.py` resolves a pair
   through *one* role whose exemplars contain **both** tags, while a schema is built from two
   **disjoint** role sets and gated on flow from A to B. The predicate was unsatisfiable by

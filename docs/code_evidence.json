@@ -169,9 +169,9 @@
       ]
     },
     {
-      "id": "prediction-space-is-count-gated-and-entropy-ranked",
+      "id": "prediction-space-is-count-and-support-gated",
       "kind": "by-construction",
-      "statement": "A prediction candidate needs a temporal count of at least 5, and transitions are ordered by target entropy, then transition probability, then count; the ranking is a function of the graph's counts alone, which is why no frequency-based ranking can recover a signal the counts do not separate.",
+      "statement": "A prediction candidate needs a temporal count of at least 5 and a within-event co-occurrence count of at least 35; the served list is ordered by temporal count, then source, then target, so the ranking is a function of the graph's counts alone, which is why no frequency-based ranking can recover a signal the counts do not separate.",
       "anchors": [
         {
           "path": "organica/sleep_extraction.py",
@@ -179,7 +179,15 @@
         },
         {
           "path": "organica/sleep_extraction.py",
-          "regex": "transitions\\.sort\\(key=lambda p: \\("
+          "regex": "cooc_counts\\.get\\(pair, 0\\) >= self\\.PREDICTION_COOCURRENCE_FLOOR"
+        },
+        {
+          "path": "organica/sleep_extraction.py",
+          "regex": "PREDICTION_COOCURRENCE_FLOOR = 35"
+        },
+        {
+          "path": "organica/sleep_extraction.py",
+          "regex": "admitted\\.sort\\(key=lambda p: \\("
         },
         {
           "path": "organica/sleep.py",

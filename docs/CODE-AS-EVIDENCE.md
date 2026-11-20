@@ -34,7 +34,7 @@ already settled.
 | `no-membership-mutation-exists` | no assignment to a path anywhere; the only stored-path reference is an equality test | absence |
 | `only-tag-bag-readback` | meta-concepts read a carrier's path only to fold its tags into reference counts | by construction |
 | `processes-read-predictions-not-carriers` | Layer 2 is composed from prediction candidates, never from carriers | by construction |
-| `prediction-space-is-count-gated-and-entropy-ranked` | count ≥ 5, ordered by target entropy, then probability, then count | by construction |
+| `prediction-space-is-count-and-support-gated` | temporal count ≥ 5 and within-event co-occurrence ≥ 35; one list ordered by count, then source, then target | by construction |
 | `graphs-are-world-only-and-lookback-local` | three-event lookback, sleep payloads excluded, world-scoped counters | by construction |
 | `retention-bounds-the-candidate-layer` | newest 4,000 sleep events readable, 20,000 rows retained | by construction |
 | `the-engine-composite-means-generation-two-plus` | `composites_created` counts Layer 2+ only, not carriers | by construction |
