@@ -391,3 +391,434 @@ def test_the_map_table_check_rejects_a_hand_edited_check():
                            "all 112 true world edges were present in the graph", 1)
     assert drifted != text, "the edit the check is supposed to notice did not happen"
     assert bm.render_document(drifted, body) != drifted
+
+
+def _ledger():
+    return _body()["constraint_ledger"]
+
+
+def test_the_constraint_ledger_is_a_five_column_decision_ledger():
+    ledger = _ledger()
+    assert ledger["state_vocabulary"] == ["open", "in-test", "retired"]
+    assert ledger["retirement_rule"].strip()
+    assert "pass, fail or inconclusive" in ledger["retirement_rule"]
+    assert "attempt_invalid" in ledger["retirement_rule"]
+    assert "untested" in ledger["retirement_rule"]
+    assert "one constraint" not in ledger["purpose"]
+    assert "zero is valid before the first test" in ledger["policy"]
+    rows = ledger["rows"]
+    assert rows
+    for row in rows:
+        assert row["state"] in ledger["state_vocabulary"]
+        for field in ("constraint", "evidence", "hypothesis", "intervention", "decision_rule"):
+            assert row[field].strip(), (row["constraint"], field)
+    table = bm.render_constraint_table(_body()).splitlines()
+    assert table[0] == ("| Constraint (state) | Evidence | Hypothesis | Intervention | "
+                        "Decision rule |")
+    assert len(table) == len(rows) + 2
+
+
+def test_at_most_one_row_is_in_test_and_the_slot_holds_the_successor():
+    rows = _ledger()["rows"]
+    in_test = [row for row in rows if row["state"] == "in-test"]
+    assert len(in_test) <= 1
+    assert [row["constraint"] for row in in_test] == [
+        "K1S - support-gated co-occurrence admission"], \
+        "the successor entered test on 2026-11-20 under the owner's grant"
+    assert all(not row["constraint"].lower().startswith(("governance", "provenance"))
+               for row in rows)
+
+
+def test_zero_in_test_rows_are_valid_before_the_first_test():
+    body = copy.deepcopy(_body())
+    rows = body["constraint_ledger"]["rows"]
+    rows[:] = [row for row in rows if row["state"] != "in-test"]
+    assert not [r for r in rows if r["state"] == "in-test"]
+    assert bm.constraint_rows(body) == rows
+
+
+def test_the_constraint_ledger_refuses_a_second_in_test_row():
+    body = copy.deepcopy(_body())
+    rows = body["constraint_ledger"]["rows"]
+    rows.extend([copy.deepcopy(_in_test()), copy.deepcopy(_in_test())])
+    with pytest.raises(ValueError, match="at most one in-test"):
+        bm.constraint_rows(body)
+
+
+def test_the_constraint_ledger_refuses_a_row_without_a_decision_rule():
+    body = copy.deepcopy(_body())
+    body["constraint_ledger"]["rows"][0]["decision_rule"] = ""
+    with pytest.raises(ValueError, match="decision_rule"):
+        bm.constraint_rows(body)
+
+
+def test_the_constraint_table_is_generated_from_the_artifact():
+    body = _body()
+    text = DOC.read_text(encoding="utf-8")
+    assert bm.CONSTRAINT_BEGIN in text and bm.CONSTRAINT_END in text
+    assert bm.render_document(text, body) == text, (
+        "the constraint ledger differs from the artifact; regenerate with "
+        "python -m benchmarks.bottleneck_map --write"
+    )
+    assert "at most one row may be `in-test`" in _flat()
+    assert "zero is valid before the first test" in _flat()
+    assert "Retired rows remain in the ledger as history" in _flat()
+    assert "attempt_invalid" in _flat()
+    assert "untested, not refuted" in _flat()
+
+
+def _k2():
+    return next(r for r in _ledger()["rows"] if r["constraint"].startswith("K2"))
+
+
+K1_REGISTRATION = "docs/constraint_registrations/K1-served-path.json"
+
+
+def _in_test():
+    """A synthetic in-test row.
+
+    The artifact's one in-test row is the successor, so the refusal tests
+    below need a row that is valid in shape independent of it.  It names the
+    real K1 registration so the registration checks it exercises remain the
+    committed ones.
+    """
+    return {
+        "constraint": _in_test_registration()["constraint"],
+        "evidence": "synthetic row for the refusal tests; not a ledger entry",
+        "hypothesis": "synthetic",
+        "intervention": "synthetic",
+        "decision_rule": "synthetic",
+        "state": "in-test",
+        "registration": K1_REGISTRATION,
+        "history": [{
+            "from": "open",
+            "to": "in-test",
+            "date": "2026-11-19",
+            "registration": "CONSTRAINT-K1-1",
+        }],
+    }
+
+
+def _k2_registration():
+    return json.loads((ROOT / _k2()["registration"]).read_text(encoding="utf-8"))
+
+
+def _in_test_registration():
+    return json.loads((ROOT / K1_REGISTRATION).read_text(encoding="utf-8"))
+
+
+def test_k2_is_retired_as_an_invalid_attempt_not_a_failed_intervention():
+    row = _k2()
+    assert row["state"] == "retired"
+    assert row["registration"] == "docs/constraint_registrations/K2-belief-revision.json"
+    assert row["history"][-1] == {
+        "from": "in-test",
+        "to": "retired",
+        "date": "2026-11-19",
+        "registration": "CONSTRAINT-K2-1",
+    }
+    result = json.loads((ROOT / row["result"]).read_text(encoding="utf-8"))
+    decision = json.loads((ROOT / row["decision"]).read_text(encoding="utf-8"))
+    assert result["outcome"] == "attempt_invalid"
+    assert result["hypothesis_status"] == "untested"
+    assert result["criteria_read"] is False
+    assert "untested" in decision["decision"].lower()
+    assert result["registration"] == "CONSTRAINT-K2-1"
+    assert decision["result"] == result["id"]
+    registration = _k2_registration()
+    assert registration["id"] == "CONSTRAINT-K2-1"
+    assert registration["constraint"] == row["constraint"]
+    assert bm.validate_constraint_row(row) == registration
+
+
+def test_k1_is_retired_as_superseded_before_any_cell():
+    row = next(r for r in _ledger()["rows"] if r["constraint"].startswith("K1"))
+    assert row["state"] == "retired"
+    assert row["registration"] == K1_REGISTRATION
+    assert row["history"] == [
+        {"from": "open", "to": "in-test", "date": "2026-11-19",
+         "registration": "CONSTRAINT-K1-1"},
+        {"from": "in-test", "to": "retired", "date": "2026-11-19",
+         "registration": "CONSTRAINT-K1-1"},
+    ]
+    assert row["retirement_reason"].strip()
+    result = json.loads((ROOT / row["result"]).read_text(encoding="utf-8"))
+    decision = json.loads((ROOT / row["decision"]).read_text(encoding="utf-8"))
+    assert result["outcome"] == "attempt_invalid"
+    assert result["hypothesis_status"] == "untested"
+    assert result["criteria_read"] is False
+    assert result["cells_started"] == 0
+    assert result["registration"] == "CONSTRAINT-K1-1"
+    assert "untested" in decision["decision"].lower()
+    assert "not refuted" in decision["decision"].lower()
+    assert decision["result"] == result["id"]
+    registration = _in_test_registration()
+    assert registration["id"] == "CONSTRAINT-K1-1"
+    assert registration["threshold_values"]["baseline_gap"] == -0.623961
+    assert set(registration["threshold_values"]) == set(bm.THRESHOLD_KEYS)
+    assert bm.validate_constraint_row(row) == registration
+
+
+def test_an_in_test_row_without_a_registration_is_refused():
+    row = copy.deepcopy(_in_test())
+    row.pop("registration")
+    with pytest.raises(ValueError, match="names no registration"):
+        bm.validate_constraint_row(row)
+
+
+def test_an_in_test_row_with_a_missing_registration_file_is_refused():
+    row = copy.deepcopy(_in_test())
+    row["registration"] = "docs/constraint_registrations/MISSING.json"
+    with pytest.raises(ValueError, match="registration record does not exist"):
+        bm.validate_constraint_row(row)
+
+
+def test_an_in_test_row_without_history_is_refused():
+    row = copy.deepcopy(_in_test())
+    row.pop("history")
+    with pytest.raises(ValueError, match="carries no transition history"):
+        bm.validate_constraint_row(row)
+
+
+def test_an_open_row_cannot_carry_a_registration_or_result():
+    row = copy.deepcopy(next(r for r in _ledger()["rows"] if r["state"] == "open"))
+    row["result"] = "RESULT-K2-1"
+    with pytest.raises(ValueError, match="open but carries"):
+        bm.validate_constraint_row(row)
+
+
+def test_a_retired_row_cannot_skip_the_chain_or_its_records():
+    row = copy.deepcopy(_in_test())
+    row["history"].append({
+        "from": "in-test", "to": "retired", "date": "2026-11-19",
+        "registration": "CONSTRAINT-K1-1",
+    })
+    row["state"] = "retired"
+    row["retirement_reason"] = "the intervention completed"
+    with pytest.raises(ValueError, match="result record"):
+        bm.validate_constraint_row(row)
+
+
+def test_a_direct_open_to_retired_transition_is_refused():
+    row = copy.deepcopy(_in_test())
+    row["state"] = "retired"
+    row["history"] = [{"from": "open", "to": "retired", "date": "2026-11-16"}]
+    with pytest.raises(ValueError, match="invalid transition"):
+        bm.validate_constraint_row(row)
+
+
+def test_a_complete_retirement_chain_is_accepted(tmp_path):
+    registration = copy.deepcopy(_in_test_registration())
+    result = {
+        "id": "RESULT-K2-1",
+        "registration": "CONSTRAINT-K1-1",
+        "outcome": "pass",
+    }
+    decision = {
+        "id": "DECISION-K2-1",
+        "result": "RESULT-K2-1",
+        "decision": "RETIRE THE RETENTION-PRIORITY HYPOTHESIS",
+    }
+    (tmp_path / "registration.json").write_text(json.dumps(registration), encoding="utf-8")
+    (tmp_path / "result.json").write_text(json.dumps(result), encoding="utf-8")
+    (tmp_path / "decision.json").write_text(json.dumps(decision), encoding="utf-8")
+    row = copy.deepcopy(_in_test())
+    row.update({
+        "state": "retired",
+        "registration": "registration.json",
+        "result": "result.json",
+        "decision": "decision.json",
+        "retirement_reason": "the intervention completed",
+    })
+    row["history"].append({
+        "from": "in-test", "to": "retired", "date": "2026-11-19",
+        "registration": "CONSTRAINT-K1-1",
+    })
+    assert bm.validate_constraint_row(row, tmp_path)["id"] == "CONSTRAINT-K1-1"
+    body = copy.deepcopy(_body())
+    body["constraint_ledger"]["rows"] = [row] + [
+        other for other in body["constraint_ledger"]["rows"]
+        if not other["constraint"].startswith(("K1", "K2"))]
+    assert bm.constraint_rows(body, tmp_path)[0]["state"] == "retired"
+    assert not [other for other in body["constraint_ledger"]["rows"]
+                if other["state"] == "in-test"]
+    result["registration"] = "CONSTRAINT-OTHER"
+    (tmp_path / "result.json").write_text(json.dumps(result), encoding="utf-8")
+    with pytest.raises(ValueError, match="result does not reference"):
+        bm.validate_constraint_row(row, tmp_path)
+    result["registration"] = "CONSTRAINT-K1-1"
+    result["outcome"] = "pass"
+    (tmp_path / "result.json").write_text(json.dumps(result), encoding="utf-8")
+    decision["result"] = "RESULT-OTHER"
+    (tmp_path / "decision.json").write_text(json.dumps(decision), encoding="utf-8")
+    with pytest.raises(ValueError, match="decision does not reference"):
+        bm.validate_constraint_row(row, tmp_path)
+    decision["result"] = "RESULT-K2-1"
+    (tmp_path / "decision.json").write_text(json.dumps(decision), encoding="utf-8")
+    result["outcome"] = "VOID"
+    (tmp_path / "result.json").write_text(json.dumps(result), encoding="utf-8")
+    with pytest.raises(ValueError, match="outcome must be one of"):
+        bm.validate_constraint_row(row, tmp_path)
+
+
+def test_an_invalid_attempt_requires_untested_status_and_no_criterion(tmp_path):
+    registration = copy.deepcopy(_in_test_registration())
+    (tmp_path / "registration.json").write_text(json.dumps(registration), encoding="utf-8")
+    result = {
+        "id": "RESULT-K1-INVALID",
+        "registration": "CONSTRAINT-K1-1",
+        "outcome": "attempt_invalid",
+        "hypothesis_status": "refuted",
+        "criteria_read": False,
+        "cells_started": 20,
+    }
+    decision = {
+        "id": "DECISION-K1-INVALID",
+        "result": "RESULT-K1-INVALID",
+        "decision": "RETIRE AS UNTESTED",
+    }
+    row = copy.deepcopy(_in_test())
+    row.update({
+        "state": "retired",
+        "registration": "registration.json",
+        "result": "result.json",
+        "decision": "decision.json",
+        "retirement_reason": "the attempt was invalid",
+    })
+    row["history"].append({
+        "from": "in-test", "to": "retired", "date": "2026-11-19",
+        "registration": "CONSTRAINT-K1-1",
+    })
+
+    def write():
+        (tmp_path / "result.json").write_text(json.dumps(result), encoding="utf-8")
+        (tmp_path / "decision.json").write_text(json.dumps(decision), encoding="utf-8")
+
+    write()
+    with pytest.raises(ValueError, match="hypothesis_status"):
+        bm.validate_constraint_row(row, tmp_path)
+    result["hypothesis_status"] = "untested"
+    result["criteria_read"] = True
+    write()
+    with pytest.raises(ValueError, match="criteria_read"):
+        bm.validate_constraint_row(row, tmp_path)
+    result["criteria_read"] = False
+    decision["decision"] = "RETIRE AS REFUTED"
+    write()
+    with pytest.raises(ValueError, match="untested"):
+        bm.validate_constraint_row(row, tmp_path)
+    decision["decision"] = "RETIRE AS UNTESTED"
+    write()
+    assert bm.validate_constraint_row(row, tmp_path)["id"] == "CONSTRAINT-K1-1"
+
+
+def test_an_unrun_retirement_must_say_the_hypothesis_is_not_refuted(tmp_path):
+    """cells_started 0 is a withdrawal, so the wording cannot be a null result."""
+    registration = copy.deepcopy(_in_test_registration())
+    (tmp_path / "registration.json").write_text(json.dumps(registration), encoding="utf-8")
+    result = {
+        "id": "RESULT-K1-UNRUN",
+        "registration": "CONSTRAINT-K1-1",
+        "outcome": "attempt_invalid",
+        "hypothesis_status": "untested",
+        "criteria_read": False,
+        "cells_started": 0,
+    }
+    decision = {
+        "id": "DECISION-K1-UNRUN",
+        "result": "RESULT-K1-UNRUN",
+        "decision": "RETIRE AS UNTESTED",
+    }
+    row = copy.deepcopy(_in_test())
+    row.update({
+        "state": "retired",
+        "registration": "registration.json",
+        "result": "result.json",
+        "decision": "decision.json",
+        "retirement_reason": "withdrawn before a grant",
+    })
+    row["history"].append({
+        "from": "in-test", "to": "retired", "date": "2026-11-19",
+        "registration": "CONSTRAINT-K1-1",
+    })
+
+    def write():
+        (tmp_path / "result.json").write_text(json.dumps(result), encoding="utf-8")
+        (tmp_path / "decision.json").write_text(json.dumps(decision), encoding="utf-8")
+
+    write()
+    with pytest.raises(ValueError, match="not refuted"):
+        bm.validate_constraint_row(row, tmp_path)
+    decision["decision"] = "RETIRE AS UNTESTED AND NOT REFUTED"
+    write()
+    assert bm.validate_constraint_row(row, tmp_path)["id"] == "CONSTRAINT-K1-1"
+    result["cells_started"] = -1
+    write()
+    with pytest.raises(ValueError, match="cells_started"):
+        bm.validate_constraint_row(row, tmp_path)
+
+
+def test_an_invalid_attempt_must_record_cells_started(tmp_path):
+    """The field is required, so an unrun retirement cannot dodge the wording check."""
+    registration = copy.deepcopy(_in_test_registration())
+    (tmp_path / "registration.json").write_text(json.dumps(registration), encoding="utf-8")
+    result = {
+        "id": "RESULT-K1-NOFIELD",
+        "registration": "CONSTRAINT-K1-1",
+        "outcome": "attempt_invalid",
+        "hypothesis_status": "untested",
+        "criteria_read": False,
+    }
+    decision = {
+        "id": "DECISION-K1-NOFIELD",
+        "result": "RESULT-K1-NOFIELD",
+        "decision": "RETIRE AS UNTESTED",
+    }
+    row = copy.deepcopy(_in_test())
+    row.update({
+        "state": "retired",
+        "registration": "registration.json",
+        "result": "result.json",
+        "decision": "decision.json",
+        "retirement_reason": "withdrawn before a grant",
+    })
+    row["history"].append({
+        "from": "in-test", "to": "retired", "date": "2026-11-19",
+        "registration": "CONSTRAINT-K1-1",
+    })
+    (tmp_path / "result.json").write_text(json.dumps(result), encoding="utf-8")
+    (tmp_path / "decision.json").write_text(json.dumps(decision), encoding="utf-8")
+    with pytest.raises(ValueError, match="cells_started"):
+        bm.validate_constraint_row(row, tmp_path)
+
+
+SUCCESSOR_DRAFT = "docs/constraint_registrations/assertion-provenance.json"
+
+
+def test_the_successor_draft_carries_the_ledger_keys_and_both_gates():
+    draft = json.loads((ROOT / SUCCESSOR_DRAFT).read_text(encoding="utf-8"))
+    assert draft["id"] == "CONSTRAINT-ASSERTION-PROVENANCE-1"
+    assert "NOT REGISTERED" in draft["status"]
+    values = draft["threshold_values"]
+    assert set(values) == set(bm.THRESHOLD_KEYS)
+    assert (values["fail_below_improvement"] <= values["inconclusive_min_improvement"]
+            <= values["inconclusive_max_improvement"] <= values["pass_min_improvement"])
+    # The two gates the draft exists to carry.
+    assert "0.95" in draft["recall_guard"]
+    assert "returned-edge-set" in draft["liveness_gate"] and "VOID" in draft["liveness_gate"]
+    # The controls that stop it passing by deletion or by peeking at the answer.
+    rules = " ".join(control["rule"] for control in draft["controls"])
+    assert "truncation" in rules.lower() and "gold" in rules
+    # Its pressure test withdrew it, and a withdrawn draft still owns no ledger row.
+    assert draft["pressure_test"]["outcome"].startswith("withdrawn")
+    assert draft["pressure_test"]["cells"] == 0
+    assert not [row for row in _ledger()["rows"]
+                if "ASSERTION-PROVENANCE" in str(row.get("registration"))]
+
+
+def test_k2_records_the_cells_its_block_started():
+    """The backfilled count is the artifact's own record count, not a typed 20."""
+    row = _k2()
+    result = json.loads((ROOT / row["result"]).read_text(encoding="utf-8"))
+    artifact = json.loads((ROOT / "docs" / "phase_k_k2_results.json").read_text(encoding="utf-8"))
+    assert result["cells_started"] == len(artifact["records"]) == 20

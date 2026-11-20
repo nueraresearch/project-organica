@@ -190,6 +190,118 @@
    "allocation": null
   }
  ],
+ "constraint_ledger": {
+  "date": "2026-11-16",
+  "purpose": "The constraint ledger, not a second explanation map: the constraints under consideration, at most one in test, each with its evidence, a causal hypothesis, a single-variable intervention, and the rule that retires the hypothesis.",
+  "state_vocabulary": [
+   "open",
+   "in-test",
+   "retired"
+  ],
+  "retirement_rule": "A row is retired after its intervention returns a pass, fail or inconclusive result and the corresponding architectural decision is recorded, or after it is recorded as attempt_invalid: a VOID block and a registration withdrawn before a grant both mean no admissible comparison exists, so the result must mark the hypothesis untested, must record cells_started, and the decision must say so - and, when cells_started is 0, that it is not refuted. Another benchmark family, another explanation, or another document does not retire a row.",
+  "policy": "At most one row may be in test; zero is valid before the first test and after the active row retires. K2 retired as an invalid attempt in which its block ran and returned VOID; K1 retired as an invalid attempt in which no cell was opened, because its endpoint could not produce an admissible comparison. No K1 or K2 cell ran under either registration. The successor row K1S entered test on 2026-11-20 under a dated owner grant at floor 35; no cell has run on it.",
+  "amendments": [
+   {
+    "date": "2026-11-19",
+    "change": "A retirement may cite a result whose outcome is attempt_invalid, provided the result records hypothesis_status untested and criteria_read false and the decision says the hypothesis is untested.",
+    "because": "K2's one block was VOID on G4 by construction; no criterion was read. A VOID is not a null result, so the row may leave in-test without being described as a refuted hypothesis.",
+    "scope": "This adds a terminal disposition, not a pass/fail outcome; pass, fail and inconclusive keep their existing meaning."
+   },
+   {
+    "date": "2026-11-19",
+    "change": "Every attempt_invalid retirement must cite a result that records cells_started, an integer count of the cells the attempt started. A result whose cells_started is 0 records a registration withdrawn before a grant - no cell ran because the registration was found unable to produce an admissible comparison. Such a result must record hypothesis_status untested and criteria_read false, and its decision must say both that the hypothesis is untested and that it is not refuted.",
+    "because": "K1's registered endpoint asserts all eighteen gold pairs on every seed, so recall is at its ceiling and its intervention can only add false assertions. That is the same category as a VOID block - no admissible comparison exists - discovered one step earlier, and it must not be recorded as a refutation or as a null result.",
+    "scope": "This widens which attempt_invalid results a retirement may cite, not what attempt_invalid means: no admissible comparison exists. The field is required on every such result, so the unrun branch cannot be dodged by omitting it; cells_started 0 distinguishes a withdrawal from a block that ran and returned VOID (K2 records 20). Nothing here is a pass, fail or inconclusive outcome."
+   }
+  ],
+  "rows": [
+   {
+    "constraint": "K2 - belief revision reversed",
+    "evidence": "Organica 0.4111 vs strongest baseline 0.9846; difference -0.5735 [-0.6162, -0.5309]; 10/10 per-seed differences negative; NO_FALSIFICATION +0.0241 [-0.0048, +0.0495]",
+    "hypothesis": "Pre-boundary associations retain priority after the revision boundary, so new evidence cannot displace them.",
+    "intervention": "Lower the retention priority of pre-switch associations after the boundary, with the same seeds and the strongest baseline unchanged.",
+    "decision_rule": "PASS: K2 paired difference improves by at least 0.10 while K1's absolute change is at most 0.05. FAIL: K2 improves by less than 0.05, or K1's absolute change is more than 0.05. INCONCLUSIVE: K2 improvement is between 0.05 and 0.10, or the audit/validity condition fails.",
+    "state": "retired",
+    "registration": "docs/constraint_registrations/K2-belief-revision.json",
+    "result": "docs/constraint_results/K2-BLOCK-ATTEMPT.json",
+    "decision": "docs/constraint_decisions/DECISION-K2-RETIRE.json",
+    "retirement_reason": "The one block was VOID on G4_no_pre_boundary_demotions; no criterion was read, so the hypothesis is untested, not refuted, and no second block is authorised.",
+    "history": [
+     {
+      "from": "open",
+      "to": "in-test",
+      "date": "2026-11-16",
+      "registration": "CONSTRAINT-K2-1"
+     },
+     {
+      "from": "in-test",
+      "to": "retired",
+      "date": "2026-11-19",
+      "registration": "CONSTRAINT-K2-1"
+     }
+    ]
+   },
+   {
+    "constraint": "K3 - longitudinal integration reversed",
+    "evidence": "Organica 0.0000 vs strongest baseline 0.8578; difference -0.8578; 10/10 per-seed differences negative; late-incorporation F1 0.000 on all seeds; NO_DREAMS 0.0 [0.0, 0.0]",
+    "hypothesis": "Late structure never reaches the service path, so integration is not measurable.",
+    "intervention": "Force late structure into the service path and measure service utilization before reading the endpoint.",
+    "decision_rule": "If service is nonzero but K3 remains 0.0, retire the service-path hypothesis. If service is zero, the intervention did not occur and the row stays open.",
+    "state": "open"
+   },
+   {
+    "constraint": "K1 - incremental world modeling reversed",
+    "evidence": "0.9.0: Organica 0.5923 vs strongest baseline 0.9360; difference -0.3437 [-0.3773, -0.3123]. 0.15.0 same-build replication: Organica 0.3120 vs baseline 0.9360; difference -0.623961 [-0.646675, -0.599907]; 10/10 per-seed differences negative; NO_QUESTIONS -0.0095 [-0.0328, +0.0140].",
+    "hypothesis": "Incremental updates are not selected into the served path.",
+    "intervention": "Force incremental updates into the served set, in-process, with no frozen-engine edit; same ten K1 seeds and the strongest-of-grid baseline.",
+    "decision_rule": "PASS: K1 paired difference improves by at least 0.10 relative to the 0.15.0 same-build gap of -0.623961, with K2 and K3 changing by no more than 0.05 absolute. FAIL: K1 improves by less than 0.05, or a guard family changes by more than 0.05 absolute. INCONCLUSIVE: K1 improvement is between 0.05 and 0.10, or the audit/validity condition fails. No cell may run without a dated owner grant.",
+    "state": "retired",
+    "registration": "docs/constraint_registrations/K1-served-path.json",
+    "result": "docs/constraint_results/K1-SUPERSEDED.json",
+    "decision": "docs/constraint_decisions/DECISION-K1-SUPERSEDE.json",
+    "retirement_reason": "The 0.15.0 replication asserts all eighteen gold pairs on every seed (recall 1.000 on all ten, false negatives zero) and the late group is present rather than absent, so the deficit the hypothesis names is not the one the shipped build has; the loss is carried by false assertions and the registered intervention can only add them. Withdrawn before a grant: no cell started, the hypothesis is untested, not refuted.",
+    "history": [
+     {
+      "from": "open",
+      "to": "in-test",
+      "date": "2026-11-19",
+      "registration": "CONSTRAINT-K1-1"
+     },
+     {
+      "from": "in-test",
+      "to": "retired",
+      "date": "2026-11-19",
+      "registration": "CONSTRAINT-K1-1"
+     }
+    ]
+   },
+   {
+    "constraint": "Attribution - mechanism not identifiable",
+    "evidence": "All three matched-ablation intervals contain zero; the frozen mechanism_implicated field is inverted and the code fix and erratum are recorded.",
+    "hypothesis": "Either the tested mechanisms are not load-bearing, or the endpoint cannot isolate them.",
+    "intervention": "Add a positive-control arm whose effect the endpoint is known to detect before interpreting another zero interval.",
+    "decision_rule": "If the positive control does not move the endpoint, retire the row as a measurement defect and do not claim that no mechanism is load-bearing.",
+    "state": "open"
+   },
+   {
+    "constraint": "K1S - support-gated co-occurrence admission",
+    "evidence": "K1 retired as an invalid attempt (cells_started 0). 0.15.0 same-build replication: Organica 0.3120 vs strongest-of-grid 0.9360; difference -0.623961 [-0.646675, -0.599907]; 10/10 per-seed differences negative. Preflight 2026-11-19 on the ten K1 seeds: 120 unordered temporal pairs, 24 carrying within-event co-occurrence; F* = 44, M_s(F*) 18-21. NOT A RESULT.",
+    "hypothesis": "The K1 deficit is candidate admission, not pair content: the served-path rules keep false pairs and drop gold ones, and admitting strictly by within-event support at a high floor serves all eighteen gold pairs with few decoys.",
+    "intervention": "Engine 0.16.0: _build_predictions admits a temporal pair when its co-occurrence count is at least the granted floor F, serves one ranked list, no partition or backfill, no frozen-engine edit.",
+    "decision_rule": "PASS: the K1 paired difference improves by at least 0.10 relative to -0.623961 while the K2 and K3 paired differences change by no more than 0.05 absolute. FAIL: less than 0.05, or a guard family changes by more than 0.05. INCONCLUSIVE: between 0.05 and 0.10, or the audit/validity condition fails.",
+    "state": "in-test",
+    "registration": "docs/constraint_registrations/CONSTRAINT-COOCCURRENCE-A-T1.json",
+    "history": [
+     {
+      "from": "open",
+      "to": "in-test",
+      "date": "2026-11-20",
+      "registration": "CONSTRAINT-COOCCURRENCE-A-T1-1"
+     }
+    ]
+   }
+  ]
+ },
  "corrections": [
   {
    "row": "Decay necessity for liveness",

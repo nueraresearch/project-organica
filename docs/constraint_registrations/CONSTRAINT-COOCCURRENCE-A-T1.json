@@ -1,0 +1,31 @@
+{
+  "kind": "constraint_registration",
+  "id": "CONSTRAINT-COOCCURRENCE-A-T1-1",
+  "constraint": "K1S - support-gated co-occurrence admission",
+  "status": "registered",
+  "status_date": "2026-11-20",
+  "intervention": "_build_predictions admits a temporal pair only when its within-event co-occurrence count is at least the floor F fixed in the grant; one ranked list; no partition, no backfill, no frozen-engine edit.",
+  "endpoint": "per-seed paired K1 difference (Organica minus the strongest-of-grid baseline) under 0.16.0 minus its 0.15.0 value, with 98.33% intervals; precision and recall beside it",
+  "comparator": "strongest-of-grid simple baseline, best configuration per seed",
+  "seed_block": "successor block 20261300-20261309 (treatment) + Phase K K1 seeds 20261023-20261032 (reproduction control)",
+  "decision_threshold": {
+    "pass": "The K1 paired difference improves by at least 0.10 relative to the 0.15.0 same-build -0.623961 gap, and the K2 and K3 paired differences change by no more than 0.05 absolute.",
+    "fail": "K1 improves by less than 0.05, or a guard family changes by more than 0.05 absolute.",
+    "inconclusive": "K1 improvement is between 0.05 and 0.10, or the registration's audit/validity condition fails."
+  },
+  "threshold_values": {
+    "baseline_gap": -0.623961,
+    "pass_min_improvement": 0.1,
+    "pass_max_k1_abs_change": 0.05,
+    "fail_below_improvement": 0.05,
+    "inconclusive_min_improvement": 0.05,
+    "inconclusive_max_improvement": 0.1
+  },
+  "threshold_rule": "These are pre-registered provisional thresholds, not values estimated from the intervention run. baseline_gap is the 0.15.0 same-build K1 replication value, not 0.9.0's -0.3437. Improvement is the post-intervention K1 difference minus baseline_gap.",
+  "guard": "recall >= 0.95 on every seed and no gold pair dropped; K2 and K3 absolute paired differences change by <= 0.05.",
+  "liveness": "Every seed serves fewer than 70 pairs; the floor removes at least one candidate; all eighteen gold pairs are retained on every seed; otherwise VOID.",
+  "claim_ceiling": "T1: an improvement over 0.15.0 of at least 0.10 F1; not a win over the strongest-of-grid comparator.",
+  "preflight": "docs/COOCCURRENCE-A-T1-MEMO.md, 2026-11-19, ten committed K1 seeds: F* = 44, M 18-21, directed admitted 36-42, 24 co-occurring pairs against 120 unordered temporal pairs; PASS. NOT A RESULT.",
+  "grant": "docs/COOCCURRENCE-A-T1-GRANT.json",
+  "does_not_allocate": "This registration allocates no seed, cell or result. The owner's grant of 2026-11-20 fixes the floor, names the ten fresh seeds and authorises the 20 cells; no cell may run without it."
+}
