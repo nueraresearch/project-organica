@@ -76,7 +76,7 @@ Admission and density first because they share a comparator and carry the acquis
 Gate 13 traps; decay follows in causal order; Q044 extends it; Q043 is independent; Q051 is last
 because its endpoint rests on Q024 and Q044.
 
-**The comparator gap remains the real risk.** Only 9 of 65 cited JSON artifacts name any build,
+**The comparator gap remains the real risk.** Only 9 of 67 cited JSON artifacts name any build,
 and all named artifacts name 0.13.0, 0.14.0 or 0.15.0. The old number's build is carried by prose, which is why Half A's
 protocol names the comparator explicitly and reuses the endpoint rather than rewriting it.
 
@@ -84,11 +84,11 @@ Q006 and Q021 have run and closed on 0.13.0; their records are historical. Q017 
 
 ## 4. The reviewed population, and the one correction
 
-- Reviewed: **31 open + 6 future = 37**.
+- Reviewed: **32 open + 6 future = 38**.
 - **14 carry an answer** whose own `why_open` says it predates a later build.
 - **4 are governance-held**: Q003 cites the PENDING `DECISION-CAP-LEVEL`, and Q004 and Q005 cite the PENDING `DECISION-DENSITY-EXCLUSION`.
 - **6 are prerequisite-gated**: five future questions behind Q012, and Q056 behind Q054.
-- **13 are open with evidence** and no answer.
+- **14 are open with evidence** and no answer.
 - **0 are answered at the pin.**
 
 The semantic dispositions — `OBSOLETE`, `WORLD_MISMATCH`, `UNREPRODUCIBLE` — still need a read

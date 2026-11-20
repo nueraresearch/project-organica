@@ -68,15 +68,15 @@
   "inputs": {
     "candidate_counts": [
       64,
-      63,
       64,
       64,
       64,
-      63
+      64,
+      62
     ],
-    "planned_c1_min": 63,
+    "planned_c1_min": 62,
     "planned_c1_max": 64,
-    "planned_non_target_min": 59,
+    "planned_non_target_min": 58,
     "planned_non_target_max": 60,
     "tag_vertices_per_seed": [
       16,
@@ -90,7 +90,7 @@
       "n_targets": 8,
       "max_disjoint_targets_from_tag_vertices": 8,
       "feasible_seeds_with_eight_disjoint": 6,
-      "n8_non_target_min": 55,
+      "n8_non_target_min": 54,
       "n8_non_target_max": 56
     }
   },
@@ -155,10 +155,10 @@
       "quantity": "A-/K- preservation",
       "threshold": 0.95,
       "threshold_kind": "floor",
-      "denominator": 63,
+      "denominator": 62,
       "denominator_max": 64,
       "denominator_basis": "four targets plus 59-60 baseline-available non-target rows",
-      "smallest_step": 0.015873,
+      "smallest_step": 0.016129,
       "margin": 0.05,
       "finer_than_denominator": false,
       "status": "PASS",
@@ -170,10 +170,10 @@
       "quantity": "A-/K- preservation",
       "threshold": 0.95,
       "threshold_kind": "floor",
-      "denominator": 63,
+      "denominator": 62,
       "denominator_max": 64,
       "denominator_basis": "eight targets plus 55-56 baseline-available non-target rows",
-      "smallest_step": 0.015873,
+      "smallest_step": 0.016129,
       "margin": 0.05,
       "finer_than_denominator": false,
       "status": "PASS",
@@ -185,10 +185,10 @@
       "quantity": "A/K/Y neighbour delta",
       "threshold": 0.05,
       "threshold_kind": "ceiling",
-      "denominator": 59,
+      "denominator": 58,
       "denominator_max": 60,
       "denominator_basis": "59-60 non-target edges per seed",
-      "smallest_step": 0.016949,
+      "smallest_step": 0.017241,
       "margin": 0.05,
       "finer_than_denominator": false,
       "status": "PASS",
@@ -200,10 +200,10 @@
       "quantity": "A/K/Y neighbour delta",
       "threshold": 0.05,
       "threshold_kind": "ceiling",
-      "denominator": 55,
+      "denominator": 54,
       "denominator_max": 56,
       "denominator_basis": "55-56 non-target edges per seed",
-      "smallest_step": 0.018182,
+      "smallest_step": 0.018519,
       "margin": 0.05,
       "finer_than_denominator": false,
       "status": "PASS",
@@ -360,5 +360,9 @@
       "consequence": "No numeric tolerance; this is an identity check."
     }
   ],
-  "not_evidence": "A resolution audit over planned denominators and precommitted thresholds. It runs no cell, assigns no seed, and does not measure C1, C4, C7 or C8."
+  "not_evidence": "A resolution audit over planned denominators and precommitted thresholds. It runs no cell, assigns no seed, and does not measure C1, C4, C7 or C8.",
+  "engine_version": "0.16.0",
+  "engine_commit": "716da31be3f304715c3ecbd4063dcac44abb54e1",
+  "engine_sha256": "25843ded68f50e90ad04bd80df4ade86f57d31eb7ed61ef77d6d7f4fedfe4236",
+  "runner": "__main__"
 }

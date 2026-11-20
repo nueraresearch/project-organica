@@ -13,14 +13,14 @@ exists*. This page separates those, and changes no status.
 
 | population | count |
 | --- | --- |
-| questions in the registry | 54 |
-| open | 31 |
+| questions in the registry | 56 |
+| open | 32 |
 | future | 6 |
-| closed | 15 |
+| closed | 16 |
 | retired | 2 |
-| **reviewed here (open + future)** | **37** |
+| **reviewed here (open + future)** | **38** |
 
-The dashboard's narrower population is 19: the open questions the 2026-11-08 sweep neither
+The dashboard's narrower population is 20: the open questions the 2026-11-08 sweep neither
 reopened nor kept closed. The other 12 were reopened by that sweep and are still open;
 17 of the reviewed questions say in their own `why_open` that the recorded answer
 predates a later build.
@@ -29,13 +29,13 @@ predates a later build.
 
 | quantity | count |
 | --- | --- |
-| JSON artifacts cited by reviewed questions | 65 |
+| JSON artifacts cited by reviewed questions | 67 |
 | of those, naming a build | 9 |
-| of those, naming no build | 56 |
+| of those, naming no build | 58 |
 | cited paths that do not exist | 0 |
 
 Builds named anywhere in the reviewed evidence: `0.13.0`, `0.14.0`, `0.15.0`.
-Pinned build: `0.15.0`.
+Pinned build: `0.16.0`.
 
 ## States
 
@@ -47,7 +47,7 @@ Pinned build: `0.15.0`.
 | `answered-older-build` | 14 | the answer predates a later build by its own record, or names a build and none is the pin |
 | `answered-at-pin` | 0 | the answer was not reopened, and a cited artifact names the pinned build |
 | `answered-no-build` | 0 | an answer is recorded and no cited artifact names any build |
-| `open-with-evidence` | 13 | no answer recorded, but at least one evidence path exists |
+| `open-with-evidence` | 14 | no answer recorded, but at least one evidence path exists |
 | `open-no-evidence` | 0 | no answer and no evidence path |
 
 The order above is the precedence `classify()` applies. A row is assigned its first
@@ -97,8 +97,9 @@ builds column reports what those artifacts name today, not the build behind the 
 | Q045 | open | `open-with-evidence` | none | 0 of 3 | no |
 | Q051 | open | `answered-older-build` | none | 0 of 2 | yes |
 | Q053 | open | `open-with-evidence` | 0.13.0 | 3 of 7 | no |
-| Q054 | open | `governance-held` | 0.14.0, 0.15.0 | 5 of 12 | no |
+| Q054 | open | `governance-held` | 0.14.0, 0.15.0 | 5 of 13 | no |
 | Q056 | future | `prerequisite` | none | 0 of 0 | no |
+| Q057 | open | `open-with-evidence` | none | 0 of 1 | no |
 
 ## What this page does not say
 

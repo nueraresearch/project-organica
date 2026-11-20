@@ -112,7 +112,7 @@ blank. None of them can be filled after the run without the act having been viol
 | Selected block per seed | 20, 17, 20, 20, 18, 20 | `RECORDED` |
 | Selected block digest | `3881af97974d430f21acea15238e88d68e8261ae93a154b68c5e2c97532b756e` | `RECORDED` |
 | Row count per seed | 38→20, 27→17, 37→20, 40→20, 32→18, 31→20 | `RECORDED` |
-| Constructor identity | `benchmarks/a1_c8_target_selection_competent.py`, source sha256 `d7e5359e47c307013bae00ebbee3d1f6f0ae4599f0b8dcd01c4f22c20f479287` | `RECORDED` |
+| Constructor identity | `benchmarks/a1_c8_target_selection_competent.py`, source sha256 `97e610d43250cdd0e5e66e4fa68b75a74a79904d13dc8561f090d461a3a45a4f` | `RECORDED` |
 | Constructor output digest | `a1_c8_target_selection_competent.json`, sha256 `697dc9f95c606936a1d7b7bc8d59f4192f25db9e5b89a0a5b06a6a0a5d5dabde` | `RECORDED` |
 | Competence predicate | `DECISION-A1-C8-NMIN`, its *Unit* row | `FIXED BY RECORD` |
 | Unfiltered selection | `A1-C8-SELECTION-DISCLOSURE.md`, sha256 `57d8d848e10728ff6317b89964711e20fbd07907a074fd0a0b445d6015df72fb` | `RECORDED` |

@@ -2,21 +2,21 @@
   "kind": "question_survival",
   "date": "2026-11-09",
   "note": "Derived from the registry, the decisions index and the engine-version audit. No status is changed and no engine is run.",
-  "pinned_version": "0.15.0",
+  "pinned_version": "0.16.0",
   "populations": {
-    "open": 31,
+    "open": 32,
     "future": 6,
-    "closed": 15,
+    "closed": 16,
     "retired": 2,
-    "reviewed": 37,
+    "reviewed": 38,
     "reopened_by_the_sweep": 12,
-    "open_and_never_closed": 19,
+    "open_and_never_closed": 20,
     "reopened_in_prose": 17
   },
   "evidence": {
-    "json_refs": 65,
+    "json_refs": 67,
     "named_build": 9,
-    "unnamed_build": 56,
+    "unnamed_build": 58,
     "missing_paths": [],
     "missing_path_count": 0,
     "distinct_builds": [
@@ -32,7 +32,7 @@
     "answered-older-build": 14,
     "answered-at-pin": 0,
     "answered-no-build": 0,
-    "open-with-evidence": 13,
+    "open-with-evidence": 14,
     "open-no-evidence": 0
   },
   "questions": [
@@ -779,16 +779,17 @@
         "0.14.0",
         "0.15.0"
       ],
-      "builds_include_pin": true,
-      "evidence": 31,
-      "json_evidence": 12,
+      "builds_include_pin": false,
+      "evidence": 33,
+      "json_evidence": 13,
       "named_build": 5,
       "missing": [],
       "reopened_in_prose": false,
       "answered": false,
       "blocked_by": [],
       "pending_decisions": [
-        "DECISION-ADMISSION-STEP"
+        "DECISION-ADMISSION-STEP",
+        "DECISION-A1-PATH-A-C1-C4"
       ],
       "preregistrations": [
         {
@@ -819,6 +820,28 @@
       ],
       "pending_decisions": [],
       "preregistrations": []
+    },
+    {
+      "id": "Q057",
+      "status": "open",
+      "question": "Should the project commission a V2 charter, and under what pre-committed failure criterion?",
+      "state": "open-with-evidence",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 4,
+      "json_evidence": 1,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": false,
+      "answered": false,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": [
+        {
+          "ref": "V2-FIRST-EXPERIMENT-PREREGISTRATION.md",
+          "resolved": "docs-convention"
+        }
+      ]
     }
   ]
 }

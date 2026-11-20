@@ -247,5 +247,9 @@
     "verdict": "**Only one lever works, and it is the one already built.** The unfiltered block cannot be made C2-viable by raising `N`, and no block drawn from the same universes will be viable on six seeds; what does work is selecting rows that carry both paths at baseline, which is exactly the competent selection `A1-C8-SELECTION` already specifies and which scores **0 failures in 115 rows**. Its cost is not computational but interpretive: the target population stops being *representative eligible edges* and becomes *baseline-competent edges*, so C2's finding would be about a conditioned population. That is the decision in front of the owner, and it is a decision about what the experiment is a experiment on.",
     "threshold": "**A per-row threshold cannot be tuned into working.** The best seed has **13 of 20** rows scorable; the worst has **7 of 20**. Admitting any seed at all through a share-of-rows gate means accepting that **35%** of a block need not be scorable, which is not C2 with a tolerance \u2014 it is a different gate wearing C2's name."
   },
-  "not_evidence": "A count of the baseline paths each target row would need for C2's cells to be observable. It scores no C2, runs no cell, freezes no target, issues no grant, and makes no causal or capability claim. Availability is not a pass."
+  "not_evidence": "A count of the baseline paths each target row would need for C2's cells to be observable. It scores no C2, runs no cell, freezes no target, issues no grant, and makes no causal or capability claim. Availability is not a pass.",
+  "engine_version": "0.16.0",
+  "engine_commit": "716da31be3f304715c3ecbd4063dcac44abb54e1",
+  "engine_sha256": "25843ded68f50e90ad04bd80df4ade86f57d31eb7ed61ef77d6d7f4fedfe4236",
+  "runner": "__main__"
 }

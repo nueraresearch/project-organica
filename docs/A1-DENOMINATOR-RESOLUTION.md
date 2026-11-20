@@ -26,10 +26,10 @@ C7's 0.05 margin is an A/K rate over 120 cycles on each paired target edge, so o
 | --- | --- | ---: | ---: | ---: | --- |
 | `C1_path_separation` | target-only fallback | 0.95 | 4 | 0.250000 | **FLAGGED** |
 | `C1_path_separation` | N=8 maximum-feasibility target-only | 0.95 | 8 | 0.125000 | **FLAGGED** |
-| `C1_path_separation` | expanded C4 denominator | 0.95 | 63–64 | 0.015873 | **PASS** |
-| `C1_path_separation` | N=8 maximum-feasibility expanded denominator | 0.95 | 63–64 | 0.015873 | **PASS** |
-| `C4_no_interference` | all cells | 0.05 | 59–60 | 0.016949 | **PASS** |
-| `C4_no_interference` | N=8 maximum-feasibility all cells | 0.05 | 55–56 | 0.018182 | **PASS** |
+| `C1_path_separation` | expanded C4 denominator | 0.95 | 62–64 | 0.016129 | **PASS** |
+| `C1_path_separation` | N=8 maximum-feasibility expanded denominator | 0.95 | 62–64 | 0.016129 | **PASS** |
+| `C4_no_interference` | all cells | 0.05 | 58–60 | 0.017241 | **PASS** |
+| `C4_no_interference` | N=8 maximum-feasibility all cells | 0.05 | 54–56 | 0.018519 | **PASS** |
 | `C7_assertion_block` | Y- blocked rows | 0.05 | 120 | 0.008333 | **PASS** |
 | `C7_assertion_block` | N=8 maximum-feasibility Y- blocked rows | 0.05 | 120 | 0.008333 | **PASS** |
 | `C8_third_route` | A-K- blocked rows | 0.05 | 4 | 0.250000 | **FLAGGED** |
