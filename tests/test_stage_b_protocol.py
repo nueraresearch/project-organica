@@ -346,6 +346,9 @@ def test_the_seed_block_is_preassigned_spares_named_and_substitution_closed(stag
 
     assert seeds["disjoint_proved_against"] == len(seeds["consumed_blocks"])
 
+    # The A1 reservation registry records held blocks, not seeds that ran.
+    assert "docs/a1_seed_reservations.json" not in seeds["consumed_blocks"]
+
     for path in seeds["consumed_blocks"]:
 
         assert (ROOT / path).exists(), path

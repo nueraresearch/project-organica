@@ -1,4 +1,5 @@
 """Amended pair-split decision rule and its seed budget."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import json
 from pathlib import Path
 

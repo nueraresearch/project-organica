@@ -1,4 +1,5 @@
 """Reserved-but-unspent seed blocks are visible to the freshness guard."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import json
 from pathlib import Path
 
@@ -107,13 +108,19 @@ DECLARED_BLOCKS = {
     "docs/presence_cap_1_112_prereg.json",
     "docs/presence_comparator_112_prereg.json",
     "docs/presence_construct_1_112_prereg.json",
+    "docs/v2_first_cell_planted_seeds.json",
+    "docs/v2_first_cell_seeds.json",
 }
 
 
 def test_every_declared_block_is_checked():
     blocks = dict(reservations.candidate_blocks())
     assert set(blocks) == DECLARED_BLOCKS
-    assert all(len(seeds) == 6 for seeds in blocks.values())
+    assert all(len(seeds) in (6, 10) for seeds in blocks.values())
+    assert {path for path, seeds in blocks.items() if len(seeds) == 10} == {
+        "docs/v2_first_cell_planted_seeds.json",
+        "docs/v2_first_cell_seeds.json",
+    }
     assert reservations.candidate_problems() == []
 
 
@@ -173,11 +180,19 @@ def test_the_two_path_block_is_adopted_and_held():
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     assert manifest["seed_block"]["seeds"] == TWO_PATH_SEEDS
     assert manifest["control"]["seed"] == TWO_PATH_SEEDS[0]
-    rows = {row["owner"]: row for row in reservations.reservations()}
-    held = rows["docs/a1_two_path_manifest.json"]
-    assert held["seeds"] == TWO_PATH_SEEDS
-    assert held["spent"] is False
+    rows = reservations.reservations()
+    held_rows = [row for row in rows
+                 if row["owner"] == "docs/a1_two_path_manifest.json"
+                 and not row["spent"]]
+    assert len(held_rows) == 1
+    held = held_rows[0]
+    assert held["seeds"] == TWO_PATH_SEEDS[1:]
     assert "docs/a1_c5_target_timing.json" in held["restated_by"]
+    released = [row for row in rows
+                if row["owner"] == "docs/a1_two_path_manifest.json" and row["spent"]]
+    assert len(released) == 1
+    assert released[0]["seeds"] == [TWO_PATH_SEEDS[0]]
+    assert "docs/DECISION-V2-A4-BASE-WORLD.md" in released[0]["restated_by"]
     assert reservations.reservation_problems(TWO_PATH_SEEDS, MANIFEST) == []
 
 

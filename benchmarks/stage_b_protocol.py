@@ -141,8 +141,14 @@ JITTER_ARTIFACT = ROOT / "docs" / "stage_b_jitter_diagnostic.json"  # names 71 b
 # cannot hide a new block.
 EARNED_CCRE_ARTIFACT = ROOT / "docs" / "cross_context_reuse_benchmark_earned.json"
 PRIMING_PROVENANCE_ARTIFACT = ROOT / "docs" / "cross_context_reuse_priming_provenance.json"
+# docs/a1_seed_reservations.json is a registry of blocks that were declared and
+# held, not a record of seeds that ran: an integer it holds is a reservation.
+# Counting it made every reserved block read as consumed and put a reserve in the
+# consumed union. Excluded by path; the exclusion is recorded in the output.
+SEED_REGISTRY_ARTIFACT = ROOT / "docs" / "a1_seed_reservations.json"
 EXCLUDED_ARTIFACTS = (SELF_ARTIFACT, ALLOCATION_ARTIFACT, RESULT_ARTIFACT, RERUN_ARTIFACT,
-                      JITTER_ARTIFACT, EARNED_CCRE_ARTIFACT, PRIMING_PROVENANCE_ARTIFACT)
+                      JITTER_ARTIFACT, EARNED_CCRE_ARTIFACT, PRIMING_PROVENANCE_ARTIFACT,
+                      SEED_REGISTRY_ARTIFACT)
 
 
 def _consumed_seeds() -> dict[str, list[int]]:
@@ -717,7 +723,10 @@ def build() -> dict:
                                       "docs/cross_context_reuse_benchmark_earned.json and "
                                       "docs/cross_context_reuse_priming_provenance.json, "
                                       "which re-measure the block already consumed by "
-                                      "docs/cross_context_reuse_benchmark.json",
+                                      "docs/cross_context_reuse_benchmark.json; plus "
+                                      "docs/a1_seed_reservations.json, a registry of "
+                                      "reserved-but-unspent blocks: an integer there is a "
+                                      "reservation, not a consumed seed",
             "harvest_rule": "every integer under a key naming a seed, including "
                             "integers held in lists; the earlier walker missed "
                             "list-held seeds and undercounted the corpus",

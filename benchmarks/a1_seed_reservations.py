@@ -32,6 +32,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
 REGISTRY_PATH = DOCS / "a1_seed_reservations.json"
+# A generated census names every seed-bearing artifact, so it names every reserved
+# seed by construction. Naming a reserve is not spending it: the census runs no
+# cell and allocates no seed, so its repetition of a block is not a claim on it.
+CENSUS_ARTIFACT = "docs/stage_b_protocol.json"
 ID = "A1-SEED-RESERVATIONS-1"
 KIND = "a1_seed_reservations"
 
@@ -278,7 +282,8 @@ def problems(doc: dict | None = None) -> list[str]:
             continue
         for path in sorted(DOCS.glob("*.json")):
             rel = _relative(path)
-            if rel in allowed or rel == _relative(REGISTRY_PATH):
+            if (rel in allowed or rel == _relative(REGISTRY_PATH)
+                    or rel == CENSUS_ARTIFACT):
                 continue
             shared = sorted(_seeds_of(_load(path)) & set(seeds))
             if shared:
