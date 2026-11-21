@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-11-09T14:40:19Z",
+  "generated_at": "2026-11-21T17:40:13Z",
   "remote": "https://github.com/nueraresearch/project-organica.git",
   "branch": "master",
   "checks": [
     {
       "step": "clone",
       "ok": true,
-      "seconds": 2.7,
+      "seconds": 41.8,
       "detail": "v0.9.0 fetched so the freeze checks can run"
     },
     {
       "step": "import_organica",
       "ok": true,
-      "detail": "organica import OK /tmp/organica_clone_qf15rss5/project-organica/organica/__init__.py"
+      "detail": "organica import OK /tmp/organica_clone_jke03w96/project-organica/organica/__init__.py"
     },
     {
       "step": "core_dependencies",
@@ -21,20 +21,20 @@
     },
     {
       "step": "pytest",
-      "ok": true,
-      "seconds": 155.0,
-      "detail": "1641 passed, 19 skipped, 5 warnings in 154.65s (0:02:34)"
+      "ok": false,
+      "seconds": 502.4,
+      "detail": "85 failed, 3017 passed, 20 skipped, 5 warnings in 501.83s (0:08:21)"
     },
     {
       "step": "build_py",
       "ok": true,
-      "seconds": 0.5,
-      "detail": "        Gen 0  Experience events      1691  ######################################## |         experience events retained (never evicted):             1691 |         theories, and the uncertainty between them is non-zero. |         top experiment priority (EIG / cost): 2.078 |         max question uncertainty            : 1.000 |   study_stream           lineage  100.0%   hyps  21   theories  1   questions  1   dreams  7   experiments  5"
+      "seconds": 0.3,
+      "detail": "          competing subjects: 0   contradictions: 0   max uncertainty: 0.000   top priority: 2.078 |         Gen 0  Experience events       686  ######################################## |         experience events retained (never evicted):             686 |         top experiment priority (EIG / cost): 2.078 |         max question uncertainty            : 0.000 |   study_stream           lineage  96.67%   hyps   8   theories  0   questions  0   dreams  3   experiments  3"
     },
     {
       "step": "examples",
-      "ok": true,
-      "detail": "9/9 examples exited 0"
+      "ok": false,
+      "detail": "7/9 examples exited 0"
     },
     {
       "step": "study_health",
@@ -75,8 +75,8 @@
     },
     {
       "script": "examples/domains/01_developer_workflow.py",
-      "ok": true,
-      "detail": ""
+      "ok": false,
+      "detail": ")\n  File \"/tmp/organica_clone_jke03w96/project-organica/examples/domains/01_developer_workflow.py\", line 67, in run\n    assert len(report.workflow_concepts) > 0, \"Failed to emerge developer workflows!\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Failed to emerge developer workflows!"
     },
     {
       "script": "examples/domains/02_bug_tracking.py",
@@ -90,14 +90,14 @@
     },
     {
       "script": "examples/domains/04_robot_simulation.py",
-      "ok": true,
-      "detail": ""
+      "ok": false,
+      "detail": "/domains/04_robot_simulation.py\", line 59, in run\n    assert len(report.processes) > 0 or len(report.questions) > 0, \"Failed to emerge robotic sensorimotor structures!\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Failed to emerge robotic sensorimotor structures!"
     }
   ],
-  "passed": 8,
+  "passed": 6,
   "total": 8,
-  "engine_version": "0.13.0",
-  "engine_commit": "6e0ff24d84d34fd7e99b79173e2247f035e194c1",
-  "engine_sha256": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2",
+  "engine_version": "0.16.0",
+  "engine_commit": "716da31be3f304715c3ecbd4063dcac44abb54e1",
+  "engine_sha256": "25843ded68f50e90ad04bd80df4ade86f57d31eb7ed61ef77d6d7f4fedfe4236",
   "runner": "__main__"
 }
