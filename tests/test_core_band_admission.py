@@ -1,5 +1,5 @@
 """CORE-BAND-ADMISSION-1 is frozen, granted, run and correctly recorded as VOID."""
-LAYER = "static"
+LAYER = "dry-run"
 
 import json
 

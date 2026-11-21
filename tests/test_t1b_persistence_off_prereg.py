@@ -1,5 +1,5 @@
 """T1b ran and returned PERSISTENCE CONTRIBUTES: the corrected G4 must admit measured zeros."""
-LAYER = "static"
+LAYER = "dry-run"
 
 import json
 import sys

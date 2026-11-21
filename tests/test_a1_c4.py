@@ -1,4 +1,5 @@
 """C4 non-target neighbour rows and their paired-control deltas."""
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 from benchmarks import a1_arms
 from benchmarks.a1_gate_readiness import gate_c4
 

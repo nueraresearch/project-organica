@@ -1,5 +1,6 @@
 """The null-world calibration is reproducible, directional and checks itself against its artifact."""
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path

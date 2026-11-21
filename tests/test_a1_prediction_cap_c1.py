@@ -1,4 +1,5 @@
 """The prediction cap moves A at loop cap 120; joint C1 moves less than min(A,K)."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import copy
 import json
 from pathlib import Path

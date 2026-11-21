@@ -1,5 +1,6 @@
 """The scaled sizing is reproducible from its artifact, and its page reports the negative result."""
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path

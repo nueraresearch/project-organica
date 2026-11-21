@@ -1,4 +1,5 @@
 """The cell report has one shape, and the shape is enforced before a cell exists."""
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 import copy
 
 import pytest

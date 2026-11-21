@@ -18,7 +18,7 @@ import bisect
 import json
 from pathlib import Path
 
-from benchmarks import a1_arms, a1_c5_target_timing as timing
+from benchmarks import a1_arms, a1_c5_target_timing as timing, engine_stamp
 from benchmarks.acquisition_compositional import generate_compositional_world
 from benchmarks.acquisition_harness import _CountingMemoryService, _make_scratch_db
 from benchmarks.a2_sham_feasibility import CYCLES
@@ -345,7 +345,7 @@ def main() -> int:
         print("wrote", DOC)
         return 0
     if args.write:
-        Path(OUT).write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        Path(OUT).write_text(json.dumps(engine_stamp.stamp(doc), indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         print("wrote", OUT)
         return 0
     if args.check:

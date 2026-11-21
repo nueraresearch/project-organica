@@ -1,4 +1,5 @@
 """The one-page A1 disposition memo, checked against the record's own figures."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 from pathlib import Path
 
 TEXT = Path("docs/A1-DISPOSITION-MEMO.md").read_text(encoding="utf-8")

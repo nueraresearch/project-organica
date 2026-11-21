@@ -1,5 +1,5 @@
 """A preparation-only quote is not a run authorisation."""
-LAYER = "static"
+LAYER = "dry-run"
 
 from benchmarks import authorisation_guard as guard
 from benchmarks import retention_formation_anchored as runner

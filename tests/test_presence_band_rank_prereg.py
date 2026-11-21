@@ -1,5 +1,5 @@
 """PRESENCE-BAND-1 ran and is VOID on B5: record, grant, artifact and refusal must agree."""
-LAYER = "static"
+LAYER = "dry-run"
 
 import json
 import sys

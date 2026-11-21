@@ -1,4 +1,5 @@
 """Band position, error budget and seeds per split block."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import json
 from pathlib import Path
 

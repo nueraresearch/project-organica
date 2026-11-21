@@ -1,4 +1,5 @@
 """The registered C8 expansion must supply 20 A-K- rows per seed without freezing."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import json
 
 from benchmarks import a1_c8_target_selection as c8

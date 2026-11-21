@@ -1,4 +1,5 @@
 """Entropy gates the cap-112 window but cannot choose flip_q inside a source."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import json
 from pathlib import Path
 

@@ -1,5 +1,6 @@
 """The structural model is a claim about the code, so the code can refute it."""
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 import re

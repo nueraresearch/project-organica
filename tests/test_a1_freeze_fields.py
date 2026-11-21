@@ -7,6 +7,7 @@ own words while they are unsigned.
 """
 
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 from pathlib import Path
 

@@ -12,6 +12,8 @@ import statistics
 from collections import Counter
 from pathlib import Path
 
+from benchmarks import engine_stamp
+
 ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
 OUT_PATH = DOCS / "a1_power_review.json"
@@ -1509,7 +1511,7 @@ def render(doc: dict) -> str:
 
 
 def write() -> int:
-    doc = build()
+    doc = engine_stamp.stamp(build())
     OUT_PATH.write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8")
     PAGE_PATH.write_text(render(doc), encoding="utf-8")
     print("wrote %s and %s" % (OUT_PATH, PAGE_PATH))
@@ -1524,7 +1526,7 @@ def check() -> int:
     doc = json.loads(OUT_PATH.read_text(encoding="utf-8"))
     found = problems(doc)
     rebuilt = build()
-    if doc != rebuilt:
+    if engine_stamp.stamp(doc) != engine_stamp.stamp(rebuilt):
         found.append("power review is stale against its sources")
     if not PAGE_PATH.exists():
         found.append("power review page is missing")

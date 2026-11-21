@@ -16,6 +16,7 @@ import argparse
 import json
 from pathlib import Path
 
+from benchmarks import engine_stamp
 from benchmarks.a1_gate_readiness import (
     C7_C8_DENOMINATOR_RECORD,
     C7_C8_DENOMINATOR_UNIT,
@@ -587,7 +588,7 @@ def render_observed(doc: dict) -> str:
 
 
 def write_observed(payloads: list[dict], source: Path | None = None) -> int:
-    doc = observed_build(payloads, source)
+    doc = engine_stamp.stamp(observed_build(payloads, source))
     OBSERVED_OUT_PATH.write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8")
     OBSERVED_PAGE_PATH.write_text(render_observed(doc), encoding="utf-8")
     print("wrote %s and %s" % (OBSERVED_OUT_PATH, OBSERVED_PAGE_PATH))
@@ -694,7 +695,7 @@ def render(doc: dict) -> str:
 
 
 def write() -> int:
-    doc = build()
+    doc = engine_stamp.stamp(build())
     OUT_PATH.write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8")
     PAGE_PATH.write_text(render(doc), encoding="utf-8")
     print("wrote %s and %s" % (OUT_PATH, PAGE_PATH))
@@ -745,7 +746,12 @@ def check() -> int:
         return 1
     doc = json.loads(OUT_PATH.read_text(encoding="utf-8"))
     found = problems(doc)
-    if doc != build():
+    stamped = engine_stamp.stamp(doc)
+    current = engine_stamp.stamp(build())
+    # The writer's module name is `__main__` under `python -m` and the fully qualified module
+    # name when the same check runs in-process. Freshness is about the content, not that spelling.
+    current["runner"] = stamped.get("runner")
+    if stamped != current:
         found.append("denominator audit is stale against its sources")
     if PAGE_PATH.read_text(encoding="utf-8") != render(doc):
         found.append("denominator audit page is stale")

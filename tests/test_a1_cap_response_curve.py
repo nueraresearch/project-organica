@@ -1,4 +1,5 @@
 """One shared sqrt cap curve plus a block offset beats block-specific shapes."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import copy
 import json
 from pathlib import Path

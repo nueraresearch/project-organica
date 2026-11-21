@@ -38,7 +38,7 @@ Run:  python -m pytest tests/test_sleep_split_equivalence.py -v
 """
 
 from __future__ import annotations
-LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
+LAYER = "synthetic"  # benchmarks/test_layers.py: the module's execution layer
 
 import io
 import json

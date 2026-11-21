@@ -18,7 +18,7 @@ import json
 import sys
 from pathlib import Path
 
-from benchmarks import a1_arms
+from benchmarks import a1_arms, engine_stamp
 from benchmarks.acquisition_compositional import generate_compositional_world
 from benchmarks.acquisition_harness import _CountingMemoryService, _make_scratch_db
 from benchmarks.acquisition_runner import EVENTS_PER_CYCLE, PHASE_ACQUISITION
@@ -451,7 +451,7 @@ def render(doc: dict) -> str:
 
 
 def write() -> int:
-    doc = build()
+    doc = engine_stamp.stamp(build())
     AUDIT_PATH.write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8")
     PAGE_PATH.write_text(render(doc) + "\n", encoding="utf-8")
     found = problems(doc)

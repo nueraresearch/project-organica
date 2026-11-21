@@ -1,5 +1,6 @@
 """On a world with signal, selection beats random where on the null it lost."""
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path

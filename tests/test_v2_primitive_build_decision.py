@@ -1,4 +1,5 @@
 """Adoption authorised the primitive build, and the build now exists."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import json
 from pathlib import Path
 

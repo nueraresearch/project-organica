@@ -7,6 +7,7 @@ for instance if a future block happened to contain no row lacking both paths, wh
 """
 
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path
@@ -25,7 +26,12 @@ def baseline() -> dict[int, dict[str, tuple[bool, bool]]]:
 
 def test_the_artifact_and_page_are_their_build() -> None:
     assert levers.problems() == []
-    assert json.loads(levers.OUT.read_text(encoding="utf-8")) == levers.build()
+    record = json.loads(levers.OUT.read_text(encoding="utf-8"))
+    expected = levers.engine_stamp.stamp(levers.build())
+    assert record["runner"] == "__main__"
+    assert {k: v for k, v in record.items() if k != "runner"} == {
+        k: v for k, v in expected.items() if k != "runner"
+    }
     assert levers.PAGE.read_text(encoding="utf-8").strip() == levers.render(levers.build()).strip()
 
 

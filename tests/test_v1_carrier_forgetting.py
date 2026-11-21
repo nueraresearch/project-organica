@@ -1,5 +1,6 @@
 """Carriers are measured against the engine's own prior window, and none are forgotten in this world."""
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path

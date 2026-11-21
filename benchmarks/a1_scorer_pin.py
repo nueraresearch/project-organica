@@ -22,6 +22,8 @@ import json
 import sys
 from pathlib import Path
 
+from benchmarks import engine_stamp
+
 ROOT = Path(__file__).resolve().parents[1]
 
 PIN = ROOT / "docs" / "a1_scorer_pin.json"
@@ -76,7 +78,7 @@ def table() -> list[tuple[str, str]]:
 
 
 def write() -> int:
-    PIN.write_text(json.dumps(build(), indent=2) + "\n", encoding="utf-8")
+    PIN.write_text(json.dumps(engine_stamp.stamp(build()), indent=2) + "\n", encoding="utf-8")
     print("pinned %d modules in %s" % (len(MODULES), PIN.name))
     for name, digest in table():
         print("  %s %s" % (name, digest))

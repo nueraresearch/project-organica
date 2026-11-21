@@ -1,5 +1,5 @@
 """The loop retention/strength extension stays post hoc and internally current."""
-LAYER = "static"
+LAYER = "dry-run"
 
 from benchmarks import loop_persistence_assertion_model as block
 

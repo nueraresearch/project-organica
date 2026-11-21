@@ -1,4 +1,5 @@
 """Complete-coverage scoring for the five structural A1 gates."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 from benchmarks import a1_arms
 from benchmarks import a1_result
 from benchmarks import a1_two_path
@@ -62,8 +63,13 @@ def _expected():
 
 def test_registered_n20_target_map_is_the_default_universe():
     expected = a1_arms.registered_target_map()
+    targets = a1_two_path.manifest()["targets"]
     assert set(expected) == {str(seed) for seed in a1_two_path.SEEDS}
-    assert all(len(edges) == 20 for edges in expected.values())
+    assert expected == {seed: list(edges) for seed, edges in targets["by_seed"].items()}
+    assert all(
+        targets["n_min"] <= len(edges) <= targets["n_per_seed"]
+        for edges in expected.values()
+    )
 
 
 def test_complete_scores_pass_on_six_seeds_and_six_cells():

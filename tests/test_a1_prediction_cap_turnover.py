@@ -1,4 +1,5 @@
 """New A edges at cap 112 carry K at the retained rate; the pooled drop is mix."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import copy
 import json
 from pathlib import Path

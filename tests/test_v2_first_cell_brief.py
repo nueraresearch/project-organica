@@ -1,5 +1,6 @@
 """The signature brief is one page, derived from the artifacts, and still asks for a signature."""
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path

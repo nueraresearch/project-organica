@@ -1,11 +1,14 @@
 """Read-only audit of a completed first V2 cell result.
 
 This module deliberately does not import the runner, the readout adapter or the
-engine.  It reads the result, the raw per-seed log, the committed gate record
-and the declared seed list, then recomputes the 99% percentile bootstrap from
-the result's per-seed differences.  No world is replayed and no event is scored.
+engine.  It first requires the run marker to be `COMPLETED`, then reads the
+result, the raw per-seed log, the committed gate record and the declared seed
+list, and recomputes the 99% percentile bootstrap from the result's per-seed
+differences.  A `STARTED` marker, a missing marker or any other non-completed
+status is refused before the result is audited: a partial result left by a VOID
+attempt is not a result.  No world is replayed and no event is scored.
 
-    python -m benchmarks.v2_first_cell_audit --audit [RESULT.json]
+    python -m benchmarks.v2_first_cell_audit --audit [RESULT.json] [--marker RUN.json]
     python -m benchmarks.v2_first_cell_audit --check
 
 The recomputation uses the protocol's fixed bootstrap PRNG seed (20261116), the
@@ -20,9 +23,11 @@ hidden by rounding.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 import random
+import re
 import sys
 from pathlib import Path
 
@@ -31,6 +36,7 @@ RESULT = REPO / "docs" / "v2_first_cell_result.json"
 RAW_LOG = REPO / "docs" / "v2_first_cell_run_log.json"
 GATES = REPO / "docs" / "v2_first_cell_gates.json"
 SEEDS = REPO / "docs" / "v2_first_cell_seeds.json"
+RUN = REPO / "docs" / "v2_first_cell_run.json"
 
 BOOTSTRAP_SEED = 20261116
 LEVEL = 0.99
@@ -79,6 +85,10 @@ def _close(left: float, right: float, tolerance: float = ROUNDING_EPSILON) -> bo
     return abs(float(left) - float(right)) <= tolerance + 1e-15
 
 
+def _is_sha256(value) -> bool:
+    return isinstance(value, str) and bool(re.fullmatch(r"[0-9a-fA-F]{64}", value))
+
+
 def derive_label(lo: float, hi: float) -> str:
     """The protocol's directional label: below zero passes, above zero reverses."""
     if hi < 0:
@@ -118,6 +128,21 @@ def bootstrap_interval(values: list[float], level: float = LEVEL,
 
 def _rounded(interval: dict) -> dict:
     return {field: round(float(interval[field]), DECIMALS) for field in ("mean", "lo", "hi")}
+
+
+def _marker_errors(marker) -> list[str]:
+    """The run marker must prove the attempt finished before any result is read."""
+    if marker is None:
+        return ["run marker is missing; a result is auditable only after a COMPLETED run"]
+    if not isinstance(marker, dict):
+        return ["run marker is not a JSON object; a result is auditable only after a COMPLETED run"]
+    status = marker.get("status")
+    if status != "COMPLETED":
+        return [
+            "run marker status is %r, not COMPLETED; a result is auditable only after a "
+            "COMPLETED run (a STARTED or VOID attempt is never audited)" % (status,)
+        ]
+    return []
 
 
 def _seed_values(record: dict) -> list[int]:
@@ -199,8 +224,18 @@ def _check_control(control, declared: set[int], is_void: bool, codes: list[str],
     return failed
 
 
-def audit(result: dict, raw_log: dict, committed_gates: dict, seeds: list[int]) -> list[str]:
-    """Return every audit finding; an empty list means the result verified."""
+def audit(result: dict, raw_log: dict, committed_gates: dict, seeds: list[int],
+          marker: dict | None = None) -> list[str]:
+    """Return every audit finding; an empty list means the result verified.
+
+    The marker is required and must say `COMPLETED`.  The check happens before
+    any result field is read, so a STARTED attempt's partial output cannot be
+    presented as an audited result.
+    """
+    marker_errors = _marker_errors(marker)
+    if marker_errors:
+        return marker_errors
+
     errors: list[str] = []
     declared = set(seeds)
 
@@ -519,11 +554,40 @@ def audit(result: dict, raw_log: dict, committed_gates: dict, seeds: list[int]) 
 
 
 def audit_files(result_path: Path = RESULT, raw_log_path: Path = RAW_LOG,
-                gates_path: Path = GATES, seeds_path: Path = SEEDS) -> list[str]:
-    """Read the four artifacts and audit them; never writes anything."""
+                gates_path: Path = GATES, seeds_path: Path = SEEDS,
+                marker_path: Path = RUN) -> list[str]:
+    """Read the run marker and the four artifacts, and audit them; never writes.
+
+    A COMPLETED marker must bind the exact result bytes through `result_sha256`.
+    The digest is checked before the result is parsed, so an edited or truncated
+    result cannot pass by being self-consistent with the raw log.
+    """
     try:
-        result = _load(result_path)
+        marker = _load(marker_path)
     except (OSError, ValueError) as error:
+        return [
+            "cannot read run marker %s: %s; a result is auditable only after a COMPLETED run"
+            % (marker_path, error)
+        ]
+    marker_errors = _marker_errors(marker)
+    if marker_errors:
+        return marker_errors
+    recorded = marker.get("result_sha256")
+    if not _is_sha256(recorded):
+        return ["run marker has no valid result_sha256; a COMPLETED run must bind its result file"]
+    try:
+        result_bytes = result_path.read_bytes()
+    except OSError as error:
+        return ["cannot read result %s: %s" % (result_path, error)]
+    actual = hashlib.sha256(result_bytes).hexdigest()
+    if actual != recorded.lower():
+        return [
+            "result file %s does not match the COMPLETED run marker's result_sha256 "
+            "(recorded %s, actual %s)" % (result_path, recorded, actual)
+        ]
+    try:
+        result = json.loads(result_bytes.decode("utf-8"))
+    except (UnicodeDecodeError, ValueError) as error:
         return ["cannot read result %s: %s" % (result_path, error)]
     try:
         raw_log = _load(raw_log_path)
@@ -537,7 +601,7 @@ def audit_files(result_path: Path = RESULT, raw_log_path: Path = RAW_LOG,
         seeds = _seed_values(_load(seeds_path))
     except (OSError, ValueError) as error:
         return ["cannot read seed declaration %s: %s" % (seeds_path, error)]
-    return audit(result, raw_log, gates, seeds)
+    return audit(result, raw_log, gates, seeds, marker)
 
 
 def _fixture():
@@ -598,14 +662,19 @@ def _fixture():
 
 def _check() -> int:
     result, raw, gates, seeds = _fixture()
-    if audit(result, raw, gates, seeds):
+    marker = {"kind": "v2_first_cell_run", "status": "COMPLETED"}
+    if audit(result, raw, gates, seeds, marker):
         raise SystemExit("the audit fixture does not verify: %s"
-                         % "; ".join(audit(result, raw, gates, seeds)))
+                         % "; ".join(audit(result, raw, gates, seeds, marker)))
     broken = json.loads(json.dumps(result))
     broken["outcome"] = "BOOKKEEPING"
-    if not any("outcome" in error for error in audit(broken, raw, gates, seeds)):
+    if not any("outcome" in error for error in audit(broken, raw, gates, seeds, marker)):
         raise SystemExit("the audit accepted a label that contradicts its interval")
-    print("check: bootstrap recomputes; valid result verifies; a contradictory label is refused")
+    if not any("STARTED" in error for error in audit(
+            result, raw, gates, seeds, {"kind": "v2_first_cell_run", "status": "STARTED"})):
+        raise SystemExit("the audit accepted a STARTED run marker")
+    print("check: bootstrap recomputes; a completed result verifies; a contradictory label "
+          "and a STARTED marker are refused")
     return 0
 
 
@@ -621,6 +690,8 @@ def main(argv: list[str] | None = None) -> int:
                         help="committed gate record (default: docs/v2_first_cell_gates.json)")
     parser.add_argument("--seeds", metavar="PATH", default=str(SEEDS),
                         help="seed declaration (default: docs/v2_first_cell_seeds.json)")
+    parser.add_argument("--marker", metavar="PATH", default=str(RUN),
+                        help="run marker (default: docs/v2_first_cell_run.json); it must be COMPLETED")
     args = parser.parse_args(argv)
 
     if args.check:
@@ -628,7 +699,8 @@ def main(argv: list[str] | None = None) -> int:
     if args.audit is None:
         parser.print_help()
         return 2
-    errors = audit_files(Path(args.audit), Path(args.raw_log), Path(args.gates), Path(args.seeds))
+    errors = audit_files(Path(args.audit), Path(args.raw_log), Path(args.gates), Path(args.seeds),
+                         Path(args.marker))
     if errors:
         print("audit: FAIL (%d finding(s))" % len(errors), file=sys.stderr)
         for error in errors:

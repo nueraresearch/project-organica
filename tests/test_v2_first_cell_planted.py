@@ -1,5 +1,6 @@
 """The planted composite gain clears the null handicap, and the gain is the composite term's."""
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path

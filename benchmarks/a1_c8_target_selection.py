@@ -16,6 +16,7 @@ import argparse
 import json
 from pathlib import Path
 
+from benchmarks import engine_stamp
 from benchmarks.a1_target_selection import (
     CYCLES,
     SEEDS,
@@ -197,7 +198,7 @@ def render(doc: dict) -> str:
 
 
 def write() -> int:
-    doc = build()
+    doc = engine_stamp.stamp(build())
     OUT_PATH.write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8")
     PAGE_PATH.write_text(render(doc), encoding="utf-8")
     print("wrote %s and %s" % (OUT_PATH, PAGE_PATH))

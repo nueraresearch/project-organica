@@ -1,5 +1,6 @@
 """The readout adapter runs the signed protocol on a smoke seed; its pins match the files it hashes."""
 from __future__ import annotations
+LAYER = "synthetic"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path

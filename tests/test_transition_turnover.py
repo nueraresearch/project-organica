@@ -4,7 +4,7 @@ The table is a view of records the campaign already wrote: each cycle's served t
 and the served window. These tests hold the view to those records and prove the guard rejects a
 tampered row, a tampered association and a stale page.
 """
-LAYER = "synthetic"  # benchmarks/test_layers.py: derives from committed artifacts only
+LAYER = "static"  # benchmarks/test_layers.py: reads committed artifacts only
 
 import copy
 import json

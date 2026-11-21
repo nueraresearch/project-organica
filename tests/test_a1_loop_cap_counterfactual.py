@@ -1,4 +1,5 @@
 """The loop-cap counterfactual must preserve its control and expose the ceiling."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import copy
 import json
 from pathlib import Path

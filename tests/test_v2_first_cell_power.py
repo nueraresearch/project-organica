@@ -1,5 +1,6 @@
 """The power diagnostic is computed from the measured null and checks its own arithmetic."""
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 import statistics

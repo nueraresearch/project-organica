@@ -1,4 +1,5 @@
 """The A1 park recommendation is a recommendation, not an owner decision."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 from pathlib import Path
 
 TEXT = Path("docs/A1-PARK-RECOMMENDATION.md").read_text(encoding="utf-8")

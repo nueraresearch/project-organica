@@ -201,23 +201,11 @@ def build() -> dict:
     for block in frozen_blocks():
         one = payload(block)
         cells[block] = dict(one, digest=digest(one))
-    doc = {
+    return engine_stamp.stamp({
         "kind": "block_canaries",
         "cycles": CYCLES,
         "cells": cells,
-        "engine_version": engine_stamp.engine_version(),
-        "engine_commit": engine_stamp.pinned_commit(),
-        "engine_sha256": engine_stamp.engine_sha256(),
-        "runner": _runner_name(),
-    }
-    return doc
-
-
-def _runner_name() -> str:
-    try:
-        return engine_stamp.runner()
-    except Exception:
-        return "__main__"
+    })
 
 
 def load() -> dict:

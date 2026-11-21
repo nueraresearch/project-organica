@@ -1,5 +1,6 @@
 """The re-keying study is reproducible from its artifact, and both validations hold."""
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path

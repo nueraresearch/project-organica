@@ -1,4 +1,5 @@
 """The K-supply discriminator separates prediction-cap from support evidence."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import json
 from pathlib import Path
 

@@ -13,7 +13,7 @@ import statistics
 import tempfile
 from pathlib import Path
 
-from benchmarks import a1_arms
+from benchmarks import a1_arms, engine_stamp
 from benchmarks import a1_target_selection as selection
 from benchmarks.a1_arms import sample_u
 from organica.memory import MemoryService
@@ -436,7 +436,7 @@ def render(doc: dict) -> str:
 
 
 def write() -> int:
-    doc = build()
+    doc = engine_stamp.stamp(build())
     OUT_PATH.write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8")
     PAGE_PATH.write_text(render(doc), encoding="utf-8")
     print("wrote %s and %s" % (OUT_PATH, PAGE_PATH))

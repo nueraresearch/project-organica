@@ -1,7 +1,9 @@
 """The denominator-resolution audit must flag only the under-resolved gates."""
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 import json
 
 from benchmarks import a1_denominator_audit as audit
+from benchmarks import a1_two_path
 from benchmarks.a1_gate_readiness import gate_c7, gate_c8
 
 
@@ -39,7 +41,8 @@ def test_audit_flags_c1_fallback_and_c8():
     assert c8["smallest_step"] > c8["margin"]
 
 
-def _six_cell_parts(seed=20630101):
+def _six_cell_parts(seed=None):
+    seed = a1_two_path.SEEDS[0] if seed is None else seed
     import copy
 
     from benchmarks import a1_result

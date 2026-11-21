@@ -1,5 +1,5 @@
 """The entry-transition preregistration is frozen, fresh and unrun."""
-LAYER = "static"
+LAYER = "dry-run"
 
 import json
 

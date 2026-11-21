@@ -4,6 +4,7 @@ Every claim in docs/code_evidence.json names a regex that must match a source fi
 one, this fails before any document can keep quoting the claim.
 """
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import glob
 import json

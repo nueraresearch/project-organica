@@ -3,6 +3,7 @@
 M1, M2 and M5 carry a bystander composite as the control: the test serialises its resolved
 state and compares it byte for byte after the other composite is mutated.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import json
 
 import pytest

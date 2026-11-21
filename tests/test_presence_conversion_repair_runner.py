@@ -1,5 +1,5 @@
 """The conversion-2 harness must exist, plan fourteen runs, and refuse a tampered N1."""
-LAYER = "synthetic"
+LAYER = "static"  # benchmarks/test_layers.py: reads committed cells; runs no engine
 
 import copy
 import json

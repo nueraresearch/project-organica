@@ -45,6 +45,10 @@ list of cells and changing that to an envelope would break every reader of it.
    typed here, so it cannot drift from the document that justifies it.
 3. **A commit field that is not a commit.** 40 hex characters, or the field is decoration.
 
+The artifact assertions read the artifact's root records: a dictionary, or each dictionary in a
+top-level list. Nested dictionaries are payload covered by the root stamp; walking them would
+mistake claim-status and audit-reference fields named ``engine_version`` for stamps.
+
 Nothing is written in ``--check`` mode.
 """
 
@@ -76,6 +80,7 @@ DERIVED = {
     "change_map.py",  # renders docs/ENGINE-CHANGE-FAILURE-MAP.md from git history
     "engine_pin.py",  # writes the pin itself; the pin is the reference, not a result
     "question_survival.py",  # joins the registry to the audit; measures nothing
+    "governance_ops.py",  # governance control plane; baselines records, runs no engine
     "research_accountability.py",  # renders the findings and dashboard from the registry
     "research_registry.py",  # writes the question registry itself
     "test_count.py",  # records the suite's own counts
@@ -157,14 +162,13 @@ def _contains_json_dumps(node: ast.AST) -> bool:
     return any(isinstance(inner, ast.Call) and _is_json(inner, "dumps") for inner in ast.walk(node))
 
 
-def write_targets(source: str) -> list:
-    """The expressions a module serializes into a file, found from the syntax tree.
+def writes_an_artifact(source: str) -> bool:
+    """Whether the module serializes a JSON record into a file.
 
     Two forms count, because they are the two forms the repository uses:
 
-    * ``json.dump(record, handle)`` -- the record is the first argument;
-    * ``handle.write_text(json.dumps(record) + "\\n")`` and its ``_atomic_write`` relatives -- the
-      record is the first argument of the ``json.dumps`` inside the written value.
+    * ``json.dump(record, handle)``;
+    * ``handle.write_text(json.dumps(record) + "\\n")`` and its ``_atomic_write`` relatives.
 
     A row-at-a-time ``f.write(json.dumps(row))`` is deliberately *not* a target: that is a data
     stream or a checkpoint, and stamping each row would change the stream the engine reads.
@@ -172,25 +176,16 @@ def write_targets(source: str) -> list:
     try:
         tree = ast.parse(source)
     except SyntaxError:
-        return []
-    targets = []
+        return False
     for node in ast.walk(tree):
         if not isinstance(node, ast.Call):
             continue
         if _is_json(node, "dump") and node.args:
-            targets.append(node.args[0])
-            continue
+            return True
         if _attr(node) in ("write_text", "_atomic_write", "atomic_write"):
-            for argument in node.args:
-                if _contains_json_dumps(argument):
-                    for inner in ast.walk(argument):
-                        if isinstance(inner, ast.Call) and _is_json(inner, "dumps") and inner.args:
-                            targets.append(inner.args[0])
-    return targets
-
-
-def writes_an_artifact(source: str) -> bool:
-    return bool(write_targets(source))
+            if any(_contains_json_dumps(argument) for argument in node.args):
+                return True
+    return False
 
 
 def engine_version() -> str:
@@ -234,23 +229,38 @@ def pinned_commit() -> str:
     return commit
 
 
-def stamp(record):
-    """Add `engine_version` and `engine_commit`, keeping the record's shape and its other fields."""
-    if isinstance(record, list):
-        return [stamp(item) for item in record]
+def _record_error(record) -> TypeError:
+    return TypeError(
+        "engine_stamp.stamp takes a dict or a list of dicts, not %s. An artifact of another "
+        "shape cannot carry its build, so the artifact needs a record shape first."
+        % type(record).__name__)
+
+
+def _stamped(record, fields: dict) -> dict:
     if not isinstance(record, dict):
-        raise TypeError(
-            "engine_stamp.stamp takes a dict or a list of dicts, not %s. An artifact of another "
-            "shape cannot carry its build, so the artifact needs a record shape first."
-            % type(record).__name__)
+        raise _record_error(record)
     stamped = dict(record)
-    stamped["engine_version"] = engine_version()
-    stamped["engine_commit"] = pinned_commit()
-    stamped["engine_sha256"] = engine_sha256()
-    # Read before the caller's frame unwinds; a list is stamped item by item and every item must
-    # name the same writer as the list, so it is resolved on the outermost call and reused.
-    stamped["runner"] = record.get("runner") or runner()
+    stamped.update(fields)
+    if record.get("runner"):
+        stamped["runner"] = record["runner"]
     return stamped
+
+
+def stamp(record):
+    """Add the four build and writer fields, keeping the record's shape and its other fields."""
+    is_list = isinstance(record, list)
+    if not is_list and not isinstance(record, dict):
+        raise _record_error(record)
+    # Resolve the build and the caller once, then apply the same fields to every record.
+    fields = {
+        "engine_version": engine_version(),
+        "engine_commit": pinned_commit(),
+        "engine_sha256": engine_sha256(),
+        "runner": runner(),
+    }
+    if is_list:
+        return [_stamped(item, fields) for item in record]
+    return _stamped(record, fields)
 
 
 def missing(record) -> list:
@@ -279,20 +289,50 @@ def grandfathered() -> set:
     return {entry["path"] for entry in data.get("artifacts_with_engine_version", [])}
 
 
+def _calls_stamp(source: str) -> bool:
+    """Whether the module calls ``engine_stamp.stamp(...)``, not merely imports it."""
+    try:
+        tree = ast.parse(source)
+    except SyntaxError:
+        return False
+    return any(
+        isinstance(node, ast.Call)
+        and isinstance(node.func, ast.Attribute)
+        and node.func.attr == "stamp"
+        and isinstance(node.func.value, ast.Name)
+        and node.func.value.id == "engine_stamp"
+        for node in ast.walk(tree)
+    )
+
+
 def unstamped_writers() -> list:
-    """Artifact writers that never stamp. This is the live enforcement of the rule."""
+    """Artifact writers that do not call `engine_stamp.stamp`."""
     offenders = []
     for path in sorted(BENCH.glob("*.py")):
         if path.name in DERIVED or path.name == Path(__file__).name:
             continue
         source = path.read_text(encoding="utf-8")
-        if writes_an_artifact(source) and "engine_stamp" not in source:
+        if writes_an_artifact(source) and not _calls_stamp(source):
             offenders.append(path.name)
     return offenders
 
 
+def _root_records(data):
+    """The artifact's root records: a dict, or each dict in a top-level list."""
+    if isinstance(data, dict):
+        yield data
+    elif isinstance(data, list):
+        for item in data:
+            if isinstance(item, dict):
+                yield item
+
+
 def half_stamped() -> list:
-    """Artifacts that name a version and no commit, outside the grandfathered set."""
+    """Artifacts whose root record names a version and no commit.
+
+    A top-level list is checked item by item; nested dictionaries are payload covered by the
+    root stamp, not separate artifacts.
+    """
     waived = grandfathered()
     offenders = []
     for path in sorted(DOCS.glob("*.json")):
@@ -303,21 +343,24 @@ def half_stamped() -> list:
             data = json.loads(path.read_text(encoding="utf-8"))
         except (OSError, ValueError):
             continue
-        if isinstance(data, dict) and data.get("engine_version") and not data.get("engine_commit"):
+        if any(record.get("engine_version") and not record.get("engine_commit")
+               for record in _root_records(data)):
             offenders.append(rel)
     return offenders
 
 
 def bad_commits() -> list:
+    """Artifacts whose root record names an engine_commit that is not a 40-character sha."""
     offenders = []
     for path in sorted(DOCS.glob("*.json")):
         try:
             data = json.loads(path.read_text(encoding="utf-8"))
         except (OSError, ValueError):
             continue
-        if isinstance(data, dict) and data.get("engine_commit"):
-            if not _COMMIT.match(str(data["engine_commit"])):
-                offenders.append(_rel(path))
+        if any(record.get("engine_commit")
+               and not _COMMIT.match(str(record["engine_commit"]))
+               for record in _root_records(data)):
+            offenders.append(_rel(path))
     return offenders
 
 
@@ -328,7 +371,7 @@ def main(argv=None) -> int:
     args = parser.parse_args(argv)
 
     if args.check:
-        failures = ["benchmarks/%s writes a JSON artifact without engine_stamp" % name
+        failures = ["benchmarks/%s writes a JSON artifact without an engine_stamp.stamp call"
                     for name in unstamped_writers()]
         failures += ["%s names an engine_version and does not name its build fully" % rel
                      for rel in half_stamped()]
@@ -342,10 +385,10 @@ def main(argv=None) -> int:
                   % len(failures))
             return 1
         writers = [p for p in sorted(BENCH.glob("*.py"))
-                   if p.name not in DERIVED and p.name != Path(__file__).name]
-        print("engine stamp: %d artifact writer(s) stamp, %d artifact(s) grandfathered, "
-              "%d attributable" % (len(writers) - len(unstamped_writers()), len(grandfathered()),
-                                   len(list(DOCS.glob("*.json"))) - len(half_stamped())))
+                   if p.name not in DERIVED and p.name != Path(__file__).name
+                   and writes_an_artifact(p.read_text(encoding="utf-8"))]
+        print("engine stamp: %d artifact writer(s) checked, %d historical artifact(s) "
+              "grandfathered" % (len(writers), len(grandfathered())))
         return 0
 
     print("engine_stamp is a library and a check; run python -m benchmarks.engine_stamp --check")

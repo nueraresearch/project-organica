@@ -1,4 +1,5 @@
 """Density ties with candidate size; three blocks cannot separate them."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import copy
 import json
 from pathlib import Path

@@ -18,7 +18,7 @@ import sqlite3
 import sys
 from pathlib import Path
 
-from benchmarks import a1_arms, a1_c5_target_timing as timing
+from benchmarks import a1_arms, a1_c5_target_timing as timing, engine_stamp
 from benchmarks.acquisition_compositional import generate_compositional_world
 from benchmarks.acquisition_harness import _CountingMemoryService, _make_scratch_db
 from benchmarks.a2_sham_feasibility import CYCLES
@@ -204,7 +204,7 @@ def main() -> int:
     doc = build()
     if args.write:
         with open(OUT, "w", encoding="utf-8") as handle:
-            json.dump(doc, handle, indent=2, ensure_ascii=False)
+            json.dump(engine_stamp.stamp(doc), handle, indent=2, ensure_ascii=False)
             handle.write("\n")
         print("wrote", OUT)
     print(json.dumps(doc, indent=1)[:1200])

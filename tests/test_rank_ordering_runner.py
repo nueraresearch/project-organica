@@ -4,7 +4,7 @@ cells it builds must be the cells the scorer accepts.
 No engine runs here: the audits are pure, and the integration test builds synthetic
 pools with the runner's own two orderings.
 """
-LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 import random

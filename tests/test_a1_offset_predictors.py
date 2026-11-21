@@ -1,4 +1,5 @@
 """Candidate size replaces the free block offset; K completeness does not add."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import copy
 import json
 from pathlib import Path

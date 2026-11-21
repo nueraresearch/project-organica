@@ -1,4 +1,5 @@
 """K completeness separates blocks but does not explain the cap response."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import copy
 import json
 from pathlib import Path

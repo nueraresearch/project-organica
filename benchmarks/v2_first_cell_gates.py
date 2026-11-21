@@ -28,6 +28,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 
+from benchmarks import engine_stamp  # noqa: E402
 from benchmarks import v2_first_cell_readout as readout  # noqa: E402
 from benchmarks import v2_first_cell_runner as runner  # noqa: E402
 from benchmarks import v2_primitive as primitive  # noqa: E402
@@ -494,7 +495,7 @@ def check() -> None:
     # Rebuild the checks, not the clock: a record is stale when its evidence moved, not when
     # the date changed.
     record = build(date=committed["date"])
-    if committed != record:
+    if engine_stamp.stamp(committed) != engine_stamp.stamp(record):
         raise SystemExit("the gate record is stale; run --write")
     if not PAGE.exists() or PAGE.read_text(encoding="utf-8") != render(record):
         raise SystemExit("the gate page is stale; run --write")
@@ -510,7 +511,7 @@ def main(argv: list[str] | None = None) -> int:
     group.add_argument("--write", action="store_true", help="write the record and the page")
     args = parser.parse_args(argv)
     if args.write:
-        record = build()
+        record = engine_stamp.stamp(build())
         OUT.write_text(json.dumps(record, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         PAGE.write_text(render(record), encoding="utf-8")
         print("wrote %s and %s: %s" % (OUT, PAGE, record["status"]))

@@ -1,4 +1,5 @@
 """The cross-world K dilution report is descriptive and internally consistent."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import json
 from pathlib import Path
 

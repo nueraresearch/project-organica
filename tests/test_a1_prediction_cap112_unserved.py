@@ -1,4 +1,5 @@
 """At cap 112 the unserved 16-tag edges are flip_q transitions past the window."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import json
 from collections import Counter
 from pathlib import Path

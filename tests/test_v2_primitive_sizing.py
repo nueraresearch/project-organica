@@ -1,5 +1,6 @@
 """The primitive's sizing estimate is reproducible and its page carries its own numbers."""
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import hashlib
 import json

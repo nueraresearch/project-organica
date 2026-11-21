@@ -42,6 +42,18 @@ def test_stamping_a_list_stamps_every_record_and_keeps_it_a_list():
     assert all(es.missing(item) == [] for item in stamped)
 
 
+def test_stamping_a_list_resolves_the_build_once(monkeypatch):
+    calls = []
+    monkeypatch.setattr(es, "engine_version", lambda: calls.append("version") or "v")
+    monkeypatch.setattr(es, "pinned_commit", lambda: calls.append("commit") or "c")
+    monkeypatch.setattr(es, "engine_sha256", lambda: calls.append("sha") or "s")
+
+    stamped = es.stamp([{"seed": 1}, {"seed": 2}])
+
+    assert calls == ["version", "commit", "sha"]
+    assert [record["engine_version"] for record in stamped] == ["v", "v"]
+
+
 def test_the_stamp_overwrites_a_stale_one():
     record = es.stamp({"engine_version": "0.0.0", "engine_commit": "0" * 40})
     assert record["engine_version"] == es.engine_version()
@@ -72,22 +84,26 @@ def test_the_grandfathered_set_is_the_one_the_audit_recorded():
 
 def test_every_artifact_writer_stamps_and_every_result_names_its_build():
     """The live check: no unstamped writer, no half-stamped artifact, no invented commit."""
-    assert es.unstamped_writers() == [], (
-        "these modules write a JSON artifact without engine_stamp: %r" % es.unstamped_writers())
-    assert es.half_stamped() == [], (
-        "these artifacts name a version and no commit: %r" % es.half_stamped())
-    assert es.bad_commits() == [], (
-        "these artifacts carry an engine_commit that is not a sha: %r" % es.bad_commits())
+    unstamped = es.unstamped_writers()
+    half = es.half_stamped()
+    bad = es.bad_commits()
+    assert unstamped == [], "these modules write without engine_stamp.stamp: %r" % unstamped
+    assert half == [], "these artifacts name a version and no commit: %r" % half
+    assert bad == [], "these artifacts carry an engine_commit that is not a sha: %r" % bad
 
 
 def test_the_writer_check_can_fail(tmp_path, monkeypatch):
     """Proof the check fires: a writer that does not stamp is reported."""
     bad = tmp_path / "bad_harness.py"
     bad.write_text('import json\njson.dump({"cells": 1}, open("x.json", "w"))\n', encoding="utf-8")
+    import_only = tmp_path / "import_only.py"
+    import_only.write_text(
+        'from benchmarks import engine_stamp\nimport json\njson.dump({}, open("x.json", "w"))\n',
+        encoding="utf-8")
     good = tmp_path / "good_harness.py"
     good.write_text("from benchmarks import engine_stamp\nengine_stamp.stamp({})\n", encoding="utf-8")
     monkeypatch.setattr(es, "BENCH", tmp_path)
-    assert es.unstamped_writers() == ["bad_harness.py"]
+    assert es.unstamped_writers() == ["bad_harness.py", "import_only.py"]
 
 
 def test_the_half_stamp_check_can_fail(tmp_path, monkeypatch):
@@ -102,6 +118,38 @@ def test_the_half_stamp_check_can_fail(tmp_path, monkeypatch):
 def test_a_stamped_artifact_passes_the_half_stamp_check(tmp_path, monkeypatch):
     (tmp_path / "fresh.json").write_text(
         json.dumps(es.stamp({"cells": [1, 2]})), encoding="utf-8")
+    monkeypatch.setattr(es, "DOCS", tmp_path)
+    monkeypatch.setattr(es, "AUDIT", tmp_path / "no_such_audit.json")
+    assert es.half_stamped() == []
+    assert es.bad_commits() == []
+
+
+def test_the_half_stamp_check_reads_each_record_in_a_top_level_list(tmp_path, monkeypatch):
+    (tmp_path / "fresh.json").write_text(
+        json.dumps([{"engine_version": es.engine_version(), "cells": [1, 2]}]),
+        encoding="utf-8")
+    monkeypatch.setattr(es, "DOCS", tmp_path)
+    monkeypatch.setattr(es, "AUDIT", tmp_path / "no_such_audit.json")
+    assert es.half_stamped() == [str(tmp_path / "fresh.json")]
+
+
+def test_the_bad_commit_check_reads_each_record_in_a_top_level_list(tmp_path, monkeypatch):
+    (tmp_path / "fresh.json").write_text(
+        json.dumps([{"engine_commit": "not-a-commit", "cells": [1, 2]}]),
+        encoding="utf-8")
+    monkeypatch.setattr(es, "DOCS", tmp_path)
+    monkeypatch.setattr(es, "AUDIT", tmp_path / "no_such_audit.json")
+    assert es.bad_commits() == [str(tmp_path / "fresh.json")]
+
+
+def test_nested_payload_is_not_a_separate_stamp_root(tmp_path, monkeypatch):
+    (tmp_path / "fresh.json").write_text(
+        json.dumps({
+            "engine_version": es.engine_version(),
+            "engine_commit": es.pinned_commit(),
+            "payload": {"engine_version": es.engine_version()},
+        }),
+        encoding="utf-8")
     monkeypatch.setattr(es, "DOCS", tmp_path)
     monkeypatch.setattr(es, "AUDIT", tmp_path / "no_such_audit.json")
     assert es.half_stamped() == []

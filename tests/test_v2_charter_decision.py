@@ -1,5 +1,6 @@
 """The V2 charter draft must be a draft: nothing authorised, and the untested-arm disclosure carried."""
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path

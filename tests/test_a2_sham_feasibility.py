@@ -1,5 +1,6 @@
 """The sham-feasibility record must keep both verdicts, and not let one stand for the other."""
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path

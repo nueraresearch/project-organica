@@ -1,4 +1,5 @@
 """The shared curve transfers to a held-out cap but not to a held-out block."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import copy
 import json
 from pathlib import Path

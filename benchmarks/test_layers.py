@@ -10,21 +10,18 @@ The layers are about what a module *does*, not what it is about:
                           ``authorized``**: the owner's grants authorise campaigns, not the suite, and a
                           suite that runs granted cells turns a deliberate run into a side effect.
 
-The tags live in the modules themselves (``LAYER = "static"``) so they travel with a rename. The check
-here enforces four things and reports the split: every ``tests/test_*.py`` declares exactly one layer
-from the set; no module is ``authorized``; a module tagged ``static``/``dry-run`` does not contain an
-engine-execution token; and a module naming a cell-running entry point without a refusal marker is not
-quietly filed as a dry run.
+The tags live in the modules themselves (``LAYER = "static"``) so they travel with a rename. The tag
+is the declaration; the source checks below are deliberately narrow guards against the dangerous
+mistakes -- an engine call hidden under a static tag, or a cell entry point with no refusal test.
+They do not try to infer or replace the declaration.
 
     python -m benchmarks.test_layers --check     # exit 1 on any problem, report the split
     python -m benchmarks.test_layers --report    # the split only
-    python -m benchmarks.test_layers --write     # add a missing tag, classified from the source
 """
 from __future__ import annotations
 
 import argparse
 import ast
-import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -39,9 +36,6 @@ ENGINE_CALLS = frozenset({
     "SleepService", "MemoryService", "run_sleep_cycle", "run_cell",
     "_make_scratch_db", "generate_compositional_world",
 })
-# Calls that mean the module exercises a harness path. `prereg()` and `validate()` are pure reads
-# of a frozen record, so they stay static.
-HARNESS_CALLS = frozenset({"main", "dry_run", "check_prereg"})
 # Calls and flags that would execute or finish a real block.
 CELL_CALLS = frozenset({"measure", "finish", "run_cell"})
 CELL_FLAGS = ("--measure", "--finish")
@@ -107,22 +101,9 @@ def evidence(path: Path) -> dict:
                     if isinstance(node, ast.Constant) and node.value in CELL_FLAGS})
     return {
         "engine": sorted(names & ENGINE_CALLS),
-        "harness": sorted((names & HARNESS_CALLS) | ({"subprocess"} if "subprocess" in names else set())),
         "cell": sorted((names & CELL_CALLS) | set(flags)),
         "refusal": [marker for marker in REFUSAL_MARKERS if marker in source],
     }
-
-
-def classify(path: Path) -> str:
-    """The layer the source itself evidences: engine > harness > static."""
-    found = evidence(path)
-    if found["engine"]:
-        return "synthetic"
-    if found["cell"] and not found["refusal"]:
-        return "authorized"  # would execute a real block: the check forbids it
-    if found["harness"] or found["cell"]:
-        return "dry-run"
-    return "static"
 
 
 def problems() -> list[str]:
@@ -162,41 +143,11 @@ def split() -> dict[str, int]:
     return counts
 
 
-def write_missing() -> list[str]:
-    """Add a tag to modules that have none, classified from the source."""
-    added: list[str] = []
-    for path in modules():
-        if declared(path):
-            continue
-        source = path.read_text(encoding="utf-8")
-        tree = _tree(source)
-        if tree is None:
-            continue
-        line = 0
-        for node in tree.body:
-            is_doc = isinstance(node, ast.Expr) and isinstance(node.value, ast.Constant)
-            is_future = isinstance(node, ast.ImportFrom) and node.module == "__future__"
-            if is_doc or is_future:
-                line = node.end_lineno or 0
-            else:
-                break
-        lines = source.split("\n")
-        insert = 'LAYER = "%s"  # benchmarks/test_layers.py: the module\'s execution layer' % classify(path)
-        lines.insert(line, insert)
-        path.write_text("\n".join(lines), encoding="utf-8")
-        added.append(path.relative_to(ROOT).as_posix())
-    return added
-
-
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true", help="validate and report the split")
     parser.add_argument("--report", action="store_true", help="report the split only")
-    parser.add_argument("--write", action="store_true", help="tag modules that have no layer")
     args = parser.parse_args(argv)
-    if args.write:
-        for name in write_missing():
-            print("tagged", name)
     counts = split()
     print("test layers: " + "  ".join("%s=%d" % (layer, counts[layer]) for layer in LAYERS)
           + "  of %d modules" % counts["modules"])

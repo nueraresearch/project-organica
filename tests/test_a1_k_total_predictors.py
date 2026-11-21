@@ -1,4 +1,5 @@
 """The absolute-K predictor join is descriptive and mostly negative."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import json
 from pathlib import Path
 

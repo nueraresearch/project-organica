@@ -1,5 +1,6 @@
 """The handicap decomposition adds up, and no non-trivial readout is unbiased on the null."""
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 import statistics

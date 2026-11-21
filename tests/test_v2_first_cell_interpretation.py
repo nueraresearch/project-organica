@@ -3,6 +3,7 @@
 The document is adopted before the cell exists; a reading chosen after the interval is seen
 is not a reading. These checks keep it tied to the artifacts it restates.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import json
 from pathlib import Path
 

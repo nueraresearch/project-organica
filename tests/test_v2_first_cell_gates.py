@@ -1,4 +1,5 @@
 """The gate suite writes a record the runner accepts, and it does not pass gates it cannot test."""
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 from pathlib import Path
 
 from benchmarks import v2_first_cell_gates as gates

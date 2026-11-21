@@ -26,6 +26,9 @@ Usage:
     python benchmarks/clone_check.py
     python benchmarks/clone_check.py --keep          # leave the clone behind
     python benchmarks/clone_check.py --remote https://github.com/nueraresearch/project-organica.git
+
+The script form is the documented one; it inserts the repository root on
+`sys.path` itself, so `python -m benchmarks.clone_check` is not required.
 """
 
 from __future__ import annotations
@@ -39,9 +42,19 @@ import sys
 import tempfile
 import time
 from pathlib import Path
-from benchmarks import engine_stamp
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+
+# `python benchmarks/clone_check.py` -- the invocation in this module's own
+# docstring, in AGENTS.md and in the manual -- puts `benchmarks/` on sys.path,
+# not the repository root, so `import benchmarks` raised ModuleNotFoundError
+# before a single check ran. pytest never saw it because conftest.py supplies
+# the root. Put the root first, which is what `python -m benchmarks.clone_check`
+# does for itself.
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from benchmarks import engine_stamp
 DEFAULT_REMOTE = "https://github.com/nueraresearch/project-organica.git"
 
 #: The Organica 1 archival tag. tests/test_v1_freeze.py compares the

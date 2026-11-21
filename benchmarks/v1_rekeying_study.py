@@ -17,7 +17,7 @@ import json
 import sys
 from pathlib import Path
 
-from benchmarks import a1_arms, a1_c5_target_timing as timing
+from benchmarks import a1_arms, a1_c5_target_timing as timing, engine_stamp
 from benchmarks.acquisition_compositional import generate_compositional_world
 from benchmarks.acquisition_harness import _CountingMemoryService, _make_scratch_db
 from benchmarks.a2_sham_feasibility import CYCLES
@@ -369,7 +369,7 @@ def main() -> int:
     if args.check:
         stored = json.loads(artifact.read_text(encoding="utf-8"))
         fresh = build(args.seed)
-        if stored != fresh:
+        if engine_stamp.stamp(stored) != engine_stamp.stamp(fresh):
             differing = sorted(k for k in set(stored) | set(fresh) if stored.get(k) != fresh.get(k))
             print("FAIL: the artifact drifted from a fresh replay: %r" % (differing,))
             return 1
@@ -382,7 +382,7 @@ def main() -> int:
         return 0
     if args.write:
         with open(artifact, "w", encoding="utf-8") as handle:
-            json.dump(doc, handle, indent=2, ensure_ascii=False)
+            json.dump(engine_stamp.stamp(doc), handle, indent=2, ensure_ascii=False)
             handle.write("\n")
         print("wrote", artifact)
     print(json.dumps(doc["validation"], indent=1))

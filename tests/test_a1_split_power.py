@@ -1,4 +1,5 @@
 """Seeds per split block the offset discriminator needs at a stated error rate."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import json
 from pathlib import Path
 

@@ -1,4 +1,5 @@
 """An unseen 16-tag block has fresh-16's candidate size but not its level."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import copy
 import json
 from pathlib import Path

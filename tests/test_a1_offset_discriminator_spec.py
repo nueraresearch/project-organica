@@ -1,4 +1,5 @@
 """A pair-split construction holds candidates fixed while the alphabet grows."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import json
 from pathlib import Path
 

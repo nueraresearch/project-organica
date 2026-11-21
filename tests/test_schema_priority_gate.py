@@ -1,5 +1,5 @@
 """The schema-priority gate stays a bounded, post-hoc ranking diagnostic."""
-LAYER = "static"
+LAYER = "dry-run"
 
 from benchmarks import schema_priority_gate as gate
 

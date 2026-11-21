@@ -1,4 +1,5 @@
 """No within-block candidate-space quantity tracks the equal-size 16-tag level."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import json
 from pathlib import Path
 

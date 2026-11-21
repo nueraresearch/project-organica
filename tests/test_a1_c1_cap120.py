@@ -1,4 +1,5 @@
 """At a 120-loop window, A must be the C1 binding path on every seed."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import copy
 import json
 from pathlib import Path

@@ -16,6 +16,8 @@ import sys
 import tempfile
 from pathlib import Path
 
+from benchmarks import engine_stamp
+
 SOURCE = Path("docs/v1_carrier_identity.json")
 OUT = "docs/v2_primitive_sizing.json"
 
@@ -289,7 +291,7 @@ def main() -> int:
     if args.check:
         stored = json.loads(Path(OUT).read_text(encoding="utf-8"))
         fresh = build()
-        if stored != fresh:
+        if engine_stamp.stamp(stored) != engine_stamp.stamp(fresh):
             differing = sorted(k for k in set(stored) | set(fresh) if stored.get(k) != fresh.get(k))
             print("FAIL: the artifact drifted from a fresh measurement: %r" % (differing,))
             return 1
@@ -303,7 +305,7 @@ def main() -> int:
         return 0
     if args.write:
         with open(OUT, "w", encoding="utf-8") as handle:
-            json.dump(doc, handle, indent=2, ensure_ascii=False)
+            json.dump(engine_stamp.stamp(doc), handle, indent=2, ensure_ascii=False)
             handle.write("\n")
         print("wrote", OUT)
     print(json.dumps(doc["admission"], indent=1)[:1200])

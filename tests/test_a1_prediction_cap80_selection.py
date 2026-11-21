@@ -1,4 +1,5 @@
 """The cap-80 overlap loss is a loop-rank cut plus a transition half-budget cut."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import copy
 import json
 from pathlib import Path

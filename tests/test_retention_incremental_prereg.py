@@ -1,5 +1,5 @@
 """The retention preregistration is frozen, prospective and unrun."""
-LAYER = "static"
+LAYER = "dry-run"
 
 import json
 

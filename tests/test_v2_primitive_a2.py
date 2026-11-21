@@ -3,6 +3,7 @@
 Each test is a property the primitive must have, not a description of its implementation. The
 suite is expected to fail at import until `benchmarks/v2_primitive.py` exists.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import pytest
 
 from benchmarks.v2_primitive import Primitive, StaleVersion, UnknownComposite

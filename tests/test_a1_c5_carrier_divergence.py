@@ -1,4 +1,5 @@
 """A1 C5 carrier divergence — the record that keeps observed and current cycles apart."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import json
 from pathlib import Path
 

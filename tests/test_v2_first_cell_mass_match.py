@@ -1,5 +1,6 @@
 """The matched controls hold mass and key count, and both put maintained behind random."""
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path

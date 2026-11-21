@@ -1,4 +1,5 @@
 """Fixed-count exchange spec separating selection identity from served count."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import json
 from pathlib import Path
 

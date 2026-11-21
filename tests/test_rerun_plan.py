@@ -122,7 +122,7 @@ def test_the_plan_lists_exactly_the_campaign_questions() -> None:
     split = campaign(reg)
     assert sorted(page_ids(text, "## 3. Half A")) == sorted(split["reopened"])
     assert sorted(page_ids(text, "## 5. Half B")) == sorted(split["first"])
-    assert len(split["runnable"]) == 19 and len(split["gated"]) == 6
+    assert len(split["runnable"]) == 20 and len(split["gated"]) == 6
     assert not set(split["reopened"]) & set(split["first"]), "a question cannot be in both halves"
 
 

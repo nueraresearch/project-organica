@@ -1,4 +1,5 @@
 """Engine-side quantities against the per-seed 16-tag level."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import json
 from pathlib import Path
 

@@ -22,7 +22,7 @@ import json
 import sys
 from pathlib import Path
 
-from benchmarks import a1_c5_target_timing as timing
+from benchmarks import a1_c5_target_timing as timing, engine_stamp
 
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
@@ -146,7 +146,7 @@ def problems() -> list[str]:
         return ["the competent-block timing audit is missing"]
     rebuilt = build()
     found = []
-    if doc != rebuilt:
+    if engine_stamp.stamp(doc) != engine_stamp.stamp(rebuilt):
         found.append("the audit artifact is stale against a fresh replay")
     text = PAGE.read_text(encoding="utf-8") if PAGE.exists() else ""
     if text.strip() != render(rebuilt).strip():
@@ -157,7 +157,7 @@ def problems() -> list[str]:
 
 
 def write() -> int:
-    doc = build()
+    doc = engine_stamp.stamp(build())
     OUT.write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8")
     PAGE.write_text(render(doc), encoding="utf-8")
     print("wrote %s: %d rows, %d late, %d without a carrier"

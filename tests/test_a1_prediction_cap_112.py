@@ -1,4 +1,5 @@
 """At cap 112, only two of twelve 16-tag seeds clear the joint C1 floor."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import copy
 import json
 from pathlib import Path

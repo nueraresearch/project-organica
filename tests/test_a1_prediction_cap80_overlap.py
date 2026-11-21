@@ -1,4 +1,5 @@
 """The two cap-80 larger-28 joint failures are selective K-coverage losses."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import copy
 import json
 from pathlib import Path

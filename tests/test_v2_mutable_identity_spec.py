@@ -1,5 +1,6 @@
 """The primitive specification is planning-only and internally consistent."""
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path

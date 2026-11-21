@@ -18,6 +18,7 @@ import json
 import sys
 from pathlib import Path
 
+from benchmarks import engine_stamp
 from benchmarks.acquisition_compositional import generate_compositional_world
 from benchmarks.acquisition_harness import PHASE_ACQUISITION, _make_scratch_db
 from benchmarks.acquisition_runner import EVENTS_PER_CYCLE, _world_compositional_edges
@@ -330,7 +331,7 @@ def render(payload: dict) -> str:
 
 
 def write() -> int:
-    payload = build()
+    payload = engine_stamp.stamp(build())
     OUT_PATH.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
     PAGE_PATH.write_text(render(payload), encoding="utf-8")
     print("wrote %s and %s" % (OUT_PATH, PAGE_PATH))

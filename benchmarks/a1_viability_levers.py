@@ -23,6 +23,8 @@ import math
 import sys
 from pathlib import Path
 
+from benchmarks import engine_stamp
+
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
 
@@ -149,7 +151,7 @@ def _draw(eligible: int, pool: int, k: int) -> float:
 
 def problems(page_text: str | None = None, doc: dict | None = None) -> list[str]:
     doc = doc if doc is not None else build()
-    if doc != build():
+    if engine_stamp.stamp(doc) != engine_stamp.stamp(build()):
         return ["the artifact is stale against its sources"]
     text = page_text if page_text is not None else (PAGE.read_text(encoding="utf-8") if PAGE.exists() else "")
     if not text:
@@ -304,7 +306,7 @@ def render(doc: dict) -> str:
 
 
 def write() -> int:
-    doc = build()
+    doc = engine_stamp.stamp(build())
     OUT.write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8")
     PAGE.write_text(render(doc), encoding="utf-8")
     totals = doc["totals"]

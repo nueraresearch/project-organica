@@ -1,4 +1,5 @@
 """The ten 16-tag failures are transition-only, flip_q-heavy cap truncations."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import copy
 import json
 from pathlib import Path

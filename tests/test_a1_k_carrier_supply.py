@@ -1,4 +1,5 @@
 """The carrier-supply trace must expose the top-15 loop window and fail closed."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import copy
 import json
 from pathlib import Path

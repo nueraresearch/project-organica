@@ -1,4 +1,5 @@
 """The fixed earlier-U protocol clears C5 timing without changing targets."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import json
 from pathlib import Path
 

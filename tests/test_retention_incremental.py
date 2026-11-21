@@ -1,5 +1,5 @@
 """The retention runner is built, but refuses before any database without a grant."""
-LAYER = "static"
+LAYER = "dry-run"
 
 import json
 import random

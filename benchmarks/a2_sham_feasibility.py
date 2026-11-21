@@ -35,7 +35,7 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-from benchmarks import a1_arms, a1_c5_target_timing as timing, a1_two_path
+from benchmarks import a1_arms, a1_c5_target_timing as timing, a1_two_path, engine_stamp
 from benchmarks.acquisition_compositional import generate_compositional_world
 from benchmarks.acquisition_harness import _CountingMemoryService, _make_scratch_db
 
@@ -348,7 +348,7 @@ def problems() -> list[str]:
 
 
 def write() -> int:
-    doc = build()
+    doc = engine_stamp.stamp(build())
     OUT.write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8")
     PAGE.write_text(render(doc), encoding="utf-8")
     print("wrote %s and %s" % (OUT.name, PAGE.name))
@@ -370,7 +370,7 @@ def check() -> int:
         return 1
     doc = json.loads(OUT.read_text(encoding="utf-8"))
     fresh = build()
-    if fresh != doc:
+    if engine_stamp.stamp(fresh) != engine_stamp.stamp(doc):
         print("FAIL: %s is stale" % OUT.name)
         return 1
     print("A2 sham feasibility: clean; %d seeds, %s" % (len(doc["rows"]), doc["status"].split(" — ")[0]))

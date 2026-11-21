@@ -1,5 +1,6 @@
 """A signed pre-registration fixes what must not be chosen after a result, and quotes the artifact it cites."""
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import hashlib
 import json
