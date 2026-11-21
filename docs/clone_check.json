@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-11-21T17:40:13Z",
+  "generated_at": "2026-11-21T18:08:50Z",
   "remote": "https://github.com/nueraresearch/project-organica.git",
   "branch": "master",
   "checks": [
     {
       "step": "clone",
       "ok": true,
-      "seconds": 41.8,
+      "seconds": 5.6,
       "detail": "v0.9.0 fetched so the freeze checks can run"
     },
     {
       "step": "import_organica",
       "ok": true,
-      "detail": "organica import OK /tmp/organica_clone_jke03w96/project-organica/organica/__init__.py"
+      "detail": "organica import OK /tmp/organica_clone_aycybreu/project-organica/organica/__init__.py"
     },
     {
       "step": "core_dependencies",
@@ -22,13 +22,13 @@
     {
       "step": "pytest",
       "ok": false,
-      "seconds": 502.4,
-      "detail": "85 failed, 3017 passed, 20 skipped, 5 warnings in 501.83s (0:08:21)"
+      "seconds": 421.5,
+      "detail": "72 failed, 3023 passed, 27 skipped, 5 warnings in 421.00s (0:07:01)"
     },
     {
       "step": "build_py",
       "ok": true,
-      "seconds": 0.3,
+      "seconds": 0.4,
       "detail": "          competing subjects: 0   contradictions: 0   max uncertainty: 0.000   top priority: 2.078 |         Gen 0  Experience events       686  ######################################## |         experience events retained (never evicted):             686 |         top experiment priority (EIG / cost): 2.078 |         max question uncertainty            : 0.000 |   study_stream           lineage  96.67%   hyps   8   theories  0   questions  0   dreams  3   experiments  3"
     },
     {
@@ -76,7 +76,7 @@
     {
       "script": "examples/domains/01_developer_workflow.py",
       "ok": false,
-      "detail": ")\n  File \"/tmp/organica_clone_jke03w96/project-organica/examples/domains/01_developer_workflow.py\", line 67, in run\n    assert len(report.workflow_concepts) > 0, \"Failed to emerge developer workflows!\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Failed to emerge developer workflows!"
+      "detail": ")\n  File \"/tmp/organica_clone_aycybreu/project-organica/examples/domains/01_developer_workflow.py\", line 67, in run\n    assert len(report.workflow_concepts) > 0, \"Failed to emerge developer workflows!\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Failed to emerge developer workflows!"
     },
     {
       "script": "examples/domains/02_bug_tracking.py",
