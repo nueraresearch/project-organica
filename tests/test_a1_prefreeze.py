@@ -1,4 +1,5 @@
 """The A1 pre-freeze machinery: U ordering, target selection and target-set checks."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import inspect
 import re
 from pathlib import Path

@@ -1,4 +1,5 @@
 """The runner is built, and every path that could produce a result is exercised without a world."""
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 import copy
 import json
 

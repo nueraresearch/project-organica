@@ -1,0 +1,26 @@
+{
+ "kind": "constraint_registration",
+ "id": "CONSTRAINT-K2-1",
+ "constraint": "K2 - belief revision reversed",
+ "status": "registered",
+ "status_date": "2026-11-16",
+ "intervention": "Lower the retention priority of pre-switch associations after the revision boundary.",
+ "endpoint": "paired K2 difference (Organica minus the strongest-of-grid baseline) on the ten K2 seeds, with its 98.33% interval",
+ "comparator": "strongest-of-grid simple baseline, best configuration per seed",
+ "seed_block": "Phase K K2 seeds 20261023-20261032",
+ "decision_threshold": {
+  "pass": "K2 paired difference improves by at least 0.10 relative to the pre-intervention -0.5735 gap, and K1's absolute paired difference changes by no more than 0.05.",
+  "fail": "K2 paired difference improves by less than 0.05, or K1's absolute paired difference changes by more than 0.05.",
+  "inconclusive": "K2 improvement is between 0.05 and 0.10, or the registration's audit/validity condition fails."
+ },
+ "threshold_values": {
+  "baseline_gap": -0.5735,
+  "pass_min_improvement": 0.10,
+  "pass_max_k1_abs_change": 0.05,
+  "fail_below_improvement": 0.05,
+  "inconclusive_min_improvement": 0.05,
+  "inconclusive_max_improvement": 0.10
+ },
+ "threshold_rule": "These are pre-registered provisional thresholds, not values estimated from the intervention run. Improvement is the post-intervention K2 difference minus the baseline_gap.",
+ "does_not_allocate": "This registration allocates no seed, cell, grant or result; it makes K2 eligible to be in-test."
+}

@@ -28,7 +28,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from benchmarks import a1_competence_filter_draft as draft
+from benchmarks import a1_competence_filter_draft as draft, engine_stamp
 
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
@@ -379,7 +379,7 @@ def render(doc: dict) -> str:
 
 
 def write() -> int:
-    doc = build()
+    doc = engine_stamp.stamp(build())
     found = problems(doc)
     if found:
         for problem in found:
@@ -398,7 +398,7 @@ def check() -> int:
         return 1
     doc = json.loads(OUT_PATH.read_text(encoding="utf-8"))
     found = problems(doc)
-    if doc != build():
+    if engine_stamp.stamp(doc) != engine_stamp.stamp(build()):
         found.append("the selection is stale against its source artifacts")
     if not PAGE_PATH.exists() or PAGE_PATH.read_text(encoding="utf-8") != render(doc):
         found.append("the page is stale")

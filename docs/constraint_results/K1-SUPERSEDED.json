@@ -1,0 +1,33 @@
+{
+ "kind": "constraint_result",
+ "id": "RESULT-K1-SUPERSEDED-1",
+ "registration": "CONSTRAINT-K1-1",
+ "date": "2026-11-19",
+ "outcome": "attempt_invalid",
+ "hypothesis_status": "untested",
+ "criteria_read": false,
+ "cells_started": 0,
+ "attempt": "none - the registration was withdrawn before a grant",
+ "source_artifact": "docs/phase_k_results_0.15.0.json",
+ "source_record": "docs/K1-DISPOSITION-CHOICE.md",
+ "evidence": {
+  "seeds": 10,
+  "recall_full_seeds": 10,
+  "recall_min": 1.0,
+  "recall_max": 1.0,
+  "true_positives": 18,
+  "false_negatives": 0,
+  "false_positives_min": 77,
+  "false_positives_max": 81,
+  "precision_min": 0.181818,
+  "precision_max": 0.189474,
+  "late_group_f1_min": 0.129032,
+  "late_group_f1_max": 0.134831,
+  "archival_late_group_f1": 0.0,
+  "archival_recall_max": 0.666667,
+  "baseline_gap": -0.623961,
+  "pass_f1_required": 0.412011
+ },
+ "reason": "On the shipping build all eighteen gold pairs are asserted on every seed, so recall is at its ceiling and the late structure the intervention would force is already served. The registered intervention can only add false assertions to an endpoint that is already carrying 77-81 of them, so the registration cannot produce an admissible comparison in the direction of its own hypothesis.",
+ "note": "No cell was opened and no criterion was read. The hypothesis is untested under this registration and is not refuted; the 0.9.0 campaign and the 0.15.0 replication are neither re-scored nor withdrawn, and the precision question this leaves open is unowned until a fresh registration names it."
+}
