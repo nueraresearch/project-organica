@@ -654,7 +654,13 @@ def fig_p02_reconstruction_arms():
         a7 = d["A7_event_level_attribution"]
         need(d["A1_evidence_replay_aggregate"]["cycles_failing"] == 0, f"{key} A1")
         need(d["A2_selection_reconstruction"]["cycles_failing"] == 0, f"{key} A2")
-        need(a3["structures_resolved"] == a3["structures_checked"], f"{key} A3")
+        # 0.16.0 (2026-11-21): the default arm reports 404 structures with no
+        # parent, so full resolution is no longer the expectation there. Pin the
+        # measured counts per arm rather than weakening the check.
+        expected_a3 = {"default arm": (6592, 6179), "stress arm": (3240, 3240),
+                       "forced-tie arm": (3988, 3988)}
+        need((a3["structures_checked"], a3["structures_resolved"]) == expected_a3[name],
+             f"{key} A3")
         need(a7["edge_mismatches"] == [], f"{key} A7")
         data.append({
             "name": name,
@@ -668,8 +674,8 @@ def fig_p02_reconstruction_arms():
             "ties": a7["timestamp_ties"]["stores_with_tied_window"],
         })
 
-    need(data[0]["beliefs"] == 1412 and data[0]["structures"] == 8061, "default arm counts")
-    need(data[0]["lost"] == 0, "default arm lost must be zero (the cap never bound)")
+    need(data[0]["beliefs"] == 1056 and data[0]["structures"] == 6592, "default arm counts")
+    need(data[0]["lost"] == 8, "default arm lost (0.16.0: the pool peaks at 16 against a cap of 15)")
     need(data[1]["lost"] == 403, "stress arm lost count")
     need(data[2]["ties"] == 479, "tie arm ties")
 
@@ -717,8 +723,8 @@ def fig_p02_reconstruction_arms():
                size=10, anchor="middle", fill=MUTED)
 
     s.text(36, ay_bot + 88,
-           "In the default and forced-tie arms no candidate ever lost on rank, so the "
-           "selection test could not have failed there.", size=11.5)
+           "In the forced-tie arm no candidate ever lost on rank; on 0.16.0 the default "
+           "arm loses 8, because its pool peaks at 16 against a cap of 15.", size=11.5)
     s.text(36, ay_bot + 106,
            "The stress arm carries the non-vacuity argument: the cap bound, and 403 "
            "candidates lost on it.", size=11.5, fill=MUTED)
@@ -775,16 +781,22 @@ def fig_p02_self_sourcing():
          alltr["self_sourced"], alltr["total_transitions"],
          "context, not the disqualifier's figure"),
     ]
-    need((distinct["self_sourced"], distinct["total_transitions"]) == (802, 4481), "distinct pop")
-    need((refs["self_sourced"], refs["total"]) == (53980, 307857), "reference pop")
-    need((alltr["self_sourced"], alltr["total_transitions"]) == (5436, 12583), "all pop")
+    # The engine's lookback isolates non-sleep rows (`memory.py:353`:
+    # `WHERE event_type != 'sleep'`), so no support transition can be
+    # self-sourced on this build and all three shares are exactly zero. The
+    # 2026-10-26 artifact's 17.9% / 17.5% / 43.2% came from an observer that
+    # read sleep rows the engine never reads; it was aligned on 2026-11-04
+    # (`ff15068`) and the artifact was not regenerated until 2026-11-21.
+    need((distinct["self_sourced"], distinct["total_transitions"]) == (0, 4627), "distinct pop")
+    need((refs["self_sourced"], refs["total"]) == (0, 266659), "reference pop")
+    need((alltr["self_sourced"], alltr["total_transitions"]) == (0, 8364), "all pop")
 
     W, H = 840, 495
     s = Svg(W, H, "Self-sourced share against three separately named populations")
     header(s,
            "The same ratio, against three differently named populations",
-           "Share of self-sourced transitions, reported separately for each population the "
-           "observer measured.",
+           "Share of self-sourced transitions, per population. No support is "
+           "self-sourced on this build.",
            "Source: docs/audit_trace_probe.json -> A7_event_level_attribution  |  "
            "drawn by benchmarks/figure_papers.py",
            W)
@@ -834,7 +846,9 @@ def fig_p02_cognition_window():
 
     win = default["A7_event_level_attribution"]["cognition_window"]
     need(win["window_sleep_events"] == 4000, "window size")
-    need(win["window_span_cycles"] == 1.7, "window span")
+    # 0.16.0 (2026-11-21): 12,897 sleep events over 120 cycles = 107.47/cycle,
+    # so 4,000 events span 37.2 cycles (0.15.0 stored 2,374.68/cycle and spanned 1.7).
+    need(win["window_span_cycles"] == 37.2, "window span")
     cycles = default["protocol"]["cycles"]
 
     W, H = 1080, 520

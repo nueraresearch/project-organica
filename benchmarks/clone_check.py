@@ -22,6 +22,12 @@ stranger-facing entry points from inside that clone:
 Nothing here touches the live study: the clone gets its own scratch
 directory, and the live `memory.db` is not on the path.
 
+A previous report is copied aside first, under its own `generated_at`, because
+the revision log and the release gate quote earlier checks by path and
+timestamp: overwriting the live file would leave those citations naming a record
+that no longer exists. The archive is keyed on the record's timestamp, not on
+when the copy happened, so the citation and the file agree by construction.
+
 Usage:
     python benchmarks/clone_check.py
     python benchmarks/clone_check.py --keep          # leave the clone behind
@@ -90,6 +96,38 @@ def live_row_count(db: Path) -> int:
             conn.close()
     except Exception:
         return -1
+
+
+def archive_previous(out_path: Path) -> Path | None:
+    """Copy an existing report aside under its own timestamp before replacing it.
+
+    The name comes from the record's `generated_at`, so the archive of the
+    2026-11-09T14:40:19Z check is `clone_check_2026-11-09T14-40-19Z.json` and a
+    citation that quotes that timestamp resolves to it. An unreadable or
+    unstamped record still must not be lost, so it falls back to the file's
+    mtime. A record already archived verbatim is not duplicated, and a different
+    record claiming a timestamp that is already taken gets a numeric suffix
+    rather than overwriting the earlier copy.
+    """
+    if not out_path.exists():
+        return None
+    raw = out_path.read_bytes()
+    try:
+        stamp = json.loads(raw.decode("utf-8")).get("generated_at")
+    except (UnicodeDecodeError, ValueError, AttributeError):
+        stamp = None
+    if not isinstance(stamp, str) or not stamp:
+        stamp = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(out_path.stat().st_mtime))
+    stem = "clone_check_%s" % stamp.replace(":", "-")
+    archive = out_path.with_name(stem + ".json")
+    counter = 2
+    while archive.exists():
+        if archive.read_bytes() == raw:
+            return archive  # already preserved verbatim; keep the first copy
+        archive = out_path.with_name("%s-%d.json" % (stem, counter))
+        counter += 1
+    archive.write_bytes(raw)
+    return archive
 
 
 def main() -> int:
@@ -246,6 +284,9 @@ def main() -> int:
 
     out_path = REPO_ROOT / args.out
     out_path.parent.mkdir(parents=True, exist_ok=True)
+    archived = archive_previous(out_path)
+    if archived is not None:
+        print(f"  Previous report archived to: {archived}")
     out_path.write_text(json.dumps(engine_stamp.stamp({
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "remote": args.remote,

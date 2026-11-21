@@ -414,6 +414,8 @@ The build is accepted only if all **seven** hold, and each is a check that can f
 - **A5**: Field honesty enforced; records verified to contain zero mislabelled count fields, and proved to fail if competing flow is mislabelled as contradictory observations.
 - **A6**: Counterfactual separation enforced; trace records and schema verified to contain zero counterfactual claims, and proved to fail on counterfactual injection.
 
+**Re-verified against 0.16.0 (2026-11-21).** All seven criteria are still MET by the regenerated default artifact (`docs/audit_trace_probe.json`, 120 cycles): A1 and A7 **1,056 beliefs, 0 failures**; A2 **118 of 120 cycles reported a selection, 0 failing** (the two that reported nothing are not counted as reconstructions); A3 **6,592 structures**; A5 and A6 **1,056 records, 0 errors**; A4 invariant. The three self-sourced shares read **0.0%**, and the reason is a correction recorded below: the engine's lookback excludes sleep rows, so the observer cannot see a self-sourced prior at all.
+
 **Completion metrics the trace should report** (diagnostics, not pass/fail):
 evidence-trace completeness (fraction of beliefs whose support resolves to
 concrete event ids), lineage completeness (fraction of claims with a fully
@@ -561,11 +563,13 @@ reconstruction passed.**
 
 | Arm | Belief cap | Cycles | A1 aggregate evidence | A2 selection | A7 event-level attribution | Distinct evidence self-sourced | Died | **Lost on rank** |
 |---|---|---|---|---|---|---|---|---|
-| Default | 15 (the engine's own) | 120 | **1,412 beliefs, 0 failures** | **120/120 cycles** | **1,412 beliefs, 0 failures; 244 edges reconcile** | **17.9%** | 4 | 0 |
+| Default (0.16.0, 2026-11-21) | 15 (the engine's own) | 120 | **1,056 beliefs, 0 failures** | **118/120 cycles reported a selection, 0 failing** | **1,056 beliefs, 0 failures; 132 edges reconcile** | **0.0%** | 0 | 8 |
 | Stress | 5 (cap binding) | 60 | **290 beliefs, 0 failures** | **60/60 cycles** | **290 beliefs, 0 failures; 241 edges reconcile** | **15.2%** | 3 | **403** |
 | Forced tie | 15 | 60 | **692 beliefs, 0 failures** | **60/60 cycles** | **692 beliefs, 0 failures; 241 edges reconcile; 479 tied windows** | **17.5%** | 4 | 0 |
 
 Artifacts: `docs/audit_trace_probe.json`, `docs/audit_trace_probe_stress.json`.
+
+The Stress and Forced-tie rows above are the **2026-10-26 readings**, from artifacts written by an observer that read sleep rows the engine's lookback excludes; their self-sourced columns (15.2% and 17.5%) share the defect corrected below and are marked, not restated. Only the default row has been regenerated with the faithful observer.
 
 **The default arm alone would have been a weak test, and the table says so.**
 Its pool peaked at 12 candidates against a cap of 15, so the cap never bound
@@ -607,12 +611,22 @@ view; it is not the share of unique transitions.
 
 | View | Default arm | What it is |
 |---|---|---|
-| **Distinct evidence behind reported beliefs** | **802 of 4,481 = 17.9%** self-sourced | each transition counted once, restricted to the edges that actually back a reported belief. **This is the disqualifier's figure.** |
-| Pooled support references | 53,980 of 307,857 = 17.5% | the same support counted once per belief per cycle it appears in. A weighted view, not a share of unique transitions. |
-| All distinct transitions recorded | 5,436 of 12,583 = 43.2% | every transition the observer saw, **including edges that no reported belief ever rested on**. Context, not the disqualifier's figure. |
+| **Distinct evidence behind reported beliefs** | **0 of 4,627 = 0.0%** self-sourced (was 802 of 4,481 = 17.9%) | each transition counted once, restricted to the edges that actually back a reported belief. **This is the disqualifier's figure.** |
+| Pooled support references | 0 of 266,659 = 0.0% (was 53,980 of 307,857 = 17.5%) | the same support counted once per belief per cycle it appears in. A weighted view, not a share of unique transitions. |
+| All distinct transitions recorded | 0 of 8,364 = 0.0% (was 5,436 of 12,583 = 43.2%) | every transition the observer saw, **including edges that no reported belief ever rested on**. Context, not the disqualifier's figure. |
 
 **Correcting the denominator moved the headline only slightly** — 17.5% to 17.9% — and that agreement is worth
-stating plainly. **But the correction did surface a separate and much larger
+stating plainly.
+
+**Both figures are superseded (2026-11-21), and the reason is a defect in the instrument.** The engine's support query
+filters sleep rows (`organica/memory.py:353`: `WHERE event_type != 'sleep'`), so a support transition can never have a
+sleep prior. The observer that produced 17.9% did not apply that filter, so it read sleep rows the engine never reads;
+`ff15068` aligned it on 2026-11-04 and the artifact was not regenerated until 2026-11-21. With the faithful observer the
+same arm reports **0 of 4,627**, **0 of 266,659** and **0 of 8,364** — **0.0% on all three views**, because the
+quantity is structurally absent on this engine. **The reading below that the 43.2% is the organism's own transition
+surface is therefore withdrawn**: its own sleep output is not part of the support the engine records at all.
+
+The paragraph that follows is kept as the 2026-10-26 account, with that withdrawal attached. **But the correction did surface a separate and much larger
 number**: across all 12,583 distinct transitions the observer recorded, **43.2% are
 self-sourced** — transitions on edges that no reported belief ever rested on.
 Those are the organism's own tag-to-tag edges: the substrate of its
@@ -754,6 +768,12 @@ the **claim's own support**:
 
 > **Reference rate: 17.9%** — the distinct-evidence self-sourced share measured on the
 > calibration probe (default arm, 120 cycles, `docs/audit_trace_probe.json`).
+>
+> **Superseded measurement, 2026-11-21.** The faithful calibration on the same arm reads **0.0%**, because the engine's
+> lookback excludes sleep rows and no support can be self-sourced. The reference is left at 17.9% here rather than
+> re-derived: changing a frozen comparator is the owner's decision, and rule 19 requires any re-calibration to use data
+> that is not being judged. **On this engine the third condition cannot fire** — no claim can reach either bound — and
+> that is recorded as a decision to make, not a verdict to take.
 
 Two rules about it, both fixed now:
 
@@ -789,7 +809,8 @@ instrument that can ask it. It is not asked here.
 **Calibrated, not binary.** The disqualifier is not a mood: the trace reports
 a *share*, and the probe measured what that share looks like on a world where
 the organism is doing ordinary work — **17.9% of the distinct evidence behind reported beliefs
-was self-sourced** (§10). That figure is the **baseline** condition 3 above
+was self-sourced** (§10). **Superseded (2026-11-21):** with the observer aligned to the engine's non-sleep lookback the
+same arm reads **0.0%**, so what the probe calibrates is the instrument's window, not the organism's support. That figure is the **baseline** condition 3 above
 compares against; it is not itself a per-claim verdict. The measurement gives
 the criterion a baseline instead of a vibe.
 
@@ -866,8 +887,9 @@ problem. *"Depth-truncated"* means **the developmental chain exists and the
 tracing machinery cut it** — a representation problem. They have different
 causes and different fixes, and a single percentage cannot distinguish them.
 The window's span is now **measured rather than estimated**: the engine
-stores **2,374.68 sleep events per cycle**, so the 4,000-event cognition window spans only
-**1.7 cycles of stores**. But the measurement went further, and **corrected the
+stored **2,374.68 sleep events per cycle** on 0.15.0, so the 4,000-event cognition window spanned only
+**1.7 cycles of stores**. **On the 0.16.0 regeneration (2026-11-21) the rate is 107.47 per cycle and the span is
+37.2 cycles.** But the measurement went further, and **corrected the
 sentence that followed it**: the window's span is **not** the binding constraint
 on lineage depth. See §13. The binding constraint is the **death of an
 ancestor**, not the window's recency.
@@ -875,7 +897,8 @@ ancestor**, not the window's recency.
 **That corrects an earlier estimate by more than an order of magnitude.** This
 specification previously said the window spanned "roughly 40–130 cycles",
 inferred from a guess about how many sleep events a cycle stores. The
-measurement says **1.7 cycles**. The estimate was wrong, and the correction is recorded rather than
+measurement says **1.7 cycles** on 0.15.0 — and **37.2 cycles** on 0.16.0 (2026-11-21), which is near the original
+40–130 estimate. The estimate was wrong for 0.15.0, and the correction is recorded rather than
 quietly fixed — the same way every other correction in this project has been.
 
 Two consequences follow, and they point in opposite directions:
@@ -883,7 +906,7 @@ Two consequences follow, and they point in opposite directions:
 - A lineage that is **still being produced** stays inside the window, because
   candidates are re-stored every cycle. So active lineages may resolve far
   better than the window's tiny span suggests.
-- A lineage that **stopped being produced** is gone within about 1.7 cycles. So
+- A lineage that **stopped being produced** is gone within about 1.7 cycles on 0.15.0 and about 37 on 0.16.0. So
   the developmental history of *anything* the organism has moved on from is
   unrecoverable — not censored by a slow decay, but simply not there.
 
@@ -904,7 +927,7 @@ outcome is therefore not the percentage but this:
 | Outcome | Reading |
 |---|---|
 | High reachability, truncation dominated by "no parent" | The trace is a genuine **developmental** trace for extant structures. |
-| High reachability, truncation dominated by "aged out" | The trace is developmental only for the recent past; history older than ~1.7 cycles is **gone**, not censored. |
+| High reachability, truncation dominated by "aged out" | The trace is developmental only for the recent past; history older than ~37 cycles on 0.16.0 (1.7 on 0.15.0) is **gone**, not censored. |
 | Low reachability dominated by "aged out" | The organism's developmental history is **not recoverable** at this window. A persistence finding about V1, not a tracing failure. |
 | Low reachability dominated by "depth-truncated" | A **representation** finding: the chains exist but the tracing machinery cuts them, and the auditor needs a deeper walk. |
 | Any "missing record" | A **data defect** — a parent id with no record — and the one that would most damage trust in the trace. |
@@ -933,14 +956,17 @@ fixed in advance in §12; the criterion is in §6.
 
 | Quantity | Default arm (120 cycles) |
 |---|---|
-| **Lineage reachability** | **1.000** — 8,061 of 8,061 structures resolve back to Layer 1 within depth 7 |
-| **Evidence linkage** | **1.000** — 1,412 of 1,412 claims resolve to event ids with a world/self split |
+| **Lineage reachability** | **0.937** on the 0.16.0 regeneration (2026-11-21) — 6,179 of 6,592 structures resolve back to Layer 1 within depth 7; **404 report no parent**, 9 aged out, 0 depth-truncated. The 2026-10-26 reading was **1.000** — 8,061 of 8,061, empty split. Whether the parents were never stored or the observer's candidate capture missed them is **not established** |
+| **Evidence linkage** | **1.000** — 1,056 of 1,056 claims resolve to event ids with a world/self split (2026-10-26: 1,412 of 1,412) |
 | **Truncation split** (structures) | aged out 0 / depth-truncated 0 / no parent 0 / missing record 0 |
 | **Branch-level counts** | layer-1 resolved 25,168 / aged out 105 / depth-truncated 0 / no parent 0 |
 | **Honesty errors** | 0 |
 
 The same holds on the stress arm (3,240 structures, 1.000) and the forced-tie
-arm (3,988 structures, 1.000).
+arm (3,988 structures, 1.000) — both are **2026-10-26 readings and were not
+regenerated**, so they describe the build before the 0.16.0 admission change.
+**The window and depth sweeps below are likewise the 2026-10-26 values**; the
+regenerated diagnostics are in the artifact.
 
 **Read the two counts together.** The *structure-level* split is empty, but
 **105 branches were aged out**. Every structure nonetheless resolves, because each one has at
@@ -952,7 +978,8 @@ reported for exactly that reason.
 
 §12 said the window was *"the more likely binding constraint"*, on the
 reasoning that the window spans only 1.7 cycles. **That was wrong, and the
-measurement corrected it.**
+measurement corrected it.** *(On 0.16.0 the span is 37.2 cycles, so the figure the correction replaced was 0.15.0's
+storage rate; the conclusion — the window is not the binding constraint — holds on both builds.)*
 
 **Surviving candidates are re-stored every cycle** — Layer-1 candidates by the
 natural-selection decay path (`sleep.py:1784-1800`), and higher-layer
@@ -965,6 +992,8 @@ What the window does bound is the history of anything that **died**. A
 candidate that decays below the death threshold is pruned and never stored
 again; its last store eventually leaves the 4,000-event window, and the parent
 link that pointed at it becomes unresolvable. That is the 105 aged-out branches.
+**On 0.16.0 (2026-11-21) the counts are 19 aged-out branches and 369 no-parent
+branches**, and the structure-level split is no longer empty (404 no parent).
 
 ### How much history does Organica actually keep?
 
