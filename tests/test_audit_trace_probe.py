@@ -30,7 +30,11 @@ sys.path.insert(0, str(REPO))
 
 from benchmarks import audit_trace_probe as probe  # noqa: E402
 
-CYCLES = 8
+#: 0.16.0 admits a prediction only after a pair co-occurs 35 times, so 8 cycles
+#: formed no belief at all and every check below passed on an empty denominator.
+#: 40 keeps ~11 cycles with beliefs and 12 rank losses — the smallest arm measured
+#: that stays live — so a break below has something to break.
+CYCLES = 40
 STRESS_CAP = 5
 
 
@@ -59,7 +63,7 @@ def test_observer_does_not_change_the_engine():
 def test_forced_timestamp_ties_are_reproduced():
     """The engine's lookback query has no tie-breaker; the observer must
     still reproduce the engine's choice when timestamps collide."""
-    result = probe.run(cycles=8, seed=20261025, force_tie=True)
+    result = probe.run(cycles=CYCLES, seed=20261025, force_tie=True)
     ties = result["A7_event_level_attribution"]["timestamp_ties"]
     assert ties["stores_with_tied_window"] > 0, (
         "the forced-tie arm produced no tied windows — the tie case was not "
@@ -75,7 +79,7 @@ def test_distinct_evidence_is_deduplicated():
     snapshots, so it counts the same transition again in every later cycle
     where the belief is still reported. The distinct view must not.
     """
-    result = probe.run(cycles=8, seed=20261025, max_hypotheses=STRESS_CAP)
+    result = probe.run(cycles=CYCLES, seed=20261025, max_hypotheses=STRESS_CAP)
     a7 = result["A7_event_level_attribution"]
     distinct = a7["distinct_evidence"]
     references = a7["support_references"]
@@ -98,7 +102,12 @@ def test_a_wrong_auditor_is_caught(monkeypatch):
     """A deliberately wrong auditor must make the selection check fail."""
     monkeypatch.setattr(probe, "_subject_entropy", lambda subject, temporal: 0.0)
     result = probe.run(cycles=CYCLES, seed=20261025, max_hypotheses=STRESS_CAP)
-    assert not result["A2_selection_reconstruction"]["pass"], (
+    check = result["A2_selection_reconstruction"]
+    assert check["cycles_checked"] > 0, (
+        "the arm reconstructed no selection, so the failure would not be attributable")
+    assert check["cycles_failing"] > 0, (
+        "the check failed with no cycle attributable to the broken auditor")
+    assert not check["pass"], (
         "the reconstruction check passed with a broken auditor — "
         "the check cannot fail, so it is decoration"
     )
@@ -110,12 +119,21 @@ def test_a_wrong_auditor_is_caught_on_the_evidence_axis(monkeypatch):
 
     def broken(mem):
         graph = original(mem)
-        return {k: {kk: vv for kk, vv in v.items() if kk != "amber"}
+        # Drop the busiest source tag rather than a fixed name: "amber" need not
+        # appear in this arm's graph at all, and a break that changes no count
+        # tests nothing. The busiest tag is guaranteed to carry edges.
+        victim = max(graph, key=lambda tag: (sum(graph[tag].values()), tag))
+        return {k: {kk: vv for kk, vv in v.items() if k != victim}
                 for k, v in graph.items()}
 
     monkeypatch.setattr(probe, "_temporal_graph", broken)
     result = probe.run(cycles=CYCLES, seed=20261025, max_hypotheses=STRESS_CAP)
-    assert not result["A1_evidence_replay_aggregate"]["pass"], (
+    check = result["A1_evidence_replay_aggregate"]
+    assert check["beliefs_checked"] > 0, (
+        "the arm formed no belief to replay, so the failure would not be attributable")
+    assert check["cycles_failing"] > 0, (
+        "the check failed with no cycle attributable to the broken count")
+    assert not check["pass"], (
         "the evidence replay passed with a broken count — "
         "the check cannot fail, so it is decoration"
     )
@@ -152,6 +170,8 @@ def test_a_wrong_observer_is_caught_on_the_attribution_axis(monkeypatch):
 
     monkeypatch.setattr(probe.ObservingMemoryService, "store", sloppy_store)
     result = probe.run(cycles=CYCLES, seed=20261025, max_hypotheses=STRESS_CAP)
+    assert result["A7_event_level_attribution"]["cycles_failing"] > 0, (
+        "no cycle attributed anything wrong, so the failure would not be attributable")
     assert not result["A7_event_level_attribution"]["pass"], (
         "the attribution reconciliation passed with an observer that "
         "over-attributes — the check cannot fail, so it is decoration"
@@ -169,10 +189,13 @@ def test_a5_field_honesty_fails_on_mislabelled_count(monkeypatch):
 
     monkeypatch.setattr(probe, "render_trace_record", dishonest_render)
     result = probe.run(cycles=CYCLES, seed=20261025, max_hypotheses=STRESS_CAP)
-    assert not result["A5_field_honesty"]["pass"], (
+    check = result["A5_field_honesty"]
+    assert check["records_checked"] > 0, (
+        "no trace record was rendered, so A5 audited nothing")
+    assert not check["pass"], (
         "A5 field honesty passed with 'contradictory observations' in record — check cannot fail!"
     )
-    assert len(result["A5_field_honesty"]["errors"]) > 0
+    assert len(check["errors"]) > 0
 
 
 def test_a6_counterfactual_separation_fails_on_counterfactual_field(monkeypatch):
@@ -187,7 +210,10 @@ def test_a6_counterfactual_separation_fails_on_counterfactual_field(monkeypatch)
 
     monkeypatch.setattr(probe, "render_trace_record", counterfactual_render)
     result = probe.run(cycles=CYCLES, seed=20261025, max_hypotheses=STRESS_CAP)
-    assert not result["A6_trace_counterfactual_separation"]["pass"], (
+    check = result["A6_trace_counterfactual_separation"]
+    assert check["records_checked"] > 0, (
+        "no trace record was rendered, so A6 audited nothing")
+    assert not check["pass"], (
         "A6 counterfactual check passed with counterfactual claim — check cannot fail!"
     )
-    assert len(result["A6_trace_counterfactual_separation"]["errors"]) > 0
+    assert len(check["errors"]) > 0

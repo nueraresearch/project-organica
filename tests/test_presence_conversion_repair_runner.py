@@ -1,27 +1,65 @@
 """The conversion-2 harness must exist, plan fourteen runs, and refuse a tampered N1."""
-LAYER = "static"  # benchmarks/test_layers.py: reads committed cells; runs no engine
+LAYER = "static"  # benchmarks/test_layers.py: reads recorded cell parts; runs no engine
 
 import copy
 import json
 import sys
 from pathlib import Path
 
+import pytest
+
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
 
 from benchmarks import presence_conversion_repair_runner as runner  # noqa: E402
 
+RUN_ARMS = ("plain", "off", "on")
 
-def test_the_plan_is_the_twelve_cells_the_witness_and_the_rerun():
+
+def _missing_captures() -> list[Path]:
+    """The gitignored cell parts the runner's analysis recomputes from."""
+    return [runner.part_path(seed, arm)
+            for seed in runner.design()["seeds"] for arm in RUN_ARMS
+            if not runner.part_path(seed, arm).exists()]
+
+
+def _skip_without_captures() -> None:
+    missing = _missing_captures()
+    if missing:
+        pytest.skip(
+            "the measured cell parts are a gitignored .scratch/ run artifact and "
+            "%d of %d are absent, starting with %s; produce them with "
+            "`python -m benchmarks.presence_conversion_repair_runner --measure`."
+            % (len(missing), len(runner.design()["seeds"]) * len(RUN_ARMS),
+               missing[0]))
+
+
+def test_the_plan_is_the_twelve_cells_the_witness_and_the_rerun(monkeypatch, tmp_path):
     plan = runner.planned()
 
     assert len(plan) == 14
     seeds = runner.design()["seeds"]
     assert plan[:12] == [(seed, arm) for seed in seeds for arm in ("off", "on")]
     assert plan[12:] == [(20261100, "off"), (seeds[0], "on")]
+    # The skip above must be able to fire, and must stop firing once the files
+    # exist: a predicate that always reported something missing would skip the
+    # analysis in the working tree too.
+    monkeypatch.setattr(runner, "PARTS", tmp_path / "absent")
+    assert len(_missing_captures()) == len(seeds) * len(RUN_ARMS), (
+        "an empty parts directory must report every planned part as missing")
+    (tmp_path / "absent").mkdir()
+    for seed in seeds:
+        for arm in RUN_ARMS:
+            (tmp_path / "absent" / ("%d-%s.json" % (seed, arm))).write_text(
+                "{}", encoding="utf-8")
+    assert _missing_captures() == [], "the prerequisite reports a written part as missing"
+    monkeypatch.undo()
+    assert _missing_captures() in ([], [runner.part_path(s, a)
+                                     for s in seeds for a in RUN_ARMS])
 
 
 def test_the_n1_comparison_is_served_window_identity_per_seed():
+    _skip_without_captures()
     parts = {}
     for seed in runner.design()["seeds"]:
         parts[seed] = {arm: runner.load(seed, arm) for arm in ("plain", "off", "on")}
@@ -46,6 +84,7 @@ def test_the_result_and_page_are_current():
 
 
 def test_the_stage_table_counts_candidates_from_the_recorded_universe():
+    _skip_without_captures()
     art = json.loads(runner.ARTIFACT.read_text(encoding="utf-8"))
     cap = int(runner.prereg()["engine"]["cap"])
     for row in art["stage_table"]:
@@ -61,6 +100,7 @@ def test_the_stage_table_counts_candidates_from_the_recorded_universe():
 
 
 def test_the_construct_bucket_moves_when_the_recorded_universe_is_taken_away():
+    _skip_without_captures()
     art = json.loads(runner.ARTIFACT.read_text(encoding="utf-8"))
     cap = int(runner.prereg()["engine"]["cap"])
     cell = copy.deepcopy(runner.load(art["stage_table"][0]["seed"], "on"))
@@ -75,6 +115,7 @@ def test_the_construct_bucket_moves_when_the_recorded_universe_is_taken_away():
 
 
 def test_the_recorded_universe_order_is_the_served_order_within_each_block():
+    _skip_without_captures()
     art = json.loads(runner.ARTIFACT.read_text(encoding="utf-8"))
     sem = art["rank_semantics"]
 

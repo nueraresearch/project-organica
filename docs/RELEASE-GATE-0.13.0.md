@@ -91,7 +91,7 @@ The tag exists here and is intact: annotated object `df56bc20c38153c1518b5916c93
 peeled commit `5804e609e5978bb6437da79827f14002b006457a`.
 
 **Consequence, as measured.** `benchmarks/clone_check.py` reports **7/8** at
-`2026-11-09T02:49:24Z` (`docs/clone_check.json`), with the `pytest` step failing
+`2026-11-09T02:49:24Z` (`docs/clone_check_2026-11-09T02-49-24Z.json`), with the `pytest` step failing
 `1 failed, 1615 passed, 7 skipped, 13 errors`. The failing step is the deposit's `git archive v0.12.0`,
 which is the consequence gate 1 already records, not a new defect.
 
@@ -282,7 +282,7 @@ line number is today's anchor, and the quoted text is the locator that survives 
 | `docs/FACTS-SHEET.md:27` (A3) | a fresh clone passes **8/8** with **17 passed**, dated 2026-10-22 | the artifact must first report 8/8, which needs the missing `v0.12.0` tag ref (gate 1); the row's own date marks it as a measurement, not a tag-time claim |
 | `docs/GATE-BOARD.md:25` | fresh clone passes 8/8 checks, 17 pytest, 9/9 examples | the same condition, and the same correction follows the same artifact |
 
-**Both corrected 2026-11-09**, from `docs/clone_check.json` at `2026-11-09T14:40:19Z` — **8/8**, `1641 passed, 19 skipped` — once a clone stopped erroring on the deposit tests; section 3f records the fix and the measurement.
+**Both corrected 2026-11-09**, from `docs/clone_check_2026-11-09T14-40-19Z.json` at `2026-11-09T14:40:19Z` — **8/8**, `1641 passed, 19 skipped` — once a clone stopped erroring on the deposit tests; section 3f records the fix and the measurement.
 
 ### d. Conditional on gate 3 (one)
 
@@ -316,7 +316,7 @@ one this record names. No branch was pushed and no force was used: `refs/heads/m
 citations are checkable by a stranger, which is the thing the missing ref blocked.
 
 **What it does not clear.** `benchmarks/clone_check.py` re-run after the push still reports **7/8**
-(`docs/clone_check.json`, 2026-11-09): `1640 passed, 6 skipped, 13 errors` in 159.5 s. Every error is in
+(`docs/clone_check_2026-11-09T14-19-14Z.json`, 2026-11-09): `1640 passed, 6 skipped, 13 errors` in 159.5 s. Every error is in
 `tests/test_deposit_bundle.py`, raised in that module's `manifest` fixture:
 
     RuntimeError: .../papers/build/01_developmental_structure_formation.pdf is missing.

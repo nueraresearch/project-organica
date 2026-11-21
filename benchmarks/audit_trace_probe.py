@@ -525,6 +525,12 @@ FORBIDDEN_COUNTERFACTUAL_PATTERNS = [
     r"\bhypothetical_retention\b",
 ]
 
+#: Reported by a check that had nothing to check.  A run that formed no belief,
+#: rendered no record or reconstructed no selection has not tested the claim, and
+#: `pass: True` for it is indistinguishable from a check that cannot fail.
+NOT_MEASURED = ("not measurable on this arm: no belief, record or selection was "
+                "available to audit, and a zero denominator cannot certify a pass")
+
 
 def render_trace_record(belief: dict, rank: int, total_candidates: int,
                         cap: int, nearest_discarded: dict | None = None,
@@ -902,11 +908,17 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
                 a1_fail += 1
 
             # --- A2: selection reconstruction ------------------------------
-            a2_ok = (set(reported_beliefs) == rec["kept_ids"]
-                     and set(reported_markers) == rec["kept_marker_ids"])
-            a2_checked += 1
-            if not a2_ok:
-                a2_fail += 1
+            # A cycle that reported nothing is not a selection to reconstruct:
+            # counting it would let an arm with no belief certify A2 by comparing
+            # two empty sets, which is how a broken auditor goes unnoticed.
+            if reported_beliefs or reported_markers:
+                a2_checked += 1
+                a2_ok = (set(reported_beliefs) == rec["kept_ids"]
+                         and set(reported_markers) == rec["kept_marker_ids"])
+                if not a2_ok:
+                    a2_fail += 1
+            else:
+                a2_ok = None  # nothing reported: no selection to reconstruct
 
             # --- A7: event-level attribution -------------------------------
             a7_errors = []
@@ -1095,17 +1107,22 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
         },
         "A1_evidence_replay_aggregate": {
             "beliefs_checked": a1_checked, "cycles_failing": a1_fail,
-            "pass": a1_fail == 0,
+            "pass": a1_checked > 0 and a1_fail == 0,
+            "not_measured": NOT_MEASURED if a1_checked == 0 else None,
             "scope": "aggregate counts only — the `precedes` table, not the "
                      "individual observations behind them",
         },
         "A2_selection_reconstruction": {
             "cycles_checked": a2_checked, "cycles_failing": a2_fail,
-            "pass": a2_fail == 0,
+            "pass": a2_checked > 0 and a2_fail == 0,
+            "not_measured": NOT_MEASURED if a2_checked == 0 else None,
         },
         "A7_event_level_attribution": {
             "beliefs_checked": a7_checked, "cycles_failing": a7_fail,
-            "pass": a7_fail == 0 and not edge_mismatches and not attributed_only,
+            "pass": (a7_checked > 0 and a7_fail == 0
+                     and not edge_mismatches and not attributed_only),
+            "not_measured": (NOT_MEASURED if a7_checked == 0 and a7_fail == 0
+                             and not edge_mismatches and not attributed_only else None),
             "aggregate_edges_checked": edges_checked,
             "edge_mismatches": edge_mismatches[:10],
             "attributed_but_absent_from_aggregate": attributed_only[:10],
@@ -1237,7 +1254,8 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
             },
         },
         "A5_field_honesty": {
-            "pass": len(a5_errors) == 0,
+            "pass": a5_records_checked > 0 and not a5_errors,
+            "not_measured": NOT_MEASURED if a5_records_checked == 0 else None,
             "records_checked": a5_records_checked,
             "errors": a5_errors[:10],
             "criterion": "Every numeric field in the trace record carries its exact "
@@ -1246,7 +1264,8 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
                          "counts or false contradiction claims.",
         },
         "A6_trace_counterfactual_separation": {
-            "pass": len(a6_errors) == 0,
+            "pass": a6_records_checked > 0 and not a6_errors,
+            "not_measured": NOT_MEASURED if a6_records_checked == 0 else None,
             "records_checked": a6_records_checked,
             "errors": a6_errors[:10],
             "criterion": "The trace contains no counterfactual field; any replay lives "
