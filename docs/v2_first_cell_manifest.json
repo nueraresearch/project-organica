@@ -1,0 +1,86 @@
+{
+  "kind": "v2_first_cell_run_manifest",
+  "id": "V2-FIRST-CELL-MANIFEST-1",
+  "date": "2026-11-19",
+  "status": "COMPLETED",
+  "command": "python -m benchmarks.v2_first_cell_runner --run",
+  "python": {
+    "version": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+    "version_info": [
+      3,
+      12,
+      3
+    ],
+    "executable": "/workspace/chats/41c104dc975752552e0b5d73/.venv/bin/python",
+    "platform": "Linux-6.1.102-x86_64-with-glibc2.39"
+  },
+  "inputs": {
+    "runner": {
+      "path": "benchmarks/v2_first_cell_runner.py",
+      "sha256": "9d25251e66d4c31b5dd6664604664d7e5396fa19b93c68191f204afe74eb9179"
+    },
+    "report": {
+      "path": "benchmarks/v2_first_cell_report.py",
+      "sha256": "e8920093798b95e206157e34d311116bd6264540f17083767bce6264d1b98d7f"
+    },
+    "gate_record": {
+      "path": "docs/v2_first_cell_gates.json",
+      "sha256": "67ad87c36566b5b33aeacea5cd53847469d8a441ea7038619c2dc51292a13a52"
+    },
+    "gate_suite": {
+      "path": "benchmarks/v2_first_cell_gates.py",
+      "sha256": "7d71a1f6c12b5beae35e830000197c925d621e432d8437c1c8a34719afe8b784"
+    },
+    "seed_declaration": {
+      "path": "docs/v2_first_cell_seeds.json",
+      "sha256": "85b02f7413f29fde8f15df619ac4f6285ba2461b4a430bda6bacb38ce700eb73"
+    },
+    "seed_reservations": {
+      "path": "docs/a1_seed_reservations.json",
+      "sha256": "29d81e3efd61d900b4d6f5606611e2415895acb052a10130d26261eb280dcf3f"
+    },
+    "decision_index": {
+      "path": "docs/decisions.json",
+      "sha256": "b9fd25b84c97ea0e19beb489424f68e818b61e2ef04f27fb0cb24cfc5422abc7"
+    },
+    "scorer_pin": {
+      "path": "docs/v2_first_cell_scorer_pin.json",
+      "sha256": "9d7d53796a150e5ee2f3855761617b3d9d3aaa127580a874cc6f0259673f9a18"
+    },
+    "readout": {
+      "path": "benchmarks/v2_first_cell_readout.py",
+      "sha256": "fd6f5152e5cef2cafe0d0cb36e2c7e20aa6883b160e7642ac8d600683b0c7c76"
+    },
+    "primitive": {
+      "path": "benchmarks/v2_primitive.py",
+      "sha256": "681657dddb395493291038f2df5d70cde3f130ca844efa2c6b9f6e73634b5711"
+    },
+    "engine_pin": {
+      "path": "docs/engine_pin.json",
+      "sha256": "375b7056304b54ac6980d2fed80ba76bd7a715082cc11fa2e2bc66161d553221"
+    },
+    "control": {
+      "path": "docs/v2_first_cell_control.json",
+      "sha256": null
+    }
+  },
+  "seeds": [
+    20910101,
+    20910102,
+    20910103,
+    20910104,
+    20910105,
+    20910106,
+    20910107,
+    20910108,
+    20910109,
+    20910110
+  ],
+  "artifacts": {
+    "marker": "/workspace/chats/41c104dc975752552e0b5d73/docs/v2_first_cell_run.json",
+    "raw_log": "/workspace/chats/41c104dc975752552e0b5d73/docs/v2_first_cell_run_log.json",
+    "result": "/workspace/chats/41c104dc975752552e0b5d73/docs/v2_first_cell_result.json"
+  },
+  "result_sha256": "6c67cb7ef92b4e6c96ef6959a20ce6eb5d21453770a2a80342b6153b38c21d8b",
+  "raw_log_sha256": "4a442b05db0d129173ccac3bf482a88adbe0a78bf29aca727267602a5fd555f9"
+}

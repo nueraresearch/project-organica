@@ -1,0 +1,29 @@
+{
+  "kind": "k2_block_grant",
+  "grant_id": "K2-BLOCK-20261118-A",
+  "granted_on": "2026-11-18",
+  "granted_by": "owner",
+  "authorizes": "k2-block",
+  "note": "Owner instruction in the 2026-11-18 session: run the K2 intervention block under the frozen passport.",
+  "block": {
+    "families": [
+      "K1",
+      "K2"
+    ],
+    "seeds": [
+      20261023,
+      20261024,
+      20261025,
+      20261026,
+      20261027,
+      20261028,
+      20261029,
+      20261030,
+      20261031,
+      20261032
+    ],
+    "cycles": 300,
+    "scale": 1,
+    "workers": 8
+  }
+}

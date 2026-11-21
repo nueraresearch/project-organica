@@ -1,0 +1,70 @@
+{
+ "kind": "constraint_registration",
+ "id": "CONSTRAINT-ASSERTION-PROVENANCE-1",
+ "constraint": "Assertion provenance - structures assert relations with no within-event evidence",
+ "status": "draft - WITHDRAWN AS WRITTEN after its pressure test on 2026-11-19; NOT REGISTERED, NO GRANT, ALLOCATES NOTHING",
+ "status_date": "2026-11-19",
+ "successor_to": "CONSTRAINT-K1-1, retired as an invalid attempt on 2026-11-19. This draft does not reopen, re-score or reinterpret that registration; it names a different mechanism and carries its own terms.",
+ "hypothesis": "On the shipped build every K1 gold pair is already recalled and roughly four of every five asserted pairs are false, so the deficit is not which relations are selected into a served window but whether an asserted relation has within-event support at all. The substrate records which tag pairs appear inside one event; a pair that never does is asserted on temporal adjacency alone, and adjacency across entity boundaries is exactly where the false pairs come from. Requiring within-event support should remove most of them while retaining every world pair, because a world pair's two tags co-occur inside an event by construction.",
+ "intervention": "One declared readout rule, assertion_scope = \"within_event\": a tag pair counts as asserted only if the substrate's co-occurrence graph holds that pair at count >= 1 at the cycle being scored. Applied in-process to the K1 endpoint's structure set. Single variable: the scope rule. No engine file, pin or version changes, and no other family's scoring changes, because the rule is declared for this endpoint alone - a filter that cannot move another family's score would be a guard that cannot fire.",
+ "endpoint": "paired K1 F1 difference (Organica minus the strongest-of-grid baseline) on a fresh seed block, with its 98.33% interval, read under the rule; precision reported beside it",
+ "comparator": "strongest-of-grid simple baseline, best configuration per seed",
+ "seed_block": "none fixed here. A fresh block must be reserved at grant time: reusing the Phase K ten seeds would reanalyse an endpoint whose value is already known (F1 0.312011, recall 1.000, precision 0.181818-0.189474), which is a reanalysis and not a confirmatory test.",
+ "decision_threshold": {
+  "pass": "F1 improves by at least 0.10 on the same-build gap of -0.623961 (F1 >= 0.412011), the recall guard holds on every seed, and the liveness gate passed before the criterion was read.",
+  "fail": "The liveness gate passed and F1 improves by less than 0.05; or the rule occurred and the recall guard fails on any seed.",
+  "inconclusive": "F1 improves by 0.05 to 0.10; or the liveness gate fails, in which case the intervention did not occur and no criterion is read."
+ },
+ "threshold_values": {
+  "baseline_gap": -0.623961,
+  "pass_min_improvement": 0.1,
+  "pass_max_k1_abs_change": 0.05,
+  "fail_below_improvement": 0.05,
+  "inconclusive_min_improvement": 0.05,
+  "inconclusive_max_improvement": 0.1
+ },
+ "threshold_rule": "Pre-registered, never estimated from the run being judged. The six keys are the ledger's fixed set: pass_max_k1_abs_change carries the guard bound and here is the recall allowance, since the floor of 0.95 is 1.000 - 0.05, so a precision gain bought by deleting true relations cannot pass. baseline_gap is the same-build 0.15.0 K1 gap measured by the 2026-11-19 replication, not the 0.9.0 value.",
+ "recall_guard": "Every seed's recall must stay at or above 0.95 and no world pair may be dropped on any seed. The guard can fire: a world pair whose tags never share an event at the scoring cycle is absent from the co-occurrence graph, so the rule is not a no-op by construction, and a rule that truncates instead of scoping drops true pairs wholesale.",
+ "liveness_gate": "Before any criterion is read, the rule must be shown live at the returned-edge-set resolution: on the committed fixture it must (a) remove at least one asserted pair, (b) retain all eighteen world pairs, and (c) leave the evidence of every retained pair unchanged. The check reads the edge set the endpoint scores, never the pre-filter candidate list. A rule that removes nothing did not occur, and the arm is VOID rather than a null result.",
+ "controls": [
+  {
+   "id": "N1-truncation-control",
+   "rule": "A top-N truncation removing the same number of asserted pairs must FAIL the recall guard, and the harness must show it failing.",
+   "why": "A harness that passes the truncation control is measuring truncation, not provenance. The control is the check that the endpoint can distinguish the mechanism from a deletion of equal size."
+  },
+  {
+   "id": "S1-scope-check",
+   "rule": "The rule's inputs are the report's structures and the substrate's co-occurrence graph only. A source check must show it never reads the gold set, the world's entity list, the family label or the seed.",
+   "why": "A rule that consults the gold set is a strawman in reverse: it wins by construction and measures nothing."
+  }
+ ],
+ "claim_ceiling": "Readout-side. A pass says the surviving structures contain a within-event-provenance subset that clears the bar; it does not say the engine asserts more precisely. A subject-side claim needs the rule inside the engine, with its own preregistration and a version bump (rule 22a).",
+ "build_items": [
+  "A gate module. k2_gate refuses a family set that is not exactly K1+K2 and refuses any intervention that is not a _natural_selection override, so this block cannot borrow it.",
+  "The readout hook: the rule must be a declared argument to the scoring path rather than a service subclass, so task_k3 needs no factory and the K2/K3 families are untouched by construction.",
+  "The liveness fixture: a committed candidate set holding at least one cross-entity pair, so the rule can both drop and retain, with the expected counts recorded before the run.",
+  "The truncation control arm, with its expected failure written down before the run."
+ ],
+ "does_not_allocate": "This draft allocates no seed, cell, grant or result and creates no ledger row. No cell may run under it, and no threshold, seed or comparator in it is in force until the owner registers it and issues a dated grant.",
+ "pressure_test": {
+  "date": "2026-11-19",
+  "cells": 0,
+  "report": "docs/ASSERTION-PROVENANCE-PRESSURE-TEST.md",
+  "outcome": "withdrawn as written: the rule is the campaign's strongest baseline, the recall guard cannot fire, the truncation control cannot fail, and the arm is dominated by the comparator that scores it",
+  "questions": [
+   {
+    "question": "does the recall guard have a firing condition?",
+    "answer": "no, not on this world family",
+    "basis": "The cooccurrence baseline - this rule applied to the raw table - recalls 1.000 on all ten K1 seeds at min_count 10 within a 75-cycle window, so all eighteen gold pairs are within-event pairs with count >= 10. Organica already asserts all eighteen and each such row is labelled is_cooccurrence, so the filter cannot drop a true pair. A cross-event gold relation would make the guard live; no K1 entity has one."
+   },
+   {
+    "question": "would the top-N truncation control fail?",
+    "answer": "no",
+    "basis": "The comparator covers the eighteen gold pairs with 19-23 pairs total (precision 0.782609-0.947368 at recall 1.000), so a truncation to the arm's retained count keeps room for every true pair whatever the ordering; and the gold pairs are the highest-count pairs in the world, so a count- or score-based truncation puts them where truncation keeps them."
+   }
+  ],
+  "domination": "The strongest-of-grid comparator IS a within-event cooccurrence model swept over window and count floor, mean F1 0.935972 against Organica's 0.312011 - the -0.623961 gap the ledger records. The filtered arm keeps a superset of that set (no count floor), so on every seed its precision and F1 are at most the comparator's. A fail would be arithmetic, not evidence about provenance.",
+  "bar_below_comparator": "The pass bar of 0.412011 sits 0.52 below the comparator's mean, so a pass would certify a change that still loses to a baseline the campaign already runs.",
+  "yield": "The information is present and the readout discards it: within-event evidence alone reaches F1 0.878049-0.972973 at precision 0.782609-0.947368 on the same seeds where the engine reaches 0.313043 at precision 0.185567. That is a build inside _build_predictions (engine change, version bump, own preregistration), not a readout-side constraint test."
+ }
+}

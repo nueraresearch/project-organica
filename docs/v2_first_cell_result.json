@@ -1,0 +1,155 @@
+{
+  "kind": "v2_first_cell_result",
+  "id": "V2-FIRST-CELL-RESULT-1",
+  "date": "2026-11-19",
+  "protocol": "docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md",
+  "scorer_pin": "docs/v2_first_cell_scorer_pin.json",
+  "scorer_pin_ok": true,
+  "outcome": "REVERSAL",
+  "gates": {
+    "A1": {
+      "status": "PASS",
+      "evidence": "canonicalisation rule: 5 sample paths, 3 keys, 0 mixed keys, 0 flips changed a key; smoke seed 20911101 (120 cycles, spent dry-run seed, not a cell seed): 1216 detected paths -> 107 keys over 107 distinct node sets, 0 mixed, 0 flip failures; committed regressions 177->158 with multiplicities {1: 139, 2: 19} and 138->125 reproduce; 0 id collisions. Scope: this gate does not replay the ten cell seeds; the runner replays each cell seed and applies this canonicalisation check to the experiment's own detection stream before any arm. Cell-stream check: 10 seeds replayed at 120 blocks; 16314 detected paths -> 1126 keys over 1126 distinct node sets; 0 mixed keys and 0 direction flips changed a key. This is the experiment's own detection stream, checked before any arm."
+    },
+    "A2": {
+      "status": "PASS",
+      "evidence": "I1-I5 pass on a temporary store: the id survived a version bump, a member change and a direction flip; ids came from a monotone counter (1, 2, 3, 4) and were not content-derived; retirement preserved 1 member and its id, and the next key got id 4; 5 non-integer or content addresses were rejected; an unknown id and a stale version both raised."
+    },
+    "A3": {
+      "status": "PASS",
+      "evidence": "M1-M5 pass on a temporary store with a bystander: add and remove left the bystander's resolved state byte-identical; a shared atom kept version 1 and its binding; a stale version and a non-member removal were rejected without moving the version; retirement kept 3 members and refused further mutation; the store owns only atoms, composite_ids, composites, members, tombstones and the frozen-graph guard can fire."
+    },
+    "A4": {
+      "status": "PASS",
+      "evidence": "reallocated base seed 20740101, 120 cycles: 115 of 158 keys admitted at m=2, 275 observed member references (the sizing model assumed 3 per composite, 345); the rebuilt store is 16 pages / 65536 bytes, at or below the 135168-byte budget; compaction reclaimed 0 atoms and left all 115 resolutions identical; tables atoms, composite_ids, composites, members, tombstones carry no history table."
+    },
+    "A5": {
+      "status": "PASS",
+      "evidence": "two builds from the spent smoke stream's 96 admissions produced identical ids, keys, members and versions; retiring id 96 left a tombstone and the next registration got id 97, so allocation is monotone and retirement never frees an id; the novel key quux|zorp was absent from the stream. Scope: the smoke stream, not the held base world."
+    }
+  },
+  "per_seed": [
+    {
+      "seed": 20910101,
+      "measurable": true,
+      "d": 0.004619,
+      "d_B": 0.010515,
+      "beta": {
+        "B": 1,
+        "C": 1
+      }
+    },
+    {
+      "seed": 20910102,
+      "measurable": true,
+      "d": 0.003242,
+      "d_B": 0.009951,
+      "beta": {
+        "B": 1,
+        "C": 1
+      }
+    },
+    {
+      "seed": 20910103,
+      "measurable": true,
+      "d": 0.003341,
+      "d_B": 0.013055,
+      "beta": {
+        "B": 1,
+        "C": 1
+      }
+    },
+    {
+      "seed": 20910104,
+      "measurable": true,
+      "d": 0.004002,
+      "d_B": 0.009014,
+      "beta": {
+        "B": 1,
+        "C": 1
+      }
+    },
+    {
+      "seed": 20910105,
+      "measurable": true,
+      "d": 0.00411,
+      "d_B": 0.015482,
+      "beta": {
+        "B": 1,
+        "C": 1
+      }
+    },
+    {
+      "seed": 20910106,
+      "measurable": true,
+      "d": 0.005688,
+      "d_B": 0.011783,
+      "beta": {
+        "B": 1,
+        "C": 1
+      }
+    },
+    {
+      "seed": 20910107,
+      "measurable": true,
+      "d": 0.004503,
+      "d_B": 0.013094,
+      "beta": {
+        "B": 1,
+        "C": 1
+      }
+    },
+    {
+      "seed": 20910108,
+      "measurable": true,
+      "d": 0.004084,
+      "d_B": 0.01125,
+      "beta": {
+        "B": 1,
+        "C": 1
+      }
+    },
+    {
+      "seed": 20910109,
+      "measurable": true,
+      "d": 0.003227,
+      "d_B": 0.008089,
+      "beta": {
+        "B": 1,
+        "C": 1
+      }
+    },
+    {
+      "seed": 20910110,
+      "measurable": true,
+      "d": 0.005171,
+      "d_B": 0.007142,
+      "beta": {
+        "B": 1,
+        "C": 1
+      }
+    }
+  ],
+  "interval": {
+    "mean": 0.004199,
+    "lo": 0.003617,
+    "hi": 0.00489,
+    "level": 0.99,
+    "resamples": 10000
+  },
+  "control": {
+    "status": "NOT RUN",
+    "seed": 20910101,
+    "intervention": "remove_member",
+    "composite_id": "not-run-target",
+    "removed_member": "not-run-edge",
+    "bystander_id": "not-run-bystander",
+    "metric": "not measured",
+    "detail": "no section 8 control record was supplied; the arm is secondary"
+  },
+  "void": null,
+  "engine_version": "0.15.0",
+  "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+  "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+  "runner": "__main__"
+}
