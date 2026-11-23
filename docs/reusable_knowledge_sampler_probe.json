@@ -8,9 +8,13 @@
     20261205
   ],
   "confirmatory_seeds_touched": false,
+  "engine_commit": "716da31be3f304715c3ecbd4063dcac44abb54e1",
+  "engine_sha256": "25843ded68f50e90ad04bd80df4ade86f57d31eb7ed61ef77d6d7f4fedfe4236",
+  "engine_version": "0.16.0",
   "formation_rng_rule": "seed XOR 0x5EEDC0DE",
   "kind": "reusable_knowledge_conditioned_sampler_probe",
   "method": "generator-only; no Organica engine, no memory database, no study cells",
+  "runner": "__main__",
   "seeds": [
     {
       "formation": {

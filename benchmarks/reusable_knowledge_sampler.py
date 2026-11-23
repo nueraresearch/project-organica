@@ -22,6 +22,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
+from benchmarks import engine_stamp
 from benchmarks.acquisition_compositional import (
     CELLS,
     EVENTS_PER_CYCLE,
@@ -354,6 +355,7 @@ def main() -> None:
         "all_transfer_floors_passed": all(w["transfer_audit"]["floor_passed"] for w in worlds),
     }
     out = ROOT / "docs" / "reusable_knowledge_sampler_probe.json"
+    summary = engine_stamp.stamp(summary)
     out.write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps({
         "artifact": str(out),

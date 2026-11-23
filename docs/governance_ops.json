@@ -136,7 +136,7 @@
       "decision:DECISION-0X-ENGINEERING-CHARTER": {
         "docs/0X-ENGINEERING-CHARTER.md": "a76d074b418450a48cc1aaafdde1f7ea0442846d7d175225fee456248104c73b",
         "ROADMAP.md": "4cfa17c36335db7f0c139654a0e38fc0fa2eeb439fa7eedcfcb58ae17e4971d6",
-        "CHANGELOG.md": "5819c51295515f9f5e63a307dac701c7bf9cfaec35a559fddae46776f038ee9e"
+        "CHANGELOG.md": "b6b3882c92b5e94f3a06ccae22afe7bbebefa8e738eec29c451e323fd01d4d31"
       },
       "decision:DECISION-A1-C1-CEILING": {
         "docs/A1-C1-CEILING-CONFLICT.md": "05be084f5606ef102e8c27259fd13555524fe6051274cc5ca5e55cbd18d168ac",
@@ -309,7 +309,7 @@
         "docs/AI-REVIEW-2026-11-02.md": "d43b96a497fd0c43537f62f3a8b2c6ecbf268295fd20bf39d3854d57a9d3165e",
         "docs/AI-REVIEW-2026-11-03.md": "1aef1c41bbb4f7d3ece7134d6dbff6065bfa79299f850918e680d641675eaf3e",
         "docs/AI-REVIEW-2026-11-03-chatgpt.md": "7fd3f5cf03da6f8dbadc027c9bcd49f9f083074c3ee2f71aadf3bb40e7dd3f05",
-        "docs/STAGE-B-PROTOCOL.md": "0d7535e1e3d1beeef0765ea4d2191ad6fdf22ef35dcc135c46c633e48710169a"
+        "docs/STAGE-B-PROTOCOL.md": "e0ca5424dcfb10c775db6686eb25bb7534bbaea979c04d6ab85d2fceae0217fc"
       },
       "decision:DECISION-STORE-TIME-ROLE-RECORD": {
         "docs/transfer_provenance.json": "d64aa6bbae1f9924aa914f6fca755440ed0ce72be2d8676f5fc2ffbca455dae9",
@@ -398,7 +398,7 @@
         "docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md": "1be11d417845a69f96800548b38c4f4311b5da9937efd0390d15c737aa8b5369",
         "benchmarks/v2_first_cell_runner.py": "9d25251e66d4c31b5dd6664604664d7e5396fa19b93c68191f204afe74eb9179",
         "tests/test_v2_first_cell_runner.py": "81a76c01007f7178133c299da5b10d86bca08fce56fc78de367579a66f82701b",
-        "CHANGELOG.md": "5819c51295515f9f5e63a307dac701c7bf9cfaec35a559fddae46776f038ee9e"
+        "CHANGELOG.md": "b6b3882c92b5e94f3a06ccae22afe7bbebefa8e738eec29c451e323fd01d4d31"
       },
       "decision:DECISION-V2-SCOPE": {
         "docs/V2-CAPACITY-DESIGN-BRIEF.md": "75e7688fd4deabda467069d63f8b7aaa2072311af8ac287fffe3d38b604f6b50",
