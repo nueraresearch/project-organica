@@ -11052,3 +11052,66 @@ Earlier CCRE baseline runs demonstrated that structures persist faithfully (TP =
 - **Causality Isolated:** Pruned Control exhibits $\text{TR} = 1.000$ (3.20 cycles), proving that acceleration is 100% caused by consolidated memory structures.
 - **Specificity Demonstrated:** Treatment ($1.00$ cycles, $\text{TR} = 3.200$) outperforms the Orthogonal Control ($1.40$ cycles, $\text{TR} = 2.286$).
 - **Verdict:** `REUSE_DEMONSTRATED` (TR = 3.200, TP = 26.00).
+
+## 193. The standalone conditioned sampler is recorded as it was written, after the in-harness one (2026-11-01; entered 2026-11-23)
+
+`benchmarks/reusable_knowledge_sampler.py` conditions the transition draw itself: a separate
+formation trajectory derived by `seed XOR 0x5EEDC0DE` under the same per-seed tag mapping and law,
+with every event stored, while the held-out test windows stay the unmodified generator trajectory
+for that seed. It reads the adopted pair from the feasibility artifact, checks it against the
+variant artifact, and refuses a wrong capacity, a wrong Gate F denominator or a drifted transfer
+floor rather than proceeding.
+
+It was written on 2026-11-01 against Revision 2 and held on a branch. In the meantime the
+in-harness sampler of §94 was committed in `benchmarks/reusable_knowledge.py`, Gate F was
+calibrated on five seeds, and the per-claim provenance rule closed the confirmatory set — all of
+which this module predates and none of which it touches. It entered the record on 2026-11-23, when
+the branch was merged up to master, and the section number was reassigned from 94 to 193 because
+94 was already taken by the harness build.
+
+**Generator-only check on `20261201–20261205`.** All 880 formation events are emitted and none of
+the 879 adjacent event pairs is one of the 32 withheld tag-pair relations. Both warmup and
+acquisition resample under the condition on every seed (warmup resamples 27, 36, 33, 32, 33). In
+the unmodified 50-cycle transfer windows the minima across the two withheld transitions are 40,
+48, 33, 32 and 30, all above the preregistered floor of 20. Ten sampler tests pass, and
+`docs/reusable_knowledge_sampler_probe.json` regenerates byte-for-byte.
+
+**What this is not.** No engine, database or study cell ran; no confirmatory seed was touched; no
+Gate F coverage was measured here. The text originally written with this section said Gate F, the
+scoring pass, the ceiling and the sweep "remain" — true of the branch it was written on, and
+superseded by §§94–98, so it is corrected here instead of carried forward.
+
+→ `benchmarks/reusable_knowledge_sampler.py`; `tests/test_reusable_knowledge_sampler.py`;
+`docs/reusable_knowledge_sampler_probe.json`; `docs/reusable_knowledge_variant.json`;
+`docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md` §21.
+
+## 194. The study's formation stream is the harness's, and the oracle now reproduces it (2026-11-23)
+
+**Which stream the study uses.** Every calibration number recorded in §16 and §94 — Gate F
+coverage, the transfer margins, the provenance counts — was produced by
+`benchmarks/reusable_knowledge.conditioned_formation_stream`. That function derives its draw as
+`random.Random(seed * 31 + 7)`, starts at the first cell, draws the transition kind from the
+regime-0 law, and resamples from the permitted transitions when the law would take a withheld one.
+**No study cell, calibration run or recorded number has used any other stream.**
+
+**What was wrong.** The standalone sampler recorded in §193 derived its own draw as
+`seed XOR 0x5EEDC0DE` and started at a randomly drawn cell. On seed 20261201 the two streams shared
+97 of 880 events — the coincidence of a small tag vocabulary, not agreement — so the module was a
+parallel implementation, not an oracle. **§193's seed rule is withdrawn.**
+
+**What changed.** The module now derives its draw with the study's own rule and starts at the same
+cell, and nothing else in it was relaxed: it still generates the stream itself rather than calling
+the harness, so the comparison is still between two implementations of one rule. On all five
+calibration seeds the oracle's 880 events and 880 cells now equal the study's event for event.
+
+**The check.** `test_the_oracle_reproduces_the_study_formation_stream` compares both streams on
+`20261201–20261205` and fails on any divergence; `test_the_oracle_check_can_fail` perturbs the
+derivation and requires the comparison to notice, so the check is not decoration. The probe
+regenerates byte for byte, with warmup resamples 29, 31, 25, 28, 28 and the transfer minima
+unchanged at 40, 48, 33, 32, 30 — those minima are properties of the frozen world, not of either
+stream. Sampler tests: twelve.
+
+→ `benchmarks/reusable_knowledge_sampler.py`; `benchmarks/reusable_knowledge.py`;
+`tests/test_reusable_knowledge_sampler.py`; `docs/reusable_knowledge_sampler_probe.json`;
+`docs/reusable_knowledge_variant.json`; `docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md` §21.
+

@@ -1008,3 +1008,48 @@ world's**. It does not establish that the organism's support is circular, and th
 establish that it is world-rooted either — the earlier phrasing claimed more than the data. Both
 remain open, and that is the question the next design has to answer, in a separately named variant
 with its own preregistration and fresh calibration seeds.
+
+---
+
+## 21. Build record — the standalone conditioned sampler (2026-11-01)
+
+**What this section is.** A build record for `benchmarks/reusable_knowledge_sampler.py`, a
+generator-level module written on 2026-11-01 against Revision 2, before §16 recorded the
+in-harness conditioned sampler and before Gate F was calibrated. It was held on a branch and
+entered the record on 2026-11-23, after §§16–20 had been committed; its section number was
+reassigned from 16 to 21 at that point. **No hypothesis, gate, threshold, seed set, criterion or
+verdict rule is changed by it, and it records no Gate F result.**
+
+**What it does.** The module conditions the transition draw itself under the declared pair, using
+a formation stream derived by `seed * 31 + 7` from the first cell — the study's own rule; the held-out test windows remain the
+unmodified generator trajectory for the same seed and tag mapping, and every event is stored, so
+no adjacency is manufactured. It validates the adopted pair against the feasibility artifact and
+the capacity, Gate F denominator and transfer floor against this variant artifact, refusing drift
+in any of them. It is the only reader of the `conditioned_sampler` and
+`transfer_floor_per_withheld_transition` keys in `docs/reusable_knowledge_variant.json`, which
+were added with it. **It is not the sampler §16 records:** that one conditions inside
+`benchmarks/reusable_knowledge.py`, and the two modules neither import nor depend on each other.
+
+**Generator-only verification, calibration seeds only.** All 880 formation events are generated
+and retained, and none of the 879 consecutive event pairs is one of the 32 withheld tag-pair
+relations. Conditioning occurs in warmup and acquisition on all five calibration seeds (warmup
+resamples 27, 36, 33, 32, 33). In the unmodified 50-cycle transfer window the minimum count across
+the two withheld transitions is 40, 48, 33, 32 and 30, all above the fixed floor of 20. The
+recorded probe is `docs/reusable_knowledge_sampler_probe.json` and regenerates byte-for-byte;
+twelve sampler tests pass, including the equivalence check against the study's stream.
+
+**Scope.** No Organica engine, memory database, Gate F coverage measurement or study cell was run
+for this module, and no confirmatory seed was touched. The build text as originally written listed
+Gate F, the scoring pass, the ceiling and the comparator sweep as remaining work; that was true of
+the branch it was written on and is superseded by §§16–20, so it is corrected here rather than
+carried forward. This is a second, independent implementation of the withholding rule at the
+generator level, retained because it was built and checked. It carries no verdict and supports
+none.
+
+**Correction (2026-11-23).** This section first described the formation stream as
+`seed XOR 0x5EEDC0DE` and counted ten tests. That stream was never consumed by a study cell, a
+calibration run or any recorded number: the study's formation stream is the harness's,
+`seed * 31 + 7` from the first cell, and it is what §16 and the calibration artifact measure. The
+module now derives that stream, so the oracle and the study are compared rather than merely
+adjacent; journal §194 records the change. Twelve tests pass, including the equivalence check.
+

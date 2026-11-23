@@ -24,6 +24,27 @@
   ],
   "privileged_reference": "cell-level latent-state counter (reported separately)"
  },
+ "conditioned_sampler": {
+  "formation_seed_rule": "seed * 31 + 7",
+  "formation_stream": "separate continuous trajectory under the same per-seed tag mapping and law",
+  "test_stream": "unmodified compositional generator draw with the same seed and tag mapping",
+  "withheld_transitions": [
+   {
+    "context_cell": [
+     0,
+     0
+    ],
+    "kind": "flip_p"
+   },
+   {
+    "context_cell": [
+     0,
+     1
+    ],
+    "kind": "flip_q"
+   }
+  ]
+ },
  "confirmatory_authorisation_requires": [
   "cap == 1000",
   "variant == V1.1-cap(1000)",
@@ -172,5 +193,6 @@
    218,
    218
   ]
- }
+ },
+ "transfer_floor_per_withheld_transition": 20
 }
