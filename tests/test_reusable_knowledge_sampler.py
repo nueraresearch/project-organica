@@ -5,6 +5,8 @@ import pytest
 
 from benchmarks import reusable_knowledge_sampler as sampler
 
+LAYER = "synthetic"  # generates compositional worlds; runs no engine cell
+
 
 class TestProtocolConfiguration:
     def test_reads_fixed_variant_and_relation_counts(self):
