@@ -7470,3 +7470,33 @@ Five build items are now enumerated in §10, with the parameters in
 → `docs/reusable_knowledge_variant.json`;
 `docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md` §4, §6, §10, §15.
 
+
+
+## §94 — The conditioned sampler is built; formation stays continuous and the old mask stays out
+
+The next build item was the sampler, because the earlier `trainable` mask generated a
+withheld event and then skipped its storage, creating a false adjacency. The new
+`benchmarks/reusable_knowledge_sampler.py` instead conditions the transition draw itself
+and stores every event. It reads the selected pair from the feasibility artifact, checks
+it against the variant configuration, and uses the declared `seed XOR 0x5EEDC0DE` stream
+for the conditioned formation trajectory. The held-out test windows remain the
+unmodified generator trajectory for the same seed and randomized tag mapping; these are
+separate trajectories within one latent world, not a continuous replay of the same path.
+
+**Generator-only check on `20261201–20261205`.** All 880 formation events are emitted;
+none of the 879 adjacent event pairs is one of the 32 withheld tag-pair relations. Both
+warmup and acquisition have conditioned resamples on every seed. The original
+50-cycle transfer windows contain at least 40, 48, 33, 32 and 30 instances respectively
+of the rarer withheld transition, all above the preregistered floor of 20. The ten
+sampler tests pass. The result is only about the sampler and these generated windows: it
+is not a Gate F assertion result and says nothing about whether Organica forms the 96
+available relations.
+
+No engine, database or study cell ran; no confirmatory seed was touched. Gate F, the
+held-out scoring pass, the ceiling, comparator sweep and calibration pass remain. The
+variant configuration and preregistration's implementation record were updated without
+changing a hypothesis, threshold, seed set or verdict rule.
+
+→ `benchmarks/reusable_knowledge_sampler.py`; `tests/test_reusable_knowledge_sampler.py`;
+`docs/reusable_knowledge_sampler_probe.json`; `docs/reusable_knowledge_variant.json`;
+`docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md` §16.

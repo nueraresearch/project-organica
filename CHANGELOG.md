@@ -30,6 +30,19 @@ there is nothing to check out.
 
 ## [0.11.0] — (unreleased)
 
+### Built — the conditioned reusable-knowledge sampler (2026-11-01)
+
+- Added `benchmarks/reusable_knowledge_sampler.py`, which conditions the two
+  preregistered transitions during warmup and acquisition without skipping events, and
+  validates the 96/32 relation partition against the committed configuration.
+- Generator-only verification on the five calibration seeds found no withheld transition
+  in formation and at least 30 instances of each withheld transition in each real
+  50-cycle transfer window. Ten tests pass. No engine, Gate F structure measurement or
+  study cell ran; the confirmatory seeds remain untouched.
+- Added `tests/test_reusable_knowledge_sampler.py` and
+  `docs/reusable_knowledge_sampler_probe.json`; updated the variant config and preregistration
+  implementation record.
+
 ### Recorded — the deposit package is decided, bundled, and not deposited (2026-10-31)
 
 - **The owner's direction:** *"do not deposit yet; use your best judgement on

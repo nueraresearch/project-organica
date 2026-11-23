@@ -504,3 +504,31 @@ old mask must not be reused. The five build items are listed in §10.
 **What this leaves in place.** The seed sets, §3.1's transfer rule and feasibility result,
 the 0.95 threshold, the 98.33 % paired bootstrap, the four existing stop rules, and every
 §9 limit. **No cell has run and the harness is still not built.**
+
+---
+
+## 16. Build record — conditioned sampler (2026-11-01)
+
+The conditioned sampler is implemented in `benchmarks/reusable_knowledge_sampler.py`.
+It reads the adopted transition pair from the feasibility artifact and validates it
+against `docs/reusable_knowledge_variant.json`; the capacity and Gate F denominator are
+validated against their machine-readable definitions. The conditioned formation path
+uses the same seed's randomized tag mapping and law, with its deterministic random stream
+derived by `seed XOR 0x5EEDC0DE`. The test stream remains the unmodified compositional
+generator draw for that seed. These are separate trajectories within the same per-seed
+latent world, and every arm/comparator must receive identical formation and test streams.
+
+**Generator-only verification, calibration seeds only.** All 880 formation events are
+generated and retained; no forbidden transition appears in any of the 879 consecutive
+event pairs. Conditioning occurs in both warmup and acquisition for all five calibration
+seeds. In the unmodified 50-cycle transfer window, the minimum count across the two
+withheld transitions is respectively **40, 48, 33, 32, and 30**, all above the fixed
+floor of 20. The test is recorded in
+`docs/reusable_knowledge_sampler_probe.json`; ten sampler tests pass. No Organica engine,
+memory database, Gate F coverage measurement, or study cell was run, and no confirmatory
+seed was touched.
+
+This closes only the conditioned-sampler build item. Gate F with its precision companion,
+the held-out scoring pass, the latent-rule holder ceiling, the comparator sweep, and the
+calibration Gate F pass remain. No hypothesis, threshold, seed set, or verdict rule is
+changed by this build record.
