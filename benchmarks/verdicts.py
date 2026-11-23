@@ -43,6 +43,7 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
 
 from benchmarks.metric_sensitivity import metric_value  # noqa: E402
+from benchmarks import engine_stamp
 
 # The five predictions from the pre-registration's §6, with the colony each
 # one is about and the metrics it is about.
@@ -320,7 +321,7 @@ def main() -> None:
         ids = buckets.get(k, [])
         print(f"  {k:<18} {len(ids):>2}  {', '.join(ids) if ids else '-'}")
 
-    Path(args.out).write_text(json.dumps({
+    Path(args.out).write_text(json.dumps(engine_stamp.stamp({
         "matrix_artifact": args.matrix,
         "cycles": doc.get("cycles"),
         "stimulus": doc.get("stimulus"),
@@ -335,7 +336,7 @@ def main() -> None:
         },
         "results": results,
         "buckets": buckets,
-    }, indent=2), encoding="utf-8")
+    }), indent=2), encoding="utf-8")
     print(f"\nwrote {args.out}")
 
 

@@ -1,0 +1,10 @@
+{
+  "kind": "engine_lineage",
+  "policy": "A stored artifact may pass its build check on a successor only when a recorded link joins the two, the link names an ADOPTED decision, and the link's proof is exactly the block-canary digests recorded on the predecessor build. The canary check re-runs those cells on the successor, so a link cannot bless a build that serves different rows.",
+  "links": [],
+  "recorded": "2026-11-11",
+  "engine_version": "0.15.0",
+  "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+  "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+  "runner": "__main__"
+}

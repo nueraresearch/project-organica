@@ -1,0 +1,1309 @@
+{
+  "what_this_is": "Audit of the transition construct: measurement properties of onset, slope and accumulated exposure over the 240 stored Phase L records. No behavioural endpoint is read; no engine, no seed, no coefficient, no confirmatory run.",
+  "source": {
+    "path": "docs/phase_l_results.json",
+    "sha256": "f9378feb1cd234850cd457b671afd24412263a076519a2aa82fe4f80c038754d",
+    "records": 240
+  },
+  "units": {
+    "late_pairs_per_record": 18,
+    "one_pair": 0.05555555555555555,
+    "arrival_cycle": 150,
+    "sustained_cycles": 10,
+    "min_support_cycles": 30,
+    "truncate_at": 450
+  },
+  "definitions": {
+    "onset": "first cycle from which 10 consecutive readings are non-zero",
+    "slope": "least-squares slope in pairs per 100 cycles, fitted over [onset, end), undefined without an onset",
+    "exposure": "mean DI over [150, end) expressed in pairs -- the accumulated stock, standardised by the interval length",
+    "band_entry": "cycle from which the run never again differs from its own final value by a whole pair (retrospective: uses the final value, which is where the run stopped)",
+    "band_persistence": "cycles from band_entry to the end of the run",
+    "remaining_trend": "value at the last cycle minus the value 100 cycles earlier, in pairs"
+  },
+  "per_config": {
+    "1:1": {
+      "records": 30,
+      "onset_cycles": {
+        "n": 0,
+        "median": null,
+        "min": null,
+        "max": null,
+        "sd": null,
+        "distinct": 0
+      },
+      "slope_pairs_per_100_cycles": {
+        "n": 0,
+        "median": null,
+        "min": null,
+        "max": null,
+        "sd": null,
+        "distinct": 0
+      },
+      "exposure_pairs": {
+        "n": 30,
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.011111,
+        "sd": 0.001995,
+        "distinct": 2
+      },
+      "area_pair_cycles": {
+        "n": 30,
+        "median": 0.0,
+        "min": 0.0,
+        "max": 5.000022,
+        "sd": 0.897531,
+        "distinct": 2
+      },
+      "censored_onset": 30
+    },
+    "1:2": {
+      "records": 30,
+      "onset_cycles": {
+        "n": 0,
+        "median": null,
+        "min": null,
+        "max": null,
+        "sd": null,
+        "distinct": 0
+      },
+      "slope_pairs_per_100_cycles": {
+        "n": 0,
+        "median": null,
+        "min": null,
+        "max": null,
+        "sd": null,
+        "distinct": 0
+      },
+      "exposure_pairs": {
+        "n": 30,
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.006667,
+        "sd": 0.001197,
+        "distinct": 2
+      },
+      "area_pair_cycles": {
+        "n": 30,
+        "median": 0.0,
+        "min": 0.0,
+        "max": 3.000006,
+        "sd": 0.538518,
+        "distinct": 2
+      },
+      "censored_onset": 30
+    },
+    "1:3": {
+      "records": 30,
+      "onset_cycles": {
+        "n": 0,
+        "median": null,
+        "min": null,
+        "max": null,
+        "sd": null,
+        "distinct": 0
+      },
+      "slope_pairs_per_100_cycles": {
+        "n": 0,
+        "median": null,
+        "min": null,
+        "max": null,
+        "sd": null,
+        "distinct": 0
+      },
+      "exposure_pairs": {
+        "n": 30,
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.026667,
+        "sd": 0.004787,
+        "distinct": 2
+      },
+      "area_pair_cycles": {
+        "n": 30,
+        "median": 0.0,
+        "min": 0.0,
+        "max": 12.000024,
+        "sd": 2.15407,
+        "distinct": 2
+      },
+      "censored_onset": 30
+    },
+    "1:4": {
+      "records": 30,
+      "onset_cycles": {
+        "n": 0,
+        "median": null,
+        "min": null,
+        "max": null,
+        "sd": null,
+        "distinct": 0
+      },
+      "slope_pairs_per_100_cycles": {
+        "n": 0,
+        "median": null,
+        "min": null,
+        "max": null,
+        "sd": null,
+        "distinct": 0
+      },
+      "exposure_pairs": {
+        "n": 30,
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.004444,
+        "sd": 0.000798,
+        "distinct": 2
+      },
+      "area_pair_cycles": {
+        "n": 30,
+        "median": 0.0,
+        "min": 0.0,
+        "max": 2.000016,
+        "sd": 0.359014,
+        "distinct": 2
+      },
+      "censored_onset": 30
+    },
+    "2:1": {
+      "records": 30,
+      "onset_cycles": {
+        "n": 29,
+        "median": 539,
+        "min": 475,
+        "max": 589,
+        "sd": 27.339022,
+        "distinct": 22
+      },
+      "slope_pairs_per_100_cycles": {
+        "n": 26,
+        "median": 4.705969,
+        "min": 0.0,
+        "max": 9.65659,
+        "sd": 2.572611,
+        "distinct": 25
+      },
+      "exposure_pairs": {
+        "n": 30,
+        "median": 0.313334,
+        "min": 0.0,
+        "max": 0.964445,
+        "sd": 0.252971,
+        "distinct": 30
+      },
+      "area_pair_cycles": {
+        "n": 30,
+        "median": 141.000165,
+        "min": 0.0,
+        "max": 434.000322,
+        "sd": 113.836747,
+        "distinct": 30
+      },
+      "censored_onset": 1
+    },
+    "3:1": {
+      "records": 30,
+      "onset_cycles": {
+        "n": 30,
+        "median": 404.0,
+        "min": 342,
+        "max": 445,
+        "sd": 25.093071,
+        "distinct": 23
+      },
+      "slope_pairs_per_100_cycles": {
+        "n": 30,
+        "median": 6.276026,
+        "min": 4.140178,
+        "max": 8.612499,
+        "sd": 1.077846,
+        "distinct": 30
+      },
+      "exposure_pairs": {
+        "n": 30,
+        "median": 3.653333,
+        "min": 2.208889,
+        "max": 4.4,
+        "sd": 0.569808,
+        "distinct": 30
+      },
+      "area_pair_cycles": {
+        "n": 30,
+        "median": 1644.000048,
+        "min": 994.000212,
+        "max": 1980.000144,
+        "sd": 256.413457,
+        "distinct": 30
+      },
+      "censored_onset": 0
+    },
+    "4:1": {
+      "records": 30,
+      "onset_cycles": {
+        "n": 30,
+        "median": 362.0,
+        "min": 310,
+        "max": 391,
+        "sd": 19.300432,
+        "distinct": 27
+      },
+      "slope_pairs_per_100_cycles": {
+        "n": 30,
+        "median": 5.208314,
+        "min": 3.682187,
+        "max": 7.213574,
+        "sd": 0.880211,
+        "distinct": 30
+      },
+      "exposure_pairs": {
+        "n": 30,
+        "median": 5.285557,
+        "min": 4.268889,
+        "max": 5.917778,
+        "sd": 0.402505,
+        "distinct": 30
+      },
+      "area_pair_cycles": {
+        "n": 30,
+        "median": 2378.500605,
+        "min": 1921.000194,
+        "max": 2663.000244,
+        "sd": 181.127279,
+        "distinct": 30
+      },
+      "censored_onset": 0
+    },
+    "6:1": {
+      "records": 30,
+      "onset_cycles": {
+        "n": 30,
+        "median": 329.0,
+        "min": 289,
+        "max": 354,
+        "sd": 12.430965,
+        "distinct": 18
+      },
+      "slope_pairs_per_100_cycles": {
+        "n": 30,
+        "median": 3.635553,
+        "min": 2.031108,
+        "max": 4.626407,
+        "sd": 0.545716,
+        "distinct": 30
+      },
+      "exposure_pairs": {
+        "n": 30,
+        "median": 6.445556,
+        "min": 5.342223,
+        "max": 7.328889,
+        "sd": 0.436895,
+        "distinct": 30
+      },
+      "area_pair_cycles": {
+        "n": 30,
+        "median": 2900.500128,
+        "min": 2404.000296,
+        "max": 3297.999942,
+        "sd": 196.602837,
+        "distinct": 30
+      },
+      "censored_onset": 0
+    }
+  },
+  "variance_share_within_config": {
+    "onset": 0.070794,
+    "slope_pairs_per_100_cycles": 0.654804,
+    "exposure_pairs": 0.014242,
+    "settled_reading_pairs": 0.027228
+  },
+  "overlap": {
+    "onset_vs_exposure_pairs_movers": -0.9324653774812734,
+    "onset_vs_slope_movers": 0.35556956926686684,
+    "slope_vs_exposure_movers": -0.34406324542262734
+  },
+  "truncation": {
+    "onset_defined_at_450": 88,
+    "onset_defined_full": 119,
+    "slope_defined_at_450": 84,
+    "exposure_rank_stability_450": 0.9246831165717517,
+    "slope_rank_stability_450": -0.3150349296345044,
+    "onset_rank_stability_450": 1.0
+  },
+  "settling_criteria": {
+    "population": 119,
+    "entry_band_pairs": 1,
+    "entry_median_cycle": 587,
+    "entry_max_cycle": 599,
+    "persistence_median_cycles": 13,
+    "persistence_at_least": {
+      "30": 37,
+      "50": 17,
+      "100": 4
+    },
+    "remaining_trend_pairs_last_100": {
+      "median": 1.999998,
+      "min": -3.999996,
+      "max": 9.0,
+      "zero_trend": 23,
+      "at_least_one_pair": 96,
+      "at_least_two_pairs": 96
+    },
+    "satisfy_persistence_50_and_zero_trend": 4
+  },
+  "onset_conventions": {
+    "sustained_cycles": 10,
+    "anchor": "first cycle of the qualifying run, never the first non-zero reading",
+    "confirmation": "the anchor is confirmed only once the 10th consecutive reading has been recorded",
+    "available_from": "the confirmation cycle (anchor + 9) onward; the predictor does not exist before then",
+    "assigned_retrospectively": true,
+    "interruption_before_confirmation": "a run shorter than 10 ended by a zero does not qualify, does not move the anchor, and the search resumes at the cycle after the zero",
+    "interruption_after_confirmation": "does not move a confirmed onset; the event is the first sustained emergence",
+    "missing_reading": "counts as not qualifying, so it breaks the run; a missing reading is never read as non-zero",
+    "end_boundary": "a run still non-zero where the record ends, with fewer than 10 readings since its last zero, is censored -- never an onset at the boundary"
+  },
+  "onset_convention_counts": {
+    "records": 240,
+    "trajectory_lengths": [
+      600
+    ],
+    "records_with_missing_readings": 0,
+    "records_with_no_nonzero_reading": 117,
+    "records_where_anchor_is_first_nonzero": 99,
+    "records_where_anchor_follows_first_nonzero": 20,
+    "max_anchor_lag_cycles": 279,
+    "interrupted_attempts_total": 2353,
+    "records_with_an_interrupted_attempt": 24,
+    "censored_end_of_record": 0,
+    "censored_interrupted": 4,
+    "censored_no_nonzero_reading": 117,
+    "latest_confirmation_cycle": 598
+  },
+  "onset_distribution": {
+    "1:1": {
+      "n": 0,
+      "median": null,
+      "sd": null,
+      "min": null,
+      "max": null,
+      "p25": null,
+      "p75": null,
+      "iqr": null,
+      "distinct": 0,
+      "share_within_sd_threshold_of_median": null
+    },
+    "1:2": {
+      "n": 0,
+      "median": null,
+      "sd": null,
+      "min": null,
+      "max": null,
+      "p25": null,
+      "p75": null,
+      "iqr": null,
+      "distinct": 0,
+      "share_within_sd_threshold_of_median": null
+    },
+    "1:3": {
+      "n": 0,
+      "median": null,
+      "sd": null,
+      "min": null,
+      "max": null,
+      "p25": null,
+      "p75": null,
+      "iqr": null,
+      "distinct": 0,
+      "share_within_sd_threshold_of_median": null
+    },
+    "1:4": {
+      "n": 0,
+      "median": null,
+      "sd": null,
+      "min": null,
+      "max": null,
+      "p25": null,
+      "p75": null,
+      "iqr": null,
+      "distinct": 0,
+      "share_within_sd_threshold_of_median": null
+    },
+    "2:1": {
+      "n": 29,
+      "median": 539,
+      "sd": 27.339022,
+      "min": 475,
+      "max": 589,
+      "p25": 518.0,
+      "p75": 555.0,
+      "iqr": 37.0,
+      "distinct": 22,
+      "share_within_sd_threshold_of_median": 0.206897
+    },
+    "3:1": {
+      "n": 30,
+      "median": 404.0,
+      "sd": 25.093071,
+      "min": 342,
+      "max": 445,
+      "p25": 388.75,
+      "p75": 414.75,
+      "iqr": 26.0,
+      "distinct": 23,
+      "share_within_sd_threshold_of_median": 0.266667
+    },
+    "4:1": {
+      "n": 30,
+      "median": 362.0,
+      "sd": 19.300432,
+      "min": 310,
+      "max": 391,
+      "p25": 351.25,
+      "p75": 368.5,
+      "iqr": 17.25,
+      "distinct": 27,
+      "share_within_sd_threshold_of_median": 0.266667
+    },
+    "6:1": {
+      "n": 30,
+      "median": 329.0,
+      "sd": 12.430965,
+      "min": 289,
+      "max": 354,
+      "p25": 322.0,
+      "p75": 336.0,
+      "iqr": 14.0,
+      "distinct": 18,
+      "share_within_sd_threshold_of_median": 0.166667
+    }
+  },
+  "sustention_sensitivity": {
+    "5": {
+      "defined": 119,
+      "median": 376,
+      "sd": 81.606338,
+      "min": 289,
+      "max": 589,
+      "median_shift_cycles_vs_10": 0,
+      "max_abs_shift_cycles_vs_10": 25,
+      "records_whose_onset_moves": 3
+    },
+    "10": {
+      "defined": 119,
+      "median": 376,
+      "sd": 82.000816,
+      "min": 289,
+      "max": 589,
+      "median_shift_cycles_vs_10": 0,
+      "max_abs_shift_cycles_vs_10": 0,
+      "records_whose_onset_moves": 0
+    },
+    "20": {
+      "defined": 117,
+      "median": 374,
+      "sd": 79.311908,
+      "min": 289,
+      "max": 574,
+      "median_shift_cycles_vs_10": 0,
+      "max_abs_shift_cycles_vs_10": 13,
+      "records_whose_onset_moves": 1
+    }
+  },
+  "threshold_rank_sensitivity": {
+    "rules_swept": [
+      5,
+      10,
+      20
+    ],
+    "declared_rule": 10,
+    "per_config": {
+      "1:1": {
+        "records": 30,
+        "comparisons": {
+          "5_vs_10": {
+            "spearman": null,
+            "records_defined_under_both": 0,
+            "records_defined_under_the_shorter_rule_only": 0,
+            "records_defined_under_the_longer_rule_only": 0,
+            "records_whose_eligibility_changes": 0,
+            "comparable_pairs": 0,
+            "pairwise_rank_inversions": 0,
+            "inversion_share_of_comparable_pairs": null,
+            "max_rank_shift": null
+          },
+          "10_vs_20": {
+            "spearman": null,
+            "records_defined_under_both": 0,
+            "records_defined_under_the_shorter_rule_only": 0,
+            "records_defined_under_the_longer_rule_only": 0,
+            "records_whose_eligibility_changes": 0,
+            "comparable_pairs": 0,
+            "pairwise_rank_inversions": 0,
+            "inversion_share_of_comparable_pairs": null,
+            "max_rank_shift": null
+          },
+          "5_vs_20": {
+            "spearman": null,
+            "records_defined_under_both": 0,
+            "records_defined_under_the_shorter_rule_only": 0,
+            "records_defined_under_the_longer_rule_only": 0,
+            "records_whose_eligibility_changes": 0,
+            "comparable_pairs": 0,
+            "pairwise_rank_inversions": 0,
+            "inversion_share_of_comparable_pairs": null,
+            "max_rank_shift": null
+          }
+        },
+        "criteria_under_each_rule": {
+          "5": {
+            "defined_share": 0.0,
+            "defined_share_pass": false,
+            "median": null,
+            "sd_cycles": null,
+            "sd_pass": false,
+            "pass": false
+          },
+          "10": {
+            "defined_share": 0.0,
+            "defined_share_pass": false,
+            "median": null,
+            "sd_cycles": null,
+            "sd_pass": false,
+            "pass": false
+          },
+          "20": {
+            "defined_share": 0.0,
+            "defined_share_pass": false,
+            "median": null,
+            "sd_cycles": null,
+            "sd_pass": false,
+            "pass": false
+          }
+        },
+        "conclusions_change": false
+      },
+      "1:2": {
+        "records": 30,
+        "comparisons": {
+          "5_vs_10": {
+            "spearman": null,
+            "records_defined_under_both": 0,
+            "records_defined_under_the_shorter_rule_only": 0,
+            "records_defined_under_the_longer_rule_only": 0,
+            "records_whose_eligibility_changes": 0,
+            "comparable_pairs": 0,
+            "pairwise_rank_inversions": 0,
+            "inversion_share_of_comparable_pairs": null,
+            "max_rank_shift": null
+          },
+          "10_vs_20": {
+            "spearman": null,
+            "records_defined_under_both": 0,
+            "records_defined_under_the_shorter_rule_only": 0,
+            "records_defined_under_the_longer_rule_only": 0,
+            "records_whose_eligibility_changes": 0,
+            "comparable_pairs": 0,
+            "pairwise_rank_inversions": 0,
+            "inversion_share_of_comparable_pairs": null,
+            "max_rank_shift": null
+          },
+          "5_vs_20": {
+            "spearman": null,
+            "records_defined_under_both": 0,
+            "records_defined_under_the_shorter_rule_only": 0,
+            "records_defined_under_the_longer_rule_only": 0,
+            "records_whose_eligibility_changes": 0,
+            "comparable_pairs": 0,
+            "pairwise_rank_inversions": 0,
+            "inversion_share_of_comparable_pairs": null,
+            "max_rank_shift": null
+          }
+        },
+        "criteria_under_each_rule": {
+          "5": {
+            "defined_share": 0.0,
+            "defined_share_pass": false,
+            "median": null,
+            "sd_cycles": null,
+            "sd_pass": false,
+            "pass": false
+          },
+          "10": {
+            "defined_share": 0.0,
+            "defined_share_pass": false,
+            "median": null,
+            "sd_cycles": null,
+            "sd_pass": false,
+            "pass": false
+          },
+          "20": {
+            "defined_share": 0.0,
+            "defined_share_pass": false,
+            "median": null,
+            "sd_cycles": null,
+            "sd_pass": false,
+            "pass": false
+          }
+        },
+        "conclusions_change": false
+      },
+      "1:3": {
+        "records": 30,
+        "comparisons": {
+          "5_vs_10": {
+            "spearman": null,
+            "records_defined_under_both": 0,
+            "records_defined_under_the_shorter_rule_only": 0,
+            "records_defined_under_the_longer_rule_only": 0,
+            "records_whose_eligibility_changes": 0,
+            "comparable_pairs": 0,
+            "pairwise_rank_inversions": 0,
+            "inversion_share_of_comparable_pairs": null,
+            "max_rank_shift": null
+          },
+          "10_vs_20": {
+            "spearman": null,
+            "records_defined_under_both": 0,
+            "records_defined_under_the_shorter_rule_only": 0,
+            "records_defined_under_the_longer_rule_only": 0,
+            "records_whose_eligibility_changes": 0,
+            "comparable_pairs": 0,
+            "pairwise_rank_inversions": 0,
+            "inversion_share_of_comparable_pairs": null,
+            "max_rank_shift": null
+          },
+          "5_vs_20": {
+            "spearman": null,
+            "records_defined_under_both": 0,
+            "records_defined_under_the_shorter_rule_only": 0,
+            "records_defined_under_the_longer_rule_only": 0,
+            "records_whose_eligibility_changes": 0,
+            "comparable_pairs": 0,
+            "pairwise_rank_inversions": 0,
+            "inversion_share_of_comparable_pairs": null,
+            "max_rank_shift": null
+          }
+        },
+        "criteria_under_each_rule": {
+          "5": {
+            "defined_share": 0.0,
+            "defined_share_pass": false,
+            "median": null,
+            "sd_cycles": null,
+            "sd_pass": false,
+            "pass": false
+          },
+          "10": {
+            "defined_share": 0.0,
+            "defined_share_pass": false,
+            "median": null,
+            "sd_cycles": null,
+            "sd_pass": false,
+            "pass": false
+          },
+          "20": {
+            "defined_share": 0.0,
+            "defined_share_pass": false,
+            "median": null,
+            "sd_cycles": null,
+            "sd_pass": false,
+            "pass": false
+          }
+        },
+        "conclusions_change": false
+      },
+      "1:4": {
+        "records": 30,
+        "comparisons": {
+          "5_vs_10": {
+            "spearman": null,
+            "records_defined_under_both": 0,
+            "records_defined_under_the_shorter_rule_only": 0,
+            "records_defined_under_the_longer_rule_only": 0,
+            "records_whose_eligibility_changes": 0,
+            "comparable_pairs": 0,
+            "pairwise_rank_inversions": 0,
+            "inversion_share_of_comparable_pairs": null,
+            "max_rank_shift": null
+          },
+          "10_vs_20": {
+            "spearman": null,
+            "records_defined_under_both": 0,
+            "records_defined_under_the_shorter_rule_only": 0,
+            "records_defined_under_the_longer_rule_only": 0,
+            "records_whose_eligibility_changes": 0,
+            "comparable_pairs": 0,
+            "pairwise_rank_inversions": 0,
+            "inversion_share_of_comparable_pairs": null,
+            "max_rank_shift": null
+          },
+          "5_vs_20": {
+            "spearman": null,
+            "records_defined_under_both": 0,
+            "records_defined_under_the_shorter_rule_only": 0,
+            "records_defined_under_the_longer_rule_only": 0,
+            "records_whose_eligibility_changes": 0,
+            "comparable_pairs": 0,
+            "pairwise_rank_inversions": 0,
+            "inversion_share_of_comparable_pairs": null,
+            "max_rank_shift": null
+          }
+        },
+        "criteria_under_each_rule": {
+          "5": {
+            "defined_share": 0.0,
+            "defined_share_pass": false,
+            "median": null,
+            "sd_cycles": null,
+            "sd_pass": false,
+            "pass": false
+          },
+          "10": {
+            "defined_share": 0.0,
+            "defined_share_pass": false,
+            "median": null,
+            "sd_cycles": null,
+            "sd_pass": false,
+            "pass": false
+          },
+          "20": {
+            "defined_share": 0.0,
+            "defined_share_pass": false,
+            "median": null,
+            "sd_cycles": null,
+            "sd_pass": false,
+            "pass": false
+          }
+        },
+        "conclusions_change": false
+      },
+      "2:1": {
+        "records": 30,
+        "comparisons": {
+          "5_vs_10": {
+            "spearman": 0.9897468252253238,
+            "records_defined_under_both": 29,
+            "records_defined_under_the_shorter_rule_only": 0,
+            "records_defined_under_the_longer_rule_only": 0,
+            "records_whose_eligibility_changes": 0,
+            "comparable_pairs": 406,
+            "pairwise_rank_inversions": 5,
+            "inversion_share_of_comparable_pairs": 0.012315,
+            "max_rank_shift": 6.0
+          },
+          "10_vs_20": {
+            "spearman": 0.9872953742629126,
+            "records_defined_under_both": 27,
+            "records_defined_under_the_shorter_rule_only": 2,
+            "records_defined_under_the_longer_rule_only": 0,
+            "records_whose_eligibility_changes": 2,
+            "comparable_pairs": 351,
+            "pairwise_rank_inversions": 5,
+            "inversion_share_of_comparable_pairs": 0.014245,
+            "max_rank_shift": 6.0
+          },
+          "5_vs_20": {
+            "spearman": 0.9721290474245746,
+            "records_defined_under_both": 27,
+            "records_defined_under_the_shorter_rule_only": 2,
+            "records_defined_under_the_longer_rule_only": 0,
+            "records_whose_eligibility_changes": 2,
+            "comparable_pairs": 351,
+            "pairwise_rank_inversions": 10,
+            "inversion_share_of_comparable_pairs": 0.02849,
+            "max_rank_shift": 6.0
+          }
+        },
+        "criteria_under_each_rule": {
+          "5": {
+            "defined_share": 0.966667,
+            "defined_share_pass": true,
+            "median": 539,
+            "sd_cycles": 26.81535,
+            "sd_pass": true,
+            "pass": true
+          },
+          "10": {
+            "defined_share": 0.966667,
+            "defined_share_pass": true,
+            "median": 539,
+            "sd_cycles": 27.339022,
+            "sd_pass": true,
+            "pass": true
+          },
+          "20": {
+            "defined_share": 0.9,
+            "defined_share_pass": true,
+            "median": 539,
+            "sd_cycles": 24.6502,
+            "sd_pass": true,
+            "pass": true
+          }
+        },
+        "conclusions_change": false
+      },
+      "3:1": {
+        "records": 30,
+        "comparisons": {
+          "5_vs_10": {
+            "spearman": 0.9791271408242984,
+            "records_defined_under_both": 30,
+            "records_defined_under_the_shorter_rule_only": 0,
+            "records_defined_under_the_longer_rule_only": 0,
+            "records_whose_eligibility_changes": 0,
+            "comparable_pairs": 435,
+            "pairwise_rank_inversions": 10,
+            "inversion_share_of_comparable_pairs": 0.022989,
+            "max_rank_shift": 9.0
+          },
+          "10_vs_20": {
+            "spearman": 1.0,
+            "records_defined_under_both": 30,
+            "records_defined_under_the_shorter_rule_only": 0,
+            "records_defined_under_the_longer_rule_only": 0,
+            "records_whose_eligibility_changes": 0,
+            "comparable_pairs": 435,
+            "pairwise_rank_inversions": 0,
+            "inversion_share_of_comparable_pairs": 0.0,
+            "max_rank_shift": 0.0
+          },
+          "5_vs_20": {
+            "spearman": 0.9791271408242984,
+            "records_defined_under_both": 30,
+            "records_defined_under_the_shorter_rule_only": 0,
+            "records_defined_under_the_longer_rule_only": 0,
+            "records_whose_eligibility_changes": 0,
+            "comparable_pairs": 435,
+            "pairwise_rank_inversions": 10,
+            "inversion_share_of_comparable_pairs": 0.022989,
+            "max_rank_shift": 9.0
+          }
+        },
+        "criteria_under_each_rule": {
+          "5": {
+            "defined_share": 1.0,
+            "defined_share_pass": true,
+            "median": 404.0,
+            "sd_cycles": 24.773216,
+            "sd_pass": true,
+            "pass": true
+          },
+          "10": {
+            "defined_share": 1.0,
+            "defined_share_pass": true,
+            "median": 404.0,
+            "sd_cycles": 25.093071,
+            "sd_pass": true,
+            "pass": true
+          },
+          "20": {
+            "defined_share": 1.0,
+            "defined_share_pass": true,
+            "median": 404.0,
+            "sd_cycles": 25.093071,
+            "sd_pass": true,
+            "pass": true
+          }
+        },
+        "conclusions_change": false
+      },
+      "4:1": {
+        "records": 30,
+        "comparisons": {
+          "5_vs_10": {
+            "spearman": 1.0,
+            "records_defined_under_both": 30,
+            "records_defined_under_the_shorter_rule_only": 0,
+            "records_defined_under_the_longer_rule_only": 0,
+            "records_whose_eligibility_changes": 0,
+            "comparable_pairs": 435,
+            "pairwise_rank_inversions": 0,
+            "inversion_share_of_comparable_pairs": 0.0,
+            "max_rank_shift": 0.0
+          },
+          "10_vs_20": {
+            "spearman": 1.0,
+            "records_defined_under_both": 30,
+            "records_defined_under_the_shorter_rule_only": 0,
+            "records_defined_under_the_longer_rule_only": 0,
+            "records_whose_eligibility_changes": 0,
+            "comparable_pairs": 435,
+            "pairwise_rank_inversions": 0,
+            "inversion_share_of_comparable_pairs": 0.0,
+            "max_rank_shift": 0.0
+          },
+          "5_vs_20": {
+            "spearman": 1.0,
+            "records_defined_under_both": 30,
+            "records_defined_under_the_shorter_rule_only": 0,
+            "records_defined_under_the_longer_rule_only": 0,
+            "records_whose_eligibility_changes": 0,
+            "comparable_pairs": 435,
+            "pairwise_rank_inversions": 0,
+            "inversion_share_of_comparable_pairs": 0.0,
+            "max_rank_shift": 0.0
+          }
+        },
+        "criteria_under_each_rule": {
+          "5": {
+            "defined_share": 1.0,
+            "defined_share_pass": true,
+            "median": 362.0,
+            "sd_cycles": 19.300432,
+            "sd_pass": true,
+            "pass": true
+          },
+          "10": {
+            "defined_share": 1.0,
+            "defined_share_pass": true,
+            "median": 362.0,
+            "sd_cycles": 19.300432,
+            "sd_pass": true,
+            "pass": true
+          },
+          "20": {
+            "defined_share": 1.0,
+            "defined_share_pass": true,
+            "median": 362.0,
+            "sd_cycles": 19.300432,
+            "sd_pass": true,
+            "pass": true
+          }
+        },
+        "conclusions_change": false
+      },
+      "6:1": {
+        "records": 30,
+        "comparisons": {
+          "5_vs_10": {
+            "spearman": 1.0,
+            "records_defined_under_both": 30,
+            "records_defined_under_the_shorter_rule_only": 0,
+            "records_defined_under_the_longer_rule_only": 0,
+            "records_whose_eligibility_changes": 0,
+            "comparable_pairs": 435,
+            "pairwise_rank_inversions": 0,
+            "inversion_share_of_comparable_pairs": 0.0,
+            "max_rank_shift": 0.0
+          },
+          "10_vs_20": {
+            "spearman": 1.0,
+            "records_defined_under_both": 30,
+            "records_defined_under_the_shorter_rule_only": 0,
+            "records_defined_under_the_longer_rule_only": 0,
+            "records_whose_eligibility_changes": 0,
+            "comparable_pairs": 435,
+            "pairwise_rank_inversions": 0,
+            "inversion_share_of_comparable_pairs": 0.0,
+            "max_rank_shift": 0.0
+          },
+          "5_vs_20": {
+            "spearman": 1.0,
+            "records_defined_under_both": 30,
+            "records_defined_under_the_shorter_rule_only": 0,
+            "records_defined_under_the_longer_rule_only": 0,
+            "records_whose_eligibility_changes": 0,
+            "comparable_pairs": 435,
+            "pairwise_rank_inversions": 0,
+            "inversion_share_of_comparable_pairs": 0.0,
+            "max_rank_shift": 0.0
+          }
+        },
+        "criteria_under_each_rule": {
+          "5": {
+            "defined_share": 1.0,
+            "defined_share_pass": true,
+            "median": 329.0,
+            "sd_cycles": 12.430965,
+            "sd_pass": true,
+            "pass": true
+          },
+          "10": {
+            "defined_share": 1.0,
+            "defined_share_pass": true,
+            "median": 329.0,
+            "sd_cycles": 12.430965,
+            "sd_pass": true,
+            "pass": true
+          },
+          "20": {
+            "defined_share": 1.0,
+            "defined_share_pass": true,
+            "median": 329.0,
+            "sd_cycles": 12.430965,
+            "sd_pass": true,
+            "pass": true
+          }
+        },
+        "conclusions_change": false
+      }
+    },
+    "records_whose_eligibility_changes_by_rule": {
+      "5_vs_10": 0,
+      "10_vs_20": 2,
+      "5_vs_20": 2
+    },
+    "configurations_whose_conclusions_change": [],
+    "note": "This does not reopen the ten-cycle decision. It measures whether the ordering of individual worlds, and the eligibility of individual runs, survive a different sustention rule; the rule stays frozen for Stage B either way."
+  },
+  "eligibility": {
+    "1:1": {
+      "records": 30,
+      "runs_that_ever_move": 1,
+      "runs_with_sustained_onset": 0,
+      "defined_share": 0.0,
+      "class": "configurations without sustained structural emergence",
+      "eligible": false,
+      "excluded_from_construct": true,
+      "reason_if_excluded": "no run sustains 10 consecutive non-zero readings: the manipulated quantity produces no sustained DI in this world (AGENTS 13a), which is a property of the world, not a null about the organism"
+    },
+    "1:2": {
+      "records": 30,
+      "runs_that_ever_move": 1,
+      "runs_with_sustained_onset": 0,
+      "defined_share": 0.0,
+      "class": "configurations without sustained structural emergence",
+      "eligible": false,
+      "excluded_from_construct": true,
+      "reason_if_excluded": "no run sustains 10 consecutive non-zero readings: the manipulated quantity produces no sustained DI in this world (AGENTS 13a), which is a property of the world, not a null about the organism"
+    },
+    "1:3": {
+      "records": 30,
+      "runs_that_ever_move": 1,
+      "runs_with_sustained_onset": 0,
+      "defined_share": 0.0,
+      "class": "configurations without sustained structural emergence",
+      "eligible": false,
+      "excluded_from_construct": true,
+      "reason_if_excluded": "no run sustains 10 consecutive non-zero readings: the manipulated quantity produces no sustained DI in this world (AGENTS 13a), which is a property of the world, not a null about the organism"
+    },
+    "1:4": {
+      "records": 30,
+      "runs_that_ever_move": 1,
+      "runs_with_sustained_onset": 0,
+      "defined_share": 0.0,
+      "class": "configurations without sustained structural emergence",
+      "eligible": false,
+      "excluded_from_construct": true,
+      "reason_if_excluded": "no run sustains 10 consecutive non-zero readings: the manipulated quantity produces no sustained DI in this world (AGENTS 13a), which is a property of the world, not a null about the organism"
+    },
+    "2:1": {
+      "records": 30,
+      "runs_that_ever_move": 29,
+      "runs_with_sustained_onset": 29,
+      "defined_share": 0.966667,
+      "class": "configurations with sustained structural emergence",
+      "eligible": true,
+      "excluded_from_construct": false,
+      "reason_if_excluded": null
+    },
+    "3:1": {
+      "records": 30,
+      "runs_that_ever_move": 30,
+      "runs_with_sustained_onset": 30,
+      "defined_share": 1.0,
+      "class": "configurations with sustained structural emergence",
+      "eligible": true,
+      "excluded_from_construct": false,
+      "reason_if_excluded": null
+    },
+    "4:1": {
+      "records": 30,
+      "runs_that_ever_move": 30,
+      "runs_with_sustained_onset": 30,
+      "defined_share": 1.0,
+      "class": "configurations with sustained structural emergence",
+      "eligible": true,
+      "excluded_from_construct": false,
+      "reason_if_excluded": null
+    },
+    "6:1": {
+      "records": 30,
+      "runs_that_ever_move": 30,
+      "runs_with_sustained_onset": 30,
+      "defined_share": 1.0,
+      "class": "configurations with sustained structural emergence",
+      "eligible": true,
+      "excluded_from_construct": false,
+      "reason_if_excluded": null
+    }
+  },
+  "accounting": {
+    "records_total": 240,
+    "records_in_eligible_configurations": 120,
+    "records_in_ineligible_configurations": 120,
+    "records_dropped": 0,
+    "records_with_onset": 119,
+    "note": "Every stored record is counted; none is dropped. The 1:x configurations stay in the accounting and are excluded from the construct's claim, not from the study."
+  },
+  "stage_b_measurement_criteria": {
+    "evaluated_per_configuration": true,
+    "min_defined_share": 0.9,
+    "min_sd_cycles": 3.0,
+    "per_config": {
+      "2:1": {
+        "defined_share": 0.966667,
+        "defined_share_threshold": 0.9,
+        "defined_share_pass": true,
+        "sd_cycles": 27.339022,
+        "sd_threshold_cycles": 3.0,
+        "sd_pass": true,
+        "iqr_cycles": 37.0,
+        "range_cycles": [
+          475,
+          589
+        ],
+        "pass": true
+      },
+      "3:1": {
+        "defined_share": 1.0,
+        "defined_share_threshold": 0.9,
+        "defined_share_pass": true,
+        "sd_cycles": 25.093071,
+        "sd_threshold_cycles": 3.0,
+        "sd_pass": true,
+        "iqr_cycles": 26.0,
+        "range_cycles": [
+          342,
+          445
+        ],
+        "pass": true
+      },
+      "4:1": {
+        "defined_share": 1.0,
+        "defined_share_threshold": 0.9,
+        "defined_share_pass": true,
+        "sd_cycles": 19.300432,
+        "sd_threshold_cycles": 3.0,
+        "sd_pass": true,
+        "iqr_cycles": 17.25,
+        "range_cycles": [
+          310,
+          391
+        ],
+        "pass": true
+      },
+      "6:1": {
+        "defined_share": 1.0,
+        "defined_share_threshold": 0.9,
+        "defined_share_pass": true,
+        "sd_cycles": 12.430965,
+        "sd_threshold_cycles": 3.0,
+        "sd_pass": true,
+        "iqr_cycles": 14.0,
+        "range_cycles": [
+          289,
+          354
+        ],
+        "pass": true
+      }
+    },
+    "all_pass": true
+  },
+  "behavioural_clock": {
+    "post_confirmation_margin_cycles": 1,
+    "learn_cycles": 50,
+    "test_cycles": 50,
+    "follow_up_cycles": 100,
+    "first_behavioural_cycle": "confirmation_cycle + 1",
+    "last_behavioural_cycle": "confirmation_cycle + 100",
+    "follow_up_length_is_identical_in_every_world": true,
+    "first_behavioural_cycle_differs_by_world": true,
+    "estimand": "behaviour over a fixed window after structural emergence: the amount of behavioural opportunity is equalised, the developmental age at which it opens is a property of the world and is reported rather than equalised",
+    "cycle_indexing": "counter values are zero-based indices into the stored trajectory: a run of 600 readings holds indices 0-599, so the confirmation index 598 quoted in section 3.1 is the 599th reading. Every offset added to an index is an index too.",
+    "behavioural_cycle_count": 100,
+    "inclusive_span_cycles": 100,
+    "last_behavioural_cycle_index_offset": 100,
+    "run_length_offset_from_confirmation_index": 101,
+    "run_length_is_one_more_than_the_last_index": "the follow-up is 100 behavioural cycles, from index c+1 through c+100 inclusive. The run must contain index c+100, and a run of length L holds indices 0..L-1, so its length is c+101. The two numbers are the same span counted from zero and from one, not a disagreement about duration",
+    "runs_with_a_clock": 119,
+    "absolute_start_min": 299,
+    "absolute_start_max": 599,
+    "absolute_start_span_cycles": 300,
+    "last_behavioural_index_max": 698,
+    "run_length_needed_cycles": 699,
+    "runs_that_fit_a_600_cycle_run": 91,
+    "behavioural_cycles_at_or_before_confirmation": 0,
+    "onset_window_ends": "the confirmation cycle -- the last reading the onset rule itself reads",
+    "exposure_interval_must_end_before_first_behavioural_cycle": true,
+    "reporting_required_per_observation": [
+      "absolute cycle",
+      "cycles since confirmation"
+    ],
+    "per_config": {
+      "2:1": {
+        "runs_with_a_clock": 29,
+        "confirmation_cycle_min": 484,
+        "confirmation_cycle_median": 548,
+        "confirmation_cycle_max": 598,
+        "first_behavioural_cycle_min": 485,
+        "first_behavioural_cycle_median": 549,
+        "first_behavioural_cycle_max": 599,
+        "last_behavioural_cycle_index_max": 698,
+        "run_length_needed_cycles": 699,
+        "runs_that_fit_a_600_cycle_run": 1
+      },
+      "3:1": {
+        "runs_with_a_clock": 30,
+        "confirmation_cycle_min": 351,
+        "confirmation_cycle_median": 413.0,
+        "confirmation_cycle_max": 454,
+        "first_behavioural_cycle_min": 352,
+        "first_behavioural_cycle_median": 414.0,
+        "first_behavioural_cycle_max": 455,
+        "last_behavioural_cycle_index_max": 554,
+        "run_length_needed_cycles": 555,
+        "runs_that_fit_a_600_cycle_run": 30
+      },
+      "4:1": {
+        "runs_with_a_clock": 30,
+        "confirmation_cycle_min": 319,
+        "confirmation_cycle_median": 371.0,
+        "confirmation_cycle_max": 400,
+        "first_behavioural_cycle_min": 320,
+        "first_behavioural_cycle_median": 372.0,
+        "first_behavioural_cycle_max": 401,
+        "last_behavioural_cycle_index_max": 500,
+        "run_length_needed_cycles": 501,
+        "runs_that_fit_a_600_cycle_run": 30
+      },
+      "6:1": {
+        "runs_with_a_clock": 30,
+        "confirmation_cycle_min": 298,
+        "confirmation_cycle_median": 338.0,
+        "confirmation_cycle_max": 363,
+        "first_behavioural_cycle_min": 299,
+        "first_behavioural_cycle_median": 339.0,
+        "first_behavioural_cycle_max": 364,
+        "last_behavioural_cycle_index_max": 463,
+        "run_length_needed_cycles": 464,
+        "runs_that_fit_a_600_cycle_run": 30
+      }
+    }
+  },
+  "candidates": {
+    "onset": {
+      "defined_for_every_record": false,
+      "censored_records": 121,
+      "unit": "cycles",
+      "within_config_sd_native": 12.430965,
+      "rank_stability_under_truncation": 1.0
+    },
+    "slope": {
+      "defined_for_every_record": false,
+      "censored_records": 156,
+      "unit": "pairs per 100 cycles",
+      "within_config_sd_native": 0.545716,
+      "rank_stability_under_truncation": -0.3150349296345044
+    },
+    "exposure": {
+      "defined_for_every_record": true,
+      "censored_records": 0,
+      "unit": "pairs",
+      "within_config_sd_native": 0.436895,
+      "rank_stability_under_truncation": 0.9246831165717517
+    }
+  },
+  "no_behaviour_read": "No correlation between any summary and Phase L's behavioural endpoint was computed, by design: the construct must be chosen on measurement grounds before any outcome is examined.",
+  "exploratory": true
+}

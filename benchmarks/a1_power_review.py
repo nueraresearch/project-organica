@@ -1,0 +1,1553 @@
+"""A1 power and prevalence review from existing artifacts only.
+
+This opens no engine, assigns no seed and runs no A1 cell.  It asks whether
+four target rows per seed are enough for the precommitted C1 floor and what
+the existing C6/A0 records imply about target denominators.
+"""
+import argparse
+import json
+import math
+import random
+import statistics
+from collections import Counter
+from pathlib import Path
+
+from benchmarks import engine_stamp
+
+ROOT = Path(__file__).resolve().parent.parent
+DOCS = ROOT / "docs"
+OUT_PATH = DOCS / "a1_power_review.json"
+PAGE_PATH = DOCS / "A1-POWER-REVIEW.md"
+KIND = "A1-POWER-REVIEW-1"
+DATE = "2026-11-14"
+C1_FLOOR = 0.95
+C1_FLOOR_ROWS = 60
+FREEZE_ANSWER = "NO — NOT AS CURRENTLY EMITTED"
+N_PER_SEED = 4
+C1_CURVE_DENOMINATORS = (4, 20, 56, 59, 60, 63, 64)
+C1_CURVE_RETENTIONS = (0.95, 0.97, 0.98, 1.0)
+C1_CORRELATION_RHOS = (0.0, 0.25, 0.5, 0.75, 0.95)
+C1_CORRELATION_DENOMINATOR = 63
+C1_CORRELATION_RETENTIONS = (0.95, 0.98)
+C1_POWER_TARGET = 0.8
+C1_POWER_TARGET_DENOMINATOR = 63
+C1_POWER_DESIGN_STATUS = (
+    "RECORDED — C1 DESIGN CRITERION; NOT AN OBSERVED RETENTION AND NOT A SECOND ACCEPTANCE GATE"
+)
+
+
+def _load(name: str) -> dict:
+    return json.loads((DOCS / name).read_text(encoding="utf-8"))
+
+
+def _binomial_tail(n: int, q: float, need: int) -> float:
+    """Probability that at least ``need`` of ``n`` independent rows survive."""
+    if need <= 0:
+        return 1.0
+    if need > n:
+        return 0.0
+    return sum(
+        math.comb(n, k) * (q ** k) * ((1.0 - q) ** (n - k))
+        for k in range(need, n + 1)
+    )
+
+
+def _phi(x: float) -> float:
+    return math.exp(-0.5 * x * x) / math.sqrt(2.0 * math.pi)
+
+
+def _normal_cdf(x: float) -> float:
+    return 0.5 * (1.0 + math.erf(x / math.sqrt(2.0)))
+
+
+def _bivariate_normal_cdf(a: float, b: float, rho: float) -> float:
+    """P(X <= a, Y <= b) for a standard bivariate normal.
+
+    Fixed-step Simpson integration over the conditional normal CDF. The
+    correlation is a sensitivity setting, not an estimated quantity.
+    """
+    if rho <= -0.999999:
+        return max(0.0, _normal_cdf(a) + _normal_cdf(b) - 1.0)
+    if rho >= 0.999999:
+        return _normal_cdf(min(a, b))
+    if a <= -8.0 or b <= -8.0:
+        return 0.0
+    a = min(a, 8.0)
+    b = min(b, 8.0)
+    lo, steps = -8.0, 2000
+    h = (a - lo) / steps
+    total = 0.0
+    for index in range(steps + 1):
+        x = lo + index * h
+        conditional = _normal_cdf((b - rho * x) / math.sqrt(1.0 - rho * rho))
+        weight = 1 if index in (0, steps) else (4 if index % 2 else 2)
+        total += weight * _phi(x) * conditional
+    return max(0.0, min(1.0, total * h / 3.0))
+
+
+def _path_joint_pass(per_arm: float, rho: float) -> float:
+    """Both A- and K- pass on one seed under a Gaussian path copula."""
+    if per_arm <= 0.0:
+        return 0.0
+    if per_arm >= 1.0:
+        return 1.0
+    z = statistics.NormalDist().inv_cdf(per_arm)
+    return _bivariate_normal_cdf(z, z, rho)
+
+
+def _all_six_with_seed_correlation(per_seed: float, rho: float) -> float:
+    """All six seeds pass under a one-factor Gaussian seed copula."""
+    if per_seed <= 0.0:
+        return 0.0
+    if per_seed >= 1.0:
+        return 1.0
+    if rho <= 0.0:
+        return per_seed ** 6
+    if rho >= 1.0:
+        return per_seed
+    z = statistics.NormalDist().inv_cdf(per_seed)
+    lo, steps = -8.0, 2000
+    h = (8.0 - lo) / steps
+    total = 0.0
+    for index in range(steps + 1):
+        factor = lo + index * h
+        conditional = _normal_cdf(
+            (z - math.sqrt(rho) * factor) / math.sqrt(1.0 - rho)
+        )
+        weight = 1 if index in (0, steps) else (4 if index % 2 else 2)
+        total += weight * _phi(factor) * (conditional ** 6)
+    return max(0.0, min(1.0, total * h / 3.0))
+
+
+def _all_six_probability(n: int, q: float) -> float:
+    need = math.ceil(n * C1_FLOOR)
+    per_arm = _binomial_tail(n, q, need)
+    return per_arm ** 12
+
+
+def _required_retention(n: int, target: float) -> float:
+    lo, hi = 0.0, 1.0
+    for _ in range(80):
+        mid = (lo + hi) / 2.0
+        if _all_six_probability(n, mid) >= target:
+            hi = mid
+        else:
+            lo = mid
+    return hi
+
+
+def _correlation_sensitivity() -> dict:
+    """Sensitivity of C1 pass probabilities to path and seed correlation.
+
+    The pass/fail indicators are joined with Gaussian copulas. The marginal
+    per-arm and per-seed probabilities remain those of the independent
+    Bernoulli curve; only the dependence between A/K paths and between seeds
+    changes. The correlation values are sensitivity settings, not estimates.
+    """
+    path_rows = []
+    seed_rows = []
+    joint_rows = []
+    for q in C1_CORRELATION_RETENTIONS:
+        per_arm = _binomial_tail(
+            C1_CORRELATION_DENOMINATOR, q,
+            math.ceil(C1_CORRELATION_DENOMINATOR * C1_FLOOR),
+        )
+        per_seed = per_arm ** 2
+        for rho in C1_CORRELATION_RHOS:
+            path_seed = _path_joint_pass(per_arm, rho)
+            path_rows.append({
+                "assumed_retention": q,
+                "rho_paths": rho,
+                "per_arm": round(per_arm, 6),
+                "per_seed": round(path_seed, 6),
+                "all_six_seeds": round(path_seed ** 6, 6),
+            })
+        for rho in C1_CORRELATION_RHOS:
+            seed_rows.append({
+                "assumed_retention": q,
+                "rho_seeds": rho,
+                "per_seed": round(per_seed, 6),
+                "all_six_seeds": round(
+                    _all_six_with_seed_correlation(per_seed, rho), 6),
+            })
+        for rho in (0.5, 0.75, 0.95):
+            path_seed = _path_joint_pass(per_arm, rho)
+            joint_rows.append({
+                "assumed_retention": q,
+                "rho_paths": rho,
+                "rho_seeds": rho,
+                "per_seed": round(path_seed, 6),
+                "all_six_seeds": round(
+                    _all_six_with_seed_correlation(path_seed, rho), 6),
+            })
+
+    baseline = next(row for row in path_rows
+                    if row["assumed_retention"] == 0.95 and row["rho_paths"] == 0.0)
+    path_05 = next(row for row in path_rows
+                   if row["assumed_retention"] == 0.95 and row["rho_paths"] == 0.5)
+    seed_05 = next(row for row in seed_rows
+                   if row["assumed_retention"] == 0.95 and row["rho_seeds"] == 0.5)
+    joint_05 = next(row for row in joint_rows
+                    if row["assumed_retention"] == 0.95
+                    and row["rho_paths"] == 0.5)
+    return {
+        "status": "SENSITIVITY — NOT AN OBSERVED CORRELATION OR RESULT",
+        "model": (
+            "Gaussian copulas on the pass/fail indicators. Within a seed, the "
+            "A- and K- pass indicators have correlation rho_paths; across "
+            "seeds, the per-seed pass indicators have equicorrelation rho_seeds "
+            "through one shared factor. Per-arm marginals remain the independent "
+            "Bernoulli probabilities. The copulas are applied sequentially; no "
+            "path-specific cross-seed correlation is added beyond the seed factor."
+        ),
+        "assumptions": [
+            "The retention rate q is common to A- and K- and is an assumption, not a measurement.",
+            "Within an arm, rows remain independent and identically distributed.",
+            "rho_paths is a positive Gaussian-copula correlation between the A- and K- pass indicators; it is not estimated from A1.",
+            "rho_seeds is a positive one-factor Gaussian-copula correlation across the six seed-pass indicators; it is not estimated from A1.",
+            "The seed copula is applied to the per-seed joint pass probability; it does not model a separate path-specific seed effect.",
+            "The gate remains per seed and all-six; correlation changes the joint probability, not the marginal gate rule.",
+        ],
+        "reference_denominator": C1_CORRELATION_DENOMINATOR,
+        "reference_retentions": list(C1_CORRELATION_RETENTIONS),
+        "rho_values": list(C1_CORRELATION_RHOS),
+        "path_rows": path_rows,
+        "seed_rows": seed_rows,
+        "joint_rows": joint_rows,
+        "headline": {
+            "at_63_q095": {
+                "independent": {
+                    "per_seed": baseline["per_seed"],
+                    "all_six_seeds": baseline["all_six_seeds"],
+                },
+                "path_rho_0_5": {
+                    "per_seed": path_05["per_seed"],
+                    "all_six_seeds": path_05["all_six_seeds"],
+                },
+                "seed_rho_0_5": {
+                    "per_seed": seed_05["per_seed"],
+                    "all_six_seeds": seed_05["all_six_seeds"],
+                },
+                "joint_rho_0_5": {
+                    "per_seed": joint_05["per_seed"],
+                    "all_six_seeds": joint_05["all_six_seeds"],
+                },
+            },
+        },
+        "reading": (
+            "At n=63 and q=.95, independent paths and independent seeds give "
+            "a per-seed pass probability of %.6f and an all-six probability of "
+            "%.6f. A path correlation of .5 raises the per-seed probability to "
+            "%.6f; a seed correlation of .5 raises the all-six probability to "
+            "%.6f; both at .5 give %.6f. Positive correlation makes the six "
+            "seeds share their fate: all-six can rise while the chance that "
+            "none pass also rises. These are sensitivity scenarios, not "
+            "correlation estimates."
+            % (baseline["per_seed"], baseline["all_six_seeds"],
+               path_05["per_seed"], seed_05["all_six_seeds"],
+               joint_05["all_six_seeds"])
+        ),
+    }
+
+
+def _c1_power_curve() -> dict:
+    """Reference C1 pass probabilities for the planned and fallback denominators.
+
+    The curve assumes a common, independent Bernoulli retention rate ``q`` for
+    every row on both paths. A seed passes only when both the A- and K- arms
+    meet 0.95; the all-six column additionally assumes independent seeds. These
+    are assumptions for a sensitivity curve, not estimates from A1.
+    """
+    rows = []
+    for n in C1_CURVE_DENOMINATORS:
+        need = math.ceil(n * C1_FLOOR)
+        for q in C1_CURVE_RETENTIONS:
+            per_arm = _binomial_tail(n, q, need)
+            per_seed = per_arm ** 2
+            path_rho_05 = _path_joint_pass(per_arm, 0.5)
+            rows.append({
+                "denominator": n,
+                "required_retained": need,
+                "allowed_losses": n - need,
+                "assumed_retention": q,
+                "per_arm": round(per_arm, 6),
+                "per_seed": round(per_seed, 6),
+                "all_six_seeds": round(per_seed ** 6, 6),
+                "per_seed_path_rho_0_5": round(path_rho_05, 6),
+                "all_six_seed_rho_0_5": round(
+                    _all_six_with_seed_correlation(per_seed, 0.5), 6),
+                "all_six_joint_rho_0_5": round(
+                    _all_six_with_seed_correlation(path_rho_05, 0.5), 6),
+            })
+    impact = []
+    previous = None
+    for n in C1_CURVE_DENOMINATORS:
+        row = next(item for item in rows
+                   if item["denominator"] == n and item["assumed_retention"] == 0.95)
+        change = None if previous is None else round(row["all_six_seeds"] - previous, 6)
+        impact.append({
+            "denominator": n,
+            "required_retained": row["required_retained"],
+            "allowed_losses": row["allowed_losses"],
+            "effective_floor": round(row["required_retained"] / n, 6),
+            "all_six_at_095": row["all_six_seeds"],
+            "change_from_previous": change,
+        })
+        previous = row["all_six_seeds"]
+    cliff_low = next(item for item in impact if item["denominator"] == 59)
+    cliff_high = next(item for item in impact if item["denominator"] == 60)
+    required_targets = (0.5, 0.8, 0.9, 0.95)
+    required_retention = {
+        "targets": list(required_targets),
+        "rows": [
+            {
+                "target_all_six": target,
+                "required_q_by_denominator": {
+                    str(n): round(_required_retention(n, target), 6)
+                    for n in C1_CURVE_DENOMINATORS
+                },
+            }
+            for target in required_targets
+        ],
+        "assumption": "Required q under the same independent Bernoulli, six-independent-seed model.",
+    }
+    power_row = next(
+        row for row in required_retention["rows"]
+        if row["target_all_six"] == C1_POWER_TARGET
+    )
+    power_q = power_row["required_q_by_denominator"]
+    power_design_criterion = {
+        "status": C1_POWER_DESIGN_STATUS,
+        "target_all_six_power": C1_POWER_TARGET,
+        "reference_denominator": C1_POWER_TARGET_DENOMINATOR,
+        "denominator_kind": (
+            "UPPER BOUND — NOT AN OBSERVED OR ESTIMATED "
+            "BASELINE-AVAILABILITY DENOMINATOR"
+        ),
+        "observed_baseline_available_rows": None,
+        "required_retention": power_q[str(C1_POWER_TARGET_DENOMINATOR)],
+        "required_retention_by_denominator": {
+            str(n): power_q[str(n)] for n in (60, 63, 64)
+        },
+        "model": (
+            "Independent Bernoulli retention on each row, with the six seeds "
+            "independent, as in the required-retention table."
+        ),
+        "meaning": (
+            "At the upper-bound %d-row scenario, reaching %d%% all-six-seed "
+            "power requires a common retention of at least %.6f. The "
+            "corresponding values are %.6f at 64 rows and %.6f at the "
+            "60-row floor. This sizes the planned design; it is not an "
+            "observed retention and is not a second post-run acceptance gate. "
+            "The observed-run acceptance rule remains the 0.95 preservation "
+            "threshold."
+            % (
+                C1_POWER_TARGET_DENOMINATOR,
+                round(C1_POWER_TARGET * 100),
+                power_q[str(C1_POWER_TARGET_DENOMINATOR)],
+                power_q["64"],
+                power_q["60"],
+            )
+        ),
+        "not_a_second_acceptance_gate": True,
+    }
+    floor_rule = {
+        "status": "ADOPTED — BINDING FOR A1",
+        "record": "docs/DECISION-A1-PATH-A-C1-RULE.md",
+        "adoption_record": "docs/A1-C1-C4-VOID-GATE.md",
+        "adopted_together": "60-row denominator floor and C1/C4 post-freeze VOID gate",
+        "binding": True,
+        "floor": 60,
+        "minimum_denominator": 60,
+        "allowed_losses_at_60_64": 3,
+        "below_floor_disposition": "VOID — C1_DENOMINATOR_BELOW_FLOOR",
+        "planned_range": [63, 64],
+        "unit": "minimum paired-control available rows across all six seeds and both A- and K- paths",
+        "why": (
+            "At 59 rows, 57/59 = 0.9661 and only two losses pass; at 60 rows, "
+            "57/60 = 0.95 and three losses pass. 60 is the first denominator "
+            "with the planned three-loss tolerance."
+        ),
+        "decision": (
+            "If the observed minimum is below 60 on any seed or path, the A1 "
+            "run is VOID — C1_DENOMINATOR_BELOW_FLOOR, before any model is read."
+        ),
+        "perfect_59": (
+            "A perfect 59/59 is still VOID: the fraction cannot rescue a "
+            "denominator below the resolution floor."
+        ),
+        "not_parked": (
+            "PARKED is for a missing target set or grant. This is an executed "
+            "run whose planned resolution was not reached, so it is VOID."
+        ),
+        "not_identified": (
+            "No model verdict is read. VOID is not NOT IDENTIFIED."
+        ),
+        "below_20": (
+            "Below 20 rows even one loss fails; the denominator is too small "
+            "to express the 0.95 criterion and the same VOID applies."
+        ),
+        "above_planned": (
+            "A denominator above 64 is a design inconsistency: score only the "
+            "preplanned rows and do not add rows after the fact."
+        ),
+        "table": [
+            {"observed_min": "0", "allowed_losses": "0", "disposition": "VOID — C1_NO_DENOMINATOR"},
+            {"observed_min": "1–19", "allowed_losses": "0", "disposition": "VOID — C1_DENOMINATOR_BELOW_FLOOR"},
+            {"observed_min": "20–59", "allowed_losses": "1–2", "disposition": "VOID — C1_DENOMINATOR_BELOW_FLOOR"},
+            {"observed_min": "60–64", "allowed_losses": "3", "disposition": "C1 gate may be read"},
+            {"observed_min": ">64", "allowed_losses": "n/a", "disposition": "VOID — design inconsistency"},
+        ],
+    }
+    baseline = next(row for row in rows
+                    if row["denominator"] == 63 and row["assumed_retention"] == 0.95)
+    sensitivity = next(row for row in rows
+                       if row["denominator"] == 63 and row["assumed_retention"] == 0.98)
+    return {
+        "model": (
+            "Independent Bernoulli retention on each row; the stated retention "
+            "rate q is common to A- and K-; a seed passes only when both arms "
+            "meet 0.95; all-six assumes independent seeds. The separate "
+            "correlation_sensitivity block relaxes the path and seed independence."
+        ),
+        "assumptions": [
+            "The retention rate is an assumption, not an A1 measurement.",
+            "Rows are independent and identically distributed within an arm.",
+            "A- and K- have the same assumed retention rate and are independent.",
+            "The six seeds are independent; the all-six column is the product of six per-seed probabilities.",
+            "The gate is evaluated per seed; no pooling across seeds is used.",
+        ],
+        "floor": C1_FLOOR,
+        "denominators": list(C1_CURVE_DENOMINATORS),
+        "assumed_retention_rates": list(C1_CURVE_RETENTIONS),
+        "minimum_denominator_for_one_loss": min(
+            n for n in C1_CURVE_DENOMINATORS
+            if n - math.ceil(n * C1_FLOOR) >= 1
+        ),
+        "rows": rows,
+        "denominator_impact": impact,
+        "cliff_60": {
+            "from": 59,
+            "to": 60,
+            "at_59": cliff_low,
+            "at_60": cliff_high,
+            "all_six_ratio": round(
+                cliff_high["all_six_at_095"] / cliff_low["all_six_at_095"], 2
+            ),
+            "explanation": (
+                "At 59 rows, 57/59 = 0.9661 and only two losses pass; at 60 rows, "
+                "57/60 = 0.95 and three losses pass. The extra row crosses a loss "
+                "boundary in the gate arithmetic, not an empirical effect."
+            ),
+        },
+        "required_retention": required_retention,
+        "power_design_criterion": power_design_criterion,
+        "correlation_sensitivity": _correlation_sensitivity(),
+        "denominator_floor_rule": floor_rule,
+        "baseline_example": {
+            "denominator": 63,
+            "assumed_retention": 0.95,
+            "per_arm": baseline["per_arm"],
+            "per_seed": baseline["per_seed"],
+            "all_six_seeds": baseline["all_six_seeds"],
+        },
+        "sensitivity_example": {
+            "denominator": 63,
+            "assumed_retention": 0.98,
+            "per_arm": sensitivity["per_arm"],
+            "per_seed": sensitivity["per_seed"],
+            "all_six_seeds": sensitivity["all_six_seeds"],
+        },
+        "reading": (
+            "At a true retention of 0.95, the 63-row upper-bound scenario gives a "
+            "%.1f%% chance for one arm, %.1f%% for both arms on one seed, and "
+            "%.1f%% across all six seeds. At 0.98, the corresponding all-six "
+            "chance is %.1f%%. A denominator of 20 is the smallest listed value "
+            "that can still pass with one lost row."
+            % (baseline["per_arm"] * 100, baseline["per_seed"] * 100,
+               baseline["all_six_seeds"] * 100, sensitivity["all_six_seeds"] * 100)
+        ),
+        "status": "REFERENCE CURVE — NOT AN OBSERVED DENOMINATOR OR RESULT",
+    }
+
+
+def _permutation(selected: list[int], values: list[float]) -> float:
+    observed = (statistics.mean(v for s, v in zip(selected, values) if s)
+                - statistics.mean(v for s, v in zip(selected, values) if not s))
+    rng = random.Random(0)
+    hits = 0
+    draws = 20000
+    for _ in range(draws):
+        rng.shuffle(selected)
+        diff = (statistics.mean(v for s, v in zip(selected, values) if s)
+                - statistics.mean(v for s, v in zip(selected, values) if not s))
+        hits += abs(diff) >= abs(observed)
+    return hits / draws
+
+
+def build() -> dict:
+    selection = _load("a1_target_selection.json")
+    c6 = _load("c6_timing_block.json")
+    a0 = _load("carrier_formation_a0.json")
+
+    targets = {edge for row in selection["per_seed"].values() for edge in row["selected"]}
+    total_targets = sum(len(row["selected"]) for row in selection["per_seed"].values())
+    selected_flags: list[int] = []
+    strengths: list[float] = []
+    for row in selection["per_seed"].values():
+        chosen = set(row["selected"])
+        for edge, u in row["u"].items():
+            selected_flags.append(1 if edge in chosen else 0)
+            strengths.append(float(u["strength"]))
+    selected_strength = [v for s, v in zip(selected_flags, strengths) if s]
+    unselected_strength = [v for s, v in zip(selected_flags, strengths) if not s]
+    permutation_p = _permutation(selected_flags[:], strengths)
+
+    c6_k = sum(r["k_edges"] for r in c6["per_seed"])
+    c6_world_edges = sum(r["world_edges"] for r in c6["per_seed"])
+    c6_y = sum(r["y_ind_edges"] for r in c6["per_seed"])
+    per_seed_k = [r["k_edges"] / r["world_edges"] for r in c6["per_seed"]]
+    all_four_k = [p ** N_PER_SEED for p in per_seed_k]
+    all_six_all_four = math.prod(all_four_k)
+
+    parts: dict[int, dict[str, dict]] = {}
+    for path in sorted((DOCS / "c6_timing_parts").glob("2062*.json")):
+        if "determinism" in path.name:
+            continue
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        parts[int(doc["seed"])] = {row["edge"]: row for row in doc["rows"]}
+
+    overlap = []
+    for rows in parts.values():
+        for edge in targets:
+            if edge in rows:
+                overlap.append(rows[edge])
+    overlap_k = sum(1 for row in overlap if row.get("first_k") is not None)
+    overlap_y = sum(1 for row in overlap if row.get("first_y_ind") is not None)
+
+    a0_hard = int(a0["summary"]["edges"])
+    a0_present = int(a0["summary"]["stage_totals"]["present"])
+    hard_rate = a0_hard / a0_present if a0_present else 0.0
+    expected_hard_targets = N_PER_SEED * len(selection["per_seed"]) * hard_rate
+    any_hard = 1.0 - (1.0 - hard_rate) ** (N_PER_SEED * len(selection["per_seed"]))
+
+    # At n rows, a 0.95 floor passes only when (n - losses) / n >= 0.95.
+    max_losses_at_4 = math.floor(N_PER_SEED * (1.0 - C1_FLOOR))
+    # C4 emits every non-target edge in the A1 universe, so its row count is
+    # candidate_count minus the four targets.  C1 adds those rows to the four
+    # target rows; it is not 112, which is C6's larger world.
+    # Baseline-unavailable edges reduce the observed denominator further.
+    planned_c1_rows = {
+        seed: int(row["candidate_count"])
+        for seed, row in selection["per_seed"].items()
+    }
+    planned_non_target = {
+        seed: rows - N_PER_SEED for seed, rows in planned_c1_rows.items()
+    }
+    planned_max_losses = {
+        seed: math.floor(rows * (1.0 - C1_FLOOR))
+        for seed, rows in planned_c1_rows.items()
+    }
+    planned_min_rows = min(planned_c1_rows.values())
+    planned_max_rows = max(planned_c1_rows.values())
+    planned_min_losses = min(planned_max_losses.values())
+    planned_max_losses_allowed = max(planned_max_losses.values())
+    planned_total_rows = sum(planned_c1_rows.values())
+    planned_non_target_total = sum(planned_non_target.values())
+    availability_budget = {
+        "floor": C1_FLOOR_ROWS,
+        "rule": (
+            "max_unavailable_rows = candidate_rows - floor; "
+            "required_availability_fraction = floor / candidate_rows"
+        ),
+        "by_seed": {
+            seed: {
+                "candidate_rows": rows,
+                "max_unavailable_rows": rows - C1_FLOOR_ROWS,
+                "required_availability_fraction": round(C1_FLOOR_ROWS / rows, 6),
+            }
+            for seed, rows in planned_c1_rows.items()
+        },
+        "note": (
+            "Denominator-floor arithmetic on the candidate-count upper bound; "
+            "not an observed or estimated baseline-availability rate."
+        ),
+        "retention_rule": (
+            "The separate 0.95 C1 retention rule allows three losses at 60-64; "
+            "availability is counted first and is not part of that allowance."
+        ),
+    }
+
+    tag_counts = Counter(tag for edge in targets for tag in edge.split(">", 1))
+    findings = [
+        {
+            "id": "selection_is_random_on_u",
+            "finding": "The 24 targets are statistically indistinguishable from the 358 unselected candidates on cycle-36 strength.",
+            "evidence": {
+                "selected_n": len(selected_strength),
+                "unselected_n": len(unselected_strength),
+                "selected_median": statistics.median(selected_strength),
+                "unselected_median": statistics.median(unselected_strength),
+                "selected_mean": round(statistics.mean(selected_strength), 3),
+                "unselected_mean": round(statistics.mean(unselected_strength), 3),
+                "permutation_p": permutation_p,
+            },
+        },
+        {
+            "id": "all_candidates_eligible",
+            "finding": "Cycle membership and positive U do not narrow the candidate universe; every candidate is eligible.",
+            "evidence": {
+                "candidate_counts": {s: r["candidate_count"] for s, r in selection["per_seed"].items()},
+                "eligible_counts": {s: r["eligible_count"] for s, r in selection["per_seed"].items()},
+            },
+        },
+        {
+            "id": "c6_prevalence_observation",
+            "finding": (
+                "C6 reports high K/Y_ind prevalence in its own seed block. "
+                "This is a different-world observation, not a C1 baseline-availability "
+                "measurement and not a target-validation proxy."
+            ),
+            "not_baseline_availability_proxy": True,
+            "evidence": {
+                "c6_k": c6_k,
+                "c6_world_edges": c6_world_edges,
+                "c6_y": c6_y,
+                "c6_k_rate": round(c6_k / c6_world_edges, 3),
+                "c6_y_rate": round(c6_y / c6_world_edges, 3),
+                "per_seed_k_rate_min": round(min(per_seed_k), 3),
+                "per_seed_k_rate_max": round(max(per_seed_k), 3),
+                "per_seed_all_four_k": [round(value, 3) for value in all_four_k],
+                "all_six_all_four_k_independence": round(all_six_all_four, 3),
+                "target_overlap_observations": len(overlap),
+                "target_overlap_k": overlap_k,
+                "target_overlap_y": overlap_y,
+            },
+        },
+        {
+            "id": "c1_denominator_fragility",
+            "finding": "With four target rows, the 0.95 C1 floor is effectively 100% preservation; one lost row gives 0.75.",
+            "evidence": {
+                "rows_per_seed": N_PER_SEED,
+                "c1_floor": C1_FLOOR,
+                "max_losses_at_4": max_losses_at_4,
+                "effective_floor_at_4": 1.0,
+                "illustration_3_of_4": 0.75,
+            },
+        },
+        {
+            "id": "c1_denominator_expansion",
+            "finding": (
+                "Even if every candidate edge were baseline-available, C4 plus the "
+                "four target rows would produce at most %d-%d C1 rows per seed. "
+                "This is an upper bound, not an observed or estimated denominator; "
+                "unavailable rows reduce it and can push the run below the 60-row floor."
+                % (planned_min_rows, planned_max_rows)
+            ),
+            "evidence": {
+                "planned_c1_rows_by_seed": planned_c1_rows,
+                "planned_non_target_rows_by_seed": planned_non_target,
+                "planned_min_rows": planned_min_rows,
+                "planned_max_rows": planned_max_rows,
+                "planned_total_rows": planned_total_rows,
+                "planned_non_target_total": planned_non_target_total,
+                "allowed_losses_min": planned_min_losses,
+                "allowed_losses_max": planned_max_losses_allowed,
+                "max_losses_with_planned_c4": planned_max_losses,
+                "status": "UNMEASURED — no A1 cell has run",
+                "denominator_kind": (
+                    "UPPER BOUND — NOT AN OBSERVED OR ESTIMATED "
+                    "BASELINE-AVAILABILITY DENOMINATOR"
+                ),
+                "observed_baseline_available_rows": None,
+                "floor": 60,
+                "below_floor_disposition": "VOID — C1_DENOMINATOR_BELOW_FLOOR",
+                "baseline_caveat": (
+                    "C1 counts only edges available in the paired A+K+ control. "
+                    "The %d-%d figure assumes every candidate edge is available; "
+                    "the actual denominator can be lower and may fall below the "
+                    "60-row floor. No baseline-availability estimate exists."
+                    % (planned_min_rows, planned_max_rows)
+                ),
+            },
+        },
+        {
+            "id": "hard_edge_baseline",
+            "finding": "A0's hard-edge prevalence is low, but a random 24-target sample has a material chance of containing one.",
+            "evidence": {
+                "a0_hard_edges": a0_hard,
+                "a0_present_edges": a0_present,
+                "hard_rate": round(hard_rate, 4),
+                "expected_hard_targets": round(expected_hard_targets, 2),
+                "prob_any_hard_independence": round(any_hard, 3),
+            },
+        },
+    ]
+
+    c1_denominator_feasibility = {
+        "status": "RISK RECORDED — UNMEASURED; 63-64 IS AN UPPER BOUND",
+        "planned_range": [planned_min_rows, planned_max_rows],
+        "denominator_kind": (
+            "UPPER BOUND — ASSUMES EVERY CANDIDATE IS BASELINE-AVAILABLE"
+        ),
+        "basis": "candidate_count; no paired-control availability measurement",
+        "observed_baseline_available_rows": None,
+        "floor": C1_FLOOR_ROWS,
+        "below_floor_disposition": "VOID — C1_DENOMINATOR_BELOW_FLOOR",
+        "availability_budget": availability_budget,
+        "why": (
+            "The 63-64 rows are the candidate-universe counts, not a measurement "
+            "of edges available in the paired A+K+ control. C1 counts only those "
+            "available rows. The observed denominator can be lower than 63-64; "
+            "if the minimum is below 60 on any seed or path, the run is VOID "
+            "before any model is read."
+        ),
+        "unrelated_observations": {
+            "sources": ["C6 K/Y_ind rates", "A0 hard-edge rate"],
+            "allowed_use": "CONTEXT ONLY",
+            "forbidden_use": "BASELINE-AVAILABILITY PROXY",
+            "reason": (
+                "These percentages come from different seed blocks, different "
+                "world populations and different quantities. None measures "
+                "paired-control availability in the A1 target universe, so none "
+                "may be used to estimate, bound or certify the C1 denominator."
+            ),
+        },
+    }
+
+    decision = {
+        "verdict": "FREEZE READINESS OPEN — C1 DENOMINATOR FRAGILITY",
+        "reading": (
+            "P0 and feasibility pass, but four target rows per seed make the "
+            "precommitted 0.95 C1 floor a 100% preservation rule. C6's K/Y_ind "
+            "prevalence is a different-seed observation and does not establish "
+            "C1 baseline availability. The 63-64 C1 figure is an upper bound, "
+            "not an estimate; the observed denominator can be lower and may fail "
+            "the 60-row floor. C1 remains unmeasured; do not freeze on the current "
+            "target artifact."
+        ),
+        "freeze_question": {
+            "question": (
+                "Does a random eligible-edge design have enough expected measurable "
+                "structure to justify freeze?"
+            ),
+            "answer": FREEZE_ANSWER,
+            "basis": (
+                "C6 prevalence is a different-seed observation, not C1 "
+                "baseline availability. The blocker is C1: four rows make the "
+                "0.95 floor a 100% rule. The 63-64 C4 expansion is an upper "
+                "bound from candidate counts, not an estimate; the observed "
+                "denominator can be lower and may fail the 60-row floor. No cell "
+                "has run."
+            ),
+            "if_yes": "Freeze the representative eligible-edge design after the manifest review.",
+            "if_no": "Do not freeze until the post-freeze C1/C4 order and the separate target-freeze act are recorded; do not require a pre-freeze C1/C4 denominator.",
+        },
+        "next": [
+            "Path A is recorded: after target freeze and a dated grant, run the planned cells with the C4 neighbour stream and score C1/C4.",
+            "Path B is not selected; it would require a new selector, target artifact and registered design, not a regeneration of the Path A targets.",
+            "The C1 acceptance rule is recorded; the target freeze remains a separate act.",
+            "Record the C1/C4 gate order and the separate target freeze before a grant; C1/C4 are measured only after the run.",
+        ],
+    }
+
+    return {
+        "kind": KIND,
+        "id": KIND,
+        "date": DATE,
+        "status": decision["verdict"],
+        "path_selection": {
+            "selected": "A",
+            "status": "RECORDED — PROTOCOL SELECTED; TARGET SETS STILL DRAFT",
+            "date": DATE,
+            "estimand": "representative eligible pre-37 cycle-membership directed-edge effect",
+            "protocol": "docs/A1-TARGET-SELECTION-PROTOCOL.md",
+            "not_selected": "B",
+            "path_b": (
+                "High-carrier-propensity, hard-edge or carrier-enriched effect; "
+                "requires a new selector, target artifact and registered design."
+            ),
+            "target_sets": "DRAFT — NOT FROZEN",
+            "does_not_authorize": [
+                "target freeze",
+                "seed reservation",
+                "dated grant",
+                "cell execution",
+            ],
+        },
+        "representativeness": {
+            "estimand": "representative eligible pre-37 cycle-membership directed-edge population",
+            "selector": (
+                "outcome-blind hash order over all eligible edges; U is not a ranking input"
+            ),
+            "evidence": {
+                "selected_observations": total_targets,
+                "unique_target_edges": len(targets),
+                "unselected_candidates": len(selected_flags) - total_targets,
+                "selected_mean_strength": round(statistics.mean(selected_strength), 3),
+                "unselected_mean_strength": round(statistics.mean(unselected_strength), 3),
+                "permutation_p": permutation_p,
+            },
+            "not_a_sample_of": [
+                "high-U edges",
+                "hard edges",
+                "carrier-enriched anomalies",
+            ],
+            "consequence": (
+                "A1 tests a representative eligible-edge effect. It does not test an "
+                "effect among high-propensity or anomalous edges; that would require a "
+                "different selector and a new target set before freeze."
+            ),
+        },
+        "sources": {
+            "selection": "docs/a1_target_selection.json",
+            "c6": "docs/c6_timing_block.json",
+            "c6_parts": "docs/c6_timing_parts/20621101..20621106.json",
+            "a0": "docs/carrier_formation_a0.json",
+        },
+        "gate_order": {
+            "decision": "POST-FREEZE VOID GATE",
+            "date": DATE,
+            "record": "docs/A1-C4-GATE-ORDER.md",
+            "effect": (
+                "C4 is not a pre-freeze blocker. C1 and C4 are scored in the "
+                "same post-freeze result assembly; a C4 failure VOIDs the run."
+            ),
+        },
+        "freeze_readiness": {
+            "status": "OPEN",
+            "pass": False,
+            "can_move_now": False,
+            "blocking_gate": "target_freeze_not_authorized",
+            "reason": (
+                "C4 is a post-freeze void gate, so C1/C4 are no longer pre-freeze "
+                "measurement blockers. The targets remain draft and the manifest "
+                "remains unfrozen because no separate owner freeze act has been "
+                "recorded; no grant or run exists."
+            ),
+            "to_pass": [
+                "Freeze the representative target manifest in a separate owner act.",
+                "Record the dated grant and run the planned cells.",
+                "Assemble C1/C4; a failed C4 VOIDs the result.",
+            ],
+        },
+        "freeze_decision": {
+            "date": DATE,
+            "decision": "DO NOT FREEZE",
+            "path": "A",
+            "path_status": "RECORDED — TARGET SETS STILL DRAFT",
+            "path_record": "docs/A1-TARGET-SELECTION-PROTOCOL.md",
+            "path_effect": (
+                "The current six target sets are the Path A draft. Selecting "
+                "Path A does not freeze the manifest, reserve a seed, issue a "
+                "grant or authorise a cell."
+            ),
+            "provisional_freeze_draft": {
+                "status": "DRAFT — PROVISIONAL FREEZE ONLY",
+                "record": "docs/A1-PROVISIONAL-FREEZE-GATE-ORDER.md",
+                "effect": (
+                    "Would provisionally freeze the Path A targets; the C1/C4 "
+                    "VOID gate is already adopted separately. No freeze is "
+                    "recorded until the owner adopts the wrapper."
+                ),
+            },
+            "owner_decision_memo_draft": {
+                "status": "DRAFT — C1/C4 GATE ADOPTED ELSEWHERE",
+                "record": "docs/DECISION-A1-PATH-A-C1-C4.md",
+                "effect": (
+                    "Remains draft for the remaining Path A confirmation and "
+                    "provisional freeze; the C1/C4 gate and 60-row floor are "
+                    "adopted separately. It does not freeze, grant or authorise."
+                ),
+            },
+            "target_freeze_act_draft": {
+                "status": "DRAFT — AWAITING OWNER SIGNATURE; NOT FROZEN",
+                "record": "docs/A1-TARGET-FREEZE-ACT.md",
+                "effect": (
+                    "Prepares the separate act that would freeze the six "
+                    "Path A target sets and the manifest/seed block; no grant "
+                    "or run is included."
+                ),
+            },
+            "gate_order_note": (
+                "The dated DO NOT FREEZE record predates the 2026-11-14 gate-order "
+                "decision. C4 is now post-freeze VOID; this record remains the "
+                "historical freeze decision and does not authorise a freeze."
+            ),
+            "answer": FREEZE_ANSWER,
+            "worth_freezing": "NO — HOLD AS DRAFT; TARGET FREEZE NOT AUTHORIZED",
+            "worth_freezing_reason": (
+                "The Path A target sets are compliant and representative, but no "
+                "separate target freeze has been performed. C4 is now a post-freeze "
+                "VOID gate, so the C1/C4 measurement cannot be a pre-freeze condition. "
+                "Path B is not selected and would require a new selector and target "
+                "artifact."
+            ),
+            "scope": (
+                "the current six-seed target artifact and the current four-target "
+                "A1 cell output"
+            ),
+            "basis": [
+                "C6's 602/672 K and 586/672 Y_ind rates are observations from a different seed block and are not baseline-availability proxies. They do not establish C1 feasibility.",
+                "The C1 denominator is four target rows, so the 0.95 floor is a 100% rule (3/4 = 0.75). C4 would add at most 59-60 non-target rows per seed, giving an upper bound of 63-64 C1 rows; the observed denominator can be lower and may fall below the 60-row floor.",
+                "All six seeds having all four K rows is 6.9% under independence; the design is fragile, not merely underpowered.",
+            ],
+            "revisit_when": [
+                "The planned cells run with the C4 neighbour stream and C1/C4 are scored.",
+                "A larger target block or a redesigned selector is registered before freeze.",
+            ],
+        },
+        "c1_power_curve": _c1_power_curve(),
+        "inputs": {
+            "target_observations": total_targets,
+            "unique_target_edges": len(targets),
+            "selected": sum(selected_flags),
+            "candidates": len(selected_flags),
+            "planned_c1_denominator_min": planned_min_rows,
+            "planned_c1_denominator_max": planned_max_rows,
+            "planned_c1_denominator_kind": (
+                "UPPER BOUND — NOT AN OBSERVED OR ESTIMATED "
+                "BASELINE-AVAILABILITY DENOMINATOR"
+            ),
+            "observed_baseline_available_rows": None,
+            "planned_total_rows": planned_total_rows,
+            "planned_non_target_rows": planned_non_target_total,
+            "c6_seeds": len(c6["per_seed"]),
+            "a0_hard_edges": a0_hard,
+        },
+        "c1_denominator_feasibility": c1_denominator_feasibility,
+        "findings": findings,
+        "decision": decision,
+        "tag_counts": dict(sorted(tag_counts.items())),
+        "not_evidence": (
+            "A read-only power/prevalence review over different-seed C6 and A0 "
+            "records. Its 63-64 C1 expansion is an upper bound derived from A1 "
+            "candidate counts, not an observed or estimated baseline-availability "
+            "denominator; C6 and A0 percentages are not C1 proxies. It runs no A1 "
+            "cell, assigns no seed, freezes no target and establishes no causal, "
+            "capability or transfer claim."
+        ),
+    }
+
+
+def problems(doc: dict) -> list[str]:
+    found: list[str] = []
+    if doc.get("kind") != KIND:
+        found.append("power review kind")
+    if not doc.get("findings"):
+        found.append("power review has no findings")
+    if (doc.get("decision") or {}).get("verdict") != "FREEZE READINESS OPEN — C1 DENOMINATOR FRAGILITY":
+        found.append("power review decision changed")
+    if not (doc.get("decision") or {}).get("freeze_question"):
+        found.append("power review has no freeze question")
+    elif doc["decision"]["freeze_question"].get("answer") != FREEZE_ANSWER:
+        found.append("power review freeze answer changed")
+    freeze = doc.get("freeze_decision") or {}
+    if freeze.get("decision") != "DO NOT FREEZE" or freeze.get("answer") != FREEZE_ANSWER:
+        found.append("freeze decision changed")
+    if freeze.get("worth_freezing") != "NO — HOLD AS DRAFT; TARGET FREEZE NOT AUTHORIZED":
+        found.append("worth-freezing decision changed")
+    readiness = doc.get("freeze_readiness") or {}
+    if readiness.get("status") != "OPEN" or readiness.get("pass") is not False:
+        found.append("freeze readiness changed")
+    if readiness.get("can_move_now") is not False:
+        found.append("freeze readiness improperly moved to pass")
+    if (doc.get("gate_order") or {}).get("decision") != "POST-FREEZE VOID GATE":
+        found.append("C4 gate order changed")
+    path = doc.get("path_selection") or {}
+    if path.get("selected") != "A":
+        found.append("power review does not record Path A")
+    if path.get("status") != "RECORDED — PROTOCOL SELECTED; TARGET SETS STILL DRAFT":
+        found.append("Path A status changed")
+    if path.get("target_sets") != "DRAFT — NOT FROZEN":
+        found.append("Path A target sets are not marked draft")
+    if (doc.get("freeze_decision") or {}).get("path") != "A":
+        found.append("freeze decision does not record Path A")
+    if not doc.get("representativeness"):
+        found.append("power review has no estimand record")
+    elif doc["representativeness"].get("estimand") != (
+            "representative eligible pre-37 cycle-membership directed-edge population"):
+        found.append("power review estimand changed")
+    inputs = doc.get("inputs") or {}
+    if inputs.get("target_observations") != 24 or inputs.get("unique_target_edges") != 23:
+        found.append("power review target counts changed")
+    if (inputs.get("planned_c1_denominator_min") != 63
+            or inputs.get("planned_c1_denominator_max") != 64
+            or inputs.get("planned_total_rows") != 382
+            or inputs.get("planned_non_target_rows") != 358):
+        found.append("power review planned C1 denominator changed")
+    risk = doc.get("c1_denominator_feasibility") or {}
+    if risk.get("status") != "RISK RECORDED — UNMEASURED; 63-64 IS AN UPPER BOUND":
+        found.append("C1 denominator-feasibility risk note is missing or changed")
+    if risk.get("planned_range") != [63, 64]:
+        found.append("C1 denominator-feasibility risk range changed")
+    if not str(risk.get("denominator_kind", "")).startswith("UPPER BOUND"):
+        found.append("C1 denominator is not marked as an upper bound")
+    if risk.get("observed_baseline_available_rows") is not None:
+        found.append("C1 denominator risk note claims an observed baseline-availability count")
+    if risk.get("floor") != 60:
+        found.append("C1 denominator risk floor changed")
+    budget = risk.get("availability_budget") or {}
+    if budget.get("floor") != 60:
+        found.append("C1 availability budget floor changed")
+    by_seed_budget = budget.get("by_seed") or {}
+    if len(by_seed_budget) != 6:
+        found.append("C1 availability budget does not cover six seeds")
+    for seed, row in by_seed_budget.items():
+        rows = row.get("candidate_rows")
+        if not isinstance(rows, int) or rows < 60:
+            found.append("seed %s has no valid C1 availability budget" % seed)
+            continue
+        if row.get("max_unavailable_rows") != rows - 60:
+            found.append("seed %s C1 unavailable-row budget is inconsistent" % seed)
+        if row.get("required_availability_fraction") != round(60 / rows, 6):
+            found.append("seed %s C1 availability fraction is inconsistent" % seed)
+    unrelated = risk.get("unrelated_observations") or {}
+    if unrelated.get("forbidden_use") != "BASELINE-AVAILABILITY PROXY":
+        found.append("C1 risk note does not forbid unrelated percentages as proxies")
+    c6 = next((finding for finding in doc.get("findings", [])
+               if finding.get("id") == "c6_prevalence_observation"), None)
+    if c6 is None:
+        found.append("C6 prevalence observation is missing")
+    elif c6.get("not_baseline_availability_proxy") is not True:
+        found.append("C6 prevalence observation is presented as a baseline proxy")
+    expansion = next((finding for finding in doc.get("findings", [])
+                      if finding.get("id") == "c1_denominator_expansion"), None)
+    if expansion is None:
+        found.append("power review has no C1 expansion finding")
+    elif expansion.get("evidence", {}).get("status", "").split(" ")[0] != "UNMEASURED":
+        found.append("C1 expansion is not marked unmeasured")
+    elif expansion.get("evidence", {}).get("observed_baseline_available_rows") is not None:
+        found.append("C1 expansion claims an observed baseline-availability count")
+    curve = doc.get("c1_power_curve") or {}
+    if curve.get("status") != "REFERENCE CURVE — NOT AN OBSERVED DENOMINATOR OR RESULT":
+        found.append("C1 power curve is not marked as a reference")
+    if curve.get("floor") != C1_FLOOR:
+        found.append("C1 power curve floor changed")
+    if curve.get("assumed_retention_rates") != list(C1_CURVE_RETENTIONS):
+        found.append("C1 power curve retention assumptions changed")
+    expected = {(n, q) for n in C1_CURVE_DENOMINATORS for q in C1_CURVE_RETENTIONS}
+    rows = {(row.get("denominator"), row.get("assumed_retention"))
+            for row in curve.get("rows", [])}
+    if rows != expected:
+        found.append("C1 power curve rows do not cover every denominator and retention rate")
+    if len(curve.get("denominator_impact") or []) != len(C1_CURVE_DENOMINATORS):
+        found.append("C1 power curve has no full denominator-impact table")
+    cliff = curve.get("cliff_60") or {}
+    if cliff.get("from") != 59 or cliff.get("to") != 60:
+        found.append("C1 power curve does not record the 60-row cliff")
+    required = curve.get("required_retention") or {}
+    if len(required.get("rows") or []) != 4:
+        found.append("C1 power curve has no required-retention scenarios")
+    power = curve.get("power_design_criterion") or {}
+    if power.get("status") != C1_POWER_DESIGN_STATUS:
+        found.append("C1 power-design criterion is not marked as a design criterion")
+    if power.get("target_all_six_power") != C1_POWER_TARGET:
+        found.append("C1 all-six power target changed")
+    if power.get("reference_denominator") != C1_POWER_TARGET_DENOMINATOR:
+        found.append("C1 power-target reference denominator changed")
+    if not str(power.get("denominator_kind", "")).startswith("UPPER BOUND"):
+        found.append("C1 power-design criterion is not marked as an upper bound")
+    if power.get("observed_baseline_available_rows") is not None:
+        found.append("C1 power-design criterion claims an observed denominator")
+    required_row = next(
+        (row for row in required.get("rows") or []
+         if row.get("target_all_six") == C1_POWER_TARGET),
+        None,
+    )
+    if required_row is None:
+        found.append("C1 power target has no required-retention row")
+    else:
+        required_q = required_row.get("required_q_by_denominator") or {}
+        expected_q = required_q.get(str(C1_POWER_TARGET_DENOMINATOR))
+        if power.get("required_retention") != expected_q:
+            found.append("C1 power-design required retention disagrees with the table")
+        for n in (60, 63, 64):
+            if (power.get("required_retention_by_denominator") or {}).get(str(n)) != required_q.get(str(n)):
+                found.append("C1 power-design denominator values disagree with the table")
+    corr = curve.get("correlation_sensitivity") or {}
+    if corr.get("status") != "SENSITIVITY — NOT AN OBSERVED CORRELATION OR RESULT":
+        found.append("C1 correlation sensitivity is not marked as a sensitivity")
+    if corr.get("reference_denominator") != C1_CORRELATION_DENOMINATOR:
+        found.append("C1 correlation sensitivity reference denominator changed")
+    if corr.get("rho_values") != list(C1_CORRELATION_RHOS):
+        found.append("C1 correlation sensitivity rho values changed")
+    if len(corr.get("path_rows") or []) != len(C1_CORRELATION_RETENTIONS) * len(C1_CORRELATION_RHOS):
+        found.append("C1 path-correlation sensitivity is incomplete")
+    if len(corr.get("seed_rows") or []) != len(C1_CORRELATION_RETENTIONS) * len(C1_CORRELATION_RHOS):
+        found.append("C1 seed-correlation sensitivity is incomplete")
+    if len(corr.get("joint_rows") or []) != len(C1_CORRELATION_RETENTIONS) * 3:
+        found.append("C1 joint-correlation sensitivity is incomplete")
+    floor_rule = curve.get("denominator_floor_rule") or {}
+    if floor_rule.get("status") != "ADOPTED — BINDING FOR A1":
+        found.append("C1 denominator floor rule is not recorded as adopted")
+    if floor_rule.get("floor") != 60:
+        found.append("C1 denominator floor changed")
+    if len(floor_rule.get("table") or []) != 5:
+        found.append("C1 denominator floor rule has no complete decision table")
+    return found
+
+
+def render(doc: dict) -> str:
+    rows = [
+        "# A1 power and prevalence review",
+        "",
+        "**Status:** `%s`" % doc["status"],
+        "",
+        "**This is not an A1 result.** No arm cell was run; no target was frozen.",
+        "",
+        "| Finding | Evidence |",
+        "| --- | --- |",
+    ]
+    for finding in doc["findings"]:
+        evidence = "; ".join("%s=%s" % (k, v) for k, v in finding["evidence"].items())
+        rows.append("| **%s** — %s | %s |" % (finding["id"], finding["finding"], evidence))
+    risk = doc.get("c1_denominator_feasibility") or {}
+    if risk:
+        rows += [
+            "",
+            "## C1 denominator-feasibility risk note",
+            "",
+            "**Status:** `%s`" % risk["status"],
+            "",
+            "The planned **%d–%d** C1 rows are an **upper bound**, not an "
+            "observed or estimated denominator. They equal the candidate-universe "
+            "counts and assume every candidate edge is available in the paired "
+            "A+K+ control. C1 counts only baseline-available rows; the observed "
+            "denominator can be lower, and if the minimum falls below **%d** on "
+            "any seed or path, the run is **%s** before any model is read."
+            % (risk["planned_range"][0], risk["planned_range"][1], risk["floor"],
+               risk["below_floor_disposition"]),
+            "",
+            "**Unrelated percentages are not baseline-availability proxies.** "
+            "C6's K/Y_ind rates and A0's hard-edge rate come from different seed "
+            "blocks, worlds and quantities; they must not be used to estimate, "
+            "bound or certify the C1 denominator.",
+            "",
+            "**Per-seed availability budget.** The floor is **%d** rows. "
+            "`max_unavailable_rows` is the number of candidate rows that can be "
+            "baseline-unavailable before the seed's denominator falls below the "
+            "floor; this is arithmetic on the upper bound, not an observed rate. "
+            "It is separate from the three-loss retention allowance, which "
+            "applies after the observed denominator is formed." % risk["floor"],
+            "",
+        ]
+        budget = risk.get("availability_budget") or {}
+        if budget:
+            rows += [
+                "| Seed | Candidate rows | Max unavailable | Required availability |",
+                "| ---: | ---: | ---: | ---: |",
+            ]
+            for seed, row in budget["by_seed"].items():
+                rows.append("| %s | %d | %d | %.2f%% |" % (
+                    seed, row["candidate_rows"], row["max_unavailable_rows"],
+                    row["required_availability_fraction"] * 100,
+                ))
+            rows.append("")
+        rows += [
+            "**Risk disposition:** `%s`; no baseline-availability denominator "
+            "has been measured." % risk["status"],
+            "",
+        ]
+    curve = doc["c1_power_curve"]
+    cells = {(row["denominator"], row["assumed_retention"]): row
+             for row in curve["rows"]}
+    rows += [
+        "",
+        "## C1 power curve",
+        "",
+        curve["reading"],
+        "",
+        "**Model:** %s" % curve["model"],
+        "",
+        "The denominators below are scenario sizes, not observed "
+        "baseline-available counts; the 63–64 scenarios are the C4 upper bound "
+        "recorded in the risk note above.",
+        "",
+        "**Retention rate assumption:** each column names the assumed `q`; "
+        "these are reference probabilities, not A1 measurements.",
+        "",
+        "| Denominator | Required | Allowed losses | q=.95 arm | q=.95 seed | q=.95 all six | q=.98 arm | q=.98 seed | q=.98 all six |",
+        "| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+    ]
+    for n in curve["denominators"]:
+        base = cells[(n, 0.95)]
+        sens = cells[(n, 0.98)]
+        rows.append(
+            "| %d | %d | %d | %.6f | %.6f | %.6f | %.6f | %.6f | %.6f |"
+            % (n, base["required_retained"], base["allowed_losses"],
+               base["per_arm"], base["per_seed"], base["all_six_seeds"],
+               sens["per_arm"], sens["per_seed"], sens["all_six_seeds"]))
+    rows += [
+        "",
+        "The curve also records `q=.97` and `q=1.00` in the artifact. "
+        "The `all six` columns are the product of six independent per-seed "
+        "probabilities, because C1 must pass on every seed.",
+        "",
+        "At `.95` and 63 rows, one arm passes with probability **%.6f**, both "
+        "arms on one seed with **%.6f**, and all six seeds with **%.6f**. "
+        "At `.98`, the all-six probability is **%.6f**. The target-only "
+        "four-row fallback is the first row; 20 rows is the smallest listed "
+        "denominator that can still pass with one loss."
+        % (cells[(63, 0.95)]["per_arm"], cells[(63, 0.95)]["per_seed"],
+           cells[(63, 0.95)]["all_six_seeds"],
+           cells[(63, 0.98)]["all_six_seeds"]),
+        "",
+    ]
+    impact = curve["denominator_impact"]
+    rows += [
+        "",
+        "### Denominator impact at q=.95",
+        "",
+        "The `all six` column is the probability that C1 passes on every seed "
+        "under the stated independent-retention model. `Change` is relative to "
+        "the previous listed denominator, not an empirical effect.",
+        "",
+        "| Denominator | Required | Allowed losses | Effective floor | q=.95 all six | Change |",
+        "| ---: | ---: | ---: | ---: | ---: | ---: |",
+    ]
+    for item in impact:
+        change = "—" if item["change_from_previous"] is None else "%+.6f" % item["change_from_previous"]
+        rows.append(
+            "| %d | %d | %d | %.4f | %.6f | %s |"
+            % (item["denominator"], item["required_retained"],
+               item["allowed_losses"], item["effective_floor"],
+               item["all_six_at_095"], change))
+    cliff = curve["cliff_60"]
+    rows += [
+        "",
+        "### The 60-row cliff",
+        "",
+        cliff["explanation"],
+        "",
+        "At `q=.95`, the all-six probability moves from **%.6f** at 59 rows "
+        "to **%.6f** at 60 rows, a **%.2fx** step. This is a loss-boundary "
+        "effect: the extra row is not a new measurement, and the cliff is not "
+        "evidence that 60 rows are scientifically special."
+        % (cliff["at_59"]["all_six_at_095"],
+           cliff["at_60"]["all_six_at_095"], cliff["all_six_ratio"]),
+        "",
+        "### Required retention for all-six power",
+        "",
+        "Each cell is the assumed `q` needed for the stated all-six-seed power "
+        "under the same independent model. These are scenarios, not observed "
+        "retention rates.",
+        "",
+        "| Target all-six | n=4 | n=20 | n=56 | n=59 | n=60 | n=63 | n=64 |",
+        "| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+    ]
+    for item in curve["required_retention"]["rows"]:
+        required = item["required_q_by_denominator"]
+        rows.append(
+            "| %d%% | %.6f | %.6f | %.6f | %.6f | %.6f | %.6f | %.6f |"
+            % (round(item["target_all_six"] * 100), required["4"], required["20"],
+               required["56"], required["59"], required["60"], required["63"],
+               required["64"]))
+    rows += [
+        "",
+        "The required-retention table makes the cost explicit: at 63 rows, "
+        "80%% all-six power needs `q=%.6f`; 50%% needs `q=%.6f`. The "
+        "target-only four-row design needs a still higher rate for the same "
+        "power because it allows no losses."
+        % (
+            curve["required_retention"]["rows"][1]["required_q_by_denominator"]["63"],
+            curve["required_retention"]["rows"][0]["required_q_by_denominator"]["63"],
+        ),
+        "",
+        "**C1 power-design criterion:** the C1 design is sized for **%d%%** "
+        "all-six-seed power at the **upper-bound %d-row** scenario. Under the "
+        "independent model this requires a common retention of **q=%.6f**; "
+        "at 64 rows it is **q=%.6f**, and at the 60-row floor **q=%.6f**. "
+        "This is a design criterion for the planned design, not an observed "
+        "retention rate and not a second acceptance gate; the 0.95 preservation "
+        "rule above remains the observed-run acceptance rule."
+        % (
+            round(curve["power_design_criterion"]["target_all_six_power"] * 100),
+            curve["power_design_criterion"]["reference_denominator"],
+            curve["power_design_criterion"]["required_retention"],
+            curve["power_design_criterion"]["required_retention_by_denominator"]["64"],
+            curve["power_design_criterion"]["required_retention_by_denominator"]["60"],
+        ),
+        "",
+    ]
+    corr = curve["correlation_sensitivity"]
+    headline = corr["headline"]["at_63_q095"]
+    rows += [
+        "",
+        "### Correlation sensitivity",
+        "",
+        "**Model:** %s" % corr["model"],
+        "",
+        "The correlation values are sensitivity settings, not estimates from A1. "
+        "The independent curve above is the baseline; a positive correlation "
+        "raises joint pass probabilities relative to the product of marginals.",
+        "",
+        "**At n=63, q=.95:** independent paths and seeds give per-seed "
+        "**%.6f** and all-six **%.6f**. Path correlation `.5` gives per-seed "
+        "**%.6f**; seed correlation `.5` gives all-six **%.6f**; both at `.5` "
+        "give all-six **%.6f**." % (
+            headline["independent"]["per_seed"],
+            headline["independent"]["all_six_seeds"],
+            headline["path_rho_0_5"]["per_seed"],
+            headline["seed_rho_0_5"]["all_six_seeds"],
+            headline["joint_rho_0_5"]["all_six_seeds"],
+        ),
+        "",
+        "| Scenario at n=63, q=.95 | Per-seed | All-six |",
+        "| --- | ---: | ---: |",
+        "| independent | %.6f | %.6f |" % (
+            headline["independent"]["per_seed"],
+            headline["independent"]["all_six_seeds"]),
+        "| A/K path rho=.5 | %.6f | %.6f |" % (
+            headline["path_rho_0_5"]["per_seed"],
+            headline["path_rho_0_5"]["all_six_seeds"]),
+        "| seed rho=.5 | %.6f | %.6f |" % (
+            headline["seed_rho_0_5"]["per_seed"],
+            headline["seed_rho_0_5"]["all_six_seeds"]),
+        "| both rho=.5 | %.6f | %.6f |" % (
+            headline["joint_rho_0_5"]["per_seed"],
+            headline["joint_rho_0_5"]["all_six_seeds"]),
+        "",
+        "**Path correlation at n=63, q=.95** (all-six assumes independent seeds):",
+        "",
+        "| rho_paths | Per-seed | All-six |",
+        "| ---: | ---: | ---: |",
+    ]
+    for item in corr["path_rows"]:
+        if item["assumed_retention"] != 0.95:
+            continue
+        rows.append("| %.2f | %.6f | %.6f |" % (
+            item["rho_paths"], item["per_seed"], item["all_six_seeds"]))
+    rows += [
+        "",
+        "**Seed correlation at n=63, q=.95** (independent paths):",
+        "",
+        "| rho_seeds | Per-seed | All-six |",
+        "| ---: | ---: | ---: |",
+    ]
+    for item in corr["seed_rows"]:
+        if item["assumed_retention"] != 0.95:
+            continue
+        rows.append("| %.2f | %.6f | %.6f |" % (
+            item["rho_seeds"], item["per_seed"], item["all_six_seeds"]))
+    rows += [
+        "",
+        "**Joint correlation at n=63:**",
+        "",
+        "| q | rho_paths | rho_seeds | Per-seed | All-six |",
+        "| ---: | ---: | ---: | ---: | ---: |",
+    ]
+    for item in corr["joint_rows"]:
+        if item["assumed_retention"] != 0.95:
+            continue
+        rows.append("| %.2f | %.2f | %.2f | %.6f | %.6f |" % (
+            item["assumed_retention"], item["rho_paths"], item["rho_seeds"],
+            item["per_seed"], item["all_six_seeds"]))
+    rows += [
+        "",
+        corr["reading"],
+        "",
+        "The `q=.98` rows are retained in the artifact. Positive seed "
+        "correlation raises all-six more than the independent product because "
+        "the seeds share a fate; it also raises the chance that none pass. "
+        "That is a property of the sensitivity model, not evidence that the "
+        "seeds are correlated.",
+        "",
+        "### C1 denominator floor",
+    ]
+    floor = curve["denominator_floor_rule"]
+    rows += [
+        "",
+        "**Status: %s.** **Record:** [`DECISION-A1-PATH-A-C1-RULE.md`](DECISION-A1-PATH-A-C1-RULE.md). **Adopted together with the C1/C4 VOID gate:** [`A1-C1-C4-VOID-GATE.md`](A1-C1-C4-VOID-GATE.md)." % floor["status"],
+        "",
+        "**Floor:** %d paired-control available rows, measured as the minimum "
+        "across all six seeds and both `A−` and `K−` paths. The planned range is "
+        "%d–%d." % (floor["floor"], floor["planned_range"][0], floor["planned_range"][1]),
+        "",
+        floor["decision"],
+        "",
+        floor["why"],
+        "",
+        "| Observed minimum | Allowed losses | Disposition |",
+        "| ---: | ---: | --- |",
+    ]
+    for item in floor["table"]:
+        rows.append("| %s | %s | %s |" % (
+            item["observed_min"], item["allowed_losses"], item["disposition"]))
+    rows += [
+        "",
+        floor["perfect_59"],
+        "",
+        floor["not_parked"],
+        "",
+        floor["not_identified"],
+        "",
+        floor["below_20"],
+        "",
+        floor["above_planned"],
+        "",
+    ]
+    rows += [
+        "",
+        "## What population A1 tests",
+        "",
+        "**Estimand:** %s." % doc["representativeness"]["estimand"],
+        "",
+        doc["representativeness"]["consequence"],
+        "",
+        "It is **not** a sample of %s." % ", ".join(doc["representativeness"]["not_a_sample_of"]),
+        "",
+        "## Path selection",
+        "",
+        "**Path A — recorded (%s).** The selected estimand is the %s." % (
+            doc["path_selection"]["date"],
+            doc["path_selection"]["estimand"],
+        ),
+        "",
+        "**Protocol:** [`A1-TARGET-SELECTION-PROTOCOL.md`](A1-TARGET-SELECTION-PROTOCOL.md). **Status:** %s." % (
+            doc["path_selection"]["status"],
+        ),
+        "",
+        "**Target sets:** %s. Path A selects the estimand; it does not freeze the manifest, reserve a seed, issue a grant or authorise a cell." % (
+            doc["path_selection"]["target_sets"],
+        ),
+        "",
+        "**Path B:** %s It is not selected and is not a continuation of this protocol." % (
+            doc["path_selection"]["path_b"],
+        ),
+        "",
+        "## Freeze question",
+        "",
+        "**%s**" % doc["decision"]["freeze_question"]["question"],
+        "",
+        "**Answer: %s.** %s" % (
+            doc["decision"]["freeze_question"]["answer"],
+            doc["decision"]["freeze_question"]["basis"],
+        ),
+        "",
+        "- If yes: %s" % doc["decision"]["freeze_question"]["if_yes"],
+        "- If no: %s" % doc["decision"]["freeze_question"]["if_no"],
+        "",
+        "## Freeze readiness",
+        "",
+        "**Status: %s. Can it move to PASS now? %s.**" % (
+            doc["freeze_readiness"]["status"],
+            "YES" if doc["freeze_readiness"]["can_move_now"] else "NO",
+        ),
+        "",
+        doc["freeze_readiness"]["reason"],
+        "",
+        "**To reach PASS:**",
+        "- %s" % "\n- ".join(doc["freeze_readiness"]["to_pass"]),
+        "",
+        "## Gate order",
+        "",
+        "**C4 decision: %s.** %s" % (
+            doc["gate_order"]["decision"],
+            doc["gate_order"]["effect"],
+        ),
+        "",
+        "**Record:** [`A1-C4-GATE-ORDER.md`](A1-C4-GATE-ORDER.md).",
+        "",
+        "## Freeze decision",
+        "",
+        "**%s (%s).** Answer: **%s**." % (
+            doc["freeze_decision"]["decision"],
+            doc["freeze_decision"]["date"],
+            doc["freeze_decision"]["answer"],
+        ),
+        "",
+        "**Scope:** %s." % doc["freeze_decision"]["scope"],
+        "",
+        "**Path:** %s — %s. Record: [`A1-TARGET-SELECTION-PROTOCOL.md`](A1-TARGET-SELECTION-PROTOCOL.md)." % (
+            doc["freeze_decision"]["path"],
+            doc["freeze_decision"]["path_status"],
+        ),
+        "",
+        "**Path effect:** %s" % doc["freeze_decision"]["path_effect"],
+        "",
+        "**Provisional-freeze draft:** [%s](A1-PROVISIONAL-FREEZE-GATE-ORDER.md) — **%s**. %s" % (
+            doc["freeze_decision"]["provisional_freeze_draft"]["record"],
+            doc["freeze_decision"]["provisional_freeze_draft"]["status"],
+            doc["freeze_decision"]["provisional_freeze_draft"]["effect"],
+        ),
+        "",
+        "**Owner memo draft:** [%s](DECISION-A1-PATH-A-C1-C4.md) — **%s**. %s" % (
+            doc["freeze_decision"]["owner_decision_memo_draft"]["record"],
+            doc["freeze_decision"]["owner_decision_memo_draft"]["status"],
+            doc["freeze_decision"]["owner_decision_memo_draft"]["effect"],
+        ),
+        "",
+        "**Target-freeze act draft:** [%s](A1-TARGET-FREEZE-ACT.md) — **%s**. %s" % (
+            doc["freeze_decision"]["target_freeze_act_draft"]["record"],
+            doc["freeze_decision"]["target_freeze_act_draft"]["status"],
+            doc["freeze_decision"]["target_freeze_act_draft"]["effect"],
+        ),
+        "",
+        "**Are the target sets worth freezing?** **%s.** %s" % (
+            doc["freeze_decision"]["worth_freezing"],
+            doc["freeze_decision"]["worth_freezing_reason"],
+        ),
+        "",
+        "**Basis:**",
+    ] + ["- %s" % item for item in doc["freeze_decision"]["basis"]] + [
+        "",
+        "**Revisit when:**",
+    ] + ["- %s" % item for item in doc["freeze_decision"]["revisit_when"]] + [
+        "",
+        "## Decision",
+        "",
+        "**%s**" % doc["decision"]["verdict"],
+        "",
+        doc["decision"]["reading"],
+        "",
+        "### Next",
+    ] + ["- %s" % item for item in doc["decision"]["next"]] + [
+        "",
+        "**Not evidence:** %s" % doc["not_evidence"],
+        "",
+    ]
+    return "\n".join(rows)
+
+
+def write() -> int:
+    doc = engine_stamp.stamp(build())
+    OUT_PATH.write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8")
+    PAGE_PATH.write_text(render(doc), encoding="utf-8")
+    print("wrote %s and %s" % (OUT_PATH, PAGE_PATH))
+    print(doc["status"])
+    return 0
+
+
+def check() -> int:
+    if not OUT_PATH.exists():
+        print("FAIL: %s is missing" % OUT_PATH)
+        return 1
+    doc = json.loads(OUT_PATH.read_text(encoding="utf-8"))
+    found = problems(doc)
+    rebuilt = build()
+    if engine_stamp.stamp(doc) != engine_stamp.stamp(rebuilt):
+        found.append("power review is stale against its sources")
+    if not PAGE_PATH.exists():
+        found.append("power review page is missing")
+    elif PAGE_PATH.read_text(encoding="utf-8") != render(doc):
+        found.append("power review page is stale")
+    if found:
+        for problem in found:
+            print("FAIL:", problem)
+        return 1
+    print("A1 power review: clean")
+    return 0
+
+
+def main(argv=None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("--write", action="store_true")
+    group.add_argument("--check", action="store_true")
+    args = parser.parse_args(argv)
+    return write() if args.write else check()
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1,0 +1,352 @@
+{
+ "kind": "a1_selection_identity_spec",
+ "id": "A1-SELECTION-IDENTITY-SPEC-1",
+ "date": "2026-11-14",
+ "status": "CANDIDATE SPEC \u2014 FIXED-COUNT EXCHANGE TO SEPARATE SELECTION FROM COUNT; NO ARM, NO RUN, NO TARGET, NO GRANT",
+ "not_a_result": true,
+ "question": "Does the identity of the served edges move the 16-tag level over and above how many edges are served?",
+ "definition": "A three-arm fixed-count exchange at the committed cap: identity control, probability-order swap, and a cap-shift calibration that prices one served edge, with the contrast reported in edge-equivalents.",
+ "method": "The design and its power are computed from committed artifacts only: the cap-response slope gives the level per served edge, the committed cap-112 trace gives the exchange size, and the within-block SD gives the seed-level noise. No arm is run.",
+ "design": {
+  "arms": [
+   {
+    "id": "I",
+    "role": "identity control",
+    "change": "none \u2014 the committed configuration, re-run",
+    "must": "reproduce the committed level for the seed, or the seed is void"
+   },
+   {
+    "id": "S",
+    "role": "swap",
+    "change": "transition ordering replaced by the probability-only order",
+    "must": "serve the same number of candidate edges as arm I"
+   },
+   {
+    "id": "C",
+    "role": "count calibration",
+    "change": "prediction cap moved by a few transition slots",
+    "must": "move the served count without touching the candidate set"
+   }
+  ],
+  "fixed": [
+   "seed",
+   "world family",
+   "candidate set",
+   "loop cap",
+   "events per cycle",
+   "acquisition phase"
+  ],
+  "varied": {
+   "I vs S": "identity of the served edges",
+   "I vs C": "count of the served edges"
+  },
+  "refusals": [
+   "arm S serves a different number of candidate edges than arm I \u2014 the swap leaked into the count and the seed cannot separate them",
+   "arm I does not reproduce the committed level for the seed",
+   "arm C does not move the served count, so the yardstick is missing",
+   "the candidate set differs between arms"
+  ],
+  "controls": [
+   "arm I is the determinism control: an identical configuration must return an identical level",
+   "arm C is the yardstick control: a count change of known size must move the level by its edge-equivalent",
+   "a sham swap that re-applies the committed order must return the arm I level"
+  ],
+  "reporting": "contrast in edge-equivalents, with the per-edge rate measured in-run by arm C"
+ },
+ "decision_rule": {
+  "statistic": "level(arm S) minus level(arm I), divided by the level per served edge measured by arm C, reported in edge-equivalents",
+  "supported": "at least 2.0 edge-equivalents with an interval excluding zero",
+  "refuted": "at most 0.5 edge-equivalents",
+  "otherwise": "undecided \u2014 the exchange neither separates nor excludes",
+  "seed_rule": "a seed contributes only if its arms serve the same count; the block is void if arm I misses the committed level"
+ },
+ "prediction": {
+  "count_only": "the swap moves the level by 0 edge-equivalents",
+  "selection_identity": "the swap moves the level by the exchanged edges' worth, about 6.1 edges, with the sign of the edges it adds"
+ },
+ "governance": {
+  "freeze": false,
+  "grant": false,
+  "run": false,
+  "authorization": "none"
+ },
+ "reading": "The test is a **fixed-count exchange**: run the committed configuration twice on the same seeds \u2014 once unchanged (**arm I**) and once with the transition ordering replaced by the probability-only order (**arm S**) \u2014 at the same cap and on the same candidate set, so the served count is fixed by construction and only the identity of the served edges moves. A third arm (**arm C**) moves the cap by a few slots to price one served edge in the same conditions, so the contrast is reported in **edge-equivalents** rather than in offset units only this analysis can read. The committed traces already say how big the exchange is: the two orders disagree on **6.1** of **58** served edges per seed (**10.5%**). If identity matters with the same exchange rate the count has, that is **0.1128** coverage units, or **2.60** seed standard deviations of the level \u2014 **6 seeds per arm and block** to see it at a 5% two-sided test with 80% power. The decision rule is pre-committed in edge-equivalents: selection identity is **supported** only if the swap moves the level by at least **2.0** edges' worth with an interval excluding zero, **refuted** if it moves by less than **0.5**, and otherwise undecided. The calibration is the point: arm C makes a one-edge effect measurable, so a null in arm S says that swapping **6.1** edges changed nothing a single edge would have changed, not merely that the level was noisy. The design is asymmetric and that is its weakness: **0** seeds per arm and block would be needed to refute a **0.5**-edge effect, against **6** to see the full swap, so the test can support the selection account cheaply but can only fail to find a small identity effect \u2014 a null leaves the question open rather than closing it.",
+ "found": {
+  "cap": 112,
+  "sqrt_coefficient": 0.04698666,
+  "exchange": [
+   {
+    "block": "current-16",
+    "caps": [
+     40,
+     80,
+     112
+    ],
+    "served_per_cap": [
+     46.8333,
+     52.8333,
+     57.5
+    ],
+    "slope_served_per_sqrt_cap": 2.484911,
+    "level_per_served_edge": 0.018909
+   },
+   {
+    "block": "fresh-16",
+    "caps": [
+     40,
+     80,
+     112
+    ],
+    "served_per_cap": [
+     46.5,
+     52.3333,
+     57.6667
+    ],
+    "slope_served_per_sqrt_cap": 2.585518,
+    "level_per_served_edge": 0.018173
+   },
+   {
+    "block": "larger-28",
+    "caps": [
+     40,
+     80,
+     112
+    ],
+    "served_per_cap": [
+     58.8333,
+     83.0,
+     96.3333
+    ],
+    "slope_served_per_sqrt_cap": 8.844909,
+    "level_per_served_edge": 0.005312
+   }
+  ],
+  "level_per_served_edge": 0.018541,
+  "swap_seeds": 12,
+  "mean_swapped": 6.0833,
+  "mean_swap_fraction": 0.105042,
+  "effect_if_identity_matters": 0.112791,
+  "effect_in_seed_units": 2.5983,
+  "seeds_for_full_swap": 6,
+  "seeds_for_refute_threshold": 812,
+  "seeds_for_support_threshold": 51,
+  "support_threshold_edges": 2.0,
+  "refute_threshold_edges": 0.5
+ },
+ "swap": [
+  {
+   "block": "current-16",
+   "seed": 20630101,
+   "served": 57,
+   "alternate_served": 49,
+   "swapped": 6,
+   "swap_fraction": 0.105263
+  },
+  {
+   "block": "current-16",
+   "seed": 20630102,
+   "served": 57,
+   "alternate_served": 51,
+   "swapped": 5,
+   "swap_fraction": 0.087719
+  },
+  {
+   "block": "current-16",
+   "seed": 20630103,
+   "served": 60,
+   "alternate_served": 47,
+   "swapped": 7,
+   "swap_fraction": 0.116667
+  },
+  {
+   "block": "current-16",
+   "seed": 20630104,
+   "served": 55,
+   "alternate_served": 52,
+   "swapped": 3,
+   "swap_fraction": 0.054545
+  },
+  {
+   "block": "current-16",
+   "seed": 20630105,
+   "served": 59,
+   "alternate_served": 51,
+   "swapped": 7,
+   "swap_fraction": 0.118644
+  },
+  {
+   "block": "current-16",
+   "seed": 20630106,
+   "served": 57,
+   "alternate_served": 47,
+   "swapped": 5,
+   "swap_fraction": 0.087719
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650101,
+   "served": 59,
+   "alternate_served": 43,
+   "swapped": 10,
+   "swap_fraction": 0.169492
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650102,
+   "served": 56,
+   "alternate_served": 49,
+   "swapped": 5,
+   "swap_fraction": 0.089286
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650103,
+   "served": 59,
+   "alternate_served": 49,
+   "swapped": 7,
+   "swap_fraction": 0.118644
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650104,
+   "served": 63,
+   "alternate_served": 48,
+   "swapped": 7,
+   "swap_fraction": 0.111111
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650105,
+   "served": 52,
+   "alternate_served": 44,
+   "swapped": 5,
+   "swap_fraction": 0.096154
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650106,
+   "served": 57,
+   "alternate_served": 45,
+   "swapped": 6,
+   "swap_fraction": 0.105263
+  }
+ ],
+ "power": [
+  {
+   "sigma": 0.066656,
+   "sigma_source": "seed-level LOO RMSE",
+   "effect_edges": 0.5,
+   "effect_level": 0.00927,
+   "seeds_per_arm_per_block": 812
+  },
+  {
+   "sigma": 0.066656,
+   "sigma_source": "seed-level LOO RMSE",
+   "effect_edges": 1.0,
+   "effect_level": 0.018541,
+   "seeds_per_arm_per_block": 203
+  },
+  {
+   "sigma": 0.066656,
+   "sigma_source": "seed-level LOO RMSE",
+   "effect_edges": 2.0,
+   "effect_level": 0.037082,
+   "seeds_per_arm_per_block": 51
+  },
+  {
+   "sigma": 0.066656,
+   "sigma_source": "seed-level LOO RMSE",
+   "effect_edges": 3.0,
+   "effect_level": 0.055623,
+   "seeds_per_arm_per_block": 23
+  },
+  {
+   "sigma": 0.066656,
+   "sigma_source": "seed-level LOO RMSE",
+   "effect_edges": 6.0,
+   "effect_level": 0.111246,
+   "seeds_per_arm_per_block": 6
+  },
+  {
+   "sigma": 0.04341,
+   "sigma_source": "current-16 within-block SD",
+   "effect_edges": 0.5,
+   "effect_level": 0.00927,
+   "seeds_per_arm_per_block": 345
+  },
+  {
+   "sigma": 0.04341,
+   "sigma_source": "current-16 within-block SD",
+   "effect_edges": 1.0,
+   "effect_level": 0.018541,
+   "seeds_per_arm_per_block": 87
+  },
+  {
+   "sigma": 0.04341,
+   "sigma_source": "current-16 within-block SD",
+   "effect_edges": 2.0,
+   "effect_level": 0.037082,
+   "seeds_per_arm_per_block": 22
+  },
+  {
+   "sigma": 0.04341,
+   "sigma_source": "current-16 within-block SD",
+   "effect_edges": 3.0,
+   "effect_level": 0.055623,
+   "seeds_per_arm_per_block": 10
+  },
+  {
+   "sigma": 0.04341,
+   "sigma_source": "current-16 within-block SD",
+   "effect_edges": 6.0,
+   "effect_level": 0.111246,
+   "seeds_per_arm_per_block": 3
+  },
+  {
+   "sigma": 0.072798,
+   "sigma_source": "fresh-16 within-block SD",
+   "effect_edges": 0.5,
+   "effect_level": 0.00927,
+   "seeds_per_arm_per_block": 968
+  },
+  {
+   "sigma": 0.072798,
+   "sigma_source": "fresh-16 within-block SD",
+   "effect_edges": 1.0,
+   "effect_level": 0.018541,
+   "seeds_per_arm_per_block": 242
+  },
+  {
+   "sigma": 0.072798,
+   "sigma_source": "fresh-16 within-block SD",
+   "effect_edges": 2.0,
+   "effect_level": 0.037082,
+   "seeds_per_arm_per_block": 61
+  },
+  {
+   "sigma": 0.072798,
+   "sigma_source": "fresh-16 within-block SD",
+   "effect_edges": 3.0,
+   "effect_level": 0.055623,
+   "seeds_per_arm_per_block": 27
+  },
+  {
+   "sigma": 0.072798,
+   "sigma_source": "fresh-16 within-block SD",
+   "effect_edges": 6.0,
+   "effect_level": 0.111246,
+   "seeds_per_arm_per_block": 7
+  }
+ ],
+ "limits": [
+  "The exchange rate is read from the frozen cap curve, which attributes the whole cap slope to the count; the cap also buys window depth, so the per-edge value is an upper proxy until arm C measures it in-run.",
+  "Arm S changes the ordering basis, which is an engine-behaviour change: the spec is a proposal that needs a grant, not a thing this analysis may run.",
+  "The swap fraction is measured on the committed ordering trace at cap 112 and will not transfer exactly to a block whose candidate pool differs.",
+  "Three arms multiply the run cost: the design is only worth mounting if a positive arm-S result would change the selection architecture rather than add another diagnostic."
+ ],
+ "not_evidence": "A specification and a design estimate. It runs no arm, opens no database, measures no level, and is not a treatment, target, freeze, grant or A1 cell.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__"
+}

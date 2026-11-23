@@ -1,0 +1,206 @@
+{
+  "prereg": "PRESENCE-CONVERSION-1",
+  "status": "FROZEN, RUN",
+  "no_cells_run": false,
+  "frozen_on": "2026-11-10",
+  "program": {
+    "draft": "docs/PRESENCE-ASSERTION-CONVERSION-PREREGISTRATION.md",
+    "question": "Q3 conversion audit",
+    "relationship": "This is Q3 of the draft program, frozen on its own. It uses the draft's stage chain, its X1-X7 gates and its loss rule without renaming them, and adds the observer-off control the draft states but does not specify. It runs ahead of Q1 and the Q2 cap block deliberately: observing C, E and R does not depend on either, and it states the consequence - if Q1 later changes a definition, this block is not re-scored."
+  },
+  "question": "On the shipped engine at the shipped cap, where do world edges leave the conversion path between raw presence and final assertion - and which observed stage is the first dominant loss, with C (constructed candidates), E (eligibility reason) and R (rank) recorded rather than inferred?",
+  "hypothesis": {
+    "statement": "The audit counts the two endpoints and the ladder traces one cap level with an offered arm that raises the cap, so neither records what the engine constructed inside a shipped run. If the pre-cap candidate list can be recorded without changing the returned window, the loss can be placed at construction, admission or assertion before any mechanism is proposed.",
+    "prediction": "The observer-off and observer-on arms are identical on every seed, C contains every world edge that meets the engine's minimum count, E explains every present edge that is not in C, and the first dominant loss falls at one observed step of the retained chain.",
+    "falsifier": "Any seed on which the observer changes presence, the ordered admission window, the admitted union or the final assertion: the observer is then not behaviour-neutral and Q3 is void rather than a conversion result.",
+    "alternative": "The engine may consult MAX_PREDICTIONS somewhere other than the final truncation; then lifting the cap inside the call changes the engine's own construction and the neutrality control catches it. That outcome is a void instrument, not evidence about the conversion path."
+  },
+  "engine": {
+    "version": "0.14.0",
+    "edit": "none",
+    "observer": "benchmarks.presence_conversion_observer.StageObserverSleepService",
+    "base": "organica.sleep.SleepService",
+    "overrides": [
+      "_build_predictions"
+    ],
+    "mechanism": "the engine's own `_build_predictions` is called with `MAX_PREDICTIONS` temporarily at the diagnostic ceiling, the full pre-cap list is recorded, the shipped cap is restored, and the engine's own first `MAX_PREDICTIONS` rows are returned unchanged; no construction, ranking or filtering is reimplemented",
+    "why_it_can_fail": "if `MAX_PREDICTIONS` is consulted anywhere but the final truncation, the lifted call changes the engine's own list and the observer-on window differs from the observer-off window; X1 catches it on the first seed"
+  },
+  "observer": {
+    "ceiling": 1000000000,
+    "shipped_cap": 40,
+    "records": {
+      "C": "one row per constructed candidate before the cap: edge, rank, strength, support, ratio, admitted",
+      "E": "one outcome per present world edge: constructed, below_prediction_min_count, or unexplained",
+      "R": "the rank the engine gave each candidate in the pre-cap list, with strength and support",
+      "S_cycle": "the returned window, ordered, per cycle",
+      "A": "the final asserted structure over all six structure types"
+    },
+    "identity_note": "Construction already applies the eligibility filters in this engine, so C and E hold the same edges. E is a reason record, not a separate retention count; reporting it as a retention step would invent a stage. A later engine that separates construction from eligibility gains a step and this record is re-registered, not re-read.",
+    "unobserved": [
+      "U"
+    ]
+  },
+  "design": {
+    "arms": [
+      "off",
+      "on"
+    ],
+    "seeds": [
+      20611501,
+      20611502,
+      20611503,
+      20611504,
+      20611505,
+      20611506
+    ],
+    "bootstrap": 20611507,
+    "cycles": 120,
+    "cells": 12,
+    "witness_cell": {
+      "seed": 20261100,
+      "arm": "off",
+      "why": "the audit's first seed, run through the shipped engine with no observer; it must reproduce the published audit row exactly, which is what proves the observer-off arm is the shipped build"
+    },
+    "pairing": "same seed, same world, same cap; only the observer differs, so each seed contributes its own neutrality comparison and its own stage table",
+    "world": "the Gate-13 compositional world (16 tags, 112 derivable edges), 120 cycles covering warmup and acquisition",
+    "freshness": "The six seeds and the bootstrap are fresh: they appear in no other docs artifact. The witness seed is the published audit's first seed and is the only reused seed; it is a control, not a cell in the reading.",
+    "no_cells_run": false
+  },
+  "stages": {
+    "W": "the world's derivable edges from the training stream",
+    "P": "world edges present in raw temporal memory at the end of the run (`temporal_edges(min_count=1)`), before any cap",
+    "C": "candidates the engine constructed before the cap, one row per candidate",
+    "E": "why each present world edge did or did not become a candidate; an identity with C in this engine",
+    "R": "the rank and strength the engine gave each candidate; an ordering, not a subset",
+    "S_cycle": "the prediction edges the engine returned from one sleep cycle, read ordered from the report",
+    "S_ever": "the union of `S_cycle` over the run; a union, not a retention step",
+    "A": "the final asserted structure over all six structure types",
+    "A_W": "`A` intersected with `W`",
+    "A_pred": "`A_W` intersected with `S_ever`, the retained chain's end",
+    "A_other": "`A_W` minus `S_ever`: asserted without ever being admitted, the bypass"
+  },
+  "loss": {
+    "rule": "For each seed, count world edges retained at each observed stage. The first dominant loss is the earliest stage with the largest absolute drop in world-edge count; ties go to the earlier stage. Report the relative share beside the absolute drop, because a large relative loss on a small denominator is not the same finding. A stage whose denominator is zero is not measurable and is excluded, never reported as 0.0. A negative drop is a gain and is reported as one. An asserted edge that was never admitted is a bypass, reported separately and counted neither as retention nor as loss.",
+    "chain": [
+      "W",
+      "P",
+      "C",
+      "S_cycle",
+      "S_ever",
+      "A_pred"
+    ],
+    "ties": "earlier stage",
+    "zero_denominator": "not measurable; excluded from the comparison",
+    "bypass": "reported separately; enters neither retention nor loss",
+    "unobserved": "a stage without an observation is named as unobserved; no count is imputed and no loss is assigned to it"
+  },
+  "gates": {
+    "X1_observer_neutral": "for every seed, observer-off and observer-on produce identical presence, identical ordered admission windows, identical admitted union, identical final assertion and identical asserted world edges; the first difference fails the gate",
+    "X2_stage_complete": "every observed stage has per-edge membership and a nonzero denominator, and E leaves no present edge `unexplained`",
+    "X3_no_unobserved_imputation": "no stage is assigned a count without an observation; an unobserved stage is named and excluded",
+    "X4_same_object": "`A_W` is a subset of `P`; a failure is an object mismatch",
+    "X5_witnesses": "at least one positive `A_pred` edge and one negative `P` minus `A_W` edge per seed",
+    "X6_seed_axis": "at least two distinct stage fingerprints across the six seeds",
+    "X7_determinism": "a fresh-process rerun of the first seed reproduces its stage fingerprints and its ordered windows",
+    "X8_control_reproduces_audit": "the witness cell (seed 20261100, observer off) reproduces the published audit row: present count, asserted count and asserted fingerprint"
+  },
+  "decision_table": [
+    {
+      "condition": "X1 fails on any seed",
+      "verdict": "OBSERVER NOT NEUTRAL",
+      "decision": "void the block; fix the instrument and register a new block, never re-read this one",
+      "licenses": "nothing about conversion; the divergence is a fact about the observer, not about the engine"
+    },
+    {
+      "condition": "any X gate other than X1 fails",
+      "verdict": "VOID",
+      "decision": "no reading is made; repair the harness and register a fresh block",
+      "licenses": "nothing; the block is inadmissible"
+    },
+    {
+      "condition": "X gates pass but C, E or R is unobserved on some seed",
+      "verdict": "PARTIAL OBSERVATION",
+      "decision": "report the observed chain only, name the unobserved stage, and stop Q3 at the last observed stage",
+      "licenses": "a narrower target than the draft's; no loss may be assigned to an unobserved stage and no mechanism may be proposed from the gap"
+    },
+    {
+      "condition": "every X gate passes and C, E and R are observed on every seed",
+      "verdict": "CONVERSION OBSERVED",
+      "decision": "publish the per-seed stage table, the first dominant loss stage and the bypass split; take the named stage to a separate mechanism preregistration",
+      "licenses": "target selection only: a mechanism preregistration with its own control; no engine change, no defect verdict and no capability claim"
+    }
+  ],
+  "adoption": {
+    "rule": "Only `CONVERSION OBSERVED` produces a target, and what it licenses is a separate mechanism preregistration that names the stage it intervenes on, its own control and its own withdrawal rule. No arm of this block edits `organica/`, and no verdict here changes the engine.",
+    "withdrawal": "The reading is withdrawn if the observer class gains a second override, if the witness stops reproducing the audit row, if the engine pin moves without a version bump, or if a later block finds the observer-off arm was not the shipped build. A withdrawn reading is recorded, not deleted.",
+    "not_authorised": [
+      "running the cells before the owner records authorisation",
+      "editing any file under organica/",
+      "assigning a loss to an unobserved stage",
+      "proposing or implementing a mechanism from the stage table",
+      "re-scoring the audit, the ladder or the cap preregistration"
+    ]
+  },
+  "stop_condition": "One block, two arms, six seeds, one stage table. When it is analysed the Q3 question is closed in one of the four verdicts above. A follow-up may read these cells at a different resolution; it may not add a seed, swap an arm or re-run a failing seed. Any intervention needs its own preregistration.",
+  "cost": {
+    "cells": 12,
+    "witness_cells": 1,
+    "cycles": 120,
+    "wall_clock_estimate": "not measured; no cell has run"
+  },
+  "authorisation": {
+    "required": true,
+    "granted": true,
+    "granted_on": "2026-11-10",
+    "document": "docs/AUTHORISATION-PRESENCE-CONVERSION-1.md",
+    "quote": "Authorize all runs",
+    "scope": "all three frozen conversion blocks: PRESENCE-CONSTRUCT-1 (Q1), PRESENCE-CAP-1 (Q2) and PRESENCE-CONVERSION-1 (Q3); the grants are recorded and no cell has been executed",
+    "request": "docs/AUTHORISATION-PRESENCE-CONVERSION-1.md",
+    "note": "The draft program's freeze checklist requires the owner's authorisation before a run, and the owner gave it on 2026-11-10: `Authorize all runs`, covering all three frozen conversion blocks. The grant is recorded in `docs/AUTHORISATION-PRESENCE-CONVERSION-1.md` and quoted there; the record stays FROZEN, NOT RUN and no cell has run. `--measure`, `--cell` and `--finish` still validate the grant on every invocation. A grant is not a run: executing the first cell is a separate, dated act."
+  },
+  "not_evidence": "This record measures where world edges leave the conversion path on one world family, one engine build and one cap, with a benchmark-only observer. It does not show that any stage is a defect, that a mechanism is responsible, that raising the cap or changing the ranking would help, or that the assertion endpoint is wrong. `U`, the readout/use stage, is not observed. A named loss stage is a target for a separate preregistration, not a licence to edit the engine.",
+  "result": {
+    "artifact": "docs/presence_conversion_observer_run.json",
+    "page": "docs/PRESENCE-CONVERSION-OBSERVER-RESULT.md",
+    "verdict": "OBSERVER NOT NEUTRAL",
+    "details": {
+      "gate": "X1_observer_neutral",
+      "seed": 20611501,
+      "differs": [
+        "admission windows",
+        "admitted union",
+        "final assertion",
+        "asserted world edges"
+      ]
+    },
+    "engine_version": "0.14.0",
+    "ran_on": "2026-11-10"
+  },
+  "amendments": [
+    {
+      "date": "2026-11-11",
+      "kind": "sibling-independence",
+      "reason": "The three run conversion blocks share an engine build and an audit lineage and partly a seed set, so each record states what its verdict is independent of before any sibling result can be read as support.",
+      "clause": "PRESENCE-CONSTRUCT-1, PRESENCE-CAP-1 and PRESENCE-CONVERSION-1 are siblings: they measure different quantities on the same 0.14.0 build. This record's verdict is independent of its siblings in four senses. (a) No rows are pooled across the three, and no gate is satisfied by a sibling's measurement. (b) A sibling's verdict is not evidence for this record, in either direction: CONSTRUCT VALID does not support this verdict, CAP LIMITING does not support it, and OBSERVER NOT NEUTRAL does not withdraw it. (c) A sibling's failure does not void this record, and this record's verdict does not rescue a sibling. (d) What the three do share is disclosed rather than claimed as independence: the same engine build and the comparator audit lineage, which Q1 and Q2 reuse by design. Independence here means independence of evidence and verdict, not of seeds or build.",
+      "specific": "This record's witness reproduces the audit row; that reproduction is a disclosed dependency on the audit lineage, not support from a sibling.",
+      "unchanged": [
+        "status",
+        "verdict",
+        "gates",
+        "seeds",
+        "result",
+        "authorisation"
+      ]
+    }
+  ],
+  "build_superseded": {
+    "date": "2026-11-11",
+    "recorded_version": "0.14.0",
+    "recorded_cap": 40,
+    "recorded_sha256": "1fc7be8fae436fa154ce8a142412ffaeb8f54768f3b3ceaacd18d457b13f33f2",
+    "shipped_version": "0.15.0",
+    "shipped_cap": 112,
+    "note": "This record fixes the cap-40 build it was written on. The cap landed at 112 in 0.15.0 under DECISION-CAP-LEVEL; the record is not re-scored and its verdict, if any, stands for the 0.14.0 cap-40 build. The cap-112 reading has its own record."
+  }
+}

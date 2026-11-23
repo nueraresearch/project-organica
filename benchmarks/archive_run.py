@@ -28,6 +28,7 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+from benchmarks import engine_stamp
 
 REPO = Path(__file__).resolve().parent.parent
 
@@ -82,7 +83,7 @@ def main() -> None:
 
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps({
+    out.write_text(json.dumps(engine_stamp.stamp({
         "source": f"{log} (raw copy archived to {log})",
         "note": args.note,
         "contradiction_derivation": "summed from hypothesis_snapshot; the "
@@ -90,7 +91,7 @@ def main() -> None:
                                     "contradiction_total field",
         "cycles": len(series),
         "series": series,
-    }, indent=1), encoding="utf-8")
+    }), indent=1), encoding="utf-8")
 
     print(f"{len(series)} cycles -> {out}")
     if series:

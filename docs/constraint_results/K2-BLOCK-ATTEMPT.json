@@ -1,0 +1,16 @@
+{
+ "kind": "constraint_result",
+ "id": "RESULT-K2-ATTEMPT-1",
+ "registration": "CONSTRAINT-K2-1",
+ "date": "2026-11-19",
+ "outcome": "attempt_invalid",
+ "hypothesis_status": "untested",
+ "criteria_read": false,
+ "cells_started": 20,
+ "gate": "G4_no_pre_boundary_demotions",
+ "attempt": "k2-block-85a28ee5d26d0536",
+ "source_artifact": "docs/phase_k_k2_results.json",
+ "source_record": "docs/K2-BLOCK-RESULT.md",
+ "reason": "The treatment calls the demotion helper on every pre-boundary cycle and the helper counts each pre-boundary association, so G4 fires on every seed; the frozen build cannot return a non-VOID result.",
+ "note": "A VOID is not a null result. No criterion was read, so the K2 hypothesis is untested, not refuted."
+}

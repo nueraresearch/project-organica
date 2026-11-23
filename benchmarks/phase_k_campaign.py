@@ -54,6 +54,7 @@ from benchmarks.ablation_metrics import edges_implied_by_structures  # noqa: E40
 from organica.memory import MemoryService  # noqa: E402
 from organica.paths import temp_db  # noqa: E402
 from organica.sleep import SleepService  # noqa: E402
+from benchmarks import engine_stamp
 
 EVENTS_PER_CYCLE = 8
 BOOTSTRAP_REPLICATES = 10_000
@@ -225,7 +226,7 @@ def temporal_pairs(events: list[str], *, lookback: int, min_count: int,
 # ==================================================================
 
 def organica_pairs(events: list[str], cycles: int, seed: int,
-                   sleep_cls=SleepService) -> set[tuple[str, str]]:
+                   sleep_cls=SleepService, evidence=None) -> set[tuple[str, str]]:
     """Run the engine over the stream and return the feature pairs its
     surviving structures imply."""
     from dataclasses import asdict
@@ -244,6 +245,8 @@ def organica_pairs(events: list[str], cycles: int, seed: int,
                 mem.store(event, event_type="event", source=f"cycle:{cycle}")
             if chunk:
                 report = svc.run_sleep_cycle()
+        if evidence is not None:
+            evidence.append(getattr(svc, "manipulation", None))
         structures = []
         if report:
             for name in ("concepts", "phrases", "loops", "predictions", "anomalies",
@@ -316,12 +319,16 @@ def _core_entities(prefix: str, count: int, features_per: int = 4) -> list[tuple
     return out
 
 
-def task_k1(seed: int, scale: int = 1) -> dict:
+def task_k1(seed: int, scale: int = 1, primary_factory=None) -> dict:
     """Incremental world modeling.
 
     A two-entity scaffold is observed from cycle 1; a third entity is
     introduced at cycle 150 and the world keeps running. Scored on whether
     the persistent structure covers all three.
+
+    ``primary_factory`` is the K2 build's K1 no-op arm when this task is
+    called by the K2 block. With no factory the historical shipped arm is
+    used, so every existing result remains reproducible.
     """
     from benchmarks.force_matrix import NoQuestionsService
     cycles = 300 // scale
@@ -339,20 +346,27 @@ def task_k1(seed: int, scale: int = 1) -> dict:
     gold_core = set(world["gold_pairs"]["core_a"]) | set(world["gold_pairs"]["core_b"])
 
     scores = _score_models(world, cycles, seed, gold_all, gold_late, gold_core,
-                           NoQuestionsService, "NO_QUESTIONS")
+                           NoQuestionsService, "NO_QUESTIONS",
+                           primary_factory=primary_factory)
     return {"family": "K1", "seed": seed, "cycles": cycles,
             "protocol": {"late_entity_cycle": late,
                          "entities": world["entities"],
+                         "primary_arm": ("K1 no-op treatment"
+                                         if primary_factory is not None
+                                         else "shipped Organica"),
                          "primary": "pair F1 over all three entities' gold pairs"},
             **scores}
 
 
-def task_k2(seed: int, scale: int = 1) -> dict:
+def task_k2(seed: int, scale: int = 1, primary_factory=None) -> dict:
     """Belief revision.
 
     One entity holds the world until cycle 200, then a different entity
     takes over and the first stops appearing. Scored on whether the
     structure tracks the new regime without carrying the old one forward.
+
+    ``primary_factory`` is the K2 treatment arm when this task is called by
+    the K2 block. With no factory the historical shipped arm is used.
     """
     cycles = 300 // scale
     switch = 200 // scale
@@ -367,10 +381,13 @@ def task_k2(seed: int, scale: int = 1) -> dict:
 
     scores = _score_models(world, cycles, seed, gold_new, None, gold_old,
                            no_falsification_service(), "NO_FALSIFICATION",
-                           revision=True)
+                           revision=True, primary_factory=primary_factory)
     return {"family": "K2", "seed": seed, "cycles": cycles,
             "protocol": {"switch_cycle": switch,
                          "entities": world["entities"],
+                         "primary_arm": ("K2 treatment"
+                                         if primary_factory is not None
+                                         else "shipped Organica"),
                          "primary": "revision F1: current-regime pairs are the "
                                     "gold, the retired regime's pairs are false "
                                     "positives"},
@@ -410,12 +427,16 @@ def task_k3(seed: int, scale: int = 1) -> dict:
 
 
 def _score_models(world, cycles, seed, gold_primary, gold_late, gold_retired,
-                  ablation_cls, ablation_name, *, revision=False, joint=False) -> dict:
+                  ablation_cls, ablation_name, *, revision=False, joint=False,
+                  primary_factory=None) -> dict:
     """Run every model on one world and score it."""
     events = world["events"]
     results = []
 
-    organica = organica_pairs(events, cycles, seed)
+    primary_evidence = []
+    organica = organica_pairs(
+        events, cycles, seed, sleep_cls=primary_factory or SleepService,
+        evidence=primary_evidence)
     results.append({"model": "organica", **_score_one(organica, gold_primary,
                                                        gold_late, gold_retired,
                                                        revision, joint)})
@@ -453,6 +474,8 @@ def _score_models(world, cycles, seed, gold_primary, gold_late, gold_retired,
         "best_simple_baseline": max(
             (best["cooccurrence"], best["temporal_graph"]),
             key=lambda r: r["primary"]),
+        "primary_manipulation": (primary_evidence[0]
+                                 if primary_evidence else None),
     }
 
 
@@ -576,9 +599,9 @@ def summarize(records: list[dict], family: str) -> dict:
         verdict = "REVERSED"
     else:
         verdict = "INCONCLUSIVE"
-    # Attribution is reported, not required: does the matched ablation keep
-    # the advantage?
-    mechanism_implicated = ci_abl[0] <= 0
+    # Differences are Organica minus the matched ablation, so implicating the
+    # mechanism requires the whole paired interval to be above zero.
+    mechanism_implicated = ci_abl[0] > 0
 
     return {
         "family": family,
@@ -605,8 +628,8 @@ def summarize(records: list[dict], family: str) -> dict:
                 "interval": ci_abl,
             },
             "mechanism_implicated": mechanism_implicated,
-            "note": ("Attribution only. A win with the ablation also winning "
-                     "means the hypothesised mechanism is not the cause."),
+            "note": ("Attribution only: true when the paired Organica minus "
+                     "ablation interval is wholly above zero."),
         },
         "verdict": verdict,
         "per_seed": [
@@ -624,9 +647,12 @@ def summarize(records: list[dict], family: str) -> dict:
 # ==================================================================
 
 def _run_one(args) -> dict:
-    family, seed, scale = args
+    family, seed, scale, primary_factory = args
     task = TASKS[family]
-    record = task(seed, scale)
+    if primary_factory is not None and family in ("K1", "K2"):
+        record = task(seed, scale, primary_factory=primary_factory)
+    else:
+        record = task(seed, scale)
     return {
         "family": family,
         "seed": seed,
@@ -634,6 +660,7 @@ def _run_one(args) -> dict:
         "ablation": record["models"][1]["primary"],
         "best_simple_baseline": record["best_simple_baseline"],
         "all_models": record["models"],
+        "manipulation": record.get("primary_manipulation"),
         "protocol": record["protocol"],
     }
 
@@ -662,11 +689,247 @@ def _normalise_record(r: dict) -> dict:
     }
 
 
+# ==================================================================
+# The live recording: one reader, used by every consumer of the file
+# ==================================================================
+
+# The row fields that name a cell.  The writer here emits ``family`` and
+# ``seed``; a harness that keeps the same one-line-per-cell format names its
+# own (Phase L uses ``arm``, ``label`` and ``seed``).  One reader serves all of
+# them, so no two consumers of a recording can disagree about what it holds.
+CHECKPOINT_KEY_FIELDS = ("family", "seed")
+
+# The row fields that are the cell's measurement.  A repeated cell must agree
+# on all of them; the key fields are its identity, not its content.
+CHECKPOINT_CELL_FIELDS = (
+    "organica", "ablation", "best_simple_baseline", "all_models",
+    "manipulation", "protocol",
+)
+
+
+class CheckpointError(RuntimeError):
+    """The live recording cannot be read as one complete record per cell.
+
+    A refusal, not a crash: the recording is written before the result is
+    assembled and before a resume appends to it, so a recording that cannot be
+    read must not be appended to.  Skipping a broken row would hide it, and the
+    next reader would inherit a file that no longer parses.
+
+    The error carries its refusal code, message and evidence.  A caller that
+    publishes a receipt -- the K2 block's runner -- adds the shape it needs in
+    its own subclass, so this module does not define receipt fields it never
+    produces.
+    """
+
+    def __init__(self, code: str, message: str, **evidence):
+        super().__init__(message)
+        self.code = code
+        self.message = message
+        self.evidence = evidence
+
+
+def _cell_key(row: dict, families: tuple[str, ...] | None = None,
+              *, key_fields: tuple[str, ...] = CHECKPOINT_KEY_FIELDS,
+              ) -> tuple[str | int, ...] | None:
+    """The cell a checkpoint row records, or ``None`` if it records no cell.
+
+    ``families`` is the set of families this harness can write, not the set one
+    invocation asked for: a recording legitimately holds rows from families a
+    subset resume is not running, and those rows are still cells.  It names the
+    row's ``family`` field, which is this campaign's filter; a harness with no
+    family axis passes ``None``.
+
+    Every key field must be present and usable as a key: a non-empty string or
+    a non-boolean integer.  A row that fails that is not a cell, and the caller
+    decides whether it is a torn final line or corruption.
+    """
+    key: list[str | int] = []
+    for name in key_fields:
+        value = row.get(name)
+        if isinstance(value, bool):
+            return None
+        if isinstance(value, str):
+            if not value:
+                return None
+        elif not isinstance(value, int):
+            return None
+        key.append(value)
+    if families is not None and row.get("family") not in families:
+        return None
+    return tuple(key)
+
+
+def _cell_payload(row: dict,
+                  cell_fields: tuple[str, ...] = CHECKPOINT_CELL_FIELDS) -> str:
+    """The measured content of a row, for comparing two rows of one cell."""
+    return json.dumps({name: row.get(name) for name in cell_fields},
+                      sort_keys=True, separators=(",", ":"))
+
+
+def read_checkpoint_report(path: Path | str, *,
+                           families: tuple[str, ...] | None = None,
+                           key_fields: tuple[str, ...] = CHECKPOINT_KEY_FIELDS,
+                           cell_fields: tuple[str, ...] = CHECKPOINT_CELL_FIELDS,
+                           ) -> dict:
+    """Read the live recording into one record per cell.
+
+    The campaign appends one line per completed cell and flushes it, so two
+    things can be true of the file without a bug, and only those two are
+    tolerated:
+
+    * **A torn final line.**  A kill during the append leaves the last line
+      unparseable.  It is dropped and reported; every earlier row was written
+      with a flush and an fsync, so it is complete.  A *complete* final line
+      without a trailing newline parses, so it is kept and is not partial.
+    * **A repeated cell.**  Rows are only ever appended, so the later row wins.
+      The same seed under the same arm is deterministic, so two rows for one
+      cell must agree on the measured fields: an agreeing repeat is counted, a
+      disagreeing one is refused rather than silently resolved.
+
+    Anything else is corruption.  An unreadable or non-cell row *before* the
+    last line would silently remove a completed cell from the assembled
+    result, which is a wrong result rather than a smaller one, so it refuses;
+    so does a **parseable** final row that is not a cell, because a torn write
+    is exactly a line that does not parse.  Every consumer of this file -- the
+    K2 block's result assembly, this campaign's own ``--resume`` and Phase L's
+    ``--resume`` -- reads it here, so they cannot disagree about what the
+    recording contains.  ``key_fields`` and ``cell_fields`` let a harness with
+    a different record shape use the same rules rather than its own reader.
+    """
+    path = Path(path)
+    report = {
+        "path": str(path),
+        "key_fields": list(key_fields),
+        "cell_fields": list(cell_fields),
+        "rows": 0,
+        "cells": 0,
+        "duplicate_cells": 0,
+        "duplicate_rows": 0,
+        "blank_lines": 0,
+        "partial_final_row": False,
+        "partial_final_line": None,
+        "records": [],
+    }
+    if not path.exists():
+        return report
+
+    lines = path.read_text(encoding="utf-8").splitlines()
+    last = max((index for index, line in enumerate(lines) if line.strip()),
+               default=None)
+    rows: dict[tuple[str | int, ...], dict] = {}
+    payloads: dict[tuple[str | int, ...], str] = {}
+    first_lines: dict[tuple[str | int, ...], int] = {}
+    repeated: set[tuple[str | int, ...]] = set()
+    order: list[tuple[str | int, ...]] = []
+    for index, line in enumerate(lines):
+        if not line.strip():
+            report["blank_lines"] += 1
+            continue
+        final = index == last
+        parsed = True
+        try:
+            row = json.loads(line)
+        except ValueError:
+            parsed, row = False, None
+        key = (_cell_key(row, families, key_fields=key_fields)
+               if isinstance(row, dict) else None)
+        if key is None:
+            if final and not parsed:
+                report["partial_final_row"] = True
+                report["partial_final_line"] = index + 1
+                continue
+            raise CheckpointError(
+                "CHECKPOINT_CORRUPT",
+                "the checkpoint has a row that is not a cell",
+                checkpoint_path=str(path),
+                line=index + 1,
+                rows_read=report["rows"],
+                reason="unreadable" if not parsed else "not_a_cell_row",
+            )
+        report["rows"] += 1
+        if key in rows:
+            if _cell_payload(row, cell_fields) != payloads[key]:
+                evidence = {
+                    "checkpoint_path": str(path),
+                    "cell": dict(zip(key_fields, key)),
+                    "first_line": first_lines[key],
+                    "second_line": index + 1,
+                    "differing_fields": [
+                        name for name in cell_fields
+                        if row.get(name) != rows[key].get(name)],
+                }
+                for name, value in zip(key_fields, key):
+                    evidence.setdefault(name, value)
+                raise CheckpointError(
+                    "CHECKPOINT_DUPLICATE_DISAGREES",
+                    "two checkpoint rows record different values for one cell",
+                    **evidence,
+                )
+            repeated.add(key)
+            report["duplicate_rows"] += 1
+        else:
+            order.append(key)
+            first_lines[key] = index + 1
+        rows[key] = row
+        payloads[key] = _cell_payload(row, cell_fields)
+
+    report["cells"] = len(order)
+    report["duplicate_cells"] = len(repeated)
+    report["records"] = [rows[key] for key in order]
+    return report
+
+
+def read_checkpoint(path: Path | str, *,
+                    families: tuple[str, ...] | None = None,
+                    key_fields: tuple[str, ...] = CHECKPOINT_KEY_FIELDS,
+                    cell_fields: tuple[str, ...] = CHECKPOINT_CELL_FIELDS,
+                    ) -> list[dict]:
+    """The checkpoint's records: one per cell, in first-appearance order."""
+    return read_checkpoint_report(path, families=families,
+                                  key_fields=key_fields,
+                                  cell_fields=cell_fields)["records"]
+
+
+def repair_partial_final_row(path: Path | str, *,
+                             families: tuple[str, ...] | None = None,
+                             key_fields: tuple[str, ...] = CHECKPOINT_KEY_FIELDS,
+                             cell_fields: tuple[str, ...] = CHECKPOINT_CELL_FIELDS,
+                             ) -> dict:
+    """Truncate a torn final line, then re-read the recording.
+
+    A partial tail is harmless while it is the last line, and becomes an
+    unreadable row in the middle of the file the moment the campaign appends
+    the next cell -- which would refuse the resume that was meant to recover
+    the run.  The tail is not a record and never was, so cutting it back to the
+    last complete row loses nothing and keeps the recording append-only.
+    """
+    path = Path(path)
+    report = read_checkpoint_report(path, families=families,
+                                    key_fields=key_fields,
+                                    cell_fields=cell_fields)
+    if not report["partial_final_row"]:
+        return report
+    data = path.read_bytes()
+    offset = 0
+    for line in data.splitlines(keepends=True)[:report["partial_final_line"] - 1]:
+        offset += len(line)
+    with open(path, "r+b") as handle:
+        handle.truncate(offset)
+    repaired = read_checkpoint_report(path, families=families,
+                                      key_fields=key_fields,
+                                      cell_fields=cell_fields)
+    repaired["repaired_partial_row"] = True
+    repaired["partial_final_line"] = report["partial_final_line"]
+    return repaired
+
+
 def run_campaign(families: list[str], seeds: list[int], workers: int,
                  scale: int = 1, out_path: Path | None = None,
                  resume: bool = False,
-                 checkpoint_path: Path | None = None) -> dict:
-    jobs = [(f, s, scale) for f in families for s in seeds]
+                 checkpoint_path: Path | None = None,
+                 primary_factories: dict | None = None) -> dict:
+    factories = primary_factories or {}
+    jobs = [(f, s, scale, factories.get(f)) for f in families for s in seeds]
     started = time.time()
     records: list[dict] = []
 
@@ -700,6 +963,22 @@ def run_campaign(families: list[str], seeds: list[int], workers: int,
             pass
 
     if resume and out_path is not None:
+        # The live recording is read by the same strict reader the K2 block
+        # uses, so the two consumers of one file cannot disagree about it.  A
+        # torn final line is truncated back to the last complete row *before*
+        # anything appends, because appending past it would turn a tolerable
+        # last line into an unreadable interior one.
+        checkpoint_report = None
+        if checkpoint_path is not None and checkpoint_path.exists():
+            checkpoint_report = repair_partial_final_row(
+                checkpoint_path, families=tuple(TASKS))
+            if checkpoint_report.get("repaired_partial_row"):
+                print(f"  the recording's last line was incomplete; truncated "
+                      f"it to {checkpoint_report['cells']} complete cell(s)")
+            if checkpoint_report["duplicate_cells"]:
+                print(f"  the recording repeats "
+                      f"{checkpoint_report['duplicate_cells']} cell(s); "
+                      f"keeping one row per cell")
         prior = None
         if out_path.exists():
             try:
@@ -713,25 +992,16 @@ def run_campaign(families: list[str], seeds: list[int], workers: int,
             if not records:
                 records = [_normalise_record(r)
                            for r in prior.get("per_model_detail", [])]
-        elif checkpoint_path is not None and checkpoint_path.exists():
+        elif checkpoint_report is not None:
             # The results file is gone but the live recording survived.
-            records = []
-            for line in checkpoint_path.read_text(encoding="utf-8").splitlines():
-                line = line.strip()
-                if not line:
-                    continue
-                try:
-                    records.append(_normalise_record(json.loads(line)))
-                except Exception:
-                    continue
+            records = [_normalise_record(row)
+                       for row in checkpoint_report["records"]]
             print(f"  rebuilt {len(records)} record(s) from the checkpoint log")
         if records:
             done = {(r["family"], r["seed"]) for r in records}
             jobs = [j for j in jobs if (j[0], j[1]) not in done]
             print(f"  resuming: {len(records)} seed(s) already done, "
                   f"{len(jobs)} to go")
-        else:
-            jobs = [(f, s, scale) for f in families for s in seeds]
 
     def flush(complete: bool = False) -> None:
         """Write the per-seed results as they arrive.
@@ -783,7 +1053,7 @@ def run_campaign(families: list[str], seeds: list[int], workers: int,
             f for f, s in payload["summaries"].items() if s["verdict"] == "SUPPORTED"]
         out_path.parent.mkdir(parents=True, exist_ok=True)
         tmp = out_path.with_suffix(out_path.suffix + ".tmp")
-        tmp.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+        tmp.write_text(json.dumps(engine_stamp.stamp(payload), indent=2), encoding="utf-8")
         os.replace(tmp, out_path)
 
     if workers > 1:
@@ -994,7 +1264,7 @@ def main() -> None:
 
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(result, indent=2), encoding="utf-8")
+    out.write_text(json.dumps(engine_stamp.stamp(result), indent=2), encoding="utf-8")
     print(f"  wrote {out}")
 
 

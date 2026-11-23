@@ -1,0 +1,1039 @@
+{
+  "kind": "v2_first_cell_mass_match",
+  "id": "V2-FIRST-CELL-MASS-MATCH-1",
+  "date": "2026-11-16",
+  "status": "DIAGNOSTIC — TWO MATCHED FROZEN CONTROLS ON THE NULL WORLDS, NOT A CELL AND NOT A VERDICT",
+  "question": "is the revision rule's −0.000465 offset explained by total mass, by how that mass is allocated across composites, or by a recency/selection advantage?",
+  "design": {
+    "worlds": "the 20 null worlds, reused by restatement of their seed reservation",
+    "mass": "draw the maintained arm's total edge count at random from the whole frozen edge pool; total mass equal, allocation free",
+    "keys": "draw the same total edge count, confined to a random subset of frozen composites of the same non-empty size as maintained, at least one edge each, as far as those keys' capacities allow; the residual shortfall is reported",
+    "beta": "each matched arm selects its own beta on the calibration band from the declared grid",
+    "quantity": "delta = d_matched - d_maintained; positive means maintained is better than the control",
+    "reading": "99% interval includes zero -> the control reproduces the maintained cost; above zero -> the randomised dimension adds value; below zero -> the random control is better",
+    "level": 0.99,
+    "resamples": 10000,
+    "bootstrap_seed": 20261116
+  },
+  "seeds": [
+    20920101,
+    20920102,
+    20920103,
+    20920104,
+    20920105,
+    20920106,
+    20920107,
+    20920108,
+    20920109,
+    20920110,
+    20920111,
+    20920112,
+    20920113,
+    20920114,
+    20920115,
+    20920116,
+    20920117,
+    20920118,
+    20920119,
+    20920120
+  ],
+  "per_seed": [
+    {
+      "seed": 20920101,
+      "arms": {
+        "A": 0.37621,
+        "C": 0.377027,
+        "MASS": 0.376476,
+        "KEYS": 0.37646
+      },
+      "beta": {
+        "C": 1,
+        "MASS": 1,
+        "KEYS": 1
+      },
+      "d_maintained": 0.000817,
+      "mass": {
+        "frozen": {
+          "composites": 97,
+          "nonempty": 97,
+          "edges": 247,
+          "mean_edges": 2.546392
+        },
+        "maintained": {
+          "composites": 97,
+          "nonempty": 38,
+          "edges": 92,
+          "mean_edges": 2.421053
+        },
+        "mass": {
+          "composites": 97,
+          "nonempty": 65,
+          "edges": 92,
+          "mean_edges": 1.415385
+        },
+        "keys": {
+          "composites": 97,
+          "nonempty": 38,
+          "edges": 92,
+          "mean_edges": 2.421053
+        }
+      },
+      "shortfall_mass": 0,
+      "delta_mass": -0.0005510000000000237,
+      "d_mass": 0.00026599999999998847,
+      "shortfall_keys": 0,
+      "delta_keys": -0.0005669999999999842,
+      "d_keys": 0.000250000000000028
+    },
+    {
+      "seed": 20920102,
+      "arms": {
+        "A": 0.38136,
+        "C": 0.38225,
+        "MASS": 0.381363,
+        "KEYS": 0.381775
+      },
+      "beta": {
+        "C": 1,
+        "MASS": 1,
+        "KEYS": 1
+      },
+      "d_maintained": 0.00089,
+      "mass": {
+        "frozen": {
+          "composites": 114,
+          "nonempty": 114,
+          "edges": 294,
+          "mean_edges": 2.578947
+        },
+        "maintained": {
+          "composites": 114,
+          "nonempty": 29,
+          "edges": 73,
+          "mean_edges": 2.517241
+        },
+        "mass": {
+          "composites": 114,
+          "nonempty": 59,
+          "edges": 73,
+          "mean_edges": 1.237288
+        },
+        "keys": {
+          "composites": 114,
+          "nonempty": 29,
+          "edges": 65,
+          "mean_edges": 2.241379
+        }
+      },
+      "shortfall_mass": 0,
+      "delta_mass": -0.0008869999999999711,
+      "d_mass": 3.000000000030756e-06,
+      "shortfall_keys": 8,
+      "delta_keys": -0.0004750000000000032,
+      "d_keys": 0.0004149999999999987
+    },
+    {
+      "seed": 20920103,
+      "arms": {
+        "A": 0.382719,
+        "C": 0.383837,
+        "MASS": 0.383585,
+        "KEYS": 0.383086
+      },
+      "beta": {
+        "C": 1,
+        "MASS": 1,
+        "KEYS": 1
+      },
+      "d_maintained": 0.001118,
+      "mass": {
+        "frozen": {
+          "composites": 149,
+          "nonempty": 149,
+          "edges": 395,
+          "mean_edges": 2.651007
+        },
+        "maintained": {
+          "composites": 149,
+          "nonempty": 59,
+          "edges": 151,
+          "mean_edges": 2.559322
+        },
+        "mass": {
+          "composites": 149,
+          "nonempty": 104,
+          "edges": 151,
+          "mean_edges": 1.451923
+        },
+        "keys": {
+          "composites": 149,
+          "nonempty": 59,
+          "edges": 149,
+          "mean_edges": 2.525424
+        }
+      },
+      "shortfall_mass": 0,
+      "delta_mass": -0.00025199999999997447,
+      "d_mass": 0.0008660000000000334,
+      "shortfall_keys": 2,
+      "delta_keys": -0.0007510000000000017,
+      "d_keys": 0.0003670000000000062
+    },
+    {
+      "seed": 20920104,
+      "arms": {
+        "A": 0.375018,
+        "C": 0.376923,
+        "MASS": 0.376065,
+        "KEYS": 0.376493
+      },
+      "beta": {
+        "C": 1,
+        "MASS": 1,
+        "KEYS": 1
+      },
+      "d_maintained": 0.001905,
+      "mass": {
+        "frozen": {
+          "composites": 122,
+          "nonempty": 122,
+          "edges": 318,
+          "mean_edges": 2.606557
+        },
+        "maintained": {
+          "composites": 122,
+          "nonempty": 43,
+          "edges": 109,
+          "mean_edges": 2.534884
+        },
+        "mass": {
+          "composites": 122,
+          "nonempty": 75,
+          "edges": 109,
+          "mean_edges": 1.453333
+        },
+        "keys": {
+          "composites": 122,
+          "nonempty": 43,
+          "edges": 109,
+          "mean_edges": 2.534884
+        }
+      },
+      "shortfall_mass": 0,
+      "delta_mass": -0.0008580000000000254,
+      "d_mass": 0.0010469999999999646,
+      "shortfall_keys": 0,
+      "delta_keys": -0.00042999999999998595,
+      "d_keys": 0.001475000000000004
+    },
+    {
+      "seed": 20920105,
+      "arms": {
+        "A": 0.37687,
+        "C": 0.377758,
+        "MASS": 0.377286,
+        "KEYS": 0.377532
+      },
+      "beta": {
+        "C": 1,
+        "MASS": 1,
+        "KEYS": 1
+      },
+      "d_maintained": 0.000888,
+      "mass": {
+        "frozen": {
+          "composites": 86,
+          "nonempty": 86,
+          "edges": 226,
+          "mean_edges": 2.627907
+        },
+        "maintained": {
+          "composites": 86,
+          "nonempty": 22,
+          "edges": 60,
+          "mean_edges": 2.727273
+        },
+        "mass": {
+          "composites": 86,
+          "nonempty": 45,
+          "edges": 60,
+          "mean_edges": 1.333333
+        },
+        "keys": {
+          "composites": 86,
+          "nonempty": 22,
+          "edges": 58,
+          "mean_edges": 2.636364
+        }
+      },
+      "shortfall_mass": 0,
+      "delta_mass": -0.00047199999999997244,
+      "d_mass": 0.00041600000000002746,
+      "shortfall_keys": 2,
+      "delta_keys": -0.00022600000000000398,
+      "d_keys": 0.0006619999999999959
+    },
+    {
+      "seed": 20920106,
+      "arms": {
+        "A": 0.379284,
+        "C": 0.380397,
+        "MASS": 0.379527,
+        "KEYS": 0.380006
+      },
+      "beta": {
+        "C": 1,
+        "MASS": 1,
+        "KEYS": 1
+      },
+      "d_maintained": 0.001113,
+      "mass": {
+        "frozen": {
+          "composites": 113,
+          "nonempty": 113,
+          "edges": 283,
+          "mean_edges": 2.504425
+        },
+        "maintained": {
+          "composites": 113,
+          "nonempty": 36,
+          "edges": 84,
+          "mean_edges": 2.333333
+        },
+        "mass": {
+          "composites": 113,
+          "nonempty": 65,
+          "edges": 84,
+          "mean_edges": 1.292308
+        },
+        "keys": {
+          "composites": 113,
+          "nonempty": 36,
+          "edges": 84,
+          "mean_edges": 2.333333
+        }
+      },
+      "shortfall_mass": 0,
+      "delta_mass": -0.0008699999999999819,
+      "d_mass": 0.00024299999999999322,
+      "shortfall_keys": 0,
+      "delta_keys": -0.0003909999999999747,
+      "d_keys": 0.0007220000000000004
+    },
+    {
+      "seed": 20920107,
+      "arms": {
+        "A": 0.379603,
+        "C": 0.381042,
+        "MASS": 0.381919,
+        "KEYS": 0.380334
+      },
+      "beta": {
+        "C": 1,
+        "MASS": 2,
+        "KEYS": 1
+      },
+      "d_maintained": 0.001439,
+      "mass": {
+        "frozen": {
+          "composites": 158,
+          "nonempty": 158,
+          "edges": 412,
+          "mean_edges": 2.607595
+        },
+        "maintained": {
+          "composites": 158,
+          "nonempty": 74,
+          "edges": 186,
+          "mean_edges": 2.513514
+        },
+        "mass": {
+          "composites": 158,
+          "nonempty": 119,
+          "edges": 186,
+          "mean_edges": 1.563025
+        },
+        "keys": {
+          "composites": 158,
+          "nonempty": 74,
+          "edges": 186,
+          "mean_edges": 2.513514
+        }
+      },
+      "shortfall_mass": 0,
+      "delta_mass": 0.0008770000000000167,
+      "d_mass": 0.0023159999999999847,
+      "shortfall_keys": 0,
+      "delta_keys": -0.0007079999999999864,
+      "d_keys": 0.0007309999999999817
+    },
+    {
+      "seed": 20920108,
+      "arms": {
+        "A": 0.375153,
+        "C": 0.374963,
+        "MASS": 0.374566,
+        "KEYS": 0.374815
+      },
+      "beta": {
+        "C": 1,
+        "MASS": 1,
+        "KEYS": 1
+      },
+      "d_maintained": -0.00019,
+      "mass": {
+        "frozen": {
+          "composites": 125,
+          "nonempty": 125,
+          "edges": 329,
+          "mean_edges": 2.632
+        },
+        "maintained": {
+          "composites": 125,
+          "nonempty": 40,
+          "edges": 106,
+          "mean_edges": 2.65
+        },
+        "mass": {
+          "composites": 125,
+          "nonempty": 78,
+          "edges": 106,
+          "mean_edges": 1.358974
+        },
+        "keys": {
+          "composites": 125,
+          "nonempty": 40,
+          "edges": 106,
+          "mean_edges": 2.65
+        }
+      },
+      "shortfall_mass": 0,
+      "delta_mass": -0.0003969999999999807,
+      "d_mass": -0.0005870000000000042,
+      "shortfall_keys": 0,
+      "delta_keys": -0.00014799999999998148,
+      "d_keys": -0.00033800000000000496
+    },
+    {
+      "seed": 20920109,
+      "arms": {
+        "A": 0.379253,
+        "C": 0.380875,
+        "MASS": 0.380948,
+        "KEYS": 0.379065
+      },
+      "beta": {
+        "C": 1,
+        "MASS": 2,
+        "KEYS": 1
+      },
+      "d_maintained": 0.001622,
+      "mass": {
+        "frozen": {
+          "composites": 130,
+          "nonempty": 130,
+          "edges": 338,
+          "mean_edges": 2.6
+        },
+        "maintained": {
+          "composites": 130,
+          "nonempty": 50,
+          "edges": 128,
+          "mean_edges": 2.56
+        },
+        "mass": {
+          "composites": 130,
+          "nonempty": 88,
+          "edges": 128,
+          "mean_edges": 1.454545
+        },
+        "keys": {
+          "composites": 130,
+          "nonempty": 50,
+          "edges": 128,
+          "mean_edges": 2.56
+        }
+      },
+      "shortfall_mass": 0,
+      "delta_mass": 7.299999999998974e-05,
+      "d_mass": 0.001695000000000002,
+      "shortfall_keys": 0,
+      "delta_keys": -0.0018100000000000338,
+      "d_keys": -0.00018800000000002148
+    },
+    {
+      "seed": 20920110,
+      "arms": {
+        "A": 0.38091,
+        "C": 0.382371,
+        "MASS": 0.381644,
+        "KEYS": 0.382289
+      },
+      "beta": {
+        "C": 1,
+        "MASS": 1,
+        "KEYS": 1
+      },
+      "d_maintained": 0.001461,
+      "mass": {
+        "frozen": {
+          "composites": 87,
+          "nonempty": 87,
+          "edges": 215,
+          "mean_edges": 2.471264
+        },
+        "maintained": {
+          "composites": 87,
+          "nonempty": 32,
+          "edges": 84,
+          "mean_edges": 2.625
+        },
+        "mass": {
+          "composites": 87,
+          "nonempty": 59,
+          "edges": 84,
+          "mean_edges": 1.423729
+        },
+        "keys": {
+          "composites": 87,
+          "nonempty": 32,
+          "edges": 78,
+          "mean_edges": 2.4375
+        }
+      },
+      "shortfall_mass": 0,
+      "delta_mass": -0.0007270000000000332,
+      "d_mass": 0.0007339999999999569,
+      "shortfall_keys": 6,
+      "delta_keys": -8.20000000000265e-05,
+      "d_keys": 0.0013789999999999636
+    },
+    {
+      "seed": 20920111,
+      "arms": {
+        "A": 0.37833,
+        "C": 0.378868,
+        "MASS": 0.378349,
+        "KEYS": 0.378039
+      },
+      "beta": {
+        "C": 1,
+        "MASS": 1,
+        "KEYS": 1
+      },
+      "d_maintained": 0.000538,
+      "mass": {
+        "frozen": {
+          "composites": 129,
+          "nonempty": 129,
+          "edges": 329,
+          "mean_edges": 2.550388
+        },
+        "maintained": {
+          "composites": 129,
+          "nonempty": 37,
+          "edges": 93,
+          "mean_edges": 2.513514
+        },
+        "mass": {
+          "composites": 129,
+          "nonempty": 76,
+          "edges": 93,
+          "mean_edges": 1.223684
+        },
+        "keys": {
+          "composites": 129,
+          "nonempty": 37,
+          "edges": 93,
+          "mean_edges": 2.513514
+        }
+      },
+      "shortfall_mass": 0,
+      "delta_mass": -0.0005189999999999917,
+      "d_mass": 1.8999999999991246e-05,
+      "shortfall_keys": 0,
+      "delta_keys": -0.0008289999999999687,
+      "d_keys": -0.0002909999999999857
+    },
+    {
+      "seed": 20920112,
+      "arms": {
+        "A": 0.382271,
+        "C": 0.382963,
+        "MASS": 0.382261,
+        "KEYS": 0.382175
+      },
+      "beta": {
+        "C": 1,
+        "MASS": 1,
+        "KEYS": 1
+      },
+      "d_maintained": 0.000692,
+      "mass": {
+        "frozen": {
+          "composites": 130,
+          "nonempty": 130,
+          "edges": 334,
+          "mean_edges": 2.569231
+        },
+        "maintained": {
+          "composites": 130,
+          "nonempty": 47,
+          "edges": 119,
+          "mean_edges": 2.531915
+        },
+        "mass": {
+          "composites": 130,
+          "nonempty": 84,
+          "edges": 119,
+          "mean_edges": 1.416667
+        },
+        "keys": {
+          "composites": 130,
+          "nonempty": 47,
+          "edges": 119,
+          "mean_edges": 2.531915
+        }
+      },
+      "shortfall_mass": 0,
+      "delta_mass": -0.0007019999999999804,
+      "d_mass": -1.0000000000010001e-05,
+      "shortfall_keys": 0,
+      "delta_keys": -0.0007880000000000109,
+      "d_keys": -9.60000000000405e-05
+    },
+    {
+      "seed": 20920113,
+      "arms": {
+        "A": 0.381869,
+        "C": 0.382751,
+        "MASS": 0.381841,
+        "KEYS": 0.381857
+      },
+      "beta": {
+        "C": 1,
+        "MASS": 1,
+        "KEYS": 1
+      },
+      "d_maintained": 0.000882,
+      "mass": {
+        "frozen": {
+          "composites": 119,
+          "nonempty": 119,
+          "edges": 309,
+          "mean_edges": 2.596639
+        },
+        "maintained": {
+          "composites": 119,
+          "nonempty": 33,
+          "edges": 83,
+          "mean_edges": 2.515152
+        },
+        "mass": {
+          "composites": 119,
+          "nonempty": 64,
+          "edges": 83,
+          "mean_edges": 1.296875
+        },
+        "keys": {
+          "composites": 119,
+          "nonempty": 33,
+          "edges": 83,
+          "mean_edges": 2.515152
+        }
+      },
+      "shortfall_mass": 0,
+      "delta_mass": -0.0009100000000000219,
+      "d_mass": -2.8000000000028002e-05,
+      "shortfall_keys": 0,
+      "delta_keys": -0.0008940000000000059,
+      "d_keys": -1.2000000000012001e-05
+    },
+    {
+      "seed": 20920114,
+      "arms": {
+        "A": 0.377264,
+        "C": 0.378144,
+        "MASS": 0.377117,
+        "KEYS": 0.377493
+      },
+      "beta": {
+        "C": 1,
+        "MASS": 1,
+        "KEYS": 1
+      },
+      "d_maintained": 0.00088,
+      "mass": {
+        "frozen": {
+          "composites": 133,
+          "nonempty": 133,
+          "edges": 335,
+          "mean_edges": 2.518797
+        },
+        "maintained": {
+          "composites": 133,
+          "nonempty": 22,
+          "edges": 56,
+          "mean_edges": 2.545455
+        },
+        "mass": {
+          "composites": 133,
+          "nonempty": 48,
+          "edges": 56,
+          "mean_edges": 1.166667
+        },
+        "keys": {
+          "composites": 133,
+          "nonempty": 22,
+          "edges": 56,
+          "mean_edges": 2.545455
+        }
+      },
+      "shortfall_mass": 0,
+      "delta_mass": -0.0010270000000000001,
+      "d_mass": -0.00014700000000000824,
+      "shortfall_keys": 0,
+      "delta_keys": -0.0006509999999999572,
+      "d_keys": 0.00022900000000003473
+    },
+    {
+      "seed": 20920115,
+      "arms": {
+        "A": 0.378543,
+        "C": 0.379845,
+        "MASS": 0.379768,
+        "KEYS": 0.379006
+      },
+      "beta": {
+        "C": 1,
+        "MASS": 1,
+        "KEYS": 1
+      },
+      "d_maintained": 0.001302,
+      "mass": {
+        "frozen": {
+          "composites": 170,
+          "nonempty": 170,
+          "edges": 434,
+          "mean_edges": 2.552941
+        },
+        "maintained": {
+          "composites": 170,
+          "nonempty": 49,
+          "edges": 121,
+          "mean_edges": 2.469388
+        },
+        "mass": {
+          "composites": 170,
+          "nonempty": 96,
+          "edges": 121,
+          "mean_edges": 1.260417
+        },
+        "keys": {
+          "composites": 170,
+          "nonempty": 49,
+          "edges": 121,
+          "mean_edges": 2.469388
+        }
+      },
+      "shortfall_mass": 0,
+      "delta_mass": -7.699999999999374e-05,
+      "d_mass": 0.001224999999999976,
+      "shortfall_keys": 0,
+      "delta_keys": -0.0008389999999999787,
+      "d_keys": 0.0004629999999999912
+    },
+    {
+      "seed": 20920116,
+      "arms": {
+        "A": 0.38074,
+        "C": 0.381854,
+        "MASS": 0.380768,
+        "KEYS": 0.381058
+      },
+      "beta": {
+        "C": 1,
+        "MASS": 1,
+        "KEYS": 1
+      },
+      "d_maintained": 0.001114,
+      "mass": {
+        "frozen": {
+          "composites": 132,
+          "nonempty": 132,
+          "edges": 336,
+          "mean_edges": 2.545455
+        },
+        "maintained": {
+          "composites": 132,
+          "nonempty": 39,
+          "edges": 99,
+          "mean_edges": 2.538462
+        },
+        "mass": {
+          "composites": 132,
+          "nonempty": 75,
+          "edges": 99,
+          "mean_edges": 1.32
+        },
+        "keys": {
+          "composites": 132,
+          "nonempty": 39,
+          "edges": 93,
+          "mean_edges": 2.384615
+        }
+      },
+      "shortfall_mass": 0,
+      "delta_mass": -0.0010860000000000314,
+      "d_mass": 2.799999999997249e-05,
+      "shortfall_keys": 6,
+      "delta_keys": -0.0007960000000000189,
+      "d_keys": 0.00031799999999998496
+    },
+    {
+      "seed": 20920117,
+      "arms": {
+        "A": 0.38233,
+        "C": 0.382621,
+        "MASS": 0.382762,
+        "KEYS": 0.382502
+      },
+      "beta": {
+        "C": 1,
+        "MASS": 1,
+        "KEYS": 1
+      },
+      "d_maintained": 0.000291,
+      "mass": {
+        "frozen": {
+          "composites": 145,
+          "nonempty": 145,
+          "edges": 377,
+          "mean_edges": 2.6
+        },
+        "maintained": {
+          "composites": 145,
+          "nonempty": 29,
+          "edges": 77,
+          "mean_edges": 2.655172
+        },
+        "mass": {
+          "composites": 145,
+          "nonempty": 61,
+          "edges": 77,
+          "mean_edges": 1.262295
+        },
+        "keys": {
+          "composites": 145,
+          "nonempty": 29,
+          "edges": 75,
+          "mean_edges": 2.586207
+        }
+      },
+      "shortfall_mass": 0,
+      "delta_mass": 0.00014100000000000223,
+      "d_mass": 0.00043199999999998795,
+      "shortfall_keys": 2,
+      "delta_keys": -0.00011899999999998023,
+      "d_keys": 0.00017200000000000548
+    },
+    {
+      "seed": 20920118,
+      "arms": {
+        "A": 0.378315,
+        "C": 0.377389,
+        "MASS": 0.377983,
+        "KEYS": 0.37874
+      },
+      "beta": {
+        "C": 1,
+        "MASS": 1,
+        "KEYS": 2
+      },
+      "d_maintained": -0.000926,
+      "mass": {
+        "frozen": {
+          "composites": 111,
+          "nonempty": 111,
+          "edges": 289,
+          "mean_edges": 2.603604
+        },
+        "maintained": {
+          "composites": 111,
+          "nonempty": 27,
+          "edges": 75,
+          "mean_edges": 2.777778
+        },
+        "mass": {
+          "composites": 111,
+          "nonempty": 61,
+          "edges": 75,
+          "mean_edges": 1.229508
+        },
+        "keys": {
+          "composites": 111,
+          "nonempty": 27,
+          "edges": 65,
+          "mean_edges": 2.407407
+        }
+      },
+      "shortfall_mass": 0,
+      "delta_mass": 0.0005940000000000389,
+      "d_mass": -0.00033199999999999896,
+      "shortfall_keys": 10,
+      "delta_keys": 0.0013510000000000466,
+      "d_keys": 0.0004250000000000087
+    },
+    {
+      "seed": 20920119,
+      "arms": {
+        "A": 0.372795,
+        "C": 0.373027,
+        "MASS": 0.372767,
+        "KEYS": 0.373292
+      },
+      "beta": {
+        "C": 1,
+        "MASS": 1,
+        "KEYS": 1
+      },
+      "d_maintained": 0.000232,
+      "mass": {
+        "frozen": {
+          "composites": 123,
+          "nonempty": 123,
+          "edges": 311,
+          "mean_edges": 2.528455
+        },
+        "maintained": {
+          "composites": 123,
+          "nonempty": 38,
+          "edges": 94,
+          "mean_edges": 2.473684
+        },
+        "mass": {
+          "composites": 123,
+          "nonempty": 74,
+          "edges": 94,
+          "mean_edges": 1.27027
+        },
+        "keys": {
+          "composites": 123,
+          "nonempty": 38,
+          "edges": 94,
+          "mean_edges": 2.473684
+        }
+      },
+      "shortfall_mass": 0,
+      "delta_mass": -0.00025999999999998247,
+      "d_mass": -2.799999999997249e-05,
+      "shortfall_keys": 0,
+      "delta_keys": 0.0002650000000000152,
+      "d_keys": 0.0004970000000000252
+    },
+    {
+      "seed": 20920120,
+      "arms": {
+        "A": 0.376692,
+        "C": 0.377563,
+        "MASS": 0.376278,
+        "KEYS": 0.376506
+      },
+      "beta": {
+        "C": 1,
+        "MASS": 1,
+        "KEYS": 1
+      },
+      "d_maintained": 0.000871,
+      "mass": {
+        "frozen": {
+          "composites": 151,
+          "nonempty": 151,
+          "edges": 381,
+          "mean_edges": 2.523179
+        },
+        "maintained": {
+          "composites": 151,
+          "nonempty": 35,
+          "edges": 85,
+          "mean_edges": 2.428571
+        },
+        "mass": {
+          "composites": 151,
+          "nonempty": 65,
+          "edges": 85,
+          "mean_edges": 1.307692
+        },
+        "keys": {
+          "composites": 151,
+          "nonempty": 35,
+          "edges": 85,
+          "mean_edges": 2.428571
+        }
+      },
+      "shortfall_mass": 0,
+      "delta_mass": -0.0012849999999999806,
+      "d_mass": -0.00041400000000002546,
+      "shortfall_keys": 0,
+      "delta_keys": -0.0010569999999999746,
+      "d_keys": -0.00018600000000001948
+    }
+  ],
+  "summary": {
+    "n": 20,
+    "mean_d_maintained": 0.00084695,
+    "mean_d_mass": 0.0003872,
+    "mean_d_keys": 0.0003497,
+    "mean_delta_mass": -0.00045975,
+    "mean_delta_keys": -0.00049725,
+    "sd_delta_mass": 0.000563111,
+    "sd_delta_keys": 0.000617994,
+    "positive_delta_mass": 4,
+    "positive_delta_keys": 2,
+    "mean_edges_frozen": 324.6,
+    "mean_edges_maintained": 98.75,
+    "mean_edges_mass": 98.75,
+    "mean_edges_keys": 96.95,
+    "mean_nonempty_frozen": 126.2,
+    "mean_nonempty_maintained": 38.95,
+    "mean_nonempty_mass": 73.05,
+    "mean_nonempty_keys": 38.95,
+    "shortfall": 36
+  },
+  "intervals": {
+    "mass": {
+      "mean": -0.0004597499999999949,
+      "lo": -0.0007529500000000022,
+      "hi": -0.00013379999999999225,
+      "includes_zero": false,
+      "level": 0.99,
+      "resamples": 10000
+    },
+    "keys": {
+      "mean": -0.0004972499999999908,
+      "lo": -0.0008114999999999983,
+      "hi": -0.00013329999999998066,
+      "includes_zero": false,
+      "level": 0.99,
+      "resamples": 10000
+    }
+  },
+  "readings": {
+    "mass": {
+      "label": "A MASS-MATCHED RANDOM ALLOCATION BEATS MAINTAINED"
+    },
+    "keys": {
+      "label": "MAINTAINED SELECTION IS WORSE THAN RANDOM AT EQUAL MASS AND KEY COUNT"
+    }
+  },
+  "verdict": {
+    "mass": "A MASS-MATCHED RANDOM ALLOCATION BEATS MAINTAINED",
+    "keys": "MAINTAINED SELECTION IS WORSE THAN RANDOM AT EQUAL MASS AND KEY COUNT",
+    "conclusion": "maintained selection is worse than random at equal mass and key count, so the offset is not a selection benefit at all."
+  },
+  "note": "the controls change only which frozen edges are kept and how many; the worlds, detections, admission, window, beta grid and scorer are the protocol's. A null-world result: it says nothing about whether maintained selection finds signal on a structured world.",
+  "engine_version": "0.15.0",
+  "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+  "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+  "runner": "benchmarks.v2_first_cell_mass_match"
+}

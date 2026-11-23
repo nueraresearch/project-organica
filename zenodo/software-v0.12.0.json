@@ -1,0 +1,37 @@
+{
+  "upload_type": "software",
+  "access_right": "open",
+  "title": "Project Organica v0.12.0 — the developmental-structure engine and its preregistered evidence record",
+  "description": "The deposit snapshot of Project Organica at v0.12.0. `organica/` is the engine: a memory store, a sleep service that grows typed structural candidates across cycles, and the laws the engine is meant to satisfy. The archival reference for the frozen Organica 1 engine is the v0.9.0 tag, and it does not move; the engine has advanced past that freeze — the sleep path was rewritten into submodules and the candidate-supersession amendment is recorded with its measured effect in docs/V1-FREEZE.md section 6 — so this record's engine is not byte-identical to v0.9.0. The release carries the evidence record produced across those builds: the belief-revision comparison against simple baselines (Phase K), the plasticity-coherence sweep (Phase L), the capacity-1,000 confirmatory test of the frozen functional-structure study, the acquisition-benchmark audits, the Gate 13 relation-ranking analyses, the formation-versus-utilization campaign, and the candidate-membership audit. Where an artifact records its build, that record travels with it; docs/force_matrix.json carries its commit and was measured on v0.9.0 behaviour. The engine uses only the Python standard library.",
+  "creators": [
+    {
+      "name": "Beebe, Jeremy Blain Thompson",
+      "affiliation": "Nuera RDL",
+      "orcid": "0009-0009-2394-9714"
+    }
+  ],
+  "license": "Apache-2.0",
+  "keywords": [
+    "developmental structure",
+    "structural descent",
+    "sleep cycle",
+    "candidate graph",
+    "developmental machine intelligence",
+    "preregistered benchmark",
+    "reproducible research"
+  ],
+  "related_identifiers": [
+    {
+      "scheme": "url",
+      "identifier": "https://github.com/nueraresearch/project-organica",
+      "relation": "isPartOf",
+      "resource_type": "software"
+    }
+  ],
+  "communities": [
+    {
+      "identifier": "a08bc0ac-2893-4afd-870a-a77bd348c84c"
+    }
+  ],
+  "notes": "Archived from the commit recorded as software_commit in the deposit manifest (DEPOSIT-MANIFEST.json / MANIFEST.json). The v0.12.0 tag is cut; no GitHub release page has been created, so the commit SHA is the identifier; v0.9.0 remains the archival reference for the engine alone, and v0.9.0 is the latest published release (the v0.10.0 tag has no GitHub release page). The engine under this version is not byte-identical to v0.9.0; docs/V1-FREEZE.md section 6 records what changed and its measured effect. Add the two preprint DOIs as isDocumentedBy once they exist."
+}

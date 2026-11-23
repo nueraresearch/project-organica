@@ -1,0 +1,15 @@
+{
+  "kind": "v2_first_cell_run",
+  "id": "V2-FIRST-CELL-RUN-1",
+  "date": "2026-11-19",
+  "status": "COMPLETED",
+  "decision": "DECISION-V2-FIRST-CELL",
+  "seed_declaration": "docs/v2_first_cell_seeds.json",
+  "command": "python -m benchmarks.v2_first_cell_runner --run",
+  "manifest": "/workspace/chats/41c104dc975752552e0b5d73/docs/v2_first_cell_manifest.json",
+  "raw_log": "/workspace/chats/41c104dc975752552e0b5d73/docs/v2_first_cell_run_log.json",
+  "result": "/workspace/chats/41c104dc975752552e0b5d73/docs/v2_first_cell_result.json",
+  "manifest_sha256": "d857fc6a3f567993750fdd47f8d1c68819225c5f006d7b8d0321c8760184a1a4",
+  "run_log_sha256": "4a442b05db0d129173ccac3bf482a88adbe0a78bf29aca727267602a5fd555f9",
+  "result_sha256": "6c67cb7ef92b4e6c96ef6959a20ce6eb5d21453770a2a80342b6153b38c21d8b"
+}

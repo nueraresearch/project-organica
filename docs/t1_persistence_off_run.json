@@ -1,0 +1,288 @@
+{
+ "kind": "t1_persistence_off_run",
+ "prereg": "T1-PERSISTENCE-OFF",
+ "cells": [
+  {
+   "seed": 20612201,
+   "arm": "shipped",
+   "present": 112,
+   "s_ever": 97,
+   "a_w": 78,
+   "served_fingerprint": "f46577844ba3e896"
+  },
+  {
+   "seed": 20612201,
+   "arm": "persistence_off",
+   "present": 112,
+   "s_ever": 9,
+   "a_w": 5,
+   "served_fingerprint": "7aa64655a55e9c9a"
+  },
+  {
+   "seed": 20612202,
+   "arm": "shipped",
+   "present": 112,
+   "s_ever": 106,
+   "a_w": 72,
+   "served_fingerprint": "6a920d0a0fa28580"
+  },
+  {
+   "seed": 20612202,
+   "arm": "persistence_off",
+   "present": 112,
+   "s_ever": 3,
+   "a_w": 0,
+   "served_fingerprint": "ed98ea9f39827747"
+  },
+  {
+   "seed": 20612203,
+   "arm": "shipped",
+   "present": 112,
+   "s_ever": 103,
+   "a_w": 50,
+   "served_fingerprint": "c8afed86fa2815e1"
+  },
+  {
+   "seed": 20612203,
+   "arm": "persistence_off",
+   "present": 112,
+   "s_ever": 6,
+   "a_w": 0,
+   "served_fingerprint": "bd8fbd5ec14036ae"
+  },
+  {
+   "seed": 20612204,
+   "arm": "shipped",
+   "present": 112,
+   "s_ever": 102,
+   "a_w": 53,
+   "served_fingerprint": "47e8c51fc1e526f1"
+  },
+  {
+   "seed": 20612204,
+   "arm": "persistence_off",
+   "present": 112,
+   "s_ever": 0,
+   "a_w": 0,
+   "served_fingerprint": "5c2fccd36897eab9"
+  },
+  {
+   "seed": 20612205,
+   "arm": "shipped",
+   "present": 112,
+   "s_ever": 95,
+   "a_w": 58,
+   "served_fingerprint": "850b128c6a541947"
+  },
+  {
+   "seed": 20612205,
+   "arm": "persistence_off",
+   "present": 112,
+   "s_ever": 0,
+   "a_w": 0,
+   "served_fingerprint": "0835f614b58f7d5f"
+  },
+  {
+   "seed": 20612206,
+   "arm": "shipped",
+   "present": 112,
+   "s_ever": 94,
+   "a_w": 42,
+   "served_fingerprint": "627704744ded4f2d"
+  },
+  {
+   "seed": 20612206,
+   "arm": "persistence_off",
+   "present": 112,
+   "s_ever": 5,
+   "a_w": 0,
+   "served_fingerprint": "a7b9ccb06cbc1243"
+  }
+ ],
+ "stage_table": [
+  {
+   "seed": 20612201,
+   "arm": "shipped",
+   "present": 112,
+   "constructed": 112,
+   "served_ever": 97,
+   "asserted_final": 78,
+   "unexplained": 4
+  },
+  {
+   "seed": 20612201,
+   "arm": "persistence_off",
+   "present": 112,
+   "constructed": 9,
+   "served_ever": 9,
+   "asserted_final": 5,
+   "unexplained": 3
+  },
+  {
+   "seed": 20612202,
+   "arm": "shipped",
+   "present": 112,
+   "constructed": 112,
+   "served_ever": 106,
+   "asserted_final": 72,
+   "unexplained": 2
+  },
+  {
+   "seed": 20612202,
+   "arm": "persistence_off",
+   "present": 112,
+   "constructed": 3,
+   "served_ever": 3,
+   "asserted_final": 0,
+   "unexplained": 0
+  },
+  {
+   "seed": 20612203,
+   "arm": "shipped",
+   "present": 112,
+   "constructed": 112,
+   "served_ever": 103,
+   "asserted_final": 50,
+   "unexplained": 0
+  },
+  {
+   "seed": 20612203,
+   "arm": "persistence_off",
+   "present": 112,
+   "constructed": 6,
+   "served_ever": 6,
+   "asserted_final": 0,
+   "unexplained": 0
+  },
+  {
+   "seed": 20612204,
+   "arm": "shipped",
+   "present": 112,
+   "constructed": 112,
+   "served_ever": 102,
+   "asserted_final": 53,
+   "unexplained": 0
+  },
+  {
+   "seed": 20612204,
+   "arm": "persistence_off",
+   "present": 112,
+   "constructed": 0,
+   "served_ever": 0,
+   "asserted_final": 0,
+   "unexplained": 0
+  },
+  {
+   "seed": 20612205,
+   "arm": "shipped",
+   "present": 112,
+   "constructed": 112,
+   "served_ever": 95,
+   "asserted_final": 58,
+   "unexplained": 2
+  },
+  {
+   "seed": 20612205,
+   "arm": "persistence_off",
+   "present": 112,
+   "constructed": 0,
+   "served_ever": 0,
+   "asserted_final": 0,
+   "unexplained": 0
+  },
+  {
+   "seed": 20612206,
+   "arm": "shipped",
+   "present": 112,
+   "constructed": 112,
+   "served_ever": 94,
+   "asserted_final": 42,
+   "unexplained": 1
+  },
+  {
+   "seed": 20612206,
+   "arm": "persistence_off",
+   "present": 112,
+   "constructed": 5,
+   "served_ever": 5,
+   "asserted_final": 0,
+   "unexplained": 0
+  }
+ ],
+ "gates": {
+  "G1_build": {
+   "passed": true,
+   "builds": [
+    [
+     "0.15.0",
+     "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711"
+    ]
+   ]
+  },
+  "G2_world": {
+   "passed": true,
+   "differing_seeds": []
+  },
+  "G3_manipulation_live": {
+   "passed": true,
+   "treatment_not_zero": [],
+   "control_never_positive": []
+  },
+  "G4_denominator": {
+   "passed": false,
+   "empty": [
+    [
+     20612204,
+     "persistence_off"
+    ],
+    [
+     20612205,
+     "persistence_off"
+    ]
+   ]
+  },
+  "G5_seed_axis": {
+   "passed": true,
+   "distinct": 6
+  },
+  "G6_determinism": {
+   "passed": true,
+   "seed": 20612201,
+   "fingerprint": "7aa64655a55e9c9a"
+  },
+  "G7_cells": {
+   "passed": true,
+   "cells": 12,
+   "seeds": 6
+  }
+ },
+ "verdict": "VOID",
+ "reading": "A gate failed, so the block measured nothing and no endpoint is read.",
+ "decision": "Record VOID; fix the gate named here and register a new block.",
+ "bootstrap": {
+  "mean": 95.66666666666667,
+  "lower": 91.16666666666667,
+  "upper": 100.16666666666667,
+  "reps": 10000,
+  "seed": 20612207,
+  "positive_seeds": 6,
+  "margin": 10,
+  "diffs": [
+   88,
+   103,
+   97,
+   102,
+   95,
+   89
+  ]
+ },
+ "controls": {
+  "determinism_rerun": 1,
+  "cells_run": 13
+ },
+ "not_evidence": "One ablation on six seeds at cap 112; it is not a capability, retention or transfer result, and it does not re-read Q4 or Q2.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__"
+}

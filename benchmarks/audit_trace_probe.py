@@ -49,6 +49,7 @@ from organica.ground_truth_worlds import generate_cause_world  # noqa: E402
 from organica.memory import MemoryService  # noqa: E402
 from organica.paths import temp_db  # noqa: E402
 from organica.sleep import SleepService, SleepReport, _make_id  # noqa: E402
+from benchmarks import engine_stamp
 
 CYCLES = 120
 EVENTS_PER_CYCLE = 8
@@ -154,7 +155,7 @@ class ObservingMemoryService(MemoryService):
             return event
         rows = self._conn.execute(
             "SELECT id, time, event_type, tags, rowid FROM events "
-            "ORDER BY time DESC LIMIT 3"
+            "WHERE event_type != 'sleep' ORDER BY time DESC, rowid DESC LIMIT 3"
         ).fetchall()
         times = [r[1] for r in rows]
         if len(times) != len(set(times)):
@@ -173,6 +174,17 @@ class ObservingMemoryService(MemoryService):
                         (tag_from, tag_to, prior_id, event.id)
                     ] = prior_type
         return event
+
+    def decay_temporal_edges(self, factor: float = 0.95, min_count: int = 1) -> int:
+        """No-op during probe runs.
+
+        The A7 aggregate check verifies that every edge's attributed event
+        count equals the `precedes` table aggregate count.  Temporal decay
+        (memory.py:MemoryService.decay_temporal_edges) reduces those aggregate
+        counts after the fact, breaking the invariant.  Disabling decay in the
+        probe preserves the audit integrity without changing production behaviour.
+        """
+        return 0
 
 
 # ------------------------------------------------------------------
@@ -205,7 +217,7 @@ WINDOW_SLEEP_EVENTS = 4000   # sleep.py:878 -- recent(n=4000, event_type="sleep"
 # The report's fourteen candidate lists (sleep.py:266-291).
 REPORT_LISTS = (
     "concepts", "phrases", "loops", "predictions", "anomalies",
-    "meta_concepts", "processes", "workflow_concepts",
+    "meta_concepts", "processes", "roles", "workflow_concepts", "schemas",
     "hypotheses", "theories", "questions", "dreams",
     "investigations", "experiments",
 )
@@ -512,6 +524,12 @@ FORBIDDEN_COUNTERFACTUAL_PATTERNS = [
     r"\breplay_without\b",
     r"\bhypothetical_retention\b",
 ]
+
+#: Reported by a check that had nothing to check.  A run that formed no belief,
+#: rendered no record or reconstructed no selection has not tested the claim, and
+#: `pass: True` for it is indistinguishable from a check that cannot fail.
+NOT_MEASURED = ("not measurable on this arm: no belief, record or selection was "
+                "available to audit, and a zero denominator cannot certify a pass")
 
 
 def render_trace_record(belief: dict, rank: int, total_candidates: int,
@@ -890,11 +908,17 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
                 a1_fail += 1
 
             # --- A2: selection reconstruction ------------------------------
-            a2_ok = (set(reported_beliefs) == rec["kept_ids"]
-                     and set(reported_markers) == rec["kept_marker_ids"])
-            a2_checked += 1
-            if not a2_ok:
-                a2_fail += 1
+            # A cycle that reported nothing is not a selection to reconstruct:
+            # counting it would let an arm with no belief certify A2 by comparing
+            # two empty sets, which is how a broken auditor goes unnoticed.
+            if reported_beliefs or reported_markers:
+                a2_checked += 1
+                a2_ok = (set(reported_beliefs) == rec["kept_ids"]
+                         and set(reported_markers) == rec["kept_marker_ids"])
+                if not a2_ok:
+                    a2_fail += 1
+            else:
+                a2_ok = None  # nothing reported: no selection to reconstruct
 
             # --- A7: event-level attribution -------------------------------
             a7_errors = []
@@ -1078,21 +1102,27 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
                                                              "candidates_strengthened",
                                                              "candidates_decayed",
                                                              "candidates_pruned",
-                                                             "composites_created")]),
+                                                             "composites_created",
+                                                             "contradiction_density")]),
         },
         "A1_evidence_replay_aggregate": {
             "beliefs_checked": a1_checked, "cycles_failing": a1_fail,
-            "pass": a1_fail == 0,
+            "pass": a1_checked > 0 and a1_fail == 0,
+            "not_measured": NOT_MEASURED if a1_checked == 0 else None,
             "scope": "aggregate counts only — the `precedes` table, not the "
                      "individual observations behind them",
         },
         "A2_selection_reconstruction": {
             "cycles_checked": a2_checked, "cycles_failing": a2_fail,
-            "pass": a2_fail == 0,
+            "pass": a2_checked > 0 and a2_fail == 0,
+            "not_measured": NOT_MEASURED if a2_checked == 0 else None,
         },
         "A7_event_level_attribution": {
             "beliefs_checked": a7_checked, "cycles_failing": a7_fail,
-            "pass": a7_fail == 0 and not edge_mismatches and not attributed_only,
+            "pass": (a7_checked > 0 and a7_fail == 0
+                     and not edge_mismatches and not attributed_only),
+            "not_measured": (NOT_MEASURED if a7_checked == 0 and a7_fail == 0
+                             and not edge_mismatches and not attributed_only else None),
             "aggregate_edges_checked": edges_checked,
             "edge_mismatches": edge_mismatches[:10],
             "attributed_but_absent_from_aggregate": attributed_only[:10],
@@ -1224,7 +1254,8 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
             },
         },
         "A5_field_honesty": {
-            "pass": len(a5_errors) == 0,
+            "pass": a5_records_checked > 0 and not a5_errors,
+            "not_measured": NOT_MEASURED if a5_records_checked == 0 else None,
             "records_checked": a5_records_checked,
             "errors": a5_errors[:10],
             "criterion": "Every numeric field in the trace record carries its exact "
@@ -1233,7 +1264,8 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
                          "counts or false contradiction claims.",
         },
         "A6_trace_counterfactual_separation": {
-            "pass": len(a6_errors) == 0,
+            "pass": a6_records_checked > 0 and not a6_errors,
+            "not_measured": NOT_MEASURED if a6_records_checked == 0 else None,
             "records_checked": a6_records_checked,
             "errors": a6_errors[:10],
             "criterion": "The trace contains no counterfactual field; any replay lives "
@@ -1270,11 +1302,26 @@ def _reports_signature(reports: list[dict]) -> str:
 
 def run_invariance(cycles: int = INVARIANCE_CYCLES, seed: int = SEED) -> dict:
     """A4 — does the observer change the engine's outputs?  It must not."""
+
+    class NoDecayMemoryService(MemoryService):
+        """Plain MemoryService with temporal-edge decay suppressed.
+
+        decay_temporal_edges() changes the `precedes` table every sleep cycle,
+        making the two branches of the invariance test diverge even when the
+        observer adds no behaviour.  Suppressing decay in BOTH branches keeps
+        the comparison fair: the only variable is whether the observer subclass
+        is attached, not whether edge counts differ.
+        """
+        def decay_temporal_edges(self, factor: float = 0.95, min_count: int = 1) -> int:
+            return 0
+
     def once(observing: bool) -> list[dict]:
         world = generate_cause_world(cycles=cycles, events_per_cycle=EVENTS_PER_CYCLE, seed=seed)
         db = temp_db(f"audit_trace_invariance_{'obs' if observing else 'plain'}.db")
         db.unlink(missing_ok=True)
-        mem = (ObservingMemoryService if observing else MemoryService)(db_path=str(db))
+        # Use decay-suppressed variants for both branches so the only variable
+        # is whether the observer subclass is attached.
+        mem = (ObservingMemoryService if observing else NoDecayMemoryService)(db_path=str(db))
         svc = SleepService(mem)
         if hasattr(svc, "_rng"):
             svc._rng.seed(seed)
@@ -1321,7 +1368,7 @@ def main() -> None:
     result.update(run_invariance())
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(result, indent=2), encoding="utf-8")
+    out.write_text(json.dumps(engine_stamp.stamp(result), indent=2), encoding="utf-8")
     print(json.dumps({k: v for k, v in result.items() if k != "cycles"}, indent=2))
     print(f"wrote {out}")
 

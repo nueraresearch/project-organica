@@ -1,0 +1,17 @@
+{
+ "engine_version": "0.12.0",
+ "git_commit": "5804e609e5978bb6437da79827f14002b006457a",
+ "git_tag": "v0.12.0",
+ "git_tag_commit": "5804e609e5978bb6437da79827f14002b006457a",
+ "git_describe": "v0.12.0",
+ "seed": 20261023,
+ "cycles": 3000,
+ "stimulus": "lattice_L1 (three disjoint triangles)",
+ "python_hash_seed": "0",
+ "colonies": {
+  "FULL": "a6e82e849758d55054d99cfad94440e176ebbf384ed3bd2e2bd0903ee5399730",
+  "SALIENCE": "a139b84562ab06116d9bc300070031e0826875c6da179eee77a71a2d0c032421"
+ },
+ "status": "stopped at the reference-arm precondition; this is not a result",
+ "record": "docs/RERUN-0.12.0.md"
+}

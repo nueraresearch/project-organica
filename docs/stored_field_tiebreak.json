@@ -1,0 +1,84 @@
+{
+ "kind": "stored_field_tiebreak",
+ "status": "POST-HOC DIAGNOSTIC",
+ "prereg": null,
+ "posthoc": true,
+ "engine": "no engine run; cached ranking features only",
+ "question": "Does using the stored strength/ratio field instead of source/target as the last tie-break change the top-20 served set?",
+ "scope": "Six consumed schema-prime seeds, 120 cycles each, cached ranking features. Top 20 by the engine's transition sort. No fresh seed.",
+ "design": {
+  "seeds": [
+   20611601,
+   20611602,
+   20611603,
+   20611604,
+   20611605,
+   20611606
+  ],
+  "top_n": 20,
+  "base_key": "schema priority, target entropy ascending, transition probability descending, count descending, source, target",
+  "alternative_key": "same, but stored strength descending before source and target",
+  "stored_field": "strength = min(1, ratio), where ratio = count / source frequency",
+  "served_set": "top-20 membership, not full cap allocation"
+ },
+ "cache": ".scratch/rank_sort_probe",
+ "summary": {
+  "seeds": 6,
+  "cycles": 720,
+  "nonempty_cycles": 701,
+  "ranked_rows": 111275,
+  "top20_seats": 13604,
+  "base_unique_edge_seed_pairs": 848,
+  "alt_unique_edge_seed_pairs": 848,
+  "served_set": {
+   "changed_cycles": 0,
+   "changed_seats": 0,
+   "entering_pairs": 0,
+   "leaving_pairs": 0,
+   "new_edge_seed_pairs": 0,
+   "lost_edge_seed_pairs": 0
+  },
+  "order": {
+   "changed_cycles": 12,
+   "positions_changed": 37,
+   "mean_absolute_shift": 1.1891891891891893,
+   "max_absolute_shift": 2
+  },
+  "ties": {
+   "cutoff_ties": 120,
+   "populated_cycles": 701,
+   "cutoff_tie_share": 0.17118402282453637,
+   "cutoff_ties_resolved_by_strength": 0,
+   "cutoff_ties_saturated_at_one": 24,
+   "adjacent_top20_ties": 2677,
+   "adjacent_top20_pairs": 12903,
+   "adjacent_top20_tie_share": 0.20747113074478804,
+   "adjacent_full_ties": 29319,
+   "adjacent_full_pairs": 110574,
+   "adjacent_full_tie_share": 0.26515274838569647,
+   "top20_rows_in_tie": 4944,
+   "top20_rows": 13604,
+   "top20_row_tie_share": 0.3634225227874155,
+   "different_strength_tie_groups": 24,
+   "different_strength_tie_rows": 59,
+   "different_strength_top20_groups": 23,
+   "different_strength_top20_rows": 55
+  },
+  "checks": {
+   "all_cycles_present": true,
+   "nonempty_cycles": true,
+   "same_top20_membership": true,
+   "no_pairs_gained_or_lost": true,
+   "stored_field_engages": true,
+   "cutoff_ties_present": true,
+   "cutoff_ties_have_equal_strength": true,
+   "different_strength_ties_not_at_cutoff": true
+  },
+  "verdict": "SERVED SET UNCHANGED; ORDER CHANGES IN 12 CYCLES"
+ },
+ "not_evidence": "A post-hoc diagnostic on six already-consumed seeds. The stored strength is capped at 1, so an exact uncapped ratio is not tested where both tied rows are saturated. The result is candidate ordering, not served prediction, assertion, transfer or capability.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__"
+}

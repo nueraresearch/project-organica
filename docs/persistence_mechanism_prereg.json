@@ -1,0 +1,215 @@
+{
+ "created": "2026-11-11",
+ "prereg": "PERSISTENCE-MECHANISM-1",
+ "status": "FROZEN, NOT RUN",
+ "frozen_on": "2026-11-11",
+ "no_cells_run": true,
+ "question": "At cap 112, which persistence mechanism carries T1b's served-edge contribution: the temporal decay factor, the read/admission floor, or both?",
+ "program": {
+  "source": "T1B-PERSISTENCE-OFF",
+  "decision_quote": "Pursue the persistence mechanism (decay, floor, denominator); the cap arm does not answer this question.",
+  "relationship": "T1b returned PERSISTENCE CONTRIBUTES: removing carried temporal counts removed served world edges on every seed at cap 112. Its decision says to pursue the persistence mechanism (decay, floor, denominator). This block follows that decision by separating decay from the read floor in one factorial. It does not re-read T1 or T1b, and it does not re-open T1b's corrected denominator reading."
+ },
+ "hypothesis": "If carried counts reach the serving path through decay and the read floor, then removing decay and lowering the read floor should each increase served world edges at the same cap, world and seed; the floor effect is expected to be larger because T1b's zero cells are threshold-limited.",
+ "engine": {
+  "version": "0.15.0",
+  "edit": "none",
+  "cap": 112,
+  "pin": "the 0.15.0 pin verified by benchmarks.landing_0_15_0 --check",
+  "why_this_build": "0.15.0 is the shipped build and the build T1b ran at cap 112; the follow-up must hold it fixed."
+ },
+ "design": {
+  "arms": [
+   "shipped",
+   "no_decay",
+   "floor_one",
+   "no_decay_floor_one"
+  ],
+  "factors": {
+   "decay_factor": {
+    "shipped": 0.95,
+    "no_decay": 1.0
+   },
+   "read_floor": {
+    "shipped": 5,
+    "one": 1
+   }
+  },
+  "seeds": [
+   20612301,
+   20612302,
+   20612303,
+   20612304,
+   20612305,
+   20612306
+  ],
+  "bootstrap": 20612307,
+  "cap": 112,
+  "cycles": 120,
+  "cells": 24,
+  "cells_arithmetic": "4 arms x 6 seeds = 24 cells",
+  "world": "the compositional world family of PHASE_ACQUISITION at cap 112 and 120 cycles",
+  "pairing": "all four arms of a seed share the seed-determined world and stimulus; only the decay factor and read floor differ",
+  "freshness": "20612301-20612307 was scanned against every docs JSON at freeze and is unused; the seventh integer is the bootstrap seed and is not a world seed. The record and page are the only allow-listed new documents.",
+  "seed_axis": "six fresh seeds are a direction, not an effect size; no seed is dropped or added after the freeze"
+ },
+ "arms": {
+  "shipped": {
+   "decay_factor": 0.95,
+   "read_floor": 5,
+   "description": "the shipped decay factor and the shipped read floor"
+  },
+  "no_decay": {
+   "decay_factor": 1.0,
+   "read_floor": 5,
+   "description": "no temporal decay, shipped read floor"
+  },
+  "floor_one": {
+   "decay_factor": 0.95,
+   "read_floor": 1,
+   "description": "shipped decay, read floor lowered to 1"
+  },
+  "no_decay_floor_one": {
+   "decay_factor": 1.0,
+   "read_floor": 1,
+   "description": "no temporal decay and read floor lowered to 1"
+  }
+ },
+ "mechanism": {
+  "changes": "An in-process SleepService/MemoryService subclass applies the arm's decay factor (shipped 0.95 -> no-decay 1.0) at the engine's temporal-decay call and sets the arm's PREDICTION_MIN_COUNT (shipped 5 -> floor 1). The engine files, pin and cap are unchanged.",
+  "shipped_reference": {
+   "decay_factor": 0.95,
+   "read_floor": 5
+  },
+  "treatments": {
+   "no_decay": "decay factor 1.0; every temporal count is carried without decay",
+   "floor_one": "PREDICTION_MIN_COUNT 5 -> 1; a count-1 transition is admissible",
+   "no_decay_floor_one": "both changes in one arm; the interaction is reported"
+  },
+  "preserves": [
+   "the shipped 0.15.0 build, its pin and cap 112",
+   "the seed-determined world and stimulus",
+   "the prediction budget and its 56-transition floor",
+   "every other threshold, ranking key and memory table"
+  ],
+  "does_not": [
+   "edit an engine file",
+   "delete temporal rows",
+   "change the cap or the denominator reading",
+   "re-read T1 or T1b"
+  ]
+ },
+ "endpoints": [
+  {
+   "stage": "P",
+   "definition": "present world edges: the denominator of every share",
+   "role": "denominator"
+  },
+  {
+   "stage": "S_ever",
+   "definition": "served world edges: the union of every served window intersect the world, counted once; zero is measured",
+   "role": "primary"
+  },
+  {
+   "stage": "A_W",
+   "definition": "asserted world edges at the end of the run",
+   "role": "secondary"
+  },
+  {
+   "stage": "C",
+   "definition": "constructed candidates: the pre-cap universe intersect the world",
+   "role": "reported"
+  }
+ ],
+ "effects": {
+  "primary_endpoint": "S_ever",
+  "definitions": {
+   "decay_effect": "S_ever(no_decay, floor 5) - S_ever(shipped), paired by seed",
+   "floor_effect": "S_ever(floor_one, decay 0.95) - S_ever(shipped), paired by seed",
+   "interaction": "(S_ever(no_decay_floor_one) - S_ever(no_decay)) - (S_ever(floor_one) - S_ever(shipped)), paired by seed"
+  },
+  "bar": {
+   "margin": 10,
+   "positive_seeds": 5,
+   "seeds": 6,
+   "confidence": 95,
+   "resamples": 10000,
+   "rule": "an effect passes when its mean paired difference is at least 10 edges, at least 5 of 6 seeds are positive, and the paired 95% lower bound is above zero",
+   "provenance": "the ten-edge margin and five-of-six rule are imported unchanged from T1b; T1b's observed differences do not set this block's bar"
+  },
+  "interaction_role": "reported, not required for a main-effect verdict; a non-zero interaction is not a third mechanism"
+ },
+ "gates": {
+  "G1_build": "all 24 cells run the shipped 0.15.0 build at cap 112 with one sha256 and no engine edit; a mixed build or an edited engine is VOID",
+  "G2_world": "each seed's world digest and present fingerprint are identical across all four arms and the six seeds are the frozen block; a differing world is VOID",
+  "G3_treatments_live": "each arm records its designed decay factor and read floor (0.95/5, 1.0/5, 0.95/1, 1.0/1); an arm whose configured factor or floor is the control value is TREATMENT NOT LIVE, not a null",
+  "G4_denominator": "P is non-zero in every cell; S_ever is a measured count, so a zero S_ever is read as zero served edges; a zero P is not measurable and VOIDS the block",
+  "G5_seed_axis": "the six shipped cells hold at least three distinct (S_ever, A_W) pairs; one outcome repeated six times is not a seed axis",
+  "G6_determinism": "a fresh-process rerun of seed 20612301 reproduces its four-arm stage rows exactly",
+  "G7_cells": "exactly 24 cells, four arms x six seeds, with no extra seed, cap, cycle or arm"
+ },
+ "decision_table": [
+  {
+   "condition": "any gate fails",
+   "verdict": "VOID",
+   "reading": "the block is unrun or non-measurable and the failed gate names what did not happen",
+   "decision": "record VOID; fix the harness and register a new block; read no mechanism"
+  },
+  {
+   "condition": "gates pass; both the decay effect and the read-floor effect meet the bar",
+   "verdict": "BOTH MECHANISMS CARRY PERSISTENCE",
+   "reading": "removing decay and lowering the floor each add served world edges; the interaction is reported but is not required",
+   "decision": "pursue both mechanisms jointly in a mechanism block; no adoption or capability claim follows"
+  },
+  {
+   "condition": "gates pass; the decay effect meets the bar and the read-floor effect does not",
+   "verdict": "DECAY CARRIES PERSISTENCE",
+   "reading": "the decay factor is the live lever at cap 112; the floor does not move the endpoint on this block",
+   "decision": "isolate decay levels next; do not treat the floor as the conversion lever"
+  },
+  {
+   "condition": "gates pass; the read-floor effect meets the bar and the decay effect does not",
+   "verdict": "READ FLOOR CARRIES PERSISTENCE",
+   "reading": "the read/admission floor is the live lever at cap 112; decay does not move the endpoint on this block",
+   "decision": "isolate floor values and precision next; do not treat decay as the conversion lever"
+  },
+  {
+   "condition": "gates pass; neither effect meets the bar",
+   "verdict": "NO MECHANISM DETECTED",
+   "reading": "neither contrast locates the persistence contribution at this cap and world family",
+   "decision": "make no mechanism claim; the next probe is the in-cycle construction or admission stage, or a larger fresh seed axis, not another re-read"
+  }
+ ],
+ "prediction": {
+  "statement": "Both main effects on S_ever are positive, and the read-floor effect is larger than the decay effect; the interaction is not predicted to be necessary.",
+  "because": "T1b's zero cells are threshold-limited: no world edge reaches 5 within-cycle observations after the reset, so lowering the read floor has a direct route to served edges. Decay is the other carried-count mechanism and should add a smaller positive effect at cap 112.",
+  "falsifier": "Either effect at or below the bar, a negative paired mean, a failed treatment-live check, or any gate failure.",
+  "note": "A pass is a mechanism-direction result, not an effect-size or capability result; a failure does not re-read T1b's PERSISTENCE CONTRIBUTES verdict."
+ },
+ "authorisation": {
+  "required": true,
+  "granted": false,
+  "granted_on": null,
+  "document": null,
+  "quote": null,
+  "note": "No dated grant exists. A grant naming the 24 cells, the rerun and the result artifact is required before an arm is built or a cell is opened. This preregistration authorises nothing to run."
+ },
+ "runner": {
+  "built": false,
+  "planned_module": "benchmarks/persistence_mechanism_arm.py",
+  "cells_run": 0,
+  "why": "this record freezes the design, factors and gates only; no arm module exists and no cell has run"
+ },
+ "cost": {
+  "cells": 24,
+  "witness_cells": "one fresh-process determinism rerun of seed 20612301",
+  "cycles": 120,
+  "wall_clock_estimate": "24 cells plus one four-arm rerun at 120 cycles each"
+ },
+ "stop_condition": "No cell runs until a dated grant is recorded. After the grant, the block closes when the 24 cells and the rerun have produced their parts, G1-G7 have been scored once in the frozen order, and the verdict is recorded. Any gate failure is VOID; no cell is rerun to escape a gate and no gate is amended after a result.",
+ "not_evidence": "A preregistration, not a result. No cell has run. It does not re-read T1 or T1b, does not re-open the denominator, and licenses no capability, retention or transfer claim. A mechanism direction is not an adoption recommendation.",
+ "amendments": [],
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711"
+}

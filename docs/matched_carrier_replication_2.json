@@ -1,0 +1,509 @@
+{
+ "kind": "matched_carrier_replication",
+ "status": "RUN",
+ "prereg": "docs/matched_carrier_replication_2_prereg.json",
+ "question": "Does the matched carrier base-rate contrast replicate on a fresh six-seed block: do asserted-but-never-served world edges form reported loops more often than matched never-served and never-asserted controls?",
+ "scope": "Six fresh seeds, one compositional world family, 120 cycles, cap 40 and one replay per seed. This block tests the matched ever_loop contrast; it does not test retention, causation or whether service changes assertion.",
+ "design": {
+  "seeds": [
+   20615201,
+   20615202,
+   20615203,
+   20615204,
+   20615205,
+   20615206
+  ],
+  "cells": 6,
+  "cycles": 120,
+  "cap": 40,
+  "world": "generate_compositional_world(seed=, cycles=120) with the PHASE_ACQUISITION schedule and one replay per seed",
+  "case": "asserted world edge with zero direct served windows",
+  "control": "same-seed world edge with asserted=false and zero direct served windows",
+  "matching": "cases sorted by (final temporal count, edge); each case takes the nearest unused same-seed control by |final temporal count difference|; ties by lexicographically smaller edge; 1:1, no replacement",
+  "direct_count": "final direct temporal transition count from service._load_temporal(); validated against the Q4 census on seed 20611601, where all 112 world edges match the recorded count exactly",
+  "endpoint": "ever_loop: at least one reported loop_candidate path in any of the 120 cycles contains the edge in either orientation",
+  "replay": "A single replay supplies the final asserted set, the direct served windows and every reported loop path. No committed fingerprint is available for this fresh block; the replay is the observation."
+ },
+ "reference": {
+  "source": ".scratch/loop_retention.json",
+  "case_loops": 26,
+  "case_n": 26,
+  "control_loops": 13,
+  "control_n": 26,
+  "risk_difference_pp": 50.0,
+  "seed_cluster_ci95_pp": [
+   34.5,
+   69.6
+  ],
+  "mcnemar_exact_p": 0.00024,
+  "seeds": [
+   20611601,
+   20611602,
+   20611603,
+   20611604,
+   20611605,
+   20611606
+  ]
+ },
+ "endpoint": {
+  "name": "ever_loop",
+  "case_rate": "case_loops / matched_pairs",
+  "control_rate": "control_loops / matched_pairs",
+  "contrast": "case rate minus control rate, in percentage points"
+ },
+ "inference": {
+  "paired_test": "exact two-sided McNemar test on the discordant pairs; p = min(1, 2 * sum_{k=0}^{min(b,c)} C(b+c,k) / 2^(b+c))",
+  "cluster_interval": "percentile bootstrap over the six seeds as clusters: resample six seeds with replacement, pool their matched pairs, recompute the risk difference; 10,000 replicates; fixed RNG seed 20261112",
+  "alpha": 0.05,
+  "multiplicity": "one prespecified contrast; no adjustment",
+  "magnitude_note": "Whether the original +50 pp lies inside the fresh interval is reported, but it does not decide the replication verdict"
+ },
+ "criteria": [
+  {
+   "id": "R1",
+   "name": "direction",
+   "test": "case ever_loop rate > control ever_loop rate"
+  },
+  {
+   "id": "R2",
+   "name": "paired association",
+   "test": "exact two-sided McNemar p < 0.05"
+  },
+  {
+   "id": "R3",
+   "name": "cluster precision",
+   "test": "seed-cluster 95% interval lower bound > 0 pp"
+  }
+ ],
+ "seeds": [
+  {
+   "seed": 20615201,
+   "world_edges": 112,
+   "asserted_world_edges": 52,
+   "served_world_edges": 91,
+   "cases": 4,
+   "controls": 17,
+   "matched_pairs": 4,
+   "unmatched_cases": 0,
+   "case_loops": 4,
+   "control_loops": 3
+  },
+  {
+   "seed": 20615202,
+   "world_edges": 112,
+   "asserted_world_edges": 31,
+   "served_world_edges": 63,
+   "cases": 5,
+   "controls": 44,
+   "matched_pairs": 5,
+   "unmatched_cases": 0,
+   "case_loops": 5,
+   "control_loops": 4
+  },
+  {
+   "seed": 20615203,
+   "world_edges": 112,
+   "asserted_world_edges": 26,
+   "served_world_edges": 70,
+   "cases": 4,
+   "controls": 38,
+   "matched_pairs": 4,
+   "unmatched_cases": 0,
+   "case_loops": 4,
+   "control_loops": 1
+  },
+  {
+   "seed": 20615204,
+   "world_edges": 112,
+   "asserted_world_edges": 33,
+   "served_world_edges": 83,
+   "cases": 4,
+   "controls": 25,
+   "matched_pairs": 4,
+   "unmatched_cases": 0,
+   "case_loops": 4,
+   "control_loops": 0
+  },
+  {
+   "seed": 20615205,
+   "world_edges": 112,
+   "asserted_world_edges": 42,
+   "served_world_edges": 80,
+   "cases": 3,
+   "controls": 29,
+   "matched_pairs": 3,
+   "unmatched_cases": 0,
+   "case_loops": 3,
+   "control_loops": 0
+  },
+  {
+   "seed": 20615206,
+   "world_edges": 112,
+   "asserted_world_edges": 43,
+   "served_world_edges": 72,
+   "cases": 9,
+   "controls": 31,
+   "matched_pairs": 9,
+   "unmatched_cases": 0,
+   "case_loops": 9,
+   "control_loops": 3
+  }
+ ],
+ "pairs": [
+  {
+   "seed": 20615201,
+   "case_edge": "cedar>birch",
+   "case_direct_count": 27,
+   "case_ever_loop": true,
+   "control_edge": "cedar>sable",
+   "control_direct_count": 27,
+   "control_ever_loop": true,
+   "absolute_count_difference": 0
+  },
+  {
+   "seed": 20615201,
+   "case_edge": "teal>birch",
+   "case_direct_count": 27,
+   "case_ever_loop": true,
+   "control_edge": "cedar>amber",
+   "control_direct_count": 30,
+   "control_ever_loop": false,
+   "absolute_count_difference": 3
+  },
+  {
+   "seed": 20615201,
+   "case_edge": "crimson>birch",
+   "case_direct_count": 29,
+   "case_ever_loop": true,
+   "control_edge": "verdant>sable",
+   "control_direct_count": 31,
+   "control_ever_loop": true,
+   "absolute_count_difference": 2
+  },
+  {
+   "seed": 20615201,
+   "case_edge": "amber>crimson",
+   "case_direct_count": 35,
+   "case_ever_loop": true,
+   "control_edge": "amber>teal",
+   "control_direct_count": 41,
+   "control_ever_loop": true,
+   "absolute_count_difference": 6
+  },
+  {
+   "seed": 20615202,
+   "case_edge": "crimson>cedar",
+   "case_direct_count": 24,
+   "case_ever_loop": true,
+   "control_edge": "olive>ochre",
+   "control_direct_count": 24,
+   "control_ever_loop": true,
+   "absolute_count_difference": 0
+  },
+  {
+   "seed": 20615202,
+   "case_edge": "willow>umber",
+   "case_direct_count": 27,
+   "case_ever_loop": true,
+   "control_edge": "indigo>olive",
+   "control_direct_count": 26,
+   "control_ever_loop": false,
+   "absolute_count_difference": 1
+  },
+  {
+   "seed": 20615202,
+   "case_edge": "fern>cedar",
+   "case_direct_count": 31,
+   "case_ever_loop": true,
+   "control_edge": "fern>umber",
+   "control_direct_count": 31,
+   "control_ever_loop": true,
+   "absolute_count_difference": 0
+  },
+  {
+   "seed": 20615202,
+   "case_edge": "birch>fern",
+   "case_direct_count": 34,
+   "case_ever_loop": true,
+   "control_edge": "fern>ochre",
+   "control_direct_count": 32,
+   "control_ever_loop": true,
+   "absolute_count_difference": 2
+  },
+  {
+   "seed": 20615202,
+   "case_edge": "crimson>umber",
+   "case_direct_count": 34,
+   "case_ever_loop": true,
+   "control_edge": "indigo>slate",
+   "control_direct_count": 40,
+   "control_ever_loop": true,
+   "absolute_count_difference": 6
+  },
+  {
+   "seed": 20615203,
+   "case_edge": "umber>olive",
+   "case_direct_count": 18,
+   "case_ever_loop": true,
+   "control_edge": "cedar>olive",
+   "control_direct_count": 19,
+   "control_ever_loop": false,
+   "absolute_count_difference": 1
+  },
+  {
+   "seed": 20615203,
+   "case_edge": "umber>amber",
+   "case_direct_count": 27,
+   "case_ever_loop": true,
+   "control_edge": "indigo>fern",
+   "control_direct_count": 27,
+   "control_ever_loop": true,
+   "absolute_count_difference": 0
+  },
+  {
+   "seed": 20615203,
+   "case_edge": "umber>fern",
+   "case_direct_count": 29,
+   "case_ever_loop": true,
+   "control_edge": "slate>ochre",
+   "control_direct_count": 29,
+   "control_ever_loop": false,
+   "absolute_count_difference": 0
+  },
+  {
+   "seed": 20615203,
+   "case_edge": "birch>umber",
+   "case_direct_count": 39,
+   "case_ever_loop": true,
+   "control_edge": "birch>indigo",
+   "control_direct_count": 37,
+   "control_ever_loop": false,
+   "absolute_count_difference": 2
+  },
+  {
+   "seed": 20615204,
+   "case_edge": "maple>fern",
+   "case_direct_count": 22,
+   "case_ever_loop": true,
+   "control_edge": "birch>fern",
+   "control_direct_count": 22,
+   "control_ever_loop": false,
+   "absolute_count_difference": 0
+  },
+  {
+   "seed": 20615204,
+   "case_edge": "olive>fern",
+   "case_direct_count": 38,
+   "case_ever_loop": true,
+   "control_edge": "sable>willow",
+   "control_direct_count": 35,
+   "control_ever_loop": false,
+   "absolute_count_difference": 3
+  },
+  {
+   "seed": 20615204,
+   "case_edge": "olive>willow",
+   "case_direct_count": 39,
+   "case_ever_loop": true,
+   "control_edge": "verdant>slate",
+   "control_direct_count": 33,
+   "control_ever_loop": false,
+   "absolute_count_difference": 6
+  },
+  {
+   "seed": 20615204,
+   "case_edge": "olive>teal",
+   "case_direct_count": 40,
+   "case_ever_loop": true,
+   "control_edge": "willow>sable",
+   "control_direct_count": 31,
+   "control_ever_loop": false,
+   "absolute_count_difference": 9
+  },
+  {
+   "seed": 20615205,
+   "case_edge": "crimson>ochre",
+   "case_direct_count": 13,
+   "case_ever_loop": true,
+   "control_edge": "teal>sable",
+   "control_direct_count": 13,
+   "control_ever_loop": false,
+   "absolute_count_difference": 0
+  },
+  {
+   "seed": 20615205,
+   "case_edge": "fern>amber",
+   "case_direct_count": 31,
+   "case_ever_loop": true,
+   "control_edge": "cedar>slate",
+   "control_direct_count": 29,
+   "control_ever_loop": false,
+   "absolute_count_difference": 2
+  },
+  {
+   "seed": 20615205,
+   "case_edge": "indigo>birch",
+   "case_direct_count": 41,
+   "case_ever_loop": true,
+   "control_edge": "yarrow>maple",
+   "control_direct_count": 42,
+   "control_ever_loop": false,
+   "absolute_count_difference": 1
+  },
+  {
+   "seed": 20615206,
+   "case_edge": "umber>sable",
+   "case_direct_count": 28,
+   "case_ever_loop": true,
+   "control_edge": "willow>amber",
+   "control_direct_count": 27,
+   "control_ever_loop": true,
+   "absolute_count_difference": 1
+  },
+  {
+   "seed": 20615206,
+   "case_edge": "birch>yarrow",
+   "case_direct_count": 29,
+   "case_ever_loop": true,
+   "control_edge": "ochre>sable",
+   "control_direct_count": 30,
+   "control_ever_loop": true,
+   "absolute_count_difference": 1
+  },
+  {
+   "seed": 20615206,
+   "case_edge": "verdant>yarrow",
+   "case_direct_count": 29,
+   "case_ever_loop": true,
+   "control_edge": "yarrow>umber",
+   "control_direct_count": 31,
+   "control_ever_loop": false,
+   "absolute_count_difference": 2
+  },
+  {
+   "seed": 20615206,
+   "case_edge": "verdant>sable",
+   "case_direct_count": 30,
+   "case_ever_loop": true,
+   "control_edge": "willow>maple",
+   "control_direct_count": 33,
+   "control_ever_loop": false,
+   "absolute_count_difference": 3
+  },
+  {
+   "seed": 20615206,
+   "case_edge": "birch>sable",
+   "case_direct_count": 32,
+   "case_ever_loop": true,
+   "control_edge": "willow>verdant",
+   "control_direct_count": 33,
+   "control_ever_loop": false,
+   "absolute_count_difference": 1
+  },
+  {
+   "seed": 20615206,
+   "case_edge": "yarrow>birch",
+   "case_direct_count": 32,
+   "case_ever_loop": true,
+   "control_edge": "indigo>maple",
+   "control_direct_count": 35,
+   "control_ever_loop": false,
+   "absolute_count_difference": 3
+  },
+  {
+   "seed": 20615206,
+   "case_edge": "yarrow>maple",
+   "case_direct_count": 41,
+   "case_ever_loop": true,
+   "control_edge": "fern>verdant",
+   "control_direct_count": 42,
+   "control_ever_loop": false,
+   "absolute_count_difference": 1
+  },
+  {
+   "seed": 20615206,
+   "case_edge": "cedar>birch",
+   "case_direct_count": 43,
+   "case_ever_loop": true,
+   "control_edge": "indigo>verdant",
+   "control_direct_count": 43,
+   "control_ever_loop": true,
+   "absolute_count_difference": 0
+  },
+  {
+   "seed": 20615206,
+   "case_edge": "umber>willow",
+   "case_direct_count": 53,
+   "case_ever_loop": true,
+   "control_edge": "cedar>umber",
+   "control_direct_count": 46,
+   "control_ever_loop": false,
+   "absolute_count_difference": 7
+  }
+ ],
+ "summary": {
+  "pairs": 29,
+  "unmatched_cases": 0,
+  "case_loops": 29,
+  "control_loops": 11,
+  "both_loop": 11,
+  "case_only_loop": 18,
+  "control_only_loop": 0,
+  "neither_loop": 0,
+  "case_rate": 1.0,
+  "control_rate": 0.37931,
+  "risk_difference_pp": 62.069,
+  "risk_ratio": 2.6364,
+  "mcnemar_exact_p": 7.63e-06,
+  "cluster_bootstrap": {
+   "replicates": 10000,
+   "rng_seed": 20261112,
+   "ci95_pp": [
+    38.4615,
+    85.1852
+   ],
+   "mean_pp": 62.1742
+  },
+  "criteria": {
+   "R1_direction": true,
+   "R2_mcnemar": true,
+   "R3_cluster_ci_above_zero": true,
+   "original_difference_pp_inside_ci": true
+  },
+  "verdict": "REPLICATED",
+  "original": {
+   "case_loops": 26,
+   "case_n": 26,
+   "control_loops": 13,
+   "control_n": 26,
+   "risk_difference_pp": 50.0,
+   "seed_cluster_ci95_pp": [
+    0.345,
+    0.696
+   ],
+   "mcnemar_exact_p": 0.00024
+  },
+  "asserted_world_edges": 227,
+  "served_world_edges": 459,
+  "world_edges": 672,
+  "unmatched": []
+ },
+ "not_evidence": "A six-seed diagnostic of one matched contrast in one synthetic world family. It is not a capability, retention, transfer, causal or engine-effect claim, and it does not show that loops cause assertion.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__",
+ "voided_prior_attempt": {
+  "prereg": "MATCHED-CARRIER-REPLICATION-1",
+  "seeds": [
+   20615101,
+   20615102,
+   20615103,
+   20615104,
+   20615105,
+   20615106
+  ],
+  "reason": "The first pipeline matched on served-window counts, which are zero for every never-served edge, instead of the final temporal count. The control sample is therefore not the matched sample the census defines, and no contrast from that run is read. The seeds are not reused here.",
+  "record": ".scratch/matched_carrier_replication_1_void.json"
+ }
+}

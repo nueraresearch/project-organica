@@ -64,6 +64,7 @@ from ablation_study import (  # noqa: E402
     RandomCuriosityService,
     run_condition,
 )
+from benchmarks import engine_stamp
 
 
 # ===========================================================================
@@ -493,7 +494,7 @@ def main() -> int:
 
     out = REPO_ROOT / args.out
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps({
+    out.write_text(json.dumps(engine_stamp.stamp({
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "title": "Ablation Mechanism Verification",
         "purpose": "Establish that each ablation perturbed the organism before any "
@@ -511,7 +512,7 @@ def main() -> int:
             "o_full": hypothesis_dump(full),
             "no_falsification": hypothesis_dump(nofals),
         },
-    }, indent=2), encoding="utf-8")
+    }), indent=2), encoding="utf-8")
     print(f"\n  Full report written to: {out}")
     return 0
 

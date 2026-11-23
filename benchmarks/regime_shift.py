@@ -23,6 +23,7 @@ sys.path.insert(0, str(REPO))
 from organica.memory import MemoryService  # noqa: E402
 from organica.paths import temp_db  # noqa: E402
 from organica.sleep import SleepService  # noqa: E402
+from benchmarks import engine_stamp
 
 FAMILIES = ("cause_mix", "mapping_swap")
 MODELS = ("organica", "first_order_markov", "decayed_association")
@@ -327,7 +328,7 @@ def main() -> None:
     result = run_campaign(args.workers)
     output = Path(args.out)
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(result, indent=2), encoding="utf-8")
+    output.write_text(json.dumps(engine_stamp.stamp(result), indent=2), encoding="utf-8")
     print(json.dumps(result["protocol"], indent=2))
     print(json.dumps(result["summary"], indent=2))
     print(f"wrote {output}")

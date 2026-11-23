@@ -1,0 +1,258 @@
+{
+  "kind": "divergence_verdicts",
+  "status": "measured",
+  "generated_utc": "2026-11-05T01:46:32Z",
+  "source_artifacts": [
+    "docs\\divergence_cycle_capture.json",
+    "docs\\candidate_membership_audit.json"
+  ],
+  "control_seed": {
+    "task": "T1",
+    "seed": 20261101,
+    "invariant": true,
+    "matching_hash_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ]
+  },
+  "results": [
+    {
+      "task": "T1",
+      "seed": 20261125,
+      "divergence_cycle": 11,
+      "campaign_hash_seed": 2,
+      "baseline_hash_seed": 0,
+      "verdict": "A",
+      "verdict_name": "upstream write",
+      "mechanism": "candidate pool entering cycle already differed; divergence inherited from earlier cycle write",
+      "arm_C": {
+        "set_identical": false,
+        "order_identical": false,
+        "campaign_only_count": 8,
+        "current_only_count": 3,
+        "both_count": 252,
+        "prev_cycle_set_identical": false,
+        "prev_cycle_order_identical": false
+      },
+      "arm_B": {
+        "set_identical": false,
+        "order_identical": false,
+        "campaign_only_count": 8,
+        "current_only_count": 2,
+        "both_count": 272,
+        "prev_cycle_set_identical": false,
+        "prev_cycle_order_identical": false
+      }
+    },
+    {
+      "task": "T1",
+      "seed": 20261128,
+      "divergence_cycle": 3,
+      "campaign_hash_seed": 7,
+      "baseline_hash_seed": 0,
+      "verdict": "B",
+      "verdict_name": "construction-stage write",
+      "mechanism": "pool set identical; sort-tie order preservation from construction graph iteration",
+      "arm_C": {
+        "set_identical": true,
+        "order_identical": false,
+        "campaign_only_count": 0,
+        "current_only_count": 0,
+        "both_count": 37,
+        "prev_cycle_set_identical": true,
+        "prev_cycle_order_identical": false
+      },
+      "arm_B": {
+        "set_identical": true,
+        "order_identical": false,
+        "campaign_only_count": 0,
+        "current_only_count": 0,
+        "both_count": 37,
+        "prev_cycle_set_identical": true,
+        "prev_cycle_order_identical": false
+      }
+    },
+    {
+      "task": "T1",
+      "seed": 20261129,
+      "divergence_cycle": 2,
+      "campaign_hash_seed": 2,
+      "baseline_hash_seed": 0,
+      "verdict": "B",
+      "verdict_name": "construction-stage write",
+      "mechanism": "pool set identical; order parted company at this cycle due to prior construction write order",
+      "arm_C": {
+        "set_identical": true,
+        "order_identical": false,
+        "campaign_only_count": 0,
+        "current_only_count": 0,
+        "both_count": 39,
+        "prev_cycle_set_identical": true,
+        "prev_cycle_order_identical": true
+      },
+      "arm_B": {
+        "set_identical": true,
+        "order_identical": false,
+        "campaign_only_count": 0,
+        "current_only_count": 0,
+        "both_count": 39,
+        "prev_cycle_set_identical": true,
+        "prev_cycle_order_identical": true
+      }
+    },
+    {
+      "task": "T2",
+      "seed": 20261118,
+      "divergence_cycle": 5,
+      "campaign_hash_seed": 1,
+      "baseline_hash_seed": 0,
+      "verdict": "B",
+      "verdict_name": "construction-stage write",
+      "mechanism": "identical pool in set and order entering cycle; divergence arose inside cycle construction",
+      "arm_C": {
+        "set_identical": true,
+        "order_identical": true,
+        "campaign_only_count": 0,
+        "current_only_count": 0,
+        "both_count": 8,
+        "prev_cycle_set_identical": true,
+        "prev_cycle_order_identical": true
+      },
+      "arm_B": {
+        "set_identical": true,
+        "order_identical": false,
+        "campaign_only_count": 0,
+        "current_only_count": 0,
+        "both_count": 28,
+        "prev_cycle_set_identical": true,
+        "prev_cycle_order_identical": true
+      }
+    },
+    {
+      "task": "T2",
+      "seed": 20261120,
+      "divergence_cycle": 5,
+      "campaign_hash_seed": 13,
+      "baseline_hash_seed": 0,
+      "verdict": "A",
+      "verdict_name": "upstream write",
+      "mechanism": "candidate pool entering cycle already differed; divergence inherited from earlier cycle write",
+      "arm_C": {
+        "set_identical": false,
+        "order_identical": false,
+        "campaign_only_count": 1,
+        "current_only_count": 0,
+        "both_count": 22,
+        "prev_cycle_set_identical": false,
+        "prev_cycle_order_identical": false
+      },
+      "arm_B": {
+        "set_identical": false,
+        "order_identical": false,
+        "campaign_only_count": 4,
+        "current_only_count": 6,
+        "both_count": 55,
+        "prev_cycle_set_identical": false,
+        "prev_cycle_order_identical": false
+      }
+    },
+    {
+      "task": "T2",
+      "seed": 20261121,
+      "divergence_cycle": 5,
+      "campaign_hash_seed": 2,
+      "baseline_hash_seed": 0,
+      "verdict": "B",
+      "verdict_name": "construction-stage write",
+      "mechanism": "pool set identical; order parted company at this cycle due to prior construction write order",
+      "arm_C": {
+        "set_identical": true,
+        "order_identical": false,
+        "campaign_only_count": 0,
+        "current_only_count": 0,
+        "both_count": 18,
+        "prev_cycle_set_identical": true,
+        "prev_cycle_order_identical": true
+      },
+      "arm_B": {
+        "set_identical": false,
+        "order_identical": false,
+        "campaign_only_count": 1,
+        "current_only_count": 0,
+        "both_count": 61,
+        "prev_cycle_set_identical": true,
+        "prev_cycle_order_identical": false
+      }
+    },
+    {
+      "task": "T2",
+      "seed": 20261123,
+      "divergence_cycle": 5,
+      "campaign_hash_seed": 8,
+      "baseline_hash_seed": 0,
+      "verdict": "B",
+      "verdict_name": "construction-stage write",
+      "mechanism": "identical pool in set and order entering cycle; divergence arose inside cycle construction",
+      "arm_C": {
+        "set_identical": true,
+        "order_identical": true,
+        "campaign_only_count": 0,
+        "current_only_count": 0,
+        "both_count": 4,
+        "prev_cycle_set_identical": true,
+        "prev_cycle_order_identical": true
+      },
+      "arm_B": {
+        "set_identical": true,
+        "order_identical": false,
+        "campaign_only_count": 0,
+        "current_only_count": 0,
+        "both_count": 23,
+        "prev_cycle_set_identical": true,
+        "prev_cycle_order_identical": true
+      }
+    },
+    {
+      "task": "T2",
+      "seed": 20261130,
+      "divergence_cycle": 5,
+      "campaign_hash_seed": 2,
+      "baseline_hash_seed": 0,
+      "verdict": "B",
+      "verdict_name": "construction-stage write",
+      "mechanism": "identical pool in set and order entering cycle; divergence arose inside cycle construction",
+      "arm_C": {
+        "set_identical": true,
+        "order_identical": true,
+        "campaign_only_count": 0,
+        "current_only_count": 0,
+        "both_count": 10,
+        "prev_cycle_set_identical": true,
+        "prev_cycle_order_identical": true
+      },
+      "arm_B": {
+        "set_identical": true,
+        "order_identical": false,
+        "campaign_only_count": 0,
+        "current_only_count": 0,
+        "both_count": 37,
+        "prev_cycle_set_identical": true,
+        "prev_cycle_order_identical": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "kind": "v2_mutable_identity_spec",
+  "status": "PLANNING_ONLY",
+  "authorises": [],
+  "serves": "DECISION-V2-CHARTER requirement 6 and 7",
+  "identifier_invariants": [
+    {
+      "id": "I1",
+      "statement": "the id never changes across versions, member changes or a direction flip"
+    },
+    {
+      "id": "I2",
+      "statement": "the id is not a function of the members"
+    },
+    {
+      "id": "I3",
+      "statement": "ids are never reused after retirement"
+    },
+    {
+      "id": "I4",
+      "statement": "retrieval accepts the id and only the id"
+    },
+    {
+      "id": "I5",
+      "statement": "a version names a state, the id names the object"
+    }
+  ],
+  "mutation_invariants": [
+    {
+      "id": "M1",
+      "statement": "a mutation changes only the rows of the composite it names"
+    },
+    {
+      "id": "M2",
+      "statement": "atoms are immutable, so no member change alters a shared atom"
+    },
+    {
+      "id": "M3",
+      "statement": "mutations are atomic and version-checked"
+    },
+    {
+      "id": "M4",
+      "statement": "retirement leaves a tombstone and never frees the id"
+    },
+    {
+      "id": "M5",
+      "statement": "the primitive never writes the frozen V1 graph"
+    }
+  ],
+  "collision_rule": "copy-on-write at the level of bindings: composites hold versioned references to immutable atoms",
+  "earning_test": {
+    "prediction": "members predict held-out edges better than the same atoms' pair counts",
+    "control": "intervening on one composite leaves a bystander composite unchanged",
+    "decision": "an interval including zero means the primitive is bookkeeping and the charter fails"
+  },
+  "open_questions": [
+    "are members atoms or carriers",
+    "what normalisation makes rotated paths collide deterministically",
+    "how is the store compacted without changing a resolution",
+    "is registration cheap enough to run per detected structure"
+  ],
+  "recommendations": [
+    {
+      "question": "members: atoms or carriers",
+      "chosen": "edges as members, tags as the key; homogeneous typed members; level 1 (atoms) built first, level 2 permitted but unbuilt",
+      "rejected": [
+        "atoms only: makes a theory unrepresentable by schema",
+        "carriers only: no base case, multiplicative storage",
+        "tags as members: a tag triple with a missing edge would count as a carrier"
+      ],
+      "basis": "the first experiment needs a stored V1 carrier, whose members are pairs and whose baseline is pair counts; homogeneity keeps effects attributable to a level",
+      "doc_anchor": "Typed members, homogeneous per composite"
+    },
+    {
+      "question": "canonicalisation for longer paths",
+      "chosen": "per-kind: sorted triple for cycle3, least rotation/reflection for cycle_n, preserve order for open paths",
+      "rejected": [
+        "one global normalisation rule"
+      ],
+      "basis": "177 paths over 158 node sets; a direction-free key must not merge two different node sets, and an ordered path may carry direction as meaning",
+      "doc_anchor": "sorted tag triple"
+    },
+    {
+      "question": "compaction without changing a resolution",
+      "chosen": "reference-count references; reclaim unreferenced atoms; never reclaim ids, keys or tombstones",
+      "rejected": [
+        "never reclaim",
+        "reclaim composite ids"
+      ],
+      "basis": "atoms are immutable values rebuildable from the pair graph; ids and keys are the only non-reconstructible part",
+      "doc_anchor": "Reference-count references, not atoms"
+    },
+    {
+      "question": "registration cost and admission",
+      "chosen": "admit on total appearances m, not streaks; candidates carry no id",
+      "rejected": [
+        "register on first detection",
+        "register per consecutive streak"
+      ],
+      "basis": "about eleven detections per cycle; direction flips would make a streak rule reject a stable object",
+      "doc_anchor": "Admit on **total appearances**"
+    }
+  ]
+}

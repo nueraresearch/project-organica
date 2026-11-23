@@ -5,6 +5,1827 @@ All notable changes to Project Organica are recorded here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project follows [Semantic Versioning 2.0.0](https://semver.org/).
 
+## [0.16.0] — (unreleased)
+
+### Changed
+
+- **Prediction admission is support-gated, and the stratified allocation is gone.**
+  `_build_predictions` admits a temporal relation only when its unordered pair co-occurs
+  within an event at least `PREDICTION_COOCURRENCE_FLOOR = 35` times, serves one list
+  ranked by temporal count with the existing source/target tie-break, and truncates at
+  `MAX_PREDICTIONS = 112`. `transition_budget`, the co-occurrence quota and the backfill
+  are deleted because there is no longer a window to divide. Every admitted candidate
+  carries `is_cooccurrence: true`, so the presence gates keyed to two populations
+  (`transitions + cooccurrences = 112`, `transitions >= 56`, `cooccurrences <= 56`) no
+  longer describe a window and must be re-expressed before a block reads them.
+- The floor is the owner's, not the engine's to sweep: registered as
+  `CONSTRAINT-COOCCURRENCE-A-T1-1` and granted one 20-cell block on 2026-11-20
+  (`docs/COOCCURRENCE-A-T1-GRANT.json`). No cell has run. The engine modules under
+  `organica/` are re-pinned at 0.16.0.
+
+## Addendum — 2026-11-16: a runtime failure is a pre-committed disposition, not a retry
+
+`DECISION-V2-RUNTIME-FAILURE` is adopted before the first V2 cell executes. A run is
+started when `docs/v2_first_cell_run.json` exists; a `STARTED` marker, a missing result,
+or an incomplete artifact set is `VOID`, while no marker and no artifact is `UNRUN`.
+`VOID` is not a negative result and reports no interval or effect estimate. A
+`COMPLETED` attempt with all its artifacts is audit-only.
+
+`benchmarks/v2_first_cell_runner.py --status` reports the state without writing or
+executing a world. The one-shot `--run` guard refuses every marker, manifest, raw log or
+result, including an interrupted one, so a crash cannot become a second execution. A
+further attempt needs a new pre-registration, a fresh seed block and a new dated grant.
+The new tests cover `UNRUN`, a `STARTED`-marker `VOID`, an incomplete artifact set, an
+audit-only `COMPLETED` attempt and the read-only status command. No seed was executed.
+
+## Addendum — 2026-11-16: an independent read-only auditor for the cell result
+
+`benchmarks/v2_first_cell_audit.py` audits a completed first-cell result without replaying a
+seed. It reads the result, the raw per-seed log, the committed gate record and the seed
+declaration, then recomputes the protocol's 99% percentile bootstrap independently: the fixed
+20261116 PRNG seed, 10,000 resamples and the same percentile-index rule, using the result's
+per-seed differences. The reported mean and bounds may differ only by the result's declared
+six-decimal rounding, and the label must agree with both the reported and the recomputed
+bounds so a boundary crossing cannot be hidden by rounding.
+
+The audit also requires every committed gate to agree with the result's gate block, checks
+every VOID condition and code, checks arm A has no beta and arms B/C use the declared grid and
+match the raw log, recomputes `d`/`d_B` from the raw arm losses, and verifies the control's
+`M1` bystander rule and its VOID coupling. The module imports no runner, readout or engine and
+writes nothing; `--check` runs synthetic fixtures only. Tests cover a valid result, label and
+bound tampering, gate and beta mismatches, control failures, raw-loss disagreement and a
+read-only CLI run. No cell has run.
+
+## Addendum — 2026-11-16: the first-cell run is auditable without a re-run
+
+The runner now writes a provenance manifest before it replays any world and a raw per-seed
+log after the arms run. `docs/v2_first_cell_manifest.json` records SHA-256 digests for the
+runner, report, gate record and gate suite, seed declaration and reservations, decision index,
+scorer pin, readout, primitive and engine pin, plus the Python version, platform, executable
+and the three output paths. It starts `STARTED` and is completed with the result and raw-log
+hashes.
+
+`docs/v2_first_cell_run_log.json` records, for every declared seed, its detections, A1 stats,
+measurability and each arm's beta, log-loss, calibration log-loss, scored count, composites
+and mutations. The file is explicitly marked a raw log, not a result or a verdict, and is
+stamped with the engine identity. An A1 or gate failure records the ten seeds as not run with
+no arm values rather than inventing measurements.
+
+The one-shot guard now refuses an existing marker, manifest, raw log or result, and the new
+artifacts are written through the existing temporary-file/exclusive-create path. The manifest
+and marker bind the result and raw log by SHA-256, so the completed cell can be audited
+without replaying a seed. Tests cover the successful path, both failure paths and the new
+refusals. No cell has run.
+
+## Addendum — 2026-11-16: the first-cell runner is one-shot and writes atomically
+
+`v2_first_cell_runner --run` now writes `docs/v2_first_cell_run.json` before replaying any world.
+A run marker or a result already on disk refuses the next attempt, so the spent ten-seed block
+cannot be executed a second time or have its single report replaced. The result is written to a
+temporary file and linked into place, and the writer refuses an existing destination. The marker
+records `STARTED` and then `COMPLETED` with the result SHA-256.
+
+Tests cover the marker refusal, the existing-result refusal, and the gate-failure `VOID` path,
+including no temporary files left behind. No cell has run.
+
+## Addendum — 2026-11-16: the first V2 cell is signed and the block is spent
+
+`DECISION-V2-FIRST-CELL` is `ADOPTED 2026-11-16 — THE TEN-SEED BLOCK IS SPENT; THE CELL IS AUTHORISED AND NOT RUN`.
+The decision index moved to 36 decisions (30 adopted, 1 withdrawn, 5 pending); `v2_first_cell_seeds.json` now records
+the block as SPENT and the reservation registry records `spent: true`. The signature brief renders the signed state and
+no longer asks for a signature.
+
+The runner's authorisation guard returns `(True, 'authorised')`; `--check` reports the authorisation guard (authorised),
+pins match and ten seeds. `--run` was not invoked and no seed was executed; no cell result exists. The section 8 control
+remains absent and will be reported `NOT RUN` with a reason.
+
+## Addendum — 2026-11-16: A1 on the cell's own detection stream
+
+The runner now replays each of the ten cell seeds and applies the A1 canonicalisation check to
+that seed's own detections before it scores any arm. A mixed key, a direction flip that changes a
+key, or a mismatch between keys and distinct node sets writes a `VOID` with
+`A1_CANONICALISATION`, marks A1 `FAIL` in the result, leaves every seed unmeasured, and never
+calls the arm scorer. A clean run appends the cell-stream counts to A1's evidence in the result.
+
+The pre-cell gate still uses the rule, both committed regressions and the spent smoke stream; the
+gate record now says the runner closes that scope on the experiment's own stream. No cell ran.
+
+## Addendum — 2026-11-16: signature review of the first cell
+
+The gate record is A1–A5 PASS, the scorer pins match, and the ten cell seeds are held and unspent. The runner still
+refuses while `DECISION-V2-FIRST-CELL` is `PENDING`.
+
+Three stale statements were corrected before signature: the gate record's note still said A4 was NOT RUN, the runner
+docstring still said A2–A5 NOT RUN, and the brief said only that the gates were written. The decision now names the
+signature bookkeeping explicitly: the signature commit must set the decision to `ADOPTED` and the seed block to
+`spent: true`; the runner refuses until both.
+
+Two disclosures remain for the signer. A1's PASS is the canonicalisation rule, both committed regressions and the spent
+smoke stream — not a replay of the cell's own detection stream. The section 8 control has no record, so it will be
+reported `NOT RUN` with a reason, which the signed interpretation permits. No cell ran.
+
+## Addendum — 2026-11-16: the base seed is released to A4, and A1–A5 pass
+
+`DECISION-V2-A4-BASE-WORLD` releases 20740101 from the A1-TWO-PATH-1 reservation and reallocates it as A4's base
+world. A1 is frozen on a VOID synthetic-fixture assembly and refuses a second run; it keeps the other five held seeds,
+and the released seed is recorded as spent in its own row with the A1 artifacts and the A4 record as restatements.
+
+The 135,168-byte cap is unchanged. A4 rebuilds 115 composites at `m = 2` with 275 observed member references at
+16 pages / 65,536 bytes, and compaction leaves all 115 resolutions identical. `docs/v2_first_cell_gates.json` now
+records **A1–A5 PASS**.
+
+The cell is still not run: `DECISION-V2-FIRST-CELL` is `PENDING`, so the runner refuses before executing a seed. No V2
+cell seed was touched.
+
+## Addendum — 2026-11-16: the level-1 primitive is built, and A4 is blocked by a seed reservation
+
+`benchmarks/v2_primitive.py` implements the build authorised by `DECISION-V2-PRIMITIVE-BUILD`: a separate SQLite store,
+monotone content-free ids, a canonical-key registry, versioned copy-on-write members, tombstones and reference-count
+reclamation. The A2 and A3 tests were written before the module and failed at import (two collection errors), then
+passed.
+
+`docs/v2_first_cell_gates.json` records A1, A2, A3 and A5 PASS, and **A4 NOT RUN**. A4's preregistered base world is
+held by the A1-TWO-PATH-1 candidate block; rebuilding it here would spend a reserved seed, and no committed detection
+stream exists to rebuild it without one. The spent smoke world is not substituted for the base world. A5 built the
+smoke stream's 96 admissions twice, produced the same ids and members, and allocated 97 after retiring 96.
+
+The build is implemented but not fully accepted under the decision's §5, and the cell remains not runnable:
+`DECISION-V2-FIRST-CELL` is `PENDING`, so the runner refuses before executing a seed. No reserved seed was touched.
+
+## Addendum — 2026-11-16: the primitive build is authorised, and no code is written
+
+`DECISION-V2-PRIMITIVE-BUILD` is adopted. The bounded level-1 build it describes may proceed in
+`benchmarks/v2_primitive.py`: a separate SQLite store, monotone content-free ids, a canonical-key registry, versioned
+copy-on-write members, tombstones and reference-count reclamation, solely so A2–A5 can run.
+
+Adoption authorises the build; it does not perform it. This change writes no module and no test, leaves the engine pin,
+readout, `m`, endpoint and seed block untouched, and the gate record remains A1 PASS, A2–A5 NOT RUN. The cell still
+needs its own signed authorisation.
+
+## Addendum — 2026-11-16: the primitive build is drafted, not authorised
+
+`DECISION-V2-PRIMITIVE-BUILD` is recorded `PENDING`. It would authorise a bounded build of the level-1
+mutable-identity primitive — a separate SQLite store with a monotone content-free id, a canonical-key registry,
+versioned copy-on-write members, tombstones and reference-count reclamation — solely so A2–A5 can be run.
+
+It confines the build to `benchmarks/v2_primitive.py` and its tests, forbids any write to the live `memory.db`, and
+leaves the engine pin, the readout, `m`, the endpoint and the seed block untouched. It authorises no cell, no level 2,
+no `fork` and no per-version history. Acceptance is the A2–A5 gate record and the named tests; the build stops there.
+
+The gate record remains A1 PASS, A2–A5 NOT RUN, and the cell remains unrunnable until both the build and the cell
+authorisation are signed.
+
+## Addendum — 2026-11-16: the A1–A5 gate record is written, and A2–A5 cannot run
+
+`benchmarks/v2_first_cell_gates.py` writes `docs/v2_first_cell_gates.json` and its page. A1 passes: the
+canonicalisation rule is total on paths, holds on the spent smoke stream (`20911101`, not a cell seed), and both
+committed identity regressions reproduce (177→158 with multiplicities {1: 139, 2: 19}; 138→125). A2–A5 are
+**NOT RUN**, not passed: the primitive those gates test has no stored composite id, no mutation API, no rebuilt store
+and no id/version/tombstone sequence. The sizing artifact is an estimate, not a page count.
+
+The record is the one the runner accepts, and its consequence is that the cell is not runnable: the runner treats
+`NOT RUN` as a gate failure and would write a `VOID` artifact without executing a seed. No cell ran and no reserved
+seed was spent.
+
+## Addendum — 2026-11-16: the ten-seed runner is built, and refuses to run
+
+`benchmarks/v2_first_cell_runner.py` owns the protocol order: it refuses while `DECISION-V2-FIRST-CELL` is `PENDING` or
+the block is still marked held, refuses without a committed A1–A5 gate record, and never invents a gate `PASS`. On a gate
+failure it writes a `VOID` artifact without executing a seed; otherwise it runs the ten declared seeds through the pinned
+readout, derives `d` and `d_B` and the per-arm betas, bootstraps the 99% interval, derives the label, and validates the
+artifact with the report renderer before writing. A missing section 8 control is recorded `NOT RUN`, which the report
+accepts because the arm is secondary. `--check` exercises the assembly paths without running a world. No cell ran; the
+A1–A5 gate record is the missing input.
+
+## Addendum — 2026-11-16: the report shape now carries the section 8 control arm
+
+`benchmarks/v2_first_cell_report.py` adds the secondary control arm to the fixed shape: the intervention
+(`remove_member` or `retire`), the target composite, a different bystander composite, the metric, and the member and
+bystander deltas. `M1` is byte-identity, so any nonzero bystander delta is `M1` FAIL and VOIDs the cell with
+`M1_CONTROL`; a control that did not run is reported with its reason and makes no `M1` claim. A zero member delta is a tie on the
+members — the primitive is useless for control — and is reported as a secondary finding without passing or failing the
+charter. 17 tests; no cell ran.
+
+## Addendum — 2026-11-16: the cell report has one enforced shape
+
+`V2-FIRST-CELL-REPORT-TEMPLATE` is generated by `benchmarks/v2_first_cell_report.py`. `--render RESULT.json` derives the
+outcome from the interval rather than accepting a typed label, requires every declared seed to be measured or excluded with
+a reason, requires arm B and arm C beta selections from `{1, 2, 4, 8}` and none for arm A, refuses fewer than 8 measurable
+seeds without `VOID`, refuses a failed gate without `VOID` and a `VOID` that carries an interval, and refuses a stale pin.
+The selection comparison is read from the committed matched-control artifacts at render time — `-0.000497` null,
+`+0.002091` planted, 4.05% of its 0.051685 gain — and a PASS states its margin against that bound. `--check` proves the
+page fresh and exercises every refusal. No cell ran; the ten seeds remain held.
+
+## Addendum — 2026-11-16: the four outcomes have a fixed reading, before any cell
+
+`DECISION-V2-FIRST-CELL-INTERPRETATION` is adopted with no cell run. It fixes what each outcome of the pre-registered
+interval authorises: **PASS** — one report that the primitive earned held-out prediction beyond the counts, with no build
+and no attribution to maintained selection; **BOOKKEEPING** — the charter fails at its first experiment, with no feature,
+rescore or second run; **REVERSAL** — a measured cost, reported as a failure rather than as signal found backwards;
+**VOID** — no reading at all, not a negative result. It also writes the selection sign reversal into the reading: at equal
+mass and key count the matched control is **−0.000497** on null worlds and **+0.002091** on the planted world (4.05% of
+that gain), so neither sign is assumed for the cell and a PASS is not a selection result. The decision index moves to 34
+(27 adopted, 1 withdrawn, 6 pending). No cell ran; the ten seeds remain held.
+
+## Addendum — 2026-11-15: the C1 denominator has a convention the protocol does not fix
+
+`A1-DESIGN-VIABILITY-1` is re-issued, and it is the last record that still read the 63–64
+planning quantity as C1's denominator. It now carries the reconciliation, keeps its original
+status and disposition verbatim under `original_reading`, and records what re-issuing it
+exposed: the protocol fixes *which* rows count but not *what a row is*. Counting each
+directed orientation as its own row gives ceilings of 79/64/79/74/72/74 on the adopted block
+and clears the 60-row floor on every seed; counting each undirected relation once gives
+35–51 (any orientation) or 31–38 (both) and clears it on none. The orientations are not
+copies — A availability differs across orientations on 15–28 of 64 relations per seed — so
+the choice changes the denominator and its independence structure. The 2063 block shows the
+same split (directed rows clear on four seeds, relations on none). No cell ran, nothing was
+scored, and the convention is an owner decision, not a measurement's.
+
+## Addendum — 2026-11-15: the C2/C8 competence rule is drafted, and still the owner's to choose
+
+The pre-freeze checklist listed C2/C8 target competence as the only decision with no owner and no
+draft. `docs/A1-C2-C8-COMPETENCE-RULE.md` now states the rule — competent row, block-void rule,
+pre-registered selection, disclosure of the filter's effect — and the three options it leaves open.
+The measured consequence is the same on both seed blocks: under the current selection no seed
+supplies a clean C8 block (2063 at most 3 of 4 and 5–12 of 20; 2074 at most 3 of 4 and 7–13 of 20),
+while the competent pool is sufficient (23–36 and 27–40 against 20 required). Nothing is in force,
+no threshold moved, no target was frozen and no cell ran; the checklist row stays undecided until
+the owner picks an option.
+
+## Addendum — 2026-11-15: the owner closes the C1 denominator and holds everything downstream
+
+The owner ruled on the A1 decision list, and split it into confirmations the evidence had settled,
+consequences, and genuine judgments. `DECISION-A1-C1-DENOMINATOR.md` records the only item closed
+today: the protocol's C1 denominator is authoritative, 63–64 is a planning quantity, and the
+operative row is the recorded cell row (a directed orientation) — the row `c1_rows` counts and
+`score_c1` scores. Both freeze acts drop `C1_denominator_confirmation` and now block on
+`C2_C8_competence_rule` and `C4_exposure_acceptance`. The freezes, the Path A confirmation and the
+disposition stay held, the grant is refused, and C2/C8 competence moves to the top of the list.
+C1 itself remains unscored: the floor is reachable at 79/64/79/74/72/74 on the adopted block, and a
+ceiling is not an observation.
+
+## Addendum — 2026-11-15: the adopted-block competence numbers become a record
+
+The C2/C8 competence figures for the adopted block lived in a chat computation. `A1-COMPETENCE-ADOPTED-1`
+(`docs/a1_competence_adopted.json`, `docs/A1-COMPETENCE-ADOPTED.md`, `benchmarks/a1_competence_adopted.py`)
+now derives them from three committed artifacts and guards them: N=4 **12 of 24** rows competent
+(3/0/3/2/2/2, no seed with a clean block), N=20 **58 of 120** (10/7/11/13/10/7, no seed with a clean
+block), competent pool **27–40** per seed against **20** required. Every selected row is present in the
+availability record, so no row is silently called incompetent and the counts are exact. The record runs
+no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
+so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
+
+
+### What adopting it would amend
+
+`A1-PATH-A-C1-RULE-1` fixes the estimand *and* the C1 acceptance rule, and its §1 defines the estimand as the
+representative eligible effect. The draft therefore names its target: adoption replaces that one sentence, as a dated
+note rather than a deletion, and leaves the C1 rule, the 60-row floor and the record's other clauses binding. A partial
+supersession cannot be expressed by `superseded_by`, which names a whole record, so the amendment travels in that
+record's note, in the draft and on the checklist.
+
+The multiplicity figures also gained the pin they were missing. The existing test recomputed the C4 table from the
+baseline and checked the size list against C8; it did not check the prose sentence that states 276–285 per seed and
+1,671 across the block, which is the number a signed record would carry. That sentence is now parsed and compared with
+`min`, `max` and `sum` of the recomputed column. Changing either the total in prose or a cell in the table makes it
+fail — both directions were run.
+### Follow-up, same day: the last undecided size was a budget limit, not a ceiling
+
+`20740105` was reported with 19 and 20 undecided at a four-million-node budget. Re-running at forty million exhausted
+both — 26,087,624 nodes for 19, 14,730,701 for 20 — so the block of **18** there is the largest that exists rather than
+the largest that was found. Every seed's block is now exhaustive on both sides, and the `UNDECIDED` verdict no longer
+appears in the artifact. The block did not change: sizes are still **20 / 17 / 20 / 20 / 18 / 20**, which is the point
+of the distinction — an undecided size was a statement about the search, and settling it moved no number.
+
+## Addendum — 2026-11-15: the competent selection exists, and a correction to the audit above
+
+**The selection.** `benchmarks/a1_c8_target_selection_competent.py` produces
+`docs/a1_c8_target_selection_competent.json`: the published 20-row rule with one predicate added — both baseline paths
+present — sizes falling from 20 and never below 17, and each block decided by an exact search at the unchanged endpoint
+cap of three. The sizes come out at **20 / 17 / 20 / 20 / 18 / 20**, which is the block the estimand draft fixes, now
+with an artifact behind it. `20740102` takes 17 with 20, 19 and 18 **proved infeasible by exhaustion** (316,699,
+631,121 and 1,139,785 nodes), so the frontier reported earlier holds independently. `20740105` takes 18 with 19 and 20
+left **undecided** at the node budget rather than claimed impossible — an unfinished search is not a ceiling. The four
+twenty-row seeds find a witness in 21 nodes, which is what a loose cap looks like.
+
+**The correction.** The audit addendum directly below says C1's denominator "has to be re-measured" once targets are
+competent rows, and the estimand record was edited to say the same. **That is wrong.** C1 counts every recorded row of
+the cell stream, targets included — `candidate_rows` is the full 112-row universe in the baseline artifact — so its
+denominator is a property of the universe, not of the target set. The competent selection reproduces
+**79 / 64 / 79 / 74 / 72 / 74** exactly, and the competent artifact carries that table. The claim is withdrawn in all
+three places it was written (the estimand, the checklist and the ceiling decision's ordering constraint); only C4's
+stream moves with the row count. `tests/test_a1_c8_selection_competent.py` now pins the invariance so the error cannot
+be reinstated silently.
+
+## Addendum — 2026-11-15: signature-readiness audit of the two pending A1 decisions
+
+Both drafts were read against the artifacts and records they cite. Four defects, all in the drafts and all fixed:
+
+**A citation to a record that does not exist.** The estimand rested part of its argument on `DECISION-A1-C4-POSTURE-1`.
+The C4 posture record's ID is `A1-C4-POSTURE-1`; the cited string appears in no document. The argument is unaffected —
+the clause it points at is real — but a signable record cannot cite an ID that resolves to nothing.
+
+**A claim about the tree that had become false.** The estimand said it did not "repair C4's completeness detection;
+both remain open". C4's completeness detection was repaired on 2026-11-15, so the sentence described a defect that no
+longer existed. It now records the repair and points at the amendment.
+
+**A restatement that was missing its pair.** The draft moved C4's multiplicity onto the competent row counts but left
+C1's denominator at the minima observed on the representative selection. Competent targets change which edges are
+targets, so the paired-control denominator has to be re-measured; the same re-derivation supplies the ceiling decision's
+preplanned universe. The dependency is now stated rather than implicit.
+
+**An unstated consequence for the freeze acts.** Neither draft said which act survives. `A1-TARGET-FREEZE-1` freezes
+four targets per seed, and four rows per seed can never reach C8's adopted `N_min = 17` — the act cannot support a C8
+adjudication at any retention, which is C8's consequence and not either draft's. Both drafts now name the N=20 act as the
+one that can carry a competent block, so the N=4 act should not be signed under any outcome.
+
+No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
+
+## Addendum — 2026-11-15: the charter now names the G3/G4 line and the object it requires
+
+`DECISION-V2-CHARTER` gains the dividing line the structural model implies. **G0–G3** are expressible over pair counts
+and recomputed paths, which is where V1's evidence stops. **G4** strains the substrate rather than breaking it: a
+hypothesis can be a content-addressed row re-derived each cycle, but then it is replaced, not revised, and nothing records
+that it survived a contradiction — whether that is enough is left open. **G5–G8** presuppose revision: theories whose
+membership changes, questions that stay open while evidence accumulates, experiments that target one unresolved tension.
+V1 holds no such object, because structures are recomputed each consolidation and nothing remains itself across a
+revision.
+
+The charter must therefore specify **a mutable-identity primitive**: a stored composite, an identifier assigned
+independently of its content, and a mutation that cannot alter a shared part, with the collision rule (ownership or
+copy-on-write) stated. An id column over recomputed structures does not satisfy it.
+
+It must also specify an **earning test**: the first experiment compares the addressed object against the pair-count
+baseline, and the charter says in advance that a tie means the addresses are bookkeeping and the charter fails.
+Addressability is necessary for G4 and beyond; it is not sufficient, and the draft now says so rather than treating the
+primitive as the goal.
+
+## Addendum — 2026-11-16: the offline re-keying study, corrected
+
+`benchmarks/v1_rekeying_study.py` replays one world, reads back the 4,303 `sleep:loop_candidate` rows it wrote, reproduces
+V1's selection rules offline, and re-runs them with a direction-free key over the same detections.
+
+Direction-free identity would have saved **19 identities** (177 → 158) and **16 retirement rows** (186 → 170), and turned **55
+orientation flips** from a restart into a reinforcement; mean live strength rises 0.8043 → 0.816 and the top-5 appearance
+share 0.2032 → 0.2194. Real, and small: the largest merged case is `maple/sable/slate`, 60 appearances with 13 flips.
+
+This addendum replaces the first version of the same study, which reported 20 retirements saved (201 → 181) and blamed a
+15-retirement validation gap on the 4,000-event prior window. Both claims were wrong. `_reinforce_current` adds 0.05 to the
+**fresh detection**, not to the prior; the simulator added it to the prior. With that one rule fixed the simulation reproduces
+all 186 retirement rows and the conservative figures above stand. The correction is recorded in the page and the artifact,
+not silently applied.
+
+## Addendum — 2026-11-16: the one-page brief for the first cell's signature
+
+`docs/V2-FIRST-CELL-BRIEF.md` is a one-page brief for `DECISION-V2-FIRST-CELL`: the ask, the four-row protocol, the null
+false-pass rate, the power curve at the measured noise, and the handicap decomposition, each number read from the artifact
+that measured it. It adds no evidence, and it names the single remaining action — the signature.
+
+## Addendum — 2026-11-16: selection captures signal when the world carries one
+
+The matched controls were run on the planted motif world. At equal total mass, maintained and a random frozen allocation are
+statistically indistinguishable (Δ **+0.000834**, 99% interval `[−0.000036, +0.002555]`). At equal total mass *and* equal
+non-empty composite count, maintained selection beats the random control by **+0.002091** nats (interval
+`[0.000414, 0.003802]`).
+
+The sign is the reverse of the null worlds, where the same key-matched control was **−0.000497**: selection overfits noise
+when there is none and captures a planted motif when there is one. The effect is real but small beside the planted gain
+itself (0.051685); the composite term still carries most of it. This remains the positive control's deliberately best-case
+world, and no cell seed was spent.
+
+## Addendum — 2026-11-16: the revision offset is mass, not selection
+
+`benchmarks/v2_first_cell_mass_match.py` holds member mass equal on the 20 null worlds. At the maintained arm's total edge
+count, a random frozen allocation scores **0.000387** against maintained's **0.000847** (Δ **−0.000460**, 99% interval
+`[−0.000753, −0.000134]`). At equal total mass *and* equal non-empty composite count, the random control still scores
+**0.000350** (Δ **−0.000497**, interval `[−0.000812, −0.000133]`).
+
+So the revision improvement over frozen is the composites it drops, not the edges it keeps. At matched mass the maintained
+selection is worse than chance on a structureless world, which is what one should expect when frequency is noise. The
+key-matched control is 1.8 edges per world lighter than maintained because its chosen keys cannot always hold the full
+mass; the mass-matched control has no shortfall and reaches the same sign, so the conclusion does not rest on it. Neither
+control says anything about a structured world, where selection could retain signal.
+
+## Addendum — 2026-11-16: the planted positive control — a composite gain above the handicap
+
+`benchmarks/v2_first_cell_planted.py` builds a world where five three-tag motifs are repeated in training and the
+held-out stream asks for each motif's closure read forwards (`a -> c`), a transition training never showed. The
+pair-count arm has no support for it; the admitted motif contains the undirected member edge `{a,c}`, so the composite
+term does. Across ten seeds the mean difference is **−0.051685** nats, **61×** the null handicap, with a 99% interval
+of `[−0.051689, −0.051679]`.
+
+The gain is the composite term's, not revision's: the frozen arm reaches −0.051515 and maintenance adds −0.000170, a
+revision share of 0.3%. The ten seeds vary only the tag-to-role mapping, so the interval measures mapping variation
+rather than a population of worlds, and the world is deliberately the readout's best case. The result establishes
+that the readout can express a composite gain above the handicap; it does not establish that the first cell's world
+contains such a motif, and it spends none of the cell's seeds.
+
+## Addendum — 2026-11-16: the null handicap decomposed, and why it cannot be debiased
+
+`benchmarks/v2_first_cell_handicap.py` separates the +0.000847 nats null handicap using the stored arms: frozen membership's
+β pseudo-counts cost **+0.001312** nats, and the revision rule **gives back −0.000465** by holding fewer member edges per composite
+from 2.571 to 0.783, for a net of **+0.000847**. Both arms selected β = 1 throughout.
+
+The four-arm factorial has a structural zero: a revision-only arm (no composite term) is exactly the baseline, measured
+at 0.000000 on all 20 seeds, so revision acts only through the composite term and the interaction is not separately
+identifiable. The estimable effects are +0.001312 (composite, frozen) and −0.000465 (revision, given a composite), which
+add to the net. That reverses the predicted ordering `A < B < C`: C pays less than B.
+
+A row-preserving mixture — `p' = (1−λ)p_counts + λq_member`, the construction most likely to be unbiased if row sums were the
+problem — is not a fix: bias **rises** with λ (frozen +0.000572 at λ = 0.1, +0.002357 at 0.2), and the maintained arm's
+mixture (+0.001546) is worse than its additive form because normalising a sparse member set concentrates the tilt. Every
+non-trivial variant is positive; β = 0 is exactly arm A. The handicap is the convexity cost of using membership at all, which
+is why the recommendation is to keep the readout and report the handicap beside the result rather than subtract a
+null-calibrated offset that would not transfer to the cell's worlds.
+
+## Addendum — 2026-11-16: the V2 programme is a pre-1.0 line targeted at 0.20.0
+
+Recorded on the owner's instruction: "V2" is the internal label for the second research programme, **not a version number**.
+The line is pre-1.0 and its first release is planned as **0.20.0**, not 2.0.0. `docs/RELEASE-LINE.md` defines the label and
+records what it does *not* change: the package version stays `0.15.0`, the engine stays pinned, no tag moves, and the V2
+document and module names are retained because renaming them would break references across more than sixty documents.
+
+## Addendum — 2026-11-16: the ten-seed interval's power at the measured null noise
+
+`benchmarks/v2_first_cell_power.py` injects a known benefit into the 20 measured null differences as a constant shift —
+exact for a percentile bootstrap, since every resampled mean moves with it — and reads power as the fraction of ten-seed
+cells whose null upper bound lies below the injected benefit.
+
+At the measured null noise (mean `d` **+0.000847**, sd **0.000645**), the directional criterion detects a gross benefit of
+**0.001399** nats at 80% power, **0.001449** at 90% and **0.001478** at 95%. Because the null handicap must be overcome
+first, those correspond to an observed mean difference of **−0.000552**, **−0.000602** and **−0.000631** nats. Power at the
+null's own mean benefit is **0.000**, matching the null calibration's zero false-pass rate — the anchor check that the curve
+is placed correctly. The 2,000-resample calibration agrees with the protocol's 10,000 to a maximum upper-bound difference of
+**0.0000513** nats on the first 100 cells.
+
+This is a property of the rule at that noise under a constant-shift, equal-variance assumption, not a prediction about any
+real effect. `docs/V2-FIRST-CELL-POWER.md` is rendered from `docs/v2_first_cell_power.json`.
+
+## Addendum — 2026-11-16: the interval on null worlds, and the criterion made directional
+
+`benchmarks/v2_first_cell_null.py` puts 20 **structureless worlds** through the same engine, admission, `m = 2`, β grid,
+revision rule and scorer: every event draws two tags independently from the same 16-tag pool, so nothing about a
+composite's membership can predict a held-out edge. It then applies the protocol's 99% paired bootstrap to 1,000 ten-seed
+cells and records how often the interval excludes zero.
+
+The answer is not the comfortable one. The interval **included zero in only 57 of 1,000 cells** (0.0570): on null worlds arm
+C is slower by **0.000847** nats (sd 0.000645), and at ten seeds the interval resolves that handicap. All **943** exclusions
+lay **above** zero, so the rule as signed — two-sided, asking only whether zero was inside — would have counted a reliably
+*worse* arm as a pass. Amendment 2 therefore makes the criterion directional: the charter passes only when the interval lies
+entirely **below** zero; an interval including zero fails as bookkeeping, and one entirely above zero fails as a reversal.
+Under the amended rule the null's false-pass rate is **0 of 1,000** cells. The diagnostic is pre-observation, and the
+calibration's coverage of the null mean is 98.2%, close to the nominal 99%.
+
+`docs/V2-FIRST-CELL-NULL.md` is rendered from `docs/v2_first_cell_null.json`; the 20 null seeds are reserved and spent.
+
+## Addendum — 2026-11-16: the readout adapter is built, pinned and dry-run
+
+`benchmarks/v2_first_cell_readout.py` implements the signed protocol: one engine replay per world, composites admitted on
+`m = 2` with direction-free keys, arm B's membership frozen at admission, arm C's maintained by the 20-cycle rule, and
+next-edge log-loss through the pinned `heldout_prediction._score` instrument. `--check` verifies all four digests and a
+deterministic two-run comparison; `--pin` records the adapter's own digest; `--dry-run` scored smoke seed `20911101` and
+wrote `docs/v2_first_cell_dry_run.json`.
+
+**The dry run found a protocol defect.** With `0` in the β grid, arm C selected `β = 0` and reproduced arm A exactly, and
+arm B was also scored at `β = 0`: a treatment arm could select itself into the null. Amendment 1 of the pre-registration
+therefore drops zero, gives each arm its own β, and is disclosed as pre-observation — no cell ran and no seed from the
+ten-seed block was spent. Rescored, the arms separate on the smoke seed: A `0.280457`, B `0.289424` (`β = 1`), C `0.285669`
+(`β = 1`), difference C−A `0.005212`. That is one seed, so it is a check that the machinery discriminates, not evidence
+about the primitive.
+
+## Addendum — 2026-11-16: the pre-registration is signed and the cell's authorisation is drafted
+
+`docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md` is now `SIGNED 2026-11-16`: every field it left open is filled.
+
+- **Seeds:** ten paired worlds, `20910101`–`20910110`, declared in `docs/v2_first_cell_seeds.json` and held in
+  `docs/a1_seed_reservations.json`; held, not spent.
+- **World and boundary:** the compositional 120-block world, blocks `0–95` training, `80–95` calibration, `96–119` held out;
+  the boundary is in blocks because only 92 of 120 blocks run a sleep cycle.
+- **Readout:** next-edge log-loss with `α = 0.5` and a per-arm `β` from `{0, 1, 2, 4, 8}` selected on the calibration band,
+  so the baseline is not handicapped; frozen counts for evaluation.
+- **Revision rule:** arm C's members are those meeting `m` in a trailing 20-cycle window; arm B freezes at admission.
+- **Interval:** paired bootstrap over seeds, 10,000 resamples, 99% percentile; an interval including zero fails the charter;
+  fewer than 8 measurable seeds is `VOID`.
+- **Scorer pin:** `docs/v2_first_cell_scorer_pin.json` fixes the world generator, detector and log-loss instrument by digest;
+  the readout adapter's digest is added in the authorisation commit.
+
+`docs/DECISION-V2-FIRST-CELL.md` is drafted and `PENDING`: one cell, no engine change, no second report, five rejected
+alternatives. The index is 33 decisions (26 adopted, 1 withdrawn, 6 pending), and the question registry now carries the
+preregistration and the decision under Q057.
+
+## Addendum — 2026-11-16: the first experiment's pre-registration skeleton
+
+`docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md` is a draft skeleton that fixes the things a protocol must not choose after a
+result: the endpoint (held-out next-edge log-loss, arm C against arm A, with arm B as a label-only decomposition), the
+failure rule (an interval including zero closes the charter), the three arms, the `A1`–`A5` acceptance gates built around
+requirement 6's tests, and the admission threshold.
+
+**`m` is fixed in §5 at `m = 2`**, with the value's provenance stated against `docs/v2_primitive_sizing.json` (115 of 158 node
+sets admitted, 345 references, 135,168 bytes, 2.538× the pair tables and 0.698% of the store) and the lock stated: a change
+after signature voids any cell run under it. Seeds, n, world, training boundary, interval method, scorer pin and the readout
+are listed as open fields that must be filled before authorisation; none is reserved, and no cell, seed or code is authorised
+by the draft.
+
+## Addendum — 2026-11-16: the V2 charter and its primitive resolutions are signed
+
+`DECISION-V2-CHARTER` and `DECISION-V2-PRIMITIVE-RESOLUTIONS` are **`ADOPTED 2026-11-16`**. The charter commissions the V2
+design document with its one question, one failure criterion, requirement 6 and the earning test; the resolutions are the
+content of requirement 6, adopted as one sentence. `DECISION-V2-SCOPE` D1's prohibition is narrowed to the charter's scope.
+
+The signatures authorise **no cell, no module, no build and no engine change**. The charter's requirement 4 still requires
+the first cell to be authorised separately, requirement 5 still closes the charter after the first experiment reports, and
+the frozen engine is untouched. The decision index moves to **26 adopted, 1 withdrawn, 5 pending**; the action list's two V2
+rows are marked signed, and the tests that asserted the drafts were pending now assert the adopted state and that the
+signature blocks are filled.
+
+## Addendum — 2026-11-16: requirement 6 is drafted, not deferred
+
+The V2 charter's requirement 6 no longer points at four open questions and asks the owner to resolve them while signing. It
+now states the object the charter requires — a composition-bearing level-1 composite over pair bindings, a content-free id
+that is never reused or freed, per-kind canonicalisation with the 177→158 and 138→125 acceptance tests, copy-on-write at the
+level of bindings, homogeneous levels with level 2 unbuilt, admission on total appearances (`m ≥ 2`, value fixed in the first
+pre-registration), reclamation that never frees an id or a tombstone — and names the consumer as the experiment's own build
+item rather than the primitive's.
+
+The one sentence that adopts (a)–(g) stays in `DECISION-V2-PRIMITIVE-RESOLUTIONS`; the two records are signed together, and
+both remain `PENDING`. The wording also absorbs the code reading's correction: the requirement asks for a composition-bearing
+object, not a "stored composite", because V1 already stores rows.
+
+## Addendum — 2026-11-16: the two-world result enters the pending primitive decision
+
+`DECISION-V2-PRIMITIVE-RESOLUTIONS` now carries the replication as evidence in a new §8, with the signature section moved to
+§9. It records what the study settles — the direction-free key merges only the two orientations of one cycle in **both**
+worlds (177→158 and 138→125 identities, 186→170 and 128→117 retirement rows, 55 and 18 flips, both store validations
+passing) — and what it does not: two seeds are a direction, not a magnitude, and the reclamation resolution still rests on the
+storage accounting. The decision's sentence, four answers, rejected alternatives and signature table are unchanged, and it
+remains `PENDING`; the evidence list in `docs/decisions.json` gains the two-seed page, the second artifact and the
+forgetting measurement.
+
+## Addendum — 2026-11-16: the re-keying result replicates on a second world
+
+`benchmarks/v1_rekeying_study.py` now takes `--seed`, and the study was re-run on seed **20900101**, reserved for this purpose
+in `docs/a1_seed_reservations.json`. The direction holds: **138 carriers, 13 identities and 11 retirement rows saved, 18 flips
+converted** (177 carriers, 19 identities, 16 retirement rows and 55 flips on seed 20740101). Both runs reproduce their store's
+identities and all retirement rows before the key is swapped.
+
+Two seeds replicate the *sign*, not the size: the worlds differ (138 vs 177 carriers, 2,765 vs 4,303 carrier rows), so no spread
+or interval is estimated. The second world also shows that loop `strength` is a raw transition count rather than a probability
+(mean live strength above 1.0); the pages now say so, and none of it changes the two real gaps — no consumer of a carrier's
+cycle, no membership mutation.
+
+## Addendum — 2026-11-16: carriers are retired, not forgotten
+
+`benchmarks/v1_carrier_forgetting.py` records the 4,000-row sleep boundary before every cycle and reloads each cycle's prior
+from the store exactly as `_load_prior_candidates` would, so what cognition could see is read rather than simulated.
+
+The answer is zero. All 177 carrier identities end in one of two states: **147 with a death record, 30 still live** at the
+last cycle; none leaves the window while alive. The arithmetic says why: a carrier not re-detected decays ×0.8 per cycle from
+at most 1.0, crossing 0.15 within nine cycles, while the window holds about 18 cycles of sleep rows. Forgetting a live carrier
+would require it to sit above the threshold for longer than the window holds, which decay does not permit.
+
+The study also closes the re-keying study's validation gap: re-running the rules with the store's own visibility reproduces
+**186 of 186** retirement rows, including their cycles. The death count is therefore not a lower bound in this world — there
+is no third category of carrier — and the window's cost is disk growth, not lost identities.
+
+## Addendum — 2026-11-15: the primitive's per-object cost does not fall with world size
+
+`benchmarks/v2_primitive_sizing_scaled.py` measured the same primitive on one seed at three sizes: the reference 120-cycle
+world (96 objects, 938.7 bytes each), four times the horizon (141 objects, 1,016.7) and twice the stimulus density (100
+objects, 983.0). **Nothing amortised.**
+
+The reason is saturation, not page cost: carrier appearances grow fourfold while admitted objects grow from 96 to 141,
+because the compositional generator draws from a fixed 16-tag universe and almost every triple that can clear `m>=2` already
+has after one horizon. Density raises counts, not structures — the denser world found 111 distinct node sets against the
+reference's 110. A longer or denser run of this world cannot test amortisation because it saturates the quantity that would
+have to grow.
+
+The base sizing's note that a bigger world "would give a much smaller bytes-per-object" was a conjecture and is now labelled
+untested; a wider tag universe, which `benchmarks/scale_streams.py` provides, is where that test belongs. The charter's cost
+answer is unchanged: at about a kilobyte per composite the primitive is tens of kilobytes against a store in the hundreds of
+megabytes.
+
+## Addendum — 2026-11-15: the engine read as evidence, and three claims corrected
+
+`docs/CODE-AS-EVIDENCE.md` reads the frozen engine rather than running it, and the reading changes the record. A carrier is
+not an unrepresented object: every cycle writes a `sleep:loop_candidate` payload with an id, a path and a strength, and
+reinforces it by 0.05 or decays it by 0.8 in place, pruning below 0.15 with a retired record. Three earlier statements were
+therefore wider than their checks: "the composite is not stored" (a report is stored), "V1 has no mutable identity" (an id
+and a strength are updated in place), and "the archive cannot name a carrier" (true of the published artifacts, false of the
+live store).
+
+What the code shows is missing is narrower and more useful: **no code path mutates a carrier's path**, and **no layer reads a
+carrier's cycle** — the one reader folds its tags into a bag for meta-concepts, and Layer 2 is composed from prediction
+candidates only. So the primitive's delta is a content-free id, a membership mutation and a consumer, not storage.
+
+The reading also explains two measurements without another run: the 19 both-direction node sets follow from a sorted-triple
+dedupe key with a call-local `seen` against a persistence key that joins the path in order, and the flat 0.3438 ranking
+precision follows from a candidate space gated at count 5 and ordered by target entropy, probability and count — a
+deterministic function of the same counts the baseline uses.
+
+Fourteen claims and 31 source anchors are guarded by `tests/test_code_evidence.py`, including an absence check that fails if
+any code path starts mutating a path. A future engine change breaks the guard before a document can keep quoting the claim.
+
+## Addendum — 2026-11-15: the primitive's storage cost, measured on a real world
+
+`benchmarks/v2_primitive_sizing.py` sizes the primitive's four tables against the store measured by the identity replay, and
+`docs/V2-PRIMITIVE-SIZING.md` reports it: **135,168 bytes** at admission `m>=2` (115 composites, 345 references over 24
+atoms), which is 2.538× the pair tables it annotates and 0.70% of the store.
+
+Two things the measurement corrects. **The whole-store ratio is misleading**: events are 99.6% of the store, so overhead
+quoted against it is really a statement about event text — the pair tables (53,248 bytes) are the honest comparator.
+**Per-object bytes are page-bound**: at 33 pages, 1,175 bytes per composite is an upper bound, not a marginal cost.
+
+The lever is admission, which the decision adopts without fixing `m`: the population runs from 115 composites at `m>=2` to
+20 at `m>=20`, a 5.75× swing, and the cost with it. Mutation adds no storage under binding-level copy-on-write; keeping
+history would cost 45,056 bytes more at this population and buys a history the specification does not need.
+
+## Addendum — 2026-11-15: the four resolutions packaged as one signable decision
+
+`DECISION-V2-PRIMITIVE-RESOLUTIONS` (`PENDING`) turns the specification's four argued answers into a single decision
+sentence the owner can sign or reject, rather than four that could be accepted in incompatible combinations — a
+streak-based admission rule on a direction-free key would reject stable objects by construction, which is what adopting
+three of the four would produce.
+
+The record states what a rejection does: the charter can still be signed, but without a primitive it has defined. It
+authorises no build, is tallied by Q057 rather than inventing a new question, and the four rejected alternatives carry their
+reasons verbatim so the decision index can quote them. The decision count is now 32 (24 adopted, 1 withdrawn, 7 pending).
+
+## Addendum — 2026-11-15: the primitive's open questions argued, with recommendations
+
+The specification's four open questions now each carry a recommendation, the alternatives rejected and what would change
+the answer, so the charter can be signed against positions rather than against a blank.
+
+The load-bearing one is membership, and the question as posed hides a distinction: **members are edges, not tags.** A
+3-cycle over three tags is a composite of three pair bindings; the tag triple is the canonical key, not the member list. A
+set of three tags whose third edge is absent is not a carrier, and the baseline the primitive must beat is a table of pair
+counts, so the member must be the unit the baseline counts. The recommendation is homogeneous typed members: level 1
+(edges) built first, level 2 (composites of composites) permitted by the schema but unbuilt, because building both at once
+would leave a failure at level 2 unattributable.
+
+The other three: canonicalisation declared per kind (sorted triple for `cycle3`, least rotation/reflection for `cycle_n`,
+order preserved for open paths), reclamation by reference count with ids, keys and tombstones never reclaimed, and
+registration admitted on **total** appearances rather than streaks — because direction flips make a streak rule reject an
+object that is perfectly stable.
+
+## Addendum — 2026-11-15: a specification for the mutable-identity primitive (planning only)
+
+`docs/V2-MUTABLE-IDENTITY-SPEC.md` writes down what requirement 6 of the pending charter actually asks for, so it can be
+argued about before anything is built: the object, the identifier invariants, the registration/canonicalisation rule, the
+collision rule and the mutation semantics, plus the earning test the primitive must pass.
+
+Two decisions in it follow from the measurements rather than from taste. Identity is allocated once and never derived from
+content, because the measured failure was a content key changing when a triangle's direction flipped. And the collision
+rule is copy-on-write at the level of **bindings**, not atoms: atoms stay immutable and shared, so no atom is copied, no
+reference count is split, and removing a member cannot touch another composite. Registration canonicalises direction, so
+the 19 node sets that V1 emits both ways become one object with one id instead of two ids that never coexist.
+
+It authorises nothing: no code, no cells, no V1 change. A test fails if the spec is ever imported by the engine or if a
+mutable-identity decision is adopted without the charter.
+
+## Addendum — 2026-11-15: the archive cannot name a carrier
+
+The identity check was meant to be artifact-only. It could not be, and the reason is a result: a scan of the committed
+archive finds **no carrier identity at all** — no `docs/*.json` artifact and no A1 run part contains a `loop_<hash>` id or
+a carrier-identity field. Carriers appear only as edge sets, counts or supply statistics.
+
+That follows from the substrate. If the composite is not stored, a record built from the store has nothing to cite, so
+every carrier-level statement is about a recomputation. It also explains why A1's C4 counts rows rather than carriers: the
+carriers cannot be named in a pass file.
+
+Identity is therefore reproducible but not archivable — a third form of missing persistence, alongside the synchronic-only
+key and the absent local mutation. `tests/test_v1_structural_model.py` fails if a carrier id ever lands in the archive, so
+the claim cannot quietly become false.
+
+## Addendum — 2026-11-15: identity within a cycle, none across cycles
+
+The open question in the structural model was whether a state-derived key can isolate a carrier. `benchmarks/v1_carrier_identity.py`
+asks it on one no-arm world (seed 20740101, 1299 appearances, 177 distinct paths over 158 node sets) and
+separates four properties the record had been treating as one.
+
+Selection holds: a directed path names exactly one carrier, with 0 id collisions. Retrieval holds: two replays
+reproduce the same carriers in the same cycles. **Diachronic identity does not hold**: 19 node sets are emitted in
+both directions, always in different cycles (0 share a cycle), so the directed key and its id change for the
+same triangle. Independent mutation was already ruled out by the representation.
+
+The emitted id is not an address even synchronically: it is the first 8 hex characters of a SHA-256 (32 bits), not
+invertible, and unstable when the direction flips. So V1 has **identity without locality and without persistence** — a
+sharper characterization than either "composites do not exist" or "composites are stored objects", and the fourth
+falsifier is recorded as having partly fired rather than as still open.
+
+## Addendum — 2026-11-15: explicit addresses and functional addresses are different claims
+
+The structural model said "identifiers exist, addresses do not". That is an explicit-address claim, and the document now
+says so: it establishes that no primitive *takes* an identifier, not that no functional address exists. If a key computed
+from the stored state — a path signature, a subgraph hash, a feature vector unique to one carrier — reliably isolates a
+composite, an address has effectively emerged without being stored. Whether one exists is now recorded as **OPEN**.
+
+The distinction earns its place because the two buy different things. A derived key buys selection and retrieval; it does
+not buy non-colliding mutation, since mutation still acts on shared pairs and every carrier through them moves. The A1
+estimand needs the second, so a perfect derived address would not satisfy the charter's mutable-identity requirement — and
+a fourth falsifier records exactly what a derived address would and would not refute.
+
+## Addendum — 2026-11-15: the structural model — identifiers exist, addresses do not
+
+`docs/V1-STRUCTURAL-MODEL.md` and `docs/v1_structural_model.json` describe what V1 actually stores, retrieves and
+manipulates, derived from the frozen code rather than from another run.
+
+The substrate is event rows plus three count aggregates keyed by tag pairs, plus a cycle counter and a key/value table.
+Retrieval is by recency, substring or typed prior payload; structures are **recomputed** each consolidation from the pair
+graph, with ids hashed from their own nodes. Nothing takes an identifier: there is no retrieval by id and no mutation by
+id. A1's carrier block is a filter on path content, not an edit to the store.
+
+Two consequences are derivations, not findings. **The spill is forced**: carriers are paths over a shared pair graph, and
+removal is defined by path membership, so removing edge *e*'s carriers removes support from every edge that shares a path
+with *e* by exactly the co-carrier count. A1's `VOID` was therefore derivable from the carrier inventory before the block
+ran; the run measured the magnitude (510 of 2,785 non-target rows, maximum delta 0.575). **The ranking key is count-only**:
+strength is `count / max(source_freq, 1)`, so no ordering the engine offers can express identity independently of
+frequency — consistent with the precision ceiling of 0.3438 and with a readout whose interval crosses zero.
+
+The document labels each claim DERIVED_FROM_CODE, DERIVED, MEASURED or ARGUMENT, states what it does not establish, and
+names three falsifiers. `tests/test_v1_structural_model.py` parses the schema and the retrieval surface, so adding an
+addressing primitive fails the suite rather than quietly invalidating the model.
+
+## Addendum — 2026-11-15: the two closures are different kinds
+
+`DECISION-A2-ESTIMAND` now records what separates A1's closure from A2's. A1 ended because its **control failed** — the
+intervention perturbed non-target edges enough that C4 could not pass. A2 ended because its **control can only be obtained
+by changing the question** — no sham in this family is local at the edge, and the construction that restores locality makes
+the carrier the unit of inference.
+
+The second is the more informative statement, and it is scoped to the evidence: within this engine, world family and
+carrier-removal family, an edge-level removal effect cannot be estimated against a control local at the edge. The record
+also keeps the nuance that A2b is rejected as A1's continuation, not as science: a carrier-level study may be worth
+running, and would need its own charter.
+
+## Addendum — 2026-11-15: A2 is closed
+
+`DECISION-A2-ESTIMAND` is **ADOPTED**: A2 is closed and no A2 arm runs. Q058 is answered and closed.
+
+The decision rests on two design arguments, not on the pass/fail counts. **A2c′ controls the total, not the
+distribution** — the sham matches the mean and the sum, but individual non-target edges still differ by 30, 51 and 78
+cycles on the three failing seeds, so on a per-edge estimand the control differs from the treatment on the quantity the
+estimand depends on. **A2b's criterion cannot fail** — with the carrier as unit and carrier removal as intervention, locality
+is true by construction, which makes it decoration rather than a check (rule 25(c)), and the estimand changes to a
+different study's.
+
+A1 is untouched: `VOID`, frozen, un-rescored. The record does not assert that no A2 design exists — only that neither
+branch here tests the question with a control that can carry it — and it authorises no code, cells or engine change. A
+future carrier-level study must arrive as its own charter with its own targets, denominators and a criterion that can
+fail.
+
+## Addendum — 2026-11-15: "not found" is not "not constructible"
+
+The A2 sham page and the estimand decision both said the per-edge placebo "is not constructible". That is wider than
+the check behind it: two search regimes failed to find a matched sham on three seeds, which leaves the criterion without a
+witnessed construction and does not establish that none exists.
+
+The language is now *no construction found*, with the limit stated beside it, and the page's "cannot be satisfied" became
+"left without a witnessed construction from this selection". A doubled `%%` in the same sentence — printed literally as
+`95%%` because that line carried no format operator — is fixed too, and a test asserts the page contains no doubled
+percent sign. Both documents now carry the distinction, and `tests/test_a2_estimand_decision.py` fails if it is dropped.
+
+## Addendum — 2026-11-15: A2's fork is an estimand choice, not an empirical one
+
+The sham check leaves two coherent A2 branches and no measurement that separates them. `docs/DECISION-A2-ESTIMAND.md` is
+drafted as `PENDING`, tallied to Q058, and chooses neither.
+
+**A2c′ — the edge stays the unit, the criterion weakens.** The aggregate sham matches all six seeds: mean absolute
+per-edge difference at most 2.76 cycles, total predicted losses within 8.1%. Comparability with A1 is high; the claim is
+an edge-level effect under a stated, weaker locality condition, and nothing about per-edge locality.
+
+**A2b — the unit becomes the carrier, the criterion stays strict.** Locality is tautological because the unit *is* the
+removed thing. The cost is the estimand: it is a different study, and nothing it finds can be compared with A1.
+
+The record keeps the disclosure that matters: the aggregate criterion is a different criterion, not a rescue criterion,
+and no document may describe it as the per-edge design succeeding — the failed-condition/new-condition/old-name pattern
+is the one this repository spent months eliminating.
+
+It authorises neither branch to run. Each needs its own charter, criterion, freeze and grant, and the charter draft is
+still unsigned.
+
+## Addendum — 2026-11-15: a V2 charter draft supersedes nothing until it is signed
+
+`docs/DECISION-V2-CHARTER.md` is drafted as `PENDING` and tallied to a new governance question (Q057), taking the
+registry to 55 questions at that point. It narrows clause D1
+of `DECISION-V2-SCOPE` — the prohibition on designing a V2 — and leaves D2 (the G13-D diagnostic, which ran) and every
+frozen file alone.
+
+It rests on two things. The claim ledger discloses, under C006, that **"No admissible test of H2 was ever run: F2 fired
+before the arm that would have tested it"**, so the record supports *no task family was found*, not *none exists*. And
+three independent lines name the same missing capability: Gate 13's ranking precision ceiling of 0.3438 with coverage
+needing 240–244 asserted edges, the capacity-1,000 readout's interval crossing zero with 0.005647 nats of headroom, and
+A1's C4 `VOID` at 510 of 2,785 non-target rows.
+
+It authorises no code, no cells and no engine change; the charter it commissions must carry its own question, its own
+failure criterion fixed in advance, its own freeze and a stop condition. Signing is the owner's; until then the
+prohibition stands as written.
+
+## Addendum — 2026-11-15: the A2 sham is matchable in aggregate, not per edge
+
+A placebo-controlled A2 needs a sham block whose carrier removal perturbs non-target edges like the real block's does.
+`benchmarks/a2_sham_feasibility.py` checks that from pre-treatment data only: it replays each seed's 120-cycle world with
+no arm, counts carrier appearances, and searches for a same-size, same-degree-cap sham under the target block's size.
+
+**Per edge, it is not constructible.** Three of six seeds put fewer than 95% of non-target edges within the 6-cycle
+(0.05 × 120) tolerance of the target block, with worst differences of 30, 51 and 78 cycles. A max-first search over the
+same budget did not improve them (89.3%, 75.9%, 85.7%), which is what makes this look structural rather than a weak
+search.
+
+**In aggregate, it is.** On all six seeds the mean absolute per-edge difference is at most 2.76 cycles and the two arms'
+predicted total losses are within 10% of each other — the sham redistributes the interference rather than avoiding it.
+
+**These are two different C4' designs and the record says so.** The aggregate criterion was written after the per-edge
+one failed; it is a narrower claim (mean non-target perturbation), not a rescue of the per-edge claim. Which one A2 uses
+is part of the A2 decision, not an implementation detail.
+
+## Addendum — 2026-11-15: the VOID is accepted; the scorer repair is future-only
+
+`DECISION-A1-VOID-ACCEPTED` accepts the assembly as the study's outcome. The completed run is **not** rescored, no C4
+tolerance is relaxed, the C1 pass is not promoted into a result, and no effect estimate is quoted from these cells.
+
+**The scorer repair authorised by that decision is now applied, and it cannot reach the run it followed.**
+`registered_target_map()` reads the selection artifact the frozen manifest's targets name — `a1_c8_target_selection_
+competent.json` — instead of the module-level default that pointed at the representative block. It also reads the
+competent artifact's `n_preferred` / `n_min` spelling rather than assuming `n_per_seed`, which is the second half of the
+same defect: a map that finds no nominal size returns nothing and every cell reads as a coverage failure.
+
+**Two pins are recorded, not one.** `docs/A1-RUN.md` §6 lists the digests the run was assembled under
+(`a1_arms` `98a90732…`) and the digests in force after the repair (`5ce958b7…`, `a1_result` unchanged). The committed
+result artifact is the pre-repair assembly; the repaired scorer applies to runs authorised after the decision. Because
+C4 never reads the expected target list, the `VOID` is the same under either pin — the five coverage gates would not be.
+
+**Open, and deliberately not decided here:** whether A1 is parked as failed under its declared protocol, or A2 is
+designed with a carrier intervention that does not collapse neighbouring structure.
+
+## Addendum — 2026-11-15: the A1 block ran; the assembly is VOID
+
+36 cells plus the determinism control ran against the frozen competent block, in about five minutes, each stamped
+`engine_version 0.15.0`. The control reproduces its cell exactly. Assembly went through the pinned scorer without a pin
+mismatch and returned **`VOID`**:
+
+- **C1 PASS** — A− 455/457 = 0.996, K− 478/478 = 1.000, tolerance 0.95.
+- **C4 FAIL → VOID** — 510 of 2,785 non-target rows exceed the 0.05 tolerance; max A/K/Y delta 0.000000 / 0.575000 /
+  0.575000. Every violation is in a cell where carrier removal is blocked (`A+K-` 256, `A-K-` 254); none is on the A
+  path.
+
+**What that distribution says.** The carrier intervention is not local: carriers are multi-edge paths, so removing the
+carriers that contain a target also removes carriers of other edges. C4 is the gate written to catch this and it did, so
+the cells cannot adjudicate an effect and no effect estimate is quoted.
+
+**A second defect was found in how five gates were read, and deliberately not repaired mid-run.**
+`a1_arms.registered_target_map()` builds the expected per-seed target lists from `docs/a1_c8_target_selection.json` — the
+representative block — while the cells carry the competent block the act froze. All 48/72 "coverage problems" per gate are
+`target list does not match`, so C2, C3, C5, C7 and C9 failed by construction rather than on their quantities. The fix
+changes five gate outcomes after the cells were seen and `a1_arms` is pinned, so it is left as a disclosed re-pin rather
+than applied quietly.
+
+**A third thing surfaced and was fixed on the spot:** the result artifact names the seeds it measured, so the
+seed-freshness scan read its own result as a collision with the held block; the manifest now allowlists its result path,
+which is the one artifact that may legitimately restate a spent block.
+
+## Addendum — 2026-11-15: grant issued, manifest frozen, gate open
+
+`A1-GRANT.md` records the dated authorisation the owner gave in session, and `docs/a1_two_path_manifest.json` moved from
+`REGISTERED DESIGN — NOT FROZEN, NOT RUN, NO GRANT` to **`GRANTED, NOT RUN`**: frozen on the block the signed N=20 act
+freezes, carrying that act's id, its selection digest and its `n_min`, with the C5 clearance for *that* block.
+
+**The targets are read from the act, not restated.** `manifest()` calls `_signed_act()` and copies the 115 edge strings,
+the digest and the estimand out of it, so the manifest cannot drift from the act it claims to implement. `--check`
+regenerates and compares.
+
+**The gate opens, and it still refuses.** `preflight()` returns `[]` and `--check` prints `gate clear`; the new test
+`test_the_execution_gate_opens_under_the_grant_and_still_refuses_without_it` proves the gate fires on an ungranted
+record, on a preparation-only quote ("prepare the document, without running") and on an unfrozen manifest. A gate that
+passes everything is decoration; one that refuses a granted, frozen manifest is broken, and both directions are checked.
+
+**Three defects surfaced while wiring it, and each was fixed rather than worked around.** (a) `target_set_problems`
+skipped the duplicate, degree and universe checks for a block shorter than `N` — a `n_min` block was validated only on
+size. (b) The duplicate check compared the set against `N` instead of the block length, so every 17- and 18-row seed
+reported a duplicate edge. (c) The seed-reservation registry did not know the competent artifacts, so the two-path
+manifest's own block read as a collision with itself; the registry now lists those artifacts as restatements.
+
+**Not done, and not claimed:** the run. `--measure` is 36 cells plus a determinism control at 120 cycles; nothing here
+is a result, no cell has opened a database, and no result artifact exists.
+
+## Addendum — 2026-11-15: D3 signed, the act re-issued on the competent block, the scorer pinned
+
+`DECISION-A1-COMPETENT-ESTIMAND` was adopted, and `A1-TARGET-FREEZE-N20-1` was re-issued and signed against the block it
+adopts: **20 / 17 / 20 / 20 / 18 / 20** rows from the baseline-competent population, 115 observations over 90 unique
+edges, with the conditional estimand recorded in both the act and its machine record.
+
+**Three things had to be re-established rather than inherited, and each found something.**
+
+**The target sets were regenerated, not transcribed.** `a1_act_blocks` renders §2 of the act from the selection artifact
+and fails `--check` when the act drifts, so the 115 edge strings and their per-seed digests cannot be wrong in one place
+and right in another.
+
+**C5 timing had to be re-cleared on the new block.** The earlier clearance covered the *representative* block; the two
+share only 37 rows, so 78 had never been checked against the cycle-4 protocol. `a1_c5_competent_audit` replays the
+no-arm world for all 115 rows and reports **0 carriers before the cycle-4 `U`**, with every row carrying by cycle 120.
+The representative block had 11 of 24 current observations with no carrier at all; this one has none.
+
+**And the re-issue surfaced a consequence the estimand decision did not state: the competent block is not a superset.**
+Only **7 of the 24** previous Path A targets survive, and seeds `20740102` and `20740104` keep **none** of their four. The
+act records `current_targets_retained: false` and says in §4 that any continuity claim with the N=4 design does not
+survive this freeze. That is a real loss of comparability, and it is written where it will be seen rather than left in a
+diff.
+
+**The scorer is pinned.** `a1_scorer_pin` records the SHA-256 of `a1_arms` and `a1_result`; `a1_result.assemble` now
+**raises** rather than scoring when either differs, so a verdict cannot be produced by code chosen after the cells
+exist. Re-pinning stays possible and is a reviewed commit.
+
+**C8's tolerance follows each block's size.** `floor(0.05 × N)` allows one assertion at twenty rows and none at seventeen
+or eighteen, so the two short seeds must be perfect. The threshold is unchanged; what changed is how many rows it is read
+over. The board's freeze-act row now reads **PARTIALLY SIGNED** — the N=20 act is signed, the N=4 act cannot reach
+`N_min` and stays a draft.
+
+**Not done, and not claimed:** the grant and the run. The execution gate requires a granted, frozen manifest and 37 cells
+at 120 cycles, which is hours of compute and a separate recorded act.
+
+## Addendum — 2026-11-15: D1 and D2 are signed; one decision is left
+
+`DECISION-A1-C1-CEILING` and `DECISION-A1-C8-SELECTION` were adopted by owner signature on 2026-11-15.
+
+**D1** settles the unit conflict between two adopted records. The `>64` ceiling now governs the 63–64 **candidate-plan**
+count it was written against, and the band's top is carried by a comparison — the scored denominator must equal the
+preplanned universe — instead of a number lifted from a superseded quantity. Measured on the adopted block the minima are
+79 / 64 / 79 / 74 / 72 / 74, so this is the difference between five seeds reading `VOID — design inconsistency` on
+arrival and the band being closed at both ends.
+
+**D2** makes the selection procedure binding: S1–S7, the clauses the implemented selector already follows and that until
+today lived only in a document stamped `DRAFT — NOT IN FORCE`. Nothing measurable moved, which is the point — a run no
+longer follows a rule that nothing requires.
+
+Both records carry the adoption in their status lines, the index quotes those lines verbatim, and the board closed both
+rows (13 branches, 9 closed; one record awaiting signature, down from three). The reading page's *What does not bind yet*
+section now reads **nothing**, because the selection procedure was its last entry.
+
+`DECISION-A1-COMPETENT-ESTIMAND` is the one decision still pending, and it is the one that matters most: it changes the
+population the experiment would estimate. The N=20 act follows it, not before, because adopting it requires the act's
+block re-issued on the competent selection.
+
+## Addendum — 2026-11-15: the manual's action list opens with what is waiting on the owner
+
+The owner said the agent had been going in circles for a while and had not been clear about what needed their attention.
+That is a reporting defect, not a research one, and it has a fix with teeth: §7 of `docs/USER-MANUAL.md` now opens with
+**§7.0 Waiting on you**, four rows naming the three pending A1 decisions and the N20 act signature, what each blocks if it
+is left unanswered, and where to sign. `tests/test_a1_signature_sheet.py` fails if a pending record is missing from that
+block, so the list cannot drift out of date.
+
+The substance behind it: everything preparable on A1 is prepared. The freeze act reads ten of ten rows with nothing
+blocking, the selection procedure and the estimand are written and priced, and the 0/6 viability blocker is resolved by a
+decision rather than by more measurement. What remains is four owner actions, and no further artifact moves the chain.
+
+## Addendum — 2026-11-15: one sheet for the three pending decisions
+
+`docs/A1-SIGNATURE-SHEET.md` puts `DECISION-A1-C1-CEILING`, `DECISION-A1-C8-SELECTION` and
+`DECISION-A1-COMPETENT-ESTIMAND` on one page so they can be signed or withdrawn in a single pass. Each block states what
+signing commits the owner to, what it costs, what breaks if it is declined, and the exact status line to write.
+
+Assembling it made two relationships explicit that were only implicit before. **D3 depends on D2 in practice**: the
+competent filter is only binding if the procedure that selects with it is in force, so signing the estimand while the
+selection procedure stays a draft leaves the block governed by custom. **And D3 invalidates the current N=20 act's
+block**: the act freezes the *representative* twenty per seed, so adopting the conditional estimand means the act must be
+re-issued on the competent artifact before it can be signed. Neither point changes a number; both change the order in
+which the paperwork can be done.
+
+The sheet is also a standing check. `tests/test_a1_signature_sheet.py` asserts that it lists exactly the A1 records whose
+status is `PENDING` and that each block states its record's real status — so signing a record and forgetting the sheet
+fails the suite rather than leaving a stale invitation to decide something already decided.
+
+## Addendum — 2026-11-15: the 0/6 C2-viability finding is priced, and two of its three exits are closed
+
+`docs/A1-VIABILITY-LEVERS.md` takes the 0/6 finding in `A1-TARGET-VIABILITY-ADOPTED` apart and asks what each way out
+costs. The answer is not the one the finding's shape suggested.
+
+**What 0/6 is made of.** Across the six adopted seeds, **58 of 120** selected rows carry both an `A` carrier and a `K`
+path, and **15** carry neither. The second number is the one the earlier record never computed, and it is decisive: a row
+with neither path is unscorable even if C2 is weakened to ask for a single direction.
+
+**Raise `N`** — closed by arithmetic. `N` is rows a seed must carry, so viability falls as `N` rises: a seed's chance
+that a whole draw is baseline-competent is 2.8%–14.4% at `k = 4`, and 10⁻⁶ or worse at `k = 20`. The six-seed
+requirement multiplies those together. Raising `N` is not expensive, it is impossible.
+
+**Change the block** — closed by the same draw. The six-seed joint chance is about **10⁻³⁴**, so a fresh block is not a
+search that takes long; it is one that does not exist. It would also be a search for a favourable draw dressed as
+outcome-independent screening.
+
+**Change `C2`** — only its strongest form works. Asking for one direction still fails on the 15 unscorable rows; a
+share-of-rows gate would have to fall to **35%** (the worst seed's scorable share is 7 of 20), which is a different gate
+wearing C2's name. What does work is selecting rows that already carry both paths — and that selection exists: the
+competent block scores **0 failures in 115 rows**.
+
+So the finding is not a wall in front of the experiment; it is a wall in front of *one target population*. The
+unfiltered block asks C2 a question about representative eligible edges and cannot answer it. The filtered block asks it
+about baseline-competent edges and can — at the cost of an estimand change, from representative to conditioned. That is
+exactly what `A1-C8-SELECTION` is pending on, and the record now states the trade in one place.
+
+Two limits are recorded rather than smoothed: the filtered block's 0 failures are a restatement of the filter's own
+definition, so what is informative is what it excludes (**177 of 382** eligible rows); and `Y` is not screened by the
+gate, though no filtered row happens to lack a baseline `Y` (**0 of 115**) — the gap is empty on this block, not closed.
+
+## Addendum — 2026-11-15: the S5 disclosure is generated, and the table is not a subtraction
+
+`docs/A1-C8-SELECTION-DISCLOSURE.md` reports the unfiltered selection beside the competent one, and every number in it is
+generated from the two artifacts by `python -m benchmarks.a1_c8_selection_disclosure`. It carries two hand-written
+paragraphs: that the filter ran on the baseline before any cell, and that the table must not be read as a subtraction.
+
+That second paragraph is the finding. The two blocks are selected from **different candidate pools**, so the filtered
+block is not the unfiltered block minus rows:
+
+| | total over six seeds |
+| --- | ---: |
+| unfiltered block | 120 |
+| filtered block | 115 |
+| shared edges | **37** |
+| excluded, not competent | 62 |
+| excluded, competent but not chosen | **21** |
+| added, never in the unfiltered block | **78** |
+
+The filtered block shares 37 edges with the unfiltered one and contributes 78 the unfiltered rule never chose. Both
+categories of exclusion are non-zero in every seed — an edge can fail the predicate, or satisfy it and simply not be the
+block the constructor found. A single "dropped" column would have merged an exclusion with a substitution, and the
+addendum I wrote an hour earlier proposed exactly that table; the data refused it.
+
+Both paragraphs are now grounded rather than merely present. The timing paragraph does not argue from timestamps,
+which no reader can audit; it argues from the fact that no cell has run at all, and `--check` verifies the two places
+that say so — the act still reading `AWAITING THE OWNER'S SIGNATURE; ... NO GRANT, NO RUN`, and no grant, authorisation,
+run or result record for A1 existing under `docs/`. Sign the act, grant it, or run a cell and the page renders ❌ and
+`--check` fails, because at that point the sentence needs a person to reread rather than a generator to keep it in date.
+
+With that row filled the N=20 act reads **ten of ten recorded, nothing blocking the signature**, and the board carries a
+thirteenth branch, `S5 unfiltered-selection disclosure`, closed as an artifact. The act's status line still reads
+`AWAITING THE OWNER'S SIGNATURE` — record-complete is not signed.
+
+## Addendum — 2026-11-15: the constructor records the pool's members, and the pool digest fills
+
+The artifact recorded the competent pool's *size* and nothing about its members, so S2's pool digest could not be computed
+from it. `benchmarks/a1_c8_target_selection_competent.py` now writes `competent_edges` per seed — the pool in sorted order —
+and validates it on every check: a member added or dropped fails with *pool members are missing or stale*, and a count that
+disagrees with the members fails with *pool size disagrees with its members*.
+
+The artifact was regenerated (the selection is unchanged: 20/17/20/20/18/20, pool 38/27/37/40/32/31), the act was
+regenerated, and the pool digest now reads `6f8d81ba…` against the block digest `3881af97…`. They are different numbers
+describing different sets — which is the whole point, since the first generator's pool digest was silently the block's.
+
+**The act now reads nine of ten rows recorded, one blocking:** S5's disclosure, because no unfiltered-selection document
+exists. That is the last row between the act and a signature that would satisfy S2.
+
+Probed through the module rather than the CLI, so the guards are shown independently of a rebuild: dropping a pool edge
+fails the constructor's own check and changes the rendered pool digest; adding a non-pool edge fails it too; a count that
+disagrees with its members is caught separately.
+
+## Addendum — 2026-11-15: the N20 act's fields are generated, and two of them cannot be filled
+
+`benchmarks/a1_freeze_fields.py` renders `§2a` of [`A1-TARGET-FREEZE-ACT-N20`](A1-TARGET-FREEZE-ACT-N20.md) from
+[`a1_c8_target_selection_competent.json`](a1_c8_target_selection_competent.json) and the constructor's own bytes:
+pool sizes, block sizes, row counts per seed, the block digest over the selected edges, the constructor's source digest and
+the artifact's digest. `--check` fails when the act and its sources disagree. Hand-filling the act would have been a
+transcription, and transcription is how tables in this project have drifted before.
+
+**Two rows do not fill, and the reason matters.** The artifact records the competent pool's *size* per seed but not its
+*members* — its `competent` map is a per-edge flag over the selected block, not the pool. So a pool digest cannot be
+computed from what exists, and the generator reports it `NOT RECORDED` with that sentence rather than digesting the wrong
+list and calling it provenance. The other open row is S5's disclosure: no unfiltered-selection document exists yet. The
+act therefore reads **eight of ten recorded, two blocking the signature**, and it stays unsignable for a stated reason.
+
+The first draft of the generator had exactly the defect the correction guards against: it digested the `competent` map,
+which produced a "pool digest" identical to the block digest and pool counts of 20/17/20/20/18/20 — the selected sizes,
+not the pool's. It looked like provenance and was a second copy of the block.
+
+Probed in the two directions that matter: changing a pool count in the artifact failed with *the act's S2 fields are stale
+against the selection artifact*, and appending a comment to the constructor failed the same way because its source digest
+is in the act. Both restored.
+
+The N=4 act is deliberately not generated: its block comes from a different selection, so its rows stay unrecorded and the
+act says so in its own prose.
+
+## Addendum — 2026-11-15: the freeze acts carry the fields S2 needs, and none of them is filled
+
+`DECISION-A1-C8-SELECTION` S2 asks a freeze act to record the pool, the selected block and the constructor's identity
+before any cell runs. Neither act had a place to put them. Both now carry `§2a`, a ten-row field list between
+`<!-- s2-fields:start -->` markers: the act's own ID, the competent pool per seed and its digest, the selected block per
+seed and its digest, the row counts, the constructor's module and source digest, the constructor's output digest, the
+competence predicate, and where the S5 disclosure is written. Every row reads `NOT RECORDED` except the predicate, which
+reads `FIXED BY RECORD` because [`DECISION-A1-C8-NMIN`](DECISION-A1-C8-NMIN.md) already decides it.
+
+The acts now say what a blank means: **not signable while any row above reads `NOT RECORDED`**, and a row filled after a
+run is a pool chosen with the outcome in view. That sentence is the clause's teeth; without it the list would be a form.
+
+`tests/test_a1_freeze_fields.py` holds both acts to one shared list — a field dropped from either act fails, and the two
+acts may not drift apart — and holds an unsigned act to recording nothing. Both directions were probed: filling a single
+field in one act failed, and deleting `Unfiltered selection` from the N20 act failed two tests.
+
+One mishap worth recording: the probe was reverted with `git checkout` on a file whose §2a section was uncommitted, which
+discarded the section along with the probe. It was restored from the sibling act and the test re-run; the lesson is the
+one this repository keeps learning, that a broad undo is not a probe's inverse.
+
+## Addendum — 2026-11-15: a decision drafted to put the selection procedure in force
+
+The reading page named the gap: the selection procedure a C8 run would follow is implemented and drafted, and **nothing in
+force requires either**. [`DECISION-A1-C8-SELECTION`](DECISION-A1-C8-SELECTION.md) is the record that closes it, drafted
+and `PENDING — FOR OWNER ADOPTION`. It binds seven things and changes no number: the pool is the competent pool read at the
+recorded no-arm baseline; the pool and block are recorded in the freeze act with the constructor's identity before any
+cell runs; no fallback row; no re-filtering after a run; the unfiltered selection disclosed beside the filtered block; a
+breach of the middle three VOIDs the block with the breach named; and none of it touches an engine file, threshold, floor,
+gate, seed or cell. It deliberately does not restate the floor, threshold or cap — those stay in the adopted C8 record.
+
+Four alternatives are refused in the document: citing a `NOT IN FORCE` draft, restating the clauses inside each freeze act,
+amending the signed C8 record to carry a different subject, and treating the implementation as the rule.
+
+The index now holds twenty-eight decisions (nineteen adopted, one withdrawn, eight pending), Q054 tallies the new record,
+and the board carries a twelfth branch, `C8 selection procedure`, reading `AWAITING SIGNATURE` — so the gap is visible on
+the board rather than only in prose.
+
+Two things the tooling caught, both of them the point of the tooling. `decision_graph --check` requires every `chosen` line
+and every rejected *reason* in the index to be a **verbatim quote** from the document; two entries failed because the
+document wrote `` `VOID` `` where the index wrote `VOID`, and because S7 was summarised rather than quoted. The index now
+carries the document's sentences, and the document was edited to make them quoteable rather than the index loosened. And a
+board test asserted `len(a1) == 11`; the count is now derived from the index, because a hardcoded number only tests that
+someone edited the test.
+
+## Addendum — 2026-11-15: the competence rule has a reading page that states no constants
+
+The rule is spread across a unit decision, a contract decision and a draft. `docs/A1-COMPETENCE-RULE-IN-FORCE.md` says
+which record makes each part bind, in one page, **naming no values** — the floor, the threshold and the endpoint cap stay
+in [`DECISION-A1-C8-NMIN`](DECISION-A1-C8-NMIN.md) under an owner signature, and are referred to here rather than copied.
+A page that repeated them would be a second place to keep them right, which is the failure this board has been removing.
+
+It also records what does **not** bind, and finding that out was the useful part. The selection-procedure clauses —
+select only from the competent pool, record the pool before the freeze, no fallback row, disclose the unfiltered
+selection — are drafted in `A1-C2-C8-COMPETENCE-RULE`, which carries `DRAFT — FOR OWNER DECISION; NOT IN FORCE`. **No
+adopted record states them.** The selector implements them and nothing in force requires it to.
+
+`tests/test_a1_competence_rule_page.py` keeps the page honest in both directions: every decision it calls binding must be
+`ADOPTED` in the index, every decision it calls not-yet-binding must not be, and no decision may appear on both sides.
+The constants are checked absent with a detector that is itself proved on a doctored page, since a guard that never fires
+is decoration.
+
+Two defects in the test were caught before it was committed: a parametrised check treated every citation as binding and
+failed on the two decisions the page correctly calls pending, and the "does not bind" slice ran to the next heading it
+found, sweeping in a legitimate re-reference to an adopted record. The test now splits the page into the binding half and
+the single section listing what does not bind.
+
+## Addendum — 2026-11-15: the last three bare numbers are pinned to the record that already stated them
+
+The brief was to write the record that states the competence rule's threshold, endpoint cap and N_min together. It
+exists: [`DECISION-A1-C8-NMIN`](DECISION-A1-C8-NMIN.md) has carried all three in one table since adoption — `N_min` 17
+rows per seed, `Threshold` 0.05 per seed, `Endpoint cap` 3 selected edges per tag. Writing a second record of the same
+three constants would have created exactly the second source of truth this board exists to remove, so nothing was
+written. Three claims now read that table instead, and the three allowlist entries retire.
+
+That needed one repair in the checker: the note claims compared integers, so `0.05` raised rather than compared. Number
+tokens now carry decimals, `0.05` stays `0.05`, and `1,944` still becomes `1944`.
+
+Probed in both failure directions against the adopted record. Moving its threshold to 0.06 failed with *the note quotes
+[0.05] but its source states [0.06]*; deleting the endpoint-cap row failed with *the source it pins does not state them*.
+Both restored.
+
+Coverage moves from 6 claims / 24 numbers to **9 claims / 27 numbers over 6 of 11 branches**, and the tolerated debt from
+four numbers to **one**: `64`, the constant the pending ceiling decision narrows, which will retire itself when the rule
+is amended.
+
+## Addendum — 2026-11-15: bare numbers are an invariant, not a footnote
+
+The coverage block reported four bare numbers on a green board. A report is a statement, and a statement about debt
+does not stop the debt growing. `docs/a1_board_manifest.json` now carries a `bare_allowlist` — the four known numbers,
+each with the reason it is tolerated — and `--check` fails in both directions:
+
+- a bare number that is **not** on the list fails: *`c1-unit` quotes 543 with no pin and no allowlist entry*;
+- an allowlisted number that has since been **pinned** fails: *`competence-contract` no longer quotes 17 bare; remove it
+  from the allowlist*;
+- an entry naming a branch that does not exist, or giving no reason, fails.
+
+So the list can only shrink, and an excused number cannot outlive its excuse. Both directions were probed on disk and
+both failed as intended before the manifest was restored; the self-test holds the same two cases.
+
+What remains tolerated: `0.05`, `3` and `17` in the competence-contract note — no single record states all three in one
+form, so pinning them needs the record written, not a regex — and `64`, the constant the pending ceiling decision
+narrows.
+
+## Addendum — 2026-11-15: the board prints what its pinning layer is worth
+
+The pinning layer had no inventory, so its coverage could only be asserted. The checklist now carries a third generated
+block — `<!-- a1-coverage:start/end -->` — that counts it from the manifest: six claims pin twenty-four numbers across
+five of eleven branches, drawn from two artifacts and three documents; five branches state no numbers; two branches quote
+numbers without a pin.
+
+Those two are the point. `Competence contract, N_min, capacity` quotes `0.05`, `3` and `17` with nothing behind them,
+and `C1 ceiling — preplanned-universe clause` quotes `64` — the constant its pending decision exists to narrow — outside
+the claim that pins its new universe. The block says so on the board instead of leaving it to a reader's memory.
+
+Two defects the probing found, both in the new code. **First, branch-level coverage over-reported:** pinning `17` alone
+in the contract row made that row read as fully pinned while `0.05` and `3` were still bare. Coverage is a property of a
+number, not of a row, so it is now measured per number, against the spans the claims actually cover. Probed again: after
+pinning `17`, the row lists `0.05` and `3` and nothing else. **Second, the per-number pass counted identifier digits** —
+`C1`, `C4`, `C8`, `the N=4 act` — so a branch could be reported as quoting unpinned numbers it never quoted. A token
+preceded by a letter, digit or underscore, or by `N=`, is a name and is excluded; a probe pins that rule.
+
+A claim added or dropped makes the block stale until it is regenerated, so the inventory cannot drift from the manifest
+that produces it — the same property the other two blocks have had since `873de67` and `4f53e81`.
+
+## Addendum — 2026-11-15: the ceiling clause is armed before its decision is adopted
+
+`DECISION-A1-C1-CEILING` is pending. The temptation is to add its branch row when it is adopted; the row is worth more
+now, because what it should check is knowable already. `C1 ceiling — preplanned-universe clause` is a conditional: while
+the decision is pending it asserts the record still reasons from the preplanned universe, and once adopted it requires
+`A1-PATH-A-C1-RULE-1` to state the clause (`preplanned universe`, and the decision's own identifier), because adopting
+the decision amends exactly one sentence of that rule.
+
+The property this buys: **adoption alone cannot turn the row green.** Probed by flipping the decision to `ADOPTED` in
+`docs/decisions.json` and regenerating — the row rendered `OPEN — RESTATEMENT MISSING`, not `CLOSED`, because the rule
+still lacks the clause. Restored, and it is back to `AWAITING THE CEILING DECISION`. A row derived from status alone
+would have gone green on the signature and left the amendment unbuilt.
+
+The note's universe `79 / 64 / 79 / 74 / 72 / 74` is pinned to the baseline availability artifact, so the branch quotes
+a third source besides the two the note-number addendum already covers.
+
+## Addendum — 2026-11-15: the numbers a branch note quotes are pinned to their source
+
+A branch row can stay green while the count in its note drifts. The state is derived from what settles the branch — a
+file exists, contains certain strings, an act says `SIGNED` — and the note is prose the render copies faithfully; the
+render does not know what the numbers mean. So `C1 denominator invariance` could claim *reproduces 79/64/79/74/72/74*
+while the artifact had become 78/64/…, and every check would pass.
+
+A branch may now declare `note_claims`: the numbers its note quotes, and where they must be found — a JSON field path
+with `*` fan-out over the six seeds, or a regex into the document that states them. Five claims cover four branches: the
+C1 minima against the competent artifact, the block sizes against the same artifact, the posture's 324 / 1,944 against
+the posture record, the operative 276–285 / 1,671 against the estimand decision, and `N_min = 17` against the C8 record.
+
+Probed in the direction that matters. Changing one `c1_min_denominator` from 79 to 78 in the artifact left the branch's
+state `CLOSED` — the file still exists, the strings are still there — and `--check` failed with *the note quotes
+[79, 64, 79, 74, 72, 74] but its source states [78, 64, 79, 74, 72, 74]*. Restored, clean.
+
+Two smaller things the wiring turned up. A claim whose regex ran into the phrase `the N=4 figures` collected a third
+number (`4`) and failed; the pattern now stops at the comma. And a claim naming a field the artifact does not have
+raised instead of reporting, so a typo in the manifest would have crashed the check — it now fails with "the source it
+pins does not state them".
+
+## Addendum — 2026-11-15: the branch half is generated from a manifest, and the mapping is verified
+
+The board's decision half was a render; the branch half was the last hand-written table left on it. Both are now
+generated, and the difference matters in the direction that had been failing: a branch row's state is derived from what
+settles it, so nothing can go stale silently.
+
+`docs/a1_board_manifest.json` maps ten branches to their source and their proof. Five source kinds cover the rows: a
+**decision** (state follows the index — `CLOSED — ADOPTED`, `AWAITING SIGNATURE`, `WITHDRAWN`), an **artifact** (closed
+only if the file exists *and* contains the strings the manifest asserts), an **act** (closed only if every named act's
+own `Status:` line says `SIGNED`), a **conditional** (open while another decision is pending, and checked for the
+restated figures once it is adopted), and an **absent** (a claim that would be re-read if the file appeared). Each row
+also names the check that proves it, and `--verify` runs those checks — six files, 61 tests.
+
+The hand table is gone from the checklist; the section is now two generated blocks plus its prose. Ten branches render:
+7 closed, one `OPEN UNTIL THE ESTIMAND IS ADOPTED` (C4 posture clause 1), one `NOT SIGNED` (the freeze acts), one
+`NOT ISSUED, NOT STARTED` (grant and run).
+
+Three defects were caught while wiring it. The first two by the render itself; the third by the probe that was
+supposed to demonstrate the render working. Renaming `CONTROL_NOT_SCORED` to `CONTROL_NOT_SCORED_PROBE` left the C4
+completeness branch **closed**, because the manifest's assertion was a plain substring test and the new name still
+contained the old one. Identifier-like needles now have to match whole; the same probe then made `--check` fail, rendered
+`OPEN — ARTIFACT NOT PROVEN`, and dropped the closed count from 7 to 6. A probe that fails to make a guard fail is
+evidence about the guard, not about the code it watches.
+
+The other two were render defects. The competent-construction row read
+`OPEN — ARTIFACT NOT PROVEN` because the manifest asserted `20 / 17 / 20 / 20 / 18 / 20` with spaces while the page
+writes `20/17/20/20/18/20` — the branch was closed and the assertion was wrong. And the row-completeness check looked
+for a link labelled with the full path, which the link formatter no longer emits. Both are fixed; the first is the kind
+of error the derived state exists to surface rather than hide.
+
+## Addendum — 2026-11-15: the decision half of the board is generated, not described
+
+The guard added an hour earlier checked one direction: every `PENDING` decision had to appear on the board. The reverse
+was unchecked, so a row marked `ADOPTED` or `AWAITING SIGNATURE` could outlive its record and every test would still
+pass — the same defect as the prose it replaced, one level down.
+
+`benchmarks/a1_board.py` now renders the owner-decision half of the board from `docs/decisions.json`, spliced between
+markers in the checklist. Nothing in a decision row is typed: the state is a function of `status` (an open entry is
+*AWAITING SIGNATURE* only when its own `status_quote` says it is for owner adoption), the link is the decision id, and
+the third column is the record's `**Scope:**` line or, where there is none, its title. `--check` compares the committed
+block against the render, so a status change on disk makes the board stale until `--write` reruns, in both directions.
+The non-A1 pending entries are listed in a generated sentence for the same reason.
+
+The three decision rows that had been hand-written (both drafts, and the umbrella) were removed from the hand-maintained
+table, which now carries only branches and artifacts. Eleven A1 records render: 8 adopted, 2 awaiting signature, 1
+pending and blocking nothing.
+
+## Addendum — 2026-11-15: the checklist board is now the board, and a guard reads it
+
+The A1 state was being reconstructed in conversation while `A1-PRE-FREEZE-CHECKLIST.md` still opened with "no substantive
+owner choice remains open" and still quoted **324 / 1,944** as the operative C4 veto. Both were true when written and
+false by the time anyone read them, which is the failure mode a status section exists to avoid.
+
+The section is replaced with a table that names, per branch, the state and the record or artifact that decides it: closed
+rows point at adopted records or existing artifacts, the two signature-ready drafts are marked `AWAITING SIGNATURE`, and
+the C4 posture's clause 1 is marked **open until the estimand is adopted** because its declared number matches no
+operative target count. The closing line now says two owner choices remain open and both are audited for signature.
+
+`tests/test_a1_board_state.py` reads the index and the board together and fails on the three ways this drifted: a
+`PENDING` A1 decision with no board row, a pending row that neither awaits a signature nor says why not, and the stale
+sentence surviving while decisions are pending. It also fails if an adopted record declares a multiplicity the operative
+block cannot produce without the board saying so.
+
+On its first run the guard found a third pending decision the board had never shown — `DECISION-A1-PATH-A-C1-C4`, whose five
+proposals were adopted in separate records and which therefore sits `PENDING` with nothing left to sign. It now appears as
+`NOT BLOCKING THE FREEZE` rather than being marked done, because the corpus does not close an entry by assertion.
+
+## Addendum — 2026-11-15: C1's ceiling decision drafted, priced in both directions
+
+`A1-PATH-A-C1-RULE-1` voids any run whose observed minimum C1 denominator is above 64, and the adopted block's own
+baseline measures 79 / 64 / 79 / 74 / 72 / 74 on the operative row — five of six seeds. Read literally the block is
+`VOID — design inconsistency` before any retention is read. The denominator record adopted the day after the rule
+explicitly changed the unit ("Not the candidate count"), and left the ceiling on the old scale.
+
+The draft narrows that clause to the quantity it names and replaces the constant with a comparison: the scored
+denominator must equal the preplanned universe recorded in the freeze act, and a denominator larger than it is VOID.
+The argument is that the constant fails both ways — it voids 79 recorded against 79 planned, and it passes 64 recorded
+against 60 planned with four rows added after the baseline. A comparison against the recorded universe fires on every
+addition and on nothing that was planned.
+
+It amends §2.1's planned-bound row and §2.3's third paragraph, and says so in the record; 0.95, the 60-row floor, the
+three-loss band and the C4 ceiling are untouched. The per-seed minima and the index quotes are recomputed by
+`tests/test_a1_c1_ceiling.py`, so the record cannot drift from the baseline that produces it.
+
+## Addendum — 2026-11-15: C4's completeness conditions now fire
+
+The C4 gate's own failure row names three conditions — absent stream, incomplete stream, no measurable paired delta —
+and the code enforced only the third. A treated cell that emitted **no** non-target rows passed, because the control
+cell's rows were indexed as their own baseline and each was compared with itself (delta 0.0, status MEASURED). A treated
+cell emitting one edge of the control's five was judged on that edge alone. Both are the defect this corpus has now hit
+three times: a population defined by what happened to be emitted rather than by what the design requires.
+
+The repair removes the self-comparison (`CONTROL_NOT_SCORED`, no delta, so a zero that cannot fail is no longer counted
+as a measurement), synthesises `AWAITING_TREATED_ROW` rows for control edges a treated cell did not emit, keeps
+`AWAITING_PAIRED_CONTROL` for a treated edge the control never had, and has `gate_c4` judge only non-control rows with at
+least one required. `score_c4` now reports `control_rows` apart from `rows`, and the fixture counts in the C4 tests move
+accordingly (48 measured becomes 32, 96 becomes 80). No threshold, row count or target changed; what changed is that C4
+can VOID where it used to pass.
+
+
+
+`DECISION-A1-COMPETENT-ESTIMAND-1` is drafted and indexed as `PENDING`. It resolves the conflict between the freeze acts'
+"representative eligible" wording and `DECISION-A1-C8-NMIN-1`'s competent-row unit by moving the experiment to the
+competent population and making the estimand conditional on baseline availability — not by weakening C8.
+
+Three counts follow from that single choice and are the reason it is one record rather than three. Target rows are
+**20, 17, 20, 20, 18, 20** (C8's already-adopted operative sizes). The non-target stream becomes 112 − N per seed, so C4's
+declared multiplicity moves from **324 per seed / 1,944 per block** to **276–285 per seed / 1,671 per block** — the same
+acceptance, a smaller exposure. And C8's tolerance, `floor(0.05 × N)`, is one assertion at twenty rows but **zero at
+eighteen and at seventeen**, so two seeds admit no assertion at all.
+
+The record also states what it cannot do: the current `a1_c8_target_selection.json` is a *representative* selection and must
+be re-derived before any act is signed, and this decides nothing about the C1 ceiling conflict or C4's completeness defect.
+
+
+
+Sweeping the adopted records for other numeric bands that the adopted block contradicts found none of the ceiling kind — the
+remaining thresholds (0.95, 0.05, 0.98) are evaluated on the run, not against committed counts. It did find a dependency
+rather than a conflict. `DECISION-A1-C4-POSTURE-1` declares the veto as "the maximum over **324** deltas per seed, **1,944**
+across the block"; those are **108 non-target rows × 3 paths × 6 seeds**, which is the **N=4** design on a 112-row stream.
+A competent act at 17 rows yields **285** per seed and **1,710** per block (20 gives 276 and 1,656).
+
+So the estimand decision carries a second obligation: whichever target count is frozen, clause 1 of the posture has to be
+restated to match it. The risk acceptance is unaffected — more target rows mean fewer comparisons, so a 17-row act is
+slightly *less* exposed than the number the owner accepted — but a declared multiplicity that no longer matches the design
+is the kind of silent drift this corpus keeps paying for.
+
+
+
+Checking whether anything else sat upstream of the freeze turned up two adopted records that disagree. `A1-PATH-A-C1-RULE-1`
+(binding, 2026-11-14) voids a run whose observed C1 denominator is **above 64**. `DECISION-A1-C1-DENOMINATOR-1`
+(2026-11-15) makes the recorded cell row the operative denominator, and the adopted block observes **79, 64, 79, 74,
+72, 74** — five seeds above the band. Neither record names the other superseded, and the later one never mentions the
+ceiling.
+
+So the C1 branch is closed on the floor and silent about the ceiling. Read literally, five seeds are
+`VOID — design inconsistency` before retention is inspected; read narrowly, the clause governs the candidate-plan count
+and nothing changes. The text establishes neither. A checklist note written earlier today asserted the narrow reading as
+settled; that was a documentation edit standing in for a decision on a binding record, and it is retracted in favour of
+the conflict record.
+
+
+
+The convergence at 17 read as independent corroboration — tolerance arithmetic and feasibility certification landing
+on the same number. Sweeping the endpoint cap shows it is not: with a cap of 4, all six seeds take twenty rows; with a
+cap of 2, not even seventeen forms (three seeds fail). Both the cap of 3 and the floor of 17 were project choices, so
+17 is one point on a `(cap, k)` feasibility surface rather than a number two arguments derived.
+
+What survives is tighter and worth more than the coincidence: **at the cap in use, 17 is the largest block that forms
+on every seed**, so C8's floor sits exactly at that ceiling — larger would have been infeasible, smaller would have
+been feasible at a cap the design does not use. A floor that coincides with a constraint is a floor that cannot be
+raised without changing the selection rule.
+
+## Addendum — 2026-11-15: the competence blocker is solvable at exactly 17 rows
+
+The competence finding looked like a dead end and is not one. Searching the competent pool exactly, under the
+endpoint cap of 3 that the N20 rule already uses, a block of **17** rows exists on **all six seeds**; at **18** it
+already fails on `20740102`, and at 20 on that seed no subset exists at all (exhaustive). C8's adopted floor is
+`N_min = 17`, chosen on 2026-11-15 for a tolerance argument that had nothing to do with construction — the two
+independent decisions land on the same number.
+
+So the freeze is not blocked by the world's capacity: the competent pool is 27–40 rows per seed against 20 needed in
+count. It is blocked by the **selection rule**, which admits rows without asking whether either path is present.
+What a repair costs is not the run but the estimand: screening on baseline `A` and `K` turns *representative eligible
+edges* into *baseline-competent edges*, which `A1-COMPETENCE-FILTER-DRAFT` states plainly. That is the owner's call,
+and it is why both acts stay in draft.
+
+
+
+Resolving why the acts were held turned up an error in this changelog's own earlier entries. The C1 floor is **met** on
+the adopted block: its baseline (`A1-BASELINE-AVAILABILITY-ADOPTED-1`, 2026-11-15) observes cell-stream minima of
+**79, 64, 79, 74, 72, 74** against the floor of 60. The **58** that three earlier entries treated as the blocker is the
+*previous* block's minimum, and the **34** is the candidate stream, which the adopted denominator decision excludes by
+name. The lesson is the one the project keeps re-learning: `58`, `64` and `79` were three different quantities wearing
+one word, and only the block and the stream in the sentence say which.
+
+The real blocker is target competence, measured for the first time on the adopted block rather than inherited from the
+spent one: N4 has 4 of 24 targets with no `A` carrier and 11 of 24 with no `K` served, N20 has 34 of 120 and 43 of 120,
+and **no seed in either design can satisfy `gate_c2`'s per-row requirement** — in `A+K-` a target without an `A` carrier
+cannot show `A=True`. So D7 waits on a competent target set, not on a count of rows.
+
+
+
+D7's two acts were re-issued together so they can be signed against one date: `A1-TARGET-FREEZE-1` (N=4) and
+`A1-TARGET-FREEZE-N20-1`. Each was checked against its selection artifact rather than merely re-stamped — the 6
+per-seed selection digests and the artifact SHA-256 in each act, **14 of 14 across the pair** — and every value
+matched. Nothing was recomputed, because nothing had drifted: `a1_target_selection --check` and
+`a1_c8_target_selection --check` both report their artifacts clean. The re-issue therefore changes no target,
+reserves no digest and freezes nothing; what it adds is a dated record that the check was made.
+
+Two defects were corrected in passing, both the same kind. Both acts still said they were **"held on C2/C8
+competence and C4 exposure"** — premises decided on 2026-11-15 (C8 competence at `N_min = 17`, C4 exposure at
+posture A) — so a signer would have concluded the freeze was waiting on a question that already had an answer.
+And both stated the C1 denominator as **"FLOOR 64"**, where `DECISION-A1-C1-DENOMINATOR-1` fixes the floor at
+**60** and 64 is the design block's size. The status lines now read floor 60.
+**Correction, same day.** The hold those lines named was wrong. The **58** is the cell-stream minimum of the *previous*
+block `20630101–20630106`, which that audit spent; the **adopted** block `20740101–20740106` was baselined the same day
+and observes **79, 64, 79, 74, 72, 74** on the operative cell row — the floor of 60 is met on every seed. Three quantities
+had been read as one: a spent block's observation, the candidate stream's minimum (45/34/47/48/38/41, below the floor but
+not the denominator under `DECISION-A1-C1-DENOMINATOR-1`), and the adopted block's ceiling. The acts are held instead on
+**target competence**: on the adopted block no seed is C2-viable at either design
+([`A1-TARGET-VIABILITY-ADOPTED`](A1-TARGET-VIABILITY-ADOPTED.md)).
+
+## Addendum — 2026-11-15: the A1 disposition is adopted — Path A continues
+
+`DECISION-A1-DISPOSITION-2` is now `ADOPTED` by owner direction on 2026-11-15. It answers the branch question
+that the re-read re-opened: **Path A continues**, against nine named conditions, with D1–D6 met and D7–D9 left
+as acts no record can perform for the owner. Adoption supersedes the 2026-11-14 disposition and
+`A1-DISPOSITION-REREAD`; the 2026-12-14 lapse clock keeps running against the new record. The index moves to
+19 adopted, 1 withdrawn and 5 pending of 25.
+
+The act that follows immediately — the N=20 target-freeze act — is **not** free to sign, and its status line
+said so for a reason that has since expired. It read "held on C2/C8 competence and C4 exposure"; both are now
+decided (C8 competence at `N_min = 17`, C4 exposure at posture A), so neither holds it. What holds it is a
+measurement: the **58** paired-control rows reported by the earlier baseline audit against an adopted minimum of **60**.
+**That reading was wrong as applied to these acts, and is corrected below.** Signing a disposition still does not move a
+denominator.
+
+## Addendum — 2026-11-15: live counts in undated prose were stale in three documents
+
+The Stage B figure was one instance of a class, so the corpus was censused rather than spot-checked: every
+`<number> <noun>` with a countable noun in `CHANGELOG.md` and `docs/*.md`, compared against its live source and
+then classified by where the line sits. A figure inside a dated revision row records what was true on that date
+and is left as written; a figure in undated prose is a claim about today and must match its source.
+
+Three were claims about today and all three had drifted. `CONTEXT.md` said "23 questions in
+`docs/RESEARCH-QUESTION-REGISTRY.md`" against a registry of 54. `docs/AUTHORISATION-PROVENANCE-AUDIT.md` said
+"1644 consumed seeds across 209 artifacts", now 1,668 and 228. `docs/RESEARCH-HIERARCHY.md` restated that
+audit's scope as 14 documents and 21 records, now 16 and 23. The first is corrected with an as-of marker and
+guarded by `tests/test_live_counts.py`, which carries a control asserted to reject the stale value; the other
+two are dated in place, because their numbers belong to a specific audit rather than to the tree. The manual's
+revision log and the dated changelog entries stay as history. Generated documents and the machine-written
+test-count line are excluded: they are maintained by tooling and already checked. (That line is not quoted
+literally here: a markdown file containing the marker string becomes one of the files the figure check
+counts, which is how writing this audit broke that check once.)
+
+## Addendum — 2026-11-15: C1 gains `C1_UNMEASURABLE`; `C1_THRESHOLD` keeps one meaning
+
+The measurability audit closed the gates but left a labelling defect above them: `_c1_reason` classified a
+failed C1 by its denominators alone, so a seed with a sound 60-row denominator and an uncomputable retention rate
+VOIDed as `C1_THRESHOLD` — a code that asserts a *measured* rate fell below 0.95. Decided on 2026-11-15:
+**`C1_UNMEASURABLE` is added and `C1_THRESHOLD` is not widened**, with precedence
+`C1_NO_DENOMINATOR` → `C1_DENOMINATOR_BELOW_FLOOR` → `C1_UNMEASURABLE` → `C1_THRESHOLD`.
+
+The reason is the one already applied to counts: a label must name what it counts, and widening would restore at
+the reporting layer the defect the audit removed at the gate layer — a run reading as *failed the bar* when it
+never reached the bar. C4 already separates `C4_UNMEASURABLE` from `C4_DELTA`, so this removes an asymmetry
+rather than adding a concept. `score_c1` now reports the unmeasurable paths per seed, `_c1_reason` reads them, and
+two tests pin both the new code and the precedence. No threshold, gate, row set or disposition moves; no A1 cell
+has run, so no historical label changes.
+
+## Addendum — 2026-11-15: the A1 disposition is drafted as continue, with its conditions named
+
+The branch question was re-opened because all four premises of the 2026-11-14 disposition had been replaced:
+C1's unreachability was a denominator-convention artefact, C1's unit is now the directed edge, C8 is adjudicable
+on 6/6 seeds at `N_min = 17`, and C4's exposure is adopted as posture A. `DECISION-A1-DISPOSITION-2` answers
+**continue** and restates the commitment as a sequence — freeze review, provisional target freeze, dated grant,
+one run, C1/C4, PASS or VOID — with nine conditions named as a table: D1–D6 met and recorded, D7–D9 (the two
+freeze acts, the grant, the single run) outstanding and the owner's.
+
+Continuing is stated with its costs rather than around them: the operative block `20/17/20/20/18/20` permits
+zero failed C8 assertions on two seeds, C4's VOID probability over 1,944 comparisons is unmeasured, C1 will
+either clear or void rather than be estimated, and the disposition is a bet on design adequacy, not on the
+mechanism. Redesign is rejected on measurement — the predeclared fresh block fails 0/6 and the 28-tag universe
+dilutes K to 23–55 — and park on the removal of its two stated reasons. The 2026-12-14 lapse clock is
+explicitly **not** extended by signature.
+
+## Addendum — 2026-11-15: the join and the C1 scorer carried the same defect, one layer below the gates
+
+Repairing the gates raised the next question: what reaches them? Two functions do.
+`attach_neighbor_deltas` computed `abs(float(row[rate]) - float(base[rate]))`, so a null or non-numeric rate
+raised `TypeError`/`ValueError` inside the join — not a wrong number but an exception, the function unable to
+represent the state C4 exists to model. It now writes `null` for that path and `delta_status = "UNMEASURABLE"`,
+which the repaired C4 already classifies as `C4_UNMEASURABLE`. `score_c1` repeated the gate's own defect one
+layer down: its per-seed rows used `sum(1 for row if row[field])`, so a `nan` flag (truthy) was reported as
+*retained* and appeared as a `nan` fraction, even though the top-level verdict was safe by delegating to
+`gate_c1`. Both now use `measurable_fraction`, and a C1 fraction that cannot be computed is reported as `null`
+and never as a pass.
+
+One gap is recorded rather than patched: a failed C1 with a sound denominator and an unmeasurable rate VOIDs
+as `C1_THRESHOLD`, which misnames the cause. The reason codes are adopted vocabulary, so adding
+`C1_UNMEASURABLE` is an owner decision, not a bug fix.
+
+## Addendum — 2026-11-15: the same unmeasurable-reads-as-pass defect was live in C1, C2, C7 and C8
+
+C4's `nan`-pass was audited across every A1 gate instead of being treated as a one-off. It was not one-off.
+**C1** counted a `nan` flag as *retained* (`nan` is truthy), so a path that was never measured contributed to
+the 0.95 separation rate. **C2** accepted `A = null` as *"A driven to zero"* (`not None` is `True`), so a
+missing readout satisfied the manipulation check. **C7** carried C4's exact comparison, so a `nan` delta passed
+and a `null` delta crashed. **C8** counted `null` as *did not assert*, which is the best possible score for its
+positive control. C3, C5, C9 and C6 already failed closed or have no measured input.
+
+Two shared repairs rather than four patches: `_fraction` now returns `None` unless every flag is a real
+observation (C1, C7, C8 treat that as a failure), and `_delta_clean` — the helper written for C4 — is now used
+by C7 as well and refuses missing paths, nulls, non-numerics and non-finites. Nine tests pin the probe table;
+`--self-test` still shows every gate accepting its measured fixture. No threshold, row set or verdict on a
+measured stream changed.
+
+## Addendum — 2026-11-15: C4's exposure accepted — the last first-order A1 question is closed
+
+The C4 declaration is signed and adopted as `A1-C4-POSTURE-1` (posture A), with its five clauses unchanged at
+signature: the multiplicity is declared and not corrected; a failure must name seed, cell, edge, quantity and
+delta, or the unmeasurable row; the VOID probability is declared unmeasured; a VOID is a result about the
+design; and nothing is relaxed — the 0.05 ceiling, the maximum, the 108/92-row protected set and the six-seed
+scope stay as they were. The veto remains a maximum over 324 deltas per seed and 1,944 per block.
+
+The document moved from `docs/A1-C4-DECLARATION.md` to `docs/DECISION-A1-C4-POSTURE.md` because the decision
+index binds a `DECISION-X` id to a `DECISION-X.md` body, and this record is now that body. It is indexed
+ADOPTED, tallied under Q054, and the page regenerated: 23 decisions, no errors, no drift. The checklist no
+longer describes an open owner choice; the freeze acts, the grant and the run are acts that follow, not
+questions that remain. Nothing is frozen, granted or run by this record.
+
+## Addendum — 2026-11-15: the decision graph runs clean — 22 decisions, no drift
+
+Two Path A records sat on disk outside the index, so `decision_graph --check` reported three errors against
+a tree whose records were all present and consistent. Both are now indexed and tallied under Q054:
+`A1-PATH-A-C1-RULE-1` as ADOPTED (quoting its own status line, `RECORDED — BINDING FOR A1; NO FREEZE, NO
+GRANT, NO RUN`), and the C1/C4 owner memo as PENDING — it never became the adopting act, and a new "Index
+disposition" section records that each of its five proposals was taken in a separate adopting record, which
+is why PENDING rather than ADOPTED is the honest classification. `--check` now exits 0: 22 decisions
+(16 ADOPTED, 1 WITHDRAWN, 5 PENDING), no missing quotes, no drift findings.
+
+## Addendum — 2026-11-15: an unmeasurable C4 delta was reading as a pass, and now fails the gate
+
+Found while drafting the C4 declaration, and fixed before it could be signed. `gate_c4` compared
+`float(delta[path]) > tolerance`, and `nan > tolerance` is `False` — so a non-finite delta, the case rule 13
+says must be reported as *not measurable*, passed the veto as clean. A `null` delta crashed assembly
+outright (`float(None)`), and a missing path was caught only incidentally.
+
+The gate now fails on a missing path, a `null`, a non-numeric or a non-finite value; `score_c4` records
+those rows under `unmeasured` with a `reason` (`delta_missing`, `delta_not_a_number`, `delta_not_finite`),
+so a VOID carries `C4_UNMEASURABLE` rather than a bare `C4_DELTA` with a null delta; and non-finite values
+no longer enter `max_delta`, where `max(0.0, nan)` silently returns `0.0`. Three tests pin the behaviour.
+No threshold, row set or verdict on a measurable stream changed.
+
+## Addendum — 2026-11-15: C1's unit of evidence decided — directed edge, relation as a declared sensitivity
+
+The last definitional question is closed. C1 counts **directed edges**; the undirected relation is a
+**dependence class**, reported once per relation on its own denominator and never pooled with the directed
+result. The estimand decided it: C1 asks whether a carrier *path* survives, the carrier is directional, and
+A availability differs across orientations on 15–28 of 64 relations — so a relation-level count answers a
+different question than the design asserts. The orientations are also not free observations, since K is
+97.2% concordant across candidate/reverse pairs (278/286), which is why the relation is reported rather
+than assumed away.
+
+Four alternatives are recorded as rejected: relation as the unit outright; counting both orientations as
+independent; leaving the choice to the implementation, which is the current state and the reason the
+mixture existed; and adopting the directed unit while dropping the relation reading. The decision moves no
+threshold, keeps C4's protected set at 108 / 92 directed rows, and changes no code — it fixes a convention
+the protocol leaves open, which `A1-DESIGN-VIABILITY-1` keeps reporting as open on purpose.
+
+The owner's remaining substantive choice is now **C4's exposure** alone.
+
+## Addendum — 2026-11-15: "nominal twenty" pinned against "largest available", and the C8 condition discharged
+
+Two small precisions after the N_min decision, both narrowing what the record can be read to say.
+
+The rule prefers **exactly 20** and falls back to the largest block the declared constructor finds — it
+does not take the largest block that exists. Those differ: the maxima include 21, 23, 22 and 21, so a
+"largest admissible" rule would score 21 / 17 / 23 / 22 / 18 / 21 instead of 20 / 17 / 20 / 20 / 18 / 20.
+Tolerance is unchanged either way, and the extra variation buys no resolution, but the two sentences are
+different rules and only one is adopted.
+
+`A1-DISPOSITION-REREAD.md` had made continuing conditional on C8 being answered explicitly. It now is, so
+the continue branch carries no C8 carve-out and the branch question reduces to C4's posture alone. The
+owner table's held rows are refreshed to match: items 4, 5 and 6 are held on C4 only, and item 7's
+original refusal reason — no competence rule — is recorded as satisfied while the refusal stands on the
+unmet preconditions.
+
+## Addendum — 2026-11-15: the C4 noise measurement is feasible only by amending blindness — and I had the premise wrong
+
+`docs/A1-C4-NOISE-FEASIBILITY.md` answers whether the VOID probability can be measured pre-freeze, and
+begins by correcting a load-bearing claim of mine. The C4 declaration said the engine is deterministic so
+two replays differ by exactly zero. **It is not.** CPython randomises string hashing per process, which is
+why `benchmarks/process_noise.py` exists; across six `PYTHONHASHSEED` values **16 of 17 recorded fields
+have exactly zero spread and one varies slightly**. The engine is deterministic *within* a process and
+nearly — not exactly — invariant across processes.
+
+That makes the measurement well-posed: replay the arms on a declared block under several hash seeds and
+record the dispersion of the non-target deltas, the same design the noise harness already uses, at 144
+cell-runs for a six-seed block. It is also forbidden as things stand, and not by implication — the gate
+order states that *no outcome is observed before the target manifest and grant are fixed*, and this
+observes outcomes. Doing it without breaking what matters needs four written amendments: a disjoint named
+block, dispersion-only output with no verdict or sign, a sealed number that cannot move any design
+parameter, and one run only. Even then the honest sentence is "no outcome from the **reserved** block",
+not "no outcome".
+
+The recommendation is not to run it. It spends the blindness rule and the project's first grant to learn a
+dispersion that the measured near-invariance suggests is small, while the larger source of C4 spread is
+the world rather than hash order and no replay reduces that. The cheap alternative is recorded: a
+hash-seed replay of a **single no-arm cell** — no treatment outcome, no amendment — which would raise or
+settle the prior before anything expensive is considered.
+
+## Addendum — 2026-11-15: the C4 posture written as adoptable text
+
+`docs/DECISION-A1-C4-POSTURE.md` turns the accepted posture into five clauses the owner can sign without
+changing anything else. It declares the multiplicity rather than correcting it (324 deltas per seed,
+1,944 per block, maximum by design), requires a failure to carry `C4_DELTA` with its seed, cell, edge,
+quantity and delta, records the VOID probability as **unquantified** with the reason it cannot be cheaply
+measured before the freeze, fixes that a VOID is a result about the design rather than a failed attempt,
+and states that nothing is relaxed.
+
+The useful property is that **it needs no code**: `score_c4` already returns `rows`, `measured`,
+`unmeasured`, `max_delta` and a `violations` list whose entries carry `edge`, `path` and `delta`, so the
+three declarations map onto fields that exist. The only optional addition is the pair of rates behind a
+delta, which the edge and delta already identify. Adoption satisfies `C4_exposure_acceptance` — the last
+unsatisfied freeze precondition — and the acts are then re-issued by a separate owner act.
+
+## Addendum — 2026-11-15: the two C8 repairs costed, and neither is required any more
+
+With C8 adjudicable at ≥ 17 rows, the cap and tag-count repairs stop being requirements. What they still
+buy is the nominal twenty on every seed, and `docs/A1-C8-REPAIRS.md` prices each. Raising the endpoint cap
+to 4 restores twenty everywhere on the existing pool (27 / 20 / 30 / 29 / 22 / 26 at that cap) inside the
+same world, and charges in **dependence** rather than arithmetic: a 20-row block already spans 13–16 of
+the 16 tags at a maximum load of 3, so the extra edge buys a fourth row on a tag that already carries
+three — the block's nominal resolution overstates its effective sample, and nothing in the contract
+corrects that. Raising the tag count is measured fatal at its only measured point (28 tags: A&K 15–26,
+density 63.2% → 24.4%, `FAIL 0/6`) and would retire the entire 16-tag preparation — universe, baseline,
+competence pools, C1 ceilings and C4 exposure all — rather than adjust it. The recommendation, marked as
+one, is to take neither; if the nominal block is wanted anyway, cap 4 is cheaper by a wide margin provided
+the dependence cost is declared in the act.
+
+## Addendum — 2026-11-15: C8 is adjudicated on at least N_min competent rows, and N_min = 17 is certified
+
+The owner rejected the exact-N reading on 2026-11-15 and the rule follows: **C8 reads on any block with
+at least `N_min` competent rows**, exact-20 preferred where constructible, the observed count reported,
+the 0.05 threshold untouched. The argument is the owner's and it holds: competence is not created or
+destroyed by the difference between 17 and 20 rows, so a seed judged against the same rate should not be
+inadmissible for being smaller — particularly when smaller is *stricter*, since tolerance is
+`floor(0.05 × N)`, giving zero assertions at 17 and 18 against one at 20.
+
+`N_min = 17` is not a preference; it is the largest value every adopted seed reaches, and it is
+**certified on the binding seed**. `20740102` pools 27 competent rows over 15 tags, and no eighteen of
+them satisfy the 3-per-tag cap — all `C(27,18) = 4,686,825` subsets were enumerated and none is feasible
+— while seventeen exist. Operative block sizes are **20 / 17 / 20 / 20 / 18 / 20**, with the last of
+those three lower bounds on their maxima rather than proofs.
+
+This removes C8 as a freeze blocker: it becomes adjudicable on all six seeds with no cap change and no
+tag-count change, which reverses the reading recorded two addenda ago. `C4_exposure_acceptance` is now
+the only unsatisfied precondition; the two freeze acts still read `HELD` and are re-issued by a separate
+owner act.
+
+## Addendum — 2026-11-15: C4's exposure is a comparison count, and its VOID probability is unmeasured
+
+`docs/A1-C4-RISK-POSTURE.md` sets out the choice the C4 record has never put to the owner. C4 is a
+post-freeze veto that fails the run if **any** measurable non-target A, K or Y neighbour delta exceeds
+0.05, so its exposure is not 108 rows but **324 deltas per seed and 1,944 per block** at N=4
+(276 / 1,656 at N=20), read as a maximum with no correction. The exposure is fixed by N and the
+stream, not by target identity, so no filtering, competence screen or estimand change buys relief.
+
+The page also states what the record has been silent about: the probability of a false VOID is
+**unmeasured**, and cannot be cheaply measured before the freeze, because the engine is deterministic
+— two no-arm replays are identical and their delta is exactly zero, which measures the harness rather
+than the intervention. The three postures are accept (with its 1,944 comparisons), narrow the
+protected set before the freeze, or accept a possible VOID explicitly. Narrowing is the trap: C1's
+denominator **is** the C4-expanded row set, and C1 clears the floor by three rows at the tightest
+seed, so a protected-set haircut spends the primary gate's margin to buy the veto's comfort. The
+recommendation, marked as one, is to accept the exposure and declare the multiplicity, the failing
+edge and the unmeasured probability in the act.
+
+## Addendum — 2026-11-15: the competence rule answers its own five questions and becomes decidable
+
+The rule draft exposed five ambiguities and left them open. They are now answered as recommendations,
+each with its reason, what it commits to and what would overturn it, and the document ends with the
+adoption text the owner can ratify verbatim.
+
+A short block is **VOID**, not run at reduced N: C8 reads per seed and fails if any seed is above the
+ceiling, so seeds with different N would have different steps (`1/20` versus `1/18`) and "any seed
+above the ceiling" would compare incomparable bars — and because a short block is *stricter* per row,
+choosing it after discovering only eighteen are available is choosing which gate to run with
+knowledge of feasibility. The filter is a **selection** predicate recorded in the freeze, not an
+analysis exclusion, because competence is measured no-arm and is therefore available beforehand.
+C2's claim is **scoped** to competent rows, with baseline-incompetent rows recorded as *unmeasured*;
+that gap cannot be closed by rule text. Both the four-row and twenty-row blocks are drawn under the
+same screen, so C2 and C8 do not address different populations in one act. And the one-in-twenty bar
+is declared in the act with the per-seed assertion count reported beside the verdict, since zero and
+one assertions both pass and only the count separates a clean block from one that spent its allowance.
+
+Adoption would make C8 VOID on the adopted block as it stands and replace fourteen of the twenty-four
+four-row targets — a new estimand, already measured at 6 of 6 seeds.
+
+## Addendum — 2026-11-15: the preparation record read as one record
+
+No measurement was run for this. `docs/A1-INTERPRETATION.md` puts the committed A1 measurements
+beside each other and states what they imply together, which none of them states alone: **C8's
+twenty-row failure is combinatorial before it is empirical, and the two ways to relieve it cancel.**
+
+The arithmetic uses committed numbers only. Cap 3 over 16 tags admits `16 × 3 / 2 = 24` relations
+against 20 required — four edges of slack, 20% headroom — and the measured 16-tag competent pool
+bottoms out at exactly twenty on one seed, so any tag imbalance spends the whole margin. The N=4
+disjoint design admits 8 against 4: also four edges of slack, but 100% relative room. Raising the
+tag count to 28 lifts the ceiling to 42 with 22 edges of slack and drops the pool to 15–26, because
+A&K density falls 63.2% → 24.4% while candidate edges rise 161% and K rises 0.8%. So more tags
+relieve the cap and destroy the supply, and no measured tag count does both.
+
+The same reading reframes two earlier findings: K is window-limited rather than universe-limited
+(loop cap 15 → 120 raises K 109.8%, and the 16-tag blocks reach 382/383 candidates K-available at
+cap 120), and the C1 verdict is block-dependent rather than a property of the design (2063 clears
+4/6, 2074 6/6, 2065 0/6), with three rows of margin on the tightest adopted seed. The record also
+shows which lever has never been tested — event density per cycle at fixed tag count.
+
+## Addendum — 2026-11-15: C1's unit of evidence is the open question, and my own table compared across units
+
+The denominator decision settled which rows participate. It did not settle what one observation
+*is*, and the protocol never says whether `a → b` and `b → a` are two C1 rows or one relation. The
+one-page owner note is `docs/A1-C1-UNIT-OF-EVIDENCE.md`; the adopted denominator decision now names
+this as its own boundary.
+
+Writing it forced a correction to the viability record. The relation-level readings were reported as
+"below the floor on every seed", and the comparison behind that sentence pits relation **ceilings**
+(31–51) against 60 — a count derived at the *directed* planning denominator. The floor itself is a
+0.95 **proportion**, so it rescales with the unit: at 64–79 directed rows three failures still pass,
+at 35–51 relations one or two do, at 31–38 one does. The relation convention is therefore stricter,
+not impossible, and the earlier sentence read as a verdict when it was a cross-unit comparison. The
+module that generated it now says so and the artifact was regenerated; no number moved.
+
+What measurement can settle is recorded too: A availability differs across orientations on 15–28 of
+64 relations, and K is 97.2% concordant across pairs (278/286) — so the orientations are neither
+duplicates nor free observations. The repository also already uses both units, silently: selection
+takes one orientation per unordered pair while C1 scores directed rows. The recommendation, marked
+as one, is the directed edge as the unit of evidence with the relation declared as a dependence
+check; the decision is the owner's and nothing here is in force.
+
+## Addendum — 2026-11-15: what would constitute competence, and the disposition re-read on a false premise
+
+The competence rule now answers the question a future run would actually need answered — not
+*whether* competence occurred, but **what observation would constitute it**. The rule document gains
+an adjudication contract: unit (one directed target row, per seed, never pooled), required count
+(N=20 for C8), threshold (0.05, quoted not changed), and three readings — pass, third route present,
+and **not adjudicable**. The last is the load-bearing one. At N=20 the step is `1/20`, so the bar is
+arithmetically *at most one asserting row*; below twenty rows no rate exists at the declared step.
+The contract also shows that a short block is not uniformly weaker: at eighteen rows the step is
+`0.0556`, which tolerates **zero** asserting rows, so "exactly N or VOID" is a choice about which
+test to run rather than a consequence of the threshold. Applied to the adopted block as though the
+run were tomorrow, the contract returns **C8 VOID** — two seeds cannot field twenty competent rows —
+which is the state it exists to make visible before a run rather than after one. Five ambiguities the
+exercise exposed are recorded for the owner rather than resolved by assumption.
+
+`docs/A1-DISPOSITION-REREAD.md` then re-reads the A1 disposition, which was adopted while C1 looked
+unreachable. Under the protocol denominator that premise is false: directed rows clear the floor
+(70/59/69/58/72/72 and 79/64/79/74/72/74 against 60 and 57) while relation-level reads do not. The
+re-read finds the **continue** branch supported on analysis — C1, C7 and C4 remain readable and C8's
+absence is a declared limitation rather than a failed manipulation — and names the one branch the
+evidence does not support: continuing while C8 stays unowned. It amends nothing; the disposition and
+its 2026-12-14 lapse clock stand until the owner chooses.
+
+## Addendum — 2026-11-15: the competence filter is drafted, applied, and it does not cover every seed
+
+Option A of the C2/C8 competence draft asked for a rule and a measurement, and both now exist.
+`A1-COMPETENCE-FILTER-DRAFT-1` (`docs/a1_competence_filter_draft.json`,
+`docs/A1-COMPETENCE-FILTER-DRAFT.md`, `benchmarks/a1_competence_filter_draft.py`) states the rule —
+the published selection with eligibility narrowed to A-and-K-available rows, everything else
+unchanged, no fallback — and applies it to the adopted block. The unfiltered pass reproduces both
+published selections edge for edge on all six seeds, which is what licenses calling it a restriction
+rather than a new rule.
+
+The result corrects the reading the competence record invited. On the four-row design the filter is
+easy: a competent block forms on **6/6** seeds (10 of 24 rows kept, 14 replaced). On the twenty-row
+design it is not: blocks form on **4/6**, the published walk manages 3/6, and on **20740102 no
+twenty-row competent block exists at all** — all 888,030 candidate subsets were enumerated and none
+satisfies the endpoint cap — while `20740105` stays undecided with a best block of 18. A count
+comparison of competent rows against the block size was therefore never a construction, and the
+competence record now says so. The choice is no longer "filter or not": it is a declared cap change,
+a wider universe, or declining to adjudicate C8 on this block.
+
 ## Versioning in this repository — three separate namespaces
 
 The words "v1" and "v2" appear in this project in three different senses.
@@ -13,7 +1834,7 @@ They are deliberately distinct, and they are what the version number
 
 | Namespace | Form | Meaning | Current |
 |---|---|---|---|
-| **Package version** | `0.x.y` (SemVer 2) | the released, installable, citable artifact | **0.9.0** (unreleased) · 0.8.0 is the latest tag |
+| **Package version** | `0.x.y` (SemVer 2) | the released, installable, citable artifact | **0.15.0** (unreleased) · 0.12.0 cut 2026-11-06 · v0.10.0 is the previous tag · v0.9.0 the latest published release |
 | **Architecture generation** | *Organica 1*, *Organica 2* | a generation of the eight-layer engine. Organica 1 is frozen; Organica 2 is planned | **Organica 1** |
 | **Research campaign** | *Ablation Study 1*, *Ablation Study 2* | the experimental series. Study 1 is the eleven-condition ablation; Study 2 is the six-colony Tier-1 matrix | **Study 2 in flight** |
 
@@ -28,7 +1849,2187 @@ there is nothing to check out.
 
 ---
 
-## [0.11.0] — (unreleased)
+## [0.15.0] — (unreleased)
+
+### Addendum — A1 K dilution: more edges did not buy more K (2026-11-14)
+
+- **The larger-universe failure is a supply problem, not an edge-count problem.** `A1-K-DILUTION-1` compares the fresh 16-tag block with the 28-tag larger universe. Candidate edges rose **383 → 1000** (**+161.1%**), A-available rows rose **279 → 353** (**+26.5%**), but K-available rows rose only **242 → 244** (**+0.8%**); K density fell **63.2% → 24.4%**. By transition type, K rows stayed at **145 → 146** (flip-P) and **97 → 98** (flip-Q) while edge counts roughly doubled. The old-old family was not protected: its K density fell **63.2% → 18.9%**, while old-new was **26.4%** and new-new **27.7%**, so the new tags are not the sole cause. The U gradient survives but Q4 K density falls **91.6% → 48.8%**, about **20 K rows/seed**. The redesign target is **K-capable edges**, not independent edges; more edges alone is not a repair. No target, threshold, freeze, grant or run. `benchmarks/a1_k_dilution.py`, `tests/test_a1_k_dilution.py`, `docs/A1-K-DILUTION.md`, `docs/a1_k_dilution.json`, `docs/A1-PARK-RECOMMENDATION.md`, `docs/A1-DISPOSITION-MEMO.md`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 K-supply discriminator (2026-11-14)
+
+- **Prediction capacity is not the K bound, and support is only part of the story.** `A1-K-SUPPLY-DISCRIMINATOR-1` holds the 28-tag world fixed and varies only the prediction cap: at **20/40/80**, A rises **271 → 353 → 498** while K stays **240 → 244 → 244** (`capacity_signal` False). Support K density rises monotonically **10.7% → 21.7% → 28.3% → 40.9%** across pair-support bins **2-3/4-7/8-15/16+** (spread **30.2 pp**, `support_signal` True), but at matched support the 16-tag world still has higher K density: **42.7% vs 28.3%** at 8–15 and **68.8% vs 40.9%** at 16+, weighted gap **25.0 pp**. Reading: **SUPPORT-ASSOCIATED, NOT FULLY EXPLANATORY**. This closes prediction-cap capacity, not every capacity bound, and says the next diagnostic should target the carrier path directly. No target, threshold, freeze, grant or run. `benchmarks/a1_k_supply_discriminator.py`, `benchmarks/a1_baseline_availability.py` (optional cap only), `tests/test_a1_k_supply_discriminator.py`, `docs/A1-K-SUPPLY-DISCRIMINATOR.md`, `docs/a1_k_supply_discriminator.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-DISPOSITION-MEMO.md`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `docs/A1-PARK-RECOMMENDATION.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 cap response curve (2026-11-14)
+
+- **One shared square-root curve plus a block offset describes the cap response.** `A1-CAP-RESPONSE-CURVE-1` fits `A / candidate_edges` on 12 block-by-cap cell means at prediction caps **20/40/80/112**. The shared `sqrt(cap)` model has in-sample RMSE **0.0131** (max **0.0242**) and leave-one-cell-out RMSE **0.0193** (max **0.0333**). Block-specific square-root slopes reach LOO **0.0209**, arbitrary per-cap effects **0.0232**, and block-specific linear slopes **0.0398**; the saturated interaction has no held-out prediction. The fitted offsets relative to current-16 are **−0.0136** for fresh and **−0.3512** for larger-28, with a common sqrt coefficient of **0.04699**. Over this cap range the blocks differ mainly in baseline occupancy, not response shape. This is a descriptive interpolation, not a causal curve. No target, freeze, grant or A1 cell. `benchmarks/a1_cap_response_curve.py`, `tests/test_a1_cap_response_curve.py`, `docs/A1-CAP-RESPONSE-CURVE.md`, `docs/a1_cap_response_curve.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-DISPOSITION-MEMO.md`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `docs/A1-PARK-RECOMMENDATION.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 K completeness (2026-11-14)
+
+- **K completeness is a perfect regime marker, not the cap lever.** `A1-K-COMPLETENESS-1` measures `K / candidate_edges` for all 18 seeds at prediction caps **20/40/80/112**. Every 16-tag row is **1.000**; every larger-28 row is **0.6105–0.8485**, a separation margin of **0.1515** at every cap. But larger-28 completeness is nearly static—aggregate **0.734 → 0.732**, absolute change **0.0011**, maximum per-seed range **0.0121**—while joint C1 passes move **0 → 0 → 4 → 8** overall and **0 → 0 → 4 → 6** in larger-28. At cap 80 the lowest-completeness larger-28 pass is **0.6568** while the highest-completeness failure is **0.7425**, so completeness does not order joint success. The 16-tag block is K-complete but still fails **10/12** at cap 112. K completeness marks which overlap constraint is possible; A and K coverage of A determine the cap response. No target, freeze, grant or A1 cell. `benchmarks/a1_k_completeness.py`, `tests/test_a1_k_completeness.py`, `docs/A1-K-COMPLETENESS.md`, `docs/a1_k_completeness.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-DISPOSITION-MEMO.md`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `docs/A1-PARK-RECOMMENDATION.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 offset predictors: candidate size, not a free block label (2026-11-14)
+
+- **The block offset is a candidate-space quantity, not a free parameter.** `A1-OFFSET-PREDICTORS-1` replaces the free block offset in the shared cap-response curve with a continuous predictor and compares leave-one-out error on 12 block-by-cap cells and 72 seed rows. `log(candidate_edges)` reaches cell LOO RMSE **0.0184** and seed LOO **0.0667**, against **0.0193** / **0.0668** for three block dummies, with one fewer parameter; the fitted cap-0 offsets **0.414** (current-16), **0.413** (fresh-16) and **0.069** (larger-28) match the free larger offset to **0.0001**. K completeness alone reaches cell **0.0189** but seed **0.0865**, and the joint model is **0.0669** across seeds with large unstable coefficients because the two predictors are collinear. Within larger-28, A coverage correlates **0.079** with K completeness and **-0.012** with candidate size, while K completeness and candidate size correlate **-0.866**. Reading: candidate size is the usable offset predictor; K completeness is a correlated regime marker, not an independent one. This is a descriptive comparison on no-arm rows, not an intervention — it does not show that changing either quantity would move the offset. No target, freeze, grant or A1 cell. `benchmarks/a1_offset_predictors.py`, `tests/test_a1_offset_predictors.py`, `docs/A1-OFFSET-PREDICTORS.md`, `docs/a1_offset_predictors.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-DISPOSITION-MEMO.md`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `docs/A1-PARK-RECOMMENDATION.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 cap-response holdout: caps transfer, the block offset does not (2026-11-14)
+
+- **The shared curve survives a held-out cap and fails a held-out block, for a reason that is identifiable.** `A1-CAP-RESPONSE-HOLDOUT-1` measures the same 18 no-arm seeds at caps **28/64/96** (between fitted caps) and **128** (above the fitted range), predicting from the frozen 12-cell fit and refitting nothing. Interpolation RMSE is **0.0139** (max **0.0237**) across 9 cells, and extrapolation at cap 128 is **0.0142** (max **0.0223**) across 3, both below the fit's own leave-one-cell-out **0.0193**, so one step beyond the fit does not degrade measurably; the candidate-size offset is comparable (**0.0151** interpolated, **0.0131** at 128). Two bounds apply: cap 128 is **84%** of current-16's saturation cap (**152**) and **80%** of fresh-16's (**160**), and the 16-tag cells already fall below the curve at 96 and 128 (fresh **-0.024**, current **-0.022**), so the admissible range ends at those caps. The block holdout is asymmetric: with current-16 or fresh-16 held out, the curve plus candidate-size offset interpolates at **0.0216** and **0.0197**; with larger-28 held out, the two training blocks differ in log candidate size by only **0.0026**, the fitted coefficient is **-5.17** against an intercept of **21.89**, and the prediction is **-4.33** coverage — that direction is **not identified**, and its RMSE is a rank-deficiency artifact rather than an extrapolation error. Cap 80 on six seeds reproduces the committed A, K and A∩K counts. No target, freeze, grant or A1 cell. `benchmarks/a1_cap_response_holdout.py`, `tests/test_a1_cap_response_holdout.py`, `docs/A1-CAP-RESPONSE-HOLDOUT.md`, `docs/a1_cap_response_holdout.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-DISPOSITION-MEMO.md`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `docs/A1-PARK-RECOMMENDATION.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 prediction-cap turnover: the new A edges are carried (2026-11-14)
+
+- **Raising cap 80 to 112 adds A edges without diluting K overlap; the pooled rate falls only because the mix shifts.** `A1-PREDICTION-CAP-TURNOVER-1` replays the same 18 no-arm seeds at both caps and splits A at 112 into retained, new and dropped edges. A is **nested**: **1,129 → 1,269**, **140** new, **0** dropped; A∩K rises **1,025 → 1,150**. On the **12** 16-tag seeds K is complete at both caps, so new and retained edges both carry K at **1.000** and those seeds cannot answer the question. On larger-28 the new edges carry K at **0.812** (**65/80**) against **0.791** (**394/498**) retained, **+0.021**, with **2** seeds above, **3** below and **1** tied (two-sided sign test p = **1.0000**). The pooled rates run the other way (**0.893** vs **0.908**, **-0.015**) because the new edges are **57.1%** larger-28 against **44.1%** of retained, whose base rate is lower; no block reverses that direction at block level. Against a block-adjusted expectation of **123.3**, the new edges add **125** K-covered edges (**+1.7**), so the joint gain is real overlap rather than extra A. K sets are identical at both caps on **18/18** seeds. No target, freeze, grant or A1 cell. `benchmarks/a1_prediction_cap_turnover.py`, `tests/test_a1_prediction_cap_turnover.py`, `docs/A1-PREDICTION-CAP-TURNOVER.md`, `docs/a1_prediction_cap_turnover.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-DISPOSITION-MEMO.md`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `docs/A1-PARK-RECOMMENDATION.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 block-offset density: tied with size, not identified (2026-11-14)
+
+- **Candidate-space density replaces the block offset as well as candidate size does, and three blocks cannot separate the two.** `A1-OFFSET-DENSITY-1` adds density — candidate edges per tag, **4.00** for both 16-tag blocks and **5.95** for larger-28 — to the 12-cell and 72-row comparison. Density reaches cell LOO **0.0182** and seed LOO **0.0689**, against **0.0184** / **0.0667** for `log(candidate_edges)`, **0.0193** / **0.0668** for the free block offset and **0.0189** / **0.0865** for K completeness. The cell-level edge over size (**0.0002**) and the seed-level gap (**0.0023**) are small against the fits' own error, so the ranking among the three continuous summaries is not resolved; only K completeness is clearly worse across seeds. Adding density to size does not help: cell LOO rises from **0.0184** to **0.0193**, and the coefficients (**-9.43**, **4.77**, **-2.50**) signal collinearity, because density is the candidate count divided by a block constant. The block pairs (log candidates, density) are **4.1536 / 3.9792**, **4.1563 / 3.9896** and **5.1156 / 5.9524**, so every monotone summary orders the blocks the same way; within larger-28 the two correlate **1.000**, and A coverage correlates **-0.013** with density and **-0.012** with size. Density is therefore an equally admissible label rather than a better one, and choosing between counting candidates and measuring alphabet occupancy needs a design that varies one while holding the other. No target, freeze, grant or A1 cell. `benchmarks/a1_offset_density.py`, `tests/test_a1_offset_density.py`, `docs/A1-OFFSET-DENSITY.md`, `docs/a1_offset_density.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-DISPOSITION-MEMO.md`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `docs/A1-PARK-RECOMMENDATION.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 within-block level: no candidate-space quantity tracks the 16-tag level (2026-11-14)
+
+- **Across three equal-size 16-tag blocks the level differs by less than the seed spread inside a block, and none of **11** stream-side quantities tracks it.** `A1-WITHIN-BLOCK-LEVEL-1` joins committed coverage cells (current-16, fresh-16 and the seed-holdout block `20670101–20670106`) to candidate-space quantities computed from the same acquisition stream. The fitted levels are **0.4200 / 0.4065 / 0.3815**; the largest gap, **0.0385**, is **0.39–1.68** standard errors of the pairwise difference at six seeds each (**z 0.39 / 1.68 / 0.75**) and no wider than the within-block seed SD (**0.043 / 0.073 / 0.036**). The blocks' summaries are flat: mean support **22.90 / 22.61 / 22.62**, median support **22.33 / 22.00 / 21.50**, support mass **1458 / 1443 / 1444**, support dispersion **7.88 / 7.77 / 8.14**, support <= 10 share **0.045 / 0.034 / 0.029**, tag entropy **3.9060 / 3.9021 / 3.8955**, **9** cell pairs and pair saturation **0.442 / 0.443 / 0.443** everywhere. Temporal-edge density is invariant: **176.0 / 176.0 / 175.8** distinct temporal edges and **11.00 / 11.00 / 10.99** per tag in the three blocks, a constant the two-tags-per-event law fixes, so the size of the temporal graph cannot carry a level that varies by 0.038. Four of the eleven order the block means like the level (median support, tag entropy, floor share, edge share **2.765 / 2.757 / 2.755**), each a one-in-six chance ordering; none is sign-consistent at seed resolution (median support **−0.62 / +0.38 / −0.09**, tag entropy **−0.77 / +0.14 / −0.46**, floor share **+0.14 / −0.60 / −0.82**, edge share **+0.21 / −0.65 / +0.69**). fresh-16's lowest seed `20650105` (**0.2589**) has that block's **highest** mean support (**23.0**). The lowest block matches fresh-16 on candidate count (**63.8** against **63.8**) and K completeness (**1.000**), so the level is not carried by candidate support, support mass, dispersion, entropy, cell-pair coverage or pair saturation. Every coverage value is read from a committed artifact: no engine replay, no target, freeze, grant or A1 cell. `benchmarks/a1_within_block_level.py`, `tests/test_a1_within_block_level.py`, `docs/A1-WITHIN-BLOCK-LEVEL.md`, `docs/a1_within_block_level.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-DISPOSITION-MEMO.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 offset-discriminator construction: candidate count and alphabet density can be separated (2026-11-14)
+
+- **The three committed blocks cannot tell candidate size from alphabet density, and a pair-split world can.** `A1-OFFSET-DISCRIMINATOR-SPEC-1` first measures the degeneracy: within the compositional law, tags-per-cell `k` sets both the alphabet (`4k`) and the candidate count, so the measured blocks sit at **16 tags / 63.7 candidates / 3.98 per tag** and **28 / 167 / 5.95**, and `k=2, 3` extend the same one-dimensional locus (**16/2.0**, **36/3.0**). It then specifies a construction that breaks it: each cell's tags are cut into consecutive `active=4` groups and the regime index selects the group an event draws from, so every declared tag is exercised while the per-regime pair space stays 4 wide. On a fresh six-seed block (`20690101–20690106`), **split-32** (32 tags) yields **63.8** candidates at density **1.995** and **split-48** (48 tags) **63.8** at **1.330** — the same candidate count as the 16-tag reference (**63.8**) with half and a third of its density. The frozen size model therefore predicts one offset for all three (**0.413**, gap **0.000**), while the frozen density model predicts **0.761** and **0.878** (difference **0.116**, 6× its cell LOO, about 3 standard errors at six seeds per block). Because both split blocks share the split rule and the regime law, family-level shifts cancel in the differential. Controls reproduce the committed 16-tag counts on `20630101`/`20630102`/`20650101` (**64/63/64**) and the 28-tag count on `20660101` (**169**), and every split block uses all 4k tags. Density 1.33–1.99 lies below the fitted range (3.98–5.95), so the density model extrapolates while size interpolates. Candidate streams only: no engine replay, no coverage or offset measurement, no target, freeze, grant or A1 cell. `benchmarks/a1_offset_discriminator_spec.py`, `tests/test_a1_offset_discriminator_spec.py`, `docs/A1-OFFSET-DISCRIMINATOR-SPEC.md`, `docs/a1_offset_discriminator_spec.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — the reconciliation is cashed out into an owner-decision table (2026-11-15)
+
+- **The C1 reconciliation left the checklist itself holding the old reading, and there was no single place where an owner could see what is outstanding and what closes it.** Two things fixed together. First, `docs/A1-PRE-FREEZE-CHECKLIST.md`'s design-viability row called the **44/31/39/35/43/36** candidate-stream count "the C1 denominator"; it now carries the reconciliation inline — that count is the **planning quantity**, the protocol's denominator is the observed paired-control set including non-target edges, and it measures **79 / 64 / 79 / 74 / 72 / 74** (min **64**) — while its **C2/C8 half stands unreconciled** and is said to stand. Second, the checklist gains an **owner decisions outstanding** table: eight rows, each naming the question, the evidence that closes it, and what it blocks, with the honest states — #1 reconciled **4 of 6** with two records left, #2 **unowned**, #3 **sized but unmeasured**, #4–#7 the consequences, #8 the disposition whose first reason has now been reconciled away while C8 competence and C4 exposure remain. **The point of the table is the closure conditions, not the list:** every row says what would end it, so the project can stop discovering distinctions without ever cashing them in. The four `PENDING` decisions in `docs/decisions.json` are listed separately and explicitly are not open questions. Nothing here changes a measurement, a threshold, an act's response or a gate; no cell ran. `docs/A1-PRE-FREEZE-CHECKLIST.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — the C1 denominator is reconciled to the protocol, and the blocker is withdrawn as definition drift (2026-11-15)
+
+- **The "C1 viability confirmed below floor" blocker was reasoning about the planning quantity as though it were the scored one, and both acts now record the reconciliation instead.** The committed protocol already defines the denominator: [`A1-TARGET-SELECTION-PROTOCOL.md`](A1-TARGET-SELECTION-PROTOCOL.md) states that `c1_rows` *"includes baseline-available non-target edges in the C1 denominator"*, the [60-row gate](A1-C1-C4-VOID-GATE.md) applies the floor to **observed paired-control denominators**, and the **63–64** figure is labelled in three places — power review, gate record and C1 rule — as *"not an observed baseline-availability denominator"*. Measured under the protocol's definition, the adopted stream's paired-control denominator is **79 / 64 / 79 / 74 / 72 / 74** — minimum **64** against the floor of **60**, so **the floor is reachable** — while the planning quantity reads **45 / 34 / 47 / 48 / 38 / 41**. The earlier blocker compared the second to the floor and reported the first as a failed verdict: **a class of error this repository keeps finding and had now made one layer up.** **What the correction does not buy, stated in the acts rather than repaired by them.** (1) **C1 has not been scored** — retained ÷ denominator needs a run, and a reachable floor is not a pass. (2) **The power analysis sits on the planning quantity**: 80% power at a 63-row reference is conservative if the true denominator is larger, but it is not the quantity it names and should be corrected with disclosure. (3) **C4's exposure widened with C1's denominator** — the same non-target stream is C4's row set and every measurable delta must stay within 0.05, so the binding constraint may have moved from C1's row count to C4's delta ceiling, which no pre-run measurement can settle. `docs/a1_design_viability.json` also reads C1 through the planning quantity, so its "do not freeze" disposition rests on the same reading: it is **left intact and flagged**, not rewritten, because rewriting a governance record to match a new reconciliation is the owner's act. Both acts now carry `design_viability.denominator_reconciliation` (the protocol quote, the planning quantity, the measured reachability, the three caveats and the flagged record), `blocking_preconditions: ["C1_denominator_confirmation"]`, `blocker_state: RECONCILED — … AWAITING OWNER CONFIRMATION`, and statuses saying **C1 DENOMINATOR RECONCILED TO THE PROTOCOL (FLOOR REACHABLE AT MIN 64, NOT SCORED); C4 EXPOSURE AND C2/C8 COMPETENCE OUTSTANDING.** **What is outstanding is one owner act:** confirming that the protocol sentence is authoritative and the 63–64 figure was a sizing premise. The reconciliation is recorded, not adopted by a tool. `docs/a1_target_freeze_act*.json`, `docs/A1-TARGET-FREEZE-ACT*.md`, `tests/test_a1_prefreeze.py`, `CHANGELOG.md`, `docs/USER-MANUAL.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`.
+
+### Addendum — the observed-vs-current carrier divergence is now measured data (2026-11-15)
+
+- **The distinction between `earliest_observed_carrier_cycle` and `earliest_current_carrier_cycle` was established by an argument carried in changelog prose; it is now carried by a record that recomputes both.** `A1-C5-CARRIER-DIVERGENCE-1` (`benchmarks/a1_c5_carrier_divergence.py`, `--write` / `--check` / `--self-test`) recomputes the N=4 and N=20 selections for each recorded block, replays the registered 120-cycle world with no arm, and records both cycles with the C5 verdict they produce — the same two quantities `a1_c5_target_timing` reports, measured independently. Regenerating it reproduced the prose figures exactly rather than approximately: the adopted block reads observed **6**, current **8**, **clears C5**; the rejected block `20710101-20710106` reads observed **4**, current **10**, **fails C5**. **What the record is for:** the two cases where the quantities diverge now exist as measured artifacts — one clearing, one failing — so the claim that they are distinct observables no longer rests on a sentence, and neither value can be read as implying the other's verdict. The equality case (`20630101-20630106`, **5 / 5**) is **cited, not re-measured**: its superseded artifact is at commit `61ac416`, and its seeds are spent by `A1-BASELINE-AVAILABILITY-1`, which the registry refuses to reuse — so the record states the source instead of quietly re-deriving a block it may not touch. **Consistency is enforced, not asserted:** `problems()` requires each block's reported cycles to be the per-seed minima, the difference to match, the row counts to be 120 and 24, and the verdict to follow from the cycles and the fixed U; it also requires the record to agree with `a1_c5_target_timing` on the adopted block (**6 / 8**), which is what keeps this from becoming a second account of the same block; and it refuses the distinctness claim if any measured block has equal cycles. The record carries its own limit in the artifact: two measured blocks **cannot order a population**, and nothing here says either cycle predicts a C5 outcome. `docs/a1_seed_reservations.json` lists it as a holder of the still-unspent `20740101-20740106` reservation; `benchmarks/a1_two_path.py` names it and admits it to the collision scan; the writer is declared derived in `engine_stamp` because it runs no A1 cell. `benchmarks/a1_c5_carrier_divergence.py`, `docs/a1_c5_carrier_divergence.json`, `docs/A1-C5-CARRIER-DIVERGENCE.md`, `benchmarks/a1_two_path.py`, `benchmarks/engine_stamp.py`, `docs/a1_seed_reservations.json`, `tests/test_a1_c5_carrier_divergence.py`, `tests/test_a1_seed_reservations.py`, `CHANGELOG.md`, `docs/USER-MANUAL.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`.
+
+### Addendum — the adopted stream's C1 ceiling is measured, and it is below the floor (2026-11-15)
+
+- **The blocker the two acts carried as unverified is now measured on the adopted block, and it does not clear: the candidate stream cannot produce a 60-row C1 denominator.** `A1-BASELINE-AVAILABILITY-ADOPTED-1` replays the six adopted worlds with no treatment (`--write-adopted`, 120 cycles per seed, no A1 cell) and records its own block rather than inheriting one. Its candidate-stream C1 ceiling is **45 / 34 / 47 / 48 / 38 / 41** against the **60-row floor** — **0 of 6 seeds** reach it, the best seed is **12** short and the worst **26** — to be read beside the **superseded** stream's **44 / 31 / 39 / 35 / 43 / 36**. Better on five of six seeds, still below the floor on all six: the block change did not repair C1, and no target selection can, because selection partitions rows and cannot create them. **The one result that complicates the verdict is which stream C1 counts.** The full 120-cycle cell stream reaches the floor on every seed — **79 / 64 / 79 / 74 / 72 / 74**, minimum **64** — while the one-orientation candidate stream that the 63–64-row plan counts does not; the cell stream is wider by **290** rows (**382** candidate rows against the fuller cell stream, with the C4 N4 counts at **358** and **648**). So C1 is unattainable under the planned denominator and attainable under the wider one, and **that choice is not a measurement's to make** — the acts now say so and leave it open rather than picking the stream that passes. **What this changes in the acts:** `blocking_preconditions` still names `C1_viability_unverified` as the blocker id, `design_viability.blocker_state` now reads **CONFIRMED — C1 CEILING BELOW FLOOR ON THE ADOPTED STREAM**, `cleared` is `false`, `measured_for_adopted_block` carries the per-seed A/K availability and ceilings copied from the artifact with its digest, and both statuses say **C1 VIABILITY CONFIRMED BELOW FLOOR ON THIS STREAM (BLOCKING); AWAITING AN OWNER DECISION ON THE C1 DENOMINATOR**. The pages carry the measurement, the two streams and the recorded disposition *"Do not freeze or run the current A1 design on these records"*. `docs/a1_seed_reservations.json` lists the new record as a holder of the still-unspent `20740101-20740106` reservation; nothing is frozen, granted or run. `benchmarks/a1_baseline_availability.py`, `benchmarks/a1_two_path.py`, `docs/a1_baseline_availability_adopted.json`, `docs/A1-BASELINE-AVAILABILITY-ADOPTED.md`, `docs/a1_target_freeze_act*.json`, `docs/A1-TARGET-FREEZE-ACT*.md`, `docs/a1_seed_reservations.json`, `tests/test_a1_prefreeze.py`, `CHANGELOG.md`, `docs/USER-MANUAL.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`.
+
+### Addendum — both acts carry a blocking C1-viability precondition (2026-11-15)
+
+- **The re-issued acts were "ready for signature" while a committed record flagged the design as not viable, and that tension is now in the acts themselves as a blocker rather than a footnote.** `A1-DESIGN-VIABILITY-1` records that the candidate stream's maximum attainable C1 denominator is **44 / 31 / 39 / 35 / 43 / 36** against the **60-row floor** (0 of 6 seeds reach it) and its disposition reads *"Do not freeze or run the current A1 design on these records… A1 must be redesigned with a C1-capable universe or seed block"*. Both acts now carry `design_viability` (that record's per-seed ceilings, floor, conclusion and disposition, copied from the artifact), `blocking_preconditions: ["C1_viability_unverified"]`, and a status that says **C1 VIABILITY UNVERIFIED FOR THIS STREAM (BLOCKING)**; the pages carry it as a blockquote above §4 Preconditions. **The scoping is stated as precisely as the record allows, because the first reading of this was too strong:** that ceiling was computed on the **superseded** `20630101-20630106` stream, and **no artifact computes A/K availability — and therefore a C1 ceiling — for the adopted `20740101-20740106` stream**. A C1 ceiling is a property of the stream, not of the target block, because target selection partitions rows and cannot create them. So the recorded disposition does not transfer to the adopted block as a measurement, and it does not lapse either: the act now freezes target identity on a stream whose ceiling is unknown, with the only measurement in the repository saying a sibling stream could not reach the floor. Signing therefore no longer reads as routine — it is a decision to freeze targets on a stream of unmeasured C1 capacity, and that decision is recorded as open rather than resolved. **What would clear it:** an availability pass on the adopted stream producing its own A/K ceiling; nothing in this record substitutes for that. No engine, target, freeze, grant or A1 cell; no arm cell. `docs/a1_target_freeze_act.json`, `docs/a1_target_freeze_act_n20.json`, `docs/A1-TARGET-FREEZE-ACT.md`, `docs/A1-TARGET-FREEZE-ACT-N20.md`, `tests/test_a1_prefreeze.py`, `CHANGELOG.md`, `docs/USER-MANUAL.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`.
+
+### Addendum — both target-freeze acts re-issued for 20740101-20740106 (2026-11-15)
+
+- **The two prepared acts now describe the adopted block instead of the one that was spent, so the design can be signed.** `A1-TARGET-FREEZE-1` and `A1-TARGET-FREEZE-N20-1` moved from `SUPERSEDED` to `DRAFT — RE-ISSUED FOR THE ADOPTED BLOCK`, with every per-seed table, count, unique-edge count and artifact digest regenerated from `docs/a1_target_selection.json` and `docs/a1_c8_target_selection.json` rather than retyped: **24 target observations over 23 unique edges** for the N=4 act, **120 over 100 unique edges** for the N=20 act, **24/24 current targets retained, 96 new rows (16 per seed)**, both digests equal to the SHA-256 of their artifact. **Two numbers on the N=20 page genuinely changed and neither is cosmetic:** the unique-edge count fell from **104 to 100** (this block's twenty rows per seed overlap more between seeds — a property of the selection, not a defect), and the C5 figures moved from the stale `5 / 14 / 10` to the corrected **earliest observed 6, earliest current 8, 11 of 24 current rows with no carrier by 120**; the earlier act text had inherited the pre-correction numbers. The `supersession` block is replaced by a `reissue` block that names the previous edition's block (`20630101-20630106`), both prior digests, and where those tables survive (git history, `1b822af` and earlier); the pages carry a dated re-issue notice and no longer restate the spent block's targets. **What did not change is the whole point of re-issuing rather than rewriting:** the estimand, the gates, the 0.05 thresholds, the 60-row floor, the C1/C4 ordering, the C7/C8 units and every "not effect" clause are byte-for-byte the ones that were already prepared, and neither act is signed, frozen, granted or run. The tests that had asserted the superseded state now assert the re-issued one against the artifacts themselves — status, `reissue` provenance, `targets_by_seed` equality, counts and digests derived from the files — so a future block move cannot leave an act quietly describing a different block (the failure mode this re-issue exists to fix). No engine, target, freeze, grant or A1 cell; the selection, timing and audit passes that produced these tables record no arm cell. `docs/a1_target_freeze_act.json`, `docs/a1_target_freeze_act_n20.json`, `docs/A1-TARGET-FREEZE-ACT.md`, `docs/A1-TARGET-FREEZE-ACT-N20.md`, `tests/test_a1_prefreeze.py`, `CHANGELOG.md`, `docs/USER-MANUAL.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`.
+
+### Addendum — 20740101-20740106 adopted; both audits' censuses re-issued (2026-11-14)
+
+- **The two-path candidate block is now 20740101-20740106, and the two audits that judge a block carry a dated census for it instead of the previous block's.** The manifest, both target selections, the C5 timing audit, the adversarial audit and both freeze acts' supersession records move together: `A1-TWO-PATH-1` declares the block as adopted, **24 N=4 target rows (23 unique)** and **120 N=20 rows** form, C5 **clears** (earliest carrier **6** over the N=20 rows and **8** over the current rows, **13** observed, **11** missing, **0** at or before the fixed U of 4), and the six-seed feasibility audit is **`P0 PASS`** with every blindness and determinism check passing. **What "re-issued" means here, precisely:** `a1_c5_target_timing.RECORDED` and `a1_adversarial_audit.RECORDED_CENSUS` replace inline numbers with one dict that names **the block and the date** beside the values, and `problems()` reads them; the values are the audits' own measurements of this block, not thresholds, and the C5 *condition* remains `U_CYCLE < earliest_observed_carrier_cycle` rather than any recorded count. The permutation p (**0.11235**, previously 0.91765) is recorded as the descriptive statistic this block produced; it tests resampling of this selection, not a new world, and a p this size is not evidence of representativeness in either direction. The three other artifacts that had to move are disclosed rather than left stale: `docs/a1_c8_expansion.json`'s per-seed summary and superset table are **regenerated from** `docs/a1_c8_target_selection.json` with a `regenerated_from`/`regenerated_on` stamp, the two freeze acts are marked **SUPERSEDED** with their per-seed tables untouched as the record of what was prepared for 20630101-20630106, and re-issuing them is the owner's signature step. **Two records that read live candidate state are now self-contained**, which is what made the move safe: `a1_baseline_availability` records the `candidate_edges` it ran and reads them back (its `SEEDS` no longer aliases `a1_two_path.SEEDS`), and `a1_successor_preflight`'s control builds from the baseline record's candidate universe instead of the live selection artifact. `docs/a1_seed_reservations.json` holds **20740101-20740106 unspent** for `A1-TWO-PATH-1` with every artifact that names it listed as a holder, marks **20630101-20630106 spent by `A1-BASELINE-AVAILABILITY-1`**, and a spent block now **refuses reuse by anyone but the artifact that spent it** — a spent block is not a released one. The manifest's `freshness` field no longer claims an empty collision scan computed with its own allow list excluded; it names the reservation that is actually enforced. No engine, target, freeze, grant or A1 cell touched; the selection, timing and audit passes that ran produce no arm cell. `benchmarks/a1_two_path.py`, `benchmarks/a1_target_selection.py`, `benchmarks/a1_c5_target_timing.py`, `benchmarks/a1_adversarial_audit.py`, `benchmarks/a1_baseline_availability.py`, `benchmarks/a1_successor_preflight.py`, `benchmarks/a1_seed_reservations.py`, `tests/test_a1_c5_target_timing.py`, `tests/test_a1_prefreeze.py`, `tests/test_a1_seed_reservations.py`, `docs/a1_*.json`, `docs/A1-TARGET-FREEZE-ACT*.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`.
+
+### Addendum — C5 timing: the flag names its cycle, and a block that clears it (2026-11-14)
+
+- **Correction to the addendum below: the C5 flags did not contradict the measurements — the audit was right and I compared two different quantities.** The flag `u_before_earliest_carrier` is computed from `earliest_observed_carrier_cycle`, the earliest carrier over the **120 N=20 expansion rows**; the field I read it against was `earliest_current_carrier_cycle`, the earliest over the **24 preserved current rows**. On the committed block both are 5, so the trap was invisible; on 20710101-20710106 they are 4 and 10, and a flag of `False` beside a `10` reads as a defect when it is a correct reading of the other number. Recomputed end to end, seed **20710101** carries `indigo>willow` to cycle **4**, which is not after the fixed U of 4, so C5 fails there for exactly the reason the audit gave. The fix is that the artifact now says which quantity it is about: the flag carries its cycle (`u_before_earliest_carrier_cycle`), a `definitions` block states what each of the four quantities is measured over, the current-rows version is reported as its own flag (`u_before_earliest_current_carrier`), and `problems()` gains `_flag_problems`, which refuses an artifact where the flag, its cycle and the problem text disagree — including a failing flag with no problem row explaining it. The self-test covers agreement, the two-cycle divergence, a flag contradicting its cycle, and a silent failure. The artifact was regenerated on its recorded block and reproduces every number unchanged (earliest **5 / 5**, observed **14**, missing **10**, before-U **0**) with the new fields, `PASS`. **Screening, with no write and no arm cell:** `20720101-20720106`, `20730101-20730106` and `20750101-20750106` cannot form the four-target and twenty-row selections at all; `20710101-20710106` forms them and fails C5 at that one cycle-4 edge; **`20740101-20740106` forms both and clears C5** — earliest N=20 carrier **6**, earliest current **8**, no row at or before U=4. **Disclosure:** the screening quoted in the addendum below was run on six-digit seeds (`207201`-`207206`), not on the eight-digit blocks; the eight-digit blocks were re-tested here and `2072` keeps its verdict, `2073` and `2075` are newly reported. Adoption still requires the adversarial audit's census (**382 / 358 / 23 / p 0.91765**) to be re-issued for whichever block is chosen, since those criteria are the superseded block's. No engine, target, freeze, grant or A1 cell touched; no arm cell run. `benchmarks/a1_c5_target_timing.py`, `tests/test_a1_c5_target_timing.py`, `docs/a1_c5_target_timing.json`, `docs/A1-C5-TARGET-TIMING.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`.
+
+### Addendum — A fresh two-path seed block: selectable, but not yet admissible (2026-11-14)
+
+- **A fresh block can be selected and cannot yet be validated, because two of the gates that judge a block are pinned to the block they judged; the manifest therefore stays on the block recorded as reused, and the one defect found on the way is fixed.** Swapping `A1-TWO-PATH-1`'s provisional block for a fresh one was attempted end to end. Candidate blocks were screened for the two selection preconditions: **20700101-20700106** and **20720101-20720106** are rejected because seeds 5 and 6 of each cannot form a four-target set or a twenty-row C8 set, while **20710101-20710106** forms both (**24 targets, 24 unique** at N=4 and **120 rows, 97 unique** at N=20), so a fresh block does exist. It does not clear the rest of the pre-freeze set. **(a)** The C5 timing audit does not clear on it: earliest current carrier moves **5 → 10**, observed carriers **14 → 13**, missing carriers **10 → 11**, and the writer's own flags contradict its measurements — with `U = 4` and earliest carrier `10`, `current_carriers_before_u` is `0` and yet `u_before_earliest_carrier` comes back `False` ("no observed carrier is after the fixed U cycle"). That is an instrument defect, not a property of the block, and it must be settled before any block can be cleared. **(b)** The adversarial audit's pass criteria are the superseded block's census — **382 candidates, 358 unselected, 23 unique edges, permutation p 0.91765** — so a fresh block reports `AUDIT FAIL — DO NOT FREEZE` with **every** feasibility, future-blindness, determinism, report-blindness and sleep-blindness check passing and only the census pins differing (**24 unique, p 0.77585**). Re-recording those pins after seeing the new census would be a threshold computed from the run it judges, so it is not done here. The swap was therefore **reverted**: `A1-TWO-PATH-1` still carries **20630101-20630106**, recorded in `docs/a1_seed_reservations.json` as the block `A1-BASELINE-AVAILABILITY-1` already spent (a `pending` entry, not a silent reuse), and adopting a fresh block now requires re-issuing the C5 timing audit and the adversarial audit census — the owner's decision, not a tool's. **(c)** The defect fixed in its place: `benchmarks/a1_baseline_availability.py` set `SEEDS = a1_two_path.SEEDS`, so a completed run's recorded block was inherited from a live candidate constant, and moving the candidate silently changed what the audit claimed to have run; the audit now records the block it ran. No engine, target, freeze, grant or A1 cell touched; the selection and audit passes that were run produced no arm cell. `benchmarks/a1_baseline_availability.py`, `CHANGELOG.md`, `docs/USER-MANUAL.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`.
+
+### Addendum — A1 shared seed blocks: one declared and verified, one recorded as reused (2026-11-14)
+
+- **The identical block shared by the comparator and construct preregistrations is intentional and required by a frozen gate; the check now verifies declarations instead of ignoring sharing, and doing so surfaced a second overlap the owner has not decided.** `docs/presence_comparator_112_prereg.json` and `docs/presence_construct_1_112_prereg.json` both declare **20261100-20261105**, and the reason is in the construct preregistration's own gate **C9_comparator_row**: each cell must reproduce the cap-112 comparator row *for its seed*, which is only a comparison if both designs run the same six seeds. Both artifacts declare it in the same words — *"the six historical audit seeds, reused so the level comparison is paired; declared against docs/presence_assertion_audit_0.14.0.json"* — and their `block` labels differ (`comparator` vs `Q1`). `A1-SEED-RESERVATIONS-1` gains `shared_blocks`: each entry must name artifacts that really declare that block, each artifact must carry the named declaring field, and the seeding source it names must hold those seeds; sharing that no entry covers — and that no reservation already speaks for — is refused. The second overlap found this way is not settled: `A1-TWO-PATH-1` declares **20630101-20630106** at cap 40 as a *PROVISIONAL CANDIDATE* block, and **`A1-BASELINE-AVAILABILITY-1` already ran those six seeds at caps 112 and 64**, so the manifest's block is reused rather than fresh — its own `freshness` field reads *"seed_collisions over docs JSON is empty at manifest time"*, which is true only because that scan skips the allow list the baseline artifact sits on. Whether the manifest keeps that block or fixes a fresh one is the owner's decision, so it is recorded with `pending` text that `--check` prints on every run rather than being silently exempted or silently failed. No engine, target, freeze, grant or A1 cell touched; no arm run. `benchmarks/a1_seed_reservations.py`, `tests/test_a1_seed_reservations.py`, `docs/a1_seed_reservations.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 seed reservations cover every declared block, in either shape (2026-11-14)
+
+- **The reservation check read only the manifest's `seed_block.seeds` object, so the six candidates and preregistrations that store the block as a bare list were outside it; every declared block in the tree is now read and checked on its own behalf.** `seed_block` has two committed shapes — an object with a `seeds` list in `A1-TWO-PATH-1`, a bare list in `A1-BASELINE-AVAILABILITY-1`, `A1-SUCCESSOR-CANDIDATE-1`, `A1-LARGER-UNIVERSE-CANDIDATE-1` and the three cap-112 preregistrations — and the guard only understood the first. `declared_seeds` reads both, `candidate_blocks` enumerates all **7** artifacts that declare one, and `candidate_problems` runs each block through the reservation refusal under its own path, so a candidate that lists a reserved seed is refused whether its block is an object or a list; the reserving artifact and its restatement remain exempt. The two-path preflight now reads the manifest through the same reader. `--check` prints the inventory it covered and fails on any refusal: **7 declared blocks, 6 unspent seeds held, no refusals.** One thing the check deliberately does *not* flag: `docs/presence_comparator_112_prereg.json` and `docs/presence_construct_1_112_prereg.json` declare the identical block **20261100-20261105**, which is a shared design choice between two preregistered variations and not a reservation being spent — a duplicate-block linter is a different check from this one. No engine, target, freeze, grant or A1 cell touched; no arm run. `benchmarks/a1_seed_reservations.py`, `tests/test_a1_seed_reservations.py`, `benchmarks/a1_two_path.py`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 seed reservations: unspent blocks are now visible to the freshness guard (2026-11-14)
+
+- **A seed block declared inside an allow-listed artifact was invisible to the freshness scan, so a future candidate could list the pair-split seeds and pass; reserved blocks are now declared and checked on their own terms.** The collision scan skips the artifacts it is told to allow — which is how a candidate avoids colliding with itself — and `20690101-20690106` are declared inside `A1-OFFSET-DISCRIMINATOR-SPEC-1`, an allow-listed artifact. `A1-SEED-RESERVATIONS-1` adds `docs/a1_seed_reservations.json`, naming each unspent block, the artifact that reserves it and the artifact that restates it, plus `benchmarks/a1_seed_reservations.py`, which refuses any candidate that lists a reserved seed unless it is the reserving artifact. The two-path preflight now runs that check beside the collision scan, so a manifest listing **20690101** is refused with the reserving artifact named, while the committed manifest's **20630101-20630106** block passes unchanged (its eight pre-existing refusals are untouched). The registry validates itself against the tree: owners and restatements exist, every reserved seed is actually named by its owner, blocks do not overlap, and no other artifact names a reserved seed — the last of these is the check that keeps the "unspent" claim true as new artifacts land. A reservation is a note that seeds are held, not a claim that they were spent, and marking one `spent` releases it. No engine, target, freeze, grant or A1 cell touched; no arm run. `benchmarks/a1_seed_reservations.py`, `tests/test_a1_seed_reservations.py`, `docs/a1_seed_reservations.json`, `benchmarks/a1_two_path.py`, `benchmarks/presence_cap_experiment.py`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 pair-split rule amended: the density ceiling moves from 0.09 to 0.07 and the committed six seeds become sufficient (2026-11-14)
+
+- **The pair-split discriminator's committed rule is kept except for one number: the density ceiling falls from **0.09** to **0.07**, which lets the construction's existing six seeds per block meet the 5%/5% guarantee instead of the nine the old bands implied.** `A1-PAIR-SPLIT-RULE-AMENDED-1` writes the amended rule as its own artifact and leaves `A1-OFFSET-DISCRIMINATOR-SPEC-1` exactly as signed. The construction, the floor **0.05**, the statistic (**offset(split-32) − offset(split-48)**), the predictions (**0.000** and **−0.11638**) and the seed list **20690101–20690106** are unchanged. At the repaired ceiling and six seeds the false-density rate is **0.0357**, the false-size rate **0.0425**, size-branch power **0.818** and density-branch power **0.894** — admissible at the stated budget, against **0.767** density power for the same six seeds under the committed bands and **9** seeds needed at that budget. Three seeds per block are therefore not bought, and the amendment costs nothing to adopt; the ceiling cannot go below **0.0633** at six seeds without the rule calling density on seeds where the size summary is true. The ceiling touches only the density branch's two outcomes, so the size branch's false rate is **0.0425** under either band and the floor, not the ceiling, binds the size account. Every number carries its source artifact and field, and the amendment names what it supersedes rather than editing it. No arm, no run, no target, freeze, grant or A1 cell. `benchmarks/a1_pair_split_rule_amended.py`, `tests/test_a1_pair_split_rule_amended.py`, `docs/A1-PAIR-SPLIT-RULE-AMENDED.md`, `docs/a1_pair_split_rule_amended.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 selection-versus-count spec: a fixed-count exchange prices the identity of the served edges (2026-11-14)
+
+- **The open question after the engine-side join is whether the *identity* of the served edges moves the level or only their *number*, and the run that separates them is a fixed-count exchange: same seeds, same cap, same candidate set, with the transition ordering replaced by the probability-only order, so the count is fixed by construction.** `A1-SELECTION-IDENTITY-SPEC-1` specifies three arms — an identity control (**I**) that must reproduce the committed level, the swap (**S**) that changes only which edges fill the same slots, and a cap-shift calibration (**C**) that prices one served edge in the same conditions — and computes its cost from committed artifacts. The frozen cap curve gives **0.0185** coverage units per served edge (**0.0189** current-16, **0.0182** fresh-16, **0.0053** larger-28), and the committed cap-112 trace gives the exchange size: the two orders disagree on **6.1** of **58** served edges per seed (**10.5%**). If identity matters at the count's own rate, that is **0.1128** coverage units, **2.6** seed standard deviations, and **6** seeds per arm and block at a 5% two-sided test with 80% power. The decision rule is pre-committed in edge-equivalents: supported at **2** edges' worth with an interval excluding zero, refuted below **0.5**, otherwise undecided. The design is asymmetric — **51** seeds per arm and block would be needed to resolve a two-edge effect and **812** to refute a half-edge one — so it can support the selection account cheaply and can only fail to find a small identity effect. Every refusal is stated: a swap that changes the served count, an identity control that misses the committed level, a calibration that does not move the count, or a candidate set that differs between arms voids the block. No arm is run, no database is opened, and the swap is an engine-behaviour change, so the spec needs a grant. No target, freeze or A1 cell. `benchmarks/a1_selection_identity_spec.py`, `tests/test_a1_selection_identity_spec.py`, `docs/A1-SELECTION-IDENTITY-SPEC.md`, `docs/a1_selection_identity_spec.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 band frontier: the density ceiling has slack, the floor does not (2026-11-14)
+
+- **The committed 0.05/0.09 bands can be widened on one side only, and doing so buys three seeds per block: at a 5%/5% error guarantee with 80% power the admissible bands at six seeds are **c ≥ 0.0633** and **f ≤ 0.0531**, so the 0.09 density ceiling is conservative while the 0.05 size floor is already close to its bound.** `A1-BAND-FRONTIER-1` generalizes the split-block power computation to the rule's three outcomes — size inside the floor, density below the ceiling, undecided between them — and solves for band pairs that hold both wrong-branch rates and both correct-branch powers. The committed pair needs **9** seeds per block at either a 5% or a 10% budget; the cheapest admissible pair at 5% is **f 0.050 / c 0.070** at **6** seeds, saving **3** per block, and **no** band choice in a floor **0.02–0.10** × ceiling **0.03–0.12** search does better at 5%. Widening further does weaken the discriminator: at six seeds a ceiling below **0.0633** pushes the false-density rate past 5%, and at nine seeds the floor cannot rise past **0.0647**. Raising the floor instead is worse than leaving it — **0.07/0.09** needs **12** seeds and tightening to **0.04/0.10** needs **23**, because the size band buys power at the cost of declaring size when the density summary is true. A single threshold at the midpoint is not a shortcut either: it needs **8** seeds at 5%, since one cut cannot spend the error budget on one side and the power budget on the other, and it forbids the undecided outcome the rule exists to produce — although at the looser 10% budget it wins with **4**, where refusing to decide is no longer worth its seeds. No arm, no run, no target, freeze, grant or A1 cell. `benchmarks/a1_band_frontier.py`, `tests/test_a1_band_frontier.py`, `docs/A1-BAND-FRONTIER.md`, `docs/a1_band_frontier.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 engine-side join: the level sits in the selection, not in the loop window (2026-11-14)
+
+- **The loop window is not what sets the 16-tag level, and neither is any single ordering term; the only engine-side quantity that tracks it is where the served edges sit in the engine's own final ordering, which is the selection restated.** `A1-ENGINE-SIDE-JOIN-1` joins the committed per-seed level to **17** behavioural engine-side quantities on the twelve 16-tag seeds — nine loop-window quantities (loops returned at caps 15 and 120, loops selected, possible and selected per cycle, slot share, cap pressure, saturation cycle, carrier coverage) and eight prediction-ordering quantities (mean entropy, transition probability, count, rank fraction, transition share, served and unserved probability mass) — with correlations computed **inside** each block and a permutation null that shuffles levels within blocks. Against a pre-committed rule (|pooled r| ≥ **0.6**, same sign in both blocks, permutation p ≤ **0.0029**, and the association surviving removal of the served count) the loop-window family scores **0** and the ordering family **1** — and the loop family is thinner than its count suggests, because loops at cap 15 and loops selected are the same numbers and mean loops selected per cycle is that series divided by the cycle count, leaving seven distinct series: `mean_rank_fraction_served` at r **−0.874** (blocks **−0.901** / **−0.870**), p **0.0026**, partial r **−0.963**. Everything else fails — entropy **0.380**, probability **−0.522**, count **0.471**, served probability mass **−0.166**, loop slot share **0.307**, loops at cap 120 **0.231**. The controls hold: the served count tracks at **0.832** as it must, the candidate count does not (**0.421**, p **0.181**), and the rank fraction is not the served prefix restated (r **−0.461** against the prefix's implied fraction, maximum gap **0.354**). The tracker describes the selection event rather than an independent engine parameter, so the level is located inside the selection step without a separate term that sets it; at twelve seeds a partial r of −0.96 is a description, not a mechanism. No arm, no run, no target, freeze, grant or A1 cell. `benchmarks/a1_engine_side_join.py`, `tests/test_a1_engine_side_join.py`, `docs/A1-ENGINE-SIDE-JOIN.md`, `docs/a1_engine_side_join.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 split-block power: nine seeds per block decide the differential at 20% (2026-11-14)
+
+- **The pair-split differential needs about **9** seeds per block — **18** seeds — to land either branch of the committed band rule at a 20% wrong-decision rate, and the committed design of **6** per block reaches the size branch but not the density one.** `A1-SPLIT-POWER-1` reads the predictions, bands and frozen coefficients from `A1-OFFSET-DISCRIMINATOR-SPEC-1` and the per-seed SDs from the committed within-block and offset-predictor artifacts, and computes exact two-sample *t* power for the split-32 minus split-48 offset difference over a **4**-point SD grid and rates of **20 / 10 / 5%**. The two branches are not equally expensive: the size branch needs **6** seeds and the density branch **9**, because the density branch has to clear the **0.09** ceiling, which sits only **0.0264** below the **0.1164** predicted difference, while the size branch only has to land inside a **0.05** band around zero — the rule's band edges, not the model gap, set the cost. At the primary per-seed SD **0.066656** (fitted seed-level LOO RMSE) the committed six seeds give a difference SE of **0.0385**, **0.818** power on the size branch and **0.767** on the density branch, with **0.013** chance of declaring density when size is true, **0.043** of the reverse, and undecided rates of **0.078** and **0.190**. Across the measured per-seed SDs (**0.0357**–**0.0728**) the same rate asks for **2**–**11** seeds per block, so **11** is the defensible number and **9** the fitted-SD one; a paired design on the same seeds scales the requirement by (1 − ρ) and falls to **4** at ρ 0.5. The cheaper alternative — one block's level against predictions that differ by **0.349** and **0.465** — needs only **2** seeds per block, but inherits the level-transfer failure measured in `84ce329`; the differential is the more expensive estimand because it is the one robust to that shift. No arm, no run, no target, freeze, grant or A1 cell. `benchmarks/a1_split_power.py`, `tests/test_a1_split_power.py`, `docs/A1-SPLIT-POWER.md`, `docs/a1_split_power.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 cap-112 ordering term: entropy gates the window but cannot pick `flip_q` (2026-11-14)
+
+- **The target-entropy term is what keeps these edges out of the cap-112 window, but it cannot be what selects `flip_q` over `flip_p`: entropy is computed once per source, so edges out of the same source share it and the family split has to fall to the probability and count terms that follow.** `A1-CAP112-ORDERING-TERM-1` records every ranked candidate transition in the twelve 16-tag seeds — **764** edges, **691** served and **73** unserved (**65** `flip_q`, **8** `flip_p`) — with its engine rank, the entropy, probability and count the engine used, and two counterfactual ranks of the same list. Entropy is a source-level quantity: across **11,232** source-cycles that carry both a `flip_p` and a `flip_q` candidate, all **11,232** give the two the same entropy, so the term is a tie inside a source by construction. Its **level** is what moves: served candidates average **3.147** bits against **3.678** unserved, so the window fills from low-entropy sources and empties of high-entropy ones; `flip_q` candidates sit in higher-entropy sources (**3.455** against **2.942**) and serve at **0.829** against **0.979**. Inside a source the ordering falls to probability and count: **8,343** of **11,232** source-cycles give the `flip_p` edge the higher probability (**0.1229** against **0.0569** on average) and **8,491** rank it first. Removing entropy does not recover the window, because the excluded edges are low on the later terms too: re-ranking by probability alone rescues **17** of **73** and by count alone **20**, against **0** for the engine order by construction. The exclusion is therefore multi-term — an entropy-ordered window acting on a high-entropy, low-probability tail — not an entropy penalty aimed at `flip_q`. Both counterfactual orderings re-rank frozen lists and are analysis, not runs. Every seed reproduces the committed cap-112 **A / K / A∩K** and the engine order reproduces its served transition set, or the build refuses. No target, freeze, grant or A1 cell. `benchmarks/a1_cap112_ordering_term.py`, `tests/test_a1_cap112_ordering_term.py`, `docs/A1-CAP112-ORDERING-TERM.md`, `docs/a1_cap112_ordering_term.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 cap-112 unserved-edge trace: the 16-tag shortfall is `flip_q` transitions past the window (2026-11-14)
+
+- **Across all twelve 16-tag seeds A leaves 74 of 765 candidate edges unserved at cap 112, and 73 of them are transitions ranked past the window; 66 are `flip_q`.** `A1-PREDICTION-CAP112-UNSERVED-1` replays every 16-tag seed at loop cap **120** / prediction cap **112** through a recording service that re-enumerates the full candidate list with the budget raised off and then restores the real cap for selection, so the ranking recorded is the engine's own count order rather than the returned window. Served edges are **691**; unserved **74**, of which **73** are transition candidates, **0** cooccurrence candidates and **1** never became a candidate. All **74** clear the **5**-event support floor on the stream, so the window is the binding constraint. Ranks run **65–189** (median **100**): **0** in the first 56, **47** at 57–112 and **26** above 112 — transitions take the first half of the budget plus unused cooccurrence quota, so a rank inside the nominal 112 can still be outside the window. Families split **66 `flip_q` / 8 `flip_p`**, serve rates **0.827** against **0.979**, so the window loses `flip_q` edges **8.3×** as fast; the single non-candidate is `slate>willow` (current-16 `20630103`, stream support **16**). Every unserved edge is already carried by K, so the shortfall is prediction-side, not carrier-side. The observation is behaviour-neutral: every seed's candidate, A, K and A∩K counts must reproduce the committed cap-112 artifact or the build refuses. No target, freeze, grant or A1 cell. `benchmarks/a1_prediction_cap112_unserved.py`, `tests/test_a1_prediction_cap112_unserved.py`, `docs/A1-PREDICTION-CAP112-UNSERVED.md`, `docs/a1_prediction_cap112_unserved.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-DISPOSITION-MEMO.md`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `docs/A1-PARK-RECOMMENDATION.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 cap-response seed holdout: size does not predict an unseen block (2026-11-14)
+
+- **A fresh 16-tag block with fresh-16's candidate size lands below fresh-16, so candidate size replaces the block label only inside the fitted blocks.** `A1-CAP-RESPONSE-SEED-HOLDOUT-1` measures a new block, **20670101-20670106**, at the fitted caps **20/40/80/112**, with the candidate stream derived by the committed fixed rule (`a1_target_selection.run_seed`, `boundary_safe=True`, no K or A screening) rather than by target selection. The frozen candidate-size offset predicts the four cells with RMSE **0.0321** (max **0.0432**, mean residual **-0.0313**), against a 16-tag leave-one-cell-out error of **0.0216** for the curve with free block offsets and **0.0184** for the size model. The 24 seed-by-cap values give RMSE **0.0592** (max **0.1153**), inside the 16-tag seed LOO of **0.0747**, so per-seed scatter is no worse than at fitting time while the level is. The block's mean log candidate size, **4.156258**, is exactly fresh-16's, so the model assigns it fresh-16's offset (**0.4128**) and cannot tell the two blocks apart — yet its coverage, **0.5797/0.6789/0.8096/0.8826** at caps 20/40/80/112 against current-16's **0.6362/0.7356/0.8299/0.9032**, sits **0.0171 to 0.0369** below the fresh-16 bracket at every cap. Applying a known 16-tag offset instead is no better in kind (cell RMSE **0.0392** current-16, **0.0260** fresh-16, both outside the 16-tag LOO). Two blocks of equal candidate size therefore have different levels: candidate size is a between-block summary within the fitted set, not the quantity that sets a new block's offset. Cap 80 on two committed seeds reproduces their committed counts. No target, freeze, grant or A1 cell. `benchmarks/a1_cap_response_seed_holdout.py`, `tests/test_a1_cap_response_seed_holdout.py`, `docs/A1-CAP-RESPONSE-SEED-HOLDOUT.md`, `docs/a1_cap_response_seed_holdout.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-DISPOSITION-MEMO.md`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `docs/A1-PARK-RECOMMENDATION.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 cap-80 selection trace (2026-11-14)
+
+- **The cap-80 overlap loss is the 120-loop rank cut plus the 40-slot transition half-budget.** `A1-PREDICTION-CAP80-SELECTION-1` traces every excluded edge at loop cap **120** / prediction cap **80**. All **104/104** A\K edges are eligible 2-/3-cycles whose best loop rank is **121–848**, above `MAX_LOOPS=120`; none lacks a cycle and none is carried by a dream. On the A side, **254/338** K\A edges are transitions ranked **41–383**, outside the cap-80 `transition_budget=40`; **68** are below `PREDICTION_MIN_COUNT=5`, **16** never become prediction candidates, and **0** are cooccurrence-quota losses. The K-side loss is the entropy-ranked loop window, often on edges A serves at rank 1; the A-side loss is mostly the transition quota, with a smaller support-floor component. The exact edge/reason lists are in the artifact. No target, freeze, grant or A1 cell. `benchmarks/a1_prediction_cap80_selection.py`, `tests/test_a1_prediction_cap80_selection.py`, `docs/A1-PREDICTION-CAP80-SELECTION.md`, `docs/a1_prediction_cap80_selection.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-DISPOSITION-MEMO.md`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `docs/A1-PARK-RECOMMENDATION.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 cap-80 larger-28 overlap (2026-11-14)
+
+- **K coverage explains both cap-80 larger-28 joint failures.** `A1-PREDICTION-CAP80-OVERLAP-1` decomposes the six larger-28 seeds at loop cap **120** / prediction cap **80**: A **498**, K **732**, A∩K **394**, A\K **104**, K\A **338**; marginal C1 **6/6**, joint **4/6**. The failures are `20660102` (A **75**, K **124**, A∩K **56**, A\K **19**) and `20660103` (A **83**, K **105**, A∩K **51**, A\K **32**). Both clear A marginally, so their deficit is entirely overlap loss; only **4** and **9** A\K edges need K coverage to reach 60. K volume is not scarce (K exceeds A on both), but K coverage of A is **74.7%** and **61.4%** against at least **79.1%** on the four passes, and full K coverage would give joint **75/83**. The failure is selective K coverage, not A scarcity; the K\A pools (**68/54**) are the alternative prediction-side repair. The artifact includes every A\K and K\A edge with support and A rank. No target, freeze, grant or A1 cell. `benchmarks/a1_prediction_cap80_overlap.py`, `tests/test_a1_prediction_cap80_overlap.py`, `docs/A1-PREDICTION-CAP80-OVERLAP.md`, `docs/a1_prediction_cap80_overlap.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-DISPOSITION-MEMO.md`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `docs/A1-PARK-RECOMMENDATION.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 cap-112 16-tag decomposition (2026-11-14)
+
+- **The ten failing 16-tag seeds are missing 69 edges; all are support-eligible transitions and 62/69 are `flip_q`.** `A1-PREDICTION-CAP112-DECOMPOSE-1` decomposes the ten seeds at loop cap **120** / prediction cap **112**. All **69** A-missing candidates have support **>=5**; all 69 are transition candidates and none is a cooccurrence. The A rate is **97.8%** for `flip_p` (**7** missing) and **80.5%** for `flip_q` (**62** missing); at matched support **16+**, flip_p is **311/318** and flip_q **149/182**. Served A ranks are **455** at 1–20, **62** at 21–40, **37** at 41–56, and **14** at 57–112. A diagnostic cap **1000** locates all 69 missing edges at ranks **65–189** (44 at 57–112, 25 above 112), but cap 1000 also changes reinforcement across cycles, so it is not a pure window cutoff. Reading: raw support is not the floor; the stable discriminator is the **`flip_q` transition family** being ranked out of the 112-row window. This is descriptive, not an A1 cell; no target, freeze, grant or run. `benchmarks/a1_prediction_cap112_decompose.py`, `tests/test_a1_prediction_cap112_decompose.py`, `docs/A1-PREDICTION-CAP112-DECOMPOSE.md`, `docs/a1_prediction_cap112_decompose.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-DISPOSITION-MEMO.md`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `docs/A1-PARK-RECOMMENDATION.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 prediction cap 112 (2026-11-14)
+
+- **The shipped prediction cap clears 2/12 16-tag seeds and 6/6 larger-28; joint C1 reaches 8/18.** `A1-PREDICTION-CAP-112-1` holds loop cap **120** and runs prediction caps **40/80/112** on the same 18 seeds. A rises **913 → 1,129 → 1,269** while K stays **1,498 → 1,497 → 1,497**; A∩K rises **842 → 1,025 → 1,150**. Marginal/joint C1 is **2/0** at cap 40, **6/4** at 80, and **8/8** at 112. In the 16-tag blocks only `20630103` (**60**) and `20650104` (**63**) clear; the other **10** seeds fail with a maximum of **59**. Larger-28 clears **6/6**, minimum **60** (`20660103`). At cap 112 every passing seed is A-bound and overlap no longer removes a marginal pass, but **10/12** 16-tag seeds remain below 60. Cap 40 and cap 80 reproduce their committed controls exactly. This is availability-only, not an A1 cell; no target, freeze, grant or run. `benchmarks/a1_prediction_cap_112.py`, `tests/test_a1_prediction_cap_112.py`, `docs/A1-PREDICTION-CAP-112.md`, `docs/a1_prediction_cap_112.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-DISPOSITION-MEMO.md`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `docs/A1-PARK-RECOMMENDATION.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 prediction-cap C1 (2026-11-14)
+
+- **The prediction cap moves A while K stays flat; joint C1 reaches 4/18 at cap 80.** `A1-PREDICTION-CAP-C1-1` holds loop cap **120** and varies only the prediction cap **20/40/80** on the same 18 seeds. A rises **744 → 913 → 1,129** while K is flat **1,499 → 1,498 → 1,497**. The marginal C1 ceiling `min(A,K)` passes **0 → 2 → 6 /18**; the joint A∩K ceiling passes **0 → 0 → 4 /18**. At cap 80 all four joint passes are larger-28 (`20660101` **68**, `20660104` **77**, `20660105` **72**, `20660106` **70**), while `20660102` (**56**) and `20660103` (**51**) fail on overlap. Both 16-tag blocks remain **0/6** (joint max **59** and **58**). The cap-40 rows reproduce the committed cap-120 C1 rows exactly for A, K and A∩K. Reading: the prediction path is a real lever, unlike the loop cap's effect on A; but cap 80 does not make C1 jointly reachable in the 16-tag worlds, and overlap costs two larger-28 seeds that pass marginally. This is availability-only, not an A1 cell; no target, freeze, grant or run. `benchmarks/a1_prediction_cap_c1.py`, `tests/test_a1_prediction_cap_c1.py`, `docs/A1-PREDICTION-CAP-C1.md`, `docs/a1_prediction_cap_c1.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-DISPOSITION-MEMO.md`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `docs/A1-PARK-RECOMMENDATION.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 C1 at loop cap 120 (2026-11-14)
+
+- **At a 120-loop window, A is the C1 binding path on every seed and C1 still fails 16/18.** `A1-C1-CAP120-1` replays the same **18** candidate streams at loop caps **15/120**, prediction cap fixed at **40**. At cap 15: A **913**, K **714**, C1 pass **0/18**, with K binding on **16**, A on **1** and a tie on **1**. At cap 120: A **913**, K **1,498**, marginal C1 pass **2/18** and joint A∩K **0/18**, with A binding on **18** and K on **0**. The C1 ceiling range moves **23–55 → 31–67**; only larger-28 seeds `20660104` (**67**) and `20660105` (**66**) clear 60, while both 16-tag blocks remain **0/6**. The A edge set is identical at both caps: the loop window changes K only. Reading: widening the loop window removes K as the C1 blocker, but C1 then becomes prediction-path-limited; widening loops alone does not make C1 viable. This is availability-only, not an A1 cell; no target, freeze, grant or run. `benchmarks/a1_c1_cap120.py`, `tests/test_a1_c1_cap120.py`, `docs/A1-C1-CAP120.md`, `docs/a1_c1_cap120.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-DISPOSITION-MEMO.md`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `docs/A1-PARK-RECOMMENDATION.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 loop-cap counterfactual (2026-11-14)
+
+- **The 15-loop window causes the candidate-K ceiling, but it is not a fixed K quota.** `A1-LOOP-CAP-COUNTERFACTUAL-1` replays the same **18** no-arm worlds and candidate streams at loop caps **15/30/60/120**, overriding only `MAX_LOOPS` on the service instance. Candidate K rises **714 → 1,001 → 1,294 → 1,498**; net gains against the cap-15 control are **+287/+580/+784**, with **5/3/2** edges reshuffled out (**10** total). All directed K rises **3,548 → 6,608**. At cap 120 both 16-tag blocks reach **382/383** candidate K, while the 28-tag block reaches **733/1,000**, so the window still binds in the larger world. The cap-15 control reproduces the committed candidate-K sets exactly. The strict verdict is **MIXED** because the response is not lossless; the direction is **window-limited**: an **8×** cap buys **2.1×** candidate K, strongly sublinear but far from a fixed 244-row quota. This is a counterfactual diagnostic, not an A1 cell; no engine file, target, freeze, grant or run changes. `benchmarks/a1_loop_cap_counterfactual.py`, `tests/test_a1_loop_cap_counterfactual.py`, `docs/A1-LOOP-CAP-COUNTERFACTUAL.md`, `docs/a1_loop_cap_counterfactual.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-DISPOSITION-MEMO.md`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `docs/A1-PARK-RECOMMENDATION.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 carrier-supply trace (2026-11-14)
+
+- **Candidate K is bounded by the fixed 15-loop output window, not by candidate count.** `A1-K-CARRIER-SUPPLY-1` replays all **18** no-arm seeds cycle by cycle, reconstructs every 2-/3-cycle and verifies the engine's returned loop ids against its own top-15 ranking. **1,765** candidate edges yield **714** candidate K: **653** loop-carried and **61** dream-only. Of **1,717** loop-eligible candidates, **1,004** never become K; **48** never form a 2-/3-cycle at the loop floor. Every loop-carried K has best rank **1–15**; every eligible non-K ranks **16+** (median **49**, maximum **1,217**). The builder sees **1,421,231** possible loops and returns **26,932** (**1.90%**), hitting the 15-loop cap on **1,753/2,160** seed-cycles (**81.2%**). Candidate K totals are **228/242/244** across **382/383/1,000** candidate edges for current-16/fresh-16/larger-28, while engine-wide directed K sums to **3,548** against **714** candidate K. Reading: K dilution is a fixed output-window effect, not an edge shortage; the 28-tag block adds candidates without adding K. This is a no-arm trace, not a cap intervention, so it does not show that raising the window would raise K rather than reshuffle it. No target, threshold, freeze, grant or run. `benchmarks/a1_k_carrier_supply.py`, `tests/test_a1_k_carrier_supply.py`, `docs/A1-K-CARRIER-SUPPLY.md`, `docs/a1_k_carrier_supply.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-DISPOSITION-MEMO.md`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `docs/A1-PARK-RECOMMENDATION.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 absolute-K predictors (2026-11-14)
+
+- **No tested pre-run feature predicts total K across worlds; the best predictor is a post-run output.** `A1-K-TOTAL-PREDICTORS-1` joins **18** no-arm seeds from current-16, fresh-16 and larger-28. `A_available` is the best leave-one-world-out model at **4.65** K rows, only **0.16** better than the mean baseline **4.81**, and it is an output of the same baseline, not a lever. The best pre-run feature (`median_U`) is **5.45**, **0.64 rows worse** than baseline. `candidate_edges` fails catastrophically out of world (LOFO MAE **177.21**) and has rho **0.03** within the 28-tag block; support and U summaries are inconsistent across blocks. Reading: absolute K is **seed-specific** under these summaries. This rejects edge count, mean U and pre-U support as simple cross-world predictors; it does not prove no predictor exists. The next diagnostic should measure the carrier process directly. No target, threshold, freeze, grant or run. `benchmarks/a1_k_total_predictors.py`, `tests/test_a1_k_total_predictors.py`, `docs/A1-K-TOTAL-PREDICTORS.md`, `docs/a1_k_total_predictors.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-DISPOSITION-MEMO.md`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `docs/A1-PARK-RECOMMENDATION.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 park recommendation (2026-11-14)
+
+- **The evidence now supports parking the current A1 design, subject to the owner's decision.** `A1-PARK-RECOMMENDATION-1` records the current control, the fresh block and the 28-tag larger universe all failing C1 **0/6**. The larger universe reaches **158–172** independent edges but K dilutes to **23–55**; its best C1 is **55**. The recommendation preserves A1 as **not run / not identified under the current design**, freezes no target, reserves no seed, grants nothing and runs nothing. It is not a treatment result and does not close the question in principle; reopening requires a new predeclared construction that clears the preflight without selecting on K. `docs/A1-PARK-RECOMMENDATION.md`, `tests/test_a1_park_recommendation.py`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-DISPOSITION-MEMO.md`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 larger-universe candidate fails through K dilution (2026-11-14)
+
+- **A larger universe is not automatically a viable one.** `A1-LARGER-UNIVERSE-CANDIDATE-1` predeclares a **28-tag**, 7-tags-per-cell world, chosen by structural edge count after 24 tags yielded only 127–136 independent edges. The 28-tag candidate has **158–172** independent edges, but K falls to **23–55** and C1 to **23, 40, 42, 55, 47, 37**; the 20-row matching is **18, 15, 16, 26, 26, 18**. This construction fails **0/6**. It does not prove every larger world fails, but it removes “just add tags” as an assumed repair. No target is selected, frozen or run. `benchmarks/a1_larger_universe.py`, `tests/test_a1_larger_universe.py`, `docs/A1-LARGER-UNIVERSE-CANDIDATE.md`, `docs/a1_larger_universe_candidate.json`, `docs/A1-LARGER-UNIVERSE-PREFLIGHT.md`, `docs/a1_larger_universe_preflight.json`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-DISPOSITION-MEMO.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 successor candidate schema and validator (2026-11-14)
+
+- **The refusal list is now machine-checkable.** `docs/a1_successor_candidate.schema.json` is the external contract for a candidate package; `benchmarks/a1_successor_schema.py` adds the cross-row and governance checks JSON Schema cannot express: fresh seeds, K-screening and prior-exposure disclosure, duplicate/reverse-duplicate/self-loop rejection, target-selection claims, universe consistency, preflight requirement, and freeze/grant/run claims. It then runs the existing no-arm preflight as a separate gate. The live candidate is **schema-clean** but **gate-fail** at C1 **40, 37, 46, 42, 31, 38**; `--check` accepts the structural record while `--validate` is strict. No target is selected, frozen or run. `benchmarks/a1_successor_schema.py`, `tests/test_a1_successor_schema.py`, `docs/a1_successor_candidate.schema.json`, `docs/A1-SUCCESSOR-SCHEMA.md`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 successor requirements checklist (2026-11-14)
+
+- **The front door for a second candidate is now one page of hard constraints.** `A1-REDESIGN-REQUIREMENTS-1` fixes the candidate-spec fields, the **≥60 independent/C1** gate, duplicate and reverse-duplicate rejection, the **20-row** A+K matching condition when C2/C8 are in scope, one-universe consistency, preflight-before-freeze and the explicit refusal list. It records the fresh block's **0/6** failure at C1 **40, 37, 46, 42, 31, 38** and identifies a larger independent universe as the only untested redesign route. It is a reference page only: no target, seed, freeze, grant or run. `docs/A1-REDESIGN-REQUIREMENTS.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 fresh-seed successor candidate fails the no-arm preflight (2026-11-14)
+
+- **A predeclared fresh block is packaged as a candidate and tested, not adopted.** `A1-SUCCESSOR-CANDIDATE-1` fixes six contiguous seeds `20650101–20650106` without K screening; a one-seed timing probe did not alter the block, and it is not selected on high K. Each seed uses the same 16-tag compositional world and the same first-36-cycle candidate universe, then a 120-cycle no-A/K/Y baseline. The candidate fails **0/6**: independent edges are **64, 64, 64, 64, 63, 64**, K-available rows are **40, 37, 46, 42, 39, 38**, and C1 ceilings are **40, 37, 46, 42, 31, 38**; the best seed is still **14** rows short of 60. The 20-row A+K matching is feasible on **6/6** but does not repair C1. K is lower on five seeds; A is lower on `20650105` (31 vs 39), so the failure is C1 availability, not one path on every seed. The candidate uses an opt-in boundary-safe cycle correction; the registered selector and its artifacts are unchanged. No target is selected, frozen or run, no seed is reserved and no grant is issued. `benchmarks/a1_successor_candidate.py`, `tests/test_a1_successor_candidate.py`, `docs/A1-SUCCESSOR-CANDIDATE.md`, `docs/a1_successor_candidate.json`, `docs/A1-SUCCESSOR-PREFLIGHT.md`, `docs/a1_successor_preflight.json`, `docs/A1-DISPOSITION-MEMO.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 successor preflight harness (2026-11-14)
+
+- **The ≥60 K gate now has a fail-closed harness.** `A1-SUCCESSOR-PREFLIGHT-1` accepts a candidate successor universe or fresh seed block as a JSON spec with no-arm A/K rows, rejects duplicate or reverse-duplicate streams, and checks **≥60 independent edges and `min(A,K)` C1 ceiling per seed**, plus a **20-row** capacity-respecting A+K matching when C2/C8 are in scope. The no-candidate path still reports **NOT RUN** and does not substitute the current universe; the first supplied candidate is recorded in the addendum above. The current six-seed universe is included only as a **negative control**: **0/6** seeds pass, C1 ceilings **44, 31, 39, 35, 43, 36**, matching **32, 23, 36, 27, 35, 33**. A `PASS` would not freeze or authorise a run; a new protocol, freeze, seed reservation, grant and run remain separate acts. No target is selected, frozen or run. `benchmarks/a1_successor_preflight.py`, `tests/test_a1_successor_preflight.py`, `docs/A1-SUCCESSOR-PREFLIGHT.md`, `docs/a1_successor_preflight.json`, `docs/A1-DISPOSITION-MEMO.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 disposition memo: redesign vs park (2026-11-14)
+
+- **The fork is recorded with explicit requirements on both sides.** `A1-DISPOSITION-1` compares a successor protocol against parking the current branch. Redesign requires a no-arm preflight with **≥60 K-available independent rows per seed**, a consistent universe/scorer, a new pre-registration and — if C2/C8 remain in scope — **20 competent targets per seed**. At 63–64 edges that needs **93.8–95.2% K**; a larger universe lowers the required rate. Park is indicated if no fresh universe or seed block clears the floor without selecting on the same no-arm baseline, or if the only route is changing the estimator/floor without independent justification. The memo does not choose, signs nothing and leaves A1 unfrozen, ungranted and unrun; the current default is **hold**. `docs/A1-DISPOSITION-MEMO.md`, `tests/test_a1_disposition_memo.py`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 K-availability decomposition (2026-11-14)
+
+- **The K shortage is broad, pair-level and concentrated in low-U edges, not in a few tags or orientations.** `A1-K-DECOMPOSITION-1` reads the six no-arm baselines and the 382 candidate edges: A is available on **281/382** rows and K on **228/382**; **95** rows have A without K, **42** have K without A and **59** have neither. K is lower on five seeds and tied on `20630101`; the remaining shortfall to the 60-row floor is **16–29 rows** per seed. K availability rises across pooled cycle-36 U quartiles from **31.8%** to **89.1%**, but the high-U half contains only **28–31** edges per seed. K is mostly absent rather than late: **154/382** rows never form K in 120 cycles, and only **28/228** available rows first form it after cycle 60. Tag rates span **44.7–77.1%** pooled but swing from **0% to 100%** by seed, so no tag is consistently missing; **278/286** candidate/reverse pairs agree on K (**97.2%**), and the candidate universe is near-regular, so orientation and local degree are not levers. Consequence: at 63–64 edges a successor needs a **93.8–95.2%** K rate, or a larger independent universe; U enrichment alone cannot produce 60 rows. Descriptive only — no arm, no threshold, no target, no freeze, no grant, no run. `benchmarks/a1_k_decomposition.py`, `tests/test_a1_k_decomposition.py`, `docs/A1-K-DECOMPOSITION.md`, `docs/a1_k_decomposition.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 N=20 competent target-selection rule, pre-registered draft (2026-11-14)
+
+- **A fixed rule, not a selected target block.** `A1-N20-COMPETENT-1` retains the current N4 targets that pass a baseline A/K screen, fills to 20 in a fixed hash order with a three-edge endpoint cap, and fails the seed rather than fall back to a non-competent row. A capacity-respecting b-matching with the current competent N4 rows forced reaches **23–36 rows** on the six seeds, so **6/6** are feasible, but the current N4 block contributes only **12/24** rows; the **12/24** carrier- or admission-missing rows are deliberately dropped. This is a replacement estimand, not a repair of the representative target set. The screen uses the 120-cycle no-arm baseline, so it is pre-treatment but not future-blind; C1 remains 31–44. No target was selected, frozen or run. `benchmarks/a1_n20_competent_selection.py`, `tests/test_a1_n20_competent_selection.py`, `docs/A1-N20-COMPETENT-SELECTION.md`, `docs/a1_n20_competent_selection_prereg.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Addendum — A1 cell-stream dedupe and competent N20 pool (2026-11-14)
+
+- **The apparent cell-stream C1 pass is reverse-orientation duplication.** The 112-row cell stream contains **382 candidate rows + 286 reverse orientations + 4 extra orientations**; it collapses to **384 unique undirected edges**, 64 per seed. Every candidate edge is present. On unique edges the C1 ceiling remains **31–44** against the 60-row floor, so the four-seed 112-row pass is not a second universe. The candidate pool also contains **23–36 A&K-available edges per seed**, enough to construct a 20-row competent N20 block; the current N20 selection has only 5–12 clean rows, so C2/C8 is a selection problem rather than a supply problem. C1 remains unresolved. `benchmarks/a1_design_viability.py`, `tests/test_a1_design_viability.py`, `docs/A1-DESIGN-VIABILITY.md`, `docs/a1_design_viability.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Implemented — A1 design-viability report: C1 ceiling and conditional C2/C8 (2026-11-14)
+
+- **The current A1 design is not C1-capable.** `benchmarks/a1_design_viability.py` records the C1 ceiling proof: on the 63–64-edge candidate stream, the largest denominator any target selection can produce is **44, 31, 39, 35, 43, 36** per seed against the **60-row floor**, so all six seeds are unreachable even if every candidate is selected. The 112-edge cell stream reaches the floor on four seeds but not on `20630102` (59) or `20630104` (58). Target selection cannot repair C1; a new universe, seed block or C1 estimator is required. It also records the **conditional** C2/C8 target-competence result: under a baseline A/K competence reading, N4 has at most **3** clean rows per seed for a 4-row block and N20 at most **12** for a 20-row block. That is a target-selection incompatibility, not a proof that C2 or C8 must fail; C2 is a treatment gate and the no-arm baseline cannot decide whether an unblocked arm induces the missing path. The report does not freeze, grant, run or change a threshold. `benchmarks/a1_design_viability.py`, `tests/test_a1_design_viability.py`, `docs/A1-DESIGN-VIABILITY.md`, `docs/a1_design_viability.json`, `benchmarks/a1_two_path.py`, `tests/test_a1_prefreeze.py`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Implemented — N4/N20 target-viability report for C2 (2026-11-14)
+
+- **N20 does not repair C2 target viability.** `benchmarks/a1_target_viability.py` joins the committed N4/N20 target sets to the no-arm carrier-timing and baseline-availability artifacts. N4 has **10/24** carrier-missing target rows (41.7%); N20 has **52/120** (43.3%). N20 adds 96 rows, of which **42** lack a carrier, retains all 10 N4 missing rows, and leaves **0/6** C2-viable seeds in both designs. Applying C2's exact predicates, N4 has **38/96** structurally failing target cell-rows (39.6%) and N20 has **202/480** (42.1%); only 12 N4 and 54 N20 rows have both A and K and are fully C2-viable. The report records C2 as not adjudicable under either target set, keeps the N=20 freeze act on hold, and does not run, freeze, grant or score anything. `benchmarks/a1_target_viability.py`, `tests/test_a1_target_viability.py`, `docs/A1-TARGET-VIABILITY.md`, `docs/a1_target_viability.json`, `benchmarks/a1_two_path.py`, `tests/test_a1_prefreeze.py`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Implemented — no-arm baseline-availability audit for C1/C4 (2026-11-14)
+
+- **The observed C1 denominator and C4 non-target rows are now measured before freeze, and the design fails the denominator floor.** `benchmarks/a1_baseline_availability.py` replays all six registered worlds at 120 cycles with `A1ArmSleepService`, no treatment, cap 40, and records A/K/Y for every edge in the cell stream. On the candidate-protocol stream used by target selection (64/63 edges), the C1 A−/K− denominators are **44/44, 31/44, 39/52, 35/43, 43/49 and 36/49**, so the per-seed minimum is **31–52**, below the adopted 60-row floor on all six seeds; C4 non-target rows are the planned **59–60** at N=4 and **43–44** at N=20. On the current `a1_arms.run_cell` stream (112 directed edges), the minimum is **58** with seeds `20630102` and `20630104` below 60, and C4 would emit **108** N=4 and **92** N=20 non-target rows per seed. The 290-edge gap is a **design inconsistency**: the runner uses the full 120-cycle directed universe while the plan is the one-orientation, first-36-cycle candidate set. No target is frozen, no grant exists and no A1 cell has run. The N=20 freeze act is on hold. `benchmarks/a1_baseline_availability.py`, `tests/test_a1_baseline_availability.py`, `benchmarks/a1_two_path.py`, `tests/test_a1_prefreeze.py`, `docs/A1-BASELINE-AVAILABILITY.md`, `docs/a1_baseline_availability.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Resolved — C5 target timing with a fixed earlier-U sample (2026-11-14)
+
+- **C5 no longer uses the cycle-36 target-selection sample.** A no-arm replay found target carriers beginning at cycle 5, so the cycle-36 sample was post-carrier for the current targets. `A1-C5-TARGET-TIMING-1` fixes C5 at cycle 4, after the cycle-4 observations and before that sleep call; it preserves all four current targets and records no current carrier before cycle 4; 10 of 24 current observations form no carrier by cycle 120, which is left to the structural gates rather than counted as a timing failure. Cycle 36 remains the target-selection diagnostic. `a1_two_path` records both cycles, `a1_arms` samples at the earlier cycle, and `gate_c5` treats an absent carrier/K/Y as no timing violation while rejecting malformed or preceding cycles. The N=20 act is ready for signature but unsigned; the live manifest remains N=4, unresolved, unfrozen and unauthorised, and no cell has run. `benchmarks/a1_c5_target_timing.py`, `docs/A1-C5-TARGET-TIMING.md`, `benchmarks/a1_arms.py`, `benchmarks/a1_two_path.py`, `benchmarks/a1_gate_readiness.py`, `tests/test_a1_c5_target_timing.py`, `docs/A1-TARGET-FREEZE-ACT-N20.md`, `docs/A1-TARGET-SELECTION-PROTOCOL.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Implemented — complete-coverage scoring for C2, C3, C5, C7 and C9 (2026-11-14)
+
+- **The five structural A1 gates now have complete-coverage score wrappers rather than row-local checks.** `a1_arms.score_complete_gates` requires all six seeds, each gate's required cells and every expected target row; a missing cell or target row is a coverage failure, not a pass. C2 is evaluated per seed and checks both Y− cells' A/K paths; C3 requires the expected target universe across all six cells; C5 returns a failure instead of raising when a carrier/K/Y cycle is missing; C7 checks each Y− cell separately against its paired control (`Y_MINUS_A+K+` against `A+K+`, `Y_MINUS_A−K+` against `A−K+`) so one failed cell cannot be averaged away; C9 requires all six cells and one fingerprint per seed. `a1_result.assemble` adds these scores when cell parts carry target lists, using the registered N=20 target map by default. The live manifest remains N=4, unresolved and unfrozen, C5 target timing remains unresolved, and no cell has run. `benchmarks/a1_arms.py`, `benchmarks/a1_gate_readiness.py`, `benchmarks/a1_result.py`, `tests/test_a1_complete_gates.py`, `docs/A1-GATE-READINESS.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Implemented — N=20 target validation in the A1 manifest gate (2026-11-14)
+
+- **`a1_two_path` now validates the N=20 target profile as well as the existing N=4 profile.** The validator selects the profile from `targets.n_per_seed`: N=4 still requires four disjoint targets, while N=20 requires 20 unique targets per seed, permits endpoint overlap with each endpoint capped at degree 3, requires the `A1-C8-EXPANSION-1` protocol and validates the block against `docs/a1_c8_target_selection.json`. The N=20 path also rejects duplicates, malformed edges, out-of-universe targets and target sets that do not match the C8 selection artifact. The live manifest remains N=4, unresolved and unfrozen; no target is frozen, no seed is reserved and no grant exists. The `A1-TARGET-FREEZE-N20-1` target block now passes `target_set_problems`; C5 target timing remains its only blocking precondition. `benchmarks/a1_two_path.py`, `tests/test_a1_prefreeze.py`, `docs/A1-TARGET-FREEZE-ACT-N20.md`, `docs/a1_target_freeze_act_n20.json`, `docs/A1-C8-EXPANSION.md`, `docs/A1-TARGET-FREEZE-ACT.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Recorded — C1 denominator-feasibility risk as an upper bound (2026-11-14)
+
+- **C1's 63–64 planning figure is now recorded as an upper bound, not a baseline-availability estimate.** The figure is the candidate-universe count and assumes every candidate edge is available in the paired A+K+ control; the observed denominator can be lower and may fall below the adopted 60-row floor, which would make the run **VOID — `C1_DENOMINATOR_BELOW_FLOOR`**. The power review adds a dedicated risk note and a machine-readable `c1_denominator_feasibility` block. C6's K/Y_ind rates (602/672 and 586/672) and A0's hard-edge rate are explicitly labelled as observations from different seed blocks/worlds and **not** baseline-availability proxies; no unrelated percentage may estimate, bound or certify the C1 denominator. The C1 power curve is also labelled as scenario sizes, not observed availability. No threshold changed, no target is frozen, no seed reserved, no grant exists and no A1 cell has run. `benchmarks/a1_power_review.py`, `tests/test_a1_prefreeze.py`, `docs/A1-POWER-REVIEW.md`, `docs/a1_power_review.json`, `docs/A1-DENOMINATOR-RESOLUTION.md`, `docs/a1_denominator_resolution.json`, `docs/DECISION-A1-PATH-A-C1-RULE.md`, `docs/a1_path_a_c1_rule.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `docs/A1-C1-C4-VOID-GATE.md`, `docs/A1-C7-C8-DENOMINATOR.md`, `ROADMAP.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Recorded — C8 N=20 superset and C1 per-seed availability budget (2026-11-14)
+
+- **The registered C8 N=20 design now records that the live N=4 targets are a strict subset of the expansion in every seed.** The read-only comparison of `docs/a1_target_selection.json` and `docs/a1_c8_target_selection.json` finds four retained targets and 16 new rows per seed, for 20 total. The design record and machine-readable JSON carry the per-seed comparison; adopting N=20 would preserve the current target identity while moving the C4 non-target split from 59–60 to 43–44. The C1 total upper bound stays 63–64, and C1 target-only remains 20 rows, below the 60-row floor.
+- **The power review now records the per-seed C1 availability budget implied by the adopted 60-row floor.** At 64 candidate rows, at most **4** may be baseline-unavailable (required availability **93.75%**); at 63, at most **3** (required availability **95.24%**). These are floor-arithmetic limits on the candidate-count upper bound, not observed or estimated availability rates, and they do not change the VOID disposition below the floor. `benchmarks/a1_power_review.py`, `tests/test_a1_prefreeze.py`, `tests/test_a1_c8_target_selection.py`, `docs/A1-POWER-REVIEW.md`, `docs/a1_power_review.json`, `docs/A1-C8-EXPANSION.md`, `docs/a1_c8_expansion.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Drafted — N=20 target-freeze act preserving the current targets (2026-11-14)
+
+- **`A1-TARGET-FREEZE-N20-1` is drafted as the separate act that would adopt `A1-C8-EXPANSION-1` while preserving all four current Path A targets in every seed.** It records the exact 20 targets per seed from `docs/a1_c8_target_selection.json`: 120 observations, 104 unique target edges, four retained and 16 new per seed, with maximum endpoint degree 3. Signing would set the manifest target block to `FIXED BEFORE FREEZE`, set `n_per_seed` to 20 and make C8 evaluable at `1/20 = 0.05` without changing the 0.05 ceiling. C1 target-only remains 20 rows, below the 60-row floor; C4 has 43–44 non-target rows and the C1 total upper bound remains 63–64.
+- **The act is explicitly not signable yet.** C5 is unresolved: 15 of 24 current target observations have a carrier before the cycle-36 `U` sample, so the preserved four targets and the expansion rows are not C5-admissible without a registered target screen/regeneration or an earlier-`U` protocol. The live `a1_two_path` validator also still requires N=4 disjoint targets and rejects the N=20 degree-3 set. The draft records both as blocking preconditions; it freezes nothing, issues no grant, runs no cell and makes no C8 measurement. **Superseded later on 2026-11-14:** C5 target timing is cleared by the cycle-4 earlier-`U` protocol; the N=20 act is ready for signature but remains unsigned. `docs/A1-TARGET-FREEZE-ACT-N20.md`, `docs/a1_target_freeze_act_n20.json`, `docs/A1-C8-EXPANSION.md`, `docs/A1-TARGET-FREEZE-ACT.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `tests/test_a1_prefreeze.py`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Registered — C8 N=20 expansion target design (2026-11-14)
+
+- **A separate N=20 target design now resolves C8's per-seed denominator without changing the 0.05 ceiling.** `A1-C8-EXPANSION-1` selects **20 A−K− target rows per seed** from the same pre-36 acquisition universe, positive-strength/cycle-member eligibility and hash order as the four-target Path A design. Twenty disjoint edges cannot fit on 16 tags, so the design permits limited endpoint overlap while capping each tag at **three** selected targets; no target edge is repeated. The per-seed C8 step is `1/20 = 0.05`, which is not finer than the ceiling. The no-arm selection pass formed 20 rows for all six provisional seeds (maximum endpoint degree 3) and wrote `docs/a1_c8_target_selection.json` with the selected cycle-36 `U` rows and digests. The design is **REGISTERED — NOT FROZEN, NOT RUN, NO GRANT**; it does not alter the live N=4 manifest, the current four-target artifact or the C7 per-edge rate, and it does not by itself meet the 60-row C1 floor. Adopting it requires a separate target-freeze act. The audit now records the registered N=20 scenario as passing while the current N=4/N=8 scenarios remain flagged. `benchmarks/a1_target_selection.py`, `benchmarks/a1_c8_target_selection.py`, `benchmarks/a1_two_path.py`, `benchmarks/a1_denominator_audit.py`, `benchmarks/a1_gate_readiness.py`, `tests/test_a1_c8_target_selection.py`, `docs/A1-C8-EXPANSION.md`, `docs/a1_c8_expansion.json`, `docs/A1-C8-TARGET-SELECTION.md`, `docs/a1_c8_target_selection.json`, `docs/A1-C7-C8-DENOMINATOR.md`, `docs/a1_c7_c8_denominator.json`, `docs/A1-TARGET-SELECTION-PROTOCOL.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `docs/A1-TARGET-FREEZE-ACT.md`, `docs/a1_target_freeze_act.json`, `docs/A1-DENOMINATOR-RESOLUTION.md`, `docs/a1_denominator_resolution.json`, `docs/A1-GATE-READINESS.md`, `docs/a1_gate_readiness.json`, `ROADMAP.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+
+### Adopted — C7/C8 per-seed denominator unit (2026-11-14)
+
+- **C7 and C8 are evaluated per seed; C8 is the remaining design under-resolution.** `A1-C7-C8-DENOMINATOR-1` resolves the unit mismatch between the denominator audit, which applied `1/n` to each seed's own C7/C8 rows, and the readiness contracts, which pooled those rows across seeds. Pooling is rejected: one seed's 1/4 A−K− assertion rate would pool to 1/24 and appear to pass, hiding exactly the per-seed third route C8 exists to detect. C7's 0.05 margin is an A/K rate over the **120 cycles on each paired target edge** (1/120 = 0.008333), so C7 is **RESOLVED** at N=4; the 2N Y− rows are for cell completeness and the assertion-order check, not the rate denominator. C8's 0.05 ceiling is a per-target assertion rate: 4 rows at N=4 (0.25) and 8 at the N=8 maximum (0.125); C8 needs N≥20 for one-step resolution, above the 16-vertex, eight-target maximum, so C8 remains **UNDER-RESOLVED**. `gate_c7` and `gate_c8` require every seed to pass on its own rows; a seed missing either Y− cell, a paired edge or the A−K− cell is not measurable, not a pass. Target rows now emit A/K/Y cycle counts and rates; `gate_c7` computes the per-edge delta from those rates when `delta_from_baseline` is absent, so the contract can read a real cell rather than only its synthetic fixture. The audit and gate-readiness artifacts record the per-seed units and the rejected pooled counts. No threshold changed, no target is frozen, no seed is reserved, no grant exists and no cell has run. `benchmarks/a1_gate_readiness.py`, `benchmarks/a1_denominator_audit.py`, `benchmarks/a1_arms.py`, `tests/test_a1_denominator_audit.py`, `docs/A1-C7-C8-DENOMINATOR.md`, `docs/a1_c7_c8_denominator.json`, `docs/A1-GATE-READINESS.md`, `docs/a1_gate_readiness.json`, `docs/A1-DENOMINATOR-RESOLUTION.md`, `docs/a1_denominator_resolution.json`, `docs/A1-PRECOMMITTED-THRESHOLDS.md`, `docs/a1_precommitted_thresholds.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `docs/A1-TARGET-FREEZE-ACT.md`, `docs/a1_target_freeze_act.json`, `ROADMAP.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
+### Recorded — Path A estimand and C1 acceptance rule (2026-11-14)
+
+- **Path A is the recorded A1 estimand and the C1 rule is now binding:** minimum **60** paired-control available rows across all six seeds and both A−/K− paths, **three allowed losses at 60–64**, and **`VOID — C1_DENOMINATOR_BELOW_FLOOR`** at 1–59 rows, even at 59/59. Zero rows is `C1_NO_DENOMINATOR`; above 64 is a design inconsistency. The rule does not freeze targets, reserve seeds, grant a run or observe C1/C4. `benchmarks/a1_power_review.py`, `docs/A1-POWER-REVIEW.md`, `docs/a1_power_review.json`, `docs/DECISION-A1-PATH-A-C1-RULE.md`, `docs/a1_path_a_c1_rule.json`, `docs/A1-C1-C4-VOID-GATE.md`, `docs/a1_c1_c4_void_gate.json`, `docs/DECISION-A1-PATH-A-C1-C4.md`, `docs/a1_owner_decision_memo.json`, `docs/A1-PROVISIONAL-FREEZE-GATE-ORDER.md`, `docs/a1_provisional_freeze_gate_order.json`, `docs/A1-TARGET-FREEZE-ACT.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `tests/test_a1_prefreeze.py`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Prepared — Path A target-freeze act (2026-11-14)
+
+- **A separate unsigned target-freeze act now records the exact six Path A target sets without freezing the live manifest.** The act fixes 24 observations across 23 unique edges, the per-seed selection digests and the artifact SHA-256; on signature it would set the manifest target block to `FIXED BEFORE FREEZE`, freeze the manifest and reserve the six-seed block. It does not issue a grant, open a database or run a cell, and C1/C4 remain unobserved. The live manifest is unchanged: **NOT FROZEN**, targets **UNRESOLVED**, seeds **PROVISIONAL**, authorisation false. `benchmarks/a1_power_review.py`, `docs/A1-POWER-REVIEW.md`, `docs/a1_power_review.json`, `docs/A1-TARGET-FREEZE-ACT.md`, `docs/a1_target_freeze_act.json`, `docs/A1-TARGET-SELECTION-PROTOCOL.md`, `docs/DECISION-A1-PATH-A-C1-C4.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `tests/test_a1_prefreeze.py`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Drafted — single owner memo for Path A and C1/C4 ordering (2026-11-14)
+
+- **One unsigned owner decision memo now records Path A and resolves C1/C4 as post-freeze VOID gates.** The memo fixes the order freeze → grant → run → measure C1/C4 → PASS or VOID, rejects pre-freeze admissibility because it would require circularity, an unregistered diagnostic or an assumed denominator, and defines what a VOID run means: no model, no M1 branch, no capability/transfer claim, C7/C8 not adjudicated, seeds/cells consumed, no rescue or retry. It remains **DRAFT — AWAITING OWNER SIGNATURE**; the targets remain draft, no freeze, seed reservation, grant or run is recorded, and the 60-row floor remains a separate **PROPOSED — NOT ADOPTED** rule. `benchmarks/a1_power_review.py`, `docs/A1-POWER-REVIEW.md`, `docs/a1_power_review.json`, `docs/DECISION-A1-PATH-A-C1-C4.md`, `docs/a1_owner_decision_memo.json`, `docs/A1-PROVISIONAL-FREEZE-GATE-ORDER.md`, `docs/A1-C1-C4-VOID-GATE.md`, `docs/A1-C4-GATE-ORDER.md`, `docs/A1-TARGET-SELECTION-PROTOCOL.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `tests/test_a1_prefreeze.py`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Drafted — provisional freeze and C1/C4 gate order (2026-11-14)
+
+- **A draft decision now sets out a provisional Path A target freeze followed by a post-freeze C1/C4 VOID gate.** “Provisional” describes the result's evidentiary status, not revocable target identity: the targets are fixed before the grant, and a C1/C4 failure VOIDs the run without unfreezing them or licensing re-selection. The draft defines the gate order, the six C1/C4 VOID conditions, and what a VOID run means — no model label, no M1 branch, no capability/transfer/generalization claim, C7/C8 not adjudicated, seeds and cells consumed, no rescue or retry. It remains **DRAFT — NOT DECIDED**; the current `DO NOT FREEZE`, C4-only gate order and draft targets remain in force, and no seed, grant or cell is authorised. The 60-row denominator floor remains a separate **PROPOSED — NOT ADOPTED** companion rule. `benchmarks/a1_power_review.py`, `docs/A1-POWER-REVIEW.md`, `docs/a1_power_review.json`, `docs/A1-PROVISIONAL-FREEZE-GATE-ORDER.md`, `docs/a1_provisional_freeze_gate_order.json`, `docs/A1-C1-C4-VOID-GATE.md`, `docs/A1-C4-GATE-ORDER.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `tests/test_a1_prefreeze.py`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Recorded — Path A A1 estimand (2026-11-14)
+
+- **The A1 target-selection protocol and freeze-decision log now record Path A.** Path A is the representative eligible pre-37 cycle-membership directed-edge effect already implemented by the selector. Path B — the high-carrier-propensity, hard-edge or carrier-enriched effect — is not selected and would require a new selector, target artifact and registered design. Recording Path A does not regenerate targets, freeze the manifest, reserve a seed, issue a grant or authorise a cell; the six existing target sets remain **DRAFT — NOT FROZEN**, and the freeze decision remains **DO NOT FREEZE (2026-11-14)**. `benchmarks/a1_power_review.py`, `docs/a1_power_review.json`, `docs/A1-POWER-REVIEW.md`, `docs/A1-TARGET-SELECTION-PROTOCOL.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
+### Proposed — C1 60-row denominator floor (2026-11-14)
+
+- **The power review now turns the 59→60 cliff into a proposed pre-run decision rule.** The rule uses the minimum paired-control available denominator across all six seeds and both `A−` and `K−` paths. At 60–64 rows the C1 gate may be read with three allowed losses; at 20–59 rows the run is **VOID — `C1_DENOMINATOR_BELOW_FLOOR`**, even if every available row is retained; at 0 rows it is `C1_NO_DENOMINATOR`; and above 64 is a design inconsistency. The rule is **PROPOSED — NOT ADOPTED**: no target is frozen, no grant exists and no cell has run. It is linked to the C1/C4 VOID-gate draft and would need a dated owner adoption before target freeze. `benchmarks/a1_power_review.py`, `docs/a1_power_review.json`, `docs/A1-POWER-REVIEW.md`, `docs/A1-C1-C4-VOID-GATE.md`, `docs/a1_c1_c4_void_gate.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
+### Added — C1 denominator impact and required-retention scenarios (2026-11-14)
+
+- **The C1 power review now shows the denominator-impact table, the 60-row cliff and the retention required for stated all-six-seed power.** At `q=.95`, the all-six probability is **0.000039** at 59 rows and **0.005409** at 60 rows, a **138.69x** step. The step comes from the loss boundary: 59 rows allow 2 losses at an effective floor of 0.9661, while 60 rows allow 3 losses at 0.95. The table also shows that 63 and 64 rows give 0.002807 and 0.002239 at `q=.95`. Required-retention scenarios for all-six power of 50%, 80%, 90% and 95% are recorded for every denominator; at 63 rows, 80% power needs `q=.984017` and 50% needs `q=.977154`. These are reference calculations under independent Bernoulli retention, not observed rates. No cell has run and the freeze decision is unchanged. `benchmarks/a1_power_review.py`, `docs/a1_power_review.json`, `docs/A1-POWER-REVIEW.md`, `tests/test_a1_prefreeze.py`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
+### Adopted — 60-row C1 floor and C1/C4 VOID gate (2026-11-14)
+
+- **The 60-row denominator floor and the C1/C4 post-freeze VOID gate are now one dated owner decision.** `A1-C1-C4-VOID-GATE-1` is **ADOPTED — BINDING FOR A1**. C1 and C4 are one validity test: either failing or being unmeasurable makes the run **`A1 VOID — C1/C4`** with reason codes, before any model is read. The readiness contract now classifies C1 failure and unmeasurability as **VOID**, and `a1_result.assemble` returns **PASS/VOID**, carrying `void_gates` and `reason_codes`. The target freeze, seed reservation, grant and run remain separate owner acts; no cell has run. `benchmarks/a1_gate_readiness.py`, `benchmarks/a1_result.py`, `docs/A1-C1-C4-VOID-GATE.md`, `docs/a1_c1_c4_void_gate.json`, `docs/DECISION-A1-PATH-A-C1-RULE.md`, `docs/a1_path_a_c1_rule.json`, `docs/A1-C4-GATE-ORDER.md`, `docs/a1_c4_gate_order.json`, `docs/DECISION-A1-PATH-A-C1-C4.md`, `docs/a1_owner_decision_memo.json`, `docs/A1-PROVISIONAL-FREEZE-GATE-ORDER.md`, `docs/A1-GATE-READINESS.md`, `docs/a1_gate_readiness.json`, `tests/test_a1_c4.py`, `tests/test_a1_prefreeze.py`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
+### Added — 80% C1 power-design criterion (2026-11-14)
+
+- **C1 now records an 80% all-six-seed power target and its required retention.** At the planned 63-row denominator, the independent Bernoulli model needs a common retention of **q=0.984017** for 80% all-six power; at 64 rows it needs **0.984271**, and at the 60-row floor **0.983204**. The criterion is recorded in `DECISION-A1-PATH-A-C1-RULE.md` and the power review, is not an observed retention, and is not a second post-run acceptance gate. The 0.95 preservation rule and 60-row floor are unchanged; no freeze, grant, seed reservation or cell. `benchmarks/a1_power_review.py`, `docs/a1_power_review.json`, `docs/A1-POWER-REVIEW.md`, `docs/DECISION-A1-PATH-A-C1-RULE.md`, `docs/a1_path_a_c1_rule.json`, `tests/test_a1_prefreeze.py`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
+### Added — C1 correlation sensitivity (2026-11-14)
+
+- **The C1 power curve now includes correlated A/K paths and correlated seeds as sensitivity scenarios.** The independent Bernoulli curve remains the baseline; a Gaussian copula joins the A- and K- pass indicators within a seed at `rho_paths`, and a one-factor Gaussian copula joins the six seed-pass indicators at `rho_seeds`. At `n=63, q=.95`, independent paths and seeds give per-seed **0.375577** and all-six **0.002807**; A/K path correlation `.5` raises per-seed to **0.453562**; seed correlation `.5` raises all-six to **0.073188**; both at `.5` give **0.113341**. Positive seed correlation raises all-six because the seeds share a fate, while also raising the chance that none pass. The correlations are sensitivity settings, not estimates from A1; no cell has run and the freeze decision is unchanged. `benchmarks/a1_power_review.py`, `docs/a1_power_review.json`, `docs/A1-POWER-REVIEW.md`, `tests/test_a1_prefreeze.py`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
+### Added — C1 power curve in the A1 power review (2026-11-14)
+
+- **The power review now shows C1 pass probability against the denominator, with the assumed retention rate stated for every curve.** The generated review records a reference curve for `n = 4, 20, 56, 59, 60, 63, 64` at `q = 0.95, 0.97, 0.98, 1.00` under independent Bernoulli retention. It reports one-arm, one-seed and all-six-seed probabilities; the all-six column is the actual gate shape because C1 must pass on every seed. At `q = 0.95, n = 63`, one arm passes with probability **0.613**, both arms on one seed **0.376**, and all six seeds **0.003**; at `q = 0.98`, the all-six probability is **0.632**. The target-only four-row fallback is **0.085** at `q = 0.95` and **0.379** at `q = 0.98`. A denominator of 20 is the smallest listed value that can still pass with one loss. These are **assumed** retention rates, not A1 measurements; no cell has run and the observed denominator remains unknown. The curve does not change the freeze decision, the planned 63–64 rows, or the C4 gate order. `benchmarks/a1_power_review.py`, `docs/a1_power_review.json`, `docs/A1-POWER-REVIEW.md`, `tests/test_a1_prefreeze.py`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
+### Drafted — C1/C4 post-freeze VOID gate (2026-11-14)
+
+- **A draft decision would make either C1 or C4 failing or unmeasurable void the whole A1 run.** `docs/A1-C1-C4-VOID-GATE.md` proposes one post-freeze result-validity test: freeze targets, grant the run, execute the planned cells, then assemble C1 and C4 from actual parts. C1 failure is no longer `NOT IDENTIFIED`, and C1/C4 unmeasurability is no longer `UNSATISFIABLE`; either becomes `A1 VOID — C1/C4` with explicit reason codes (`C1_NO_DENOMINATOR`, `C1_THRESHOLD`, `C4_UNMEASURABLE`, `C4_DELTA`, `C1_C4_INCOMPLETE`). A VOID run selects no model, assigns no M1 branch, makes no negative or capability claim, does not adjudicate C7/C8, consumes the seeds and cells, and cannot be rescued by a passing gate or a post-hoc denominator expansion. The record is **DRAFT — NOT DECIDED**; the current C4-only decision and C1 result-gate disposition remain in force until a dated owner adoption. No target is frozen, no seed reserved, no grant exists and no cell has run. `docs/A1-C1-C4-VOID-GATE.md`, `docs/a1_c1_c4_void_gate.json`, `docs/A1-C4-GATE-ORDER.md`, `docs/a1_c4_gate_order.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
+### Added — observed C1/C4 denominator assembly (2026-11-14)
+
+- **`a1_result --parts` now reads actual A1 cell files and reports the denominator it actually observed.** The command loads every `a1_two_path_cell` part in the parts directory, excluding controls, and prints the observed C1 A- and K- row counts and the C4 row/measured counts before the PASS/FAIL detail. The assembly object gains `observed_denominator` with the part, seed and cell coverage plus per-seed C1 counts. An empty or missing parts directory now prints **NOT RUN — no cell parts** and exits 2 instead of rendering a zero-row PASS/FAIL; `--parts` with no path uses `a1_arms.PARTS`, and the synthetic fixture still reports its 20/20 C1 and 48-row C4 denominators. No cell has run, so the observed A1 denominator remains unknown; this is a read-only assembly command, not a result. `benchmarks/a1_result.py`, `tests/test_a1_c4.py`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
+### Adopted — the 0.x engineering charter is in force (2026-11-14)
+
+- **The owner adopted the bounded 0.x engineering charter as a dated decision.** `docs/DECISION-0X-ENGINEERING-CHARTER.md` records **ADOPTED — IN FORCE** and adopts `docs/0X-ENGINEERING-CHARTER.md`; its Category A–F changes, version rules, one-guard-per-failure budget, A1 boundary and stop conditions now apply to 0.x work. The decision does not bump 0.15.0, pre-allocate 0.16–0.20, change an engine file, select an A1 target, freeze the manifest, issue a grant or create a claim. A1 remains unrun and every experiment state is unchanged. `docs/DECISION-0X-ENGINEERING-CHARTER.md`, `docs/0X-ENGINEERING-CHARTER.md`, `docs/decisions.json`, `docs/DECISIONS.md`, `docs/research_question_registry.json`, `docs/RESEARCH-QUESTION-REGISTRY.md`, `ROADMAP.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
+### Drafted — bounded 0.x engineering charter (2026-11-14)
+
+- **The 0.x line now has a proposed engineering boundary, not an adopted policy.** `docs/0X-ENGINEERING-CHARTER.md` separates record, test/CI, instrumentation, engine-behavior, packaging and publication changes; requires a named failure or scheduled experiment before adding a guard; limits a release to one primary objective; forbids post-outcome threshold, target, endpoint or seed changes; and records stop conditions for V2, G9, release, A1 and live-database work. It keeps A1 target selection, freeze and grant as separate experimental acts, and it explicitly does not pre-allocate 0.16–0.20. The charter is **DRAFT — NOT ADOPTED, NOT IN FORCE**, creates no version, engine change, seed, cell, grant or claim, and leaves 0.15.0 and every experiment state unchanged. `docs/0X-ENGINEERING-CHARTER.md`, `ROADMAP.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
+### Recorded — A1 freeze readiness remains OPEN, PASS: NO (2026-11-14)
+
+- **The N = 4 review records that freeze readiness cannot move from OPEN to PASS.** C6 prevalence is adequate at **602/672 K** and **586/672 Y_ind**, but four target rows make the precommitted 0.95 C1 floor a 100% rule; C4 non-target rows are instrumented, yet no cell has run. The review artifact records `freeze_readiness.status = OPEN`, `pass = false`, `can_move_now = false`, blocking gate `C1_path_separation`, and the three conditions needed for PASS: run the cells with the C4 stream, attach paired deltas and score C1/C4, and show C1 at or above 0.95 with a denominator larger than four and C4 at or below 0.05. The checklist, compliance report, roadmap and manual carry the same status. **No target is frozen, no seed is reserved, no grant exists and no A1 cell has run.** `docs/A1-POWER-REVIEW.md`, `docs/a1_power_review.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `ROADMAP.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
+### Reviewed — A1 audit and power review rerun with the planned C4 denominator (2026-11-14)
+
+- **The power review now uses the A1 candidate counts, not the larger C6 world, to size the planned C1 denominator.** The six A1 candidate universes contain 63–64 edges; after removing four target rows, C4 would contribute **59–60 non-target rows per seed** and **358 total**; adding the four target rows gives a planned **C1 denominator of 63–64 per seed** and **382 total**. At the 0.95 floor that permits **3 losses per seed** (`floor(63 × 0.05) = 3`, `floor(64 × 0.05) = 3`), not the zero losses of the four-row design. This is a **planned** denominator: only baseline-available edges enter C1, so the observed denominator will be at most 63–64 and cannot be known until cells run. The review still records **FREEZE READINESS OPEN**, `can_move_now: false`, **DO NOT FREEZE**, and **NO — HOLD AS DRAFT UNTIL C1/C4 ARE MEASURED**. The six-seed adversarial audit was re-run and remains **P0 PASS — SIX-SEED FEASIBILITY AND BLINDNESS**; it does not measure C1 and its artifact is unchanged. No target is frozen, no seed is reserved, no grant exists and no cell has run. `benchmarks/a1_power_review.py`, `docs/a1_power_review.json`, `docs/A1-POWER-REVIEW.md`, `benchmarks/a1_adversarial_audit.py`, `docs/a1_adversarial_audit.json`, `docs/A1-ADVERSARIAL-AUDIT.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
+### Audited — A1 denominator resolution (2026-11-14)
+
+- **A new read-only audit flags every A1 gate whose 0.05-scale threshold is finer than its planned denominator.** The rule is `1/n` versus the gate margin: for a 0.95 floor the margin is 0.05, and for a 0.05 ceiling the margin is 0.05. The target-only C1 fallback (4 rows), C7 (8 Y− rows) and C8 (4 A−K− rows) are flagged; the expanded C1 denominator (63–64 planned rows) and the C4 non-target denominator (59–60) pass the resolution test. C2, C3, C5, C6 and C9 are structural checks without a numeric threshold. The audit records the planned values only; the observed baseline-available C1 denominator is still unknown and no cell has run. `benchmarks/a1_denominator_audit.py`, `tests/test_a1_denominator_audit.py`, `docs/a1_denominator_resolution.json`, `docs/A1-DENOMINATOR-RESOLUTION.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
+- **The denominator-resolution audit now adds an N=8 maximum-feasibility scenario.** Eight disjoint targets use all 16 tag vertices and are feasible in every seed. At that maximum, C7 becomes **16 Y− rows** (step **1/16 = 0.0625**) and C8 becomes **8 A−K− rows** (step **1/8 = 0.125**); both remain above the 0.05 margin, so **C7/C8 remain under-resolved**. C1 target-only at 8 rows is also flagged (7/8 = 0.875); expanded C1 at 63–64 rows and C4 at 55–56 rows still pass. The audit remains read-only and records planned denominators only; it measures neither C7 nor C8 and no cell has run. `benchmarks/a1_denominator_audit.py`, `tests/test_a1_denominator_audit.py`, `docs/a1_denominator_resolution.json`, `docs/A1-DENOMINATOR-RESOLUTION.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
+- **The denominator-resolution audit now has a post-run update from actual A1 parts.** `python -m benchmarks.a1_denominator_audit --parts [DIR]` loads cell files through the existing `a1_result` loader and recomputes the observed C1 paired-control denominator, C4 distinct non-target edges, C7 Y− blocked rows and C8 A−K− rows. It writes separate `A1-DENOMINATOR-RESOLUTION-OBSERVED.md` and `a1_denominator_resolution_observed.json` records, never overwriting the planned audit. The minimum observed denominator per gate is used; unavailable values are **UNMEASURED**, not zero; partial planned-cell coverage is labelled; an empty parts directory is **NOT RUN**, exit 2. The observed record is a denominator statement, not a C7/C8 verdict or an A1 PASS/FAIL, and C1's separate 60-row floor still applies. No A1 parts exist in the repository, so the observed record is not generated here. `benchmarks/a1_denominator_audit.py`, `tests/test_a1_denominator_audit.py`, `docs/A1-DENOMINATOR-RESOLUTION.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
+### Decided — C4 is a post-freeze VOID gate (2026-11-14)
+
+- **C4 was removed from the pre-freeze admissibility set and recorded as a post-freeze VOID gate.** C4 is an interference check on executed edge-level arms, not a property of the target set; requiring it before freeze would either force a circular freeze or an unregistered diagnostic run. The decision records the sequence: freeze the representative targets separately, record the dated grant, run the planned cells, then `a1_result.assemble` C1/C4. A measurable non-target A/K/Y delta above **0.05**, or an unmeasurable non-target stream, makes the A1 run **VOID**. C1 is scored in the same post-freeze assembly and uses the C4 denominator. The decision **does not** freeze the targets, reserve a seed, grant a run or produce evidence; the targets remain draft and the manifest unfrozen. `docs/A1-C4-GATE-ORDER.md`, `docs/a1_c4_gate_order.json`, `benchmarks/a1_gate_readiness.py`, `docs/a1_gate_readiness.json`, `docs/A1-GATE-READINESS.md`, `benchmarks/a1_power_review.py`, `docs/a1_power_review.json`, `docs/A1-POWER-REVIEW.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
+### Implemented — A1 C1/C4 result assembly (2026-11-14)
+
+- **C1 and C4 now assemble into one decision object, with exact PASS/FAIL detail.** `benchmarks/a1_result.assemble` scores the C1 stream and the C4 stream together and returns the per-seed A−/K− denominators, the maximum A/K/Y neighbour delta, and every violating or unmeasured non-target row. A synthetic three-cell fixture with 20 paired C1 rows passes with A− **19/20 = 0.950**, K− **20/20 = 1.000**, and C4 max deltas **A 0.01, K 0.01, Y 0.04** against a **0.05** tolerance. A second fixture sets one Y delta to **0.06**, producing `FAIL` with `seed=1 cell=A-K+ edge=n0>m0 path=Y delta=0.06` while C1 remains `PASS`. The assembly opens no database and runs no cell; the fixtures are assembly controls, not A1 evidence. `benchmarks/a1_result.py`, `benchmarks/a1_arms.py`, `tests/test_a1_c4.py`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `docs/A1-TARGET-SELECTION-PROTOCOL.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
+### Implemented — A1 C4 non-target neighbour rows (2026-11-14)
+
+- **The A1 cell output now carries a separate non-target stream for C4.** `benchmarks/a1_arms.run_cell` emits `neighbor_rows` for every edge in the candidate universe that is not a target, with per-edge A/K/Y cycle counts, availability rates, relation and object fingerprint. `attach_neighbor_deltas` joins each row to the same seed’s `A+K+` control and computes the absolute A/K/Y `neighbor_delta`; `c4_neighbor_rows` flattens the stream for `gate_c4`, and `c1_rows` includes baseline-available non-target edges in C1 so the denominator can exceed four, and `score_c1` recomputes C1 from assembled parts (with `score_c4` for the non-target deltas). The stream is deliberately separate from `rows` because mixing it into the target list would make C2 see non-target edges in the manipulated cells and C3 require all four treatment cells for every non-target edge. Four focused tests cover row construction, paired deltas, the missing-control state and a C1 denominator larger than four. **No cell has run:** C4 and C1 remain unmeasured, the target sets remain draft, and no freeze or grant exists. `benchmarks/a1_arms.py`, `tests/test_a1_c4.py`, `docs/A1-TARGET-SELECTION-PROTOCOL.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `docs/A1-POWER-REVIEW.md`, `ROADMAP.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
+### Measured — A1 power review finds C1 denominator fragility (2026-11-14)
+
+- **A read-only power/prevalence review says the current four-target rows are too narrow for C1, so freeze readiness stays open.** [`A1-POWER-REVIEW.md`](docs/A1-POWER-REVIEW.md) uses only existing selection, C6 and A0 records. The 24 selected targets are statistically indistinguishable from the 358 unselected candidates on cycle-36 strength (medians 16, means 15.333 vs 15.215, 20,000-draw permutation p = 0.918), and every candidate is eligible, so the target set is a random eligible sample rather than a high-`U` set. C6 supplies 602/672 K and 586/672 Y_ind in its own world, but only 53 target-edge overlaps; A0's hard-edge rate is 26/672 (3.9%). The decisive finding is arithmetic: with four target rows per seed, the precommitted 0.95 C1 floor passes only at 4/4 (3/4 = 0.75). C4 non-target rows are therefore required to enlarge the C1 denominator, not merely to improve output. The review records the dated freeze decision **DO NOT FREEZE (2026-11-14)**, answers the worth-freezing question **NO — HOLD AS DRAFT UNTIL C4** (the selected edges are compliant and representative; the denominator is the blocker), and records the estimand explicitly: the targets are a **representative eligible pre-37 cycle-membership sample**, not a high-`U`, hard-edge or carrier-enriched sample, and the binary freeze answer is **NO — NOT AS CURRENTLY EMITTED** because C6 prevalence is a different-seed observation and not a C1 baseline-availability proxy, while the four-row C1 denominator is too narrow. No target is frozen and no cell has run. `benchmarks/a1_power_review.py`, `docs/a1_power_review.json`, `docs/A1-POWER-REVIEW.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `ROADMAP.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
+- **The six-seed audit now records the representativeness measurement, not only the blindness checks.** `docs/A1-ADVERSARIAL-AUDIT.md` adds selected/unselected means **15.333 vs 15.215**, medians **16 vs 16**, **24** observations across **23** unique edges, **358** unselected of **382** candidates, all-candidates-eligible and a descriptive permutation **p = 0.918**, with the conclusion that the targets are a representative eligible pre-37 sample and not a high-`U`, hard-edge or carrier-enriched sample. The pre-freeze checklist carries the same table and conclusion; the p-value is explicitly descriptive, not an equivalence test. No target is frozen, no seed is reserved and no cell has run. `benchmarks/a1_adversarial_audit.py`, `docs/a1_adversarial_audit.json`, `docs/A1-ADVERSARIAL-AUDIT.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
+### Implemented — A1 pre-freeze machinery and six target sets formed (2026-11-14)
+
+- **The A1 pre-freeze path now runs end to end as a selection pass, and it formed four disjoint targets for every provisional seed, without freezing or granting anything.** `benchmarks/a1_arms.py` captures the cycle-36 `U` after the 36th acquisition cycle is stored and before `run_sleep_cycle()`; this replaces the post-sleep sampler. The selector uses the same acquisition-cycle boundary and no report field. `benchmarks/a1_target_selection.py` streams each seed to that boundary, builds the candidate universe from the events stored before it, selects by a hash order rather than `U` magnitude, requires cycle membership and positive pre-37 strength, and writes the digest-checked draft artifact `docs/a1_target_selection.json`. All six seeds formed four targets (candidate counts 63–64; 24 selected edges total). The first audit failed for two seeds because the engine sleep counter lagged the acquisition index and let event cycles 37–48 into the candidate universe; the boundary was corrected to acquisition cycle 36. The regenerated audit records **P0 PASS**: U before the cycle-36 sleep call, first-36-cycle universe, future-blindness, report-blindness, sleep-blindness and determinism, with feasibility passing for all six seeds. [`A1-ADVERSARIAL-AUDIT.md`](docs/A1-ADVERSARIAL-AUDIT.md) records the passing six-seed feasibility, future-blindness, determinism, report-blindness and sleep-blindness checks. `a1_two_path.preflight` now checks four-per-seed, disjoint endpoints, world-universe membership, artifact equality and the selection digest, and allows the selection artifact as a seed-bearing record. `tests/test_a1_prefreeze.py` adds ten tests for pre-sleep ordering, the `U` fields, deterministic magnitude-blind selection, the four-disjoint rule, target-set failures, the selector self-test and artifact consistency. **No target is frozen into the manifest, no seed is reserved, no grant exists and no A1 cell has run.** The [power/prevalence review](docs/A1-POWER-REVIEW.md) finds that four target rows make the 0.95 C1 floor effectively 100%; C4 non-target rows are needed to enlarge the denominator. No freeze follows. The separate [pre-freeze checklist](docs/A1-PRE-FREEZE-CHECKLIST.md) and [protocol compliance report](docs/A1-PROTOCOL-COMPLIANCE-REPORT.md) record the nine must-pass P0 conditions as passing and keep freeze and grant explicitly open. The roadmap and report now state the chain directly: **P0 PASS → target feasibility PASS → freeze readiness OPEN → grant OPEN → run NOT STARTED**. Separately, the generated Stage B protocol record now reports 1,656 consumed seeds across 214 artifacts; the scan grew because the A1 audit and manifest are seed-bearing. No Stage B world ran. Verification: 91 targeted A1, documentation and Stage B tests passed, along with the selector, preflight, audit and gate checks; the full suite was not re-recorded because it exceeds the five-minute command window in this environment. `benchmarks/a1_arms.py`, `benchmarks/a1_target_selection.py`, `benchmarks/a1_adversarial_audit.py`, `benchmarks/a1_two_path.py`, `tests/test_a1_prefreeze.py`, `docs/a1_target_selection.json`, `docs/a1_adversarial_audit.json`, `docs/A1-TARGET-SELECTION.md`, `docs/A1-ADVERSARIAL-AUDIT.md`, `docs/A1-TARGET-SELECTION-PROTOCOL.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/a1_two_path_manifest.json`, `docs/A1-TWO-PATH-MANIFEST.md`, `ROADMAP.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
+### Drafted — A1 target-selection protocol with cycle-36 U sampling (2026-11-14)
+
+- **The missing per-seed target rule is now a protocol, not a frozen target set.** `docs/A1-TARGET-SELECTION-PROTOCOL.md` fixes four disjoint target edges per seed, chosen from the pre-cycle-37 world universe by an outcome-blind hash order, with cycle membership in the cycle-36 temporal graph as a pre-carrier eligibility proxy. It defines `U` as direct count, reverse count and strength, sampled before the cycle-36 sleep/consolidation so it is before carrier, `K` and `Y`; it also records that `benchmarks/a1_arms.py` currently samples after sleep and must be corrected before freeze. The protocol selects no edge, reserves no seed, freezes no manifest, authorises no cell and records no result. Remaining pre-freeze work: the corrected sampler, the no-arm selection pass and artifact, the future/report/sleep-blindness and feasibility checks, extended `preflight` checks, C4 non-target rows, and a power/prevalence review for `N = 4`. `docs/A1-TARGET-SELECTION-PROTOCOL.md`, `ROADMAP.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
+### Recorded — A1 is committed to target resolution, not authorised to run (2026-11-14)
+
+- **A1 leaves the permanent "registered but unfrozen, ungranted, unexecuted" state by committing to a target-resolution path, without opening a cell.** `docs/DECISION-A1-DISPOSITION.md` records the dated program disposition: produce and review a pre-outcome target-selection protocol, fix the per-seed target edges, freeze the manifest against them, and then put a dated run-authorising grant decision to the owner. It explicitly does not freeze the manifest, reserve seeds 20630101–20630106, authorise a cell, issue a grant, clear C1–C9 or record a result; the gate must still refuse. If no protocol and dated grant decision are recorded by **2026-12-14**, the disposition lapses to **A1 PARKED** by default, with the reason naming whether the target set was not formed, no admissible rule existed, or no grant was made. `docs/decisions.json` indexes it as **ADOPTED** under Q054, and the decision page, registry page, roadmap, manual and changelog carry the same disposition. No engine, cell, seed, grant, verdict or result changed. `docs/DECISION-A1-DISPOSITION.md`, `docs/decisions.json`, `docs/DECISIONS.md`, `docs/research_question_registry.json`, `docs/RESEARCH-QUESTION-REGISTRY.md`, `ROADMAP.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
+### Built — self-testing CI guard for the G9 validator step (2026-11-14)
+
+- **The G9 stage-ledger validator step can no longer be silently removed or weakened.** `benchmarks/g9_ci_guard.py` finds the exact `G9 stage-ledger validator and six-class self-test` step in `.github/workflows/tests.yml`, requires both `python -m benchmarks.g9_stage_ledger --check` and `--self-test` as exact commands, and rejects a missing, duplicated, renamed, disabled, comment-only or fail-open step without a run block. Its `--self-test` proves each rejection fires. The workflow runs the guard before the validator step, and `tests/test_g9_ci_guard.py` runs both guard commands in the local pytest suite as well. The full suite is re-recorded at **2,281 passed, 19 skipped, 0 failed of 2,300 collected (2026-11-14)**. No engine, cell, seed, grant, verdict or result changed. `benchmarks/g9_ci_guard.py`, `tests/test_g9_ci_guard.py`, `.github/workflows/tests.yml`, `docs/test_count.json`, `docs/USER-MANUAL.md`.
+
+### Built — the A1 readiness CI guard also runs in pytest (2026-11-14)
+
+- **The A1 workflow guard is now exercised by the local suite, not only by GitHub Actions.** `tests/test_a1_ci_guard.py` invokes `benchmarks.a1_ci_guard --check` against the committed workflow and `--self-test` against every tamper shape, so a local `pytest` run fails if the A1 readiness step is removed, renamed, disabled, made fail-open or stripped of either exact command. The workflow steps are unchanged. The full suite is re-recorded at **2,279 passed, 19 skipped, 0 failed of 2,298 collected (2026-11-14)**. No engine, cell, seed, grant, verdict or result changed. `tests/test_a1_ci_guard.py`, `docs/test_count.json`, `docs/USER-MANUAL.md`.
+
+### Repaired — the decision graph covers the progression decision and its registry counts are current (2026-11-14)
+
+- **The unindexed G8→G9 progression decision is now in the decision graph, and the registry's current 54/25 counts are pinned.** `docs/decisions.json` gains `DECISION-PROGRESSION-BEYOND-G8` as **ADOPTED**, quoting the document's own status, chosen actions and evidence. `benchmarks/decision_graph.py` now treats a `future` question as live while a named prerequisite is live, so a deferred question does not falsely orphan its decision; a retired-only decision still fails. The 0.13.0 changelog's 53/24 count is retained as the historical value and the current 56/27 count is stated beside it, with the guard re-pinned. The same repair rebuilt the derived registry views: `docs/question_survival.json` and its page, `docs/RESEARCH-DASHBOARD.md`, `docs/RERUN-CAMPAIGN-PLAN.md` (25 first answers, 6 gated, 55 registry questions), `docs/ACTION-PLAN.md` (37 reviewed, 6 prerequisite-gated), and the Stage B artifact and page (214 scanned artifacts). The full suite is re-recorded at **2,277 passed, 19 skipped, 0 failed of 2,296 collected (2026-11-14)**. No engine, cell, seed, grant, verdict or result changed. `docs/decisions.json`, `docs/DECISIONS.md`, `benchmarks/decision_graph.py`, `tests/test_decision_graph.py`, `tests/test_changelog_figures.py`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
+### Wired — G9 stage-ledger validator and six-class self-test run in CI (2026-11-14)
+
+- **The G9 stage-ledger validator now runs in CI next to the A1 readiness checks.** `.github/workflows/tests.yml` runs `python -m benchmarks.g9_stage_ledger --check` and `python -m benchmarks.g9_stage_ledger --self-test` immediately after the A1 gate-readiness step and before pytest. `--check` verifies the committed six-row fixture, the generated validator page and one-row-per-class coverage; `--self-test` independently exercises every class and every invariant. The validator still creates no real ledger, runs no engine, assigns no seed and authorises no G9 design. `benchmarks/g9_stage_ledger.py`, `.github/workflows/tests.yml`, `docs/G9-STAGE-LEDGER-VALIDATOR.md`, `docs/USER-MANUAL.md`.
+
+### Recorded — V2 is reserved for a mechanism-driven architectural redesign (2026-11-14)
+
+- **The roadmap now fixes the version boundary: V2 is reserved for a mechanism-driven architectural redesign, and current work is 0.x.** The dated planning decision records that instrumentation, governance, preregistration, measurement, audit and record repair — including A1, M1 and the G9/activation framing — must not be named, versioned or scoped as V2. V2 becomes eligible only after M1 routes a mechanism-bearing branch (M1-C, M1-A, M1-CC or M1-RO) and G4 passes with a named architectural target; M1-X and M1-V license no V2. The decision creates no V2 design, version, feature, claim, seed, cell, grant or result, does not move package 0.15.0, and does not re-score any verdict. `ROADMAP.md`, `docs/USER-MANUAL.md`.
+
+### Built — self-testing guard for the A1 readiness CI step (2026-11-14)
+
+- **The A1 readiness step can no longer be silently deleted or weakened without failing CI.** `benchmarks/a1_ci_guard.py` finds the exact `A1 gate readiness and stop conditions` block in `.github/workflows/tests.yml` and requires both `python -m benchmarks.a1_gate_readiness --check` and `--self-test` as exact commands. It rejects a missing or duplicated step, a renamed step, a comment-only command, `if: false`, `continue-on-error: true` and a missing run block. Its `--self-test` proves each rejection fires. The workflow runs the guard before the A1 step, so removing that step leaves the guard in place to fail the job. No engine, cell, seed, grant, verdict or result changed. `benchmarks/a1_ci_guard.py`, `.github/workflows/tests.yml`, `docs/USER-MANUAL.md`.
+
+### Built — A-/K-/Y- treatments behind the A1 freeze, target and grant gate (2026-11-14)
+
+- **The A-/K-/Y- arms are implemented, but the current manifest still refuses every cell.** `benchmarks/a1_arms.py` subclasses the shipped `SleepService` without editing an engine file. `A−` filters only the target edge from `report.predictions`; `K−` filters only loops/dreams carrying the target from the structure-to-assertion readout; `Y−` masks the target's assertion row while leaving admission and carrier formation untouched. `A−K−` applies both filters as the third-route control. The runner checks the dated grant, freeze status, planned cell, fixed target set and target-in-world before `_make_scratch_db`; the manifest now records target edges as **unresolved** and `U` at cycle 36. `--self-test` proves each filter removes its target and preserves the other path. No target edge, cell, seed, engine file, verdict or result changed. `benchmarks/a1_arms.py`, `benchmarks/a1_two_path.py`, `docs/A1-TWO-PATH-MANIFEST.md`, `docs/a1_two_path_manifest.json`, `ROADMAP.md`, `docs/TWO-PATH-ADMISSION-CARRIER-DESIGN.md`, `docs/USER-MANUAL.md`.
+
+### Built — G9 stage-ledger validator with six-class synthetic fixtures (2026-11-14)
+
+- **The six-class stage ledger is now executable and fail-closed.** `benchmarks/g9_stage_ledger.py` validates unique `(seed, edge)` coverage of the fixed universe, present cycles as integers in `1..cycles`, a formed stage on every row, served-implies-admitted, `served >= admitted` and `asserted >= formed`, and per-stage `observed` provenance so a final assertion cannot fill a missing service cycle. Its committed six-row fixture has exactly one row in each of A–F; the self-test proves every class is classified and every invariant rejects a targeted defect. The validator does not create a real ledger, run a cell, assign a seed or authorise G9. `benchmarks/g9_stage_ledger.py`, `docs/G9-STAGE-LEDGER-VALIDATOR.md`, `docs/g9_stage_ledger_fixtures.json`, `docs/G9-ACTIVATION-DESIGN.md`.
+
+### Wired — A1 readiness and stop-condition self-test run in CI (2026-11-14)
+
+- **A stale A1 readiness record or a missing terminal stop condition now fails CI.** `.github/workflows/tests.yml` runs `python -m benchmarks.a1_gate_readiness --check` and `python -m benchmarks.a1_gate_readiness --self-test` after the C6 guard and before pytest. `--check` verifies the readiness and threshold artifacts are current; `--self-test` proves every contract accepts its fixture and rejects its targeted defect, and that a missing or multi-attempt bound is refused. A second step checks that the A1 block itself remains in the workflow, so deleting it fails CI. The step is separate from pytest so the failure names the A1 gate. No engine, cell, seed, grant, verdict or result changed. `.github/workflows/tests.yml`, `docs/USER-MANUAL.md`.
+
+### Built — A1 two-path dry-run manifest and fail-closed grant gate (2026-11-14)
+
+- **The A-/K-/Y- cells now have a manifest and a gate; at that point they had no grant or arm.** **Superseded later on 2026-11-14:** the treatments are now implemented in `benchmarks/a1_arms.py`; there is still no grant and the target edges remain unresolved. `benchmarks/a1_two_path.py` fixes six seeds × six cells (`A+K+`, `A+K-`, `A-K+`, `A-K-`, `Y−` at `A+K+` and `A−K+`) plus a fresh-process determinism control: 36 cells + 1 control, 120 cycles, cap 40. `--dry-run` prints 37 commands without opening a database. `--cell` and `--measure` call `refuse()` before any database and exit 2: no dated grant is recorded and the arms are not implemented. The gate also checks the shipped build, planned cells, U-before-carrier/K/Y, the object fingerprint and seed freshness. Candidate seeds 20630101–20630106 are explicitly not reserved or frozen. `benchmarks/a1_two_path.py`, `docs/A1-TWO-PATH-MANIFEST.md`, `docs/a1_two_path_manifest.json`, `ROADMAP.md`, `docs/USER-MANUAL.md`. No cell, seed, engine file, verdict or result changed.
+
+
+### Recorded — G9 has outcome criteria and a six-class activation ledger, not a G9 design (2026-11-14)
+
+- **The G9 question is now defined by falsifiable outcomes rather than architecture.** `docs/G9-ACTIVATION-DESIGN.md` fixes four conjunctive criteria: **G9-A** activation control, **G9-B** development-dependent behaviour, **G9-C** self-modification of future development, and **G9-D** external relevance. It adds an edge-level stage ledger over formation, admission, service, assertion and carrier timing, with **six classes A–F**; classes E and F preserve the admitted-but-latent and served-but-not-asserted cases a four-class table would hide. The ladder is map → classify → one intervention, and each phase has a stop condition. G9 remains locked until X1 and all four criteria pass, and passing them still requires a separate G9 design and owner decision. No seed, cell, engine file, verdict or result changed. `docs/G9-ACTIVATION-DESIGN.md`, `docs/DECISION-PROGRESSION-BEYOND-G8.md`, `ROADMAP.md`, `docs/GATE-BOARD.md`, `docs/research_question_registry.json`, `docs/RESEARCH-QUESTION-REGISTRY.md`, `docs/USER-MANUAL.md`. No engine, cell, seed or verdict changed.
+
+
+### Recorded — Progression beyond G8 is gated on activation, not a G9 design (2026-11-14)
+
+- **The next objective is activation/use, not unlocking Generation 9.** `docs/DECISION-PROGRESSION-BEYOND-G8.md` separates formation, admission, service, assertion and activation/use; records that the formation-utilization campaign mapped the gap to the use path while the follow-up use-path diagnostic failed its D0 gate and cannot identify retrieval, activation or readout; and makes `X1 — External activation` the G8 → G9 gate. X1 requires A1/M1 routing, an A3 external endpoint, ablation that removes the advantage, and independent replication. A negative, `VOID` or non-ablating A3 reads `EXTERNAL ACTIVATION NOT ESTABLISHED` and closes the path; no G9 design, extra endpoint or instrumentation loop. Generation 9 remains locked. The roadmap date and suite count are corrected in the same edit. Q056 registers the activation question as future, blocked by Q054; the tally is now 16 closed, 32 open, 2 retired and 6 future from 56 questions. No seed, cell, engine file, verdict or result changed. `docs/DECISION-PROGRESSION-BEYOND-G8.md`, `ROADMAP.md`, `docs/GATE-BOARD.md`, `docs/research_question_registry.json`, `docs/RESEARCH-QUESTION-REGISTRY.md`, `docs/USER-MANUAL.md`. No engine, cell, seed or verdict changed.
+
+
+### Recorded — Every open A1 gate has a one-attempt stop condition (2026-11-14)
+
+- **The admissibility layer now has a terminal outcome, not only another instrumentation round.** `docs/A1-GATE-READINESS.md` records for C1-C5 and C7-C9 one implementation/run attempt, the success rule, the failure disposition and the unmeasurable disposition. A failed or unmeasurable gate closes A1 as `NOT IDENTIFIED`, `VOID`, `THIRD ROUTE PRESENT`, `SHARED CAUSE / NO CARRIER RELATION NOT SEPARATED` or `UNSATISFIABLE`; no A1 patch, threshold change, extra cell or rerun is permitted, and a new registered design is required. `benchmarks/a1_gate_readiness.py` refuses to write an unbounded record, and its self-test proves a missing or multi-attempt bound is caught. C6 remains the only satisfied gate; no grant exists and no cell ran. `benchmarks/a1_gate_readiness.py`, `docs/A1-GATE-READINESS.md`, `docs/a1_gate_readiness.json`, `docs/C1-C9-PREFLIGHT.md`, `ROADMAP.md`, `docs/research_question_registry.json`, `docs/RESEARCH-QUESTION-REGISTRY.md`, `docs/USER-MANUAL.md`. No engine, cell, seed or verdict changed.
+
+
+### Recorded — A1 manipulation and completeness thresholds are precommitted (2026-11-14)
+
+- **The A1 gaps that could be closed without a run are closed.** `docs/A1-PRECOMMITTED-THRESHOLDS.md` fixes C1 at **0.95 preservation** of the other path on every seed, measured on the paired control's available edges; C4 and C7 at a **0.05 absolute-rate margin**; and C8 at a **0.05 assertion ceiling** in `A-K-`. The values were fixed before any A1 cell and are not estimated from A0 or any run; a descriptive sensitivity at 0 and 0.10 may be reported but cannot change the gate. The same constants live in `benchmarks/a1_gate_readiness.py`, so the contracts, the readiness record and the threshold record cannot drift. C6 remains the only satisfied gate; the other eight remain **`CONTRACT BUILT, NOT RUN`**, no grant exists and no cell ran. `benchmarks/a1_gate_readiness.py`, `docs/A1-PRECOMMITTED-THRESHOLDS.md`, `docs/a1_precommitted_thresholds.json`, `docs/A1-GATE-READINESS.md`, `docs/TWO-PATH-ADMISSION-CARRIER-DESIGN.md`, `docs/C1-C9-PREFLIGHT.md`, `ROADMAP.md`, `docs/research_question_registry.json`, `docs/RESEARCH-QUESTION-REGISTRY.md`, `docs/USER-MANUAL.md`. No engine, cell, seed or verdict changed.
+
+
+### Recorded — A1 C1-C5 and C7-C9 have executable gate contracts, not clearance (2026-11-14)
+
+- **The remaining A1 gates are now machine-checkable but still unrun.** `benchmarks/a1_gate_readiness.py` defines contracts for path separation, treatment consistency, positivity, no interference, pre-outcome `U`, assertion blockade, the `A-K-` ceiling and same-object pairing. Its `--self-test` builds a passing six-cell fixture and a targeted defect for every gate, and proves a missing C1/C4/C7 tolerance or C8 ceiling fails. C6 stays satisfied by `C6-TIMING-1`; the other eight are **`CONTRACT BUILT, NOT RUN`** because the committed records contain only the 26-row `A-K+` slice, no arm artifact and no paired cells. The design remains **not admissible**. `docs/A1-GATE-READINESS.md`, `docs/a1_gate_readiness.json`, `docs/C1-C9-PREFLIGHT.md`, `ROADMAP.md`, `docs/USER-MANUAL.md`. No engine, cell, seed or verdict changed.
+
+
+### Recorded — Cap-112 run provenance is reclassified provisional (2026-11-14)
+
+- **The two cap-112 run records are provisional and not owner-authorised.** `docs/AUTHORISATION-PROVENANCE-AUDIT.md` found that `PRESENCE-COMPARATOR-112` (7 cells, `PRESENCE NOT ASSERTION`) and `PRESENCE-CAP-1-112` (25 cells, `CAP LIMITING`) cite an instruction to write the grant document, not an owner authorisation to run cells. No run-authorising quote is recorded, and none was invented. `docs/CAP-112-PROVENANCE-DISPOSITION.md` reclassifies both runs as **provisional and not owner-authorised**: their numerical results, gates, statuses, seeds and artifacts stand unchanged, but they are not confirmatory. The stale `not_evidence` text was replaced in both records and their result pages, and the shared grant document carries a dated correction. `PRESENCE-CONSTRUCT-1-112` remains unrun under the preparation-only quote. The authorisation guard still reports both records by design; B0 closes through the explicit-disposition branch. `docs/presence_comparator_112_prereg.json`, `docs/presence_cap_1_112_prereg.json`, `docs/presence_comparator_112_run.json`, `docs/presence_cap_1_112_run.json`, `docs/PRESENCE-COMPARATOR-112-RESULT.md`, `docs/PRESENCE-CAP-1-112-RESULT.md`, `docs/AUTHORISATION-PRESENCE-CAP-112.md`, `docs/AUTHORISATION-PROVENANCE-AUDIT.md`, `ROADMAP.md`, `docs/PROJECT-REPORT.md`, `docs/RESEARCH-HIERARCHY.md`, `docs/USER-MANUAL.md`. No cell was rerun and no verdict moved.
+
+
+### Audited — Cap-112 run records cite a preparation-only authorisation quote (2026-11-13)
+
+- **Two `FROZEN, RUN` records do not contain the owner's run words.** `docs/AUTHORISATION-PROVENANCE-AUDIT.md` audits 14 `docs/AUTHORISATION-*.md` documents and 21 records with an `authorisation` block. `PRESENCE-COMPARATOR-112` (7 cells, `PRESENCE NOT ASSERTION`) and `PRESENCE-CAP-1-112` (25 cells, `CAP LIMITING`) cite "Write the dated cap-112 authorisation document ... recording the owner's grant", which authorises preparation, not a run. `PRESENCE-CONSTRUCT-1-112` is `FROZEN, NOT RUN` under the same quote. `PRESENCE-BAND-3` is preparation-only but correctly unrun. The two cap-112 run records also retain stale `not_evidence` text saying no cell has executed. No gate, coefficient, status or result was changed; no quote was invented and no cell was rerun. `docs/AUTHORISATION-PROVENANCE-AUDIT.md`, `docs/RESEARCH-HIERARCHY.md`, `docs/USER-MANUAL.md`. Stage B is unchanged at **1644** consumed seeds across **209** artifacts.
+
+### Built — The entry-transition runner captures full appearance cycles and refuses without a grant (2026-11-13)
+
+- **The runner is built; no grant or cell exists.** `benchmarks/retention_entry_transition.py` replays each of the 24 planned seeds, captures every never-served world edge's complete sorted structure-appearance list across all 120 cycles, and defines the event as the first sustained two-cycle entry at `f + 40` or later after a structure-free interval through `f + 39`. `--dry-run` prints the 24 commands without opening a database; `--cell`, `--measure` and `--finish` call `refuse()` before a scratch database and exit 2 while the dated grant is missing. `--finish` applies D1-D10 and P1-P4, with final presence at cycle 120 descriptive only. The pre-finish loader rejects parts with incomplete 120-cycle capture, non-integer row appearance cycles, row appearance cycles outside 1..120, duplicate row edges within a seed, row seeds that differ from their part, duplicate planned seeds, and an empty planned seed block. `tests/test_retention_entry_transition.py` proves the dry-run opens no database, the ungranted paths refuse before one, and one-cycle flickers, re-entries and early presence are not counted. The record moves to `runner.built: true`, `cells_run: 0`; it remains `FROZEN, NOT RUN` with no grant and no result. `docs/retention_entry_transition_prereg.json`, `docs/RETENTION-ENTRY-TRANSITION-PREREGISTRATION.md`, `docs/RETENTION-ENTRY-TRANSITION-DESIGN.md`, `docs/RESEARCH-HIERARCHY.md`, `docs/USER-MANUAL.md`. Stage B is unchanged at **1644** consumed seeds across **209** artifacts.
+
+### Guarded — A true first structure entry is distinguished from a re-entry (2026-11-13)
+
+- **New captures record `first_structure_cycle`, and eligibility rejects a pre-landmark presence when that field is present.** The old `assertion_cycle` helper only looked after the landmark, so an edge present before it and returning later could count as a first assertion. Legacy parts have no `first_structure_cycle`; they still adjudicate to **172** eligible edges and **70** events, so the recorded result and verdict are unchanged. A regression test proves a true first entry is admitted while a re-entry with the same post-landmark assertion cycle is not. `benchmarks/retention_formation_anchored.py`, `tests/test_retention_formation_anchored.py`, `docs/USER-MANUAL.md`. Stage B is unchanged at **1644** consumed seeds across **209** artifacts.
+
+### Frozen — The entry-transition preregistration is frozen with 24 seeds and D1-D10 (2026-11-13)
+
+- **`CONFIRMATORY-RETENTION-ENTRY-TRANSITION-1` is frozen before any cell.** `docs/retention_entry_transition_prereg.json` and `docs/RETENTION-ENTRY-TRANSITION-PREREGISTRATION.md` fix 24 fresh seeds (`20620101-20620124`), 120 cycles, cap 40, a structure-free interval through `f + 39`, and a two-cycle sustained entry at `f + 40` or later. Early retention (`f..f+19`) and proximal retention (`f+20..f+39`) are both measured before the outcome; the primary joint model tests early retention beyond proximal retention, rank, count, strength and follow-up. The record is `FROZEN, NOT RUN`: no grant, part or result exists, and `cells_run` is 0. **Runner built later on 2026-11-13:** see the Built entry above. `benchmarks/retention_entry_transition_prereg.py`, `tests/test_retention_entry_transition_prereg.py`, `docs/RETENTION-ENTRY-TRANSITION-DESIGN.md`, `docs/RESEARCH-HIERARCHY.md`, `docs/USER-MANUAL.md`. Stage B moved to **1644** consumed seeds across **209** artifacts.
+
+### Corrected — The grant provenance quotes the actual run authorisation (2026-11-13)
+
+- **The preregistration no longer presents the preparation instruction as the run grant.** `docs/retention_formation_anchored_prereg.json` now quotes the actual authorisation, "Fix the post-landmark assertion cycle and rerun the twelve cells", and retains the earlier preparation instruction as `preparation_quote` only. The grant document and generated preregistration page show both the document's origin and the run authorisation. `docs/AUTHORISATION-RETENTION-FORMATION-ANCHORED-1.md`, `docs/RETENTION-FORMATION-ANCHORED-PREREGISTRATION.md`, `benchmarks/retention_formation_anchored_prereg.py`, `tests/test_retention_formation_anchored_prereg.py`, `docs/USER-MANUAL.md`. No cell, seed, gate or verdict changed; Stage B is unchanged at **1620** consumed seeds across **208** artifacts.
+
+### Audited — The reverse retention model is stable to the follow-up control but is a boundary contrast (2026-11-13)
+
+- **The reverse OR is not a follow-up collinearity artifact.** On the 166 fitted cases in `docs/retention_formation_anchored.json`, `late_retention` and `followup` correlate at Pearson **−0.298** (seed-residual **−0.323**); pairwise VIF is **1.097**, late multivariate VIF **1.199**. Dropping follow-up leaves the late OR at **33.50** (9.05–124.03) versus **32.83** (8.66–124.44), and a raw late count gives **31.43** (9.15–107.87).
+- **The coefficient is a boundary contrast, not a dose-response.** **11/11** edges at `late_retention = 1.0` are asserted, against **1/55** at **0.0** and **58/100** in between. Report those counts beside the OR. The verdict remains `CONFIRMED, TEMPORALLY AMBIGUOUS`; no cell, seed, gate or coefficient was changed. `docs/RETENTION-REVERSE-OVERLAP-AUDIT.md`, `docs/RESEARCH-HIERARCHY.md`, `docs/USER-MANUAL.md`. Stage B is unchanged at **1620** consumed seeds across **208** artifacts.
+
+### Guarded — Retention preflights reject preparation-only quotes (2026-11-13)
+
+- **A preparation instruction cannot pass as a run authorisation.** `benchmarks/authorisation_guard.py` classifies a quote as preparation-only when it contains preparation language such as `without running`, `before running`, `write the dated` or `record its grant`, and contains no run/authorise/execute word. A `FROZEN, RUN` record with such a quote is rejected. The guard is wired into the retention formation, entry-transition and incremental preflights. The recorded formation run quote (`Fix the post-landmark assertion cycle and rerun the twelve cells`) passes; the cap-112 preparation quote does not. `tests/test_authorisation_guard.py` proves both, and `scan()` flags the two known cap-112 run records without changing their status, results or gates. `docs/AUTHORISATION-PROVENANCE-AUDIT.md`, `docs/USER-MANUAL.md`. Stage B is unchanged at **1644** consumed seeds across **209** artifacts.
+- **The guard has a check mode.** `python -m benchmarks.authorisation_guard --check` prints every violation and exits `1`; it currently reports the two known cap-112 records. The clean path exits `0`. `tests/test_authorisation_guard.py` covers both paths.
+
+### Reported — The reverse boundary now carries the middle group (2026-11-13)
+
+- **The boundary table now reports zero, middle and ceiling groups.** `docs/retention_formation_anchored.json` adds `late_mid_edges: 100` and `late_mid_events: 58`; `docs/RETENTION-FORMATION-ANCHORED.md` renders **1/55** at 0.0, **58/100** in between, **11/11** at 1.0. The counts are recomputed from the existing 166 fitted rows and add no cell, seed or gate. `docs/RETENTION-REVERSE-OVERLAP-AUDIT.md`, `docs/RESEARCH-HIERARCHY.md`, `docs/USER-MANUAL.md`. Stage B is unchanged at **1644** consumed seeds across **209** artifacts.
+
+### Designed — A retention follow-up uses a distinct structure-entry transition (2026-11-13)
+
+- **The next retention block targets a transition, not a snapshot.** `docs/RETENTION-ENTRY-TRANSITION-DESIGN.md` proposes `PROPOSED-RETENTION-ENTRY-TRANSITION-1` on 24 fresh seeds (`20620101-20620124`). An eligible edge must be structure-free through `f + 39`; the event is the first two-cycle structure entry at `f + 40` or later. Early retention (`f..f+19`) and proximal retention (`f+20..f+39`) are both measured before the outcome, and the primary joint model tests early retention beyond proximal retention, rank, count, strength and follow-up. The design was `DESIGN, NOT FROZEN`: no grant, runner, cell or result existed, and the prior block is not re-scored. `docs/RETENTION-ENTRY-TRANSITION-DESIGN.md`, `docs/RESEARCH-HIERARCHY.md`, `docs/USER-MANUAL.md`. Stage B was then unchanged at **1620** consumed seeds across **208** artifacts. **Frozen later on 2026-11-13:** the design became `CONFIRMATORY-RETENTION-ENTRY-TRANSITION-1` with 24 seeds and D1-D10; see the frozen entry above and Stage B **1644** seeds across **209** artifacts.
+
+### Repaired and tested — Formation-anchored retention is confirmed but temporally ambiguous (2026-11-12)
+
+- **The runner now uses the frozen post-landmark onset.** The first version took the first structure appearance over all cycles; the preregistration defines `assertion_cycle` as the first appearance strictly after the edge's landmark. The corrected helper enforces that, and the invalid pre-fix parts and result are preserved under `.scratch/retention_formation_anchored/invalid_pre_fix/`.
+- **All twelve cells were rerun at 120 cycles.** The corrected collection found **434** never-served edges, **180** loop-forming edges, **172** eligible edges and **70 asserted events**; the late cohort had **36** edges and **18** events. All nine gates pass.
+- **Early retention is positive, but late retention is stronger.** The primary early-retention OR is **2.09** per SD (**1.36–3.23**); the reverse post-landmark OR is **32.83** (**8.66–124.44**). P1–P3 pass and R1 fails, so the frozen verdict is **`CONFIRMED, TEMPORALLY AMBIGUOUS`**: the block does not establish that early retention precedes assertion. The late-cohort early-retention OR is **2.14** (**0.60–7.59**). `benchmarks/retention_formation_anchored.py`, `docs/retention_formation_anchored.json`, `docs/RETENTION-FORMATION-ANCHORED.md`, `tests/test_retention_formation_anchored.py`. Stage B is **1620** consumed seeds across **208** artifacts.
+
+### Authorised — The formation-anchored block has a dated grant and remains unrun (2026-11-12)
+
+- **The owner's dated grant is recorded.** `docs/AUTHORISATION-RETENTION-FORMATION-ANCHORED-1.md` records the grant for the twelve frozen cells (seeds `20619101-20619112`, 120 cycles, cap 40), the per-edge 20-cycle window, the single `followup` horizon control, gates M1-M9 and criteria P1-P3/R1. The owner's instruction is quoted verbatim.
+- **The grant document does not run a cell.** The record moves to `GRANTED, NOT RUN`; `authorisation.granted` is true, `runner.built` is true and `cells_run` is 0. No part, result, gate or verdict exists, and execution remains a separate action under the grant.
+- **The model amendment precedes the grant.** `formation` is descriptive and `followup` is the single fitted horizon control; the `model-identification` amendment is dated 2026-11-12 and marked `before_grant: true`. `docs/AUTHORISATION-RETENTION-FORMATION-ANCHORED-1.md`, `docs/retention_formation_anchored_prereg.json`, `docs/RETENTION-FORMATION-ANCHORED-PREREGISTRATION.md`, `tests/test_retention_formation_anchored_prereg.py`. Stage B is **1620** consumed seeds across **207** artifacts.
+
+### Built — The formation-anchored retention block has a grant-gated runner (2026-11-12)
+
+- **The runner collects the per-edge window, not a calendar landmark.** `python -m benchmarks.retention_formation_anchored --dry-run` prints the twelve frozen commands without opening a database. `--cell SEED` and `--measure` call the grant gate before `_make_scratch_db`, so the ungranted block cannot spend a seed.
+- **The model uses one horizon control.** `formation` and `followup` are exact affine transforms; before any grant or seed replay, `formation` was removed from the fitted predictors and `followup` became the single horizon control. The amendment is recorded in the preregistration.
+- **A granted cell would capture the first twenty cycles from formation.** It records `rank20`, `count20`, `strength20`, early retention, post-landmark retention, follow-up horizon, the first assertion cycle and the final assertion label. `--finish` fits the Firth primary and reverse models with twelve seed fixed effects, applies M1-M9 and P1-P3/R1, and writes `docs/retention_formation_anchored.json` and `docs/RETENTION-FORMATION-ANCHORED.md`. It marks the record `FROZEN, RUN` only after all twelve parts exist.
+- **No grant, seed or result.** The record stays `FROZEN, NOT RUN`, `authorisation.granted` is false, `runner.built` is true and `cells_run` is 0. `--check` reports the runner ready and the missing grant; no part or result exists. `benchmarks/retention_formation_anchored.py`, `tests/test_retention_formation_anchored.py`, `benchmarks/retention_formation_anchored_prereg.py`, `docs/retention_formation_anchored_prereg.json`, `docs/RETENTION-FORMATION-ANCHORED-PREREGISTRATION.md`. Stage B is **1620** consumed seeds across **207** artifacts.
+
+### Registered — A formation-anchored retention follow-up admits late-forming loop edges (2026-11-12)
+
+- **The cycle-60 failure is answered with a per-edge window, not a re-score.** `CONFIRMATORY-RETENTION-FORMATION-ANCHORED-1` uses fresh seeds `20619101-20619112`, 120 cycles and cap 40. Every eligible edge gets the same **20-cycle** predictor window from its own first loop, through `formation + 19`; the population admits loop-forming never-served edges with `formation_cycle <= 90` that were not asserted in that window.
+- **Late-forming edges are a named part of the claim.** Edges with `formation_cycle > 60` form the late cohort. Gate **M9** requires at least **10** eligible late edges and **3** asserted late events; if it fails, the block is `VOID` and no late-forming claim is read. A `followup/120` control accounts for the shorter outcome horizon of late edges.
+- **The primary is all-cohort early retention, with the late cohort reported separately.** The model is Firth logistic with seed fixed effects and rank20, count20, strength20 and the follow-up horizon control; formation is descriptive. The reverse-time model uses post-landmark late retention; a positive late result makes the verdict `CONFIRMED, TEMPORALLY AMBIGUOUS`.
+- **No grant or result.** The block is `FROZEN, NOT RUN`, `authorisation.granted` is false, `runner.built` is true and `cells_run` is 0. It spends no seed and makes no claim. `benchmarks/retention_formation_anchored_prereg.py`, `docs/retention_formation_anchored_prereg.json`, `docs/RETENTION-FORMATION-ANCHORED-PREREGISTRATION.md`, `tests/test_retention_formation_anchored_prereg.py`. Stage B is **1620** consumed seeds across **207** artifacts.
+
+### Tested — Retention incremental is VOID at the cycle-60 landmark (2026-11-12)
+
+- **Twelve cells ran under the owner's dated grant.** `CONFIRMATORY-RETENTION-INCREMENTAL-1` ran seeds `20618101-20618112` for 120 cycles at cap 40, authorised in `docs/AUTHORISATION-RETENTION-INCREMENTAL-1.md`, and adjudicated with its frozen `--finish`.
+- **The landmark population has 103 edges but no asserted events.** The twelve parts contain **399** never-served world edges, **181** loop-forming edges and **103** edges that formed by cycle 60 and were not asserted at the landmark. **0** of those 103 were asserted by cycle 120. The **16** late assertions in the whole never-served set all formed after cycle 60.
+- **M1 population fails, so no coefficient is read.** The block required at least 60 eligible edges and 20 asserted events; the edge count passes and the event count is zero. The verdict is **`VOID`**, the criteria are marked not read, and no retention, temporal-order, capability, causal or general engine claim follows from the fitted numbers.
+- **A preliminary collection was discarded before adjudication.** Seven seeds initially stopped at 88-92 cycles because a withheld acquisition event at a block boundary skipped that sleep. The boundary handling was fixed, all twelve parts were regenerated at 120 cycles, and no preliminary part entered the result. `benchmarks/retention_incremental.py`, `docs/retention_incremental.json`, `docs/RETENTION-INCREMENTAL.md`, `docs/AUTHORISATION-RETENTION-INCREMENTAL-1.md`, `tests/test_retention_incremental.py`. Stage B is **1608** consumed seeds across **206** artifacts.
+
+### Tested — The core+band guarantee is non-binding at 112, but cold-start gates make the block VOID (2026-11-12)
+
+- **Twelve cells on six fresh seeds, `20617101-20617106`, at cap 112.** `CORE-BAND-ADMISSION-1` compared the normal cap-112 window with a guarantee that the rank-1-20 core and rank-21-40 band are served. The tier had **22,753** available edge-slots per arm; both arms served **22,753** of them (**1.0000** coverage), made **zero replacements**, and produced identical per-cycle window digests on every seed. The false-admission rate was **0.7016** in both arms, a difference of **0.0000**.
+- **The block is `VOID`, not a recovery verdict.** Gates C3 and C4 fail on cold-start cycles: C3 requires a positive tier in every cycle, while the first cycles have none, and C4 requires every served window to contain 112 rows, while early windows are shorter as the engine fills its candidate pool. Every full window contained 112 rows and no window exceeded 112, but the frozen table does not permit a gate repair after the run.
+- **The descriptive reading is that the rule is non-binding at this ceiling.** The normal cap-112 window already contained the whole core+band tier on all 720 cycles; a separate guarantee changed nothing. That observation is not a confirmed effect and is not read through the failed gates.
+- **No engine edit.** The 12 cells used the shipped 0.15.0 build and one fresh six-seed block. `benchmarks/core_band_admission.py`, `benchmarks/core_band_admission_prereg.py`, `docs/core_band_admission_prereg.json`, `docs/core_band_admission.json`, `docs/CORE-BAND-ADMISSION.md`, `tests/test_core_band_admission.py`. Stage B is **1596** consumed seeds across **204** artifacts.
+
+### Changed — The cap ladder has a real cell runner behind the grant check (2026-11-12)
+
+- **The 24 `--cell SEED CAP` commands now execute a cell when authorised.** `PRESENCE-CAP-LADDER-1` was a dry-run planner with a refusal stub. `--cell` now checks the frozen record's `FROZEN, NOT RUN` status, a dated grant (`granted`, ISO date, document and quote), the 0.15.0 build, the shipped cap of 112 and the built runner before opening a database.
+- **No grant is recorded and no cell has run.** Without one, `--cell` still exits 2 before any database. The record now says `runner.built = true`, the grant stays false and `cells_run` stays 0. `--dry-run` prints the same 24 commands.
+- **An authorised cell would write one part per cell.** It replays the seed's 120-cycle world through the repaired observer at the requested cap and writes `.scratch/presence_cap_ladder/parts/{seed}-{cap}.json`, carrying the served windows, world windows, present and asserted edges, universe, allocation and engine stamps. Unplanned cells and existing parts refuse before a database; `--force` permits a deliberate rerun.
+- **The refusal paths are proved, not asserted.** Tests use a synthetic grant and a stubbed cell, and patch `sqlite3.connect` to fail on the un-granted, unplanned and existing-part paths. No seed, cap, gate, verdict or grant changed. `benchmarks/presence_cap_ladder_arm.py`, `benchmarks/presence_cap_ladder_prereg.py`, `docs/presence_cap_ladder_prereg.json`, `tests/test_presence_cap_ladder_arm.py`, `tests/test_presence_cap_ladder_prereg.py`. Stage B is **1590** consumed seeds across **202** artifacts.
+
+### Measured — A per-source top-20 cap buys one asserted edge on one seed (2026-11-12)
+
+- **The uncapped per-seed top 20 already recovers 18 of the 26 asserted never-served edges.** `POST-HOC-SOURCE-DIVERSIFIED-TOP20-1` reads the 212 never-served edges from the six-seed replication (**26** asserted). Each seed is ranked separately by observed minimum pre-cap rank and its top 20 is taken, giving **120** seats. The cap limits how many of those 20 seats may share a source tag.
+- **A cap of three recovers 19 of 26, but the gain is one edge on one seed.** It displaces **8** baseline seats, **all non-asserted**, and adds **8** seats, **one asserted**. The entire gain is seed `20613101`, which moves from **0 / 1** to **1 / 1**. Cap 4 and cap 5 reproduce the uncapped **18 / 26**. Cap 2 also recovers **18** but loses three asserted baseline seats, and cap 1 cannot fill a 20-seat window on any seed.
+- **The gain does not survive a change of rank field.** With median rank, the uncapped list recovers **25 / 26** and cap 3 recovers **23**, displacing three positives; with final rank it is **24** and **23**, also displacing three. Only the minimum-rank ordering shows a gain, and only by one.
+- **This is a post-hoc re-ranking, not an engine arm.** It does not show that source diversification changes the served window, assertion, acquisition, transfer or capability. No engine cell ran and no fresh seed was spent. `benchmarks/source_diversified_top20.py`, `docs/source_diversified_top20.json`, `docs/SOURCE-DIVERSIFIED-TOP20.md`, `tests/test_source_diversified_top20.py`. Stage B is **1590** consumed seeds across **202** artifacts.
+
+### Measured — A stored strength tie-break reorders a few windows but changes no top-20 seat (2026-11-12)
+
+- **Replacing the source/target tie-break with the stored strength field changes no served top-20 membership.** `POST-HOC-STORED-FIELD-TIEBREAK-1` reads the same six consumed schema-prime seeds (`20611601-20611606`, 120 cycles each): **111,275** candidate rows, **701** nonempty cycles and **13,604** top-20 seats. The baseline ends in `source, target`; the alternative ends in stored `strength` descending, then `source, target`. Stored strength is **`min(1, ratio)`**, where ratio is count divided by source frequency.
+- **The served set is identical.** Zero of the 13,604 seats change, zero of the 701 windows change and zero edge-seed pairs are gained or lost; the unique edge-seed set stays at **848** pairs. The stored field engages only inside primary ties: **12** windows reorder **37** top-20 positions, with mean absolute shift **1.19** and maximum **2**.
+- **The boundary ties are already resolved before the stored field.** **120** of 701 windows (**17.12%**) have a primary tie at the top-20 cutoff, and every one has the same stored strength on both sides. **24** of those cutoff ties have both strengths saturated at 1.0, so an exact uncapped ratio could still separate them; that comparison is not available from the cached rows. The null therefore says the stored capped ratio is redundant at this boundary, not that ratio is irrelevant to ranking.
+- **This is candidate ordering only.** No engine cell ran, no fresh seed was spent and no served prediction, assertion, transfer or capability claim follows. `benchmarks/stored_field_tiebreak.py`, `docs/stored_field_tiebreak.json`, `docs/STORED-FIELD-TIEBREAK.md`, `tests/test_stored_field_tiebreak.py`. Stage B is **1590** consumed seeds across **201** artifacts.
+
+### Tested — A support-gated schema priority removes weak jumps and keeps every strong seat (2026-11-12)
+
+- **The ungated schema priority reproduces the earlier priming result exactly.** On the six consumed schema-prime seeds (`20611601-20611606`), 120 cycles each, the cached ranking features contain **111,275** candidate rows and **1,816** schema rows across **701** nonempty cycles. The engine's schema-first order puts all **1,816** schema rows in the top 20 — **13.35%** of the **13,604** seats — and **1,434** of those seats are attributable to schema priority. **563** schema seats are weak (temporal count below 10), **395** of them priority seats.
+- **The gate is temporal count >= 10, twice the admission floor of 5.** A schema edge below 10 is not removed; it loses the priority flag and ranks on target entropy, transition probability, count and edge like every other transition. The gated top 20 has **1,400** schema seats (**10.29%**), **1,039** priority seats, **zero** weak priority seats and **zero** strong schema seats lost. The **416** weak schema seats that leave are replaced by **416** non-schema seats; **147** weak schema rows remain only because they were already in the no-priority top 20 on their own ordering. **832** seats change across **135** cycles.
+- **The controls prove the gate can move and can be disabled.** A gate at 5 reproduces the ungated top-20 list exactly; a gate at 999 reproduces the no-priority list exactly. The threshold sweep at 5, 8, 10, 12, 15, 20 and 999 gives schema priority seats **1,434, 1,206, 1,039, 885, 703, 435 and 0**; the count-10 rung is the first with no weak priority and all strong priority retained.
+- **This is a candidate-ordering diagnostic, not a behavior result.** It measures top-20 composition only, runs no engine cell, spends no fresh seed and does not establish that gated priority improves served predictions, assertion, transfer or capability. A weak schema edge can still enter the top 20 on its own merits; the gate governs the jump, not admissibility. `benchmarks/schema_priority_gate.py`, `docs/schema_priority_gate.json`, `docs/SCHEMA-PRIORITY-GATE.md`, `tests/test_schema_priority_gate.py`. Stage B is **1590** consumed seeds across **200** artifacts.
+
+### Measured — The loop count association reverses when retention, strength and formation timing enter (2026-11-12)
+
+- **The confirmed count association is not robust to how long or how strongly the loop was present.** `POSTHOC-LOOP-PERSISTENCE-1` extends the loop-only model on the same twelve consumed seeds and the same **177** never-served loop-forming edges (**77** asserted). Retention is the observed loop span divided by the cycles available after first detection; strength is the maximum within-loop `min_edge_count` over loops containing the edge. Both are measured from a replay that reproduces every seed's loop edge set, loop cycles and assertion labels.
+- **The count coefficient changes sign.** The baseline rank + count model reproduces the confirmed count OR **2.69** (95% CI **1.77-4.07**). Adding retention and strength moves the adjusted count OR to **0.61** (**0.29-1.27**), a **150.1%** change in the count log-odds coefficient, while the adjusted interval includes 1. The post-hoc readout is `COUNT ATTENUATES AND REVERSES`; there is no confirmatory verdict.
+- **Persistence carries the association.** Retention OR is **8.02** per SD (**2.57-25.02**) and strength OR is **2031.58** per SD (**38.71-106621.84**; about **2.08** per raw strength unit); strength is close to separating, with **0/44** asserted in its lowest quartile and **44/45** in its highest. In-sample AUC rises from **0.801** to **0.992** and Brier falls from **0.180** to **0.036**. Leave-one-seed-out keeps the adjusted count beta at **-0.644 to -0.348**, retention at **1.77-2.62** and strength at **6.43-8.63**.
+- **A formation-cycle control does not explain retention away.** Adding the first loop cycle (as a fraction of the 120-cycle run) to the persistence model moves the retention OR from **8.02** to **14.68** per SD (**3.68-58.64**, p **1.43e-04**), not toward 1. The controlled formation OR is **6.25** (**1.17-33.54**) and the controlled count OR is **0.71** (**0.33-1.53**); leave-one-seed-out keeps controlled retention at **2.12-4.62** and controlled formation at **1.11-3.69**. In this sample timing and retention carry separate information. The control is linear in first-detection timing, measured rather than assigned, and does not identify a causal onset effect.
+- **This is a proxy reading, not a mediation result.** Count correlates with strength at **0.484** and with retention at **0.450**; retention and strength correlate at **0.718**. The predictors are measured, not manipulated, the seeds are reused, the world family is synthetic and the model is observational. The formation control is described above. No engine edit. `benchmarks/loop_persistence_assertion_model.py`, `docs/loop_persistence_assertion_model.json`, `docs/LOOP-PERSISTENCE-ASSERTION-MODEL.md`, `tests/test_loop_persistence_assertion_model.py`. Stage B is **1590** consumed seeds across **200** artifacts after the schema-priority gate landed.
+
+### Measured — The loop-only assertion model confirmed the count association (2026-11-12)
+
+- **The count association confirmed inside the loop-forming subgroup.** `CONFIRMATORY-LOOP-ONLY-ASSERTION-1` replayed twelve fresh seeds (`20616101-20616112`) at 120 cycles and cap 40. Among **177** never-served edges that ever formed a loop, **77** were asserted. The Firth model with standardized log2 rank, standardized direct count and twelve seed fixed effects gives count OR **2.69** (95% CI **1.77-4.07**, p **3.1e-06**), rank OR **1.19** (**0.82-1.72**), AUC **0.801**, Brier **0.180**. The count AME is **+0.188** probability per 1 SD.
+- **The pre-specified verdict is `CONFIRMED`.** C1 count direction, C2 count interval and C3 gates all pass; all seven gates pass and every seed contributes. Leave-one-seed-out keeps the count beta at **0.882-1.200** and rank at **0.070-0.293**. This is stronger than the exploratory Q4 subgroup, whose count OR was **1.69** (**0.85-3.36**) with rank **1.09** (**0.62-1.90**).
+- **It is still a subgroup model, not a mechanism.** The population conditions on loop formation, so this does not test whether loops cause assertion or whether retention matters. Rank remains null. No causal, capability, retention or transfer claim follows.
+- **No engine edit.** Artifacts `docs/loop_only_assertion_model_prereg.json`, `docs/loop_only_assertion_model.json`, page `docs/LOOP-ONLY-ASSERTION-MODEL.md`. Stage B is **1590** consumed seeds across **198** artifacts.
+
+### Measured — The never-served assertion model replicated on the provenance block (2026-11-12)
+
+- **The loop split replicated on the six provenance seeds, not just the original Q4 block.** `NEVER-SERVED-ASSERTION-MODEL-REPLICATION-1` replayed `20613101-20613106` at 120 cycles and cap 40 with the repaired full-universe observer. All **212** never-served world edges had a finite rank; **26** were asserted. Firth logistic with seed fixed effects gives loop OR **134.78** (95% CI **8.09-2246.62**), rank OR **0.91** (**0.48-1.73**) and count OR **1.26** (**0.70-2.24**). The no-loop cell is again **0/124** asserted, against **26/62** in the loop cell; apparent AUC **0.928**, Brier **0.0664**.
+- **The pre-specified verdict is `REPLICATED`.** The loop OR exceeds 1, its interval excludes 1, both loop levels are present, and all seven gates pass. The replay reproduces the provenance artifact's per-seed asserted and never-served-asserted counts exactly. Rank and count do not add a positive association here: both intervals include 1 and the rank point estimate is below 1.
+- **The loop coefficient is still quasi-separated, so this is a replicated structural split, not a precise effect.** Leave-one-seed-out keeps the loop beta at **3.86-5.01**, rank between **-0.321 and 0.154**, and count between **0.079 and 0.323**. The six seeds already carried the provenance replication; this is a replication on that existing fresh block, not a new independent draw, and no causal, retention or capability claim follows.
+- **The count association does not gain support when source and target identity are held fixed.** A post-hoc extension adds 15 source and 15 target fixed effects to the same Firth model: **39** parameters for **212** rows and **26** events. Count OR moves from **1.26 (0.70-2.24)** to **1.39 (0.61-3.19)**; the point estimate is not attenuated, but the interval still includes 1. Loop attenuates from **134.78** to **24.58 (3.72-162.63)** but remains positive, and rank remains null. The identity model is saturated in sample (AUC **1.000**), so this is a robustness check, not a predictive result. Post hoc, not preregistered; no verdict changed.
+
+- **No engine edit.** Artifacts `docs/never_served_assertion_model_replication_prereg.json`, `docs/never_served_assertion_model_replication.json`, page `docs/NEVER-SERVED-ASSERTION-MODEL-REPLICATION.md`. Stage B is **1578** consumed seeds across **196** artifacts. **Superseded later on 2026-11-12:** Stage B moved to **1590** consumed seeds across **198** artifacts after the loop-only confirmatory block landed; see the entry above.
+
+### Measured — The matched carrier contrast replicated on fresh seeds (2026-11-12)
+
+- **The twofold loop enrichment replicated on a clean block after a voided first attempt.** `MATCHED-CARRIER-REPLICATION-2` replayed six fresh seeds (`20615201-20615206`) at 120 cycles and cap 40. Cases are asserted world edges with zero direct served windows; controls are same-seed edges that are neither served nor asserted, matched 1:1 by the final temporal count with edge as the tie-break. **29/29** cases ever formed a reported loop against **11/29** controls: **+62.1 pp** (seed-cluster 95% CI **[38.5, 85.2]**), risk ratio **2.64**, exact McNemar **p = 7.6e-06**.
+- **The pre-specified verdict is `REPLICATED`.** R1 direction, R2 exact McNemar and R3 cluster interval above zero all pass. The original +50 pp lies inside the fresh interval, so the block is compatible with the original magnitude and point-estimates stronger; it does not establish that the true effect is exactly twofold.
+- **A first block was voided before interpretation, not quietly re-scored.** `MATCHED-CARRIER-REPLICATION-1` on `20615101-20615106` populated the matching covariate from served-window counts; every never-served edge therefore had count zero and controls were chosen by edge alone. That is not the census's direct temporal count. The void is recorded in `.scratch/matched_carrier_replication_1_void.json`; its seeds are not reused, and only block 2 is read. The matcher reproduces the original Q4 contrast (26 pairs, 13/26 control loops) when applied to the census.
+- **No engine edit; this is not a retention, causal or capability claim.** Artifacts `docs/matched_carrier_replication_2_prereg.json`, `docs/matched_carrier_replication_2.json`, page `docs/MATCHED-CARRIER-REPLICATION-2.md`. Stage B is **1578** consumed seeds across **194** artifacts after the voided block-1 docs are removed. **Superseded later on 2026-11-12:** Stage B moved to **1578** consumed seeds across **196** artifacts after the never-served assertion model replication landed; see the entry above. **Superseded again on 2026-11-12:** Stage B moved to **1590** consumed seeds across **198** artifacts after the loop-only confirmatory block landed; see the entry above.
+
+### Added — The 3-4 ceiling is localized to candidate formation, not fully explained (2026-11-11)
+
+- **`benchmarks/ceiling_diagnostic.py` replays the five zero cells and all seven controls.** The five zero-S_ever persistence-off cells are T1 `20612204`, `20612205` and T1b `20612208`, `20612210`, `20612212`; the seven controls are the remaining off cells. The replay preserves the engine's persistent event rows across cycle boundaries and the cell loop's processed reset boundaries, which is what makes the control maxima 5-6 rather than 4.
+- **The exact replay reproduces every committed source maximum.** Zero-cell maxima are 4, 3, 4, 3 and 4; control maxima are 6, 6, 5, 6, 5, 6 and 5, matching `docs/persistence_zero_served_diagnostic.json`. The zero cells remain below floor 5 at the engine's 3-event window.
+- **The record localizes the zero, but does not explain the mechanism.** The zero is created before ranking, admission or assertion: no world-edge candidate exists. The exact contribution of the read floor, lookback horizon, cycle-boundary reset behavior and world structure remains unresolved. PersistenceOff means **no carried support conditional on cycle completion**, not a perfect no-memory condition.
+- **The window sweep is a counterfactual, not a clean treatment.** At window 6 the zero cells reach 8-9 on their best edge and 61-69 edges at floor 5; 1,000 fixed-seed within-cycle order permutations put the observed maxima below the null p95 (5-6). An engine lookback extension is different because persistent event rows reintroduce cross-cycle context, so it needs its own preregistration. The verdict is **LOCALIZED (window-sensitive)**, not `WINDOW-BOUND`.
+- **This is a `not_a_result` diagnostic.** It runs no engine cell, consumes no fresh seed, writes no treatment partcache, and adjudicates no block. T1 stays VOID, T1b stays `PERSISTENCE CONTRIBUTES`, and Stage B stays at **188** artifacts. The artifact and page are `docs/ceiling_diagnostic.json` and `docs/CEILING-DIAGNOSTIC.md`.
+
+- **Q055 carries the localization, not only the diagnostic page.** The registry answer and scope now separate candidate formation from the unresolved floor/horizon/boundary/world-structure decomposition, record `PersistenceOff` as no carried support conditional on cycle completion, and link the ceiling artifact. `docs/FINDINGS-LEDGER.md` is the durable, not-a-result synthesis for the current persistence chain, the 26 asserted-but-never-served edges, BAND-5's class-level scope, the working mechanism map and the information-gain ordering. The generated findings page, question registry and dashboard were regenerated; no cell ran and no verdict moved.
+
+### Changed — BAND-5 ran on fresh worlds and confirmed the allocation-law band (2026-11-11)
+
+- **`PRESENCE-BAND-5` returned `CONFIRMED`.** Six fresh seeds (20612601-20612606), twelve cells at 40 and 112, and one determinism rerun produced `docs/presence_band_rank_5_run.json`. All **89** measured rank-21-40 edges (18, 14, 19, 11, 11, 16 per seed) are served at 112 and none at 40; B1-B8 pass, with 64-68 transitions and 48 cooccurrences on every full cap-112 window.
+- **B5 is the BAND-4 allocation law, not a fit to 64-69.** A full window needs `transitions + cooccurrences = 112`, `transitions >= 56` and `cooccurrences <= 56`. The dated grant `docs/AUTHORISATION-PRESENCE-BAND-5.md` preceded the arm and every cell.
+- **This is a fresh block, not a re-score.** BAND-1 stays VOID; BAND-2/BAND-3/BAND-4 stay unrun. The per-edge ledger and page are `docs/presence_band_rank_5_run.json` and `docs/PRESENCE-BAND-RANK-5-RESULT.md`. Stage B now quotes **188** artifacts and **1,554** consumed seeds.
+- **The admission decision records the verdict without moving its status.** BAND-5 is class-level mechanism evidence on fresh worlds, but it does not re-score BAND-1's 62 named Q4 edges. The decision stays **PENDING**, and its named-edge mechanism condition stays **unadjudicated**.
+
+### Changed — The layer-1 cap is 112, and the canaries say so (2026-11-11)
+
+- **The cap moved from 40 to 112, and only the cap moved.** `SleepService.MAX_PREDICTIONS` is
+  `112`; no other engine constant, method or ordering was touched, and the E1 allocation
+  (`returned_budget`, `transition_budget`, `cooccurrence_budget`) is unchanged. The level change
+  is `DECISION-CAP-LEVEL` choice C, which stays PENDING: landing the cap does not promote the
+  decision, and no lineage link is recorded for it.
+- **The canary digests moved because the cap is inside the cell, not because of E1.** On the
+  re-recorded build `PRESENCE-CONSTRUCT-1` is `8ffefa8d1ec7957ebe82124225648a95ab350fcc07e2b93bffd81736d9a06486` and `PRESENCE-CONVERSION-1` is
+  `3d8d83ed6f723c81573525778cb44d9d9816ea0aec7c2056937657c170dc965f`; both changed, and the changelog attributes the change to the level, not to the
+  E1 allocation whose proof is preserved unchanged in `docs/block_canaries_0.14.0_e1.json`.
+- **Two frozen cells did not move, and the checklist's blanket rule is wrong about them.**
+  `PRESENCE-CAP-1` stays `a32ae3bc3d00dd4fc54a39f3a5629d1f237b900944c9a96e32a2685ad2b70f8d` because its cell passes an explicit `cap: 40` arm — the level is
+  pinned inside the cell, so the shipped constant cannot reach it. `PRESENCE-CONVERSION-2` stays
+  `f8ead12b63221c9db5b261b7969f8797b4ceb4ad1b44d67cce415b8036972aca` because it is a refusal canary: it records that a cell is refused, and no cap is
+  read. Unchanged is the correct reading for both, and is disclosed rather than restamped.
+- **The 0.14.0 equivalence link is retired, not carried.** A cap change is a behaviour change, so
+  no lineage link can join the two builds; `docs/engine_lineage.json` now carries no links and the
+  E1 link is kept as the historical `docs/engine_lineage_0.14.0.json`. The cap-40 records
+  (`PRESENCE-CONSTRUCT-1`, `PRESENCE-CAP-1`, `PRESENCE-CONVERSION-1`) keep their status and
+  verdicts and gain a dated `build_superseded` disclosure naming the build they measured; their
+  checks accept that build explicitly instead of the shipped one.
+- **The cap-112 records are the live design, not a re-score.** The comparator, Q1 and Q2 records
+  at cap 112 remain `FROZEN, NOT RUN` with their runners built and gated; landing makes them
+  runnable without running a cell. `python -m benchmarks.presence_cap112_prereg --check` is the
+  record check.
+- **Version and pin move together:** the package is `0.15.0` in the three declarations,
+- **The band-identifiable arm is frozen, not run.** `PRESENCE-BAND-1`
+  (`docs/presence_band_rank_prereg.json`, `docs/PRESENCE-BAND-RANK-PREREGISTRATION.md`)
+  names the 62 Q4 rank-21–40 transition edges by identity and fixes a 40-versus-112
+  per-edge arm on Q4's six worlds: twelve cells, gates B1–B8, the admission decision's
+  acceptance condition quoted verbatim. It is the instrument Q2's count-only payload lacked,
+  not a re-read of Q2. Its runner was built at `benchmarks/presence_band_rank_arm.py`, and the
+  block later ran under a dated grant (the next entry).
+  `docs/engine_pin.json` re-pins fourteen files at 0.15.0, and no tag is cut.
+- **The band arm ran under a dated grant and returned `VOID` on B5 (2026-11-11).**
+  `docs/AUTHORISATION-PRESENCE-BAND-1.md` records the instruction; the twelve cells and the
+  determinism rerun produced `docs/presence_band_rank_run.json`. All **62** named edges were
+  served at 112 (12, 9, 16, 9, 14, 2) and **0** at 40, but **B5** failed on every seed: the
+  cap-112 transition allocation is 64-69, not the frozen **56**, and the rank comparison read
+  no served edge. Seven of eight gates pass, so the frozen table reads **VOID** and the
+  acceptance stays **unadjudicated**; the decision stays **PENDING**. Two harness defects
+  (`dict & set` in B4 and character tuples in `_served`) were fixed after the cells ran; no
+  cell re-ran and no gate was rescored. Stage B now quotes **180** artifacts.
+- **BAND-2 is frozen with a corrected B5 and a fixed rank reading, before any cell (2026-11-11).**
+  `docs/presence_band_rank_2_prereg.json` and `docs/PRESENCE-BAND-RANK-2-PREREGISTRATION.md`
+  keep BAND-1's 62 Q4 rank-21-40 edges and six worlds but correct the two harness defects.
+  B5 now reads **56** as the engine's floor (`MAX_PREDICTIONS // 2`) and allows the cooccurrence
+  backfill, so the observed 64-69 is no longer a gate failure; the rank reader splits
+  `source>target` at exactly one `>` into two non-empty tags, takes the minimum recorded rank
+  for that exact edge, and fails a served edge with no rank rather than contributing 0. BAND-2
+  is a new, unrun block, not a re-score: BAND-1 stays VOID, no arm is built, no grant is
+  recorded, and no cell has run. Stage B now quotes **183** artifacts.
+- **BAND-3 repairs the band block with fresh seeds and a B5 that can fail (2026-11-11).**
+  `PRESENCE-BAND-3` uses six unused seeds (20612401-20612406), 12 cells at 40 and 112,
+  and a band measured per fresh world: every present transition at block rank 21-40 in
+  the cap-112 ceiling universe. It keeps BAND-2's strict `source>target` parser and the
+  corrected `>= 56` floor, but B5 is a live cap test rather than a restatement of the
+  band: a 20-transition fixture, a maximum served rank of 40, an unranked served edge and
+  a malformed edge must all fail. The grant is recorded before the arm or any cell;
+  `runner.built` is false, `cells_run` is 0, and no result exists. BAND-1 stays VOID and
+  BAND-2 stays unrun. Stage B now quotes **186** artifacts.
+- **Q055 states the eligibility mechanism behind the persistence result (2026-11-11).**
+  The finding now says what the zero-S_ever replay actually established: with cross-cycle
+  counts reset, the five zero seeds never reach `PREDICTION_MIN_COUNT = 5` inside a cycle
+  (maximum 3-4), so no world-edge transition candidate is built, none can be served, and
+  the full observer/sleep path reproduces 0 served edges; the controls serve 3 and 9. It
+  does not claim that threshold 5 is wrong. Why those seeds top out at 3-4 is recorded as
+  the next question, and lowering the floor is a separate intervention. The mechanism is
+  scoped to the five zero seeds; ranking, admission, assertion and service remain candidate
+  mechanisms on the non-zero seeds.
+- **BAND-4 is a confirmatory allocation block with two independent failure modes (2026-11-11).**
+  `PRESENCE-BAND-4` replaces the exact-56 reading with the engine's full-window
+  law: at cap 112 a full window has `transitions + cooccurrences = 112`, with
+  `transitions >= 56` and `cooccurrences <= 56`; 64-69 is the floor plus backfill,
+  not a threshold. The block uses six fresh seeds (20612501-20612506), 12 cells,
+  and a B5 fixture that passes 64+48 and 56+56 but fails 56+0, 20+20, a bad sum,
+  an over-ceiling cooccurrence count, a rank ceiling at 40, an unranked edge and
+  a malformed edge. Acceptance is co-primary: perfect band service cannot rescue
+  a failed allocation law, and a perfect allocation cannot rescue an unserved
+  band edge. It is frozen with no grant, arm, cell or result. Stage B now quotes
+  **186** artifacts.
+- **The 56-transition budget is reconciled with the 112 cap allocation (2026-11-11).**
+  The engine's `transition_budget = returned_budget // 2` is a guaranteed floor, and
+  `_build_predictions` backfills unused cooccurrence slots with further transitions. At 112 the
+  floor is **56**, while BAND-1's cells served **64-69**; its exact-56 gate was therefore a gate
+  defect. `docs/CAP-DECISION-BRIEF.md`, `docs/DECISION-ADMISSION-STEP.md`,
+  `docs/DECISION-CAP-SEMANTICS.md` and the decision index now say this, and BAND-1 carries a dated
+  `budget-reconciled` disclosure without changing its gates or VOID verdict. BAND-2 freezes the
+  corrected `>= 56` condition and remains unrun. The cap, Q2's `CAP LIMITING`, Q4's
+  `CONVERSION STAGE MEASURED`, the decision's PENDING status and its acceptance condition are
+  unchanged; no cell re-ran.
+- **The persistence intervention is chosen: carry counts, not a lower floor or a longer lookback (2026-11-11).**
+  `docs/DECISION-PERSISTENCE-INTERVENTION.md` follows Q055/T1b and records the intervention as
+  cross-cycle carry, with the floor at **5** and the event lookback at **3** fixed. Lowering the
+  floor is rejected: floor 4 leaves three of the five zero cells at zero, while floor 2 or 1
+  admits almost every world edge; extending the lookback is rejected because event rows persist
+  across the reset, so a longer window reintroduces cross-cycle context and is a carry channel in
+  disguise. The follow-up arm is **`PERSISTENCE-CARRY-1`**: carry versus an explicit reset at
+  every cycle boundary, 12 cells on six fresh seeds at cap 112, with a clean reset that closes
+  T1b's skipped-boundary leak. The decision is **PENDING**; no grant, arm, runner or cell exists,
+  and `PERSISTENCE-MECHANISM-1` remains frozen and unrun.
+- **The persistence-mechanism follow-up is frozen before any cell (2026-11-11).**
+  `PERSISTENCE-MECHANISM-1` (`docs/persistence_mechanism_prereg.json` and
+  `docs/PERSISTENCE-MECHANISM-PREREGISTRATION.md`) follows T1b's decision to pursue the
+  persistence mechanism (decay, floor, denominator) with a 2 x 2 at cap 112 on 0.15.0:
+  decay **0.95** versus no decay **1.0**, and read floor **5** versus **1**. It plans
+  **24** cells (4 arms x 6 fresh seeds, 20612301-20612306) at 120 cycles, with G1-G7
+  fixing the build, world, live treatments, denominator, seed axis, determinism and cell
+  count. No grant is recorded, no runner is built, no result exists and `cells_run` is 0;
+  T1 and T1b are not re-read. Stage B now quotes **186** artifacts.
+- **The T1b persistence result is now an established finding (2026-11-11).**
+  `docs/RESEARCH-FINDINGS.md` gains **Q055**, sourced from the registry rather than edited by
+  hand. At cap 112, T1b's six fresh seeds show shipped `S_ever` 101, 95, 100, 103, 98 and 99
+  against persistence-off 0, 1, 0, 3, 0 and 3; the paired differences are 101, 94, 100, 100,
+  98 and 96 (mean **98.167**, 95% interval **[96, 100]**), all six above the margin of 10, with
+  all seven gates passing and three zero `S_ever` cells read as measured zeros. The finding
+  carries its scope — one build, one cap, one world family, six seeds, one no-carry
+  intervention; a direction, not an effect size — and the prior T1 context: T1 is VOID on G4
+  because its frozen rule treated zero `S_ever` as unmeasurable, its computed mean is not
+  adjudicated, and T1b changed only that reading before any cell. No verdict, gate, cap,
+  engine byte or seed moved. The registry held **53** questions at that point; it now holds **56**, with **26** in neither reopening list (20 open, 6 future) and 18 kept-closed rows.
+- **T1b ran with a zero-admitting denominator gate and returned `PERSISTENCE CONTRIBUTES` (2026-11-11).**
+  `docs/AUTHORISATION-T1B-PERSISTENCE-OFF.md` records the instruction; the twelve cells and the
+  rerun on six fresh seeds produced `docs/t1b_persistence_off_run.json`. G4 now treats P as the
+  denominator and S_ever as a measured count: P = 112 in every cell, three persistence-off cells
+  served zero world edges and are reported as zeros, and all seven gates pass. The paired
+  differences are 101, 94, 100, 100, 98 and 96 (mean **98.167**, 95% interval **[96, 100]**),
+  positive on 6 of 6 seeds against the margin of 10. T1 remains VOID on its own G4 and is not
+  re-read. Stage B now quotes **182** artifacts.
+- **The zero-S_ever persistence-off cells are explained by the prediction floor (2026-11-11).**
+  `benchmarks/persistence_zero_diagnostic.py` replays the committed T1 and T1b store sequences
+  and runs the full observer/sleep path on the five zero cells plus two controls. The reset leaves only within-cycle counts, and `_build_predictions`
+  admits a transition only at `PREDICTION_MIN_COUNT = 5`. The five zero cells (T1 20612204 and
+  20612205; T1b 20612208, 20612210 and 20612212) never let a world edge reach 5 inside a cycle
+  (max 3 or 4), so 0 world edges are admissible and the full path serves 0 on all five. The
+  seven non-zero off cells' ceilings equal their `S_ever` exactly; the controls serve 9 and 3, and
+  the shipped arm stays at or below its ceiling. No verdict moved:
+  T1 stays VOID and T1b stays `PERSISTENCE CONTRIBUTES`. Stage B stays at **182** artifacts: the diagnostic is marked not-a-result and does not count as a consumed seed.
+
+- **The admission decision's open question is carried into the next-work views (2026-11-11).**
+  `python -m benchmarks.research_accountability` renders a **Next work — open question**
+  section from `docs/decisions.json`, quoting the `open_question` of every PENDING
+  decision; `python -m benchmarks.research_trace --next` prints the same quote under its
+  pending-decision row. The admission decision stays PENDING and its acceptance condition
+  stays unadjudicated; the views add no decision and change no status.
+
+## [0.14.0] — (unreleased)
+
+### Changed — the prediction budget is an allocation, and a recorded lineage carries behaviour-identical builds (2026-11-11)
+
+- **The owner's E1 is in force.** `MAX_PREDICTIONS` is the returned prediction window; inside
+  `_build_predictions` it is named `returned_budget` and split into `transition_budget`
+  (`returned_budget // 2`) and `cooccurrence_budget` (the remainder after transitions are served).
+  Every override that moves the cap moves all three, because they are derived, not stored.
+  `docs/DECISION-CAP-SEMANTICS.md` records the decision; the four block-canary digests in
+  `docs/block_canaries.json` are unchanged, which is the proof that no served row moved.
+- **A behaviour-preserving edit can now land without restamping a measurement.**
+  `docs/engine_lineage.json` records a link from the build the canaries were recorded on to the
+  split build, authorised by that decision and proving the recorded digests;
+  `benchmarks.engine_lineage.same_build` is the build check for the block canaries, the assertion
+  audit, the construct audit and the cap block. `block_canaries --check` re-runs the cells on the
+  successor, so a link cannot bless a build that serves different rows, and no frozen verdict was
+  re-derived.
+
+### Changed — D3's matched-frequency persistence repair is promoted into the engine (2026-11-10)
+
+- **The owner adopted the repair after the seed-varying confirmation.** `D3-PERSISTENCE-2` produced
+  six distinct preflight treatment trajectories, all six alive through the 3,000-cycle horizon,
+  with the L3 witness at 39 of 40 cycles and peak 6 and the early-recall median gap at 0.0 against
+  the -0.01 bar. The preserved `D3-PERSISTENCE-1` single-world record keeps its effective-n = 1
+  caveat and is not rewritten.
+- **The engine now decays the source-frequency denominator.** Each sleep cycle maintains a per-tag
+  denominator `D = 0.95 * D_previous + delta`, where `delta` is the increase in
+  `MemoryService.tag_frequencies()` since the previous cycle; prediction strength divides the
+  temporal count by `max(D, 1)`. The temporal decay constant, death threshold, stable threshold,
+  candidate decay, admission floor, caps, retention policy and candidate set are unchanged.
+  `benchmarks/d3_persistence_arm.py` is now a compatibility name only; it no longer overrides
+  engine behavior.
+- **D2's pre-flight passes on the promoted build.** The 2026-11-10 run returns `PASSES`: the
+  reference arm holds 39 of 40 witness cycles at peak 6, both negative controls stay at zero, and
+  the campaign stimulus has no first zero through the 3,000-cycle horizon. The campaign has since run on the promoted engine; its result is recorded in
+  `docs/FORCE-MATRIX-0.14.0-RESULTS.md` and `docs/force_matrix_0.14.0.json`. Record: `docs/tier1_preflight.json`, page `docs/TIER1-PREFLIGHT.md`.
+- **The promotion is a recorded release-boundary change.** The package version is `0.14.0` in the
+  three declarations, `docs/engine_pin.json` is re-pinned over the promoted bytes, and the owner
+  decision is recorded in `docs/DECISION-G1-WITNESS.md` §9. No published result artifact was
+  rebuilt.
+
+## [0.13.0] — (unreleased)
+
+**Registry size as of 2026-11-15:** 56 questions — 16 closed, 32 open, 2 retired, 6 future — of which 26 sit in
+neither reopening list and 20 of those are open. The reopening record classifies 18 kept-closed rows, each with its
+reason. The counts stated inside the entries below are the values recorded on their own dates.
+
+### Changed — D3's persistence repair survives six distinct seed-varying worlds (2026-11-10)
+
+- **The first D3 block varied the service seed but not the world.** The fixed lattice stimulus was
+  identical across its six seeds, so the block returned one trajectory six times and effective
+  n = 1. The result page and decision record already carry that caveat; the prior artifact is not
+  rewritten.
+- **The seed-varying confirmation reran the same 24 cells on six distinct schedules.** Each seed
+  shuffles the design's triangle order and rotates the resulting 216-event stream; pre-committed
+  gate G8 voids the block if the treatment trajectory repeats. All six preflight treatment
+  trajectories differ, all six stay alive through the 3,000-cycle horizon, the witness holds
+  39 of 40 cycles and peak 6 on every seed, and the early-recall median gap is 0.0 against the
+  -0.01 bar. Verdict: `PERSISTENCE REPAIRED`, effective n = 6.
+- **Nothing is promoted.** The arm remains an in-process subclass, no engine file changed, and
+  adoption still requires a recorded owner decision and an engine re-pin. New record
+  `docs/d3_persistence_seed_varying_run.json`, page
+  `docs/D3-PERSISTENCE-SEED-VARYING-RESULT.md`.
+- **A degenerate seed axis is now refused at the runner.** Both D3 result writers call a shared
+  guard before writing: more than one seed with fewer than two distinct preflight treatment
+  trajectories raises `SeedAxisDegenerate` and writes no artifact or page. The preserved D3-1
+  record keeps its caveat; the guard stops a new single-world pass from being reported as six
+  confirmations.
+
+### Changed — The release gate records that master is published at `747d3dd` (2026-11-09)
+
+- **The gate record named a remote tip that had stopped being true.** Sections 3a and 3b of
+  `docs/RELEASE-GATE-0.13.0.md` were read when `refs/heads/master` was `1f9f713`; the three 0.13.0
+  commits were then pushed through the environment's branch-scoped authenticated path, so the remote
+  now carries `747d3dd` (`747d3dd1083368753970bc41840d33f21cd34db5`). A dated section 3c records the
+  push, its receipt `1f9f713..747d3dd` and the three commits, and 3a and 3b point at it rather than
+  having their readings rewritten.
+- **It does not clear a gate.** `git ls-remote --tags origin` still returns `v0.6.0`-`v0.10.0` plus
+  `audit-trace-v1` and no `v0.12.0`, so the missing ref is still the tag alone; `clone_check` was not
+  re-run, so its recorded result stands as the last measurement, and gate 3 stays unsettled with it.
+  No tag, version bump, re-pin, artifact regeneration or deposit change was made, and the 0.13.0
+  heading still says `(unreleased)`.
+- **A branch push moves every count taken from HEAD**, and the amendment records the ones it moved:
+  **67** commits after the pin `6e0ff24` with **0** of them touching `organica/`, and **126** commits
+  after `v0.12.0` against the gate's **123**. The pin check still reports fourteen files at 0.13.0.
+
+### Changed — The reopening tally closed around Q052, and the rerun plan landed with its guards (2026-11-09)
+
+- **The partition omitted one question.** Q052 was closed before the 2026-11-08 reopening pass and
+  appeared in neither `reopened` nor `kept_closed`, so the kept-closed count was short by one and the
+  entry above it had said twelve. It is now in `kept_closed` with its artifact evidence. Q052's
+  closure left the reopened side one row larger than it is now: Q006 has since moved to
+  `kept_closed`, so the current partition is **12** reopened + **16** kept closed + **24** never
+  closed over **52** questions; Q054, the Q4 conversion-repair protocol, is the twenty-fourth never-closed row and joined as a first answer on 2026-11-10. Three tests in `tests/test_research_registry.py` check that every
+  closed or retired question is classified, that the three groups partition the registry with
+  reopened answers open, and that removing Q052 fires the check.
+- **The Stage B block follows the artifact that landed.** The seed scan covers **264** artifacts, up from the **180** artifacts it held after the band run (amended 2026-11-10, and again when the three conversion blocks wrote their run artifacts: the D3 seed-varying, engine-replication, G1-recalibrated-preregistration and run, the presence/assertion audit, the presence-to-assertion ladder, the construct-audit and cap preregistrations, and Tier-1 records raised the count from 157; the count moves as records land: the pruning-reachability, pruning-by-type, temporal-presence, question-survival, pre-flight and Q006 records were added that day, and the construct-audit, cap and conversion-observer run artifacts took it from 169 to 173, the presence band arm's frozen record carried one, and its run artifact the next, and BAND-2's frozen record, and PERSISTENCE-MECHANISM-1's frozen record, and BAND-3's frozen record after it, and BAND-5's record and run artifact after that, the fresh-block provenance replication, and the never-served assertion model's preregistration and result after that, and the matched carrier replication's preregistration and result after that, and the never-served assertion model replication's preregistration and result after that, the loop-only assertion model's preregistration and result after that, the loop persistence extension after that, the schema-priority gate after that, the stored-field tie-break after that, the source-diversified top-20 diagnostic after that, the core+band block after that, the retention preregistration, the retention run result, the formation-anchored retention preregistration, its run result, and the entry-transition preregistration after that) with
+  **0** overlap against the candidate block, **54** more than the **146** it recorded before
+  `docs/ablation_study_0.13.0.json` existed, and the stored artifact and the quoted block are rebuilt
+  together so they describe the same state. (Figure brought onto the artifact on 2026-11-15: **214 → 228** as fourteen artifacts landed on 2026-11-14, then **228 → 255 → 264** as later records landed (the last step when the K1S registration and 0.16.0 build records landed). A scan that counted `docs/a1_seed_reservations.json` as a consumed artifact briefly made it **265** and put the pair-split reserve in the consumed union; the registry records blocks that are *held*, not seeds that ran, so it is now excluded and the figure is back to the **264** the artifact holds, read by field path from `docs/stage_b_protocol.json`; the earlier values were accurate when written and are not rewritten here, only superseded — except the 265, which counted a registry rather than a consumption and is corrected rather than superseded.)
+- **`docs/RERUN-CAMPAIGN-PLAN.md` splits the registry into two halves and runs nothing:** after
+  Q006 and Q021 closed, **12** re-derivations remain with a comparator and **23** first answers
+  have none, **18** of the first answers runnable now. `tests/test_rerun_plan.py` recomputes every
+  count from the registry, and
+  `tests/test_rule30.py` checks that each campaign row and judged decision table names a different
+  decision per outcome, with a control that fires on a "do it again" branch.
+
+### Added — Every 0.13.0 entry is pinned to its artifact, and every ablation override is invoked (2026-11-09)
+
+- **The section's figures are checked rather than transcribed.** `tests/test_changelog_figures.py`
+  requires each quoted figure to occur in the section and the artifact behind it to round to exactly
+  that string at the quoted precision. All **42** entries present at `3c9948e` are classified, **0**
+  are left uncovered, and a control changes the ablation entry's ES band and asserts the checker
+  reports the drift, so a rename or a new entry cannot slip past unseen.
+- **Figures with no artifact behind them are declared, not given provenance:** the aborted run's
+  four conditions, the superseded registry tallies, and the cap-slot shares another test recomputes.
+  A figure that merely begins with the same digits is not accepted as the number either, because the
+  check reads each artifact by field path rather than searching the section for a value.
+- **The ablation guard invokes the overrides instead of only binding them.** The union of the
+  arguments `organica/*.py` supplies at every call site is passed to every override on every arm
+  against a probe whose `self` answers any attribute, so a body that accepts the call but forwards a
+  stale argument set to `super()` fails in the suite rather than after four conditions of an ablation
+  run; a narrow-override control proves the invocation path fires.
+
+### Fixed — The ablation harness runs all eleven conditions on 0.13.0 (2026-11-09)
+
+- **The failure was a signature, not a result.** Condition D's override spelled the five G1
+  arguments and did not accept the `meta_concepts` keyword the engine now passes, so the
+  2026-11-09 verification run stopped after four conditions and wrote nothing. The override now
+  accepts the engine's G1-G8 keyword set, re-stores the non-current composite generations
+  untouched under `no_extinction`, and builds both sides of the identity comparison with
+  `_candidate_key`, so the arm still measures "no extinction" rather than "no selection at all".
+- **All eleven conditions run and the artifact names its engine.** `--cycles 300` exits 0 with
+  11 of 11 conditions and writes `docs/ablation_study_0.13.0.json`, stamped
+  `engine_version 0.13.0`, `engine_commit 6e0ff24d84d3`, `engine_sha256 ed0851d1...` and
+  generated 2026-11-09T03:01:52Z. The pre-0.13.0 `docs/ablation_study.json` was not touched.
+- **The measured result, not a re-scoring.** `O_FULL` is ES 59.440. A (No Sleep) and J
+  (Memory Without Structure) are **existential** at 59.440 and 59.440; I (Random Sleep) is
+  **important** at 15.180; and B-H are **cosmetic** at 0.000, 0.084, 2.504, -0.574, -0.876,
+  0.193 and -0.224. The bands are the artifact's own.
+- **A control pins the contract.** `tests/test_ablation_arm_signatures.py` reads every
+  `self.<method>(...)` call in `organica/*.py` and binds each arm override to the arguments that
+  call passes; its second test reproduces the pre-repair signature and asserts the checker fires.
+  No engine file changed.
+
+### Changed — The version statements were swept and six stale ones corrected (2026-11-09)
+
+- **Six current-state claims disagreed with the repository.** The manual's Git row named `0.12.1` and
+  a version-gated skip that was removed on 2026-11-08; the `0.12.1` changelog heading was not marked
+  superseded; and four places still said the package version stays untagged after `v0.10.0` and
+  `v0.12.0` were tagged.
+- **Dated records that were true when written are disclosed, not rewritten.** The sweep note
+  `docs/VERSION-STATE-SWEEP-2026-11-09.md` records each correction with its old and new text, and the
+  facts sheet gains AA27.
+- **A Git row cannot describe a guard that no longer exists.** It now names `0.13.0` and the per-file
+  content pin, which has no version-gated skip.
+
+### Changed — A re-run that reproduces a recorded result keeps its recorded date (2026-11-09)
+
+- **The test-count recorder stamped today's date on every run**, so re-running the suite on a new day
+  dirtied `docs/test_count.json` and both documents that restate it without reporting anything new.
+- **The date now means when the recorded result was established:** an identical result keeps the
+  existing date, and only a different result takes the day it ran. The count was re-recorded for the
+  three tests that pin the rule.
+
+### Changed — The two superseded stashes were inventoried, disclosed and dropped (2026-11-09)
+
+- **Both held only the version-guard test change plus release-state prose**, and the test change is
+  byte-identical to the committed one, so disposing of them lost nothing.
+- **`docs/SUPERSEDED-STASHES-2026-11-09.md` records the inventory and the evidence**, including a
+  corrected attribution: the pre-carried-forward engine snapshot belongs to the dangling WIP commit
+  `08f3cb1`, not to either stash.
+
+### Measured — The burst deaths were matched against lattice deaths at the same age (2026-11-08)
+
+- **A2's label carried a death-age confound:** the burst cells die at cycles 131-134 and the lattice
+  control at 300. The addendum fixed its reading rule before measuring — a lattice death within 10
+  cycles is age-matched, and a 0.10 ratio difference means age explains the gap — then measured six
+  lattice factors.
+- **No lattice death falls within the tolerance** (the nearest are 112 and 150), so the label is
+  `AGE_MATCH_UNAVAILABLE`. The cohort ratio is flat across lattice deaths (0.578-0.610, spread 0.032),
+  and bracketing the burst ages gives 0.582 against the burst cells' 0.308, 0.315 and 0.034, with
+  live cycles at those ages retaining 0.9998 and 0.934.
+- **The mass gap is not an age artifact**, and A2's classification stands unchanged.
+
+### Added — Q053 was narrowed to one mechanism and preregistered on the lattice evidence (2026-11-08)
+
+- **The design fixes the measured boundary at loss of competing hypotheses**, names five candidate
+  interventions without choosing one, and specifies shipped 0.95 against 0.95 plus one mechanism. No
+  engine change, seed or cell is allocated.
+- **Q053 was then narrowed to the best-supported hypothesis and Q052's framing ordered first**, because
+  competition preservation is the most promising unexplored direction rather than the proven next
+  move: the boundary is measured, but the preserve-to-capability link is not.
+- **One mechanism is preregistered** (`benchmarks/q053_mechanism_prereg.py`,
+  `docs/Q053-MECHANISM-PREREGISTRATION.md`) on the lattice evidence, with no cell run.
+
+### Added — Q052's census ran on burst_L1, returned VOID, and was completed by a disclosed amendment (2026-11-08)
+
+- **The framing design pre-committed five labels** over the existing competition-probe fields plus an
+  edge-mass ratio, with their precedence stated before any cell, and recorded that the shipped 0.95
+  arm is alive at 300, so the intervention contrast has no dying control on that family. No seed was
+  allocated and no engine file changed.
+- **The first census is VOID on its own control.** The lattice control reproduced the committed census
+  exactly — 299 live, 300 dead, `bravo` 866 = 433 + 433, empty competing census at death — but its
+  mass ratio is 0.578 against an uncalibrated floor of 0.90, and edge mass sums every retained
+  hypothesis, so the competitors pruned at death sit inside the drop. Design section 3 stops the
+  framing as VOID, no label was read, and the capture window was widened to the whole run before any
+  label was read (amendment A1).
+- **Amendment A2 changed only the census arithmetic:** the mass is the support mass of the pairs
+  retained at the last live cycle, tracked through death, and the floor is calibrated on committed
+  lattice cells with the control's seed excluded. The control passes at 0.578; three burst seeds give
+  0.308, 0.315 and 0.034 with no competing census at death, which classifies as
+  `DIFFERENT_SUPPORT_COLLAPSE` and keeps Q053 on `lattice_L1`.
+- **Two limits are recorded rather than smoothed over:** the calibration has no spread, so the
+  admissibility gate cannot fire, and the burst deaths are not matched to the control's death age, so
+  the signature differs but the reason is not identified. The separate age-match addendum is the
+  follow-up, and it leaves the label standing.
+
+### Changed — Fourteen closed answers that never named their build were reopened (2026-11-08)
+
+- **The criterion is mechanical:** an answer is reopened when no artifact it rests on records the
+  release pinned now (`0.13.0`, whose fourteen files the pin check verifies against the current tree).
+  Thirteen closed questions qualified: Q004, Q005, Q006, Q017, Q024, Q029-Q032, Q036, Q043, Q044
+  and Q051. Q021 was reopened in the same pass but closed on 2026-11-09 by its pinned 40-cell
+  re-derivation; Q006 closed on the same date by its pinned 16-cell block, so both now sit in
+  `kept_closed` and the current partition is **12** reopened + **16** kept closed. Twelve closed
+  questions remain open today.
+- **Thirteen kept closed with reasons** — nine because their evidence does name the pinned release
+  (including **Q052**, which the first pass omitted), and four because those closures were governance
+  or design decisions rather than measurements. This entry first said twelve: Q052 was closed before
+  the pass and was missed, so the count was short by one and is corrected here rather than edited
+  silently.
+- **Q002 was open at this pass and closed on 2026-11-09**, after its 0.13.0 presence
+  re-measurement (112 of 112 on six seeds). It is now classified kept closed, so the record holds
+  **16** kept closed, **23** first answers and **18** runnable cells.
+- **The cross-layer rule then did its job:** C004 was a SUPPORTED claim resting on Q004, so it is
+  downgraded to HYPOTHESIS with the reason recorded rather than the rule being relaxed. The suite
+  asserts that no reopened question's evidence names the pinned release.
+
+- **The historical negative re-derived on the pinned bytes.** A fresh eight-seed, sixteen-cell
+  two-arm block on 0.13.0 returned `NO GAIN ON THIS LAYER`: mean paired coverage gain
+  `-0.069197`, 95% interval `[-0.095982, -0.043527]`, **0** of **8** seeds positive, and mean
+  precision difference `-0.075631`; all six gates passed and the determinism re-run matched. The
+  filter changes what is admitted, but it does not cover more of the world on this layer, so the
+  answer survives and Q006 moves to `kept_closed` instead of joining the pending campaign.
+- **The old record was compared, not re-scored.** `docs/admission_two_arm_result.json` remains the
+  historical comparator, with its unattributed build and consumed seed block recorded as such; the
+  fresh block is frozen in `docs/q006_admission_rederivation_prereg.json`, the result is stamped in
+  `docs/q006_admission_rederivation.json`, and `tests/test_q006_admission_rederivation.py` guards the
+  cells, gates, page and seed freshness.
+
+### Added — Every run artifact now names the engine's bytes and the writer (2026-11-08)
+
+- **`engine_version` and the pinned commit are not a build.** `benchmarks/engine_stamp.py` adds
+  `engine_sha256` — one digest over the pin's file map, checkable against `docs/engine_pin.json` with
+  no git — and `runner`, the calling module read from the stack. Both are computed inside `stamp`, so
+  a writer cannot omit them by forgetting a call site.
+- **`--check` fails when an artifact writer never stamps, when an artifact names a version and no
+  commit, or when a commit field is not a sha.** Writers are found from the syntax tree, so printing
+  or round-tripping `json.dumps` is not mistaken for an artifact, and a row-at-a-time JSONL write is a
+  data stream rather than a result.
+- **Two cases needed care rather than a blanket wrap:** a sealed calibration now hashes the stamped
+  record, because a seal must cover what is written, and a disposable cache cell is left unstamped
+  because it is compared field for field on reload. Artifacts stamped before the rule are grandfathered
+  from the list the audit already records, so no published artifact was edited.
+- **`protocol_digest` was deliberately left out:** most artifacts are governed by no preregistration,
+  and a field that is empty for most of them is the null-record defect the version audit found. The
+  owner's three-track roadmap is recorded in the manual's action list, with decay-factor tuning stopped
+  at the characterised operating point.
+
+### Added — The sleep-path split is proven behaviour-preserving (2026-11-08)
+
+- **A refactor is a claim about behaviour, and a diff cannot support it:** `7becdb5` removed 2,400
+  lines from `sleep.py` and added 2,313 across four sleep modules and `candidates.py`, and a moved
+  line looks exactly like a rewritten one.
+- **`tests/test_sleep_split_equivalence.py` extracts `organica/` at `7becdb5^` and at `7becdb5` with
+  `git archive`**, runs both on the same twelve cycles of the study stream in isolated processes with
+  `PYTHONHASHSEED` pinned, and compares every `SleepReport` field and every substrate row. Wall-clock
+  fields (including `ran_at` inside sleep payloads) and the store's per-row event handle are excluded;
+  everything else must match.
+- **The comparison is controlled so equality means something:** the same variant must agree with itself
+  across two processes, and one extra stream word must produce a different fingerprint.
+
+### Changed — The engine guard was unlocked, consolidated and re-baselined on the shipped engine (2026-11-08)
+
+- **The guard skipped every engine-file comparison at version 0.12.0 and above**, so it reported
+  success without looking. It now compares the guarded files against the content pin and fails on an
+  unrecorded change, with the diff in the message.
+- **A second guard — a reference commit plus `git` blob comparison — was added and deleted the same
+  day.** Two pins with different file sets and different failure messages are worse than either alone:
+  the per-file hash pin enforces identity by content, works in a shallow clone, and has no
+  version-gated skip.
+- **`tests/test_v1_freeze.py` keeps the published-artifact comparison** while asserting the pin still
+  covers the seven frozen files and can still report a changed one. One accountability test built its
+  precondition implicitly and is fixed to construct it; another required the guard to keep containing
+  the 0.12.0 skip, which pinned the defect in place, and now requires the opposite.
+- **The documents that described the old enforcement were corrected:** `AGENTS.md` rule 12, the facts
+  sheet's U1/U2, manual section 8.7, the README's package version (which still said 0.12.1) and the
+  audit, whose own no-version list contradicted its scan.
+
+### Added — The engine-version audit found that the record could not name its engine (2026-11-08)
+
+- **The freeze narrative assumed one engine and many measurements, but 20 commits since `v0.9.0`
+  changed `organica/` by +3,043/-1,791 lines across nine files**, including two of the seven frozen
+  ones, and `tests/test_v1_freeze.py` had skipped every engine comparison since 0.12.0.
+- **The audit maps every artifact to a build** and reopens Q001, Q002, Q003, Q007, Q008 and Q018,
+  whose evidence predates the rework; C001-C003 drop to HYPOTHESIS, because a load-bearing claim may
+  not cite an open question.
+- **Prior outcomes are kept and labelled as measurements of their own build.** No engine file changed
+  and no cell ran.
+
+### Added — Q051's long-delay capability protocol was frozen, run and refused (2026-11-08)
+
+- **The protocol is frozen around recall@5:** 0.9925 against the shipped 0.95 on a seed-varying
+  stable-law world, with fresh design and confirmatory blocks, recall@5 as the primary endpoint and log
+  loss secondary. The two-seed pilot is disclosed and its seeds are excluded; the question is
+  registered as Q051.
+- **The design block passed all seven gates and fixed the late bar at 0.0412.** Five design seeds gave
+  a late-gap median of +0.0477 with sd 0.0275, one seed reversed, and an early median already outside
+  the 0.010 equivalence margin, so P1 was at risk before confirmation. The seed guard now checks only
+  the confirmatory block, since the design seeds are consumed by construction.
+- **The confirmatory block returned INCONCLUSIVE.** Ten seeds put the late recall@5 median at +0.0265
+  against the 0.0412 bar, with 9 of 10 seeds positive; the early median is +0.0119 and growth holds in
+  6 of 10. All seven gates pass, but P2, P1 and P3 fail, so no capability claim follows.
+- **The `burst_L1` family was added to test whether the arm pair transfers.** At 300 cycles 0.95 and
+  1.0 retain theories while 0.99 and 0.9925 do not, so it does not; Q052 records the open question.
+  The decision is to keep 0.95: action 50 authorises no engine change and sets a
+  competition-preserving intervention and preregistration as the next step.
+
+### Measured — The decay threshold's edge is a competition boundary, not a support floor (2026-11-08)
+
+- **The 24-factor screen found no interior survivor.** Every four-decimal factor from 0.9901 to 0.9924
+  dies before cycle 301; 0.9923 and 0.9924 reach 300, so 0.9925 remains the first survivor. The screen
+  is one seed and no confirmation branch fired.
+- **0.9924 dies at 300 on all three threshold seeds** (20302701-20302703), so the screen's upper edge
+  is not a seed accident; Q050 keeps `NO_INTERIOR_SURVIVOR`, and this is a post-screen robustness check
+  rather than a new threshold.
+- **The support probe corrected the earlier 49-count inference.** 0.9924's last live theory is `bravo`
+  at 866 = 433 + 433 at cycle 299, and 0.9925's top theory is `alpha` at 1309 = 438 + 438 + 433 at
+  cycle 300, so the edge is a competition/retention boundary, not a support-count floor.
+- **The paired bracket ruled out a seed-block effect:** 0.9925 is alive at 301 where 0.9924 dies at
+  300, on the same three seeds.
+- **The collapse signature is one competing hypothesis per subject at cycle 300**, so no theory forms;
+  0.9924's last live cycle is 299 on all three seeds, with `bravo` holding the final pair at 866. The
+  engine drops the `high_structural_significance` marker before grouping, which section 15.1 records
+  as a correction to the first pass.
+
+### Added — The four remaining decay questions are registered and scoped (2026-11-07)
+
+- **Q033, Q034, Q035 and Q037 are now registry questions** with the owner's wording; the frozen
+  replication protocol gains a dated **section 11 amendment**, written before any cell and pinned by
+  its own SHA-256, carrying Q033, Q034 and Q037 and three added predictions.
+- **Six secondary characterizations** with distinct decisions: `CORE_SURVIVES`/`FULL_COLLAPSE`,
+  `COLLAPSE_SCHEDULED`/`COLLAPSE_SEEDED`, `DECAY_DOMINANT`/`THRESHOLD_DOMINANT`. They cannot move the
+  primary label.
+- **Q035 is deliberately out of scope:** budget independence needs at least three budget arms crossed
+  with a seed block, which this run's fixed budget cannot supply.
+- **Q043 records the store-time role closure:** 405 of 405 schema-primed predictions recoverable
+  across 16,962 rows, zero R1/R2/R3 residuals, so no engine change was needed. Registry: 41
+  questions, 18 closed, 12 open, 6 retired, 5 future.
+
+### Added — The decay-attribution replication is pre-registered (2026-11-07)
+
+- **`docs/DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md`** freezes one instrumented run before it
+  exists: seeds **20301201-20301212** (verified unused against 2,609 seeds under `docs/`), 2 arms x
+  12 seeds = 24 cells, 300 cycles, degree 12.
+- **Six replication targets** are fixed in advance and labelled as restatements of the first study's
+  values, not new predictions; **six gates** separate `VOID_INSTRUMENT` (G1, G2, G5, G6) from the
+  scientific result `NOT_REPLICATED` (G3, G4), per `docs/DECISION-UNCERTIFIED-RUN.md`.
+- **`benchmarks/decay_attribution_study_prereg.py`** pins sections 1-9 by SHA-256 and rejects a
+  protocol that records an execution, cites a moved seed block, or whose artifact already exists.
+  The runner is not written yet, so this is a pre-registration, not a result.
+- **Scope stated, not widened:** Q029-Q032 and Q036 carry the protocol and keep their closed status;
+  Q033, Q034, Q035 and Q037 are not in the registry, and the protocol says so instead of inventing
+  them. No engine change, no version move.
+
+### Changed — An uncertified falsifier run is void, not a verdict (2026-11-07)
+
+- **The rule:** when the harness refuses to certify a run, the falsifier records the run as
+  **void** and reports no scientific verdict. The reading the series still supports is kept as
+  an **observation** that cannot close a question, enter a claim, or be counted by an aggregate
+  (`docs/DECISION-UNCERTIFIED-RUN.md`, tallied by Q041).
+- **Enforced, not asserted:** `benchmarks/verdict_policy.py` holds `certificate`/`decide`/`check`/
+  `scientific`; `benchmarks/decay_falsifier.py` now writes its record through `decide` and its
+  `--check` rejects a verdict on an uncertified run **and** a void on a certified run.
+- **The live record keeps both true statements in different fields:** `certified: false`,
+  `verdict: VOID_REFERENCE_DEAD`, `observation: REPRODUCES` — the dead reference arm is the
+  finding, and the series is kept beside it rather than promoted over it.
+- **Controls:** `tests/test_verdict_policy.py` mutates a passing record in every direction and
+  proves the checker fires. No engine change, no version move.
+
+### Changed — The Q028 trace resolves through the schema's role pair (2026-11-07)
+
+- **P0 is built.** `benchmarks/transfer_provenance.py` follows `schema_prior` to the stored schema
+  row, reads `source_role_id` and `target_role_id`, loads both stored role rows, and resolves when
+  the pair spans the schema's direction and the prediction's `parent_ids` name stored events.
+- **Re-measured on seed 20261101 (40 + 40 cycles): 8 of 14 transfers resolve** (share 0.5714),
+  against 0 of 14 under the single-role reading. The other six are `unresolved_pair_not_in_roles`:
+  the prior licensed them by polarity agreement, not by role membership. R1/R2/R3 are all zero.
+- **The event leg was corrected before the result was read**: a single event containing both tags
+  is unsatisfiable for a cross-event temporal pair, so the leg now uses the engine's own lineage.
+- **Q028 stays open** with the claim narrowed to "resolved to the schema's role pair"
+  (`docs/DECISION-STORE-TIME-ROLE-RECORD.md` §11). No engine change, no version move.
+
+### Added — Decay attribution on the degree-12 hub (2026-11-07)
+
+- **The collapse is attributed, not assumed.** `benchmarks/decay_attribution.py` re-runs the budget
+  ceiling's own world with a per-cycle ledger and one causal control (temporal edge decay off). The
+  engine peaks at **35** edges at cycle **15**, first falls at cycle **16**, is at half by cycle
+  **80**, and reaches zero at **173**; the control peaks at **42** and still holds **30** at cycle
+  300. Verdict **`TEMPORAL_EDGE_DECAY`**.
+- **The mechanism is measured from the engine's own quantities.** Strength is
+  `temporal_count / source_frequency`; the median ratio falls from **1.25** to **0.375** while the
+  hub's frequency grows 18x and the graph's total grows 1.8x. 31.03% of deaths are re-emitted below
+  0.30, 68.97% miss re-emission and die by the x0.8 candidate decay.
+- **The protocol's failures are reported as failures.** Three pre-committed predictions failed —
+  edges fall *before* the theory layer dies (16 vs 28), the control's first fall is a dip, and the
+  strength rule is the smaller half of the loss. Registry: Q029-Q031, Q036 closed SUPPORTED, Q032
+  closed UNSUPPORTED.
+
+### Changed — A dead reference arm voids the decay falsifier's verdict (2026-11-07)
+
+- **The gate now precedes every scientific bucket.** When the harness's own reference-arm check
+  fails, `benchmarks/decay_falsifier.py` records **`VOID_REFERENCE_DEAD`** and keeps the series
+  reading in its own field (`series_verdict`, `REPRODUCES` here). The artifact check rejects either
+  direction of disagreement: a failed arm with a scientific verdict, or a void verdict without a
+  failed arm.
+- **The registry now carries the questions the result opened**: **Q040** closed `SUPPORTED` (0.13.0
+  reproduces the death: theories in 37 of 300 cycles, last at cycle 38, none at the end), **Q041**
+  closed `UNSUPPORTED` (the falsifier cannot be interpreted with a dead reference arm), and **Q042**
+  open (is reference-arm death the dominant failure mode of 0.13.0?), whose why-open names the
+  missing per-cycle attribution rather than asserting the mechanism.
+
+### Decided — The engine records no licensing role at store time; the record already survives (2026-11-07)
+
+- **Measured rather than argued.** `benchmarks/store_time_role_durability.py` joins every
+  schema-primed prediction of the trace's calibration cell (seed **20261101**, 40 + 40 cycles) to
+  the schema row it names and both role rows behind it, reading **16,962** stored sleep rows with
+  an unwindowed scan: **405** primed predictions, **405** recoverable, and zero R1/R2/R3.
+- **Decision: no engine change.** A `schema_prior_roles` field would be a second copy of what the
+  record already holds, bought with a version bump, a re-pin and a neutrality proof. Q028's
+  remaining fix is the pair resolver, which is instrument-side.
+- **The scoped pre-registration is retired unapplied**
+  (`docs/STORE-TIME-ROLE-RECORD-PREREGISTRATION.md`), its criteria kept only as the condition for
+  reopening on a cell that prunes beyond 80 cycles. The scope guard now requires the retired status
+  to match the evidence artifact's own decision.
+- **Nothing about the engine changed**: it stays `0.13.0`, Q028 stays open, CCRE-2's C7 is still
+  the resolver.
+
+### Measured — The decay falsifier's artifact now carries an attributable exit status (2026-11-07)
+
+- **The harness persists its own verdict.** `benchmarks/force_matrix.py` writes
+  `reference_arm.problems` into the run artifact before it exits, so a non-zero status names its
+  reason in the artifact rather than only in console text.
+- **The falsifier records the status verbatim.** `benchmarks/decay_falsifier.py` re-ran under the
+  fail-closed build and now records `harness_exit_code` **1**, `harness_mode` `fail-closed`, and
+  the harness's own reason (`FULL held no theory in its final tenth of cycles`). Its artifact
+  check accepts a non-zero status only when it is attributed **and** the series it judges ends at
+  zero; an unexplained failure — or an explained one that disagrees with the series — is still
+  refused.
+- **The verdict is unchanged**: `REPRODUCES` — theories present in **37** of 300 cycles, last at
+  cycle **38**, none at the end. What changed is the evidence behind the status: the previous
+  exit 0 was written by the fail-open build and could not distinguish an alive arm from a warned
+  one.
+
+### Scoped — The store-time role record is an engine change with its own pre-registration (2026-11-07)
+
+- **`docs/STORE-TIME-ROLE-RECORD-PREREGISTRATION.md`** is now a scoped, live pre-registration
+  rather than a draft held behind residuals: one field pair written on schema-primed predictions
+  (`schema_prior_roles`, plus role exemplars under R2), at most one `sleep.py` repair so a rebuilt
+  schema keeps its role ids (R3), and nothing else.
+- **Everything that could be fitted is frozen before the edit**: neutrality N1–N4 with N4 a
+  mutation control that must fail, trace criteria T1–T4 (T1 exact coverage, T2 carries CCRE-2's
+  P4 bar **0.90**, T4 durability under a pruned schema and role rows), a four-bucket decision
+  table whose buckets reach four different decisions, and calibration seed **20261101** outside
+  CCRE-2's confirmatory block `20272001-20272024`.
+- **`benchmarks/store_time_role_prereg.py --check`** guards the scope, including that the engine
+  does not carry `schema_prior_roles` while the scope block says `applied: false`.
+- **Nothing is applied**: the engine stays `0.13.0`, Q028 stays open, and CCRE-2's C7 stays
+  blocked until the pair resolver (P0) exists and the change passes its criteria.
+
+### Measured — The degree-12 coverage ceiling is 0.58 at every theory budget (2026-11-07)
+
+- **`benchmarks/theory_budget_ceiling.py`** measures the quantity the next bar is about: the
+  share of a degree-12 hub's world (60 edges) that the engine's stable predictions cover, at the
+  shipped theory budget and at two larger ones, recording the **peak** inside the run and the
+  **final-cycle** value separately.
+- **The result**: peak coverage **0.5833** (35 of 60 edges) at caps 8/15, **identical** at 16/30
+  and 64/128; final-cycle coverage **0.00** at all three. Theories reach 7 at the shipped budget
+  and 12 at the larger ones, and the theory cap never bound, so **the budget is not the
+  constraint** — decay is.
+- **Verdict `DECAY_DOMINATED`**, and the next bar is recorded with its endpoint: **0.58 on peak
+  coverage**, at most **0.00 on final-cycle coverage** on this build.
+- **The recorded 0.40 was not this engine's ceiling**: it came from the lift build that was
+  reverted, which is why a bar could not have been set from it.
+
+### Changed — The decay runner trusts the harness exit status (2026-11-07)
+
+- **`benchmarks/decay_falsifier.py`** no longer greps the harness output for
+  `produced no theories`. It records `exit_code`, derives `reference_arm_failed` from that
+  status, and keeps the last twelve lines as an uninterpreted `tail`.
+- **The trusted signal is enforced**: `problems()` rejects an artifact summarised from a
+  non-zero exit, and a failure flag that disagrees with the status.
+- **Regenerated artifacts**: `docs/decay_falsifier.json` and `docs/DECAY-FALSIFIER-RESULT.md`
+  carry `harness_reference_arm_failed` and `harness_tail` in place of
+  `harness_reference_arm_warning`, and the page states that this artifact's exit 0 predates
+  the fail-closed harness and is not evidence the reference arm was alive.
+- **Four tests** prove both directions: a silent failure is recorded as failed, the warning
+  printed on a zero exit is not, the summary derives the flag from the status, and the
+  artifact check rejects a non-zero status or a contradictory flag.
+
+### Decided — the licensing role is not recorded, because it is already recorded (2026-11-07)
+
+- **The decision**: no engine change. `organica/sleep_extraction.py` already writes
+  `source_role_id` and `target_role_id` on every schema (`:743-744`) and `schema_prior` on every
+  primed prediction (`:484`), so the role behind a transfer is already stored twice.
+- **Why the trace read zero**: `role_match` in `benchmarks/transfer_provenance.py` resolves a pair
+  through *one* role whose exemplars contain **both** tags, while a schema is built from two
+  **disjoint** role sets and gated on flow from A to B. The predicate was unsatisfiable by
+  construction, so `unresolved_no_role` was guaranteed for all 14 events regardless of behaviour.
+- **What is built instead**: a pair resolver in the instrument (no engine change, no re-pin), with
+  three criteria - full coverage, a status distribution that must change, and the claim narrowed
+  from "resolved to a role" to "resolved to the schema's role pair".
+- **Reserved, not applied**: `docs/STORE-TIME-ROLE-RECORD-PREREGISTRATION.md` fixes the engine
+  change that would follow residuals R1-R3, with four neutrality criteria, a mutation control that
+  must be able to fail, exact coverage T1 and the 0.90 trace bar carried from CCRE-2.
+
+### Added — The second cross-context run is preregistered and blocked (2026-11-07)
+
+- **`docs/CROSS-CONTEXT-REUSE-2-PREREGISTRATION.md`** fixes, before any cell: five arms
+  (treatment, naive, pruned, orthogonal and a **shuffled-prior** attribution control), 60 cells
+  at 40/40 cycles, a fresh 24-seed block with 12 reserve never drawn, and every comparator with
+  its swept grid - including a decayed bigram over Context B's own events as the strongest
+  simple learner.
+- **Four criteria, judged together.** Transfer ratio at least 1.25 with its lower bound above
+  1.00; at least 0.10 above both the orthogonal and shuffled arms; rank at acquisition at least
+  2 positions better than naive; and Q028's trace resolving at least 0.90 of transfer events with
+  no unexplained unresolved transfer. **P4 can fail the protocol even when the behaviour is
+  right** (rule 18).
+- **Three void conditions and seven controls**, including endpoint saturation, a fail-closed
+  reference arm, the trace instrument's own self-test, and provenance pinning.
+- **It cannot start yet:** the trace resolves 0 of 14 transfers because the engine records no
+  role per prediction (C7), and `force_matrix --verify-only` exits 1 on the dead reference arm.
+  The licensing record now names this protocol.
+
+### Added — Q028's transfer-provenance trace exists and can fail (2026-11-07)
+
+- **`benchmarks/transfer_provenance.py` traces a transfer event to a role satisfaction from
+  recorded state only**: the role whose exemplars contain the transferred pair, at least one
+  recorded event asserting it, and the schema prior the engine wrote on the prediction. Each
+  missing leg is its own status, and the share is reported with its denominator; a zero
+  denominator is `null` and not measurable (AGENTS rule 13b).
+- **It is proved able to fail before it measures.** Five known-answer fixtures, three flips that
+  remove one leg at a time, and a comparator pointed at a tracer that always answers "resolved"
+  all run first; `--self-test` exits non-zero if any fails, and a test substitutes the broken
+  tracer to check the exit status changes.
+- **The pre-run measurement recorded 14 transfer events and resolved 0**, all
+  `unresolved_no_role`, with 0 of the 14 prior ids also seen in context A: Q028's own
+  `not_answered_if` outcome. The first definition (an identical tag pair) was replaced before it
+  produced a denominator, because disjoint context vocabularies make it unfireable.
+- **Artifacts:** `docs/transfer_provenance.json`, `docs/TRANSFER-PROVENANCE.md`,
+  `tests/test_transfer_provenance.py`.
+
+### Fixed — The campaign fails closed on a dead reference arm (2026-11-07)
+
+- **`benchmarks/force_matrix.py` now exits non-zero when the reference arm is dead.** The G1
+  check already detected it and printed `FULL produced no theories -- the reference arm is
+  broken`; the process exited 0, so a caller reading the status saw success (row 40). G1 now
+  returns its problem list, the measured-campaign path and `--merge` check the `FULL` row's own
+  theory trace for an arm that dies in its final tenth of cycles, and every one of those paths
+  exits 1. The artifact is still written, so the failure has a record.
+- **`benchmarks/run_matrix.py` refuses to launch on a G1 problem** and fails after merging a
+  dead `FULL` row, instead of reporting a campaign whose comparison arm is empty.
+- **On the current build `--verify-only` exits 1**, because the reference arm is still dead at
+  G1: the campaign stays blocked until the decay rule is fixed, which is what fail-closed means.
+  `tests/test_force_matrix_exit.py` covers the dead, missing, late-dead and live cases.
+
+### Added — The next cross-context run is licensed question by question (2026-11-07)
+
+- **`docs/ccre_question_licensing.json`** with its rendered `docs/CCRE-QUESTION-LICENSING.md`:
+  every question the campaign may touch is tiered *answers*, *moves* or *records*, and the
+  questions the design cannot adjudicate are refused with a reason. Seven licensed (two answered,
+  two moved, three recorded), five refused. Q028 is the trace-derived diagnostic rule 18 requires.
+- **Three rules are checks, not prose.** `benchmarks/ccre_licensing.py` fails if no licensed
+  question is trace-derived, if a closed or retired registry question is licensed as unsettled,
+  or if an answered-tier row has one decision or two that agree (rule 30). `--check` also
+  compares the page against a fresh render and writes nothing.
+- **Q022 is licensed to move, not to answer**, because the registry asks about transfer across
+  domains while this design varies context inside one world family; the record states the gap
+  rather than letting a summary close it (rule 24).
+- **Four questions were registered to make the licence checkable** — Q025 to Q028, all open or
+  future with prerequisites named, taking the registry to 28. The fraction question arrived
+  labelled Q024, which is the retired admission question; the record discloses the renumbering.
+- **It sets no bar and authorises no run.** No threshold, sample size or measured figure appears
+  in the record; the campaign has no preregistration on disk and the page says nothing may run.
+### Added — The decay falsifier ran first, and it blocks the campaign (2026-11-07)
+
+- **`benchmarks/decay_falsifier.py`** runs the change map's M04 falsifier on the pinned engine
+  (`FULL`, 300 cycles, seed `20261023`, `PYTHONHASHSEED=0`) and derives the verdict from the
+  series rather than recording one. Result: **REPRODUCES** — a theory is present in 37 of 300
+  cycles and last at cycle 38, a belief in 112 and last at 113, the same cycles the 0.12.0
+  reference reported over 3,000. The falsifier's condition (a live theory throughout) did not
+  hold, so decay-to-death survives and the campaign stays blocked until the decay rule is fixed.
+- **The harness is fail-open and the runner says so.** `force_matrix.py` prints that the reference
+  arm is broken and exits 0; the runner records the warning and the exit code as separate fields,
+  because a check that reads only the status inherits the bug it is checking for.
+- **`docs/decay_falsifier.json`, `docs/DECAY-FALSIFIER-RESULT.md`**, the harness report and the raw
+  series are generated by that command; `--check` re-derives the counts from the raw series,
+  re-derives the verdict, and compares the page against a fresh render without writing.
+- **The map now carries its first measured row.** A row's `result` names an artifact and a verdict,
+  never a number, and the validator rejects a result with no artifact, a result pointing at the
+  pre-change artifact, or a result on a row not measured on that build.
+- **Stage B's consumed-seed scan counts the new artifact:** 1366 seeds across 122 artifacts, up
+  from 121; no seed is newly consumed and the candidate block's overlap stays empty.
+### Added — The density interaction: registered, frozen, unrun (2026-11-07)
+
+- **`docs/density_interaction_prereg.json`** with its rendered `docs/DENSITY-INTERACTION-PREREGISTRATION.md`:
+  160 judged cells over fresh seeds 20330101–20330108 (2 arms × 2 caps × 5 densities × 2
+  exposure schemes), two bars of 0.08, gates G0–G6, the rho = 1 identity fixture and the
+  decision table, all committed before the first cell.
+- **`benchmarks/density_worlds.py`** builds the declared ladder: 16 tags in four cells, W
+  drawn from the 192 cross-cell pairs only, so no intra-cell row can be a world edge, and
+  the within-cell filler's share falls with density. `--self-test` audits the grid, the
+  generator, the arms' liveness, the identity fixture and seed freshness with no engine.
+- **The endpoint is precision at a fixed cap**, not coverage: coverage divides by |W|,
+  which grows 24→192 across the ladder, so a coverage difference is forced by arithmetic
+  — the defect that withdrew the ordering block's M2. The criterion is the interaction on
+  precision, judged whole.
+- **Amendment A1 (pre-run):** the design record's registered *decline* was contradicted by
+  its own designed pools, which measure the advantage rising from 0.075 at rho 0.1 to 0.350
+  at 0.8. The mechanism is that the freed budget is bounded by the number of world rows
+  available to fill it. The original prediction is retained in the design record and marked
+  superseded there; the criterion tests the corrected direction.
+- **`benchmarks/run_density_interaction.py`** runs the block (sliced and appendable, refusing
+  to overwrite a cell) and **`benchmarks/score_density_interaction.py`** is the frozen
+  analysis path, importing nothing from the engine. No arm has run.
+- `docs/bottleneck_map.json` and the map's row now name the registration and its allocation
+  (8 seeds, 160 cells, 2 thresholds, 2 bars), with `run: false` beside it. The design record
+  still allocates nothing.
+
+### Changed — The density ladder's mid-ladder dip is attributed to the primary scheme's padding (2026-11-07)
+
+- **`docs/DECISION-DENSITY-EXCLUSION.md` section 2 now explains the non-monotonicity instead of only
+  reporting it.** Total exposure is fixed at 400 events while the base grows as 2|W| + 24, so the final
+  partial pass ends in the world-edge head at rho 0.1–0.6 and in the filler tail only at 0.8; with the
+  engine's 0.95-per-cycle decay the freshest cycle holds the top of the ranking, so the intra-cell class
+  the exclusion removes is de-exposed at mid density by construction.
+- **Measured, not inferred:** the primary control spends 0.88 of its 20 cap slots on intra-cell rows at
+  0.4 (sensitivity: 3.75) and 5.00 on cross-cell rows no exclusion can remove (sensitivity: 1.75), so
+  Delta is 0.0281 there instead of 0.1469. The schemes agree at 0.1 and 0.8, where the criterion is read.
+- **No verdict, criterion or artifact changed.** The table is recomputed from the run by
+  `tests/test_decision_density_exclusion.py`, which also checks the generator's ending class at every
+  density.
+
+### Added — The engine-change audit, and the freeze finding it produced (2026-11-07)
+
+`docs/ENGINE-CHANGE-AUDIT.md` inventories what changed in the engine after the archival freeze:
+**20** commits touching `organica/` between 2026-10-25 and 2026-11-07, five new modules, a raised
+prediction cap, a lookback-contamination fix and a submodule split. Its central finding is that
+**none of the recorded failures was measured on the engine at HEAD**, so a rerun campaign is a
+different experiment rather than a replication.
+
+It also records that the freeze no longer checks the engine: all seven
+`test_engine_file_is_unchanged_since_the_freeze` cases **skip** at package versions at or above
+0.12.0, while the eight published-artifact checks in the same file pass. The skip is a version
+gate, not an unreadable tag, and `docs/V1-FREEZE.md` §6 states it — so the freeze is documentary
+from 0.12.0 onward and nothing compares the live engine against `v0.9.0`. A campaign that pins an
+engine needs its own identity check, built to fail.
+
+The audit also corrects a carried-forward status: **C1 failed as pre-registered** (P2 not met),
+and H2 is untested in an admissible form because F2 fired first. `tests/test_engine_change_audit.py`
+recomputes the commit count, the pinned commits and the frozen-file list rather than trusting them.
+
+### Added — The context that was held in conversation is now a labelled register (2026-11-07)
+
+`docs/CONTEXT.md` records three kinds of fact that existed only in conversation: what the owner
+can afford to run, who the work is addressed to, and what the project explicitly does **not**
+claim. Every row carries one of three provenance markers — `repo` (already in an artifact, cited),
+`owner-reported` (testimony, dated) or `unknown` (nobody has recorded it) — so a fact stated in
+passing cannot later be read as a measurement. The `unknown` rows are the finding: hours per week,
+the host machine, funding, any deadline and any institutional affiliation are unrecorded, while the
+one quantified capacity fact is derived from `docs/stage_b_cost_estimate.json` (about 29 hours of
+single-core-equivalent compute for one Stage B pass) and `tests/test_context_doc.py` recomputes it
+rather than trusting the prose. The not-claimed table gives each denial a licence condition — what
+result would force the claim to be made — instead of a disclaimer that no check can fail.
+
+### Added — The project's questions are a generated registry, and outreach has its own note (2026-11-07)
+
+`docs/research_question_registry.json` records **23** questions — **10** closed, **6** open, **5**
+retired, **2** future — with the answer, the scope, the evidence and the decision record behind each.
+`benchmarks/research_registry.py` validates it and renders `docs/RESEARCH-QUESTION-REGISTRY.md`,
+refusing to render when a `docs/DECISION-*.md` is untallied, a bottleneck-map row is unclaimed, a
+closed or retired question cites a document that is missing, or a future question names a
+prerequisite that does not exist. `tests/test_research_registry.py` holds the rendered document equal
+to a fresh render, so a stale tally fails the suite.
+
+`docs/OUTREACH.md` says why the repository should be put in front of a researcher — the independent
+Stage B review is a hard gate, and the strongest result here is a verified negative that needs a
+reader who prices nulls correctly — what to send (deposit first: `papers/README.md` records eight
+manuscripts and zero published, and Papers 01 and 02 carry complete packages), and what to lead with:
+the earned cross-context result, TR **0.944** against **3.4** cycles naive over five seeds with no
+p-value, verdict `STRUCTURAL_PRIOR_PRESENT_NO_ACQUISITION_ADVANTAGE`. It gives the rule for the
+withdrawn v1 numbers (they appear only beside the word *withdrawn*), keeps established, open and
+not-demonstrated claims in separate tables, and labels the role, cross-domain, reusable-knowledge
+chain as a research programme rather than a finding. AGI is recorded as not demonstrated.
+
+### Added — A third exposure scheme tested the padding attribution and only half confirmed it (2026-11-07)
+
+- **`DENSITY-PADDING-1`** registers `whole_cycle`: the base stream repeated a whole number of times,
+  so every base position is exposed equally and every stream ends on the filler tail. Seeds and
+  densities are inherited by reference from A2; the A2 block, its criteria and its artifacts are not
+  amended, and the scheme is an additive branch in `benchmarks/density_worlds.py`.
+- **The phase gate held and can fire:** every base occurrence is emitted exactly `passes` times at
+  every density, every stream ends on a filler event, and the primary stream fails the same check.
+- **Result: `WHOLE-CYCLE PADDING DOES NOT RESTORE A MONOTONE LADDER`** — 0.0531, 0.0719, 0.0844,
+  0.0500, 0.1500, with the 0.4 → 0.6 step at −0.0344, so P1 and P2 both fail; the negative control
+  confirms P1 fires on the A2 primary profile.
+- **The earlier attribution is narrowed.** The padding phase accounts for about half of the 0.4 gap
+  between the primary and per-edge readings (0.0562 of 0.1188) and no longer for the whole
+  mid-ladder shape; the residual is recorded as measured but unattributed, coinciding with the
+  control's intra-cell slots falling from 2.44 to 1.06 between 0.4 and 0.6.
+
+### Changed — Intra-cell exclusion adopted as an allocation change, and not implemented (2026-11-07)
+
+- **`docs/DECISION-DENSITY-EXCLUSION.md`** records the owner's decision: rows whose two tags sit in
+  one cell are not eligible to occupy a fixed selection budget, and the same count ordering applies
+  to the eligible rows. It is dated, it names the evidence artifact, and its scope is the share of a
+  fixed budget spent on world edges — one world family, cap 20, both exposure schemes.
+- **The evidence is the A2 verdict, quoted from the artifact**: sparse-end level 0.059375 with
+  interval 0.040625–0.078125 against the 0.05 bar, 13 of 16 seeds positive, reproduced by the
+  sensitivity scheme. The slope is explicitly excluded as a reason: descriptive, dense end pinned at
+  0.150, primary-scheme middle non-monotone.
+- **Nothing is implemented.** No engine file changed; the record states that going live needs its own
+  implementation record and a behaviour-preserving test, and that absence of a behavioural gain is a
+  limit rather than a reversal. `tests/test_decision_density_exclusion.py` re-checks every quoted
+  figure against `docs/density_interaction_a2_result.json`.
+
+### Added — The density block A2 ran and returned its positive branch (2026-11-07)
+
+- **All 640 registered cells executed** on seeds 20330201–20330216 with `PYTHONHASHSEED=0`,
+  as a detached process sliced into three runs and appended; every gate passed.
+- **Verdict: EXCLUSION PAYS AT SPARSE DENSITY AND GROWS WITH DENSITY.** The sparse-end
+  precision level was **0.059**, 95 percent interval **0.041–0.078**, against the **0.05** bar,
+  with **13 of 16** seeds positive; the sensitivity scheme reproduced the sparse end exactly
+  (0.059, 11 of 16) and both schemes read **0.150** at the dense end.
+- **The slope is descriptive, as registered:** +**0.091** (0.072–0.109) is reported and placed
+  by the decision table, not scored, because the dense end is pinned by the pool's
+  composition. The verdict licenses an allocation change on this layer and no behavioural
+  claim; `docs/density_interaction_a2_result.json` holds it and §9 of the rendered
+  registration states it.
+
+### Changed — The density block is held before the run: its dense end has no headroom (2026-11-07)
+
+- **A pre-run review, on five unregistered seeds, found the registered criterion cannot be
+  satisfied by this world.** At rho_world 0.8 under fixed total exposure the pool is 240 rows
+  of which 192 are world edges, so a count-ranked top-20 is all world edges: control and
+  treatment both score precision 1.000 on every seed, Delta(0.8) = 0, and the interaction is
+  −0.06. Under fixed exposure per edge Delta(0.8) = 0.200, so the schemes disagree in sign —
+  the design record's own definition of an exposure artifact. No judged cell ran.
+- **Five harness defects fixed:** the rho = 1 identity fixture selected the whole pool and so
+  could not fail; G0 compared stored order instead of selected sets; the world description
+  claimed the filler's share was (1 − rho) when only its count is proportional; two event
+  totals were hardcoded instead of read from the world module.
+- **The design record's precision bound was false and is corrected.** "Precision cannot exceed
+  rho_rank" fails whenever the ranker prefers world rows; the control measured 1.000 against a
+  rho_rank of 0.800. The bound is min(1, |W ∩ P_rank| / k). The registration never gated on it.
+- **The registration is HELD, not scored.** A2 needs a budget that is a fixed fraction of |W|
+  (cap = |W|/4 gives 6 slots at 0.1 and 48 at 0.8) or an interaction anchored where the control
+  is below the ceiling. `docs/DENSITY-INTERACTION-REVIEW.md`, `docs/density_interaction_review.json`.
+
+### Added — The density interaction, block A2: held A1 replaced by a runnable registration (2026-11-07)
+
+- **`docs/density_interaction_a2_prereg.json`** with its rendered
+  `docs/DENSITY-INTERACTION-A2-PREREGISTRATION.md`: 320 judged cells plus 320 exposure-check
+  cells (2 arms × 2 caps × 5 densities × 16 fresh seeds), one bar of 0.05, gates G0–G6 and a
+  seven-row decision table, all committed before the first cell. A1 is retained, HELD and unrun.
+- **The world's filler family is now constant**: a fixed within-cell event mass at every
+  density, so the ineligible class competes for the ranking budget across the whole ladder.
+  The proportional family is A1's and is not run.
+- **The judged criterion is the sparse-end precision level**, not the interaction. With cap 20
+  at or below the world-edge count at every density, the treatment removes a class that is
+  never a world edge, so it is perfect whenever the pool holds ≥ 20 world rows: the pilot
+  measured Δ(0.8) = 0.150 with zero spread on eight unregistered seeds. The slope is reported
+  with its interval and its per-seed values and placed by the decision table, but it is not
+  scored — an interaction criterion there would be arithmetic.
+- **The bar is 0.05, calibrated on seeds 992001–992008**, which this block does not judge: the
+  sparse-end mean there was 0.094 with sd 0.062, so the level is powered (~0.8) at sixteen
+  seeds. The runner gained `--prereg`; it accepts any contiguous block of at least eight seeds
+  and derives the cell count from the registration rather than a literal.
+- **`benchmarks/score_density_interaction_a2.py`** is A2's frozen analysis path and
+  **`benchmarks/write_density_a2_prereg.py`** renders its document; `tests/test_density_interaction_a2.py`
+  shows every pole reachable, every gate able to void the block, and the document equal to the
+  artifact.
+
+### Changed — diversity-first admission, adopted, measured and withdrawn (2026-11-07)
+
+- **`organica/admission.py`** carried the adopted admission rule (removed at withdrawal,
+  below): each budget slot takes the eligible prediction whose source tag owns the fewest
+  already-admitted outgoing edges, ties
+  broken on count and then on the stable key. `COUNT` is the confirmatory block's control
+  ordering and is retained beside it; the adopted service's `COUNT` arm delegates to the
+  engine and returns its admission unchanged.
+- **The budget floor is a floor, not an increase.** Under the adopted rule the cap is
+  `max(cap, eligible source tags)`, which is inert at the engine's own caps in a 16-source world
+  and binds only where a caller sets a cap below the source count.
+- **`DiversityFirstSleepService`** (removed at withdrawal) was a `SleepService` subclass that
+  overrode `_build_predictions` and nothing else. Under `COUNT` it delegated to the engine and
+  returned its admission unchanged; under `DIVERSITY` it ranked the eligible pool, which
+  superseded the engine's
+  stratified transition/co-occurrence quota (disclosed in the decision record). `organica/sleep.py` is not edited: the frozen engine keeps the frozen rule,
+  and every published count-basis measurement stays reproducible.
+- **The decision is recorded before the code**: `docs/DECISION-ADMISSION-RULE.md`, with
+  `docs/V1-FREEZE.md` §7 carrying the amendment. Coverage is not behaviour, and the record says so.
+- **Withdrawn the same day, on that measurement.** A rule its own measurement closed is not a
+  policy an engine version should carry, so the adoption was reversed rather than left standing as
+  a non-default arm: `organica/admission.py` and `tests/test_admission_rule.py` are deleted, and
+  `SleepService` is again the only admission path in the package. The decision record is
+  `docs/DECISION-ADMISSION-RULE.md` — §6 keeps the measured outcome exactly as the frozen analysis
+  returned it, §7 records the withdrawal — and `docs/V1-FREEZE.md` §7 carries the reversal, with
+  §1 untouched at every step. The block stays reproducible from **`a82e890`**, the last commit that
+  contained the adopted arm; `benchmarks/run_admission_two_arm.py` resolves both arms lazily and
+  stops with that commit's name instead of an `ImportError`.
+- **Measured outcome (2026-11-07): the adopted order loses on the prediction layer.** The
+  pre-registered two-arm comparison returned `NO GAIN ON THIS LAYER`: mean paired coverage
+  gain -0.077009 over its interval, 0 of 8 seeds positive, precision also down. The pooled-edge
+  gain does not transfer; the layer is closed to this rule, the service was withdrawn (above), and
+  `docs/DECISION-ADMISSION-RULE.md` §6 records the outcome.
+- **`tests/test_admission_rule.py`** (removed at withdrawal) proved the count arm reproduces
+  `SleepService`, that the adopted arm differs where one source is crowded, that the floor is
+  inert at the engine's caps and binds below them, and that no frozen engine file is modified.
+
+## [0.12.1] — (unreleased; superseded by 0.13.0)
+
+### Added — The temporal-decay confirmation harness and its pre-registration (2026-11-06)
+
+- **`benchmarks/decay_confirmation.py`** implements the pre-registered confirmation of the
+  transition-probability strength: a measured-degree world audit, a threshold calibrated on a
+  separate seed block and sealed with a sha256, held-out stationary/shift/task cells, and a
+  conjunctive analysis that returns a named rejection instead of a weak pass.
+  `tests/test_decay_confirmation.py` produces every rejection label, so no gate is decoration.
+- **`analyze` refuses an artifact it cannot honestly score.** A missing, malformed or
+  cell-less held-out file is a usage error with a message, not a `FileNotFoundError`
+  traceback, and a held-out run whose recorded `calibration_sha256` is not the calibration
+  passed to `analyze` is refused, so cells produced under one threshold pair cannot be
+  scored against another. Five CLI tests drive the real parser, seal and seed guard.
+- **`docs/DECAY-FIX-CONFIRMATION-PREREGISTRATION.md`** fixes the protocol before any cell,
+  with five dated pre-run amendments: the shipped arm's closed-form `1/N` ceiling at degree
+  4 and above, the measured even degree ladder (2/4/6/12) with scan-chosen seed blocks, and
+  non-inferiority to the strongest simple baseline on the task endpoint, a ratio-strength
+  threshold-control arm calibrated on the same seeds, and an explicit definition of a
+  boundary selection at 0.075.
+- The four-option decay measurement (`docs/DECAY-FIX-OPTIONS.md`,
+  `docs/prediction-decay-options.json`), the 0.9.0/0.12.0 comparison pre-registration, the
+  0.12.0 engine identity record and its test are recorded alongside it.
+- **The engine is unchanged.** Option 2r remains a lead candidate, not an adopted fix, and no
+  paper result is updated; the version moves only because `v0.12.0` is tagged at `5804e60`
+  and master must not drift past a release it still declares.
+- **The pre-registered calibration ran and selected no threshold, so the campaign stopped and nothing was adopted.** 448 cells on `0.12.0` (`5804e60`) with the harness at `841e3ff`: the degree audit passed and the seal verified, but for both the transition arm and the ratio control no threshold in the grid was live on every cell while keeping precision at or above 0.95 on every cell, so both recorded the pre-committed `no global threshold clears all degree regimes`. No held-out cell was run. The artifact is on the owner's machine, not in this tree; the record is §18 of the preregistration.
+- **`docs/DECAY-OPERABILITY-PROPOSAL.md` records the recommended next direction and authorises nothing.** No threshold is chosen or searched for; a decay-off version is the pragmatic route with `0.12.0` immutable, and restoration is not release-ready until long-run liveness and edge growth are checked. The seed block, the horizons and the edge-growth criterion are the owner's and left unset.
+- **`benchmarks/decay_operability.py` measures decay-on against decay-off on the matrix's own stimulus, seed and 3,000-cycle horizon.** Two arms differing in one class attribute, per-cycle theories, beliefs, stable predictions, temporal-edge rows and mass, and database bytes; a protocol artifact only at the matrix settings with `PYTHONHASHSEED=0`, pilots under `.scratch/` and marked. Growth is reported, not judged, and no engine file changes.
+- **`docs/DECAY-TUNING-CYCLE.md` separates exploratory tuning from confirmation, and fixes fresh seed blocks in `docs/decay_tuning_cycle.json`.** The 448 cells bound the tested grid and rule only; a tuned rule is frozen on development seeds and adopted only on a new confirmatory block. No cell ran, no rule exists, and no old cell becomes confirmatory.
+- **`docs/DECAY-NULL-SCOPE.md` bounds the 448-cell null to its grid, gates and selection rule.** The design is 7 thresholds x 4 degrees x 8 seeds x 2 calibrated arms, the rule is a per-cell conjunction, and for the transition arm every tested threshold fails at least one gate — so the conjunction is not the cause. One five-hundredths-wide interval is untested; its resolution needs the sealed artifact, which is not in this worktree. No verdict was re-scored and nothing was adopted.
+- **`docs/WORLD-DENSITY-DESIGN.md` records world-edge density as an untested hypothesis.** The variable is |W|/|C|, not an edge count: 16 tags give 240 directed pairs, and 500 edges needs at least 23 tags at density 0.988. The exposure tradeoff is an explicit choice, the claim is an interaction between the ranking intervention and density, and no seed, cell, threshold or bar is allocated. The 448-cell null is not offered as evidence.
+- **`docs/DECAY-NULL-SCOPE.md` corrected: the untested threshold interval is one grid step, not two.** Against the verified artifact the transition arm is liveness-rejected already at 0.15 and precision-rejected at 0.10 and below, and the ratio arm at 0.20 and above forms no stable predictions at all, so its precision is `None` in every cell. Adjacent rejections for opposite reasons is where grid resolution decides the answer, so the null is either structural or a resolution artifact. The verdict and the adoption status are unchanged.
+- **`docs/WORLD-DENSITY-DESIGN.md` separates `P_world` from `P_rank` and registers a direction.** The manipulated quantity is `rho_world` = |W|/|P_world|; the ranker's own population `P_rank` is measured per cell, and selection precision cannot exceed its true-edge share — a bound the study checks rather than assumes. The treatment is intra-cell-excluded ranking against the engine's global count-ranked top-k, and the prediction is that the advantage declines with density and vanishes at rho = 1. Still no seed, cell, threshold or bar allocated.
+
+- **The 3,000-cycle decay-operability run is recorded as liveness, not as soundness.** The decay-off arm holds theories and beliefs through the matrix's full horizon while edge mass grows 1,819 -> 197,753 (×108.715; ×3.838 at 80 cycles). The mass is `SUM(precedes.count)` — accumulated transition weight, not a row count — and no growth bound was pre-committed, so the result is reported and explicitly not judged. Values come from `docs/decay_operability_record.json`, not from prose.
+
+- **The bottleneck map is recorded as a claim-status artifact.** Eight candidate explanations each carry one of the four statuses, the check behind them and what the status does not say. Writing it corrected two rows: decay necessity is *unresolved* rather than *not supported*, and selection/allocation is a demonstrated constraint on coverage whose effect on behavior is untested rather than a demonstrated contributor. Only the density interaction is a specified experiment, and it allocates nothing. `docs/BOTTLENECK-MAP.md`, `docs/bottleneck_map.json`.
+
+## [0.12.0] — (2026-11-06)
+
+### Changed — The release identity is settled: v0.12.0 is the deposit object (2026-11-06)
+
+- **One version names the deposited software.** Package, `pyproject.toml`, `CITATION.cff`,
+  README, changelog and both Zenodo records say **0.12.0**; `v0.9.0` stays the archival
+  reference for the frozen engine and `v0.10.0` is the previous cut tag. The `v0.12.0` tag is
+  cut at this commit, and `CITATION.cff` carries the tag date rather than another version's.
+- **The deposit descriptions are true of the commit.** The old
+  `zenodo/software-v0.11.0.json` claimed `organica/` was byte-identical to `v0.9.0` and that
+  the freeze test fails on any difference; the engine differs across nine files and the test
+  skips its engine checks at `>= 0.12.0`. The record is renamed
+  `zenodo/software-v0.12.0.json`, and both it and `.zenodo.json` now state that the engine
+  advanced past the freeze, name `v0.9.0` as the archival reference, and link the record to
+  the repository as part of it rather than claiming identity.
+
+### Changed — Built paper artifacts are kept out of the repository (2026-11-06)
+
+- **The rendered PDFs and deposit zips are release payloads, not repository files.**
+  `artifacts/` carried two manuscript PDFs and two deposit zips (1.9 MB) that no script writes
+  at that path and no document references, while `benchmarks/deposit_bundle.py` builds the
+  deposit into `.scratch/deposit/` with a `MANIFEST.json` and `SHA256SUMS` per record. Every
+  manuscript, figure and cited artifact the bundles are built from is tracked, so the directory
+  is now gitignored and a second copy cannot drift from its sources. The bundles are attached to
+  the release/Zenodo record when the version is cut. `docs/figure_p0*.pdf` remain tracked because
+  the manuscripts cite those figures and `benchmarks/figure_papers.py` regenerates them.
+
+### Added — Paper 07: the architecture's five predictions, three reversed (2026-11-06)
+
+- **The Tier-1 matrix and the Phase K ablations are written up as a manuscript.**
+  `papers/07_architecture_predictions_reversed.md` reports the five preregistered architecture
+  predictions direction-aware: P1 (retention) and P4 (dreams) supported; P2 (contradiction's
+  weight), P3 (question generation) and P5 (EIG) reversed. The contradiction colony is disclosed
+  as de-weighting rather than removing, M5 is named as a finite inventory over run length rather
+  than a velocity, and Phase K's three matched ablations all contain zero.
+- **The tables are checked, not typed.** `tests/test_reversals_paper_numbers.py` rebuilds the
+  verdict and Phase K rows from `docs/verdicts.json` and `docs/phase_k_results.json` and is itself
+  exercised against fabricated deltas, bounds and verdict labels.
+- **The manuscript inventory moves from seven files to eight, still with no DOI.** The count is
+  updated in `papers/README.md`, `README.md`, `docs/USER-MANUAL.md` (finding 30), `docs/FACTS-SHEET.md`
+  (AD2) and Paper 00's companion note; the draft is not in the deposit queue.
+
+### Changed — Papers 03 and 04 reconciled with Paper 07 (2026-11-06)
+
+- **Both mechanism papers now cite the ablation their own "next test" sections asked for, and say which
+  conditions it meets.** Paper 03 records the Tier-1 matrix against its five conditions: the exact quantity,
+  a mechanism-off control and equal budgets are met; an external outcome is not; the decision rule is met
+  only as a direction rule against a measured floor, since there is one seed per colony and one world.
+  Paper 04 records the matched no-dream arm against its evaluation list: equal-budget dream-on/off is met,
+  while the random-candidate control, the external outcome and the provenance split are not.
+- **The restated effect sizes are guarded.** +0.166, +1.266, +0.366 and -1.000 are checked against
+  `docs/verdicts.json` by `tests/test_reversals_paper_numbers.py`, which also asserts that both papers
+  cite Paper 07.
+
+### Fixed — Reproducibility repairs (2026-11-06)
+
+- **The three DI artifacts record a portable source path.** `di_construct_audit.json`,
+  `di_window_design.json` and `di_transition_construct.json` stored `str(Path)` as
+  `docs\phase_l_results.json` (Windows separators) together with a sha256 taken before the
+  source file's last edit, so `test_the_stored_artifact_is_current` failed on any other
+  host. The builders now record `as_posix()` and each artifact was regenerated; a
+  leaf-level comparison confirms only `source.path` and `source.sha256` changed — no
+  measurement moved.
+- **The tied-window tests no longer assume one SQLite tie order.** The window-rotation
+  wrapper rotated unconditionally, which displaces the stored row only when the build
+  sorts it first; on a build that sorts it last the manipulation silently stopped firing
+  and the test failed. It now displaces the stored row only when it is first, so the
+  rotated window always starts with an older tied row. The companion test no longer
+  asserts that the build's first row agreed with the stored row — an implementation
+  observation its own docstring disclaimed, not the claim under test; the per-store target
+  identity remains asserted.
+
+### Changed — Freeze amendment: carried-forward structures are not current-cycle evidence (2026-11-06)
+
+- **Owner-authorised amendment to the Organica 1 freeze.** `organica/sleep.py` re-admitted
+  every stable G2/G3 prior into the current cycle before natural selection, so a structure
+  that had stopped being produced was counted as re-emerging, reinforced +0.05 per cycle and
+  never decayed. The five carry-forward grafts now mark the re-admitted object
+  `carried_forward=True` (a transient field on the five dataclasses in
+  `organica/candidates.py`), and `organica/sleep_selection.py` excludes such structures from
+  the current-cycle key set and from re-storage. They remain in the report for downstream
+  layers and telemetry; the marker never reaches the store. Recorded in
+  `docs/V1-FREEZE.md` §6.
+- **Measured consequence.** Both arms of `benchmarks/candidate_supersession_probe.py` now
+  decay by ×0.8 and retire on their closed-form cycle, where the schema arm previously rose
+  to 1.0 and never retired.
+- The engine-file identity check already skips at package version ≥ 0.12.0, so no pin was
+  changed: the amendment is recorded, not enforced by editing the mechanism.
+- **Measured consequence on the frozen engine's own Gate 13.** Gate 13 reads its asserted
+  basis off the surviving candidate set, so the amendment moves that figure. On the harness's
+  default seed at 112 world edges: `e6d1bcc` 0.2321, the supersession reader alone
+  0.1964, the reader plus this amendment 0.3036 — raw temporal coverage is
+  112/112 in all three, and the gate still fires because 0.3036 is far below the 0.50
+  threshold. Every Gate 13 figure recorded before this amendment therefore describes the
+  pre-amendment engine; they are labelled as such in `docs/V1-FREEZE.md` §6 and are not
+  re-scored. Artifact: `docs/candidate_supersession_gate13_effect.json`.
+- **A harness bound restated as a claim rather than an absolute.**
+  `tests/test_acquisition_harness.py` asserted `asserted_coverage < 0.3` — a number tuned to the
+  pre-amendment build, which the amended engine clears. It now asserts that raw coverage
+  exceeds 0.9, that the asserted reading is below the gate's own 0.50 threshold, and that the
+  raw reading holds more than twice the world edges the assertions do.
+- **The Gate 13 cap-20 pilot range does not reproduce on later builds.** Re-running the paired
+  capacity test's control arm (`run_paired_condition`, `max_predictions=20`, the same five
+  diagnostic seeds and 112 world edges): as recorded on `89b0744` (2026-10-28)
+  0.0000–0.0268 with 0 of 5 seeds passing Gate 13; at `e6d1bcc`
+  0.6607–0.8125 with 5 of 5 passing; on the amended engine
+  0.4821–0.7500 with 4 of 5 passing. Bisected on seed `20261101`, the
+  first build off the recorded band is `9f2c8e1` (2026-11-04) — so the move predates the freeze
+  amendment, and the amendment's own effect on this basis is to lower the range by 0.06–0.18. Runs are
+  deterministic within a build and hash-seed independent. The re-check of `89b0744` covers one seed,
+  where it reads 1 of 112 against 0 of 112 recorded, and the cap-1000 treatment arm was not
+  re-run. Correction and the list of documents still quoting the old range:
+  `docs/GATE13-PAIRED-CAPACITY-TEST.md` §5; artifact `docs/gate13_cap20_build_comparison.json`.
+- **The cap-1,000 treatment arm still holds, and the paired margin is narrower than the record
+  implies.** Re-running the treatment arm on the same five diagnostic seeds: recorded `89b0744`
+  0.9821–1.0000, `e6d1bcc` 1.0000–1.0000, amended engine 1.0000–1.0000 (5 of 5 pass, all at
+  112 of 112 world edges) — so 98.2–100 % is superseded upward to 100 % and the capacity account
+  survives the amendment. Against the amended control arm (0.4821–0.7500) the contrast is no longer
+  near-zero-to-full. The measurement sits at the metric's ceiling, so it says nothing about precision
+  (the 0.3438 ceiling is untouched) and covers five diagnostic seeds only.
+  `docs/GATE13-PAIRED-CAPACITY-TEST.md` §6; artifact `docs/gate13_cap1000_build_comparison.json`.
+- **Precision measured at both caps, so the coverage ceiling cannot hide a quality change.** On the
+  final asserted set (`covered / asserted`, world vocabulary only): every arm on a later build sits
+  between 0.4155 and 0.4746, with amended medians of 0.4576 at cap 20 and 0.4571 at cap 1,000 against
+  0.4602 at `e6d1bcc`/cap 20 — flat, while recall rises from 0.4821–0.7500 to 1.0000. So the amendment
+  changes which structures are asserted and how many, not how often an asserted edge is real. This
+  quantity is not the 0.3438 Layer-1 selection-precision ceiling and is not comparable to it.
+  `docs/GATE13-PAIRED-CAPACITY-TEST.md` §7; artifact `docs/gate13_asserted_precision.json`.
+- **The capacity curve is swept, and the amendment's effect is a smaller asserted set, not a better
+  one.** Caps 1–1,000 on `89b0744`, `e6d1bcc` and the amended engine. Precision is flat across the
+  whole curve on both later builds (spans 0.0087 and 0.0118); the recorded build's
+  step is a step in asserted-set size (30–40 edges out to cap 50, then 68/128/243),
+  where its precision is a measurable zero because nothing world-aligned is asserted. Against
+  `e6d1bcc` the amendment lowers recall at every cap below 500 (0.5089 against 0.7143 at cap 1, 0.5357 against
+  0.7768 at cap 20) on a smaller asserted set (129 against 173 edges) with precision unchanged — so the
+  carried-forward copies included world edges, and the amendment is a scoring correction, not a
+  coverage gain. Against `89b0744` it is still a large gain at small caps (0.0000 to 0.5089 at
+  cap 1). New artifact `docs/gate13_cap_curve_by_build.json` and figure `docs/figure_gate13_capacity_curve_by_build.svg`; the Measured as difference ratios rather than as medians, the edges the cap adds are asserted at nearly the initial set's hit rate (marginal precision 0.4483 against 0.4651 on the amended engine; 0.4600 against 0.4591 at `e6d1bcc`), and the 190 edges the amendment drops at cap 1 include 87 world edges (pooled 0.4579 against 0.4651 retained) — it removes a sample of edges, not a sample of noise. `docs/GATE13-PAIRED-CAPACITY-TEST.md` §8.3. The population it ranks is 240 vocabulary rows containing all 112 world edges (base rate 0.4667); 192 of 240 rows tie at count 10, and against a random draw of the same size the asserted set is at chance, so the plateau is the pool's composition and the constraint is rankability. `docs/GATE13-PAIRED-CAPACITY-TEST.md` §8.4. Of six computable orderings only the stored `ratio` beats that base rate at top-20 (0.5000–0.6000, 1.47 SE, directional) and breaks the count tie; the engine's raw-count admission rule is -5.35 SE below chance. §8.5; `docs/gate13_tiebreak_tests.json`.
+- **Pre-registered, not authorised: the `ratio` admission arm.** `docs/GATE13-RATIO-ADMISSION-PREREGISTRATION.md` freezes arms, metrics M1–M5, seeds, predictions P1–P4 and the outcome table before any cell runs; no engine file is touched and no cell has run.
+  measurement document gains §8. The committed seed-keyed sweep `docs/gate13_capacity_sweep.json` is untouched.
+
+### Fixed — Candidate supersession (2026-11-06)
+
+- **`_load_prior_candidates` returns one live copy per identity.** The sleep rows are a
+  history — every surviving candidate is re-written each cycle — and the old reader
+  returned every copy, so the selector's maximum-value rule always picked the oldest
+  generation and Law VI decay could never be seen. The newest copy per id now supersedes
+  its predecessors (`organica/sleep_selection.py`).
+- **A prune writes a death record.** Natural selection stores a `retired: true` record with
+  the same id when a candidate falls below `DEATH_THRESHOLD`, so a pruned candidate stops
+  being loaded instead of being reloaded and re-decayed forever. Re-extraction still
+  supersedes the tombstone.
+- **Disclosed, not fixed:** the frozen `organica/sleep.py` re-admits stable G2/G3 priors
+  into the current cycle before selection, so those structures are reinforced every cycle
+  and still never decay. G1 candidates (concepts, phrases, loops, predictions) now do.
+  Decision `docs/DECISION-CANDIDATE-SUPERSESSION.md`; probe
+  `docs/candidate_supersession_probe.json`; manual §8.24.
+
+### Measured — the `ratio` admission arm: ordering, not capacity, is binding (2026-11-06)
+
+- The pre-registered arm ran 55 cells (three conditions, five diagnostic seeds, caps 10/20/100/1,000,
+  `PYTHONHASHSEED=0`). **P1, P2, P3 and P4 all pass**: at cap 20 the stored-`ratio` ordering beats the count
+  control's coverage on every seed (+0.0536 to +0.0804) while paired precision moves by
+  -0.0031 to 0.0313, and the largest tie falls from 0.8625 to
+  0.1375 of the pool.
+- Registered reading: admission is a binding constraint and capacity is downstream. Marginal precision runs
+  *lower* for the ratio arm (0.4444 against 0.4627 from cap 20 to
+  1,000) because it front-loads the pool; the saturated endpoint is identical.
+- Two corrections recorded: §8.4–§8.5's "the admission rule sorts by count" is the harness's rule, not the
+  engine's (`_build_predictions` sorts by target entropy first, then transition probability, then count) — the
+  engine's own rule at cap 100 is worse than count on both metrics; and seven treatment cells that reproduced
+  the control exactly were discarded as an ineffective instrument before any result was read.
+- No engine file, threshold, seed or prior claim changed. `docs/GATE13-PAIRED-CAPACITY-TEST.md` §8.6,
+  `docs/GATE13-RATIO-ADMISSION-PREREGISTRATION.md` Amendment 2, `docs/gate13_ratio_arm.json`.
+
+### Proposed — confirmatory pre-registration for the `ratio` arm, with one open decision (2026-11-06)
+
+- `docs/GATE13-RATIO-CONFIRMATORY-PREREGISTRATION.md` fixes the arm exactly as run: 275 cells
+  (C/R at caps 10/20/100/1,000, E at 20/100/1,000), 25 seeds, `PYTHONHASHSEED=0`, and a liveness control that
+  voids the block if the treatment stops differing from the control.
+- Four predictions with thresholds fixed by the null, not by the development result: the directional count is
+  the exact one-sided sign-test threshold (21 of 25, p = 0.00046).
+- The requested range 20261106–20261130 is **not fresh**: all 25 seeds are named in 63 committed
+  files and it is the acquisition experiment's reserved confirmatory sample. Allocation B
+  (20270602–20270626) is verified unused across 440 scanned files and is pre-registered as the
+  default; the choice is recorded as the owner's decision.
+- Nothing ran, no seed is spent, no engine file changed.
+
+### Recorded — the `ratio` confirmatory block: treatment reproduces, control's chance premise does not (2026-11-06)
+
+- Ran on **allocation B** (20270602–20270626), the 25-seed range with zero occurrences across the 440 files
+  scanned, on the owner's ruling. 275 cells, arm unchanged, `PYTHONHASHSEED=0`.
+- **Verdict PARTIAL / NOT COMPARABLE** — the frozen table's last row, not a confirmation. C0, C2, C3, C4 pass; **C1 fails**:
+  the count-sorted control is below the frozen 0.4667 base rate on 22/25 seeds (median 0.4348),
+  so the development block's "count is at chance" reading is seed-dependent rather than a property of the
+  ranking. The treatment contrast itself reproduces: coverage up on 24/25 (median +0.0446, exact
+  one-sided p = 7.7e-07), tie broken 24/25, precision median +0.0128 and worst -0.0084.
+- No engine file, threshold or seed outside the block changed; the not-comparable verdict is reported as the
+  pre-registration required rather than re-read as a win. `docs/GATE13-PAIRED-CAPACITY-TEST.md` §8.7.
+
+### Recorded — C1 failed on its own band: structural comparator, under-powered criterion (2026-11-06)
+
+- Diagnostic, **not confirmatory**: 200 seeds (20270701–20270900) on arm C at cap 20 only, through the
+  registered `run_cell` imported rather than reimplemented. Artifact `docs/gate13_control_precision_sweep.json`.
+- The frozen comparator is exact by construction: 240 pool rows containing 112 world edges on every seed, so
+  0.4667 is the pool's composition and not a development-block accident.
+- The control is mildly anti-selective rather than at chance: precision mean 0.4449 (CI 0.4397–0.4500), sd 0.0376,
+  below base on 71.0% of seeds (offset -0.0218, t -8.2).
+- ±0.05 covers 81.5% of seeds, so C1's 21-of-25 bar had a 49.7% chance of passing on a matching population;
+  the block's 18/25 is z -1.2 (P = 0.17) and its mean sits at the 32.0th percentile. The §8.7 verdict is unchanged —
+  the characterisation sits beside it, per the rule that a verdict and a characterisation are separate artifacts.
+
+### Recorded — C1 re-specified as a calibrated equivalence test (2026-11-06)
+
+- Amendment 1 to `docs/GATE13-RATIO-CONFIRMATORY-PREREGISTRATION.md`: C1 becomes an equivalence test on the
+  block mean — pass iff mean cap-20 control precision over 25 seeds is within δ = 0.032 of the structural 0.4667
+  (band [0.4347, 0.4987]) — instead of a per-seed ±0.05 band on 21 of 25, which §8.8 showed passes 49.7% of the time
+  on a matching population.
+- δ is fixed from the 200-seed sweep alone: the smallest 0.001-grid margin with ≥90% bootstrap coverage
+  (90.8%; closed form 0.0315), stable at 0.0269–0.0367 under resampling of the calibration data.
+- Costs and blind spots are stated in the amendment rather than left implicit: 0.0102 of systematic shortfall is
+  absorbed (1.4 se, pass < 50% at a -0.011 shift), and the criterion is blind to dispersion. Prospective only;
+  the confirmatory verdict is untouched. `benchmarks/derive_c1_respecification.py`, `docs/gate13_c1_respecification.json`.
+
+### Recorded — block 2: first comparable block, treatment not reproduced (2026-11-06)
+
+- Pre-registered before the first cell on fresh seeds 20270901-20270925 (275 cells, C1′ frozen at δ = 0.032).
+- C1′ **passes** for the first time: mean cap-20 control precision 0.4530, -0.0137 from 0.4667, inside
+  [0.4347, 0.4987] — the control behaves like the calibrated population, so the treatment comparison is interpretable.
+- **C3 fails at 20/25** (exact one-sided p = 0.002, median Δ +0.0535) against the 21-of-25 bar;
+  C0 and C2 pass (22/25 at ≥3×), C4 passes thresholds but its median collapses to +0.0003 from +0.0128.
+- Verdict **TREATMENT NOT REPRODUCED**, decisive per the owner's authorisation and not re-scored; the nominal p-value is
+  reported beside the miss, not in place of it. Cap-1,000 coverage short of the full pool on 4 seeds (disclosed).
+  `docs/GATE13-RATIO-BLOCK2-PREREGISTRATION.md`, `docs/gate13_ratio_block2.json`, `benchmarks/score_ratio_block2.py`.
+
+### Analysed — the 20/5 split is not a pool-structure effect (2026-11-06)
+
+- Block 2's five non-improving seeds are indistinguishable from the twenty that improved on every pool property measured:
+  tie-block rows (201 vs 202, p =
+  0.9016), distinct ratio values (41 vs
+  44, p = 0.9674), ratio-to-count distinct ratio
+  (3.42 vs 3.64, p =
+  0.4518) and control precision (0.4625 vs
+  0.4357, p = 0.3582).
+- Top-20 density uplift does differ (0.25 vs 0.10, p =
+  0.0558) and correlates weakly with the coverage delta (pooled r = 0.362,
+  r² = 0.131; block 2 alone 0.297, interval spanning zero) — but
+  2 of the five failures still got a denser top-20, and the largest loss (20270921,
+  -0.0446) got no uplift at all. A better ranking is necessary-looking and not sufficient.
+- The only variable that separates at conventional levels, the ratio arm's asserted-set size (p =
+  0.0333), is downstream of the outcome rather than a property of the pool, so it explains nothing.
+- Explicitly exploratory: groups defined by the outcome, n = 5 failures, no pre-registered criterion, no verdict re-scored.
+  Confirming a moderator needs a fresh allocation and a bar fixed in advance.
+  `benchmarks/diagnose_ratio_seed_split.py`, `docs/gate13_ratio_seed_split.json`.
+
+### Analysed — a verified replay finds no admission-side difference in the 20/5 split (2026-11-06)
+
+- The cap-20 cells for the five non-improving seeds and five uplift-matched improving seeds were replayed with every
+  per-cycle admission window recorded; **all 20 replays reproduce** the stored asserted set, covered count and
+  digest, so the traces are the cells that were scored.
+- The ratio window is about 1.7× as often a world edge per cycle as the count window, but it reaches
+  26-41 distinct edges against 76-87: it
+  trades exploration for repetition (about 4.2× per edge) instead of finding more.
+- Failing and improving seeds do not differ on admissions (802.4 vs
+  732.4), distinct window edges (30.6 vs
+  33.8) or asserted rows (123.0 vs 151.2); the failing seeds
+  repeat world edges slightly more and end with fewer covered edges (55.2 vs 70.6).
+  The cap is not where the 20/5 difference lives.
+- Coverage exceeds window reach in 10 of 10 ratio cells
+  (62.9 covered, 41.3 outside any window) against 1 of
+  10 for the count arm (60.2, 12.4), because `structure_edges` aggregates all six
+  structure types and the window touches only some — a resolution boundary, recorded rather than bridged.
+- Exploratory: no pre-registered criterion, no verdict re-scored. The remaining question moves downstream of admission,
+  to how repeated assertions are consolidated. `benchmarks/diagnose_assertion_path.py`,
+  `benchmarks/analyze_assertion_path.py`, `docs/gate13_assertion_path.json`.
+
+### Analysed — loops carry the coverage, the ratio effect is temporal, and the 20/5 split is redundancy (2026-11-06)
+
+- A store-time observer captured every `event_type="sleep"` payload as written and attributed each covered world edge to
+  the structure type(s) asserting it; **all 20 cells verify** against the stored digest, against `structure_edges` on the
+  database's own candidate list, and against every per-edge weight.
+- `loop_candidate` carries 27-89 of the covered edges and is **identical across arms on all
+  10 seeds** (max difference 0) — loops are built from the stream and are not what the cap ranks.
+- The whole treatment effect is `prediction_candidate`: 6.2 to
+  11.8 in failing seeds, 8.2 to
+  13.6 in improving ones. What separates them is redundancy: loop/prediction overlap rises
+  1.4 to 8.8 where seeds fail and falls 5.2 to
+  3.6 where they improve.
+- This closes §8.12's boundary: coverage outside the admission window is loop coverage, and loops are not the object the
+  window ranks. Admission is a conditional bottleneck — worth something when the temporal edges it selects are not
+  already in the loops.
+- Recorded wording defect, not a code change: `structure_edges` documents "six structure types" but has eight branches
+  (`concept_candidate` and `phrase_candidate` share one).
+- Exploratory, final-set composition rather than time order, no criterion and no verdict re-scored.
+  `benchmarks/diagnose_structure_provenance.py`, `docs/gate13_structure_provenance.json`.
+
+### Pre-registered — loop-redundancy moderator block (frozen, unrun) (2026-11-06)
+
+- Block 3 freezes the §8.13 mechanism as a prediction about *which seeds* the ratio arm should help: pre-treatment loop
+  coverage of the world (`r_s`, the share of the world's edges the control's loop candidates already assert) should predict
+  the gain. Seeds 20271101-20271200 (100 seeds, zero occurrences in the tree; 20271001 onward rejected for
+  2 pre-existing hits), C and R at cap 20, 200 cells, nothing run.
+- Threshold 0.509 and all bars are fixed from the 10 calibration seeds, which the block does not contain. Gates: arm
+  liveness, C1′ comparability, and loop invariance across arms (a failed gate voids rather than negatives the block).
+- Power is published **before** the data: 0.327 joint for M1 and M2 against a mechanism-sized moderator,
+  0.002 at no association. The decision table therefore reads a pass as strong evidence and a miss as weak
+  evidence against the mechanism — and the document says so in those words.
+- Disclosed honestly: on the 10 calibration seeds the covariate's association is **+0.22**, the wrong sign
+  for the mechanism. The block tests the proxy against that hint rather than with it.
+- `benchmarks/run_redundancy_block.py` self-tested on the excluded seed 20270901 and reproduces block 2's asserted sets,
+  coverages and digests for both arms before the freeze.
+- `docs/GATE13-RATIO-REDUNDANCY-PREREGISTRATION.md`, `benchmarks/run_redundancy_block.py`,
+  `benchmarks/calibrate_redundancy_moderator.py`, `docs/gate13_redundancy_moderator_calibration.json`.
+
+### Gate 13 block 3 run (2026-11-06) — redundancy moderator retired
+
+- **Scored once, exactly as pre-registered.** 200 cells on the first unused 100-seed run (20271101-20271200), C and R
+  at cap 20, bars and threshold (0.509) fixed before the first cell, `loop_hash` recorded under Amendment 1
+  so G2 could compare loop attribution across arms rather than by count.
+- **Gates held.** Arms differed on 100/100 seeds, mean control precision 0.4444 sat
+  inside the C1′ band [0.4347, 0.4987], loop edge sets were identical on
+  100/100 seeds.
+- **Verdict: MODERATOR NOT SUPPORTED.** M3 passed — 88/100 seeds gain, mean 0.0442 coverage — so the effect
+  replicates for the third time, but M1 failed in the registered direction (0.0357 low vs
+  0.0536 high redundancy, bar +0.03) and M2 failed (Spearman -0.02,
+  CI [-0.243, 0.185], bar -0.25 outside it). Pre-run loop redundancy is not the moderator, and the
+  20/5 split is open again to a different covariate; no earlier verdict moved.
+- `benchmarks/score_redundancy_block.py`, `benchmarks/write_redundancy_block3_record.py`,
+  `docs/gate13_redundancy_block3.json`, §8.14 capacity record, §12-§13 pre-registration.
+
+### Gate 13 block 4 run (2026-11-06) — voided by measurability
+
+- **Pre-registered, run once, voided by its own gate.** Covariate `o_s` = share of the control's world-covered temporal
+  edges that its loops already assert (the §8.13 overlap pattern, which block 3's total-loop-count proxy did not test).
+  200 cells on fresh seeds 20271202-20271301, threshold 0.3095, bars and power fixed before the first cell.
+- **G0 and G1 pass; G2 fails at 87/100 measurable.** The denominator can be absent — the control
+  asserted fewer than 3 temporal world edges on 13 seeds — so the share is undefined there and saturated elsewhere
+  (0.7191 mean, 78 of 87 above threshold). Excluded rather than imputed, which left
+  too few seeds to test the registered split.
+- **Verdict VOID / NOT COMPARABLE; no criterion read.** The positive association on measurable seeds (Spearman 0.389, mean gain
+  0.0494, 81/87 positive) is recorded as descriptive only, not as support.
+- The lesson is about design: a covariate expressed as a share needs its denominator proven non-degenerate before the
+  freeze. `benchmarks/run_temporal_redundancy_block.py`, `benchmarks/score_temporal_redundancy_block.py`,
+  `docs/gate13_temporal_redundancy_block4.json`, §8.15 capacity record, §12 pre-registration.
+
+### Gate 13 block 5 run (2026-11-06) — the repaired covariate gets a verdict
+
+- **The block-4 covariate, specified properly.** `o_s` = share of the control's world-covered temporal edges its loops
+  already assert, with the measurability floor lowered from 3 to 1 and the cut chosen by a balance rule over 110
+  non-judged cells rather than the median of ten seeds. Cut 0.75, calibration halves 53/56, fresh seeds 20271403-20271502,
+  200 cells, pre-registered with a new G3 gate that block 4 needed and lacked.
+- **Gates: all four pass.** G2 measures 99/100 defined at
+  floor 1, against 87/100 at floor 3; G3 splits 42/57, against 9/78.
+- **Verdict DIRECTIONAL ONLY.** M2 Spearman 0.407 (CI [0.219, 0.576], bar 0.25); M1 +0.0268 on
+  42/57 (bar 0.03); M3 88/99. M1's low power
+  (0.283 at the calibrated effect) is published in §8 of the
+  pre-registration, not discovered after the fact.
+- **A rejected candidate, on the record.** The count `|L ∩ P ∩ W|` — §8.15's recommendation — is always defined but
+  associates at 0.241 with an expected half-split gap of 0.015, so it was rejected at calibration rather than frozen into
+  a null.
+- `benchmarks/calibrate_temporal_redundancy_b5.py`, `benchmarks/write_temporal_redundancy_b5_prereg.py`,
+  `benchmarks/score_temporal_redundancy_b5.py`, `docs/gate13_temporal_redundancy_block5.json`, §8.16 capacity record.
+
+### Gate 13 block 6 run (2026-11-06) — the moderator question becomes an intervention
+
+- **The arm §10 named, run once.** Y is R at the same construction, cap, world and readout, with one extra admission
+  step: a candidate whose edge a loop asserts that cycle sorts after one that no loop asserts. 300 cells,
+  seeds 20271614-20271713, arms C, R, Y.
+- **Dose finding, before the freeze.** Reordering (X) and reserving the cap (Y) produced identical effects on all ten
+  calibration seeds — with ≥20 non-loop candidates the two are the same function — so the block tested the strongest
+  form of the preference, not a weak one.
+- **Criterion chosen from the calibration, disclosed.** The effect is zero on half the seeds and 0.027–0.063 on the
+  rest, so median and sign criteria were near-blind (~3% power); the primary criterion is the paired mean, bar 0.01
+  (one fifth of R's gain over C), sitting 2.46 standard errors below the calibrated mean with 0.997
+  power.
+- **Gates: G0 failed.** G0 62/100 Y≠R, G0b
+  100/100 C≠R, G1 0.4441 in band, G2 100/100
+  displaced.
+- **Verdict VOID / NOT COMPARABLE.** Mean Y − R 0.0095 (CI [0.00679, 0.0124]), median 0.0000,
+  43/100 positive; M2 novel +1.0 (CI [0.75, 1.36]), loop-covered change
+  +0.02. Coverage over C: 0.0481 (R) → 0.0576 (Y).
+- `benchmarks/run_loop_free_admission_block.py`, `benchmarks/score_loop_free_block6.py`,
+  `docs/gate13_loop_free_block6.json`, §8.17 capacity record.
+
+### Gate 13 block 7 run (2026-11-06) — the same arm, a gate that can fire
+
+- **Only G0 changed.** Block 6's void was a bar its own calibration could not reach (96/100 against a 6/10 rate); block
+  7 sets G0 to 50/100, calibrated to the pooled liveness 0.6182 over 110 non-judged pairs,
+  and keeps the arm, world, cap, readout, C1′ band, G2, M1's 0.01 bar and M2 unchanged.
+- **300 cells on fresh seeds 20271715-20271814.** G0 72/100, G0b
+  100/100, G1 0.4427 in band, G2 100/100:
+  all pass.
+- **Verdict INTERVENTION SUPPORTED.** Mean Y − R 0.0127 (CI [0.0092, 0.01652]); M2 novel +1.4 (CI [0.98, 1.8]).
+  M1's low power was pre-registered (pooled mean 0.0100 against the 0.01 bar) rather than
+  discovered after the fact.
+- `benchmarks/score_loop_free_block7.py`, `docs/gate13_loop_free_block7.json`, §8.18 capacity record.
+
+### Gate 13 block 8 run (2026-11-06) — does the gain scale with the cap?
+
+- **Arms R and Y at caps 40 and 100**, 100 fresh seeds (20271826-20271925), 400 cells.
+  The runner gained a `--caps` option; the cap-20 self-test and a replayed cap-20 cell were checked to be identical to
+  block 7 before the run.
+- **Gates:** G0 liveness 86/100 and 100/100 (bar 50), G1 perturbation 100/100 and 100/100 (bar 96), G2 axis live
+  0.0942 (0.0867, 0.1023): all pass.
+- **Verdict SCALING SUPPORTED.** M1 mean DiD 0.0240 (0.0196, 0.0285) against
+  0.0100; M2 positive at both caps: cap 40: 0.0179 (interval 0.0144 to 0.0218), cap 100: 0.0420 (interval 0.0369 to 0.0472).
+- **Disclosed launcher defect:** the run also executed arm C, which the design excludes. Those cells are unregistered and unjudged, kept apart, and the scored grid is exactly the 400 registered R/Y cells.
+- `benchmarks/score_loop_free_cap.py`, `docs/gate13_loop_free_cap.json`, §8.19 capacity record.
+
+### Changed — Organica engine development on master (2026-11-04)
+
+### Added — Relational Schema Layer & Role Abstraction (2026-11-04 / 2026-11-05)
+
+- **Layer 2b: Evidence-Derived Structural Roles (`RoleCandidate`)**:
+  - Introduced `RoleCandidate` (Generation 2) encapsulating empirical topological
+    properties (internal cohesion density, out-degree, in-degree, retention, directional flow bias).
+  - Hub-aware community discovery filters high-degree bridge nodes (degree >= 5) so true
+    functional clusters separate cleanly into distinct structural roles.
+- **Layer 3b: Relational Schemas (`SchemaCandidate`)**:
+  - Introduced `SchemaCandidate` (Generation 3) representing invariant transition
+    patterns across structural roles (`Role_0 -> Role_1`).
+  - Transition contingency gating evaluates event-level sequence transitions
+    ($P(	ext{target} \mid 	ext{source}) / P(	ext{source} \mid 	ext{source}) \ge 2.0$)
+    and directional flow asymmetry, establishing content-sensitive role satisfaction.
+  - RS0 Orthogonal Rejection Gate verified: flat random noise worlds ($p=0.50$) fail
+    contingency criteria and form zero schemas, eliminating spurious top-down priming.
+- **Top-Down Structural Candidate Priming**:
+  - `SleepService._build_predictions` uses stable prior schemas to provide effective count
+    boosts for embryonic cross-cluster transitions in new contexts, accelerating acquisition
+    without waiting for high bottom-up observation volume (`PREDICTION_MIN_COUNT = 5`).
+  - Lineage grounding: primed predictions carry direct `parent_ids` linking to guiding schemas
+    and empirical source events.
+- **Cross-Context Structural Reuse Experiment (CCRE)**:
+  - The v1 five-seed run's `REUSE_DEMONSTRATED` label is **withdrawn**. Its speedup came from a
+    confidence-derived boost that pushed a one-transition edge past `PREDICTION_MIN_COUNT`, and
+    its schema identity ignored the role exemplars, so the orthogonal Context C produced the same
+    schema id as Context A and the two arms matched on four of five seeds — persistence included.
+    The v1 artifact is preserved unmodified as the record of that measurement.
+
+### Changed — Earned-evidence acquisition and content-sensitive schema priming (2026-11-05)
+
+- `_build_predictions` no longer inflates a prediction's count from a prior: an edge is admitted
+  iff `temporal_count >= PREDICTION_MIN_COUNT`. A schema prior now only **reorders** admissible
+  candidates (`evidence["schema_prior"]`) and only when its stored sender/receiver polarity agrees
+  with the edge's own flow polarity (`role_polarity_match`).
+- Schema identity is content-bearing: `_make_id` includes the role exemplars and the
+  natural-selection key is `schema:<source exemplars>-><target exemplars>`, so two contexts can no
+  longer collapse to one schema (which also made per-context decay impossible).
+- The CCRE harness scores arrival on unboosted evidence, asserts on every cycle that no prediction
+  reports an unaudited count, and records `primed_predictions` and the target edge's rank at
+  acquisition.
+- Earned-evidence five-seed rerun: all four arms within 3.4–3.6 cycles, verdict
+  `STRUCTURAL_PRIOR_PRESENT_NO_ACQUISITION_ADVANTAGE`. Records:
+  `docs/CROSS-CONTEXT-REUSE-EARNED-RESULTS.md`, `docs/DECISION-EARNED-SCHEMA-PRIMING.md`.
+
+
+- **Unfrozen for Direct Engine Development**: With the measurement reasons
+  for the historical freeze fulfilled and documented, active development of
+  Organica proceeds directly in `organica/` on master.
+- **Fixed Lookback Contamination (D2)**: `MemoryService._record_temporal_edges`
+  now strictly filters on `event_type != 'sleep'` when constructing lookback
+  windows. Internal sleep reflections can no longer pollute the precedence matrix.
+- **Cognitive & Substrate Determinism**:
+  - `MemoryService.temporal_edges` now applies canonical secondary ordering
+    `ORDER BY count DESC, tag_from ASC, tag_to ASC`.
+  - `MemoryService.recent` includes `rowid DESC` tie-breaking.
+  - Candidate builders (`_score_tags`, `_build_predictions`, `_build_loops`,
+    `_build_anomalies`, `_compose_meta_concepts`, `_compose_processes`) iterate
+    and sort collections deterministically, eliminating hash-seed jitter across
+    subprocesses.
+- **Relation-Family Stratification & Transition Predictive Information Ranking**:
+  - `SleepService._build_predictions` partitions candidates into co-occurrence
+    pairs versus true temporal transitions using the co-occurrence graph (`cooc`).
+  - True transitions are ranked by predictive information (conditional transition
+    probability $P(\text{target} \mid \text{source}) = \text{count} / \sum \text{counts}(\text{source} \to \cdot)$),
+    prioritizing structural transitions over intra-cell co-occurrences.
+  - Stratified allocation reserves 50% of the candidate prediction budget
+    specifically for transitions.
+- **Architectural Generation Index Alignment (Defect D4)**:
+  - Aligned candidate generation fields across `SleepService` to strictly match
+    the canonical layering in `docs/architecture.md`: G2 (meta-concepts,
+    processes), G3 (workflows), G4 (hypotheses), G5 (theories, questions),
+    G6 (dreams), G7 (investigations), and G8 (experiments). Fixed 1-off generation
+    offsets throughout candidate synthesis.
+- **Layer 1 Event Grounding (Defect D3)**:
+  - `SleepService.run()` builds a `tag_events` index from the recent empirical
+    observation window, populated into `self._current_tag_events`.
+  - `_build_concepts`, `_build_phrases`, `_build_loops`, and `_build_predictions`
+    all now populate `parent_ids` with the supporting empirical event UUIDs,
+    completing the unbroken causal audit trail from G0 through G8.
+- **Conditional Entropy Predictive Ranking**:
+  - `_build_predictions` computes `H(T|source) = -sum P(v|u) log P(v|u)` for
+    each transition source. Low-entropy (deterministic) transitions rank first;
+    diffuse co-occurrences rank last. `target_entropy` stored in evidence dict.
+- **Experiment Execution Hook (Law IV)**:
+  - `SleepService.execute_experiments()` evaluates proposed experiments against
+    `memory.recent(50, event_type="observe")` by matching subject tag and
+    expected outcomes. Outcomes (`"validated"` / `"refuted"`) are persisted as
+    `experiment_result` events in MemoryService.
+- **Concept Clustering Threshold Re-tuning**:
+  - `CONCEPT_MAX_CLUSTERING = 1.0` (from `0.4`) so tightly-bound cliques in
+    dense co-occurrence environments form valid concept candidates.
+- **Law V EIG Formula Correction**:
+  - Dream investigations now use the canonical `EIG = uncertainty * (1.0 + novelty)`,
+    matching the formula applied to question investigations. Fixes a silent
+    inversion that systematically under-ranked high-novelty dream paths (Fact AD5).
+- **Universal Natural Selection Decay — G2–G8 (Fact AA21)**:
+  - `_candidate_key` extended to return content-identity keys for all candidate
+    types: meta_concept, process, workflow, hypothesis, theory, question, dream,
+    investigation, and experiment.
+  - `_natural_selection` accepts optional G2–G8 candidate lists and builds the
+    full current-key set across all generations. A second decay pass runs after
+    all composite layers are formed, so higher-order structures age and are pruned
+    when no longer regenerated — matching biological memory at all cognitive levels.
+- **Experiment Validation → Hypothesis Promotion Loop (Law IV completion)**:
+  - `execute_experiments` increments `support_count` / `contradiction_count` on
+    matching hypotheses after validation / refutation, closing the
+    predict→test→update loop.
+  - Validated dream experiments promote the dream into a new grounded G4
+    `HypothesisCandidate` with parent lineage to both the source dream and the
+    experiment.
+- **Temporal Precedence Edge Decay (World-Adaptation)**:
+  - `MemoryService.decay_temporal_edges(factor, min_count)` applies exponential
+    moving-average decay to all `precedes` edge counts each sleep cycle.
+  - `SleepService.TEMPORAL_DECAY_FACTOR = 0.95` (5% per cycle). Early-regime
+    transitional counts fade over ~20 cycles, enabling regime shifts and transfer.
+  - `ObservingMemoryService.decay_temporal_edges` is a no-op in the audit probe,
+    preserving the A7 invariant (`attributed == count`). `run_invariance` uses a
+    `NoDecayMemoryService` for both branches so A4 compares observer presence only.
+- **Capacity Bottleneck Relieved (P1 / FACTS-SHEET D3)**:
+  - `MAX_PREDICTIONS` raised from 20 to 40. Relieves the severe over-truncation
+    at Layer 1 identified in the instrumentation audit, un-starving downstream
+    process, workflow, and belief formation.
+- **Structural Entropy Ranking for Loops & Anomalies (P2, P4)**:
+  - `_build_loops` computes path minimum target entropy $H(T \mid \text{source})$
+    and sorts deterministic, low-entropy cycles ahead of diffuse transitions.
+  - `_build_anomalies` ranks anomalies with low context target entropy first,
+    filtering out background noise in diffuse graphs.
+- **Loop Rotation Normalization (P7)**:
+  - Directed 3-cycles are canonicalized to their lexicographically minimal
+    rotation, guaranteeing that cycle permutations do not produce divergent candidate
+    IDs or cause artificial natural-selection decay.
+- **M3 Contradiction Density Added to SleepReport (P3 / FACTS-SHEET G3)**:
+  - Added `contradiction_density` metric to `SleepReport`, exposing real evidence
+    accumulation and tension flow independently of static population counts.
+- **Question Closure on Experiment Validation (P5 / Law IV)**:
+  - `execute_experiments` marks validated questions as closed and records their
+    resolving experiment; `_form_theories_and_questions` and `_rank_investigations`
+    skip closed questions to focus curiosity on open questions.
+- **Architectural Performance & Database Optimization (13× Speedup)**:
+  - `MemoryService`: Enabled SQLite WAL mode (`PRAGMA journal_mode = WAL`),
+    `synchronous = NORMAL`, in-memory temporary storage, and a 64MB cache.
+  - Replaced individual row inserts in `_record_cooccurrences` and `_record_temporal_edges`
+    with `collections.Counter` aggregation and `executemany` batch execution,
+    slashing Python-SQLite roundtrip overhead.
+  - Refactored `SleepService._natural_selection` to run as a single unified pass
+    across all generations ($G_1–G_8$) within one transaction, eliminating the
+    double-decay bug and redundant SQLite candidate writes.
+  - Added cycle-scoped prior candidate caching (`_prior_cache`) in `SleepService`,
+    eliminating redundant JSON deserialization of up to 4,000 candidates across
+    hypotheses, queries, and experiments.
+  - Batched experiment execution and hoisted observation and prior candidate queries
+    outside the evaluation loop in `execute_experiments`.
+  - Result: 38-test integration suite execution time dropped from ~70s to 5.2s
+    (>13× speedup) while preserving 100% architectural and substrate equivalence.
+- **Active Environment Execution & Law IV Empirical Dispatcher (Option B)**:
+  - `organica/environment.py` orchestrates the perceive -> consolidate -> intervene cycle
+    via `ActiveInquiryLoop` and `ReactiveWorld`.
+  - Head-to-head empirical benchmark (`benchmarks/active_inquiry_benchmark.py` over 150 cycles)
+    demonstrated a **+120.9% cumulative structure inventory expansion** (129 -> 285)
+    with 735 interventions executed, confirming that active intervention unlocks higher cognitive
+    layers (theories and questions emerge from interventions) beyond passive observation limits.
+- **Hypothesis Retention Pressure Audit (Gate G-P1)**:
+  - `benchmarks/retention_pressure_audit.py` evaluated belief pool dynamics over 300 cycles across
+    `confidence`, `contradiction`, and `shannon_entropy` retention policies; determined mean
+    pre-cap belief pool is 3.82 (max 13), demonstrating that `MAX_HYPOTHESES = 15` is non-binding
+    under natural passive observation.
+- **Shannon-Entropy Hypothesis Retention**:
+  - Added `"shannon_entropy"` to `VALID_RETENTION_POLICIES` and `_retain_hypotheses` in `SleepService`,
+    prioritizing hypotheses with maximal outgoing temporal flow uncertainty to maximize pool epistemic diversity.
+- **Semantic Tag Sanitization**:
+  - `MemoryService._extract_tags` strips hex UUID strings before token extraction, preventing
+    random hex substrings (e.g. `ebef`, `fade`) from polluting the organism's tag vocabulary
+    and eliminating cross-run fingerprint jitter.
+
+---
+
+## [0.11.0] — (unreleased; superseded by 0.12.0)
 
 ### Built — the conditioned reusable-knowledge sampler (2026-11-01)
 
@@ -344,7 +4345,7 @@ Its tag is the archival reference for the frozen Organica 1 engine". The last
 of those was wrong in a second way: **v0.9.0 is the archival reference for the
 frozen engine**, and under v0.10.0 the engine is byte-identical to it apart
 from the package version string. The README now says so, and the package
-version is 0.11.0 with 0.10.0 as the latest release.
+version was 0.11.0 with 0.10.0 as the latest cut release.
 
 ### Recorded — the candidate-membership milestone, in the README (2026-10-31)
 
@@ -1005,10 +5006,12 @@ the instrumentation is **tagged `audit-trace-v1`**.
 be *fixed* if it is found to be wrong, but not *extended*; a new requirement
 goes to the study's wish-list instead.
 
-**The package version stays untagged.** `audit-trace-v1` marks the
+**The package version was left untagged at that freeze.** `audit-trace-v1` marks the
 *instrumentation*, not a release of the package — which keeps the three version
 namespaces (package version, architecture generation, research campaign) separate
-as this changelog requires.
+as this changelog requires. (Corrected 2026-11-09: the package version that freeze
+left untagged, 0.10.0, was tagged on 2026-10-31, and 0.12.0 was tagged on
+2026-11-06. What the tag marks is unchanged: the instrumentation, not a release.)
 
 Verification at the freeze: **128 tests pass** · 83 anchors / 0 broken · 1,142
 document paths all exist · the live study untouched at **5,396** sleep cycles
@@ -1926,6 +5929,11 @@ belief pool, not a blanket inability to learn late structure. This is the risk
 §6 of the preregistration named before the run.
 
 ### Added
+- **Change-to-failure map.** `docs/ENGINE-CHANGE-FAILURE-MAP.md` is generated from `docs/engine_change_failure_map.json`, one row per post-freeze change group with a mechanism, a falsifier, observables and two differing decisions; rows with no failure and rows whose two outcomes agree are excluded by the validator, and commit coverage is recomputed from git.
+- **The engine is pinned by per-file hash.** `docs/engine_pin.json` records a SHA-256 for every module under `organica/` with its version, and `python -m benchmarks.engine_pin --check` fails when one is added, removed or changed -- distinguishing a move without a version bump from a pin that a bump has outdated -- with the check also run from `tests/test_engine_pin.py`.
+- **The published test count is generated from a real suite run.** `benchmarks/test_count.py` runs the suite, records the result in `docs/test_count.json` and writes one marked region of `AGENTS.md` and the manual; `--check` fails when a document disagrees with the record or the record with a fresh collection, so a new test cannot leave a stale count behind.
+- **`--check` is now a complete pre-commit gate.** `python -m benchmarks.research_registry --check` fails when `docs/RESEARCH-QUESTION-REGISTRY.md` no longer matches a fresh render, and `python -m benchmarks.research_accountability --check` checks its three pages plus the registry page; neither writes while checking, so the gate cannot repair the document it is judging.
+- **Research accountability system.** `docs/research_question_registry.json` now records an outcome per question, independent of status, and every public claim lives in `docs/claim_ledger.json`; `benchmarks/research_accountability.py` generates `docs/CLAIM-LEDGER.md`, `docs/RESEARCH-DASHBOARD.md` and `docs/RESEARCH-FINDINGS.md` from the two records and fails on a load-bearing claim that cites a closed but unsupported question, a claim with no scope limitation, a withdrawn claim with no reason, or a stale page.
 
 - `docs/V1-SYNTHESIS.md` — **the formal synthesis of V1.** What the project established, what it did not, the distinction between the two goals it could serve, the danger of reading six negative task families as a verdict rather than a map, and the question the evidence leaves open: *what properties must a developmental intelligence have to remain adaptable without losing coherence?* It adds no new evidence — it is a reading of the record, and every claim in it cites a committed artifact.
 - `docs/phase_k_results.md` — the Phase K write-up: results, robustness, the

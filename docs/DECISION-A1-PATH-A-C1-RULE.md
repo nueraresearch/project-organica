@@ -1,0 +1,137 @@
+# A1 Path A estimand and C1 acceptance rule — decision record
+
+**ID:** `A1-PATH-A-C1-RULE-1`
+
+**Date:** 2026-11-14
+
+**Status:** `RECORDED — BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN`
+
+**Decision source:** owner direction, 2026-11-14.
+
+**Current authority:** this record fixes the estimand and the C1 acceptance rule. The 60-row denominator floor is adopted together with the C1/C4 VOID gate in [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md) — **ADOPTED — BINDING FOR A1 (2026-11-14)**. The target freeze, grant and run remain separate and unrecorded.
+
+## 1. Path A is the A1 estimand
+
+A1 tests:
+
+> the representative eligible pre-37 cycle-membership directed-edge effect.
+
+The six existing target sets are the Path A draft. Path A does not regenerate them, and the C1 rule below does not depend on replacing them. Path B — the high-carrier-propensity, hard-edge or carrier-enriched effect — is not selected and would require a new selector, target artifact and registered design.
+
+This record makes Path A the **A1 estimand**. It does not freeze the targets, reserve seeds or authorise the run.
+
+## 2. C1 acceptance rule
+
+C1 passes only when **all six seeds and both the `A−` and `K−` paths** satisfy the rule. There is no averaging across seeds or paths.
+
+### 2.1 Unit and threshold
+
+| Field | Rule |
+| --- | --- |
+| Unit | Observed minimum paired-control **available rows** across the six seeds and both paths |
+| Preservation threshold | **0.95** |
+| Minimum denominator | **60 rows** |
+| Allowed losses at 60–64 | **3** |
+| Planned upper bound | 63–64 rows per seed (candidate count; not observed baseline availability) |
+| Missing denominator | Not zero; reported as missing and `C1_NO_DENOMINATOR` |
+| Observed minimum below 60 | **`VOID — C1_DENOMINATOR_BELOW_FLOOR`** |
+
+### 2.2 Decision table
+
+| Observed minimum | Required retained at 0.95 | Allowed losses | Disposition |
+| ---: | ---: | ---: | --- |
+| 0 | — | — | `VOID — C1_NO_DENOMINATOR` |
+| 1–19 | all available | 0 | `VOID — C1_DENOMINATOR_BELOW_FLOOR` |
+| 20–59 | 1–2 fewer than available | 1–2 | `VOID — C1_DENOMINATOR_BELOW_FLOOR` |
+| 60 | 57 | 3 | C1 may be read |
+| 61 | 58 | 3 | C1 may be read |
+| 62 | 59 | 3 | C1 may be read |
+| 63 | 60 | 3 | C1 may be read |
+| 64 | 61 | 3 | C1 may be read |
+| >64 | n/a | n/a | `VOID — design inconsistency; score preplanned rows only` |
+
+At 60–64 the pass condition is the usual **`retained / denominator >= 0.95`**, which is why 60 allows 57 retained and 64 requires 61. The number of allowed losses is exactly three; it is not a second threshold.
+
+### 2.3 Below-floor disposition
+
+If the observed minimum is **1–59**, the run is:
+
+> **`VOID — C1_DENOMINATOR_BELOW_FLOOR`**
+
+even when every available row is retained. A perfect **59/59** is still VOID. The fraction cannot rescue a denominator below the designed resolution.
+
+If the observed minimum is **0**, the run is **`C1_NO_DENOMINATOR`**; a missing denominator is not a zero-row pass.
+
+If the observed minimum is **above 64**, the run is **`VOID — design inconsistency`**. Score only the preplanned rows; do not add rows after the fact.
+
+Under the adopted combined C1/C4 gate, the run-level status is **`A1 VOID — C1/C4`**, carrying the C1 reason code. The C1 rule and the combined gate are both binding.
+
+### 2.4 What VOID means here
+
+`VOID — C1_DENOMINATOR_BELOW_FLOOR` means the experiment did not produce an admissible comparison:
+
+- no causal model is selected and no M1 branch is assigned;
+- no capability, transfer, V2, external-advantage or generalization claim may be read;
+- C7/C8 are `NOT ADJUDICATED — RUN VOID`, not pass or fail;
+- the run is not a negative result, null finding or failed replication;
+- observed denominators are retained for audit; missing values are never reported as `0.0`;
+- seeds and cells are consumed; no substitute seed, extra cell or post-hoc denominator expansion;
+- no row is dropped, no threshold changed and no target re-selected;
+- a second attempt requires a new registered design, fresh seeds and a new dated grant.
+
+It is **not** `PARKED` (no run), `NOT IDENTIFIED` (a model result) or `UNSATISFIABLE` (the old unmeasurable-gate disposition).
+
+### 2.5 Power-design criterion
+
+**80% all-six-seed power target.** The C1 design is sized for at least an **80%** probability that all six seeds pass at the **upper-bound 63-row** scenario (candidate count; not observed baseline availability).
+
+| Field | Criterion |
+| --- | --- |
+| Target all-six-seed power | **80%** |
+| Reference denominator | **63-row upper-bound scenario** (planned range 63–64; not observed baseline availability) |
+| Required retention at 63 | **0.984017** |
+| Required retention at 64 | **0.984271** |
+| Required retention at the 60-row floor | **0.983204** |
+| Status | **RECORDED — C1 DESIGN CRITERION** |
+
+**Upper-bound caveat.** The 63–64 planned range is a candidate count, not an observed or estimated baseline-availability denominator. It assumes every candidate edge is available in the paired A+K+ control; the observed denominator can be lower, and if the minimum is below 60 on any seed or path the run is **VOID — `C1_DENOMINATOR_BELOW_FLOOR`** even at 59/59. C6 K/Y_ind and A0 hard-edge percentages come from different seed blocks, worlds and quantities and are **not** baseline-availability proxies. See the [power-review risk note](A1-POWER-REVIEW.md#c1-denominator-feasibility-risk-note).
+
+These values are power-design calculations under the same independent Bernoulli retention and independent-seed model as the required-retention table. They are **not observed retention rates** and are **not a second post-run acceptance gate**. The criterion sizes the planned design; the observed-run acceptance rule in §2.1–2.3 remains the **0.95 preservation threshold**, with the 60-row floor and its VOID disposition unchanged.
+
+## 3. What this record does not do
+
+- It does not freeze the Path A targets or manifest.
+- It does not sign the provisional-freeze wrapper; the C1/C4 gate is adopted separately.
+- It does not issue a grant, reserve seeds or run a cell.
+- It does not observe C1 or C4.
+- It does not classify C7/C8.
+- It does not change the 0.95 C1 threshold or the 0.05 C4 ceiling.
+
+The target-freeze act remains **DRAFT — AWAITING OWNER SIGNATURE**. The C1/C4 post-freeze VOID gate and the 60-row floor are **ADOPTED — BINDING FOR A1 (2026-11-14)** in [`A1-C1-C4-VOID-GATE.md`](A1-C1-C4-VOID-GATE.md); the provisional-freeze wrapper remains a separate draft.
+
+## 4. Current state
+
+| Item | State |
+| --- | --- |
+| Path A estimand | **RECORDED** |
+| Path B | **NOT SELECTED** |
+| C1 acceptance rule | **RECORDED — BINDING FOR A1** |
+| C1/C4 post-freeze VOID gate and 60-row floor | **ADOPTED — BINDING FOR A1 (2026-11-14)** |
+| C1 power-design target | **80% all-six at 63 rows; required q=0.984017** |
+| Minimum C1 denominator | **60** |
+| Below-floor disposition | **`VOID — C1_DENOMINATOR_BELOW_FLOOR`** |
+| Target sets | **DRAFT — NOT FROZEN** |
+| Freeze decision | **DO NOT FREEZE (2026-11-14)** |
+| Target freeze | **NOT AUTHORIZED** |
+| Grant | **NOT ISSUED** |
+| Run | **NOT STARTED** |
+| Observed C1/C4 | **NONE** |
+
+## 5. Checks
+
+- `python -m benchmarks.a1_power_review --check`
+- `python -m benchmarks.a1_gate_readiness --check`
+- `python -m benchmarks.a1_target_selection --check`
+- `python -m benchmarks.a1_two_path --check`
+
+**Not evidence:** A recorded estimand and acceptance rule. It freezes nothing, grants nothing, runs no cell and makes no causal, capability or transfer claim.

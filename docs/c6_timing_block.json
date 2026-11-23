@@ -1,0 +1,194 @@
+{
+  "authorisation": "docs/AUTHORISATION-C6-TIMING.md",
+  "cap": 40,
+  "cells": 12,
+  "criteria": {
+    "min_per_order_per_seed": 10,
+    "min_seeds_with_both_orders": 5,
+    "no_optional_seeds": true,
+    "no_seed_replacement": true,
+    "observed_min_K_BEFORE_Y_IND": 22,
+    "observed_min_Y_IND_BEFORE_K": 35,
+    "seeds_meeting_both_floors": 6
+  },
+  "cycles": 120,
+  "design": "docs/C6-ASSERTION-TIMING-INSTRUMENTATION.md",
+  "engine": "0.15.0",
+  "gate_notes": {
+    "N2_mutation": "benchmarks.c6_timing_observer --self-test: N1=True N2=True N3=True N6=False on the synthetic no-variation stream.",
+    "N4_coverage": "The 535 edges in the three ordered classes all have both first_k and first_y_ind; 51 NO_K and 67 NO_Y_IND rows are excluded, not read as zeros.",
+    "N5_engine": "engine pin: 14 files at version 0.15.0; tests/test_v1_freeze.py 12 passed.",
+    "N7_determinism": "Seed 20621101 rerun in a fresh process: rows identical and all counts identical."
+  },
+  "gates": {
+    "N1_neutrality": true,
+    "N2_mutation": true,
+    "N3_parity": true,
+    "N4_coverage": true,
+    "N5_engine": true,
+    "N6_order_variation": true,
+    "N7_determinism": true
+  },
+  "id": "C6-TIMING-1",
+  "kind": "c6_timing_block",
+  "not_evidence": "Six seeds, one compositional world family, one build and one cap. It establishes that the non-carrier readout and both K/Y_ind orders are present at the preregistered floors. It is not a mechanism result, not a causal claim, and not a capability or transfer result. Edge counts are not independent observations.",
+  "outcome": "C6 ORDER VARIATION CONFIRMED",
+  "per_seed": [
+    {
+      "asserted_world_edges": 69,
+      "classes": {
+        "K_BEFORE_Y_IND": 22,
+        "NO_K": 7,
+        "NO_Y_IND": 16,
+        "SAME_CYCLE": 12,
+        "Y_IND_BEFORE_K": 50
+      },
+      "gates": {
+        "N1_neutrality": true,
+        "N3_parity": true,
+        "N6_order_variation": true
+      },
+      "k_edges": 100,
+      "order_variation": true,
+      "seed": 20621101,
+      "verdict": "C6 ORDER VARIATION PRESENT",
+      "world_edges": 112,
+      "y_full_edges": 107,
+      "y_ind_edges": 91
+    },
+    {
+      "asserted_world_edges": 66,
+      "classes": {
+        "K_BEFORE_Y_IND": 31,
+        "NO_K": 11,
+        "NO_Y_IND": 15,
+        "SAME_CYCLE": 5,
+        "Y_IND_BEFORE_K": 46
+      },
+      "gates": {
+        "N1_neutrality": true,
+        "N3_parity": true,
+        "N6_order_variation": true
+      },
+      "k_edges": 97,
+      "order_variation": true,
+      "seed": 20621102,
+      "verdict": "C6 ORDER VARIATION PRESENT",
+      "world_edges": 112,
+      "y_full_edges": 108,
+      "y_ind_edges": 93
+    },
+    {
+      "asserted_world_edges": 82,
+      "classes": {
+        "K_BEFORE_Y_IND": 33,
+        "NO_K": 1,
+        "NO_Y_IND": 9,
+        "SAME_CYCLE": 10,
+        "Y_IND_BEFORE_K": 59
+      },
+      "gates": {
+        "N1_neutrality": true,
+        "N3_parity": true,
+        "N6_order_variation": true
+      },
+      "k_edges": 111,
+      "order_variation": true,
+      "seed": 20621103,
+      "verdict": "C6 ORDER VARIATION PRESENT",
+      "world_edges": 112,
+      "y_full_edges": 112,
+      "y_ind_edges": 103
+    },
+    {
+      "asserted_world_edges": 68,
+      "classes": {
+        "K_BEFORE_Y_IND": 42,
+        "NO_K": 9,
+        "NO_Y_IND": 10,
+        "SAME_CYCLE": 11,
+        "Y_IND_BEFORE_K": 35
+      },
+      "gates": {
+        "N1_neutrality": true,
+        "N3_parity": true,
+        "N6_order_variation": true
+      },
+      "k_edges": 98,
+      "order_variation": true,
+      "seed": 20621104,
+      "verdict": "C6 ORDER VARIATION PRESENT",
+      "world_edges": 112,
+      "y_full_edges": 107,
+      "y_ind_edges": 97
+    },
+    {
+      "asserted_world_edges": 75,
+      "classes": {
+        "K_BEFORE_Y_IND": 23,
+        "NO_K": 11,
+        "NO_Y_IND": 8,
+        "SAME_CYCLE": 10,
+        "Y_IND_BEFORE_K": 60
+      },
+      "gates": {
+        "N1_neutrality": true,
+        "N3_parity": true,
+        "N6_order_variation": true
+      },
+      "k_edges": 101,
+      "order_variation": true,
+      "seed": 20621105,
+      "verdict": "C6 ORDER VARIATION PRESENT",
+      "world_edges": 112,
+      "y_full_edges": 112,
+      "y_ind_edges": 104
+    },
+    {
+      "asserted_world_edges": 82,
+      "classes": {
+        "K_BEFORE_Y_IND": 32,
+        "NO_K": 12,
+        "NO_Y_IND": 9,
+        "SAME_CYCLE": 10,
+        "Y_IND_BEFORE_K": 44
+      },
+      "gates": {
+        "N1_neutrality": true,
+        "N3_parity": true,
+        "N6_order_variation": true
+      },
+      "k_edges": 95,
+      "order_variation": true,
+      "seed": 20621106,
+      "verdict": "C6 ORDER VARIATION PRESENT",
+      "world_edges": 112,
+      "y_full_edges": 107,
+      "y_ind_edges": 98
+    }
+  ],
+  "prereg": "docs/c6_timing_prereg.json",
+  "run_on": "2026-11-13",
+  "scope": "the compositional world family, six fresh seeds (20621101-20621106), 120 cycles, cap 40; excludes preflight seed 20611601; does not re-read PRESENCE-CONVERSION-1 or any Q4 verdict",
+  "seeds": [
+    20621101,
+    20621102,
+    20621103,
+    20621104,
+    20621105,
+    20621106
+  ],
+  "status": "RUN",
+  "totals": {
+    "K_BEFORE_Y_IND": 183,
+    "NO_K": 51,
+    "NO_Y_IND": 67,
+    "SAME_CYCLE": 58,
+    "Y_IND_BEFORE_K": 294,
+    "asserted_world_edges": 442,
+    "k_edges": 602,
+    "world_edges": 672,
+    "y_full_edges": 653,
+    "y_ind_edges": 586
+  }
+}

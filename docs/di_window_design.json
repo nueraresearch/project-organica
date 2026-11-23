@@ -1,0 +1,399 @@
+{
+  "what_this_is": "Stage A of the DI measurement-window design: exploratory diagnostics from the 240 stored Phase L records. No engine, no seed, no reliability coefficient.",
+  "source": {
+    "path": "docs/phase_l_results.json",
+    "sha256": "f9378feb1cd234850cd457b671afd24412263a076519a2aa82fe4f80c038754d",
+    "records": 240
+  },
+  "units": {
+    "late_pairs_per_record": 18,
+    "one_pair": 0.05555555555555555,
+    "window_length": 40
+  },
+  "emergence": {
+    "1:1": {
+      "runs": 30,
+      "runs_ever_nonzero": 1,
+      "identically_zero": false,
+      "median_first_nonzero": 150,
+      "min_first_nonzero": 150,
+      "max_first_nonzero": 150,
+      "median_sustained_nonzero": null,
+      "runs_never_sustained": 30
+    },
+    "1:2": {
+      "runs": 30,
+      "runs_ever_nonzero": 1,
+      "identically_zero": false,
+      "median_first_nonzero": 150,
+      "min_first_nonzero": 150,
+      "max_first_nonzero": 150,
+      "median_sustained_nonzero": null,
+      "runs_never_sustained": 30
+    },
+    "1:3": {
+      "runs": 30,
+      "runs_ever_nonzero": 1,
+      "identically_zero": false,
+      "median_first_nonzero": 150,
+      "min_first_nonzero": 150,
+      "max_first_nonzero": 150,
+      "median_sustained_nonzero": null,
+      "runs_never_sustained": 30
+    },
+    "1:4": {
+      "runs": 30,
+      "runs_ever_nonzero": 1,
+      "identically_zero": false,
+      "median_first_nonzero": 154,
+      "min_first_nonzero": 154,
+      "max_first_nonzero": 154,
+      "median_sustained_nonzero": null,
+      "runs_never_sustained": 30
+    },
+    "2:1": {
+      "runs": 30,
+      "runs_ever_nonzero": 29,
+      "identically_zero": false,
+      "median_first_nonzero": 539,
+      "min_first_nonzero": 475,
+      "max_first_nonzero": 589,
+      "median_sustained_nonzero": 539,
+      "runs_never_sustained": 1
+    },
+    "3:1": {
+      "runs": 30,
+      "runs_ever_nonzero": 30,
+      "identically_zero": false,
+      "median_first_nonzero": 401.0,
+      "min_first_nonzero": 150,
+      "max_first_nonzero": 445,
+      "median_sustained_nonzero": 404.0,
+      "runs_never_sustained": 0
+    },
+    "4:1": {
+      "runs": 30,
+      "runs_ever_nonzero": 30,
+      "identically_zero": false,
+      "median_first_nonzero": 361.5,
+      "min_first_nonzero": 150,
+      "max_first_nonzero": 386,
+      "median_sustained_nonzero": 362.0,
+      "runs_never_sustained": 0
+    },
+    "6:1": {
+      "runs": 30,
+      "runs_ever_nonzero": 30,
+      "identically_zero": false,
+      "median_first_nonzero": 329.0,
+      "min_first_nonzero": 289,
+      "max_first_nonzero": 354,
+      "median_sustained_nonzero": 329.0,
+      "runs_never_sustained": 0
+    }
+  },
+  "settling": {
+    "1:1": {
+      "runs_that_ever_move": 1,
+      "median_settle_cycle": 153,
+      "max_settle_cycle": 153,
+      "runs_moving_in_last_50_cycles": 0
+    },
+    "1:2": {
+      "runs_that_ever_move": 1,
+      "median_settle_cycle": 151,
+      "max_settle_cycle": 151,
+      "runs_moving_in_last_50_cycles": 0
+    },
+    "1:3": {
+      "runs_that_ever_move": 1,
+      "median_settle_cycle": 154,
+      "max_settle_cycle": 154,
+      "runs_moving_in_last_50_cycles": 0
+    },
+    "1:4": {
+      "runs_that_ever_move": 1,
+      "median_settle_cycle": 156,
+      "max_settle_cycle": 156,
+      "runs_moving_in_last_50_cycles": 0
+    },
+    "2:1": {
+      "runs_that_ever_move": 29,
+      "median_settle_cycle": 589,
+      "max_settle_cycle": 599,
+      "runs_moving_in_last_50_cycles": 25
+    },
+    "3:1": {
+      "runs_that_ever_move": 30,
+      "median_settle_cycle": 590.0,
+      "max_settle_cycle": 599,
+      "runs_moving_in_last_50_cycles": 25
+    },
+    "4:1": {
+      "runs_that_ever_move": 30,
+      "median_settle_cycle": 586.0,
+      "max_settle_cycle": 599,
+      "runs_moving_in_last_50_cycles": 27
+    },
+    "6:1": {
+      "runs_that_ever_move": 30,
+      "median_settle_cycle": 586.0,
+      "max_settle_cycle": 599,
+      "runs_moving_in_last_50_cycles": 25
+    }
+  },
+  "candidate_windows": [
+    {
+      "cycles": [
+        150,
+        190
+      ],
+      "within_config_sd_pairs_median": 0.013462938943660295,
+      "within_config_sd_pairs_max": 0.05385175577464118,
+      "within_config_share_of_variance": 0.983745601578173,
+      "arms_with_single_value": [
+        "1:1",
+        "1:2",
+        "1:3",
+        "1:4",
+        "2:1",
+        "3:1",
+        "4:1",
+        "6:1"
+      ],
+      "median_distinct_pair_counts": 1.0,
+      "records_constant_over_window": 234
+    },
+    {
+      "cycles": [
+        210,
+        250
+      ],
+      "within_config_sd_pairs_median": 0.0,
+      "within_config_sd_pairs_max": 0.0,
+      "within_config_share_of_variance": 0.0,
+      "arms_with_single_value": [
+        "1:1",
+        "1:2",
+        "1:3",
+        "1:4",
+        "2:1",
+        "3:1",
+        "4:1",
+        "6:1"
+      ],
+      "median_distinct_pair_counts": 1.0,
+      "records_constant_over_window": 240
+    },
+    {
+      "cycles": [
+        260,
+        300
+      ],
+      "within_config_sd_pairs_median": 0.0,
+      "within_config_sd_pairs_max": 0.04936440564415214,
+      "within_config_share_of_variance": 0.9707112970711296,
+      "arms_with_single_value": [
+        "1:1",
+        "1:2",
+        "1:3",
+        "1:4",
+        "2:1",
+        "3:1",
+        "4:1",
+        "6:1"
+      ],
+      "median_distinct_pair_counts": 1.0,
+      "records_constant_over_window": 239
+    },
+    {
+      "cycles": [
+        310,
+        350
+      ],
+      "within_config_sd_pairs_median": 0.0,
+      "within_config_sd_pairs_max": 0.8639076622798171,
+      "within_config_share_of_variance": 0.41114966282179466,
+      "arms_with_single_value": [
+        "1:1",
+        "1:2",
+        "1:3",
+        "1:4",
+        "2:1",
+        "3:1"
+      ],
+      "median_distinct_pair_counts": 1.0,
+      "records_constant_over_window": 202
+    },
+    {
+      "cycles": [
+        360,
+        400
+      ],
+      "within_config_sd_pairs_median": 0.0,
+      "within_config_sd_pairs_max": 1.359291744654515,
+      "within_config_share_of_variance": 0.06270374473058067,
+      "arms_with_single_value": [
+        "1:1",
+        "1:2",
+        "1:3",
+        "1:4",
+        "2:1"
+      ],
+      "median_distinct_pair_counts": 1.0,
+      "records_constant_over_window": 167
+    },
+    {
+      "cycles": [
+        410,
+        450
+      ],
+      "within_config_sd_pairs_median": 0.0,
+      "within_config_sd_pairs_max": 1.5332351983698724,
+      "within_config_share_of_variance": 0.03934868034711918,
+      "arms_with_single_value": [
+        "1:1",
+        "1:2",
+        "1:3",
+        "1:4",
+        "2:1"
+      ],
+      "median_distinct_pair_counts": 1.0,
+      "records_constant_over_window": 151
+    },
+    {
+      "cycles": [
+        460,
+        500
+      ],
+      "within_config_sd_pairs_median": 0.05650297162965945,
+      "within_config_sd_pairs_max": 2.0217204770217876,
+      "within_config_share_of_variance": 0.028389164962141403,
+      "arms_with_single_value": [
+        "1:1",
+        "1:2",
+        "1:3",
+        "1:4"
+      ],
+      "median_distinct_pair_counts": 1.5,
+      "records_constant_over_window": 149
+    },
+    {
+      "cycles": [
+        510,
+        550
+      ],
+      "within_config_sd_pairs_median": 0.3901046229246569,
+      "within_config_sd_pairs_max": 1.7397880428449004,
+      "within_config_share_of_variance": 0.01972197731126063,
+      "arms_with_single_value": [
+        "1:1",
+        "1:2",
+        "1:3",
+        "1:4"
+      ],
+      "median_distinct_pair_counts": 2.5,
+      "records_constant_over_window": 131
+    },
+    {
+      "cycles": [
+        560,
+        600
+      ],
+      "within_config_sd_pairs_median": 0.44090698142891355,
+      "within_config_sd_pairs_max": 1.719544850374362,
+      "within_config_share_of_variance": 0.02004354264892998,
+      "arms_with_single_value": [
+        "1:1",
+        "1:2",
+        "1:3",
+        "1:4"
+      ],
+      "median_distinct_pair_counts": 3.0,
+      "records_constant_over_window": 128
+    }
+  ],
+  "settled_window_550_600": [
+    {
+      "config": "1:1",
+      "mean_di": 0.0,
+      "sd_pairs": 0.0,
+      "distinct_pair_counts": 1,
+      "min_pairs": 0,
+      "max_pairs": 0
+    },
+    {
+      "config": "1:2",
+      "mean_di": 0.0,
+      "sd_pairs": 0.0,
+      "distinct_pair_counts": 1,
+      "min_pairs": 0,
+      "max_pairs": 0
+    },
+    {
+      "config": "1:3",
+      "mean_di": 0.0,
+      "sd_pairs": 0.0,
+      "distinct_pair_counts": 1,
+      "min_pairs": 0,
+      "max_pairs": 0
+    },
+    {
+      "config": "1:4",
+      "mean_di": 0.0,
+      "sd_pairs": 0.0,
+      "distinct_pair_counts": 1,
+      "min_pairs": 0,
+      "max_pairs": 0
+    },
+    {
+      "config": "2:1",
+      "mean_di": 0.13929639933333335,
+      "sd_pairs": 1.6238581837545092,
+      "distinct_pair_counts": 7,
+      "min_pairs": 0,
+      "max_pairs": 6
+    },
+    {
+      "config": "3:1",
+      "mean_di": 0.6752593179999999,
+      "sd_pairs": 1.0293673802285588,
+      "distinct_pair_counts": 6,
+      "min_pairs": 9,
+      "max_pairs": 14
+    },
+    {
+      "config": "4:1",
+      "mean_di": 0.7245185666666667,
+      "sd_pairs": 1.0366077672211194,
+      "distinct_pair_counts": 5,
+      "min_pairs": 11,
+      "max_pairs": 15
+    },
+    {
+      "config": "6:1",
+      "mean_di": 0.7154814926666666,
+      "sd_pairs": 0.8563778125371377,
+      "distinct_pair_counts": 5,
+      "min_pairs": 11,
+      "max_pairs": 15
+    }
+  ],
+  "schedule": {
+    "window_length": 40,
+    "median_settle_cycle_moving_runs": 586,
+    "max_settle_cycle_moving_runs": 599,
+    "runs_identically_zero": 117,
+    "run_length_needed_for_settled_measurement_then_learning_then_test": 686,
+    "protocol_run_length": 150,
+    "protocol_window": [
+      110,
+      150
+    ],
+    "protocol_measurement_ends_at_cycle": 150,
+    "learning_cycles": 50,
+    "test_cycles": 50
+  },
+  "exploratory": true,
+  "selection_risk": "These records already drove the decision that the protocol's window is misplaced; a window chosen here is chosen on them and needs Stage B validation."
+}

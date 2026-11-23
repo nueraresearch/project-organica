@@ -1,0 +1,19 @@
+{
+  "cells": 16,
+  "engine_live_rate": {
+    "degree 6": 1.0,
+    "degree 12": 1.0
+  },
+  "shipped_live_rate": {
+    "degree 6": 0.0,
+    "degree 12": 0.0
+  },
+  "findings": [
+    "degree 6: median coverage 0.6, median stable 18.0, live 4/4",
+    "degree 12: median coverage 0.4, median stable 24.0, live 4/4"
+  ],
+  "failures": [
+    "median coverage at degree 12 is below the pre-committed 0.50"
+  ],
+  "verdict": "NOT CONFIRMED"
+}

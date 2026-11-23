@@ -1,0 +1,2065 @@
+{
+  "kind": "q021_transfer_rederivation",
+  "date": "2026-11-09",
+  "protocol": "docs/Q021-TRANSFER-RE-DERIVATION-PREREGISTRATION.md",
+  "engine": {
+    "engine_version": "0.13.0",
+    "engine_commit": "6e0ff24d84d34fd7e99b79173e2247f035e194c1",
+    "engine_sha256": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2"
+  },
+  "seeds": [
+    20262101,
+    20262102,
+    20262103,
+    20262104,
+    20262105,
+    20262106,
+    20262107,
+    20262108,
+    20262109,
+    20262110
+  ],
+  "bootstrap_seed": 20262111,
+  "phase_a_cycles": 40,
+  "phase_b_cycles": 40,
+  "cells": [
+    {
+      "arm": "treatment",
+      "seed": 20262101,
+      "acquired": true,
+      "cycles_to_acquire": 4,
+      "persistence_cycles": 21,
+      "primed_predictions": 413,
+      "target_rank_at_acquire": 13
+    },
+    {
+      "arm": "treatment",
+      "seed": 20262102,
+      "acquired": true,
+      "cycles_to_acquire": 3,
+      "persistence_cycles": 20,
+      "primed_predictions": 373,
+      "target_rank_at_acquire": 14
+    },
+    {
+      "arm": "treatment",
+      "seed": 20262103,
+      "acquired": true,
+      "cycles_to_acquire": 3,
+      "persistence_cycles": 22,
+      "primed_predictions": 416,
+      "target_rank_at_acquire": 13
+    },
+    {
+      "arm": "treatment",
+      "seed": 20262104,
+      "acquired": true,
+      "cycles_to_acquire": 2,
+      "persistence_cycles": 23,
+      "primed_predictions": 499,
+      "target_rank_at_acquire": 13
+    },
+    {
+      "arm": "treatment",
+      "seed": 20262105,
+      "acquired": true,
+      "cycles_to_acquire": 3,
+      "persistence_cycles": 19,
+      "primed_predictions": 421,
+      "target_rank_at_acquire": 19
+    },
+    {
+      "arm": "treatment",
+      "seed": 20262106,
+      "acquired": true,
+      "cycles_to_acquire": 4,
+      "persistence_cycles": 20,
+      "primed_predictions": 414,
+      "target_rank_at_acquire": 14
+    },
+    {
+      "arm": "treatment",
+      "seed": 20262107,
+      "acquired": true,
+      "cycles_to_acquire": 4,
+      "persistence_cycles": 19,
+      "primed_predictions": 533,
+      "target_rank_at_acquire": 1
+    },
+    {
+      "arm": "treatment",
+      "seed": 20262108,
+      "acquired": true,
+      "cycles_to_acquire": 5,
+      "persistence_cycles": 19,
+      "primed_predictions": 519,
+      "target_rank_at_acquire": 5
+    },
+    {
+      "arm": "treatment",
+      "seed": 20262109,
+      "acquired": true,
+      "cycles_to_acquire": 3,
+      "persistence_cycles": 22,
+      "primed_predictions": 516,
+      "target_rank_at_acquire": 17
+    },
+    {
+      "arm": "treatment",
+      "seed": 20262110,
+      "acquired": true,
+      "cycles_to_acquire": 3,
+      "persistence_cycles": 20,
+      "primed_predictions": 408,
+      "target_rank_at_acquire": 19
+    },
+    {
+      "arm": "control_naive",
+      "seed": 20262101,
+      "acquired": true,
+      "cycles_to_acquire": 4,
+      "persistence_cycles": 18,
+      "primed_predictions": 358,
+      "target_rank_at_acquire": 1
+    },
+    {
+      "arm": "control_naive",
+      "seed": 20262102,
+      "acquired": true,
+      "cycles_to_acquire": 3,
+      "persistence_cycles": 21,
+      "primed_predictions": 316,
+      "target_rank_at_acquire": 2
+    },
+    {
+      "arm": "control_naive",
+      "seed": 20262103,
+      "acquired": true,
+      "cycles_to_acquire": 3,
+      "persistence_cycles": 22,
+      "primed_predictions": 328,
+      "target_rank_at_acquire": 1
+    },
+    {
+      "arm": "control_naive",
+      "seed": 20262104,
+      "acquired": true,
+      "cycles_to_acquire": 2,
+      "persistence_cycles": 23,
+      "primed_predictions": 302,
+      "target_rank_at_acquire": 1
+    },
+    {
+      "arm": "control_naive",
+      "seed": 20262105,
+      "acquired": true,
+      "cycles_to_acquire": 3,
+      "persistence_cycles": 19,
+      "primed_predictions": 292,
+      "target_rank_at_acquire": 1
+    },
+    {
+      "arm": "control_naive",
+      "seed": 20262106,
+      "acquired": true,
+      "cycles_to_acquire": 4,
+      "persistence_cycles": 20,
+      "primed_predictions": 321,
+      "target_rank_at_acquire": 2
+    },
+    {
+      "arm": "control_naive",
+      "seed": 20262107,
+      "acquired": true,
+      "cycles_to_acquire": 4,
+      "persistence_cycles": 21,
+      "primed_predictions": 304,
+      "target_rank_at_acquire": 2
+    },
+    {
+      "arm": "control_naive",
+      "seed": 20262108,
+      "acquired": true,
+      "cycles_to_acquire": 5,
+      "persistence_cycles": 19,
+      "primed_predictions": 304,
+      "target_rank_at_acquire": 3
+    },
+    {
+      "arm": "control_naive",
+      "seed": 20262109,
+      "acquired": true,
+      "cycles_to_acquire": 3,
+      "persistence_cycles": 22,
+      "primed_predictions": 347,
+      "target_rank_at_acquire": 1
+    },
+    {
+      "arm": "control_naive",
+      "seed": 20262110,
+      "acquired": true,
+      "cycles_to_acquire": 3,
+      "persistence_cycles": 19,
+      "primed_predictions": 384,
+      "target_rank_at_acquire": 1
+    },
+    {
+      "arm": "control_pruned",
+      "seed": 20262101,
+      "acquired": true,
+      "cycles_to_acquire": 4,
+      "persistence_cycles": 21,
+      "primed_predictions": 616,
+      "target_rank_at_acquire": 2
+    },
+    {
+      "arm": "control_pruned",
+      "seed": 20262102,
+      "acquired": true,
+      "cycles_to_acquire": 3,
+      "persistence_cycles": 20,
+      "primed_predictions": 581,
+      "target_rank_at_acquire": 2
+    },
+    {
+      "arm": "control_pruned",
+      "seed": 20262103,
+      "acquired": true,
+      "cycles_to_acquire": 3,
+      "persistence_cycles": 22,
+      "primed_predictions": 587,
+      "target_rank_at_acquire": 1
+    },
+    {
+      "arm": "control_pruned",
+      "seed": 20262104,
+      "acquired": true,
+      "cycles_to_acquire": 2,
+      "persistence_cycles": 23,
+      "primed_predictions": 666,
+      "target_rank_at_acquire": 1
+    },
+    {
+      "arm": "control_pruned",
+      "seed": 20262105,
+      "acquired": true,
+      "cycles_to_acquire": 3,
+      "persistence_cycles": 19,
+      "primed_predictions": 526,
+      "target_rank_at_acquire": 1
+    },
+    {
+      "arm": "control_pruned",
+      "seed": 20262106,
+      "acquired": true,
+      "cycles_to_acquire": 4,
+      "persistence_cycles": 20,
+      "primed_predictions": 456,
+      "target_rank_at_acquire": 2
+    },
+    {
+      "arm": "control_pruned",
+      "seed": 20262107,
+      "acquired": true,
+      "cycles_to_acquire": 4,
+      "persistence_cycles": 19,
+      "primed_predictions": 612,
+      "target_rank_at_acquire": 1
+    },
+    {
+      "arm": "control_pruned",
+      "seed": 20262108,
+      "acquired": true,
+      "cycles_to_acquire": 5,
+      "persistence_cycles": 19,
+      "primed_predictions": 542,
+      "target_rank_at_acquire": 3
+    },
+    {
+      "arm": "control_pruned",
+      "seed": 20262109,
+      "acquired": true,
+      "cycles_to_acquire": 3,
+      "persistence_cycles": 22,
+      "primed_predictions": 700,
+      "target_rank_at_acquire": 1
+    },
+    {
+      "arm": "control_pruned",
+      "seed": 20262110,
+      "acquired": true,
+      "cycles_to_acquire": 3,
+      "persistence_cycles": 20,
+      "primed_predictions": 503,
+      "target_rank_at_acquire": 1
+    },
+    {
+      "arm": "control_orthogonal",
+      "seed": 20262101,
+      "acquired": true,
+      "cycles_to_acquire": 4,
+      "persistence_cycles": 21,
+      "primed_predictions": 489,
+      "target_rank_at_acquire": 2
+    },
+    {
+      "arm": "control_orthogonal",
+      "seed": 20262102,
+      "acquired": true,
+      "cycles_to_acquire": 3,
+      "persistence_cycles": 20,
+      "primed_predictions": 357,
+      "target_rank_at_acquire": 2
+    },
+    {
+      "arm": "control_orthogonal",
+      "seed": 20262103,
+      "acquired": true,
+      "cycles_to_acquire": 3,
+      "persistence_cycles": 22,
+      "primed_predictions": 468,
+      "target_rank_at_acquire": 1
+    },
+    {
+      "arm": "control_orthogonal",
+      "seed": 20262104,
+      "acquired": true,
+      "cycles_to_acquire": 2,
+      "persistence_cycles": 23,
+      "primed_predictions": 504,
+      "target_rank_at_acquire": 1
+    },
+    {
+      "arm": "control_orthogonal",
+      "seed": 20262105,
+      "acquired": true,
+      "cycles_to_acquire": 3,
+      "persistence_cycles": 19,
+      "primed_predictions": 433,
+      "target_rank_at_acquire": 1
+    },
+    {
+      "arm": "control_orthogonal",
+      "seed": 20262106,
+      "acquired": true,
+      "cycles_to_acquire": 4,
+      "persistence_cycles": 20,
+      "primed_predictions": 353,
+      "target_rank_at_acquire": 6
+    },
+    {
+      "arm": "control_orthogonal",
+      "seed": 20262107,
+      "acquired": true,
+      "cycles_to_acquire": 4,
+      "persistence_cycles": 19,
+      "primed_predictions": 361,
+      "target_rank_at_acquire": 1
+    },
+    {
+      "arm": "control_orthogonal",
+      "seed": 20262108,
+      "acquired": true,
+      "cycles_to_acquire": 5,
+      "persistence_cycles": 19,
+      "primed_predictions": 510,
+      "target_rank_at_acquire": 5
+    },
+    {
+      "arm": "control_orthogonal",
+      "seed": 20262109,
+      "acquired": true,
+      "cycles_to_acquire": 3,
+      "persistence_cycles": 22,
+      "primed_predictions": 428,
+      "target_rank_at_acquire": 1
+    },
+    {
+      "arm": "control_orthogonal",
+      "seed": 20262110,
+      "acquired": true,
+      "cycles_to_acquire": 3,
+      "persistence_cycles": 20,
+      "primed_predictions": 448,
+      "target_rank_at_acquire": 1
+    }
+  ],
+  "per_arm_results": {
+    "treatment": [
+      {
+        "arm": "treatment",
+        "seed": 20262101,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 21,
+        "primed_predictions": 413,
+        "target_rank_at_acquire": 13
+      },
+      {
+        "arm": "treatment",
+        "seed": 20262102,
+        "acquired": true,
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 20,
+        "primed_predictions": 373,
+        "target_rank_at_acquire": 14
+      },
+      {
+        "arm": "treatment",
+        "seed": 20262103,
+        "acquired": true,
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 22,
+        "primed_predictions": 416,
+        "target_rank_at_acquire": 13
+      },
+      {
+        "arm": "treatment",
+        "seed": 20262104,
+        "acquired": true,
+        "cycles_to_acquire": 2,
+        "persistence_cycles": 23,
+        "primed_predictions": 499,
+        "target_rank_at_acquire": 13
+      },
+      {
+        "arm": "treatment",
+        "seed": 20262105,
+        "acquired": true,
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 19,
+        "primed_predictions": 421,
+        "target_rank_at_acquire": 19
+      },
+      {
+        "arm": "treatment",
+        "seed": 20262106,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 20,
+        "primed_predictions": 414,
+        "target_rank_at_acquire": 14
+      },
+      {
+        "arm": "treatment",
+        "seed": 20262107,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 19,
+        "primed_predictions": 533,
+        "target_rank_at_acquire": 1
+      },
+      {
+        "arm": "treatment",
+        "seed": 20262108,
+        "acquired": true,
+        "cycles_to_acquire": 5,
+        "persistence_cycles": 19,
+        "primed_predictions": 519,
+        "target_rank_at_acquire": 5
+      },
+      {
+        "arm": "treatment",
+        "seed": 20262109,
+        "acquired": true,
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 22,
+        "primed_predictions": 516,
+        "target_rank_at_acquire": 17
+      },
+      {
+        "arm": "treatment",
+        "seed": 20262110,
+        "acquired": true,
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 20,
+        "primed_predictions": 408,
+        "target_rank_at_acquire": 19
+      }
+    ],
+    "control_naive": [
+      {
+        "arm": "control_naive",
+        "seed": 20262101,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 18,
+        "primed_predictions": 358,
+        "target_rank_at_acquire": 1
+      },
+      {
+        "arm": "control_naive",
+        "seed": 20262102,
+        "acquired": true,
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 21,
+        "primed_predictions": 316,
+        "target_rank_at_acquire": 2
+      },
+      {
+        "arm": "control_naive",
+        "seed": 20262103,
+        "acquired": true,
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 22,
+        "primed_predictions": 328,
+        "target_rank_at_acquire": 1
+      },
+      {
+        "arm": "control_naive",
+        "seed": 20262104,
+        "acquired": true,
+        "cycles_to_acquire": 2,
+        "persistence_cycles": 23,
+        "primed_predictions": 302,
+        "target_rank_at_acquire": 1
+      },
+      {
+        "arm": "control_naive",
+        "seed": 20262105,
+        "acquired": true,
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 19,
+        "primed_predictions": 292,
+        "target_rank_at_acquire": 1
+      },
+      {
+        "arm": "control_naive",
+        "seed": 20262106,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 20,
+        "primed_predictions": 321,
+        "target_rank_at_acquire": 2
+      },
+      {
+        "arm": "control_naive",
+        "seed": 20262107,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 21,
+        "primed_predictions": 304,
+        "target_rank_at_acquire": 2
+      },
+      {
+        "arm": "control_naive",
+        "seed": 20262108,
+        "acquired": true,
+        "cycles_to_acquire": 5,
+        "persistence_cycles": 19,
+        "primed_predictions": 304,
+        "target_rank_at_acquire": 3
+      },
+      {
+        "arm": "control_naive",
+        "seed": 20262109,
+        "acquired": true,
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 22,
+        "primed_predictions": 347,
+        "target_rank_at_acquire": 1
+      },
+      {
+        "arm": "control_naive",
+        "seed": 20262110,
+        "acquired": true,
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 19,
+        "primed_predictions": 384,
+        "target_rank_at_acquire": 1
+      }
+    ],
+    "control_pruned": [
+      {
+        "arm": "control_pruned",
+        "seed": 20262101,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 21,
+        "primed_predictions": 616,
+        "target_rank_at_acquire": 2
+      },
+      {
+        "arm": "control_pruned",
+        "seed": 20262102,
+        "acquired": true,
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 20,
+        "primed_predictions": 581,
+        "target_rank_at_acquire": 2
+      },
+      {
+        "arm": "control_pruned",
+        "seed": 20262103,
+        "acquired": true,
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 22,
+        "primed_predictions": 587,
+        "target_rank_at_acquire": 1
+      },
+      {
+        "arm": "control_pruned",
+        "seed": 20262104,
+        "acquired": true,
+        "cycles_to_acquire": 2,
+        "persistence_cycles": 23,
+        "primed_predictions": 666,
+        "target_rank_at_acquire": 1
+      },
+      {
+        "arm": "control_pruned",
+        "seed": 20262105,
+        "acquired": true,
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 19,
+        "primed_predictions": 526,
+        "target_rank_at_acquire": 1
+      },
+      {
+        "arm": "control_pruned",
+        "seed": 20262106,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 20,
+        "primed_predictions": 456,
+        "target_rank_at_acquire": 2
+      },
+      {
+        "arm": "control_pruned",
+        "seed": 20262107,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 19,
+        "primed_predictions": 612,
+        "target_rank_at_acquire": 1
+      },
+      {
+        "arm": "control_pruned",
+        "seed": 20262108,
+        "acquired": true,
+        "cycles_to_acquire": 5,
+        "persistence_cycles": 19,
+        "primed_predictions": 542,
+        "target_rank_at_acquire": 3
+      },
+      {
+        "arm": "control_pruned",
+        "seed": 20262109,
+        "acquired": true,
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 22,
+        "primed_predictions": 700,
+        "target_rank_at_acquire": 1
+      },
+      {
+        "arm": "control_pruned",
+        "seed": 20262110,
+        "acquired": true,
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 20,
+        "primed_predictions": 503,
+        "target_rank_at_acquire": 1
+      }
+    ],
+    "control_orthogonal": [
+      {
+        "arm": "control_orthogonal",
+        "seed": 20262101,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 21,
+        "primed_predictions": 489,
+        "target_rank_at_acquire": 2
+      },
+      {
+        "arm": "control_orthogonal",
+        "seed": 20262102,
+        "acquired": true,
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 20,
+        "primed_predictions": 357,
+        "target_rank_at_acquire": 2
+      },
+      {
+        "arm": "control_orthogonal",
+        "seed": 20262103,
+        "acquired": true,
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 22,
+        "primed_predictions": 468,
+        "target_rank_at_acquire": 1
+      },
+      {
+        "arm": "control_orthogonal",
+        "seed": 20262104,
+        "acquired": true,
+        "cycles_to_acquire": 2,
+        "persistence_cycles": 23,
+        "primed_predictions": 504,
+        "target_rank_at_acquire": 1
+      },
+      {
+        "arm": "control_orthogonal",
+        "seed": 20262105,
+        "acquired": true,
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 19,
+        "primed_predictions": 433,
+        "target_rank_at_acquire": 1
+      },
+      {
+        "arm": "control_orthogonal",
+        "seed": 20262106,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 20,
+        "primed_predictions": 353,
+        "target_rank_at_acquire": 6
+      },
+      {
+        "arm": "control_orthogonal",
+        "seed": 20262107,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 19,
+        "primed_predictions": 361,
+        "target_rank_at_acquire": 1
+      },
+      {
+        "arm": "control_orthogonal",
+        "seed": 20262108,
+        "acquired": true,
+        "cycles_to_acquire": 5,
+        "persistence_cycles": 19,
+        "primed_predictions": 510,
+        "target_rank_at_acquire": 5
+      },
+      {
+        "arm": "control_orthogonal",
+        "seed": 20262109,
+        "acquired": true,
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 22,
+        "primed_predictions": 428,
+        "target_rank_at_acquire": 1
+      },
+      {
+        "arm": "control_orthogonal",
+        "seed": 20262110,
+        "acquired": true,
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 20,
+        "primed_predictions": 448,
+        "target_rank_at_acquire": 1
+      }
+    ]
+  },
+  "summary": {
+    "kind": "cross_context_reuse_benchmark",
+    "protocol": "earned-evidence (docs/DECISION-EARNED-SCHEMA-PRIMING.md)",
+    "generated_utc": "2026-11-09T22:57:18Z",
+    "seeds": [
+      20262101,
+      20262102,
+      20262103,
+      20262104,
+      20262105,
+      20262106,
+      20262107,
+      20262108,
+      20262109,
+      20262110
+    ],
+    "phase_a_cycles": 40,
+    "phase_b_cycles": 40,
+    "total_seconds": 164.29,
+    "metrics": {
+      "mean_cycles_naive": 3.4,
+      "mean_cycles_treatment": 3.4,
+      "mean_cycles_pruned": 3.4,
+      "mean_cycles_orthogonal": 3.4,
+      "transfer_ratio_treatment": 1.0,
+      "transfer_ratio_pruned": 1.0,
+      "transfer_ratio_orthogonal": 1.0,
+      "mean_tp_treatment": 20.5,
+      "primed_predictions": {
+        "treatment": 4512,
+        "control_naive": 3256,
+        "control_pruned": 5789,
+        "control_orthogonal": 4351
+      },
+      "treatment_target_rank_at_acquire": [
+        13,
+        14,
+        13,
+        13,
+        19,
+        14,
+        1,
+        5,
+        17,
+        19
+      ],
+      "reusable_knowledge_verdict": "STRUCTURAL_PRIOR_PRESENT_NO_ACQUISITION_ADVANTAGE"
+    },
+    "per_arm_results": {
+      "treatment": [
+        {
+          "arm": "treatment",
+          "seed": 20262101,
+          "acquired": true,
+          "cycles_to_acquire": 4,
+          "persistence_cycles": 21,
+          "primed_predictions": 413,
+          "target_rank_at_acquire": 13
+        },
+        {
+          "arm": "treatment",
+          "seed": 20262102,
+          "acquired": true,
+          "cycles_to_acquire": 3,
+          "persistence_cycles": 20,
+          "primed_predictions": 373,
+          "target_rank_at_acquire": 14
+        },
+        {
+          "arm": "treatment",
+          "seed": 20262103,
+          "acquired": true,
+          "cycles_to_acquire": 3,
+          "persistence_cycles": 22,
+          "primed_predictions": 416,
+          "target_rank_at_acquire": 13
+        },
+        {
+          "arm": "treatment",
+          "seed": 20262104,
+          "acquired": true,
+          "cycles_to_acquire": 2,
+          "persistence_cycles": 23,
+          "primed_predictions": 499,
+          "target_rank_at_acquire": 13
+        },
+        {
+          "arm": "treatment",
+          "seed": 20262105,
+          "acquired": true,
+          "cycles_to_acquire": 3,
+          "persistence_cycles": 19,
+          "primed_predictions": 421,
+          "target_rank_at_acquire": 19
+        },
+        {
+          "arm": "treatment",
+          "seed": 20262106,
+          "acquired": true,
+          "cycles_to_acquire": 4,
+          "persistence_cycles": 20,
+          "primed_predictions": 414,
+          "target_rank_at_acquire": 14
+        },
+        {
+          "arm": "treatment",
+          "seed": 20262107,
+          "acquired": true,
+          "cycles_to_acquire": 4,
+          "persistence_cycles": 19,
+          "primed_predictions": 533,
+          "target_rank_at_acquire": 1
+        },
+        {
+          "arm": "treatment",
+          "seed": 20262108,
+          "acquired": true,
+          "cycles_to_acquire": 5,
+          "persistence_cycles": 19,
+          "primed_predictions": 519,
+          "target_rank_at_acquire": 5
+        },
+        {
+          "arm": "treatment",
+          "seed": 20262109,
+          "acquired": true,
+          "cycles_to_acquire": 3,
+          "persistence_cycles": 22,
+          "primed_predictions": 516,
+          "target_rank_at_acquire": 17
+        },
+        {
+          "arm": "treatment",
+          "seed": 20262110,
+          "acquired": true,
+          "cycles_to_acquire": 3,
+          "persistence_cycles": 20,
+          "primed_predictions": 408,
+          "target_rank_at_acquire": 19
+        }
+      ],
+      "control_naive": [
+        {
+          "arm": "control_naive",
+          "seed": 20262101,
+          "acquired": true,
+          "cycles_to_acquire": 4,
+          "persistence_cycles": 18,
+          "primed_predictions": 358,
+          "target_rank_at_acquire": 1
+        },
+        {
+          "arm": "control_naive",
+          "seed": 20262102,
+          "acquired": true,
+          "cycles_to_acquire": 3,
+          "persistence_cycles": 21,
+          "primed_predictions": 316,
+          "target_rank_at_acquire": 2
+        },
+        {
+          "arm": "control_naive",
+          "seed": 20262103,
+          "acquired": true,
+          "cycles_to_acquire": 3,
+          "persistence_cycles": 22,
+          "primed_predictions": 328,
+          "target_rank_at_acquire": 1
+        },
+        {
+          "arm": "control_naive",
+          "seed": 20262104,
+          "acquired": true,
+          "cycles_to_acquire": 2,
+          "persistence_cycles": 23,
+          "primed_predictions": 302,
+          "target_rank_at_acquire": 1
+        },
+        {
+          "arm": "control_naive",
+          "seed": 20262105,
+          "acquired": true,
+          "cycles_to_acquire": 3,
+          "persistence_cycles": 19,
+          "primed_predictions": 292,
+          "target_rank_at_acquire": 1
+        },
+        {
+          "arm": "control_naive",
+          "seed": 20262106,
+          "acquired": true,
+          "cycles_to_acquire": 4,
+          "persistence_cycles": 20,
+          "primed_predictions": 321,
+          "target_rank_at_acquire": 2
+        },
+        {
+          "arm": "control_naive",
+          "seed": 20262107,
+          "acquired": true,
+          "cycles_to_acquire": 4,
+          "persistence_cycles": 21,
+          "primed_predictions": 304,
+          "target_rank_at_acquire": 2
+        },
+        {
+          "arm": "control_naive",
+          "seed": 20262108,
+          "acquired": true,
+          "cycles_to_acquire": 5,
+          "persistence_cycles": 19,
+          "primed_predictions": 304,
+          "target_rank_at_acquire": 3
+        },
+        {
+          "arm": "control_naive",
+          "seed": 20262109,
+          "acquired": true,
+          "cycles_to_acquire": 3,
+          "persistence_cycles": 22,
+          "primed_predictions": 347,
+          "target_rank_at_acquire": 1
+        },
+        {
+          "arm": "control_naive",
+          "seed": 20262110,
+          "acquired": true,
+          "cycles_to_acquire": 3,
+          "persistence_cycles": 19,
+          "primed_predictions": 384,
+          "target_rank_at_acquire": 1
+        }
+      ],
+      "control_pruned": [
+        {
+          "arm": "control_pruned",
+          "seed": 20262101,
+          "acquired": true,
+          "cycles_to_acquire": 4,
+          "persistence_cycles": 21,
+          "primed_predictions": 616,
+          "target_rank_at_acquire": 2
+        },
+        {
+          "arm": "control_pruned",
+          "seed": 20262102,
+          "acquired": true,
+          "cycles_to_acquire": 3,
+          "persistence_cycles": 20,
+          "primed_predictions": 581,
+          "target_rank_at_acquire": 2
+        },
+        {
+          "arm": "control_pruned",
+          "seed": 20262103,
+          "acquired": true,
+          "cycles_to_acquire": 3,
+          "persistence_cycles": 22,
+          "primed_predictions": 587,
+          "target_rank_at_acquire": 1
+        },
+        {
+          "arm": "control_pruned",
+          "seed": 20262104,
+          "acquired": true,
+          "cycles_to_acquire": 2,
+          "persistence_cycles": 23,
+          "primed_predictions": 666,
+          "target_rank_at_acquire": 1
+        },
+        {
+          "arm": "control_pruned",
+          "seed": 20262105,
+          "acquired": true,
+          "cycles_to_acquire": 3,
+          "persistence_cycles": 19,
+          "primed_predictions": 526,
+          "target_rank_at_acquire": 1
+        },
+        {
+          "arm": "control_pruned",
+          "seed": 20262106,
+          "acquired": true,
+          "cycles_to_acquire": 4,
+          "persistence_cycles": 20,
+          "primed_predictions": 456,
+          "target_rank_at_acquire": 2
+        },
+        {
+          "arm": "control_pruned",
+          "seed": 20262107,
+          "acquired": true,
+          "cycles_to_acquire": 4,
+          "persistence_cycles": 19,
+          "primed_predictions": 612,
+          "target_rank_at_acquire": 1
+        },
+        {
+          "arm": "control_pruned",
+          "seed": 20262108,
+          "acquired": true,
+          "cycles_to_acquire": 5,
+          "persistence_cycles": 19,
+          "primed_predictions": 542,
+          "target_rank_at_acquire": 3
+        },
+        {
+          "arm": "control_pruned",
+          "seed": 20262109,
+          "acquired": true,
+          "cycles_to_acquire": 3,
+          "persistence_cycles": 22,
+          "primed_predictions": 700,
+          "target_rank_at_acquire": 1
+        },
+        {
+          "arm": "control_pruned",
+          "seed": 20262110,
+          "acquired": true,
+          "cycles_to_acquire": 3,
+          "persistence_cycles": 20,
+          "primed_predictions": 503,
+          "target_rank_at_acquire": 1
+        }
+      ],
+      "control_orthogonal": [
+        {
+          "arm": "control_orthogonal",
+          "seed": 20262101,
+          "acquired": true,
+          "cycles_to_acquire": 4,
+          "persistence_cycles": 21,
+          "primed_predictions": 489,
+          "target_rank_at_acquire": 2
+        },
+        {
+          "arm": "control_orthogonal",
+          "seed": 20262102,
+          "acquired": true,
+          "cycles_to_acquire": 3,
+          "persistence_cycles": 20,
+          "primed_predictions": 357,
+          "target_rank_at_acquire": 2
+        },
+        {
+          "arm": "control_orthogonal",
+          "seed": 20262103,
+          "acquired": true,
+          "cycles_to_acquire": 3,
+          "persistence_cycles": 22,
+          "primed_predictions": 468,
+          "target_rank_at_acquire": 1
+        },
+        {
+          "arm": "control_orthogonal",
+          "seed": 20262104,
+          "acquired": true,
+          "cycles_to_acquire": 2,
+          "persistence_cycles": 23,
+          "primed_predictions": 504,
+          "target_rank_at_acquire": 1
+        },
+        {
+          "arm": "control_orthogonal",
+          "seed": 20262105,
+          "acquired": true,
+          "cycles_to_acquire": 3,
+          "persistence_cycles": 19,
+          "primed_predictions": 433,
+          "target_rank_at_acquire": 1
+        },
+        {
+          "arm": "control_orthogonal",
+          "seed": 20262106,
+          "acquired": true,
+          "cycles_to_acquire": 4,
+          "persistence_cycles": 20,
+          "primed_predictions": 353,
+          "target_rank_at_acquire": 6
+        },
+        {
+          "arm": "control_orthogonal",
+          "seed": 20262107,
+          "acquired": true,
+          "cycles_to_acquire": 4,
+          "persistence_cycles": 19,
+          "primed_predictions": 361,
+          "target_rank_at_acquire": 1
+        },
+        {
+          "arm": "control_orthogonal",
+          "seed": 20262108,
+          "acquired": true,
+          "cycles_to_acquire": 5,
+          "persistence_cycles": 19,
+          "primed_predictions": 510,
+          "target_rank_at_acquire": 5
+        },
+        {
+          "arm": "control_orthogonal",
+          "seed": 20262109,
+          "acquired": true,
+          "cycles_to_acquire": 3,
+          "persistence_cycles": 22,
+          "primed_predictions": 428,
+          "target_rank_at_acquire": 1
+        },
+        {
+          "arm": "control_orthogonal",
+          "seed": 20262110,
+          "acquired": true,
+          "cycles_to_acquire": 3,
+          "persistence_cycles": 20,
+          "primed_predictions": 448,
+          "target_rank_at_acquire": 1
+        }
+      ]
+    }
+  },
+  "parts": [
+    {
+      "kind": "cross_context_reuse_benchmark",
+      "protocol": "earned-evidence (docs/DECISION-EARNED-SCHEMA-PRIMING.md)",
+      "generated_utc": "2026-11-09T22:55:30Z",
+      "seeds": [
+        20262101
+      ],
+      "phase_a_cycles": 40,
+      "phase_b_cycles": 40,
+      "total_seconds": 15.97,
+      "metrics": {
+        "mean_cycles_naive": 4.0,
+        "mean_cycles_treatment": 4.0,
+        "mean_cycles_pruned": 4.0,
+        "mean_cycles_orthogonal": 4.0,
+        "transfer_ratio_treatment": 1.0,
+        "transfer_ratio_pruned": 1.0,
+        "transfer_ratio_orthogonal": 1.0,
+        "mean_tp_treatment": 21.0,
+        "primed_predictions": {
+          "treatment": 413,
+          "control_naive": 358,
+          "control_pruned": 616,
+          "control_orthogonal": 489
+        },
+        "treatment_target_rank_at_acquire": [
+          13
+        ],
+        "reusable_knowledge_verdict": "STRUCTURAL_PRIOR_PRESENT_NO_ACQUISITION_ADVANTAGE"
+      },
+      "per_arm_results": {
+        "treatment": [
+          {
+            "arm": "treatment",
+            "seed": 20262101,
+            "acquired": true,
+            "cycles_to_acquire": 4,
+            "persistence_cycles": 21,
+            "primed_predictions": 413,
+            "target_rank_at_acquire": 13
+          }
+        ],
+        "control_naive": [
+          {
+            "arm": "control_naive",
+            "seed": 20262101,
+            "acquired": true,
+            "cycles_to_acquire": 4,
+            "persistence_cycles": 18,
+            "primed_predictions": 358,
+            "target_rank_at_acquire": 1
+          }
+        ],
+        "control_pruned": [
+          {
+            "arm": "control_pruned",
+            "seed": 20262101,
+            "acquired": true,
+            "cycles_to_acquire": 4,
+            "persistence_cycles": 21,
+            "primed_predictions": 616,
+            "target_rank_at_acquire": 2
+          }
+        ],
+        "control_orthogonal": [
+          {
+            "arm": "control_orthogonal",
+            "seed": 20262101,
+            "acquired": true,
+            "cycles_to_acquire": 4,
+            "persistence_cycles": 21,
+            "primed_predictions": 489,
+            "target_rank_at_acquire": 2
+          }
+        ]
+      },
+      "engine_version": "0.13.0",
+      "engine_commit": "6e0ff24d84d34fd7e99b79173e2247f035e194c1",
+      "engine_sha256": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2",
+      "runner": "__main__"
+    },
+    {
+      "kind": "cross_context_reuse_benchmark",
+      "protocol": "earned-evidence (docs/DECISION-EARNED-SCHEMA-PRIMING.md)",
+      "generated_utc": "2026-11-09T22:55:31Z",
+      "seeds": [
+        20262102
+      ],
+      "phase_a_cycles": 40,
+      "phase_b_cycles": 40,
+      "total_seconds": 16.63,
+      "metrics": {
+        "mean_cycles_naive": 3.0,
+        "mean_cycles_treatment": 3.0,
+        "mean_cycles_pruned": 3.0,
+        "mean_cycles_orthogonal": 3.0,
+        "transfer_ratio_treatment": 1.0,
+        "transfer_ratio_pruned": 1.0,
+        "transfer_ratio_orthogonal": 1.0,
+        "mean_tp_treatment": 20.0,
+        "primed_predictions": {
+          "treatment": 373,
+          "control_naive": 316,
+          "control_pruned": 581,
+          "control_orthogonal": 357
+        },
+        "treatment_target_rank_at_acquire": [
+          14
+        ],
+        "reusable_knowledge_verdict": "STRUCTURAL_PRIOR_PRESENT_NO_ACQUISITION_ADVANTAGE"
+      },
+      "per_arm_results": {
+        "treatment": [
+          {
+            "arm": "treatment",
+            "seed": 20262102,
+            "acquired": true,
+            "cycles_to_acquire": 3,
+            "persistence_cycles": 20,
+            "primed_predictions": 373,
+            "target_rank_at_acquire": 14
+          }
+        ],
+        "control_naive": [
+          {
+            "arm": "control_naive",
+            "seed": 20262102,
+            "acquired": true,
+            "cycles_to_acquire": 3,
+            "persistence_cycles": 21,
+            "primed_predictions": 316,
+            "target_rank_at_acquire": 2
+          }
+        ],
+        "control_pruned": [
+          {
+            "arm": "control_pruned",
+            "seed": 20262102,
+            "acquired": true,
+            "cycles_to_acquire": 3,
+            "persistence_cycles": 20,
+            "primed_predictions": 581,
+            "target_rank_at_acquire": 2
+          }
+        ],
+        "control_orthogonal": [
+          {
+            "arm": "control_orthogonal",
+            "seed": 20262102,
+            "acquired": true,
+            "cycles_to_acquire": 3,
+            "persistence_cycles": 20,
+            "primed_predictions": 357,
+            "target_rank_at_acquire": 2
+          }
+        ]
+      },
+      "engine_version": "0.13.0",
+      "engine_commit": "6e0ff24d84d34fd7e99b79173e2247f035e194c1",
+      "engine_sha256": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2",
+      "runner": "__main__"
+    },
+    {
+      "kind": "cross_context_reuse_benchmark",
+      "protocol": "earned-evidence (docs/DECISION-EARNED-SCHEMA-PRIMING.md)",
+      "generated_utc": "2026-11-09T22:55:30Z",
+      "seeds": [
+        20262103
+      ],
+      "phase_a_cycles": 40,
+      "phase_b_cycles": 40,
+      "total_seconds": 16.39,
+      "metrics": {
+        "mean_cycles_naive": 3.0,
+        "mean_cycles_treatment": 3.0,
+        "mean_cycles_pruned": 3.0,
+        "mean_cycles_orthogonal": 3.0,
+        "transfer_ratio_treatment": 1.0,
+        "transfer_ratio_pruned": 1.0,
+        "transfer_ratio_orthogonal": 1.0,
+        "mean_tp_treatment": 22.0,
+        "primed_predictions": {
+          "treatment": 416,
+          "control_naive": 328,
+          "control_pruned": 587,
+          "control_orthogonal": 468
+        },
+        "treatment_target_rank_at_acquire": [
+          13
+        ],
+        "reusable_knowledge_verdict": "STRUCTURAL_PRIOR_PRESENT_NO_ACQUISITION_ADVANTAGE"
+      },
+      "per_arm_results": {
+        "treatment": [
+          {
+            "arm": "treatment",
+            "seed": 20262103,
+            "acquired": true,
+            "cycles_to_acquire": 3,
+            "persistence_cycles": 22,
+            "primed_predictions": 416,
+            "target_rank_at_acquire": 13
+          }
+        ],
+        "control_naive": [
+          {
+            "arm": "control_naive",
+            "seed": 20262103,
+            "acquired": true,
+            "cycles_to_acquire": 3,
+            "persistence_cycles": 22,
+            "primed_predictions": 328,
+            "target_rank_at_acquire": 1
+          }
+        ],
+        "control_pruned": [
+          {
+            "arm": "control_pruned",
+            "seed": 20262103,
+            "acquired": true,
+            "cycles_to_acquire": 3,
+            "persistence_cycles": 22,
+            "primed_predictions": 587,
+            "target_rank_at_acquire": 1
+          }
+        ],
+        "control_orthogonal": [
+          {
+            "arm": "control_orthogonal",
+            "seed": 20262103,
+            "acquired": true,
+            "cycles_to_acquire": 3,
+            "persistence_cycles": 22,
+            "primed_predictions": 468,
+            "target_rank_at_acquire": 1
+          }
+        ]
+      },
+      "engine_version": "0.13.0",
+      "engine_commit": "6e0ff24d84d34fd7e99b79173e2247f035e194c1",
+      "engine_sha256": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2",
+      "runner": "__main__"
+    },
+    {
+      "kind": "cross_context_reuse_benchmark",
+      "protocol": "earned-evidence (docs/DECISION-EARNED-SCHEMA-PRIMING.md)",
+      "generated_utc": "2026-11-09T22:55:30Z",
+      "seeds": [
+        20262104
+      ],
+      "phase_a_cycles": 40,
+      "phase_b_cycles": 40,
+      "total_seconds": 16.4,
+      "metrics": {
+        "mean_cycles_naive": 2.0,
+        "mean_cycles_treatment": 2.0,
+        "mean_cycles_pruned": 2.0,
+        "mean_cycles_orthogonal": 2.0,
+        "transfer_ratio_treatment": 1.0,
+        "transfer_ratio_pruned": 1.0,
+        "transfer_ratio_orthogonal": 1.0,
+        "mean_tp_treatment": 23.0,
+        "primed_predictions": {
+          "treatment": 499,
+          "control_naive": 302,
+          "control_pruned": 666,
+          "control_orthogonal": 504
+        },
+        "treatment_target_rank_at_acquire": [
+          13
+        ],
+        "reusable_knowledge_verdict": "STRUCTURAL_PRIOR_PRESENT_NO_ACQUISITION_ADVANTAGE"
+      },
+      "per_arm_results": {
+        "treatment": [
+          {
+            "arm": "treatment",
+            "seed": 20262104,
+            "acquired": true,
+            "cycles_to_acquire": 2,
+            "persistence_cycles": 23,
+            "primed_predictions": 499,
+            "target_rank_at_acquire": 13
+          }
+        ],
+        "control_naive": [
+          {
+            "arm": "control_naive",
+            "seed": 20262104,
+            "acquired": true,
+            "cycles_to_acquire": 2,
+            "persistence_cycles": 23,
+            "primed_predictions": 302,
+            "target_rank_at_acquire": 1
+          }
+        ],
+        "control_pruned": [
+          {
+            "arm": "control_pruned",
+            "seed": 20262104,
+            "acquired": true,
+            "cycles_to_acquire": 2,
+            "persistence_cycles": 23,
+            "primed_predictions": 666,
+            "target_rank_at_acquire": 1
+          }
+        ],
+        "control_orthogonal": [
+          {
+            "arm": "control_orthogonal",
+            "seed": 20262104,
+            "acquired": true,
+            "cycles_to_acquire": 2,
+            "persistence_cycles": 23,
+            "primed_predictions": 504,
+            "target_rank_at_acquire": 1
+          }
+        ]
+      },
+      "engine_version": "0.13.0",
+      "engine_commit": "6e0ff24d84d34fd7e99b79173e2247f035e194c1",
+      "engine_sha256": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2",
+      "runner": "__main__"
+    },
+    {
+      "kind": "cross_context_reuse_benchmark",
+      "protocol": "earned-evidence (docs/DECISION-EARNED-SCHEMA-PRIMING.md)",
+      "generated_utc": "2026-11-09T22:55:53Z",
+      "seeds": [
+        20262105
+      ],
+      "phase_a_cycles": 40,
+      "phase_b_cycles": 40,
+      "total_seconds": 16.32,
+      "metrics": {
+        "mean_cycles_naive": 3.0,
+        "mean_cycles_treatment": 3.0,
+        "mean_cycles_pruned": 3.0,
+        "mean_cycles_orthogonal": 3.0,
+        "transfer_ratio_treatment": 1.0,
+        "transfer_ratio_pruned": 1.0,
+        "transfer_ratio_orthogonal": 1.0,
+        "mean_tp_treatment": 19.0,
+        "primed_predictions": {
+          "treatment": 421,
+          "control_naive": 292,
+          "control_pruned": 526,
+          "control_orthogonal": 433
+        },
+        "treatment_target_rank_at_acquire": [
+          19
+        ],
+        "reusable_knowledge_verdict": "STRUCTURAL_PRIOR_PRESENT_NO_ACQUISITION_ADVANTAGE"
+      },
+      "per_arm_results": {
+        "treatment": [
+          {
+            "arm": "treatment",
+            "seed": 20262105,
+            "acquired": true,
+            "cycles_to_acquire": 3,
+            "persistence_cycles": 19,
+            "primed_predictions": 421,
+            "target_rank_at_acquire": 19
+          }
+        ],
+        "control_naive": [
+          {
+            "arm": "control_naive",
+            "seed": 20262105,
+            "acquired": true,
+            "cycles_to_acquire": 3,
+            "persistence_cycles": 19,
+            "primed_predictions": 292,
+            "target_rank_at_acquire": 1
+          }
+        ],
+        "control_pruned": [
+          {
+            "arm": "control_pruned",
+            "seed": 20262105,
+            "acquired": true,
+            "cycles_to_acquire": 3,
+            "persistence_cycles": 19,
+            "primed_predictions": 526,
+            "target_rank_at_acquire": 1
+          }
+        ],
+        "control_orthogonal": [
+          {
+            "arm": "control_orthogonal",
+            "seed": 20262105,
+            "acquired": true,
+            "cycles_to_acquire": 3,
+            "persistence_cycles": 19,
+            "primed_predictions": 433,
+            "target_rank_at_acquire": 1
+          }
+        ]
+      },
+      "engine_version": "0.13.0",
+      "engine_commit": "6e0ff24d84d34fd7e99b79173e2247f035e194c1",
+      "engine_sha256": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2",
+      "runner": "__main__"
+    },
+    {
+      "kind": "cross_context_reuse_benchmark",
+      "protocol": "earned-evidence (docs/DECISION-EARNED-SCHEMA-PRIMING.md)",
+      "generated_utc": "2026-11-09T22:55:53Z",
+      "seeds": [
+        20262106
+      ],
+      "phase_a_cycles": 40,
+      "phase_b_cycles": 40,
+      "total_seconds": 16.66,
+      "metrics": {
+        "mean_cycles_naive": 4.0,
+        "mean_cycles_treatment": 4.0,
+        "mean_cycles_pruned": 4.0,
+        "mean_cycles_orthogonal": 4.0,
+        "transfer_ratio_treatment": 1.0,
+        "transfer_ratio_pruned": 1.0,
+        "transfer_ratio_orthogonal": 1.0,
+        "mean_tp_treatment": 20.0,
+        "primed_predictions": {
+          "treatment": 414,
+          "control_naive": 321,
+          "control_pruned": 456,
+          "control_orthogonal": 353
+        },
+        "treatment_target_rank_at_acquire": [
+          14
+        ],
+        "reusable_knowledge_verdict": "STRUCTURAL_PRIOR_PRESENT_NO_ACQUISITION_ADVANTAGE"
+      },
+      "per_arm_results": {
+        "treatment": [
+          {
+            "arm": "treatment",
+            "seed": 20262106,
+            "acquired": true,
+            "cycles_to_acquire": 4,
+            "persistence_cycles": 20,
+            "primed_predictions": 414,
+            "target_rank_at_acquire": 14
+          }
+        ],
+        "control_naive": [
+          {
+            "arm": "control_naive",
+            "seed": 20262106,
+            "acquired": true,
+            "cycles_to_acquire": 4,
+            "persistence_cycles": 20,
+            "primed_predictions": 321,
+            "target_rank_at_acquire": 2
+          }
+        ],
+        "control_pruned": [
+          {
+            "arm": "control_pruned",
+            "seed": 20262106,
+            "acquired": true,
+            "cycles_to_acquire": 4,
+            "persistence_cycles": 20,
+            "primed_predictions": 456,
+            "target_rank_at_acquire": 2
+          }
+        ],
+        "control_orthogonal": [
+          {
+            "arm": "control_orthogonal",
+            "seed": 20262106,
+            "acquired": true,
+            "cycles_to_acquire": 4,
+            "persistence_cycles": 20,
+            "primed_predictions": 353,
+            "target_rank_at_acquire": 6
+          }
+        ]
+      },
+      "engine_version": "0.13.0",
+      "engine_commit": "6e0ff24d84d34fd7e99b79173e2247f035e194c1",
+      "engine_sha256": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2",
+      "runner": "__main__"
+    },
+    {
+      "kind": "cross_context_reuse_benchmark",
+      "protocol": "earned-evidence (docs/DECISION-EARNED-SCHEMA-PRIMING.md)",
+      "generated_utc": "2026-11-09T22:55:54Z",
+      "seeds": [
+        20262107
+      ],
+      "phase_a_cycles": 40,
+      "phase_b_cycles": 40,
+      "total_seconds": 16.76,
+      "metrics": {
+        "mean_cycles_naive": 4.0,
+        "mean_cycles_treatment": 4.0,
+        "mean_cycles_pruned": 4.0,
+        "mean_cycles_orthogonal": 4.0,
+        "transfer_ratio_treatment": 1.0,
+        "transfer_ratio_pruned": 1.0,
+        "transfer_ratio_orthogonal": 1.0,
+        "mean_tp_treatment": 19.0,
+        "primed_predictions": {
+          "treatment": 533,
+          "control_naive": 304,
+          "control_pruned": 612,
+          "control_orthogonal": 361
+        },
+        "treatment_target_rank_at_acquire": [
+          1
+        ],
+        "reusable_knowledge_verdict": "STRUCTURAL_PRIOR_PRESENT_NO_ACQUISITION_ADVANTAGE"
+      },
+      "per_arm_results": {
+        "treatment": [
+          {
+            "arm": "treatment",
+            "seed": 20262107,
+            "acquired": true,
+            "cycles_to_acquire": 4,
+            "persistence_cycles": 19,
+            "primed_predictions": 533,
+            "target_rank_at_acquire": 1
+          }
+        ],
+        "control_naive": [
+          {
+            "arm": "control_naive",
+            "seed": 20262107,
+            "acquired": true,
+            "cycles_to_acquire": 4,
+            "persistence_cycles": 21,
+            "primed_predictions": 304,
+            "target_rank_at_acquire": 2
+          }
+        ],
+        "control_pruned": [
+          {
+            "arm": "control_pruned",
+            "seed": 20262107,
+            "acquired": true,
+            "cycles_to_acquire": 4,
+            "persistence_cycles": 19,
+            "primed_predictions": 612,
+            "target_rank_at_acquire": 1
+          }
+        ],
+        "control_orthogonal": [
+          {
+            "arm": "control_orthogonal",
+            "seed": 20262107,
+            "acquired": true,
+            "cycles_to_acquire": 4,
+            "persistence_cycles": 19,
+            "primed_predictions": 361,
+            "target_rank_at_acquire": 1
+          }
+        ]
+      },
+      "engine_version": "0.13.0",
+      "engine_commit": "6e0ff24d84d34fd7e99b79173e2247f035e194c1",
+      "engine_sha256": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2",
+      "runner": "__main__"
+    },
+    {
+      "kind": "cross_context_reuse_benchmark",
+      "protocol": "earned-evidence (docs/DECISION-EARNED-SCHEMA-PRIMING.md)",
+      "generated_utc": "2026-11-09T22:55:53Z",
+      "seeds": [
+        20262108
+      ],
+      "phase_a_cycles": 40,
+      "phase_b_cycles": 40,
+      "total_seconds": 16.35,
+      "metrics": {
+        "mean_cycles_naive": 5.0,
+        "mean_cycles_treatment": 5.0,
+        "mean_cycles_pruned": 5.0,
+        "mean_cycles_orthogonal": 5.0,
+        "transfer_ratio_treatment": 1.0,
+        "transfer_ratio_pruned": 1.0,
+        "transfer_ratio_orthogonal": 1.0,
+        "mean_tp_treatment": 19.0,
+        "primed_predictions": {
+          "treatment": 519,
+          "control_naive": 304,
+          "control_pruned": 542,
+          "control_orthogonal": 510
+        },
+        "treatment_target_rank_at_acquire": [
+          5
+        ],
+        "reusable_knowledge_verdict": "STRUCTURAL_PRIOR_PRESENT_NO_ACQUISITION_ADVANTAGE"
+      },
+      "per_arm_results": {
+        "treatment": [
+          {
+            "arm": "treatment",
+            "seed": 20262108,
+            "acquired": true,
+            "cycles_to_acquire": 5,
+            "persistence_cycles": 19,
+            "primed_predictions": 519,
+            "target_rank_at_acquire": 5
+          }
+        ],
+        "control_naive": [
+          {
+            "arm": "control_naive",
+            "seed": 20262108,
+            "acquired": true,
+            "cycles_to_acquire": 5,
+            "persistence_cycles": 19,
+            "primed_predictions": 304,
+            "target_rank_at_acquire": 3
+          }
+        ],
+        "control_pruned": [
+          {
+            "arm": "control_pruned",
+            "seed": 20262108,
+            "acquired": true,
+            "cycles_to_acquire": 5,
+            "persistence_cycles": 19,
+            "primed_predictions": 542,
+            "target_rank_at_acquire": 3
+          }
+        ],
+        "control_orthogonal": [
+          {
+            "arm": "control_orthogonal",
+            "seed": 20262108,
+            "acquired": true,
+            "cycles_to_acquire": 5,
+            "persistence_cycles": 19,
+            "primed_predictions": 510,
+            "target_rank_at_acquire": 5
+          }
+        ]
+      },
+      "engine_version": "0.13.0",
+      "engine_commit": "6e0ff24d84d34fd7e99b79173e2247f035e194c1",
+      "engine_sha256": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2",
+      "runner": "__main__"
+    },
+    {
+      "kind": "cross_context_reuse_benchmark",
+      "protocol": "earned-evidence (docs/DECISION-EARNED-SCHEMA-PRIMING.md)",
+      "generated_utc": "2026-11-09T22:55:53Z",
+      "seeds": [
+        20262109
+      ],
+      "phase_a_cycles": 40,
+      "phase_b_cycles": 40,
+      "total_seconds": 16.3,
+      "metrics": {
+        "mean_cycles_naive": 3.0,
+        "mean_cycles_treatment": 3.0,
+        "mean_cycles_pruned": 3.0,
+        "mean_cycles_orthogonal": 3.0,
+        "transfer_ratio_treatment": 1.0,
+        "transfer_ratio_pruned": 1.0,
+        "transfer_ratio_orthogonal": 1.0,
+        "mean_tp_treatment": 22.0,
+        "primed_predictions": {
+          "treatment": 516,
+          "control_naive": 347,
+          "control_pruned": 700,
+          "control_orthogonal": 428
+        },
+        "treatment_target_rank_at_acquire": [
+          17
+        ],
+        "reusable_knowledge_verdict": "STRUCTURAL_PRIOR_PRESENT_NO_ACQUISITION_ADVANTAGE"
+      },
+      "per_arm_results": {
+        "treatment": [
+          {
+            "arm": "treatment",
+            "seed": 20262109,
+            "acquired": true,
+            "cycles_to_acquire": 3,
+            "persistence_cycles": 22,
+            "primed_predictions": 516,
+            "target_rank_at_acquire": 17
+          }
+        ],
+        "control_naive": [
+          {
+            "arm": "control_naive",
+            "seed": 20262109,
+            "acquired": true,
+            "cycles_to_acquire": 3,
+            "persistence_cycles": 22,
+            "primed_predictions": 347,
+            "target_rank_at_acquire": 1
+          }
+        ],
+        "control_pruned": [
+          {
+            "arm": "control_pruned",
+            "seed": 20262109,
+            "acquired": true,
+            "cycles_to_acquire": 3,
+            "persistence_cycles": 22,
+            "primed_predictions": 700,
+            "target_rank_at_acquire": 1
+          }
+        ],
+        "control_orthogonal": [
+          {
+            "arm": "control_orthogonal",
+            "seed": 20262109,
+            "acquired": true,
+            "cycles_to_acquire": 3,
+            "persistence_cycles": 22,
+            "primed_predictions": 428,
+            "target_rank_at_acquire": 1
+          }
+        ]
+      },
+      "engine_version": "0.13.0",
+      "engine_commit": "6e0ff24d84d34fd7e99b79173e2247f035e194c1",
+      "engine_sha256": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2",
+      "runner": "__main__"
+    },
+    {
+      "kind": "cross_context_reuse_benchmark",
+      "protocol": "earned-evidence (docs/DECISION-EARNED-SCHEMA-PRIMING.md)",
+      "generated_utc": "2026-11-09T22:55:53Z",
+      "seeds": [
+        20262110
+      ],
+      "phase_a_cycles": 40,
+      "phase_b_cycles": 40,
+      "total_seconds": 16.51,
+      "metrics": {
+        "mean_cycles_naive": 3.0,
+        "mean_cycles_treatment": 3.0,
+        "mean_cycles_pruned": 3.0,
+        "mean_cycles_orthogonal": 3.0,
+        "transfer_ratio_treatment": 1.0,
+        "transfer_ratio_pruned": 1.0,
+        "transfer_ratio_orthogonal": 1.0,
+        "mean_tp_treatment": 20.0,
+        "primed_predictions": {
+          "treatment": 408,
+          "control_naive": 384,
+          "control_pruned": 503,
+          "control_orthogonal": 448
+        },
+        "treatment_target_rank_at_acquire": [
+          19
+        ],
+        "reusable_knowledge_verdict": "STRUCTURAL_PRIOR_PRESENT_NO_ACQUISITION_ADVANTAGE"
+      },
+      "per_arm_results": {
+        "treatment": [
+          {
+            "arm": "treatment",
+            "seed": 20262110,
+            "acquired": true,
+            "cycles_to_acquire": 3,
+            "persistence_cycles": 20,
+            "primed_predictions": 408,
+            "target_rank_at_acquire": 19
+          }
+        ],
+        "control_naive": [
+          {
+            "arm": "control_naive",
+            "seed": 20262110,
+            "acquired": true,
+            "cycles_to_acquire": 3,
+            "persistence_cycles": 19,
+            "primed_predictions": 384,
+            "target_rank_at_acquire": 1
+          }
+        ],
+        "control_pruned": [
+          {
+            "arm": "control_pruned",
+            "seed": 20262110,
+            "acquired": true,
+            "cycles_to_acquire": 3,
+            "persistence_cycles": 20,
+            "primed_predictions": 503,
+            "target_rank_at_acquire": 1
+          }
+        ],
+        "control_orthogonal": [
+          {
+            "arm": "control_orthogonal",
+            "seed": 20262110,
+            "acquired": true,
+            "cycles_to_acquire": 3,
+            "persistence_cycles": 20,
+            "primed_predictions": 448,
+            "target_rank_at_acquire": 1
+          }
+        ]
+      },
+      "engine_version": "0.13.0",
+      "engine_commit": "6e0ff24d84d34fd7e99b79173e2247f035e194c1",
+      "engine_sha256": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2",
+      "runner": "__main__"
+    }
+  ],
+  "metrics": {
+    "mean_cycles": {
+      "treatment": 3.4,
+      "control_naive": 3.4,
+      "control_pruned": 3.4,
+      "control_orthogonal": 3.4
+    },
+    "transfer_ratio": {
+      "treatment": 1.0,
+      "pruned": 1.0,
+      "orthogonal": 1.0
+    },
+    "mean_tp_treatment": 20.5,
+    "paired_treatment_faster": 0,
+    "treatment_ranks": [
+      13,
+      14,
+      13,
+      13,
+      19,
+      14,
+      1,
+      5,
+      17,
+      19
+    ]
+  },
+  "intervals": {
+    "tr": {
+      "lower": 1.0,
+      "upper": 1.0,
+      "width": 0.0
+    },
+    "pruned_minus_treatment": {
+      "lower": 0.0,
+      "upper": 0.0,
+      "width": 0.0
+    },
+    "orthogonal_minus_treatment": {
+      "lower": 0.0,
+      "upper": 0.0,
+      "width": 0.0
+    }
+  },
+  "criteria": {
+    "T1_transfer": {
+      "pass": false,
+      "value": 1.0,
+      "bar": 1.25,
+      "lower": 1.0
+    },
+    "T2_attribution": {
+      "pass": false,
+      "pruned_gap": 0.0,
+      "orthogonal_gap": 0.0,
+      "bar": 0.1
+    },
+    "T3_paired": {
+      "pass": false,
+      "value": 0,
+      "bar": 8
+    },
+    "T4_persistence": {
+      "pass": true,
+      "value": 20.5,
+      "bar": 20.0
+    }
+  },
+  "gates": {
+    "G1_denominator": true,
+    "G2_seed_block": true
+  },
+  "verdict": "NO_TRANSFER_ADVANTAGE",
+  "engine_version": "0.13.0",
+  "engine_commit": "6e0ff24d84d34fd7e99b79173e2247f035e194c1",
+  "engine_sha256": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2",
+  "runner": "__main__"
+}

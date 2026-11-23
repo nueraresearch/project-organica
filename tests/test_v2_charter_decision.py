@@ -1,0 +1,70 @@
+"""The V2 charter draft must be a draft: nothing authorised, and the untested-arm disclosure carried."""
+from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
+
+import json
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+DOCS = ROOT / "docs"
+
+
+def _decisions() -> list[dict]:
+    return json.loads((DOCS / "decisions.json").read_text(encoding="utf-8"))["decisions"]
+
+
+def _record() -> dict:
+    return next(d for d in _decisions() if d["decision_id"] == "DECISION-V2-CHARTER")
+
+
+def test_the_charter_is_adopted_and_still_authorises_nothing() -> None:
+    record = _record()
+    assert record["status"] == "ADOPTED"
+    assert record["superseded_by"] is None
+    text = (DOCS / "DECISION-V2-CHARTER.md").read_text(encoding="utf-8")
+    assert "ADOPTED 2026-11-16" in text
+    assert "AWAITING THE OWNER'S SIGNATURE" not in text
+    assert "authorises\n**no code, no cells, no module and no engine change**" in text
+
+
+def test_it_carries_the_untested_arm_and_the_three_lines() -> None:
+    text = (DOCS / "DECISION-V2-CHARTER.md").read_text(encoding="utf-8")
+    assert "No admissible test of H2 was ever run" in text
+    for number in ("0.3438", "0.005647", "510 of 2,785", "180 of 200"):
+        assert number in text, number
+    assert "98.33%" in text
+    assert "G13-D" in text
+
+
+def test_the_dividing_line_and_the_mutable_identity_requirement_are_recorded() -> None:
+    text = (DOCS / "DECISION-V2-CHARTER.md").read_text(encoding="utf-8")
+    assert "Where the substrate stops: the G3/G4 line" in text
+    assert "G0–G3" in text and "G5–G8" in text
+    assert "it is *replaced*, not *revised*" in text
+    assert "softly at G4, hard from G5" in text
+    assert "nothing remains itself across a revision" in text
+    assert "A mutable-identity primitive, specified before anything is built" in text
+    # Requirement 6 now answers the collision rule rather than leaving it as an either/or.
+    assert "copy-on-write at the level of **bindings**" in text
+    assert "not ownership of atoms" in text
+    assert "An id column over recomputed structures does not satisfy this" in text
+    assert "An earning test" in text
+    assert "a tie means the addresses are bookkeeping and the charter fails" in text
+    assert "does not claim that adding identifiers would reach G4" in text
+
+
+def test_it_leaves_the_frozen_engine_and_the_G13_D_authorisation_alone() -> None:
+    text = (DOCS / "DECISION-V2-CHARTER.md").read_text(encoding="utf-8")
+    assert "**Leaves untouched:** D2 of that decision" in text
+    assert "no code, no cells, no engine change" in text
+    assert "docs/engine_pin.json" in text
+
+
+def test_a_question_tallies_it() -> None:
+    registry = json.loads((DOCS / "research_question_registry.json").read_text(encoding="utf-8"))
+    tallies = [q["id"] for q in registry["questions"]
+               if "DECISION-V2-CHARTER.md" in q.get("decisions", [])]
+    assert len(tallies) == 1
+    question = next(q for q in registry["questions"] if q["id"] == tallies[0])
+    assert question["status"] == "open"
+    assert question["kind"] == "governance"

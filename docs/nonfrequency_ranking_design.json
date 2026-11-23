@@ -1,0 +1,135 @@
+{
+ "created": "2026-11-07",
+ "status": "DESIGN RECORD: untested hypothesis. No cell, no seed, no threshold, no bar.",
+ "hypothesis": "the ordering basis of the ranking budget, not the size of the budget or the eligibility of rows, is the binding constraint on world-edge coverage at the engine's cap",
+ "nature": "a second design record that allocates nothing; it changes no claim status and adds no row to docs/BOTTLENECK-MAP.md",
+ "not_evidence": [
+  "Gate 13 established presence and the failure of frequency-derived orderings at the engine's cap; it did not vary the ordering basis",
+  "the 0.3438 precision maximum belongs to the two frequency-based allocation rules tested in one world family",
+  "no result in this repository varies the ordering basis of an eligible candidate set"
+ ],
+ "distinction_from_density": {
+  "density_record": "docs/WORLD-DENSITY-DESIGN.md varies eligibility: intra-cell rows are made ineligible at the same ordering",
+  "this_record": "varies ordering at the same eligibility, so every row stays eligible, including the intra-cell rows the density treatment excludes",
+  "relation": "neither subsumes the other; each can be null without implicating the other"
+ },
+ "selection": {
+  "control": {
+   "name": "global count-ranked top-k",
+   "rule": "the engine's own selection: rank every candidate by count and take the top k at the frozen cap"
+  },
+  "treatment": {
+   "name": "diversity-first ordering",
+   "rule": "greedy max-marginal-coverage over the source side: at each of the k slots take the eligible candidate whose left-hand tag has the fewest already-selected outgoing edges"
+  },
+  "tie_break": "count, then a deterministic stable key; frequency enters as a tie-break only, and that is disclosed rather than hidden",
+  "identical_by_construction": [
+   "eligibility: all rows stay eligible, including intra-cell co-occurrence rows",
+   "the cap, the scoring function and the admission window",
+   "the world family, the seeds per cell, the exposure scheme and the horizon"
+  ],
+  "only_ordering_differs": "the order in which eligible candidates fill the budget, not which candidates are eligible and not how many slots exist",
+  "why_not_frequency_derived": "the primary sort term counts already-selected edges sharing a source, not the candidate's own frequency; a smoothed, per-source or normalized count would all be members of the family already treated as measured out"
+ },
+ "why_diversity": {
+  "measured_defect": "the world's edges are spread across the source side, not clustered at the top of any count ordering",
+  "not_the_allocation_test": "Gate 13's per-source allocation test raised the budget into the hundreds of edges; this record keeps the engine's own cap and asks whether the order helps",
+  "mechanism_claim": "a count ordering spends the whole budget where the count mass already is; a diversity ordering spends it across sources"
+ },
+ "alternatives_rejected": [
+  {
+   "name": "rank by confidence",
+   "reason": "confidence is support over support plus contradiction, a ratio of counts, so the rule would remain frequency-derived"
+  },
+  {
+   "name": "rank by held-out predictive gain",
+   "reason": "it needs the outcome the study is trying to predict, which makes the selector oracle-adjacent and unmeasurable before the endpoint exists"
+  },
+  {
+   "name": "rank by recency",
+   "reason": "recency confounds with exposure, which this design holds fixed across arms"
+  }
+ ],
+ "comparison": {
+  "design": "the same treatment and control at each density level and at each cap, differing only in the ordering of eligible candidates",
+  "estimand": "Delta = treated coverage - control coverage, at cap 20 and cap 40",
+  "primary_cap": 20,
+  "secondary_cap": 40,
+  "world_family": "one family, 16 tags",
+  "claim": "the ordering basis is the lever iff Delta is positive at the lowest density and declines as density rises",
+  "not_claimed": [
+   "a coverage gain is not a behavioural gain",
+   "a null here does not show that ordering is irrelevant outside this cap and this world family"
+  ]
+ },
+ "ranking_bottleneck": {
+  "evidence": [
+   "all 112 true world edges were present in memory in the Gate 13 world, so presence was not the binding constraint",
+   "under global count-ranked selection the top 20 recovered 0-1 of 112, and the top 40 recovered 1-8",
+   "the top 320, about 16x the engine's budget, recovered 106-109, so the edges are spread rather than clustered",
+   "the top-20 was 75-100% intra-cell, a row class that cannot be a world edge"
+  ],
+  "sources": [
+   "docs/GATE13-RELATION-SEPARATION.md section 4",
+   "docs/GATE13-CAUSAL-ACCOUNT.md"
+  ],
+  "ceiling_caveat": "0.3438 is the maximum precision observed for the tested frequency-based allocation rules and budgets in that world family; it is not an information-theoretic bound and must not be quoted as the ceiling of what any selection could achieve"
+ },
+ "predicted_direction": {
+  "predictions": [
+   "the control reproduces the Gate 13 profile at cap 20; this is a control that must reproduce, not a result",
+   "Delta = treated - control in world-edge coverage is positive at the lowest density and declines as density rises",
+   "the arms' selected sets differ at the lowest density"
+  ],
+  "limit": "at density 1 every candidate is a true edge, the two arms must select the same rows, and Delta must be 0; a non-zero Delta there is a harness defect, not a result",
+  "falsifiers": [
+   "Delta flat across both caps and every density level: the ordering basis is not the lever",
+   "Delta rising with density: the mechanism story is wrong",
+   "Delta non-zero at density 1: the arms are not identical where they must be",
+   "identical selections at every level: an unrun experiment, not a null result"
+  ]
+ },
+ "harness_checks": [
+  "presence ceiling: the world's edges present in memory over the world's edges, which must be 1.0 or the cell tests memory rather than ranking",
+  "overlap: the two arms' selected sets must differ at the lowest density, or the manipulation did not occur",
+  "precision cannot exceed rho_rank, the true-edge share of the population the arm selected from"
+ ],
+ "endpoints": [
+  "coverage at cap 20 and cap 40, each with its denominator |W|",
+  "precision beside rho_rank and bounded by it",
+  "overlap between the arms' selected sets, reported as a validity check",
+  "recovery distribution across budgets, never the rank of the first edge",
+  "Delta with a paired interval on the difference"
+ ],
+ "architectural_decision": {
+  "positive": "the count order is replaced by a diversity-based order in the next engine version, recorded as a cognition change; the change is to which eligible candidate occupies the budget",
+  "negative": "the ordering basis is not the constraint, so the line moves to the candidate space, which rows exist to be ordered at all, and this record is not followed by another ordering variant",
+  "neither": "neither pole licenses a behavioural claim; coverage is not behavior, and the second half of the selection row in the bottleneck map stays untested here",
+  "requires": "an in-process arm and a recorded decision; v0.9.0 is the archival reference, 0.12.0 is immutable and selection is a frozen primitive"
+ },
+ "stop_condition": {
+  "scope": [
+   "one world family, 16 tags",
+   "caps 20 and 40",
+   "the density levels declared in docs/WORLD-DENSITY-DESIGN.md",
+   "seeds fixed by a pre-registration with fresh seeds",
+   "one horizon and one exposure scheme"
+  ],
+  "stops_when": [
+   "both caps and every density level return flat Delta: ordering is closed, and the next move is a separate design record about the candidate space or the readout",
+   "the pre-registered adoption bar is met: the decision is recorded and the engine change is specified separately"
+  ],
+  "no_growth": "no ordering variant may be added to this record after the run; it may be fixed if it is found wrong, and it may not grow"
+ },
+ "allocation": {
+  "seeds": 0,
+  "cells": 0,
+  "thresholds": 0,
+  "bars": 0,
+  "note": "this record allocates nothing; a pre-registration with fresh seeds comes first, per docs/DECAY-TUNING-CYCLE.md"
+ },
+ "open_questions": [
+  "the frozen schema's pair fields must be confirmed in the pre-registration; source side and left-hand tag describe a direction, not a column name",
+  "whether cap 40 adds information once cap 20 has been read, or only widens the same curve"
+ ]
+}

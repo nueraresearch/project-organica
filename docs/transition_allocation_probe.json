@@ -1,0 +1,199 @@
+{
+ "kind": "transition_allocation_probe",
+ "not_a_result": true,
+ "question": "On one seed, does giving transitions a larger share of the cap serve the asserted world edges that ranked 21-40 at cap 40?",
+ "source": {
+  "artifact": "docs/presence_unexplained_edges.json",
+  "band": "21-40",
+  "seed": 20611603
+ },
+ "design": {
+  "seed": 20611603,
+  "cycles": 120,
+  "cap": 112,
+  "band": "21-40",
+  "edges": [
+   "slate>umber",
+   "slate>yarrow",
+   "umber>teal"
+  ],
+  "edges_digest": "c030de7ee2063051",
+  "manipulation": "transitions are given the whole processed window for the duration of one `_build_predictions` call; the returned list is truncated to the shipped cap",
+  "control": "the shipped half-and-half allocation at the same cap and seed"
+ },
+ "arms": [
+  {
+   "arm": "shipped-112",
+   "cap": 112,
+   "cycles": 120,
+   "world_edges": 112,
+   "served_world_edges": 109,
+   "asserted_world_edges": 47,
+   "band_edges": 3,
+   "band_served": 3,
+   "band_asserted": 2,
+   "relation_evidence": {
+    "rows": 24294,
+    "transition_rows": 18959,
+    "cooccurrence_rows": 5335,
+    "within_cycle_transition_in_cooc": 0,
+    "within_cycle_share": 0.0,
+    "distinct_edges": 240,
+    "edges_labelled_both": 0,
+    "max_duplicate_pairs_in_a_cycle": 0,
+    "band": [
+     {
+      "edge": "slate>umber",
+      "transition_cycles": 82,
+      "cooccurrence_cycles": 0
+     },
+     {
+      "edge": "slate>yarrow",
+      "transition_cycles": 91,
+      "cooccurrence_cycles": 0
+     },
+     {
+      "edge": "umber>teal",
+      "transition_cycles": 83,
+      "cooccurrence_cycles": 0
+     }
+    ]
+   },
+   "allocation": {
+    "returned_served_median": 112,
+    "recorded_served_median": 112,
+    "transitions_median": 64,
+    "cooccurrences_median": 48
+   },
+   "edges": [
+    {
+     "edge": "slate>umber",
+     "served": true,
+     "admissions": 61,
+     "first_served_cycle": 39,
+     "asserted": true,
+     "min_rank": 20,
+     "cycles_in_universe": 82,
+     "best_rank": 20,
+     "best_cycle": 39,
+     "transitions_served_in_best_cycle": 183
+    },
+    {
+     "edge": "slate>yarrow",
+     "served": true,
+     "admissions": 70,
+     "first_served_cycle": 30,
+     "asserted": true,
+     "min_rank": 19,
+     "cycles_in_universe": 91,
+     "best_rank": 61,
+     "best_cycle": 30,
+     "transitions_served_in_best_cycle": 157
+    },
+    {
+     "edge": "umber>teal",
+     "served": true,
+     "admissions": 2,
+     "first_served_cycle": 51,
+     "asserted": false,
+     "min_rank": 4,
+     "cycles_in_universe": 83,
+     "best_rank": 65,
+     "best_cycle": 38,
+     "transitions_served_in_best_cycle": 178
+    }
+   ]
+  },
+  {
+   "arm": "all-transitions-112",
+   "cap": 112,
+   "cycles": 120,
+   "world_edges": 112,
+   "served_world_edges": 112,
+   "asserted_world_edges": 77,
+   "band_edges": 3,
+   "band_served": 3,
+   "band_asserted": 3,
+   "relation_evidence": {
+    "rows": 24294,
+    "transition_rows": 18959,
+    "cooccurrence_rows": 5335,
+    "within_cycle_transition_in_cooc": 0,
+    "within_cycle_share": 0.0,
+    "distinct_edges": 240,
+    "edges_labelled_both": 0,
+    "max_duplicate_pairs_in_a_cycle": 0,
+    "band": [
+     {
+      "edge": "slate>umber",
+      "transition_cycles": 82,
+      "cooccurrence_cycles": 0
+     },
+     {
+      "edge": "slate>yarrow",
+      "transition_cycles": 91,
+      "cooccurrence_cycles": 0
+     },
+     {
+      "edge": "umber>teal",
+      "transition_cycles": 83,
+      "cooccurrence_cycles": 0
+     }
+    ]
+   },
+   "allocation": {
+    "returned_served_median": 112,
+    "recorded_served_median": 224,
+    "transitions_median": 176,
+    "cooccurrences_median": 48
+   },
+   "edges": [
+    {
+     "edge": "slate>umber",
+     "served": true,
+     "admissions": 82,
+     "first_served_cycle": 39,
+     "asserted": true,
+     "min_rank": 20,
+     "cycles_in_universe": 82,
+     "best_rank": 20,
+     "best_cycle": 39,
+     "transitions_served_in_best_cycle": 183
+    },
+    {
+     "edge": "slate>yarrow",
+     "served": true,
+     "admissions": 91,
+     "first_served_cycle": 30,
+     "asserted": true,
+     "min_rank": 19,
+     "cycles_in_universe": 91,
+     "best_rank": 61,
+     "best_cycle": 30,
+     "transitions_served_in_best_cycle": 157
+    },
+    {
+     "edge": "umber>teal",
+     "served": true,
+     "admissions": 60,
+     "first_served_cycle": 38,
+     "asserted": true,
+     "min_rank": 4,
+     "cycles_in_universe": 83,
+     "best_rank": 65,
+     "best_cycle": 38,
+     "transitions_served_in_best_cycle": 178
+    }
+   ]
+  }
+ ],
+ "summary": {
+  "band_served_shipped": 3,
+  "band_served_all_transitions": 3
+ },
+ "not_evidence": "One seed, one world family, one build, two arms, no preregistration. A direction for a registered block, not a cap, conversion, mechanism or capability result.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__"
+}

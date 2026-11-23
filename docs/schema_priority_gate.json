@@ -1,0 +1,231 @@
+{
+ "kind": "schema_priority_gate",
+ "status": "POST-HOC DIAGNOSTIC",
+ "prereg": null,
+ "posthoc": true,
+ "engine": "no engine run; cached ranking features only",
+ "question": "If schema priority requires temporal count at least twice the admission floor, how many weak schema edges stop taking top-20 priority seats, and how many strong schema seats are lost?",
+ "scope": "Six consumed schema-prime seeds, 120 cycles each, cached ranking features. Top 20 by the engine's transition sort. No fresh seed.",
+ "design": {
+  "seeds": [
+   20611601,
+   20611602,
+   20611603,
+   20611604,
+   20611605,
+   20611606
+  ],
+  "top_n": 20,
+  "gate": 10,
+  "admission_floor": 5,
+  "gate_rule": "schema priority only when temporal_count >= 10",
+  "weak_definition": "schema row with temporal_count < 10",
+  "ordering": "priority flag, then target entropy ascending, transition probability descending, temporal count descending, source, target",
+  "priority_seat": "a schema row in the policy top 20 whose edge is not in the same cycle's no-priority top 20"
+ },
+ "cache": ".scratch/rank_sort_probe",
+ "summary": {
+  "cycles": 720,
+  "nonempty_cycles": 701,
+  "empty_cycles": 19,
+  "ranked_rows": 111275,
+  "schema_rows": 1816,
+  "top20_seats": 13604,
+  "no_priority": {
+   "mode": "no_priority",
+   "gate": 10,
+   "seats": 13604,
+   "schema_seats": 382,
+   "schema_share": 0.028079976477506617,
+   "priority_seats": 0,
+   "weak_priority_seats": 0,
+   "strong_priority_seats": 0,
+   "weak_schema_seats": 168,
+   "non_schema_seats": 13222,
+   "mean_top20_count": 15.368226503823925,
+   "mean_top20_prob": 0.08281288020666748,
+   "schema_seats_per_cycle_median": 0.0
+  },
+  "ungated": {
+   "mode": "ungated",
+   "gate": 10,
+   "seats": 13604,
+   "schema_seats": 1816,
+   "schema_share": 0.13349014995589534,
+   "priority_seats": 1434,
+   "weak_priority_seats": 395,
+   "strong_priority_seats": 1039,
+   "weak_schema_seats": 563,
+   "non_schema_seats": 11788,
+   "mean_top20_count": 15.154175148617078,
+   "mean_top20_prob": 0.08281684596986291,
+   "schema_seats_per_cycle_median": 0.0
+  },
+  "gated": {
+   "mode": "gated",
+   "gate": 10,
+   "seats": 13604,
+   "schema_seats": 1400,
+   "schema_share": 0.10291090855630697,
+   "priority_seats": 1039,
+   "weak_priority_seats": 0,
+   "strong_priority_seats": 1039,
+   "weak_schema_seats": 147,
+   "non_schema_seats": 12204,
+   "mean_top20_count": 15.280209385421644,
+   "mean_top20_prob": 0.08349765196130372,
+   "schema_seats_per_cycle_median": 0.0
+  },
+  "gate_effect": {
+   "gate": 10,
+   "weak_priority_removed": 395,
+   "weak_schema_seats_removed": 416,
+   "weak_schema_seats_remaining": 147,
+   "weak_remaining_on_merit": 147,
+   "non_schema_seats_returned": 416,
+   "strong_schema_seats_lost": 0,
+   "strong_priority_seats_retained": 1039,
+   "seats_changed": 832,
+   "cycles_changed": 135,
+   "mean_count_change": 0.12603423680456594,
+   "mean_prob_change": 0.000680805991440811
+  },
+  "threshold_sweep": [
+   {
+    "gate": 5,
+    "schema_seats": 1816,
+    "schema_share": 0.13349014995589534,
+    "priority_seats": 1434,
+    "weak_priority_seats": 395,
+    "weak_schema_seats": 563,
+    "strong_priority_seats": 1039
+   },
+   {
+    "gate": 8,
+    "schema_seats": 1563,
+    "schema_share": 0.11489267862393414,
+    "priority_seats": 1206,
+    "weak_priority_seats": 167,
+    "weak_schema_seats": 310,
+    "strong_priority_seats": 1039
+   },
+   {
+    "gate": 10,
+    "schema_seats": 1400,
+    "schema_share": 0.10291090855630697,
+    "priority_seats": 1039,
+    "weak_priority_seats": 0,
+    "weak_schema_seats": 147,
+    "strong_priority_seats": 1039
+   },
+   {
+    "gate": 12,
+    "schema_seats": 1252,
+    "schema_share": 0.09203175536606881,
+    "priority_seats": 885,
+    "weak_priority_seats": 0,
+    "weak_schema_seats": 154,
+    "strong_priority_seats": 885
+   },
+   {
+    "gate": 15,
+    "schema_seats": 1072,
+    "schema_share": 0.07880035283740076,
+    "priority_seats": 703,
+    "weak_priority_seats": 0,
+    "weak_schema_seats": 155,
+    "strong_priority_seats": 703
+   },
+   {
+    "gate": 20,
+    "schema_seats": 809,
+    "schema_share": 0.05946780358718024,
+    "priority_seats": 435,
+    "weak_priority_seats": 0,
+    "weak_schema_seats": 163,
+    "strong_priority_seats": 435
+   },
+   {
+    "gate": 999,
+    "schema_seats": 382,
+    "schema_share": 0.028079976477506617,
+    "priority_seats": 0,
+    "weak_priority_seats": 0,
+    "weak_schema_seats": 168,
+    "strong_priority_seats": 0
+   }
+  ],
+  "per_seed": [
+   {
+    "seed": 20611601,
+    "cycles": 120,
+    "schema_rows": 103,
+    "ungated_schema_seats": 103,
+    "ungated_priority_seats": 91,
+    "gated_schema_seats": 41,
+    "gated_priority_seats": 29
+   },
+   {
+    "seed": 20611602,
+    "cycles": 120,
+    "schema_rows": 156,
+    "ungated_schema_seats": 156,
+    "ungated_priority_seats": 129,
+    "gated_schema_seats": 137,
+    "gated_priority_seats": 110
+   },
+   {
+    "seed": 20611603,
+    "cycles": 120,
+    "schema_rows": 613,
+    "ungated_schema_seats": 613,
+    "ungated_priority_seats": 426,
+    "gated_schema_seats": 493,
+    "gated_priority_seats": 321
+   },
+   {
+    "seed": 20611604,
+    "cycles": 120,
+    "schema_rows": 216,
+    "ungated_schema_seats": 216,
+    "ungated_priority_seats": 171,
+    "gated_schema_seats": 136,
+    "gated_priority_seats": 93
+   },
+   {
+    "seed": 20611605,
+    "cycles": 120,
+    "schema_rows": 588,
+    "ungated_schema_seats": 588,
+    "ungated_priority_seats": 500,
+    "gated_schema_seats": 507,
+    "gated_priority_seats": 423
+   },
+   {
+    "seed": 20611606,
+    "cycles": 120,
+    "schema_rows": 140,
+    "ungated_schema_seats": 140,
+    "ungated_priority_seats": 117,
+    "gated_schema_seats": 86,
+    "gated_priority_seats": 63
+   }
+  ],
+  "checks": {
+   "all_cycles_present": true,
+   "all_schema_rows_in_ungated_top20": true,
+   "gate_at_floor_reproduces_ungated": true,
+   "gate_disabled_reproduces_no_priority": true,
+   "gated_has_no_weak_priority": true,
+   "gate_removes_weak_priority": true,
+   "all_strong_priority_retained": true,
+   "remaining_weak_on_merit_only": true
+  },
+  "verdict": "GATE REMOVES WEAK PRIORITY, RETAINS ALL STRONG SCHEMA SEATS"
+ },
+ "not_evidence": "A post-hoc diagnostic on six already-consumed seeds and cached candidate rankings. It measures top-20 ordering, not served or asserted behavior, and it does not establish that gated priority improves downstream prediction, transfer or capability.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__"
+}

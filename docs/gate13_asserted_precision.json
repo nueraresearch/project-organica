@@ -1,0 +1,105 @@
+{
+  "probe": "gate13_asserted_set_precision_by_build_and_cap",
+  "measured": "2026-11-06",
+  "question": "Does the amended engine's asserted set get better, or only larger, as coverage rises to its ceiling?",
+  "quantity": "precision = covered_world_edges / final_asserted_edges_count, per cell of the paired capacity harness",
+  "basis": "The final asserted structure filtered to the world's vocabulary and excluding non-vocabulary markers, exactly the set the harness scores for coverage. This is NOT the Layer-1 selection precision whose ceiling is 0.3438 in docs/GATE13-CAUSAL-ACCOUNT.md \u2014 different quantity, different basis, not comparable.",
+  "seeds": [
+    20261101,
+    20261102,
+    20261103,
+    20261104,
+    20261105
+  ],
+  "world_edges": 112,
+  "precision_by_arm": {
+    "89b0744_cap20": {
+      "20261101": 0.0,
+      "20261102": 0.0244,
+      "20261103": 0.025,
+      "20261104": 0.0,
+      "20261105": 0.0811
+    },
+    "89b0744_cap1000": {
+      "20261101": 0.4564,
+      "20261102": 0.4609,
+      "20261103": 0.459,
+      "20261104": 0.459,
+      "20261105": 0.4609
+    },
+    "e6d1bcc_cap20": {
+      "20261101": 0.4602,
+      "20261102": 0.4462,
+      "20261103": 0.4596,
+      "20261104": 0.4724,
+      "20261105": 0.4654
+    },
+    "e6d1bcc_cap1000": {
+      "20261101": 0.4571,
+      "20261102": 0.4571,
+      "20261103": 0.459,
+      "20261104": 0.4534,
+      "20261105": 0.4609
+    },
+    "amended_cap20": {
+      "20261101": 0.4155,
+      "20261102": 0.4576,
+      "20261103": 0.4746,
+      "20261104": 0.4651,
+      "20261105": 0.4552
+    },
+    "amended_cap1000": {
+      "20261101": 0.4571,
+      "20261102": 0.4571,
+      "20261103": 0.459,
+      "20261104": 0.459,
+      "20261105": 0.4571
+    }
+  },
+  "denominator": {
+    "89b0744_cap20": {
+      "20261101": 27,
+      "20261102": 41,
+      "20261103": 40,
+      "20261104": 28,
+      "20261105": 37
+    },
+    "89b0744_cap1000": {
+      "20261101": 241,
+      "20261102": 243,
+      "20261103": 244,
+      "20261104": 244,
+      "20261105": 243
+    },
+    "e6d1bcc_cap20": {
+      "20261101": 176,
+      "20261102": 195,
+      "20261103": 198,
+      "20261104": 163,
+      "20261105": 159
+    },
+    "e6d1bcc_cap1000": {
+      "20261101": 245,
+      "20261102": 245,
+      "20261103": 244,
+      "20261104": 247,
+      "20261105": 243
+    },
+    "amended_cap20": {
+      "20261101": 142,
+      "20261102": 118,
+      "20261103": 177,
+      "20261104": 129,
+      "20261105": 134
+    },
+    "amended_cap1000": {
+      "20261101": 245,
+      "20261102": 245,
+      "20261103": 244,
+      "20261104": 244,
+      "20261105": 245
+    }
+  },
+  "finding": "Precision is flat. Every arm on a later build sits between 0.4155 and 0.4746 (spread 0.0591), and raising the cap from 20 to 1,000 moves recall from 0.4821-0.7500 to 1.0000 without moving precision: the amended engine's median is 0.4576 at cap 20 and 0.4571 at cap 1,000, against 0.4602 at e6d1bcc/cap 20. The amendment changes which structures are asserted and how many, not how often an asserted edge is a world edge.",
+  "limits": "Five diagnostic seeds, 2-tag compositional world, one world family; no confirmatory seed. Precision here is measured on the final asserted set, so it says nothing about the earlier Layer-1 selection stage or about precision under a different allocation rule."
+}

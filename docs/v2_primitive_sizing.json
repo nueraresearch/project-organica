@@ -1,0 +1,117 @@
+{
+  "kind": "v2_primitive_sizing",
+  "date": "2026-11-15",
+  "source": {
+    "artifact": "docs/v1_carrier_identity.json",
+    "sha256": "689516ccbd815b42ea12c8375f05d9ac9839c889b12cd523611f2f0dcf954b21"
+  },
+  "world": {
+    "cycles": 120,
+    "carrier_appearances": 1299,
+    "distinct_carriers": 158,
+    "graph_rows": {
+      "events": 20916,
+      "cooccurrences": 24,
+      "precedes": 240,
+      "tag_counts": 16,
+      "sleep_cycles": 92
+    },
+    "graph_bytes": {
+      "cooccurrences": 12288,
+      "events": 19304448,
+      "meta": 8192,
+      "precedes": 32768,
+      "sleep_cycles": 4096,
+      "tag_counts": 8192
+    },
+    "store_bytes": 19374080,
+    "page_size": 4096
+  },
+  "atoms": {
+    "count": 24,
+    "note": "count-matched to the measured cooccurrence table"
+  },
+  "headline": {
+    "threshold": "m>=2",
+    "composites": 115,
+    "references": 345,
+    "references_per_atom": 14.4,
+    "distinct_carriers": 158,
+    "admitted_share": 0.728,
+    "primitive_bytes": 135168,
+    "pair_table_bytes": 53248,
+    "store_bytes": 19374080,
+    "store_bytes_that_are_events": 19304448,
+    "ratio_to_pair_tables": 2.538,
+    "ratio_to_store": 0.00698,
+    "pages": 33,
+    "page_bound": true
+  },
+  "admission": {
+    "m>=2": {
+      "composites": 115,
+      "references": 345,
+      "registry_rows": 115,
+      "primitive_bytes": 135168,
+      "bytes_per_composite": 1175.4,
+      "ratio_to_pair_tables": 2.538,
+      "ratio_to_store": 0.00698
+    },
+    "m>=3": {
+      "composites": 97,
+      "references": 291,
+      "registry_rows": 97,
+      "primitive_bytes": 90112,
+      "bytes_per_composite": 929.0,
+      "ratio_to_pair_tables": 1.692,
+      "ratio_to_store": 0.00465
+    },
+    "m>=5": {
+      "composites": 66,
+      "references": 198,
+      "registry_rows": 66,
+      "primitive_bytes": 73728,
+      "bytes_per_composite": 1117.1,
+      "ratio_to_pair_tables": 1.385,
+      "ratio_to_store": 0.00381
+    },
+    "m>=10": {
+      "composites": 33,
+      "references": 99,
+      "registry_rows": 33,
+      "primitive_bytes": 53248,
+      "bytes_per_composite": 1613.6,
+      "ratio_to_pair_tables": 1.0,
+      "ratio_to_store": 0.00275
+    },
+    "m>=20": {
+      "composites": 20,
+      "references": 60,
+      "registry_rows": 20,
+      "primitive_bytes": 45056,
+      "bytes_per_composite": 2252.8,
+      "ratio_to_pair_tables": 0.846,
+      "ratio_to_store": 0.00233
+    }
+  },
+  "index": {
+    "with_atom_index_bytes": 135168,
+    "without_atom_index_bytes": 122880,
+    "index_cost_bytes": 12288
+  },
+  "churn": {
+    "storage_under_mutation": "invariant: a member row is updated in place and versioned by an integer",
+    "history_variant": {
+      "extra_rows_per_composite": 3,
+      "bytes": 180224,
+      "cost_over_current": 45056
+    }
+  },
+  "assumptions": [
+    "the primitive side is a schema-with-rows measurement, not the engine's implementation",
+    "atoms are shared and immutable, so the atom table is not copied per composite",
+    "ids are 32 hex characters, the width the engine's own carrier ids use",
+    "one world (120 cycles); no second world was measured",
+    "no mutation history is stored, per the specification's version-counter rule"
+  ]
+}

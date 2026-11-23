@@ -1,0 +1,966 @@
+{
+ "kind": "a1_loop_cap_counterfactual",
+ "id": "A1-LOOP-CAP-COUNTERFACTUAL-1",
+ "date": "2026-11-14",
+ "status": "COUNTERFACTUAL DIAGNOSTIC \u2014 LOOP CAP ONLY; NO TARGET, FREEZE, GRANT OR A1 CELL",
+ "not_a_result": true,
+ "question": "Does raising the fixed 15-loop output window increase unique candidate K on unchanged worlds and candidate streams?",
+ "definition": "The 18 no-arm seeds from the carrier-supply trace, replayed at loop caps 15, 30, 60 and 120. Prediction cap, dream cap, acquisition schedule, candidate stream and world are unchanged. Only MAX_LOOPS is overridden on the service instance.",
+ "method": "One replay per seed and cap. The cap-15 run must reproduce the committed candidate-K set for that seed exactly. Differences are reported as edges gained and lost against that control.",
+ "constants": {
+  "cycles": 120,
+  "prediction_cap": 40,
+  "dream_cap": 8,
+  "loop_caps": [
+   15,
+   30,
+   60,
+   120
+  ],
+  "control_cap": 15
+ },
+ "governance": {
+  "freeze": false,
+  "grant": false,
+  "run": false,
+  "authorization": "none"
+ },
+ "verdict": "MIXED \u2014 the cap raises candidate K, with reshuffling losses",
+ "summaries": [
+  {
+   "cap": 15,
+   "seeds": 18,
+   "candidate_K": 714,
+   "candidate_edges": 1765,
+   "all_K": 3548,
+   "new_vs_control": 0,
+   "lost_vs_control": 0,
+   "returned_loops": 26932,
+   "mean_candidate_K": 39.666667,
+   "candidate_K_range": [
+    23,
+    55
+   ]
+  },
+  {
+   "cap": 30,
+   "seeds": 18,
+   "candidate_K": 1001,
+   "candidate_edges": 1765,
+   "all_K": 4693,
+   "new_vs_control": 292,
+   "lost_vs_control": 5,
+   "returned_loops": 52914,
+   "mean_candidate_K": 55.611111,
+   "candidate_K_range": [
+    43,
+    85
+   ]
+  },
+  {
+   "cap": 60,
+   "seeds": 18,
+   "candidate_K": 1294,
+   "candidate_edges": 1765,
+   "all_K": 5832,
+   "new_vs_control": 583,
+   "lost_vs_control": 3,
+   "returned_loops": 103430,
+   "mean_candidate_K": 71.888889,
+   "candidate_K_range": [
+    54,
+    115
+   ]
+  },
+  {
+   "cap": 120,
+   "seeds": 18,
+   "candidate_K": 1498,
+   "candidate_edges": 1765,
+   "all_K": 6608,
+   "new_vs_control": 786,
+   "lost_vs_control": 2,
+   "returned_loops": 200705,
+   "mean_candidate_K": 83.222222,
+   "candidate_K_range": [
+    63,
+    138
+   ]
+  }
+ ],
+ "by_block": [
+  {
+   "label": "current-16",
+   "tags": 16,
+   "15": {
+    "candidate_K": 228,
+    "candidate_edges": 382,
+    "all_K": 980
+   },
+   "30": {
+    "candidate_K": 302,
+    "candidate_edges": 382,
+    "all_K": 1242
+   },
+   "60": {
+    "candidate_K": 362,
+    "candidate_edges": 382,
+    "all_K": 1451
+   },
+   "120": {
+    "candidate_K": 382,
+    "candidate_edges": 382,
+    "all_K": 1522
+   }
+  },
+  {
+   "label": "fresh-16",
+   "tags": 16,
+   "15": {
+    "candidate_K": 242,
+    "candidate_edges": 383,
+    "all_K": 1031
+   },
+   "30": {
+    "candidate_K": 303,
+    "candidate_edges": 383,
+    "all_K": 1276
+   },
+   "60": {
+    "candidate_K": 360,
+    "candidate_edges": 383,
+    "all_K": 1472
+   },
+   "120": {
+    "candidate_K": 383,
+    "candidate_edges": 383,
+    "all_K": 1529
+   }
+  },
+  {
+   "label": "larger-28",
+   "tags": 28,
+   "15": {
+    "candidate_K": 244,
+    "candidate_edges": 1000,
+    "all_K": 1537
+   },
+   "30": {
+    "candidate_K": 396,
+    "candidate_edges": 1000,
+    "all_K": 2175
+   },
+   "60": {
+    "candidate_K": 572,
+    "candidate_edges": 1000,
+    "all_K": 2909
+   },
+   "120": {
+    "candidate_K": 733,
+    "candidate_edges": 1000,
+    "all_K": 3557
+   }
+  }
+ ],
+ "rows": [
+  {
+   "cap": 15,
+   "block": "current-16",
+   "seed": 20630101,
+   "candidate_edges": 64,
+   "candidate_K": 44,
+   "all_K": 183,
+   "new_vs_control": 0,
+   "lost_vs_control": 0,
+   "returned_loops": 1714
+  },
+  {
+   "cap": 15,
+   "block": "current-16",
+   "seed": 20630102,
+   "candidate_edges": 63,
+   "candidate_K": 31,
+   "all_K": 151,
+   "new_vs_control": 0,
+   "lost_vs_control": 0,
+   "returned_loops": 1717
+  },
+  {
+   "cap": 15,
+   "block": "current-16",
+   "seed": 20630103,
+   "candidate_edges": 64,
+   "candidate_K": 39,
+   "all_K": 155,
+   "new_vs_control": 0,
+   "lost_vs_control": 0,
+   "returned_loops": 1742
+  },
+  {
+   "cap": 15,
+   "block": "current-16",
+   "seed": 20630104,
+   "candidate_edges": 64,
+   "candidate_K": 35,
+   "all_K": 147,
+   "new_vs_control": 0,
+   "lost_vs_control": 0,
+   "returned_loops": 1262
+  },
+  {
+   "cap": 15,
+   "block": "current-16",
+   "seed": 20630105,
+   "candidate_edges": 64,
+   "candidate_K": 43,
+   "all_K": 171,
+   "new_vs_control": 0,
+   "lost_vs_control": 0,
+   "returned_loops": 1728
+  },
+  {
+   "cap": 15,
+   "block": "current-16",
+   "seed": 20630106,
+   "candidate_edges": 63,
+   "candidate_K": 36,
+   "all_K": 173,
+   "new_vs_control": 0,
+   "lost_vs_control": 0,
+   "returned_loops": 1218
+  },
+  {
+   "cap": 15,
+   "block": "fresh-16",
+   "seed": 20650101,
+   "candidate_edges": 64,
+   "candidate_K": 40,
+   "all_K": 161,
+   "new_vs_control": 0,
+   "lost_vs_control": 0,
+   "returned_loops": 1727
+  },
+  {
+   "cap": 15,
+   "block": "fresh-16",
+   "seed": 20650102,
+   "candidate_edges": 64,
+   "candidate_K": 37,
+   "all_K": 164,
+   "new_vs_control": 0,
+   "lost_vs_control": 0,
+   "returned_loops": 1243
+  },
+  {
+   "cap": 15,
+   "block": "fresh-16",
+   "seed": 20650103,
+   "candidate_edges": 64,
+   "candidate_K": 46,
+   "all_K": 193,
+   "new_vs_control": 0,
+   "lost_vs_control": 0,
+   "returned_loops": 1263
+  },
+  {
+   "cap": 15,
+   "block": "fresh-16",
+   "seed": 20650104,
+   "candidate_edges": 64,
+   "candidate_K": 42,
+   "all_K": 184,
+   "new_vs_control": 0,
+   "lost_vs_control": 0,
+   "returned_loops": 1716
+  },
+  {
+   "cap": 15,
+   "block": "fresh-16",
+   "seed": 20650105,
+   "candidate_edges": 63,
+   "candidate_K": 39,
+   "all_K": 178,
+   "new_vs_control": 0,
+   "lost_vs_control": 0,
+   "returned_loops": 1323
+  },
+  {
+   "cap": 15,
+   "block": "fresh-16",
+   "seed": 20650106,
+   "candidate_edges": 64,
+   "candidate_K": 38,
+   "all_K": 151,
+   "new_vs_control": 0,
+   "lost_vs_control": 0,
+   "returned_loops": 1720
+  },
+  {
+   "cap": 15,
+   "block": "larger-28",
+   "seed": 20660101,
+   "candidate_edges": 169,
+   "candidate_K": 23,
+   "all_K": 174,
+   "new_vs_control": 0,
+   "lost_vs_control": 0,
+   "returned_loops": 1613
+  },
+  {
+   "cap": 15,
+   "block": "larger-28",
+   "seed": 20660102,
+   "candidate_edges": 167,
+   "candidate_K": 40,
+   "all_K": 268,
+   "new_vs_control": 0,
+   "lost_vs_control": 0,
+   "returned_loops": 1629
+  },
+  {
+   "cap": 15,
+   "block": "larger-28",
+   "seed": 20660103,
+   "candidate_edges": 172,
+   "candidate_K": 42,
+   "all_K": 254,
+   "new_vs_control": 0,
+   "lost_vs_control": 0,
+   "returned_loops": 1197
+  },
+  {
+   "cap": 15,
+   "block": "larger-28",
+   "seed": 20660104,
+   "candidate_edges": 165,
+   "candidate_K": 55,
+   "all_K": 277,
+   "new_vs_control": 0,
+   "lost_vs_control": 0,
+   "returned_loops": 1595
+  },
+  {
+   "cap": 15,
+   "block": "larger-28",
+   "seed": 20660105,
+   "candidate_edges": 169,
+   "candidate_K": 47,
+   "all_K": 303,
+   "new_vs_control": 0,
+   "lost_vs_control": 0,
+   "returned_loops": 1268
+  },
+  {
+   "cap": 15,
+   "block": "larger-28",
+   "seed": 20660106,
+   "candidate_edges": 158,
+   "candidate_K": 37,
+   "all_K": 261,
+   "new_vs_control": 0,
+   "lost_vs_control": 0,
+   "returned_loops": 1257
+  },
+  {
+   "cap": 30,
+   "block": "current-16",
+   "seed": 20630101,
+   "candidate_edges": 64,
+   "candidate_K": 55,
+   "all_K": 219,
+   "new_vs_control": 11,
+   "lost_vs_control": 0,
+   "returned_loops": 3392
+  },
+  {
+   "cap": 30,
+   "block": "current-16",
+   "seed": 20630102,
+   "candidate_edges": 63,
+   "candidate_K": 44,
+   "all_K": 191,
+   "new_vs_control": 13,
+   "lost_vs_control": 0,
+   "returned_loops": 3399
+  },
+  {
+   "cap": 30,
+   "block": "current-16",
+   "seed": 20630103,
+   "candidate_edges": 64,
+   "candidate_K": 49,
+   "all_K": 209,
+   "new_vs_control": 11,
+   "lost_vs_control": 1,
+   "returned_loops": 3423
+  },
+  {
+   "cap": 30,
+   "block": "current-16",
+   "seed": 20630104,
+   "candidate_edges": 64,
+   "candidate_K": 48,
+   "all_K": 192,
+   "new_vs_control": 13,
+   "lost_vs_control": 0,
+   "returned_loops": 2475
+  },
+  {
+   "cap": 30,
+   "block": "current-16",
+   "seed": 20630105,
+   "candidate_edges": 64,
+   "candidate_K": 57,
+   "all_K": 223,
+   "new_vs_control": 14,
+   "lost_vs_control": 0,
+   "returned_loops": 3433
+  },
+  {
+   "cap": 30,
+   "block": "current-16",
+   "seed": 20630106,
+   "candidate_edges": 63,
+   "candidate_K": 49,
+   "all_K": 208,
+   "new_vs_control": 13,
+   "lost_vs_control": 0,
+   "returned_loops": 2395
+  },
+  {
+   "cap": 30,
+   "block": "fresh-16",
+   "seed": 20650101,
+   "candidate_edges": 64,
+   "candidate_K": 53,
+   "all_K": 211,
+   "new_vs_control": 14,
+   "lost_vs_control": 1,
+   "returned_loops": 3419
+  },
+  {
+   "cap": 30,
+   "block": "fresh-16",
+   "seed": 20650102,
+   "candidate_edges": 64,
+   "candidate_K": 43,
+   "all_K": 201,
+   "new_vs_control": 6,
+   "lost_vs_control": 0,
+   "returned_loops": 2443
+  },
+  {
+   "cap": 30,
+   "block": "fresh-16",
+   "seed": 20650103,
+   "candidate_edges": 64,
+   "candidate_K": 57,
+   "all_K": 238,
+   "new_vs_control": 11,
+   "lost_vs_control": 0,
+   "returned_loops": 2497
+  },
+  {
+   "cap": 30,
+   "block": "fresh-16",
+   "seed": 20650104,
+   "candidate_edges": 64,
+   "candidate_K": 53,
+   "all_K": 221,
+   "new_vs_control": 11,
+   "lost_vs_control": 0,
+   "returned_loops": 3388
+  },
+  {
+   "cap": 30,
+   "block": "fresh-16",
+   "seed": 20650105,
+   "candidate_edges": 63,
+   "candidate_K": 47,
+   "all_K": 206,
+   "new_vs_control": 8,
+   "lost_vs_control": 0,
+   "returned_loops": 2597
+  },
+  {
+   "cap": 30,
+   "block": "fresh-16",
+   "seed": 20650106,
+   "candidate_edges": 64,
+   "candidate_K": 50,
+   "all_K": 199,
+   "new_vs_control": 12,
+   "lost_vs_control": 0,
+   "returned_loops": 3400
+  },
+  {
+   "cap": 30,
+   "block": "larger-28",
+   "seed": 20660101,
+   "candidate_edges": 169,
+   "candidate_K": 45,
+   "all_K": 270,
+   "new_vs_control": 22,
+   "lost_vs_control": 0,
+   "returned_loops": 3150
+  },
+  {
+   "cap": 30,
+   "block": "larger-28",
+   "seed": 20660102,
+   "candidate_edges": 167,
+   "candidate_K": 63,
+   "all_K": 364,
+   "new_vs_control": 26,
+   "lost_vs_control": 3,
+   "returned_loops": 3180
+  },
+  {
+   "cap": 30,
+   "block": "larger-28",
+   "seed": 20660103,
+   "candidate_edges": 172,
+   "candidate_K": 67,
+   "all_K": 376,
+   "new_vs_control": 25,
+   "lost_vs_control": 0,
+   "returned_loops": 2302
+  },
+  {
+   "cap": 30,
+   "block": "larger-28",
+   "seed": 20660104,
+   "candidate_edges": 165,
+   "candidate_K": 85,
+   "all_K": 403,
+   "new_vs_control": 30,
+   "lost_vs_control": 0,
+   "returned_loops": 3130
+  },
+  {
+   "cap": 30,
+   "block": "larger-28",
+   "seed": 20660105,
+   "candidate_edges": 169,
+   "candidate_K": 68,
+   "all_K": 373,
+   "new_vs_control": 21,
+   "lost_vs_control": 0,
+   "returned_loops": 2454
+  },
+  {
+   "cap": 30,
+   "block": "larger-28",
+   "seed": 20660106,
+   "candidate_edges": 158,
+   "candidate_K": 68,
+   "all_K": 389,
+   "new_vs_control": 31,
+   "lost_vs_control": 0,
+   "returned_loops": 2437
+  },
+  {
+   "cap": 60,
+   "block": "current-16",
+   "seed": 20630101,
+   "candidate_edges": 64,
+   "candidate_K": 61,
+   "all_K": 240,
+   "new_vs_control": 17,
+   "lost_vs_control": 0,
+   "returned_loops": 6706
+  },
+  {
+   "cap": 60,
+   "block": "current-16",
+   "seed": 20630102,
+   "candidate_edges": 63,
+   "candidate_K": 54,
+   "all_K": 225,
+   "new_vs_control": 23,
+   "lost_vs_control": 0,
+   "returned_loops": 6707
+  },
+  {
+   "cap": 60,
+   "block": "current-16",
+   "seed": 20630103,
+   "candidate_edges": 64,
+   "candidate_K": 60,
+   "all_K": 246,
+   "new_vs_control": 21,
+   "lost_vs_control": 0,
+   "returned_loops": 6727
+  },
+  {
+   "cap": 60,
+   "block": "current-16",
+   "seed": 20630104,
+   "candidate_edges": 64,
+   "candidate_K": 61,
+   "all_K": 241,
+   "new_vs_control": 26,
+   "lost_vs_control": 0,
+   "returned_loops": 4828
+  },
+  {
+   "cap": 60,
+   "block": "current-16",
+   "seed": 20630105,
+   "candidate_edges": 64,
+   "candidate_K": 64,
+   "all_K": 255,
+   "new_vs_control": 21,
+   "lost_vs_control": 0,
+   "returned_loops": 6769
+  },
+  {
+   "cap": 60,
+   "block": "current-16",
+   "seed": 20630106,
+   "candidate_edges": 63,
+   "candidate_K": 62,
+   "all_K": 244,
+   "new_vs_control": 26,
+   "lost_vs_control": 0,
+   "returned_loops": 4698
+  },
+  {
+   "cap": 60,
+   "block": "fresh-16",
+   "seed": 20650101,
+   "candidate_edges": 64,
+   "candidate_K": 64,
+   "all_K": 254,
+   "new_vs_control": 24,
+   "lost_vs_control": 0,
+   "returned_loops": 6720
+  },
+  {
+   "cap": 60,
+   "block": "fresh-16",
+   "seed": 20650102,
+   "candidate_edges": 64,
+   "candidate_K": 55,
+   "all_K": 234,
+   "new_vs_control": 18,
+   "lost_vs_control": 0,
+   "returned_loops": 4780
+  },
+  {
+   "cap": 60,
+   "block": "fresh-16",
+   "seed": 20650103,
+   "candidate_edges": 64,
+   "candidate_K": 63,
+   "all_K": 254,
+   "new_vs_control": 17,
+   "lost_vs_control": 0,
+   "returned_loops": 4882
+  },
+  {
+   "cap": 60,
+   "block": "fresh-16",
+   "seed": 20650104,
+   "candidate_edges": 64,
+   "candidate_K": 62,
+   "all_K": 251,
+   "new_vs_control": 21,
+   "lost_vs_control": 1,
+   "returned_loops": 6677
+  },
+  {
+   "cap": 60,
+   "block": "fresh-16",
+   "seed": 20650105,
+   "candidate_edges": 63,
+   "candidate_K": 61,
+   "all_K": 248,
+   "new_vs_control": 22,
+   "lost_vs_control": 0,
+   "returned_loops": 5093
+  },
+  {
+   "cap": 60,
+   "block": "fresh-16",
+   "seed": 20650106,
+   "candidate_edges": 64,
+   "candidate_K": 55,
+   "all_K": 231,
+   "new_vs_control": 17,
+   "lost_vs_control": 0,
+   "returned_loops": 6709
+  },
+  {
+   "cap": 60,
+   "block": "larger-28",
+   "seed": 20660101,
+   "candidate_edges": 169,
+   "candidate_K": 83,
+   "all_K": 437,
+   "new_vs_control": 60,
+   "lost_vs_control": 0,
+   "returned_loops": 6090
+  },
+  {
+   "cap": 60,
+   "block": "larger-28",
+   "seed": 20660102,
+   "candidate_edges": 167,
+   "candidate_K": 91,
+   "all_K": 484,
+   "new_vs_control": 53,
+   "lost_vs_control": 2,
+   "returned_loops": 6124
+  },
+  {
+   "cap": 60,
+   "block": "larger-28",
+   "seed": 20660103,
+   "candidate_edges": 172,
+   "candidate_K": 85,
+   "all_K": 456,
+   "new_vs_control": 43,
+   "lost_vs_control": 0,
+   "returned_loops": 4423
+  },
+  {
+   "cap": 60,
+   "block": "larger-28",
+   "seed": 20660104,
+   "candidate_edges": 165,
+   "candidate_K": 115,
+   "all_K": 533,
+   "new_vs_control": 60,
+   "lost_vs_control": 0,
+   "returned_loops": 6063
+  },
+  {
+   "cap": 60,
+   "block": "larger-28",
+   "seed": 20660105,
+   "candidate_edges": 169,
+   "candidate_K": 91,
+   "all_K": 455,
+   "new_vs_control": 44,
+   "lost_vs_control": 0,
+   "returned_loops": 4760
+  },
+  {
+   "cap": 60,
+   "block": "larger-28",
+   "seed": 20660106,
+   "candidate_edges": 158,
+   "candidate_K": 107,
+   "all_K": 544,
+   "new_vs_control": 70,
+   "lost_vs_control": 0,
+   "returned_loops": 4674
+  },
+  {
+   "cap": 120,
+   "block": "current-16",
+   "seed": 20630101,
+   "candidate_edges": 64,
+   "candidate_K": 64,
+   "all_K": 254,
+   "new_vs_control": 20,
+   "lost_vs_control": 0,
+   "returned_loops": 13130
+  },
+  {
+   "cap": 120,
+   "block": "current-16",
+   "seed": 20630102,
+   "candidate_edges": 63,
+   "candidate_K": 63,
+   "all_K": 255,
+   "new_vs_control": 32,
+   "lost_vs_control": 0,
+   "returned_loops": 13122
+  },
+  {
+   "cap": 120,
+   "block": "current-16",
+   "seed": 20630103,
+   "candidate_edges": 64,
+   "candidate_K": 64,
+   "all_K": 256,
+   "new_vs_control": 25,
+   "lost_vs_control": 0,
+   "returned_loops": 13157
+  },
+  {
+   "cap": 120,
+   "block": "current-16",
+   "seed": 20630104,
+   "candidate_edges": 64,
+   "candidate_K": 64,
+   "all_K": 251,
+   "new_vs_control": 29,
+   "lost_vs_control": 0,
+   "returned_loops": 9358
+  },
+  {
+   "cap": 120,
+   "block": "current-16",
+   "seed": 20630105,
+   "candidate_edges": 64,
+   "candidate_K": 64,
+   "all_K": 254,
+   "new_vs_control": 21,
+   "lost_vs_control": 0,
+   "returned_loops": 13184
+  },
+  {
+   "cap": 120,
+   "block": "current-16",
+   "seed": 20630106,
+   "candidate_edges": 63,
+   "candidate_K": 63,
+   "all_K": 252,
+   "new_vs_control": 27,
+   "lost_vs_control": 0,
+   "returned_loops": 9094
+  },
+  {
+   "cap": 120,
+   "block": "fresh-16",
+   "seed": 20650101,
+   "candidate_edges": 64,
+   "candidate_K": 64,
+   "all_K": 255,
+   "new_vs_control": 24,
+   "lost_vs_control": 0,
+   "returned_loops": 13142
+  },
+  {
+   "cap": 120,
+   "block": "fresh-16",
+   "seed": 20650102,
+   "candidate_edges": 64,
+   "candidate_K": 64,
+   "all_K": 256,
+   "new_vs_control": 27,
+   "lost_vs_control": 0,
+   "returned_loops": 9313
+  },
+  {
+   "cap": 120,
+   "block": "fresh-16",
+   "seed": 20650103,
+   "candidate_edges": 64,
+   "candidate_K": 64,
+   "all_K": 255,
+   "new_vs_control": 18,
+   "lost_vs_control": 0,
+   "returned_loops": 9405
+  },
+  {
+   "cap": 120,
+   "block": "fresh-16",
+   "seed": 20650104,
+   "candidate_edges": 64,
+   "candidate_K": 64,
+   "all_K": 255,
+   "new_vs_control": 22,
+   "lost_vs_control": 0,
+   "returned_loops": 13106
+  },
+  {
+   "cap": 120,
+   "block": "fresh-16",
+   "seed": 20650105,
+   "candidate_edges": 63,
+   "candidate_K": 63,
+   "all_K": 256,
+   "new_vs_control": 24,
+   "lost_vs_control": 0,
+   "returned_loops": 9936
+  },
+  {
+   "cap": 120,
+   "block": "fresh-16",
+   "seed": 20650106,
+   "candidate_edges": 64,
+   "candidate_K": 64,
+   "all_K": 252,
+   "new_vs_control": 26,
+   "lost_vs_control": 0,
+   "returned_loops": 13126
+  },
+  {
+   "cap": 120,
+   "block": "larger-28",
+   "seed": 20660101,
+   "candidate_edges": 169,
+   "candidate_K": 111,
+   "all_K": 541,
+   "new_vs_control": 88,
+   "lost_vs_control": 0,
+   "returned_loops": 11637
+  },
+  {
+   "cap": 120,
+   "block": "larger-28",
+   "seed": 20660102,
+   "candidate_edges": 167,
+   "candidate_K": 125,
+   "all_K": 622,
+   "new_vs_control": 87,
+   "lost_vs_control": 2,
+   "returned_loops": 11746
+  },
+  {
+   "cap": 120,
+   "block": "larger-28",
+   "seed": 20660103,
+   "candidate_edges": 172,
+   "candidate_K": 105,
+   "all_K": 526,
+   "new_vs_control": 63,
+   "lost_vs_control": 0,
+   "returned_loops": 8502
+  },
+  {
+   "cap": 120,
+   "block": "larger-28",
+   "seed": 20660104,
+   "candidate_edges": 165,
+   "candidate_K": 138,
+   "all_K": 640,
+   "new_vs_control": 83,
+   "lost_vs_control": 0,
+   "returned_loops": 11629
+  },
+  {
+   "cap": 120,
+   "block": "larger-28",
+   "seed": 20660105,
+   "candidate_edges": 169,
+   "candidate_K": 121,
+   "all_K": 580,
+   "new_vs_control": 74,
+   "lost_vs_control": 0,
+   "returned_loops": 9174
+  },
+  {
+   "cap": 120,
+   "block": "larger-28",
+   "seed": 20660106,
+   "candidate_edges": 158,
+   "candidate_K": 133,
+   "all_K": 648,
+   "new_vs_control": 96,
+   "lost_vs_control": 0,
+   "returned_loops": 8944
+  }
+ ],
+ "not_evidence": "A counterfactual diagnostic on 18 no-arm seeds and one build. It changes only the loop output cap; it runs no A1 cell, selects no target and makes no causal claim about capability, retention or transfer. Raising a cap can reshuffle which loops are stored, so the gained and lost columns are part of the result.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__",
+ "verdict_rule": "Clean window-limited requires a higher top-cap total than the control, nondecreasing totals, and zero edges lost against the control. Any reshuffling loss makes the strict verdict MIXED; the reading reports the direction separately.",
+ "reading": "Raising the loop cap from 15 to 120 raises unique candidate K from 714 to 1498 (+784, 109.8%), while 10 edges are lost against the control. The direction is window-limited, but the response is strongly sublinear and is not a fixed K quota."
+}

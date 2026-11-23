@@ -1,0 +1,805 @@
+{
+ "kind": "a1_band_frontier",
+ "id": "A1-BAND-FRONTIER-1",
+ "date": "2026-11-14",
+ "status": "DESIGN ESTIMATE \u2014 BAND POSITION AND SEEDS PER SPLIT BLOCK; NO TARGET, FREEZE, GRANT OR A1 CELL",
+ "not_a_result": true,
+ "question": "Could the committed 0.05/0.09 decision bands be widened without weakening the discriminator, and how many seeds per split block does each alternative need?",
+ "definition": "For each band pair, the exact two-sample t probabilities of the four branch outcomes on the split-32 minus split-48 difference, the admissible band edges at six and nine seeds, and the seeds each pair needs at a 5% and a 10% error budget with 80% power on both branches.",
+ "method": "Same chi-integrated t power as `A1-SPLIT-POWER-1`, generalized to the rule's three outcomes: size inside the floor, density below the ceiling, undecided between them. A pair is admissible when neither wrong branch exceeds the budget and both correct branches reach the power target; the cheapest pair is found by search over the evaluated grid plus the analytic bound.",
+ "constants": {
+  "sigma": 0.066656,
+  "gap": 0.11638,
+  "committed_floor": 0.05,
+  "committed_ceiling": 0.09,
+  "budgets": [
+   0.05,
+   0.1
+  ],
+  "power_target": 0.8,
+  "seed_counts": [
+   6,
+   9
+  ],
+  "band_pairs": [
+   [
+    0.05,
+    0.09
+   ],
+   [
+    0.0582,
+    0.0582
+   ],
+   [
+    0.05,
+    0.07
+   ],
+   [
+    0.051,
+    0.065
+   ],
+   [
+    0.07,
+    0.09
+   ],
+   [
+    0.04,
+    0.1
+   ],
+   [
+    0.068,
+    0.068
+   ],
+   [
+    0.06,
+    0.09
+   ]
+  ]
+ },
+ "governance": {
+  "freeze": false,
+  "grant": false,
+  "run": false,
+  "authorization": "none"
+ },
+ "reading": "Yes, but only in one direction and by a bounded amount. At a 5%/5% guarantee the admissible bands at six seeds per block are **c \u2265 0.0633** and **f \u2264 0.0531**, so the committed **0.05** floor is already almost as high as it can go \u2014 raising it past **0.0531** starts declaring the size summary when the density summary is true \u2014 while the **0.09** ceiling is conservative and can drop to **0.0633** with the error budget intact. Widening that way is not a weakening: the cheapest admissible pair is **f 0.0500 / c 0.0700**, which holds both wrong-branch rates at 5% and both correct branches at 80% at **6 seeds per block** instead of the **9** the committed pair needs at the same guarantee \u2014 **3 seeds saved per block**. Widening past **c 0.0633** is where the discriminator does weaken: at six seeds and the committed floor, a ceiling below that value pushes the false-density rate above 5%, and at nine seeds the floor cannot rise past **0.0647** either. Collapsing the dead band into a single threshold at the midpoint is worse than either: it needs **8 seeds per block** at 5%, because a single cut cannot spend the error budget on one side and the power budget on the other, and it leaves no undecided outcome for the cases the design should refuse to call. No band choice does better than that floor: searching floors **0.02\u20130.10** against ceilings **0.03\u20130.12**, the cheapest admissible pair needs **6 seeds per block** at a 5% guarantee and **4** at 10%, so the bands as committed are worth **3 seeds** and no more at this per-seed SD. At the looser 10% budget the ordering flips and the single threshold wins with **4** seeds, because a budget that wide no longer repays the seeds the dead band spends on refusing to decide.",
+ "found": {
+  "gap": 0.11638,
+  "sigma": 0.066656,
+  "committed": {
+   "floor": 0.05,
+   "ceiling": 0.09
+  },
+  "seeds_committed_at_5pct": 9,
+  "seeds_committed_at_10pct": 9,
+  "cheapest_floor": 0.05,
+  "cheapest_ceiling": 0.07,
+  "seeds_cheapest_at_5pct": 6,
+  "seeds_saved_at_5pct": 3,
+  "single_threshold_seeds": 8,
+  "bounds": [
+   {
+    "n": 6,
+    "se": 0.038484,
+    "ceiling_min": 0.0633,
+    "floor_max": 0.05308,
+    "floor_min": 0.0
+   },
+   {
+    "n": 9,
+    "se": 0.031422,
+    "ceiling_min": 0.051684,
+    "floor_max": 0.064696,
+    "floor_min": 0.0
+   }
+  ],
+  "ceiling_can_drop_to": 0.0633,
+  "floor_can_rise_to": 0.05308,
+  "power_target": 0.8,
+  "budgets": [
+   0.05,
+   0.1
+  ],
+  "seeds_floor_at_5pct": 6,
+  "seeds_floor_at_5pct_bands": [
+   0.05,
+   0.07
+  ],
+  "seeds_floor_at_10pct": 4,
+  "seeds_floor_at_10pct_bands": [
+   0.0582,
+   0.0582
+  ]
+ },
+ "rows": [
+  {
+   "floor": 0.05,
+   "ceiling": 0.09,
+   "middle": 0.07,
+   "dead_band": true,
+   "at_six": {
+    "n": 6,
+    "se": 0.038484,
+    "size_if_size": 0.81794,
+    "density_if_size": 0.01268,
+    "density_if_density": 0.767202,
+    "size_if_density": 0.042472,
+    "undecided_if_size": 0.16938,
+    "undecided_if_density": 0.190326
+   },
+   "at_nine": {
+    "n": 9,
+    "se": 0.031422,
+    "size_if_size": 0.890312,
+    "density_if_size": 0.003441,
+    "density_if_density": 0.807679,
+    "size_if_density": 0.019173,
+    "undecided_if_size": 0.106247,
+    "undecided_if_density": 0.173149
+   },
+   "seeds": {
+    "0.05": 9,
+    "0.10": 9
+   },
+   "admissible_at_six": false,
+   "admissible_at_nine": true
+  },
+  {
+   "floor": 0.0582,
+   "ceiling": 0.0582,
+   "middle": 0.0582,
+   "dead_band": false,
+   "at_six": {
+    "n": 6,
+    "se": 0.038484,
+    "size_if_size": 0.874306,
+    "density_if_size": 0.062847,
+    "density_if_density": 0.937095,
+    "size_if_density": 0.062824,
+    "undecided_if_size": 0.062847,
+    "undecided_if_density": 8.1e-05
+   },
+   "at_nine": {
+    "n": 9,
+    "se": 0.031422,
+    "size_if_size": 0.934115,
+    "density_if_size": 0.032943,
+    "density_if_density": 0.967015,
+    "size_if_density": 0.032983,
+    "undecided_if_size": 0.032943,
+    "undecided_if_density": 2e-06
+   },
+   "seeds": {
+    "0.05": 8,
+    "0.10": 4
+   },
+   "admissible_at_six": false,
+   "admissible_at_nine": true
+  },
+  {
+   "floor": 0.05,
+   "ceiling": 0.07,
+   "middle": 0.06,
+   "dead_band": true,
+   "at_six": {
+    "n": 6,
+    "se": 0.038484,
+    "size_if_size": 0.81794,
+    "density_if_size": 0.035678,
+    "density_if_density": 0.893506,
+    "size_if_density": 0.042472,
+    "undecided_if_size": 0.146383,
+    "undecided_if_density": 0.064023
+   },
+   "at_nine": {
+    "n": 9,
+    "se": 0.031422,
+    "size_if_size": 0.890312,
+    "density_if_size": 0.01495,
+    "density_if_density": 0.932084,
+    "size_if_density": 0.019173,
+    "undecided_if_size": 0.094738,
+    "undecided_if_density": 0.048743
+   },
+   "seeds": {
+    "0.05": 6,
+    "0.10": 6
+   },
+   "admissible_at_six": true,
+   "admissible_at_nine": true
+  },
+  {
+   "floor": 0.051,
+   "ceiling": 0.065,
+   "middle": 0.058,
+   "dead_band": true,
+   "at_six": {
+    "n": 6,
+    "se": 0.038484,
+    "size_if_size": 0.825791,
+    "density_if_size": 0.045553,
+    "density_if_density": 0.91435,
+    "size_if_density": 0.044596,
+    "undecided_if_size": 0.128656,
+    "undecided_if_density": 0.041054
+   },
+   "at_nine": {
+    "n": 9,
+    "se": 0.031422,
+    "size_if_size": 0.896731,
+    "density_if_size": 0.021055,
+    "density_if_density": 0.949542,
+    "size_if_density": 0.020518,
+    "undecided_if_size": 0.082214,
+    "undecided_if_density": 0.02994
+   },
+   "seeds": {
+    "0.05": 6,
+    "0.10": 6
+   },
+   "admissible_at_six": true,
+   "admissible_at_nine": true
+  },
+  {
+   "floor": 0.07,
+   "ceiling": 0.09,
+   "middle": 0.08,
+   "dead_band": true,
+   "at_six": {
+    "n": 6,
+    "se": 0.038484,
+    "size_if_size": 0.928645,
+    "density_if_size": 0.01268,
+    "density_if_density": 0.767202,
+    "size_if_density": 0.106457,
+    "undecided_if_size": 0.058675,
+    "undecided_if_density": 0.126341
+   },
+   "at_nine": {
+    "n": 9,
+    "se": 0.031422,
+    "size_if_size": 0.9701,
+    "density_if_size": 0.003441,
+    "density_if_density": 0.807679,
+    "size_if_density": 0.067915,
+    "undecided_if_size": 0.026459,
+    "undecided_if_density": 0.124407
+   },
+   "seeds": {
+    "0.05": 12,
+    "0.10": 9
+   },
+   "admissible_at_six": false,
+   "admissible_at_nine": false
+  },
+  {
+   "floor": 0.04,
+   "ceiling": 0.1,
+   "middle": 0.07,
+   "dead_band": true,
+   "at_six": {
+    "n": 6,
+    "se": 0.038484,
+    "size_if_size": 0.722172,
+    "density_if_size": 0.007339,
+    "density_if_density": 0.676486,
+    "size_if_density": 0.025635,
+    "undecided_if_size": 0.270489,
+    "undecided_if_density": 0.297879
+   },
+   "at_nine": {
+    "n": 9,
+    "se": 0.031422,
+    "size_if_size": 0.805553,
+    "density_if_size": 0.001568,
+    "density_if_density": 0.706902,
+    "size_if_density": 0.009501,
+    "undecided_if_size": 0.19288,
+    "undecided_if_density": 0.283598
+   },
+   "seeds": {
+    "0.05": 23,
+    "0.10": 23
+   },
+   "admissible_at_six": false,
+   "admissible_at_nine": false
+  },
+  {
+   "floor": 0.068,
+   "ceiling": 0.068,
+   "middle": 0.068,
+   "dead_band": false,
+   "at_six": {
+    "n": 6,
+    "se": 0.038484,
+    "size_if_size": 0.921259,
+    "density_if_size": 0.03937,
+    "density_if_density": 0.902297,
+    "size_if_density": 0.09766,
+    "undecided_if_size": 0.03937,
+    "undecided_if_density": 4.3e-05
+   },
+   "at_nine": {
+    "n": 9,
+    "se": 0.031422,
+    "size_if_size": 0.965666,
+    "density_if_size": 0.017167,
+    "density_if_density": 0.939597,
+    "size_if_density": 0.060403,
+    "undecided_if_size": 0.017167,
+    "undecided_if_density": 1e-06
+   },
+   "seeds": {
+    "0.05": 11,
+    "0.10": 6
+   },
+   "admissible_at_six": false,
+   "admissible_at_nine": false
+  },
+  {
+   "floor": 0.06,
+   "ceiling": 0.09,
+   "middle": 0.075,
+   "dead_band": true,
+   "at_six": {
+    "n": 6,
+    "se": 0.038484,
+    "size_if_size": 0.884428,
+    "density_if_size": 0.01268,
+    "density_if_density": 0.767202,
+    "size_if_density": 0.068279,
+    "undecided_if_size": 0.102892,
+    "undecided_if_density": 0.164519
+   },
+   "at_nine": {
+    "n": 9,
+    "se": 0.031422,
+    "size_if_size": 0.941353,
+    "density_if_size": 0.003441,
+    "density_if_density": 0.807679,
+    "size_if_density": 0.036995,
+    "undecided_if_size": 0.055206,
+    "undecided_if_density": 0.155326
+   },
+   "seeds": {
+    "0.05": 9,
+    "0.10": 9
+   },
+   "admissible_at_six": false,
+   "admissible_at_nine": true
+  }
+ ],
+ "grid": [
+  {
+   "floor": 0.02,
+   "ceiling": 0.03,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.02,
+   "ceiling": 0.04,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.02,
+   "ceiling": 0.05,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.02,
+   "ceiling": 0.06,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.02,
+   "ceiling": 0.07,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.02,
+   "ceiling": 0.08,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.02,
+   "ceiling": 0.09,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.02,
+   "ceiling": 0.1,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.02,
+   "ceiling": 0.11,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.02,
+   "ceiling": 0.12,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.03,
+   "ceiling": 0.03,
+   "seeds_5": null,
+   "seeds_10": 16
+  },
+  {
+   "floor": 0.03,
+   "ceiling": 0.04,
+   "seeds_5": 16,
+   "seeds_10": 16
+  },
+  {
+   "floor": 0.03,
+   "ceiling": 0.05,
+   "seeds_5": 16,
+   "seeds_10": 16
+  },
+  {
+   "floor": 0.03,
+   "ceiling": 0.06,
+   "seeds_5": 16,
+   "seeds_10": 16
+  },
+  {
+   "floor": 0.03,
+   "ceiling": 0.07,
+   "seeds_5": 16,
+   "seeds_10": 16
+  },
+  {
+   "floor": 0.03,
+   "ceiling": 0.08,
+   "seeds_5": 16,
+   "seeds_10": 16
+  },
+  {
+   "floor": 0.03,
+   "ceiling": 0.09,
+   "seeds_5": 16,
+   "seeds_10": 16
+  },
+  {
+   "floor": 0.03,
+   "ceiling": 0.1,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.03,
+   "ceiling": 0.11,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.03,
+   "ceiling": 0.12,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.04,
+   "ceiling": 0.04,
+   "seeds_5": 15,
+   "seeds_10": 9
+  },
+  {
+   "floor": 0.04,
+   "ceiling": 0.05,
+   "seeds_5": 10,
+   "seeds_10": 9
+  },
+  {
+   "floor": 0.04,
+   "ceiling": 0.06,
+   "seeds_5": 9,
+   "seeds_10": 9
+  },
+  {
+   "floor": 0.04,
+   "ceiling": 0.07,
+   "seeds_5": 9,
+   "seeds_10": 9
+  },
+  {
+   "floor": 0.04,
+   "ceiling": 0.08,
+   "seeds_5": 9,
+   "seeds_10": 9
+  },
+  {
+   "floor": 0.04,
+   "ceiling": 0.09,
+   "seeds_5": 9,
+   "seeds_10": 9
+  },
+  {
+   "floor": 0.04,
+   "ceiling": 0.1,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.04,
+   "ceiling": 0.11,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.04,
+   "ceiling": 0.12,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.05,
+   "ceiling": 0.05,
+   "seeds_5": 10,
+   "seeds_10": 6
+  },
+  {
+   "floor": 0.05,
+   "ceiling": 0.06,
+   "seeds_5": 7,
+   "seeds_10": 6
+  },
+  {
+   "floor": 0.05,
+   "ceiling": 0.07,
+   "seeds_5": 6,
+   "seeds_10": 6
+  },
+  {
+   "floor": 0.05,
+   "ceiling": 0.08,
+   "seeds_5": 6,
+   "seeds_10": 6
+  },
+  {
+   "floor": 0.05,
+   "ceiling": 0.09,
+   "seeds_5": 9,
+   "seeds_10": 9
+  },
+  {
+   "floor": 0.05,
+   "ceiling": 0.1,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.05,
+   "ceiling": 0.11,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.05,
+   "ceiling": 0.12,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.06,
+   "ceiling": 0.06,
+   "seeds_5": 8,
+   "seeds_10": 5
+  },
+  {
+   "floor": 0.06,
+   "ceiling": 0.07,
+   "seeds_5": 8,
+   "seeds_10": 5
+  },
+  {
+   "floor": 0.06,
+   "ceiling": 0.08,
+   "seeds_5": 8,
+   "seeds_10": 5
+  },
+  {
+   "floor": 0.06,
+   "ceiling": 0.09,
+   "seeds_5": 9,
+   "seeds_10": 9
+  },
+  {
+   "floor": 0.06,
+   "ceiling": 0.1,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.06,
+   "ceiling": 0.11,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.06,
+   "ceiling": 0.12,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.07,
+   "ceiling": 0.07,
+   "seeds_5": 12,
+   "seeds_10": 7
+  },
+  {
+   "floor": 0.07,
+   "ceiling": 0.08,
+   "seeds_5": 12,
+   "seeds_10": 7
+  },
+  {
+   "floor": 0.07,
+   "ceiling": 0.09,
+   "seeds_5": 12,
+   "seeds_10": 9
+  },
+  {
+   "floor": 0.07,
+   "ceiling": 0.1,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.07,
+   "ceiling": 0.11,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.07,
+   "ceiling": 0.12,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.08,
+   "ceiling": 0.08,
+   "seeds_5": 19,
+   "seeds_10": 11
+  },
+  {
+   "floor": 0.08,
+   "ceiling": 0.09,
+   "seeds_5": 19,
+   "seeds_10": 11
+  },
+  {
+   "floor": 0.08,
+   "ceiling": 0.1,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.08,
+   "ceiling": 0.11,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.08,
+   "ceiling": 0.12,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.09,
+   "ceiling": 0.09,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.09,
+   "ceiling": 0.1,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.09,
+   "ceiling": 0.11,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.09,
+   "ceiling": 0.12,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.1,
+   "ceiling": 0.1,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.1,
+   "ceiling": 0.11,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.1,
+   "ceiling": 0.12,
+   "seeds_5": null,
+   "seeds_10": null
+  },
+  {
+   "floor": 0.05,
+   "ceiling": 0.09,
+   "seeds_5": 9,
+   "seeds_10": 9
+  },
+  {
+   "floor": 0.0582,
+   "ceiling": 0.0582,
+   "seeds_5": 8,
+   "seeds_10": 4
+  },
+  {
+   "floor": 0.05,
+   "ceiling": 0.07,
+   "seeds_5": 6,
+   "seeds_10": 6
+  },
+  {
+   "floor": 0.051,
+   "ceiling": 0.065,
+   "seeds_5": 6,
+   "seeds_10": 6
+  },
+  {
+   "floor": 0.07,
+   "ceiling": 0.09,
+   "seeds_5": 12,
+   "seeds_10": 9
+  },
+  {
+   "floor": 0.04,
+   "ceiling": 0.1,
+   "seeds_5": 23,
+   "seeds_10": 23
+  },
+  {
+   "floor": 0.068,
+   "ceiling": 0.068,
+   "seeds_5": 11,
+   "seeds_10": 6
+  },
+  {
+   "floor": 0.06,
+   "ceiling": 0.09,
+   "seeds_5": 9,
+   "seeds_10": 9
+  }
+ ],
+ "limits": [
+  "The band edges are a design convention, not a hypothesis test; the error budget is the probability of the wrong branch, not a p-value.",
+  "Everything inherits the per-seed SD borrowed from 16-tag blocks; the admissible edges move with sigma, so a larger SD moves them inward.",
+  "The two predictions are taken as point values, so a real split block landing between them is the undecided outcome the rule is designed to produce.",
+  "Moving the bands changes only this design's cost; it does not make either summary better supported by the existing blocks."
+ ],
+ "not_evidence": "A design estimate over committed artifacts. It runs no arm, measures no split block, and is not a treatment, target, freeze, grant or A1 cell.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__"
+}

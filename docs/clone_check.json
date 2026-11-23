@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-10-30T21:45:54Z",
+  "generated_at": "2026-11-21T18:08:50Z",
   "remote": "https://github.com/nueraresearch/project-organica.git",
   "branch": "master",
   "checks": [
     {
       "step": "clone",
       "ok": true,
-      "seconds": 3.5,
+      "seconds": 5.6,
       "detail": "v0.9.0 fetched so the freeze checks can run"
     },
     {
       "step": "import_organica",
       "ok": true,
-      "detail": "organica import OK C:\\Users\\monte\\AppData\\Local\\Temp\\organica_clone_jc1ij5vm\\project-organica\\organica\\__init__.py"
+      "detail": "organica import OK /tmp/organica_clone_aycybreu/project-organica/organica/__init__.py"
     },
     {
       "step": "core_dependencies",
@@ -21,20 +21,20 @@
     },
     {
       "step": "pytest",
-      "ok": true,
-      "seconds": 525.3,
-      "detail": "159 passed in 523.42s (0:08:43)"
+      "ok": false,
+      "seconds": 421.5,
+      "detail": "72 failed, 3023 passed, 27 skipped, 5 warnings in 421.00s (0:07:01)"
     },
     {
       "step": "build_py",
       "ok": true,
-      "seconds": 1.5,
-      "detail": "        Gen 0  Experience events      1228  ######################################## |         experience events retained (never evicted):             1228 |         theories, and the uncertainty between them is non-zero. |         top experiment priority (EIG / cost): 1.500 |         max question uncertainty            : 1.000 |   study_stream           lineage  100.0%   hyps  15   theories  3   questions  3   dreams  8   experiments  5"
+      "seconds": 0.4,
+      "detail": "          competing subjects: 0   contradictions: 0   max uncertainty: 0.000   top priority: 2.078 |         Gen 0  Experience events       686  ######################################## |         experience events retained (never evicted):             686 |         top experiment priority (EIG / cost): 2.078 |         max question uncertainty            : 0.000 |   study_stream           lineage  96.67%   hyps   8   theories  0   questions  0   dreams  3   experiments  3"
     },
     {
       "step": "examples",
-      "ok": true,
-      "detail": "9/9 examples exited 0"
+      "ok": false,
+      "detail": "7/9 examples exited 0"
     },
     {
       "step": "study_health",
@@ -49,51 +49,55 @@
   ],
   "examples": [
     {
-      "script": "examples\\01_sleep_consolidation.py",
+      "script": "examples/01_sleep_consolidation.py",
       "ok": true,
       "detail": ""
     },
     {
-      "script": "examples\\02_composition_lineage.py",
+      "script": "examples/02_composition_lineage.py",
       "ok": true,
       "detail": ""
     },
     {
-      "script": "examples\\03_selection_workflows.py",
+      "script": "examples/03_selection_workflows.py",
       "ok": true,
       "detail": ""
     },
     {
-      "script": "examples\\04_falsification_hypotheses.py",
+      "script": "examples/04_falsification_hypotheses.py",
       "ok": true,
       "detail": ""
     },
     {
-      "script": "examples\\05_curiosity_investigation_agenda.py",
+      "script": "examples/05_curiosity_investigation_agenda.py",
       "ok": true,
       "detail": ""
     },
     {
-      "script": "examples\\domains\\01_developer_workflow.py",
+      "script": "examples/domains/01_developer_workflow.py",
+      "ok": false,
+      "detail": ")\n  File \"/tmp/organica_clone_aycybreu/project-organica/examples/domains/01_developer_workflow.py\", line 67, in run\n    assert len(report.workflow_concepts) > 0, \"Failed to emerge developer workflows!\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Failed to emerge developer workflows!"
+    },
+    {
+      "script": "examples/domains/02_bug_tracking.py",
       "ok": true,
       "detail": ""
     },
     {
-      "script": "examples\\domains\\02_bug_tracking.py",
+      "script": "examples/domains/03_synthetic_ecology.py",
       "ok": true,
       "detail": ""
     },
     {
-      "script": "examples\\domains\\03_synthetic_ecology.py",
-      "ok": true,
-      "detail": ""
-    },
-    {
-      "script": "examples\\domains\\04_robot_simulation.py",
-      "ok": true,
-      "detail": ""
+      "script": "examples/domains/04_robot_simulation.py",
+      "ok": false,
+      "detail": "/domains/04_robot_simulation.py\", line 59, in run\n    assert len(report.processes) > 0 or len(report.questions) > 0, \"Failed to emerge robotic sensorimotor structures!\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Failed to emerge robotic sensorimotor structures!"
     }
   ],
-  "passed": 8,
-  "total": 8
+  "passed": 6,
+  "total": 8,
+  "engine_version": "0.16.0",
+  "engine_commit": "716da31be3f304715c3ecbd4063dcac44abb54e1",
+  "engine_sha256": "25843ded68f50e90ad04bd80df4ade86f57d31eb7ed61ef77d6d7f4fedfe4236",
+  "runner": "__main__"
 }

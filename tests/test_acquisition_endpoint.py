@@ -23,6 +23,7 @@ code, not the engine.  The engine-level check lives in
 `tests/test_audit_trace_probe.py`'s pattern and is not duplicated here.
 """
 from __future__ import annotations
+LAYER = "synthetic"  # benchmarks/test_layers.py: the module's execution layer
 
 import math
 import sys

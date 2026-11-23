@@ -1,0 +1,255 @@
+{
+  "kind": "a1_viability_levers",
+  "id": "A1-VIABILITY-LEVERS-1",
+  "date": "2026-11-15",
+  "status": "FLAGGED \u2014 ONE LEVER WORKS AND IT CHANGES THE ESTIMAND; THE OTHER TWO CANNOT WORK",
+  "seeds": [
+    {
+      "seed": 20740101,
+      "n20": {
+        "rows": 20,
+        "missing_a": 7,
+        "missing_k": 6,
+        "neither": 3,
+        "either_one": 17,
+        "viable": 10,
+        "missing_y": 3
+      },
+      "n4": {
+        "rows": 4,
+        "missing_a": 0,
+        "missing_k": 1,
+        "neither": 0,
+        "either_one": 4,
+        "viable": 3,
+        "missing_y": 0
+      },
+      "filtered": {
+        "rows": 20,
+        "missing_a": 0,
+        "missing_k": 0,
+        "neither": 0,
+        "either_one": 20,
+        "viable": 20,
+        "missing_y": 0
+      },
+      "eligible": 64,
+      "competent_pool": 38,
+      "draw": {
+        "4": 0.116175304072,
+        "17": 2.0865424e-05,
+        "20": 1.711441e-06
+      }
+    },
+    {
+      "seed": 20740102,
+      "n20": {
+        "rows": 20,
+        "missing_a": 4,
+        "missing_k": 11,
+        "neither": 2,
+        "either_one": 18,
+        "viable": 7,
+        "missing_y": 2
+      },
+      "n4": {
+        "rows": 4,
+        "missing_a": 1,
+        "missing_k": 4,
+        "neither": 1,
+        "either_one": 3,
+        "viable": 0,
+        "missing_y": 1
+      },
+      "filtered": {
+        "rows": 17,
+        "missing_a": 0,
+        "missing_k": 0,
+        "neither": 0,
+        "either_one": 17,
+        "viable": 17,
+        "missing_y": 0
+      },
+      "eligible": 64,
+      "competent_pool": 27,
+      "draw": {
+        "4": 0.027621439903,
+        "17": 6.116e-09,
+        "20": 4.5e-11
+      }
+    },
+    {
+      "seed": 20740103,
+      "n20": {
+        "rows": 20,
+        "missing_a": 7,
+        "missing_k": 5,
+        "neither": 3,
+        "either_one": 17,
+        "viable": 11,
+        "missing_y": 3
+      },
+      "n4": {
+        "rows": 4,
+        "missing_a": 1,
+        "missing_k": 0,
+        "neither": 0,
+        "either_one": 4,
+        "viable": 3,
+        "missing_y": 0
+      },
+      "filtered": {
+        "rows": 20,
+        "missing_a": 0,
+        "missing_k": 0,
+        "neither": 0,
+        "either_one": 20,
+        "viable": 20,
+        "missing_y": 0
+      },
+      "eligible": 64,
+      "competent_pool": 37,
+      "draw": {
+        "4": 0.103946324696,
+        "17": 1.1530892e-05,
+        "20": 8.10683e-07
+      }
+    },
+    {
+      "seed": 20740104,
+      "n20": {
+        "rows": 20,
+        "missing_a": 3,
+        "missing_k": 6,
+        "neither": 2,
+        "either_one": 18,
+        "viable": 13,
+        "missing_y": 2
+      },
+      "n4": {
+        "rows": 4,
+        "missing_a": 1,
+        "missing_k": 2,
+        "neither": 1,
+        "either_one": 3,
+        "viable": 2,
+        "missing_y": 1
+      },
+      "filtered": {
+        "rows": 20,
+        "missing_a": 0,
+        "missing_k": 0,
+        "neither": 0,
+        "either_one": 20,
+        "viable": 20,
+        "missing_y": 0
+      },
+      "eligible": 64,
+      "competent_pool": 40,
+      "draw": {
+        "4": 0.143836090756,
+        "17": 6.4328184e-05,
+        "20": 7.025915e-06
+      }
+    },
+    {
+      "seed": 20740105,
+      "n20": {
+        "rows": 20,
+        "missing_a": 7,
+        "missing_k": 7,
+        "neither": 4,
+        "either_one": 16,
+        "viable": 10,
+        "missing_y": 4
+      },
+      "n4": {
+        "rows": 4,
+        "missing_a": 1,
+        "missing_k": 2,
+        "neither": 1,
+        "either_one": 3,
+        "viable": 2,
+        "missing_y": 1
+      },
+      "filtered": {
+        "rows": 18,
+        "missing_a": 0,
+        "missing_k": 0,
+        "neither": 0,
+        "either_one": 18,
+        "viable": 18,
+        "missing_y": 0
+      },
+      "eligible": 64,
+      "competent_pool": 32,
+      "draw": {
+        "4": 0.056596409055,
+        "17": 4.10131e-07,
+        "20": 1.1508e-08
+      }
+    },
+    {
+      "seed": 20740106,
+      "n20": {
+        "rows": 20,
+        "missing_a": 6,
+        "missing_k": 8,
+        "neither": 1,
+        "either_one": 19,
+        "viable": 7,
+        "missing_y": 1
+      },
+      "n4": {
+        "rows": 4,
+        "missing_a": 0,
+        "missing_k": 2,
+        "neither": 0,
+        "either_one": 4,
+        "viable": 2,
+        "missing_y": 0
+      },
+      "filtered": {
+        "rows": 20,
+        "missing_a": 0,
+        "missing_k": 0,
+        "neither": 0,
+        "either_one": 20,
+        "viable": 20,
+        "missing_y": 0
+      },
+      "eligible": 62,
+      "competent_pool": 31,
+      "draw": {
+        "4": 0.056404556821,
+        "17": 3.58533e-07,
+        "20": 9.197e-09
+      }
+    }
+  ],
+  "totals": {
+    "n20_viable": 58,
+    "n20_rows": 120,
+    "neither": 15,
+    "filtered_rows": 115,
+    "filtered_failures": 0,
+    "filtered_missing_y": 0,
+    "seeds_n20_viable": 0,
+    "seeds_filtered_viable": 6
+  },
+  "sources": {
+    "a1_baseline_availability_adopted.json": "4c01b4e9c2b1c058ae35c33079b004f03eb49c715fe689b81f4ee8ffc817fa5b",
+    "a1_c8_target_selection.json": "2af0a2e0f4d8464b8c8e9fcaeefeb0268b896551fb2046491962b6465c73d54b",
+    "a1_target_selection.json": "6c8ff41c669b3973597244f3991ad24015640632371123af69bba59845556695",
+    "a1_c8_target_selection_competent.json": "697dc9f95c606936a1d7b7bc8d59f4192f25db9e5b89a0a5b06a6a0a5d5dabde"
+  },
+  "prose": {
+    "verdict": "**Only one lever works, and it is the one already built.** The unfiltered block cannot be made C2-viable by raising `N`, and no block drawn from the same universes will be viable on six seeds; what does work is selecting rows that carry both paths at baseline, which is exactly the competent selection `A1-C8-SELECTION` already specifies and which scores **0 failures in 115 rows**. Its cost is not computational but interpretive: the target population stops being *representative eligible edges* and becomes *baseline-competent edges*, so C2's finding would be about a conditioned population. That is the decision in front of the owner, and it is a decision about what the experiment is a experiment on.",
+    "threshold": "**A per-row threshold cannot be tuned into working.** The best seed has **13 of 20** rows scorable; the worst has **7 of 20**. Admitting any seed at all through a share-of-rows gate means accepting that **35%** of a block need not be scorable, which is not C2 with a tolerance \u2014 it is a different gate wearing C2's name."
+  },
+  "not_evidence": "A count of the baseline paths each target row would need for C2's cells to be observable. It scores no C2, runs no cell, freezes no target, issues no grant, and makes no causal or capability claim. Availability is not a pass.",
+  "engine_version": "0.16.0",
+  "engine_commit": "716da31be3f304715c3ecbd4063dcac44abb54e1",
+  "engine_sha256": "25843ded68f50e90ad04bd80df4ade86f57d31eb7ed61ef77d6d7f4fedfe4236",
+  "runner": "__main__"
+}

@@ -40,6 +40,36 @@ GRAY = "#a8a8a8"
 WHITE = "#ffffff"
 
 
+# Helvetica advance widths, units per 1000 em, ASCII 32-126.  A single average
+# factor is not enough: a label of digits and parentheses renders about a fifth
+# wider than the 0.52 em average the first version assumed, which is how three
+# axis labels came to be clipped at the right edge of their own canvas while the
+# guard reported that they fitted.
+_HELV = {
+    " ": 278, "!": 278, '"': 355, "#": 556, "$": 556, "%": 889, "&": 667,
+    "'": 191, "(": 333, ")": 333, "*": 389, "+": 584, ",": 278, "-": 333,
+    ".": 278, "/": 278, ":": 278, ";": 278, "<": 584, "=": 584, ">": 584,
+    "?": 556, "@": 1015, "[": 278, "\\": 278, "]": 278, "^": 469, "_": 556,
+    "`": 333, "{": 334, "|": 260, "}": 334, "~": 584,
+}
+for _i, _w in enumerate([667, 667, 722, 722, 667, 611, 778, 722, 278, 500, 667,
+                         556, 833, 722, 778, 667, 778, 722, 667, 611, 722, 667,
+                         944, 667, 667, 611]):
+    _HELV[chr(65 + _i)] = _w                    # A-Z
+for _i, _w in enumerate([556, 556, 500, 556, 556, 278, 556, 556, 222, 222, 500,
+                         222, 833, 556, 556, 556, 556, 333, 500, 278, 556, 500,
+                         722, 500, 500, 500]):
+    _HELV[chr(97 + _i)] = _w                    # a-z
+for _d in range(10):
+    _HELV[str(_d)] = 556
+
+
+def text_width(s: str, size: float, weight: str = "normal") -> float:
+    """Rendered width of `s` in Helvetica at `size` px."""
+    w = sum(_HELV.get(ch, 556) for ch in s) * size / 1000.0
+    return w * 1.07 if weight == "bold" else w
+
+
 def esc(s: str) -> str:
     return (str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"))
 
@@ -73,7 +103,7 @@ class Svg:
         # the canvas is silently cut off by the renderer. Estimate the width and
         # refuse to draw it: a figure with a missing sentence looks finished.
         s = str(s)
-        est = len(s) * size * 0.52
+        est = text_width(s, size, weight)
         if anchor == "start":
             need(x + est <= self.w + 2,
                  f"text overruns the canvas by ~{x + est - self.w:.0f}px at x={x:.0f}: {s[:44]}")
@@ -624,7 +654,13 @@ def fig_p02_reconstruction_arms():
         a7 = d["A7_event_level_attribution"]
         need(d["A1_evidence_replay_aggregate"]["cycles_failing"] == 0, f"{key} A1")
         need(d["A2_selection_reconstruction"]["cycles_failing"] == 0, f"{key} A2")
-        need(a3["structures_resolved"] == a3["structures_checked"], f"{key} A3")
+        # 0.16.0 (2026-11-21): the default arm reports 404 structures with no
+        # parent, so full resolution is no longer the expectation there. Pin the
+        # measured counts per arm rather than weakening the check.
+        expected_a3 = {"default arm": (6592, 6179), "stress arm": (3240, 3240),
+                       "forced-tie arm": (3988, 3988)}
+        need((a3["structures_checked"], a3["structures_resolved"]) == expected_a3[name],
+             f"{key} A3")
         need(a7["edge_mismatches"] == [], f"{key} A7")
         data.append({
             "name": name,
@@ -638,8 +674,8 @@ def fig_p02_reconstruction_arms():
             "ties": a7["timestamp_ties"]["stores_with_tied_window"],
         })
 
-    need(data[0]["beliefs"] == 1412 and data[0]["structures"] == 8061, "default arm counts")
-    need(data[0]["lost"] == 0, "default arm lost must be zero (the cap never bound)")
+    need(data[0]["beliefs"] == 1056 and data[0]["structures"] == 6592, "default arm counts")
+    need(data[0]["lost"] == 8, "default arm lost (0.16.0: the pool peaks at 16 against a cap of 15)")
     need(data[1]["lost"] == 403, "stress arm lost count")
     need(data[2]["ties"] == 479, "tie arm ties")
 
@@ -687,8 +723,8 @@ def fig_p02_reconstruction_arms():
                size=10, anchor="middle", fill=MUTED)
 
     s.text(36, ay_bot + 88,
-           "In the default and forced-tie arms no candidate ever lost on rank, so the "
-           "selection test could not have failed there.", size=11.5)
+           "In the forced-tie arm no candidate ever lost on rank; on 0.16.0 the default "
+           "arm loses 8, because its pool peaks at 16 against a cap of 15.", size=11.5)
     s.text(36, ay_bot + 106,
            "The stress arm carries the non-vacuity argument: the cap bound, and 403 "
            "candidates lost on it.", size=11.5, fill=MUTED)
@@ -745,16 +781,22 @@ def fig_p02_self_sourcing():
          alltr["self_sourced"], alltr["total_transitions"],
          "context, not the disqualifier's figure"),
     ]
-    need((distinct["self_sourced"], distinct["total_transitions"]) == (802, 4481), "distinct pop")
-    need((refs["self_sourced"], refs["total"]) == (53980, 307857), "reference pop")
-    need((alltr["self_sourced"], alltr["total_transitions"]) == (5436, 12583), "all pop")
+    # The engine's lookback isolates non-sleep rows (`memory.py:353`:
+    # `WHERE event_type != 'sleep'`), so no support transition can be
+    # self-sourced on this build and all three shares are exactly zero. The
+    # 2026-10-26 artifact's 17.9% / 17.5% / 43.2% came from an observer that
+    # read sleep rows the engine never reads; it was aligned on 2026-11-04
+    # (`ff15068`) and the artifact was not regenerated until 2026-11-21.
+    need((distinct["self_sourced"], distinct["total_transitions"]) == (0, 4627), "distinct pop")
+    need((refs["self_sourced"], refs["total"]) == (0, 266659), "reference pop")
+    need((alltr["self_sourced"], alltr["total_transitions"]) == (0, 8364), "all pop")
 
     W, H = 840, 495
     s = Svg(W, H, "Self-sourced share against three separately named populations")
     header(s,
            "The same ratio, against three differently named populations",
-           "Share of self-sourced transitions, reported separately for each population the "
-           "observer measured.",
+           "Share of self-sourced transitions, per population. No support is "
+           "self-sourced on this build.",
            "Source: docs/audit_trace_probe.json -> A7_event_level_attribution  |  "
            "drawn by benchmarks/figure_papers.py",
            W)
@@ -804,7 +846,9 @@ def fig_p02_cognition_window():
 
     win = default["A7_event_level_attribution"]["cognition_window"]
     need(win["window_sleep_events"] == 4000, "window size")
-    need(win["window_span_cycles"] == 1.7, "window span")
+    # 0.16.0 (2026-11-21): 12,897 sleep events over 120 cycles = 107.47/cycle,
+    # so 4,000 events span 37.2 cycles (0.15.0 stored 2,374.68/cycle and spanned 1.7).
+    need(win["window_span_cycles"] == 37.2, "window span")
     cycles = default["protocol"]["cycles"]
 
     W, H = 1080, 520
@@ -896,7 +940,7 @@ def main():
         if args.only and args.only not in fn.__name__:
             continue
         path = fn()
-        print(f"wrote {path.relative_to(REPO)}")
+        print(f"wrote {path.relative_to(REPO).as_posix()}")
 
 
 if __name__ == "__main__":

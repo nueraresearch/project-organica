@@ -6,6 +6,7 @@ if a single character has drifted, parse the eighteen decision cells and check
 them against the artifact's analysis, and prove that the check can fire.
 """
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 import re

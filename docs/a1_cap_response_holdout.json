@@ -1,0 +1,446 @@
+{
+ "kind": "a1_cap_response_holdout",
+ "id": "A1-CAP-RESPONSE-HOLDOUT-1",
+ "date": "2026-11-14",
+ "status": "DESCRIPTIVE \u2014 HELD-OUT CAP AND BLOCK VALIDATION OF THE SHARED CURVE; NO TARGET, FREEZE, GRANT OR A1 CELL",
+ "not_a_result": true,
+ "question": "Does the shared cap-response curve predict A coverage at caps outside its 12-cell fit, and does the candidate-size offset extrapolate to a held-out block?",
+ "definition": "A_coverage = A / candidate_edges at 12 held-out block-by-cap cells (caps 28/64/96/128) from the same 18 no-arm seeds. Predicted values are frozen from the committed shared curve and candidate-size fit; nothing is refitted on held-out rows.",
+ "method": "One no-arm replay per seed and held-out cap at loop cap 120. Cap 80 on six seeds (two per block) must reproduce the committed cap-80 A, K and A\u2229K counts exactly. Block holdout fits the shared curve plus log-candidate offset on eight committed cells and predicts the ninth block's four cells.",
+ "constants": {
+  "cycles": 120,
+  "loop_cap": 120,
+  "fit_caps": [
+   20,
+   40,
+   80,
+   112
+  ],
+  "holdout_caps": [
+   28,
+   64,
+   96,
+   128
+  ],
+  "interpolation_caps": [
+   28,
+   64,
+   96
+  ],
+  "extrapolation_caps": [
+   128
+  ],
+  "control_cap": 80,
+  "control_seeds": [
+   20630101,
+   20630102,
+   20650101,
+   20650102,
+   20660101,
+   20660102
+  ],
+  "curve_coefficients": [
+   0.42002218,
+   -0.0135582,
+   -0.35118485,
+   0.04698666
+  ],
+  "size_coefficients": [
+   1.90290201,
+   -0.35852459,
+   0.04698666
+  ]
+ },
+ "governance": {
+  "freeze": false,
+  "grant": false,
+  "run": false,
+  "authorization": "none"
+ },
+ "reading": "The held-out caps do not separate interpolation from extrapolation over this range. At caps 28, 64, 96, between fitted caps, the frozen shared curve has RMSE 0.0139 (max 0.0237) over 9 cells, inside its own leave-one-cell-out scale of 0.0193. At cap 128, one step above the fitted range, the RMSE is 0.0142 (max 0.0223) over 3 cells, against 0.0139 interpolated, so one step beyond the fit does not degrade measurably. The candidate-size offset is comparable (0.0151 interpolated, 0.0131 at cap 128). Two bounds apply. Cap 128 sits at 84% of current-16's saturation cap (152) and 80% of fresh-16's (160), and the 16-tag cells at 96 and 128 already fall below the curve (fresh -0.024 at 96, current -0.022 at 128), which is flattening near the ceiling rather than a curve that keeps rising; the fit is not admissible past those caps.",
+ "block_reading": "The block holdout shows where the offset model can and cannot stand in for the block label. Holding out current-16 or fresh-16 leaves two blocks whose candidate sizes bracket the held-out one, and the curve plus size offset interpolates them at RMSE 0.0216 and 0.0197 against its own held-out scale of 0.0193. Holding out larger-28 leaves only the two 16-tag blocks, whose log candidate sizes differ by 0.0026; the fitted size coefficient is -5.17 against an intercept of 21.89 and predicts a coverage of -4.33, so that direction is not identified, and its RMSE is a rank-deficiency artifact rather than an extrapolation error.",
+ "metrics": {
+  "reference_cell_in_rmse": 0.013061,
+  "reference_cell_loo_rmse": 0.019283,
+  "interpolation_rmse": 0.013911,
+  "interpolation_max": 0.023666,
+  "interpolation_cells": 9,
+  "extrapolation_rmse": 0.014226,
+  "extrapolation_max": 0.022342,
+  "extrapolation_cells": 3,
+  "size_interpolation_rmse": 0.0151,
+  "size_extrapolation_rmse": 0.013093,
+  "block_estimated_rmse_max": 0.021637,
+  "block_estimated_blocks": [
+   "current-16",
+   "fresh-16"
+  ],
+  "block_not_identified": [
+   "larger-28"
+  ]
+ },
+ "per_cap": [
+  {
+   "cap": 28,
+   "kind": "interpolation",
+   "rmse": 0.01422,
+   "max_abs_residual": 0.017236,
+   "mean_residual": 0.004348,
+   "size_rmse": 0.016067
+  },
+  {
+   "cap": 64,
+   "kind": "interpolation",
+   "rmse": 0.006671,
+   "max_abs_residual": 0.011087,
+   "mean_residual": 0.003888,
+   "size_rmse": 0.005926
+  },
+  {
+   "cap": 96,
+   "kind": "interpolation",
+   "rmse": 0.01827,
+   "max_abs_residual": 0.023666,
+   "mean_residual": -0.009066,
+   "size_rmse": 0.019769
+  },
+  {
+   "cap": 128,
+   "kind": "extrapolation",
+   "rmse": 0.014226,
+   "max_abs_residual": 0.022342,
+   "mean_residual": -0.008385,
+   "size_rmse": 0.013093
+  }
+ ],
+ "block_holdout": [
+  {
+   "block": "current-16",
+   "training_cells": 8,
+   "training_log_spread": 0.959379,
+   "coefficients": [
+    1.852232,
+    -0.351922,
+    0.049217
+   ],
+   "status": "estimated",
+   "cells": [
+    {
+     "cap": 20,
+     "observed": 0.636243,
+     "predicted": 0.610583,
+     "residual": 0.02566
+    },
+    {
+     "cap": 40,
+     "observed": 0.735615,
+     "predicted": 0.701755,
+     "residual": 0.03386
+    },
+    {
+     "cap": 80,
+     "observed": 0.829902,
+     "predicted": 0.83069,
+     "residual": -0.000788
+    },
+    {
+     "cap": 112,
+     "observed": 0.90315,
+     "predicted": 0.911344,
+     "residual": -0.008194
+    }
+   ],
+   "rmse": 0.021637,
+   "max_abs_residual": 0.03386
+  },
+  {
+   "block": "fresh-16",
+   "training_cells": 8,
+   "training_log_spread": 0.962004,
+   "coefficients": [
+    1.938035,
+    -0.365055,
+    0.046762
+   ],
+   "status": "estimated",
+   "cells": [
+    {
+     "cap": 20,
+     "observed": 0.599992,
+     "predicted": 0.629894,
+     "residual": -0.029902
+    },
+    {
+     "cap": 40,
+     "observed": 0.727844,
+     "predicted": 0.716516,
+     "residual": 0.011328
+    },
+    {
+     "cap": 80,
+     "observed": 0.819651,
+     "predicted": 0.839019,
+     "residual": -0.019368
+    },
+    {
+     "cap": 112,
+     "observed": 0.903191,
+     "predicted": 0.915648,
+     "residual": -0.012457
+    }
+   ],
+   "rmse": 0.019702,
+   "max_abs_residual": 0.029902
+  },
+  {
+   "block": "larger-28",
+   "training_cells": 8,
+   "training_log_spread": 0.002625,
+   "coefficients": [
+    21.891103,
+    -5.165568,
+    0.044981
+   ],
+   "status": "not_identified",
+   "cells": [
+    {
+     "cap": 20,
+     "observed": 0.271141,
+     "predicted": -4.332909,
+     "residual": 4.60405
+    },
+    {
+     "cap": 40,
+     "observed": 0.353046,
+     "predicted": -4.249585,
+     "residual": 4.602631
+    },
+    {
+     "cap": 80,
+     "observed": 0.497836,
+     "predicted": -4.131748,
+     "residual": 4.629584
+    },
+    {
+     "cap": 112,
+     "observed": 0.578149,
+     "predicted": -4.058036,
+     "residual": 4.636185
+    }
+   ],
+   "rmse": 4.618137,
+   "max_abs_residual": 4.636185
+  }
+ ],
+ "saturation_caps": {
+  "current-16": 152,
+  "fresh-16": 160,
+  "larger-28": 393
+ },
+ "log_candidates": {
+  "current-16": 4.153634,
+  "fresh-16": 4.156258,
+  "larger-28": 5.115638
+ },
+ "cells": [
+  {
+   "block": "current-16",
+   "cap": 28,
+   "kind": "interpolation",
+   "seeds": 6,
+   "observed": 0.685888,
+   "predicted": 0.668652,
+   "residual": 0.017236,
+   "predicted_size": 0.662352,
+   "residual_size": 0.023536
+  },
+  {
+   "block": "current-16",
+   "cap": 64,
+   "kind": "interpolation",
+   "seeds": 6,
+   "observed": 0.798487,
+   "predicted": 0.795915,
+   "residual": 0.002572,
+   "predicted_size": 0.789615,
+   "residual_size": 0.008872
+  },
+  {
+   "block": "current-16",
+   "cap": 96,
+   "kind": "interpolation",
+   "seeds": 6,
+   "observed": 0.863881,
+   "predicted": 0.880396,
+   "residual": -0.016515,
+   "predicted_size": 0.874095,
+   "residual_size": -0.010214
+  },
+  {
+   "block": "current-16",
+   "cap": 128,
+   "kind": "extrapolation",
+   "seeds": 6,
+   "observed": 0.929274,
+   "predicted": 0.951616,
+   "residual": -0.022342,
+   "predicted_size": 0.945315,
+   "residual_size": -0.016041
+  },
+  {
+   "block": "fresh-16",
+   "cap": 28,
+   "kind": "interpolation",
+   "seeds": 6,
+   "observed": 0.665261,
+   "predicted": 0.655094,
+   "residual": 0.010167,
+   "predicted_size": 0.661411,
+   "residual_size": 0.00385
+  },
+  {
+   "block": "fresh-16",
+   "cap": 64,
+   "kind": "interpolation",
+   "seeds": 6,
+   "observed": 0.793444,
+   "predicted": 0.782357,
+   "residual": 0.011087,
+   "predicted_size": 0.788675,
+   "residual_size": 0.004769
+  },
+  {
+   "block": "fresh-16",
+   "cap": 96,
+   "kind": "interpolation",
+   "seeds": 6,
+   "observed": 0.843171,
+   "predicted": 0.866837,
+   "residual": -0.023666,
+   "predicted_size": 0.873155,
+   "residual_size": -0.029984
+  },
+  {
+   "block": "fresh-16",
+   "cap": 128,
+   "kind": "extrapolation",
+   "seeds": 6,
+   "observed": 0.929439,
+   "predicted": 0.938057,
+   "residual": -0.008618,
+   "predicted_size": 0.944375,
+   "residual_size": -0.014936
+  },
+  {
+   "block": "larger-28",
+   "cap": 28,
+   "kind": "interpolation",
+   "seeds": 6,
+   "observed": 0.303108,
+   "predicted": 0.317467,
+   "residual": -0.014359,
+   "predicted_size": 0.31745,
+   "residual_size": -0.014342
+  },
+  {
+   "block": "larger-28",
+   "cap": 64,
+   "kind": "interpolation",
+   "seeds": 6,
+   "observed": 0.442737,
+   "predicted": 0.444731,
+   "residual": -0.001994,
+   "predicted_size": 0.444713,
+   "residual_size": -0.001976
+  },
+  {
+   "block": "larger-28",
+   "cap": 96,
+   "kind": "interpolation",
+   "seeds": 6,
+   "observed": 0.542194,
+   "predicted": 0.529211,
+   "residual": 0.012983,
+   "predicted_size": 0.529193,
+   "residual_size": 0.013001
+  },
+  {
+   "block": "larger-28",
+   "cap": 128,
+   "kind": "extrapolation",
+   "seeds": 6,
+   "observed": 0.606235,
+   "predicted": 0.600431,
+   "residual": 0.005804,
+   "predicted_size": 0.600413,
+   "residual_size": 0.005822
+  }
+ ],
+ "control": [
+  {
+   "block": "current-16",
+   "seed": 20630101,
+   "prediction_cap": 80,
+   "A": 51,
+   "K": 64,
+   "A_and_K": 51,
+   "candidate_edges": 64,
+   "matches_committed": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630102,
+   "prediction_cap": 80,
+   "A": 53,
+   "K": 63,
+   "A_and_K": 53,
+   "candidate_edges": 63,
+   "matches_committed": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650101,
+   "prediction_cap": 80,
+   "A": 56,
+   "K": 64,
+   "A_and_K": 56,
+   "candidate_edges": 64,
+   "matches_committed": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650102,
+   "prediction_cap": 80,
+   "A": 49,
+   "K": 64,
+   "A_and_K": 49,
+   "candidate_edges": 64,
+   "matches_committed": true
+  },
+  {
+   "block": "larger-28",
+   "seed": 20660101,
+   "prediction_cap": 80,
+   "A": 86,
+   "K": 111,
+   "A_and_K": 68,
+   "candidate_edges": 169,
+   "matches_committed": true
+  },
+  {
+   "block": "larger-28",
+   "seed": 20660102,
+   "prediction_cap": 80,
+   "A": 75,
+   "K": 124,
+   "A_and_K": 56,
+   "candidate_edges": 167,
+   "matches_committed": true
+  }
+ ],
+ "not_evidence": "A descriptive held-out prediction from no-arm replays. The cap axis is held out, the seeds are not: these are the same 18 seeds the fit was built from, so this bounds interpolation over caps and blocks, not generalization to a new seed block or world. Cap 128 sits near the 16-tag coverage ceiling, so its residual mixes curve error with saturation. It is not a treatment, target viability or successor.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__"
+}

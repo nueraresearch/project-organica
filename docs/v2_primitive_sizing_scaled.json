@@ -1,0 +1,140 @@
+{
+  "kind": "v2_primitive_sizing_scaled",
+  "date": "2026-11-15",
+  "note": "one seed, three worlds: the same stream for 120 and 480 cycles, and the same horizon at twice the stimulus density. The primitive side is the same schema-with-rows measurement as the base sizing.",
+  "worlds": [
+    {
+      "label": "reference-120",
+      "seed": 20800101,
+      "cycles": 120,
+      "events_per_cycle": 8,
+      "carrier_appearances": 1235,
+      "distinct_paths": 126,
+      "distinct_node_sets": 110,
+      "atoms": 24,
+      "graph_rows": {
+        "events": 18243,
+        "cooccurrences": 24,
+        "precedes": 240,
+        "tag_counts": 16,
+        "sleep_cycles": 88
+      },
+      "pair_table_bytes": 53248,
+      "store_bytes": 16220160,
+      "admission": {
+        "m>=2": {
+          "composites": 96,
+          "primitive_bytes": 90112,
+          "bytes_per_composite": 938.7,
+          "pages": 22
+        },
+        "m>=3": {
+          "composites": 85,
+          "primitive_bytes": 90112,
+          "bytes_per_composite": 1060.1,
+          "pages": 22
+        },
+        "m>=5": {
+          "composites": 68,
+          "primitive_bytes": 77824,
+          "bytes_per_composite": 1144.5,
+          "pages": 19
+        }
+      },
+      "per_object_vs_reference": 1.0
+    },
+    {
+      "label": "longer-480",
+      "seed": 20800101,
+      "cycles": 480,
+      "events_per_cycle": 8,
+      "carrier_appearances": 6635,
+      "distinct_paths": 166,
+      "distinct_node_sets": 136,
+      "atoms": 24,
+      "graph_rows": {
+        "events": 88291,
+        "cooccurrences": 24,
+        "precedes": 240,
+        "tag_counts": 16,
+        "sleep_cycles": 448
+      },
+      "pair_table_bytes": 53248,
+      "store_bytes": 79581184,
+      "admission": {
+        "m>=2": {
+          "composites": 141,
+          "primitive_bytes": 143360,
+          "bytes_per_composite": 1016.7,
+          "pages": 35
+        },
+        "m>=3": {
+          "composites": 127,
+          "primitive_bytes": 135168,
+          "bytes_per_composite": 1064.3,
+          "pages": 33
+        },
+        "m>=5": {
+          "composites": 102,
+          "primitive_bytes": 102400,
+          "bytes_per_composite": 1003.9,
+          "pages": 25
+        }
+      },
+      "per_object_vs_reference": 1.083
+    },
+    {
+      "label": "denser-2x",
+      "seed": 20800101,
+      "cycles": 120,
+      "events_per_cycle": 16,
+      "carrier_appearances": 1385,
+      "distinct_paths": 130,
+      "distinct_node_sets": 111,
+      "atoms": 24,
+      "graph_rows": {
+        "events": 20446,
+        "cooccurrences": 24,
+        "precedes": 240,
+        "tag_counts": 16,
+        "sleep_cycles": 95
+      },
+      "pair_table_bytes": 53248,
+      "store_bytes": 17915904,
+      "admission": {
+        "m>=2": {
+          "composites": 100,
+          "primitive_bytes": 98304,
+          "bytes_per_composite": 983.0,
+          "pages": 24
+        },
+        "m>=3": {
+          "composites": 92,
+          "primitive_bytes": 90112,
+          "bytes_per_composite": 979.5,
+          "pages": 22
+        },
+        "m>=5": {
+          "composites": 61,
+          "primitive_bytes": 73728,
+          "bytes_per_composite": 1208.7,
+          "pages": 18
+        }
+      },
+      "per_object_vs_reference": 1.047
+    }
+  ],
+  "comparison": {
+    "reference_bytes_per_composite": 938.7,
+    "objects_at_m2": [
+      96,
+      141,
+      100
+    ],
+    "bytes_per_composite_at_m2": [
+      938.7,
+      1016.7,
+      983.0
+    ]
+  }
+}

@@ -1,0 +1,1271 @@
+{
+ "kind": "a1_prediction_cap112_unserved",
+ "id": "A1-PREDICTION-CAP112-UNSERVED-1",
+ "date": "2026-11-14",
+ "status": "DESCRIPTIVE \u2014 CAP-112 UNSERVED EDGE TRACE BY CANDIDATE ORDER AND FAMILY; NO TARGET, FREEZE, GRANT OR A1 CELL",
+ "not_a_result": true,
+ "question": "Which 16-tag candidate edges stay unserved at prediction cap 112, where do they sit in the engine's candidate order, and which structural families do they belong to?",
+ "definition": "Every candidate edge in the twelve 16-tag seeds at loop cap 120 / prediction cap 112. Served means A contains the edge. Rank is the best position among transition or cooccurrence candidates with the prediction budget raised off during observation. Family is the structural cell relation used by the K-dilution report.",
+ "method": "One no-arm replay per seed through a recording service that re-enumerates the full candidate list without truncation, then restores the real cap for selection. Every seed's candidate, A, K and A\u2229K counts must match the committed cap-112 artifact.",
+ "constants": {
+  "cycles": 120,
+  "loop_cap": 120,
+  "prediction_cap": 112,
+  "support_floor": 5,
+  "blocks": [
+   "current-16",
+   "fresh-16"
+  ],
+  "seeds": 12,
+  "rank_bands": [
+   "1-56",
+   "57-112",
+   "113-224",
+   "225+"
+  ]
+ },
+ "governance": {
+  "freeze": false,
+  "grant": false,
+  "run": false,
+  "authorization": "none"
+ },
+ "reading": "Across the twelve 16-tag seeds, A leaves 74 of 765 candidate edges unserved at cap 112 (691 served). The unserved edges are all support-eligible on the stream (0 below the 5 floor), so the window, not supply, is the binding constraint: 73 are transition candidates, 0 are cooccurrence candidates, and 1 never became a candidate at all. Their candidate-order ranks run 65 to 189 (median 100): 47 fall in the tail of the nominal window at ranks 57-112 and 26 beyond it. That is the transition share talking, not the raw cap: transitions get the first half of the budget plus whatever the cooccurrence quota leaves unused, so an edge at rank 90 is still outside the window whenever cooccurrences claim their share. By family the unserved split is flip_p 8, flip_q 66: flip_q supplies 66 and flip_p 8, and the serve rates are flip_p 0.979, flip_q 0.827, so the window loses flip_q edges 8.3 times as fast as flip_p. 74 of the unserved edges are already carried by K, so the shortfall is prediction-side, not carrier-side.",
+ "found": {
+  "candidate_edges": 765,
+  "served": 691,
+  "unserved": 74,
+  "unserved_support_ge_5": 74,
+  "unserved_transitions": 73,
+  "unserved_cooccurrences": 0,
+  "unserved_no_candidate": 1,
+  "unserved_in_K": 74,
+  "reasons": {
+   "transition_rank_below_budget": 73,
+   "no_prediction_candidate": 1
+  },
+  "families": {
+   "flip_q": 66,
+   "flip_p": 8
+  },
+  "seeds": 12,
+  "rank_min": 65,
+  "rank_median": 100,
+  "rank_max": 189
+ },
+ "by_family": [
+  {
+   "family": "flip_p",
+   "candidate_edges": 383,
+   "A": 375,
+   "A_rate": 0.979112,
+   "unserved": 8,
+   "unserved_rate": 0.020888
+  },
+  {
+   "family": "flip_q",
+   "candidate_edges": 382,
+   "A": 316,
+   "A_rate": 0.827225,
+   "unserved": 66,
+   "unserved_rate": 0.172775
+  }
+ ],
+ "by_kind": [
+  {
+   "kind": "transition",
+   "unserved": 73,
+   "unserved_families": {
+    "flip_q": 65,
+    "flip_p": 8
+   }
+  },
+  {
+   "kind": "cooccurrence",
+   "unserved": 0,
+   "unserved_families": {}
+  },
+  {
+   "kind": "none",
+   "unserved": 1,
+   "unserved_families": {
+    "flip_q": 1
+   }
+  }
+ ],
+ "by_rank_band": [
+  {
+   "band": "1-56",
+   "unserved": 0,
+   "unserved_families": {}
+  },
+  {
+   "band": "57-112",
+   "unserved": 47,
+   "unserved_families": {
+    "flip_q": 44,
+    "flip_p": 3
+   }
+  },
+  {
+   "band": "113-224",
+   "unserved": 26,
+   "unserved_families": {
+    "flip_q": 21,
+    "flip_p": 5
+   }
+  },
+  {
+   "band": "225+",
+   "unserved": 0,
+   "unserved_families": {}
+  }
+ ],
+ "seed_rows": [
+  {
+   "block": "current-16",
+   "seed": 20630101,
+   "candidate_edges": 64,
+   "A": 57,
+   "unserved": 7,
+   "unserved_support_ge_5": 7,
+   "unserved_families": {
+    "flip_q": 7
+   },
+   "unserved_reasons": {
+    "transition_rank_below_budget": 7
+   }
+  },
+  {
+   "block": "current-16",
+   "seed": 20630102,
+   "candidate_edges": 63,
+   "A": 57,
+   "unserved": 6,
+   "unserved_support_ge_5": 6,
+   "unserved_families": {
+    "flip_q": 5,
+    "flip_p": 1
+   },
+   "unserved_reasons": {
+    "transition_rank_below_budget": 6
+   }
+  },
+  {
+   "block": "current-16",
+   "seed": 20630103,
+   "candidate_edges": 64,
+   "A": 60,
+   "unserved": 4,
+   "unserved_support_ge_5": 4,
+   "unserved_families": {
+    "flip_q": 3,
+    "flip_p": 1
+   },
+   "unserved_reasons": {
+    "transition_rank_below_budget": 3,
+    "no_prediction_candidate": 1
+   }
+  },
+  {
+   "block": "current-16",
+   "seed": 20630104,
+   "candidate_edges": 64,
+   "A": 55,
+   "unserved": 9,
+   "unserved_support_ge_5": 9,
+   "unserved_families": {
+    "flip_q": 8,
+    "flip_p": 1
+   },
+   "unserved_reasons": {
+    "transition_rank_below_budget": 9
+   }
+  },
+  {
+   "block": "current-16",
+   "seed": 20630105,
+   "candidate_edges": 64,
+   "A": 59,
+   "unserved": 5,
+   "unserved_support_ge_5": 5,
+   "unserved_families": {
+    "flip_q": 4,
+    "flip_p": 1
+   },
+   "unserved_reasons": {
+    "transition_rank_below_budget": 5
+   }
+  },
+  {
+   "block": "current-16",
+   "seed": 20630106,
+   "candidate_edges": 63,
+   "A": 57,
+   "unserved": 6,
+   "unserved_support_ge_5": 6,
+   "unserved_families": {
+    "flip_q": 6
+   },
+   "unserved_reasons": {
+    "transition_rank_below_budget": 6
+   }
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650101,
+   "candidate_edges": 64,
+   "A": 59,
+   "unserved": 5,
+   "unserved_support_ge_5": 5,
+   "unserved_families": {
+    "flip_q": 4,
+    "flip_p": 1
+   },
+   "unserved_reasons": {
+    "transition_rank_below_budget": 5
+   }
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650102,
+   "candidate_edges": 64,
+   "A": 56,
+   "unserved": 8,
+   "unserved_support_ge_5": 8,
+   "unserved_families": {
+    "flip_q": 7,
+    "flip_p": 1
+   },
+   "unserved_reasons": {
+    "transition_rank_below_budget": 8
+   }
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650103,
+   "candidate_edges": 64,
+   "A": 59,
+   "unserved": 5,
+   "unserved_support_ge_5": 5,
+   "unserved_families": {
+    "flip_q": 5
+   },
+   "unserved_reasons": {
+    "transition_rank_below_budget": 5
+   }
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650104,
+   "candidate_edges": 64,
+   "A": 63,
+   "unserved": 1,
+   "unserved_support_ge_5": 1,
+   "unserved_families": {
+    "flip_q": 1
+   },
+   "unserved_reasons": {
+    "transition_rank_below_budget": 1
+   }
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650105,
+   "candidate_edges": 63,
+   "A": 52,
+   "unserved": 11,
+   "unserved_support_ge_5": 11,
+   "unserved_families": {
+    "flip_p": 2,
+    "flip_q": 9
+   },
+   "unserved_reasons": {
+    "transition_rank_below_budget": 11
+   }
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650106,
+   "candidate_edges": 64,
+   "A": 57,
+   "unserved": 7,
+   "unserved_support_ge_5": 7,
+   "unserved_families": {
+    "flip_q": 7
+   },
+   "unserved_reasons": {
+    "transition_rank_below_budget": 7
+   }
+  }
+ ],
+ "unserved_rows": [
+  {
+   "block": "current-16",
+   "seed": 20630101,
+   "edge": "amber>ochre",
+   "support": 13,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 117,
+   "rank_band": "113-224",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630101,
+   "edge": "amber>olive",
+   "support": 25,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 70,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630101,
+   "edge": "amber>teal",
+   "support": 18,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 120,
+   "rank_band": "113-224",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630101,
+   "edge": "cedar>teal",
+   "support": 20,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 94,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630101,
+   "edge": "fern>willow",
+   "support": 17,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 96,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630101,
+   "edge": "ochre>cedar",
+   "support": 12,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 166,
+   "rank_band": "113-224",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630101,
+   "edge": "slate>umber",
+   "support": 12,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 70,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630102,
+   "edge": "birch>willow",
+   "support": 21,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 113,
+   "rank_band": "113-224",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630102,
+   "edge": "cedar>birch",
+   "support": 20,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 166,
+   "rank_band": "113-224",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630102,
+   "edge": "cedar>olive",
+   "support": 26,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 100,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630102,
+   "edge": "cedar>umber",
+   "support": 20,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 139,
+   "rank_band": "113-224",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630102,
+   "edge": "slate>indigo",
+   "support": 22,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 113,
+   "rank_band": "113-224",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630102,
+   "edge": "yarrow>umber",
+   "support": 25,
+   "family": "flip_p",
+   "served": false,
+   "kind": "transition",
+   "rank": 65,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630103,
+   "edge": "ochre>slate",
+   "support": 10,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 75,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630103,
+   "edge": "sable>slate",
+   "support": 9,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 87,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630103,
+   "edge": "slate>willow",
+   "support": 16,
+   "family": "flip_q",
+   "served": false,
+   "kind": "none",
+   "rank": null,
+   "rank_band": "never",
+   "reason": "no_prediction_candidate",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630103,
+   "edge": "yarrow>maple",
+   "support": 35,
+   "family": "flip_p",
+   "served": false,
+   "kind": "transition",
+   "rank": 134,
+   "rank_band": "113-224",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630104,
+   "edge": "amber>birch",
+   "support": 18,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 106,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630104,
+   "edge": "birch>cedar",
+   "support": 10,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 166,
+   "rank_band": "113-224",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630104,
+   "edge": "crimson>birch",
+   "support": 19,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 70,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630104,
+   "edge": "fern>indigo",
+   "support": 21,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 110,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630104,
+   "edge": "maple>crimson",
+   "support": 29,
+   "family": "flip_p",
+   "served": false,
+   "kind": "transition",
+   "rank": 76,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630104,
+   "edge": "teal>cedar",
+   "support": 11,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 66,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630104,
+   "edge": "teal>fern",
+   "support": 7,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 67,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630104,
+   "edge": "umber>crimson",
+   "support": 25,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 86,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630104,
+   "edge": "willow>olive",
+   "support": 17,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 125,
+   "rank_band": "113-224",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630105,
+   "edge": "sable>willow",
+   "support": 15,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 76,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630105,
+   "edge": "slate>birch",
+   "support": 13,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 110,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630105,
+   "edge": "slate>crimson",
+   "support": 23,
+   "family": "flip_p",
+   "served": false,
+   "kind": "transition",
+   "rank": 131,
+   "rank_band": "113-224",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630105,
+   "edge": "slate>maple",
+   "support": 12,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 114,
+   "rank_band": "113-224",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630105,
+   "edge": "slate>olive",
+   "support": 21,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 134,
+   "rank_band": "113-224",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630106,
+   "edge": "crimson>teal",
+   "support": 10,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 112,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630106,
+   "edge": "fern>ochre",
+   "support": 12,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 180,
+   "rank_band": "113-224",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630106,
+   "edge": "sable>crimson",
+   "support": 14,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 93,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630106,
+   "edge": "sable>willow",
+   "support": 13,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 95,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630106,
+   "edge": "slate>fern",
+   "support": 13,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 105,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "current-16",
+   "seed": 20630106,
+   "edge": "teal>willow",
+   "support": 18,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 74,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650101,
+   "edge": "cedar>sable",
+   "support": 19,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 100,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650101,
+   "edge": "maple>umber",
+   "support": 16,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 105,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650101,
+   "edge": "umber>sable",
+   "support": 37,
+   "family": "flip_p",
+   "served": false,
+   "kind": "transition",
+   "rank": 86,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650101,
+   "edge": "umber>verdant",
+   "support": 23,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 92,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650101,
+   "edge": "verdant>amber",
+   "support": 14,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 120,
+   "rank_band": "113-224",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650102,
+   "edge": "cedar>ochre",
+   "support": 10,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 128,
+   "rank_band": "113-224",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650102,
+   "edge": "cedar>slate",
+   "support": 16,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 72,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650102,
+   "edge": "maple>indigo",
+   "support": 10,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 104,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650102,
+   "edge": "ochre>indigo",
+   "support": 13,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 141,
+   "rank_band": "113-224",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650102,
+   "edge": "olive>birch",
+   "support": 34,
+   "family": "flip_p",
+   "served": false,
+   "kind": "transition",
+   "rank": 158,
+   "rank_band": "113-224",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650102,
+   "edge": "slate>indigo",
+   "support": 9,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 98,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650102,
+   "edge": "umber>slate",
+   "support": 12,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 83,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650102,
+   "edge": "yarrow>birch",
+   "support": 19,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 100,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650103,
+   "edge": "cedar>indigo",
+   "support": 22,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 115,
+   "rank_band": "113-224",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650103,
+   "edge": "olive>ochre",
+   "support": 14,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 108,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650103,
+   "edge": "sable>cedar",
+   "support": 17,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 111,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650103,
+   "edge": "sable>ochre",
+   "support": 15,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 68,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650103,
+   "edge": "teal>fern",
+   "support": 23,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 88,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650104,
+   "edge": "olive>slate",
+   "support": 17,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 95,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650105,
+   "edge": "cedar>indigo",
+   "support": 22,
+   "family": "flip_p",
+   "served": false,
+   "kind": "transition",
+   "rank": 147,
+   "rank_band": "113-224",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650105,
+   "edge": "fern>indigo",
+   "support": 17,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 67,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650105,
+   "edge": "olive>birch",
+   "support": 11,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 166,
+   "rank_band": "113-224",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650105,
+   "edge": "sable>willow",
+   "support": 18,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 189,
+   "rank_band": "113-224",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650105,
+   "edge": "umber>fern",
+   "support": 25,
+   "family": "flip_p",
+   "served": false,
+   "kind": "transition",
+   "rank": 123,
+   "rank_band": "113-224",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650105,
+   "edge": "umber>teal",
+   "support": 21,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 126,
+   "rank_band": "113-224",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650105,
+   "edge": "verdant>cedar",
+   "support": 17,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 75,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650105,
+   "edge": "verdant>olive",
+   "support": 12,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 73,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650105,
+   "edge": "verdant>sable",
+   "support": 13,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 76,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650105,
+   "edge": "verdant>teal",
+   "support": 16,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 128,
+   "rank_band": "113-224",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650105,
+   "edge": "yarrow>maple",
+   "support": 18,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 65,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650106,
+   "edge": "cedar>slate",
+   "support": 15,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 80,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650106,
+   "edge": "crimson>ochre",
+   "support": 22,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 130,
+   "rank_band": "113-224",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650106,
+   "edge": "ochre>birch",
+   "support": 12,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 96,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650106,
+   "edge": "sable>amber",
+   "support": 10,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 67,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650106,
+   "edge": "teal>crimson",
+   "support": 10,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 83,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650106,
+   "edge": "umber>willow",
+   "support": 18,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 92,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650106,
+   "edge": "willow>ochre",
+   "support": 17,
+   "family": "flip_q",
+   "served": false,
+   "kind": "transition",
+   "rank": 71,
+   "rank_band": "57-112",
+   "reason": "transition_rank_below_budget",
+   "K112": true
+  }
+ ],
+ "not_evidence": "A descriptive trace of the cap-112 prediction window on twelve no-arm 16-tag seeds. Rank is the engine's candidate order under observed, signalled stop rules; it is not a counterfactual about what a different cap would serve. It is not a treatment, target viability or successor.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__"
+}

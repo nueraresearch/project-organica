@@ -1,0 +1,142 @@
+{
+  "observed": {
+    "sleep_rows": 20086,
+    "sleep_cycles_run": 92,
+    "world_cycles": 120,
+    "loop_rows": 4303,
+    "loop_identities": 177,
+    "retired_rows": 186,
+    "detections": 1299,
+    "ids_shadowing_two_paths": 0
+  },
+  "window": {
+    "size": 4000,
+    "visible_identities_first": 0,
+    "visible_identities_min": 0,
+    "visible_identities_max": 92,
+    "visible_identities_last": 30,
+    "first_forget_cycle": null
+  },
+  "retirements": {
+    "rows": 186,
+    "predicted_examples": [
+      {
+        "path": [
+          "amber",
+          "birch",
+          "amber"
+        ],
+        "cycle": 29
+      },
+      {
+        "path": [
+          "amber",
+          "birch",
+          "cedar",
+          "amber"
+        ],
+        "cycle": 29
+      },
+      {
+        "path": [
+          "amber",
+          "birch",
+          "maple",
+          "amber"
+        ],
+        "cycle": 57
+      },
+      {
+        "path": [
+          "amber",
+          "birch",
+          "ochre",
+          "amber"
+        ],
+        "cycle": 50
+      },
+      {
+        "path": [
+          "amber",
+          "birch",
+          "umber",
+          "amber"
+        ],
+        "cycle": 40
+      }
+    ],
+    "actual_examples": [
+      {
+        "path": [
+          "amber",
+          "birch",
+          "amber"
+        ],
+        "cycle": 29
+      },
+      {
+        "path": [
+          "amber",
+          "birch",
+          "cedar",
+          "amber"
+        ],
+        "cycle": 29
+      },
+      {
+        "path": [
+          "amber",
+          "birch",
+          "maple",
+          "amber"
+        ],
+        "cycle": 57
+      },
+      {
+        "path": [
+          "amber",
+          "birch",
+          "ochre",
+          "amber"
+        ],
+        "cycle": 50
+      },
+      {
+        "path": [
+          "amber",
+          "birch",
+          "umber",
+          "amber"
+        ],
+        "cycle": 40
+      }
+    ],
+    "events_visible": 186,
+    "visible_while_live": 186,
+    "simulated": 186,
+    "simulation_matches": true
+  },
+  "forgetting": {
+    "episodes": 0,
+    "identities": 0,
+    "final": 0,
+    "reborn": 0,
+    "final_strength_mean": 0.0,
+    "final_strength_max": 0.0,
+    "extra_cycles_under_perfect_memory_mean": 0.0,
+    "extra_cycles_under_perfect_memory_max": 0,
+    "examples": []
+  },
+  "accounting": {
+    "identities": 177,
+    "retired_final": 147,
+    "live_final": 30,
+    "forgotten_final": 0,
+    "conserved": true
+  },
+  "kind": "v1_carrier_forgetting",
+  "date": "2026-11-16",
+  "seed": 20740101,
+  "cycles": 120,
+  "note": "the window is read from the store at each cycle's boundary, so what the engine could see is measured, not simulated"
+}

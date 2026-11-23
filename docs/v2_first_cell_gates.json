@@ -1,0 +1,39 @@
+{
+  "kind": "v2_first_cell_gates",
+  "id": "V2-FIRST-CELL-GATES-1",
+  "date": "2026-11-16",
+  "status": "A1-A5 PASS — THE PRIMITIVE IS BUILT; THE CELL IS NOT RUN",
+  "gates": {
+    "A1": {
+      "status": "PASS",
+      "evidence": "canonicalisation rule: 5 sample paths, 3 keys, 0 mixed keys, 0 flips changed a key; smoke seed 20911101 (120 cycles, spent dry-run seed, not a cell seed): 1216 detected paths -> 107 keys over 107 distinct node sets, 0 mixed, 0 flip failures; committed regressions 177->158 with multiplicities {1: 139, 2: 19} and 138->125 reproduce; 0 id collisions. Scope: this gate does not replay the ten cell seeds; the runner replays each cell seed and applies this canonicalisation check to the experiment's own detection stream before any arm."
+    },
+    "A2": {
+      "status": "PASS",
+      "evidence": "I1-I5 pass on a temporary store: the id survived a version bump, a member change and a direction flip; ids came from a monotone counter (1, 2, 3, 4) and were not content-derived; retirement preserved 1 member and its id, and the next key got id 4; 5 non-integer or content addresses were rejected; an unknown id and a stale version both raised."
+    },
+    "A3": {
+      "status": "PASS",
+      "evidence": "M1-M5 pass on a temporary store with a bystander: add and remove left the bystander's resolved state byte-identical; a shared atom kept version 1 and its binding; a stale version and a non-member removal were rejected without moving the version; retirement kept 3 members and refused further mutation; the store owns only atoms, composite_ids, composites, members, tombstones and the frozen-graph guard can fire."
+    },
+    "A4": {
+      "status": "PASS",
+      "evidence": "reallocated base seed 20740101, 120 cycles: 115 of 158 keys admitted at m=2, 275 observed member references (the sizing model assumed 3 per composite, 345); the rebuilt store is 16 pages / 65536 bytes, at or below the 135168-byte budget; compaction reclaimed 0 atoms and left all 115 resolutions identical; tables atoms, composite_ids, composites, members, tombstones carry no history table."
+    },
+    "A5": {
+      "status": "PASS",
+      "evidence": "two builds from the spent smoke stream's 96 admissions produced identical ids, keys, members and versions; retiring id 96 left a tombstone and the next registration got id 97, so allocation is monotone and retirement never frees an id; the novel key quux|zorp was absent from the stream. Scope: the smoke stream, not the held base world."
+    }
+  },
+  "inputs": [
+    "docs/v1_carrier_identity.json",
+    "docs/v1_rekeying_study_20900101.json",
+    "docs/v2_primitive_sizing.json",
+    "docs/v2_first_cell_dry_run.json",
+    "docs/V2-MUTABLE-IDENTITY-SPEC.md",
+    "benchmarks/v2_primitive.py"
+  ],
+  "smoke_seed": 20911101,
+  "base_seed": 20740101,
+  "note": "A gate record is not a result. PASS means the gate's checks ran and held; it does not make the primitive predictive. A4 was measured on the base seed released by DECISION-V2-A4-BASE-WORLD; the cell has not run and the ten reserved cell seeds are untouched. Any non-PASS gate is a gate failure and the runner assembles VOID."
+}

@@ -1,0 +1,1424 @@
+{
+ "date": "2026-11-07",
+ "engine_version": "0.13.0",
+ "question": "Q046",
+ "protocol_digest": "e1654d034df50d6602d062dabd6bc58d8a15b0c847c6ce340877b5d7043ea392",
+ "preregistration": "docs/SUBSTRATE-REPAIR-PREREGISTRATION.md",
+ "seeds": [
+  20302301,
+  20302302,
+  20302303
+ ],
+ "control_seed": 20261023,
+ "cycles": 300,
+ "arms": [
+  "FULL",
+  "SALIENCE",
+  "NO_CONTRADICTIONS",
+  "NO_QUESTIONS",
+  "NO_DREAMS",
+  "ANTI_EIG"
+ ],
+ "conditions": [
+  "shipped",
+  "repaired"
+ ],
+ "factors": {
+  "shipped": 0.95,
+  "repaired": 0.99
+ },
+ "margin": 10,
+ "cells": [
+  {
+   "arm": "FULL",
+   "condition": "shipped",
+   "seed": 20302301,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 184,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 34,
+    "parent_loss": 8,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 10,
+    "not_reformed": 20
+   },
+   "unexplained": 0,
+   "factor": 0.95,
+   "decay_factors": [
+    0.95
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "FULL",
+   "condition": "shipped",
+   "seed": 20302302,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 184,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 34,
+    "parent_loss": 8,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 10,
+    "not_reformed": 20
+   },
+   "unexplained": 0,
+   "factor": 0.95,
+   "decay_factors": [
+    0.95
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "FULL",
+   "condition": "shipped",
+   "seed": 20302303,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 184,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 34,
+    "parent_loss": 8,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 10,
+    "not_reformed": 20
+   },
+   "unexplained": 0,
+   "factor": 0.95,
+   "decay_factors": [
+    0.95
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "FULL",
+   "condition": "repaired",
+   "seed": 20302301,
+   "cycles": 300,
+   "theory_cycles": 226,
+   "last_nonzero_cycle": 227,
+   "death_cycle": 228,
+   "theories_total": 1128,
+   "beliefs_total": 3821,
+   "theory_removals": {
+    "superseded": 219,
+    "parent_loss": 7,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 49,
+    "not_reformed": 12
+   },
+   "unexplained": 0,
+   "factor": 0.99,
+   "decay_factors": [
+    0.99
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "FULL",
+   "condition": "repaired",
+   "seed": 20302302,
+   "cycles": 300,
+   "theory_cycles": 226,
+   "last_nonzero_cycle": 227,
+   "death_cycle": 228,
+   "theories_total": 1128,
+   "beliefs_total": 3821,
+   "theory_removals": {
+    "superseded": 219,
+    "parent_loss": 7,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 49,
+    "not_reformed": 12
+   },
+   "unexplained": 0,
+   "factor": 0.99,
+   "decay_factors": [
+    0.99
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "FULL",
+   "condition": "repaired",
+   "seed": 20302303,
+   "cycles": 300,
+   "theory_cycles": 226,
+   "last_nonzero_cycle": 227,
+   "death_cycle": 228,
+   "theories_total": 1128,
+   "beliefs_total": 3821,
+   "theory_removals": {
+    "superseded": 219,
+    "parent_loss": 7,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 49,
+    "not_reformed": 12
+   },
+   "unexplained": 0,
+   "factor": 0.99,
+   "decay_factors": [
+    0.99
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "SALIENCE",
+   "condition": "shipped",
+   "seed": 20302301,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 164,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 35,
+    "parent_loss": 83,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 100,
+    "not_reformed": 18
+   },
+   "unexplained": 0,
+   "factor": 0.95,
+   "decay_factors": [
+    0.95
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "SALIENCE",
+   "condition": "shipped",
+   "seed": 20302302,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 164,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 35,
+    "parent_loss": 83,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 100,
+    "not_reformed": 18
+   },
+   "unexplained": 0,
+   "factor": 0.95,
+   "decay_factors": [
+    0.95
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "SALIENCE",
+   "condition": "shipped",
+   "seed": 20302303,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 164,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 35,
+    "parent_loss": 83,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 100,
+    "not_reformed": 18
+   },
+   "unexplained": 0,
+   "factor": 0.95,
+   "decay_factors": [
+    0.95
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "SALIENCE",
+   "condition": "repaired",
+   "seed": 20302301,
+   "cycles": 300,
+   "theory_cycles": 226,
+   "last_nonzero_cycle": 227,
+   "death_cycle": 228,
+   "theories_total": 1026,
+   "beliefs_total": 3821,
+   "theory_removals": {
+    "superseded": 219,
+    "parent_loss": 354,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 666,
+    "not_reformed": 11
+   },
+   "unexplained": 0,
+   "factor": 0.99,
+   "decay_factors": [
+    0.99
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "SALIENCE",
+   "condition": "repaired",
+   "seed": 20302302,
+   "cycles": 300,
+   "theory_cycles": 226,
+   "last_nonzero_cycle": 227,
+   "death_cycle": 228,
+   "theories_total": 1026,
+   "beliefs_total": 3821,
+   "theory_removals": {
+    "superseded": 219,
+    "parent_loss": 354,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 666,
+    "not_reformed": 11
+   },
+   "unexplained": 0,
+   "factor": 0.99,
+   "decay_factors": [
+    0.99
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "SALIENCE",
+   "condition": "repaired",
+   "seed": 20302303,
+   "cycles": 300,
+   "theory_cycles": 226,
+   "last_nonzero_cycle": 227,
+   "death_cycle": 228,
+   "theories_total": 1026,
+   "beliefs_total": 3821,
+   "theory_removals": {
+    "superseded": 219,
+    "parent_loss": 354,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 666,
+    "not_reformed": 11
+   },
+   "unexplained": 0,
+   "factor": 0.99,
+   "decay_factors": [
+    0.99
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "NO_CONTRADICTIONS",
+   "condition": "shipped",
+   "seed": 20302301,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 158,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 34,
+    "parent_loss": 85,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 102,
+    "not_reformed": 18
+   },
+   "unexplained": 0,
+   "factor": 0.95,
+   "decay_factors": [
+    0.95
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "NO_CONTRADICTIONS",
+   "condition": "shipped",
+   "seed": 20302302,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 158,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 34,
+    "parent_loss": 85,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 102,
+    "not_reformed": 18
+   },
+   "unexplained": 0,
+   "factor": 0.95,
+   "decay_factors": [
+    0.95
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "NO_CONTRADICTIONS",
+   "condition": "shipped",
+   "seed": 20302303,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 158,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 34,
+    "parent_loss": 85,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 102,
+    "not_reformed": 18
+   },
+   "unexplained": 0,
+   "factor": 0.95,
+   "decay_factors": [
+    0.95
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "NO_CONTRADICTIONS",
+   "condition": "repaired",
+   "seed": 20302301,
+   "cycles": 300,
+   "theory_cycles": 226,
+   "last_nonzero_cycle": 227,
+   "death_cycle": 228,
+   "theories_total": 1030,
+   "beliefs_total": 3821,
+   "theory_removals": {
+    "superseded": 219,
+    "parent_loss": 360,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 666,
+    "not_reformed": 12
+   },
+   "unexplained": 0,
+   "factor": 0.99,
+   "decay_factors": [
+    0.99
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "NO_CONTRADICTIONS",
+   "condition": "repaired",
+   "seed": 20302302,
+   "cycles": 300,
+   "theory_cycles": 226,
+   "last_nonzero_cycle": 227,
+   "death_cycle": 228,
+   "theories_total": 1030,
+   "beliefs_total": 3821,
+   "theory_removals": {
+    "superseded": 219,
+    "parent_loss": 360,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 666,
+    "not_reformed": 12
+   },
+   "unexplained": 0,
+   "factor": 0.99,
+   "decay_factors": [
+    0.99
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "NO_CONTRADICTIONS",
+   "condition": "repaired",
+   "seed": 20302303,
+   "cycles": 300,
+   "theory_cycles": 226,
+   "last_nonzero_cycle": 227,
+   "death_cycle": 228,
+   "theories_total": 1030,
+   "beliefs_total": 3821,
+   "theory_removals": {
+    "superseded": 219,
+    "parent_loss": 360,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 666,
+    "not_reformed": 12
+   },
+   "unexplained": 0,
+   "factor": 0.99,
+   "decay_factors": [
+    0.99
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "NO_QUESTIONS",
+   "condition": "shipped",
+   "seed": 20302301,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 164,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 35,
+    "parent_loss": 83,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 100,
+    "not_reformed": 18
+   },
+   "unexplained": 0,
+   "factor": 0.95,
+   "decay_factors": [
+    0.95
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "NO_QUESTIONS",
+   "condition": "shipped",
+   "seed": 20302302,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 164,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 35,
+    "parent_loss": 83,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 100,
+    "not_reformed": 18
+   },
+   "unexplained": 0,
+   "factor": 0.95,
+   "decay_factors": [
+    0.95
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "NO_QUESTIONS",
+   "condition": "shipped",
+   "seed": 20302303,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 164,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 35,
+    "parent_loss": 83,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 100,
+    "not_reformed": 18
+   },
+   "unexplained": 0,
+   "factor": 0.95,
+   "decay_factors": [
+    0.95
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "NO_QUESTIONS",
+   "condition": "repaired",
+   "seed": 20302301,
+   "cycles": 300,
+   "theory_cycles": 226,
+   "last_nonzero_cycle": 227,
+   "death_cycle": 228,
+   "theories_total": 1026,
+   "beliefs_total": 3821,
+   "theory_removals": {
+    "superseded": 219,
+    "parent_loss": 354,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 666,
+    "not_reformed": 11
+   },
+   "unexplained": 0,
+   "factor": 0.99,
+   "decay_factors": [
+    0.99
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "NO_QUESTIONS",
+   "condition": "repaired",
+   "seed": 20302302,
+   "cycles": 300,
+   "theory_cycles": 226,
+   "last_nonzero_cycle": 227,
+   "death_cycle": 228,
+   "theories_total": 1026,
+   "beliefs_total": 3821,
+   "theory_removals": {
+    "superseded": 219,
+    "parent_loss": 354,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 666,
+    "not_reformed": 11
+   },
+   "unexplained": 0,
+   "factor": 0.99,
+   "decay_factors": [
+    0.99
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "NO_QUESTIONS",
+   "condition": "repaired",
+   "seed": 20302303,
+   "cycles": 300,
+   "theory_cycles": 226,
+   "last_nonzero_cycle": 227,
+   "death_cycle": 228,
+   "theories_total": 1026,
+   "beliefs_total": 3821,
+   "theory_removals": {
+    "superseded": 219,
+    "parent_loss": 354,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 666,
+    "not_reformed": 11
+   },
+   "unexplained": 0,
+   "factor": 0.99,
+   "decay_factors": [
+    0.99
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "NO_DREAMS",
+   "condition": "shipped",
+   "seed": 20302301,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 164,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 35,
+    "parent_loss": 83,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 100,
+    "not_reformed": 18
+   },
+   "unexplained": 0,
+   "factor": 0.95,
+   "decay_factors": [
+    0.95
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "NO_DREAMS",
+   "condition": "shipped",
+   "seed": 20302302,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 164,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 35,
+    "parent_loss": 83,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 100,
+    "not_reformed": 18
+   },
+   "unexplained": 0,
+   "factor": 0.95,
+   "decay_factors": [
+    0.95
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "NO_DREAMS",
+   "condition": "shipped",
+   "seed": 20302303,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 164,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 35,
+    "parent_loss": 83,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 100,
+    "not_reformed": 18
+   },
+   "unexplained": 0,
+   "factor": 0.95,
+   "decay_factors": [
+    0.95
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "NO_DREAMS",
+   "condition": "repaired",
+   "seed": 20302301,
+   "cycles": 300,
+   "theory_cycles": 226,
+   "last_nonzero_cycle": 227,
+   "death_cycle": 228,
+   "theories_total": 1026,
+   "beliefs_total": 3821,
+   "theory_removals": {
+    "superseded": 219,
+    "parent_loss": 354,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 666,
+    "not_reformed": 11
+   },
+   "unexplained": 0,
+   "factor": 0.99,
+   "decay_factors": [
+    0.99
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "NO_DREAMS",
+   "condition": "repaired",
+   "seed": 20302302,
+   "cycles": 300,
+   "theory_cycles": 226,
+   "last_nonzero_cycle": 227,
+   "death_cycle": 228,
+   "theories_total": 1026,
+   "beliefs_total": 3821,
+   "theory_removals": {
+    "superseded": 219,
+    "parent_loss": 354,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 666,
+    "not_reformed": 11
+   },
+   "unexplained": 0,
+   "factor": 0.99,
+   "decay_factors": [
+    0.99
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "NO_DREAMS",
+   "condition": "repaired",
+   "seed": 20302303,
+   "cycles": 300,
+   "theory_cycles": 226,
+   "last_nonzero_cycle": 227,
+   "death_cycle": 228,
+   "theories_total": 1026,
+   "beliefs_total": 3821,
+   "theory_removals": {
+    "superseded": 219,
+    "parent_loss": 354,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 666,
+    "not_reformed": 11
+   },
+   "unexplained": 0,
+   "factor": 0.99,
+   "decay_factors": [
+    0.99
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "ANTI_EIG",
+   "condition": "shipped",
+   "seed": 20302301,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 164,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 35,
+    "parent_loss": 83,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 100,
+    "not_reformed": 18
+   },
+   "unexplained": 0,
+   "factor": 0.95,
+   "decay_factors": [
+    0.95
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "ANTI_EIG",
+   "condition": "shipped",
+   "seed": 20302302,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 164,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 35,
+    "parent_loss": 83,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 100,
+    "not_reformed": 18
+   },
+   "unexplained": 0,
+   "factor": 0.95,
+   "decay_factors": [
+    0.95
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "ANTI_EIG",
+   "condition": "shipped",
+   "seed": 20302303,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 164,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 35,
+    "parent_loss": 83,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 100,
+    "not_reformed": 18
+   },
+   "unexplained": 0,
+   "factor": 0.95,
+   "decay_factors": [
+    0.95
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "ANTI_EIG",
+   "condition": "repaired",
+   "seed": 20302301,
+   "cycles": 300,
+   "theory_cycles": 226,
+   "last_nonzero_cycle": 227,
+   "death_cycle": 228,
+   "theories_total": 1026,
+   "beliefs_total": 3821,
+   "theory_removals": {
+    "superseded": 219,
+    "parent_loss": 354,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 666,
+    "not_reformed": 11
+   },
+   "unexplained": 0,
+   "factor": 0.99,
+   "decay_factors": [
+    0.99
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "ANTI_EIG",
+   "condition": "repaired",
+   "seed": 20302302,
+   "cycles": 300,
+   "theory_cycles": 226,
+   "last_nonzero_cycle": 227,
+   "death_cycle": 228,
+   "theories_total": 1026,
+   "beliefs_total": 3821,
+   "theory_removals": {
+    "superseded": 219,
+    "parent_loss": 354,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 666,
+    "not_reformed": 11
+   },
+   "unexplained": 0,
+   "factor": 0.99,
+   "decay_factors": [
+    0.99
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  },
+  {
+   "arm": "ANTI_EIG",
+   "condition": "repaired",
+   "seed": 20302303,
+   "cycles": 300,
+   "theory_cycles": 226,
+   "last_nonzero_cycle": 227,
+   "death_cycle": 228,
+   "theories_total": 1026,
+   "beliefs_total": 3821,
+   "theory_removals": {
+    "superseded": 219,
+    "parent_loss": 354,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 666,
+    "not_reformed": 11
+   },
+   "unexplained": 0,
+   "factor": 0.99,
+   "decay_factors": [
+    0.99
+   ],
+   "decay_rows_min": 27,
+   "decay_calls": 300
+  }
+ ],
+ "summary": {
+  "FULL": {
+   "shipped": {
+    "cells": 3,
+    "death_cycles": [
+     39,
+     39,
+     39
+    ],
+    "median_death_cycle": 39,
+    "min_death_cycle": 39,
+    "max_death_cycle": 39,
+    "theory_cycles": 111,
+    "theory_removals": {
+     "superseded": 102,
+     "parent_loss": 24,
+     "competing_collapse": 0,
+     "capped": 0,
+     "unexplained": 0
+    },
+    "parent_loss": 24,
+    "superseded": 102,
+    "alive_at_end": 0
+   },
+   "repaired": {
+    "cells": 3,
+    "death_cycles": [
+     228,
+     228,
+     228
+    ],
+    "median_death_cycle": 228,
+    "min_death_cycle": 228,
+    "max_death_cycle": 228,
+    "theory_cycles": 678,
+    "theory_removals": {
+     "superseded": 657,
+     "parent_loss": 21,
+     "competing_collapse": 0,
+     "capped": 0,
+     "unexplained": 0
+    },
+    "parent_loss": 21,
+    "superseded": 657,
+    "alive_at_end": 0
+   }
+  },
+  "SALIENCE": {
+   "shipped": {
+    "cells": 3,
+    "death_cycles": [
+     39,
+     39,
+     39
+    ],
+    "median_death_cycle": 39,
+    "min_death_cycle": 39,
+    "max_death_cycle": 39,
+    "theory_cycles": 111,
+    "theory_removals": {
+     "superseded": 105,
+     "parent_loss": 249,
+     "competing_collapse": 0,
+     "capped": 0,
+     "unexplained": 0
+    },
+    "parent_loss": 249,
+    "superseded": 105,
+    "alive_at_end": 0
+   },
+   "repaired": {
+    "cells": 3,
+    "death_cycles": [
+     228,
+     228,
+     228
+    ],
+    "median_death_cycle": 228,
+    "min_death_cycle": 228,
+    "max_death_cycle": 228,
+    "theory_cycles": 678,
+    "theory_removals": {
+     "superseded": 657,
+     "parent_loss": 1062,
+     "competing_collapse": 0,
+     "capped": 0,
+     "unexplained": 0
+    },
+    "parent_loss": 1062,
+    "superseded": 657,
+    "alive_at_end": 0
+   }
+  },
+  "NO_CONTRADICTIONS": {
+   "shipped": {
+    "cells": 3,
+    "death_cycles": [
+     39,
+     39,
+     39
+    ],
+    "median_death_cycle": 39,
+    "min_death_cycle": 39,
+    "max_death_cycle": 39,
+    "theory_cycles": 111,
+    "theory_removals": {
+     "superseded": 102,
+     "parent_loss": 255,
+     "competing_collapse": 0,
+     "capped": 0,
+     "unexplained": 0
+    },
+    "parent_loss": 255,
+    "superseded": 102,
+    "alive_at_end": 0
+   },
+   "repaired": {
+    "cells": 3,
+    "death_cycles": [
+     228,
+     228,
+     228
+    ],
+    "median_death_cycle": 228,
+    "min_death_cycle": 228,
+    "max_death_cycle": 228,
+    "theory_cycles": 678,
+    "theory_removals": {
+     "superseded": 657,
+     "parent_loss": 1080,
+     "competing_collapse": 0,
+     "capped": 0,
+     "unexplained": 0
+    },
+    "parent_loss": 1080,
+    "superseded": 657,
+    "alive_at_end": 0
+   }
+  },
+  "NO_QUESTIONS": {
+   "shipped": {
+    "cells": 3,
+    "death_cycles": [
+     39,
+     39,
+     39
+    ],
+    "median_death_cycle": 39,
+    "min_death_cycle": 39,
+    "max_death_cycle": 39,
+    "theory_cycles": 111,
+    "theory_removals": {
+     "superseded": 105,
+     "parent_loss": 249,
+     "competing_collapse": 0,
+     "capped": 0,
+     "unexplained": 0
+    },
+    "parent_loss": 249,
+    "superseded": 105,
+    "alive_at_end": 0
+   },
+   "repaired": {
+    "cells": 3,
+    "death_cycles": [
+     228,
+     228,
+     228
+    ],
+    "median_death_cycle": 228,
+    "min_death_cycle": 228,
+    "max_death_cycle": 228,
+    "theory_cycles": 678,
+    "theory_removals": {
+     "superseded": 657,
+     "parent_loss": 1062,
+     "competing_collapse": 0,
+     "capped": 0,
+     "unexplained": 0
+    },
+    "parent_loss": 1062,
+    "superseded": 657,
+    "alive_at_end": 0
+   }
+  },
+  "NO_DREAMS": {
+   "shipped": {
+    "cells": 3,
+    "death_cycles": [
+     39,
+     39,
+     39
+    ],
+    "median_death_cycle": 39,
+    "min_death_cycle": 39,
+    "max_death_cycle": 39,
+    "theory_cycles": 111,
+    "theory_removals": {
+     "superseded": 105,
+     "parent_loss": 249,
+     "competing_collapse": 0,
+     "capped": 0,
+     "unexplained": 0
+    },
+    "parent_loss": 249,
+    "superseded": 105,
+    "alive_at_end": 0
+   },
+   "repaired": {
+    "cells": 3,
+    "death_cycles": [
+     228,
+     228,
+     228
+    ],
+    "median_death_cycle": 228,
+    "min_death_cycle": 228,
+    "max_death_cycle": 228,
+    "theory_cycles": 678,
+    "theory_removals": {
+     "superseded": 657,
+     "parent_loss": 1062,
+     "competing_collapse": 0,
+     "capped": 0,
+     "unexplained": 0
+    },
+    "parent_loss": 1062,
+    "superseded": 657,
+    "alive_at_end": 0
+   }
+  },
+  "ANTI_EIG": {
+   "shipped": {
+    "cells": 3,
+    "death_cycles": [
+     39,
+     39,
+     39
+    ],
+    "median_death_cycle": 39,
+    "min_death_cycle": 39,
+    "max_death_cycle": 39,
+    "theory_cycles": 111,
+    "theory_removals": {
+     "superseded": 105,
+     "parent_loss": 249,
+     "competing_collapse": 0,
+     "capped": 0,
+     "unexplained": 0
+    },
+    "parent_loss": 249,
+    "superseded": 105,
+    "alive_at_end": 0
+   },
+   "repaired": {
+    "cells": 3,
+    "death_cycles": [
+     228,
+     228,
+     228
+    ],
+    "median_death_cycle": 228,
+    "min_death_cycle": 228,
+    "max_death_cycle": 228,
+    "theory_cycles": 678,
+    "theory_removals": {
+     "superseded": 657,
+     "parent_loss": 1062,
+     "competing_collapse": 0,
+     "capped": 0,
+     "unexplained": 0
+    },
+    "parent_loss": 1062,
+    "superseded": 657,
+    "alive_at_end": 0
+   }
+  }
+ },
+ "deltas": {
+  "FULL": [
+   189,
+   189,
+   189
+  ],
+  "SALIENCE": [
+   189,
+   189,
+   189
+  ],
+  "NO_CONTRADICTIONS": [
+   189,
+   189,
+   189
+  ],
+  "NO_QUESTIONS": [
+   189,
+   189,
+   189
+  ],
+  "NO_DREAMS": [
+   189,
+   189,
+   189
+  ],
+  "ANTI_EIG": [
+   189,
+   189,
+   189
+  ]
+ },
+ "extensions": {
+  "FULL": 3,
+  "SALIENCE": 3,
+  "NO_CONTRADICTIONS": 3,
+  "NO_QUESTIONS": 3,
+  "NO_DREAMS": 3,
+  "ANTI_EIG": 3
+ },
+ "repaired_spread": [
+  0,
+  0,
+  0
+ ],
+ "label": "SUBSTRATE_REPAIR",
+ "gates": {
+  "G1_neutral_observer": true,
+  "G2_repair_live": true,
+  "G3_baseline_39": true,
+  "G4_denominators": true,
+  "G5_seed_independence": true
+ },
+ "predictions": {
+  "P1_baseline_39": true,
+  "P2_repair_live": true,
+  "P3_all_six_extend": true,
+  "P4_shared_timing": true,
+  "P5_parent_loss_falls": true
+ },
+ "control": {
+  "seed": 20261023,
+  "cycles": 300,
+  "theory_match": true,
+  "belief_match": true,
+  "first_theory_mismatch": null,
+  "first_belief_mismatch": null,
+  "ledger_last_nonzero_theory_cycle": 38
+ }
+}

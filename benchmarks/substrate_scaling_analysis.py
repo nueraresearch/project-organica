@@ -37,6 +37,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import metrics  # noqa: E402
+from benchmarks import engine_stamp
 
 
 def fit_linear(xs, ys):
@@ -140,7 +141,7 @@ def main() -> int:
 
     out = Path(__file__).parent.parent / args.out
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps({
+    out.write_text(json.dumps(engine_stamp.stamp({
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "phase": "G",
         "title": "Substrate Scaling Analysis (real daemon log)",
@@ -166,7 +167,7 @@ def main() -> int:
             "estimated_event_rows": est_90d_rows,
         },
         "per_cycle": rows,
-    }, indent=2))
+    }), indent=2))
     print(f"\n  Full report written to: {out}")
     return 0
 

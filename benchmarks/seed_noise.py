@@ -45,6 +45,7 @@ sys.path.insert(0, str(REPO))
 
 from benchmarks.force_matrix import (                # noqa: E402
     COLONIES, compute_metrics, _series)
+from benchmarks import engine_stamp
 
 METRICS = [
     ("M1", "theory duty cycle", lambda m: m["M1_theory_duty_cycle"]["whole_run"]),
@@ -150,13 +151,13 @@ def main() -> None:
         print(f"  {t['population']:<12} values={t['values']} "
               f"spread={t['spread']:.6g} rel={t['relative_spread']}")
 
-    Path(args.out).write_text(json.dumps({
+    Path(args.out).write_text(json.dumps(engine_stamp.stamp({
         "colony": args.colony,
         "cycles": args.cycles,
         "seeds": args.seeds,
         "metrics": table,
         "populations": pop_table,
-    }, indent=2), encoding="utf-8")
+    }), indent=2), encoding="utf-8")
     print(f"\nwrote {args.out}")
 
 

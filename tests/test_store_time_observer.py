@@ -6,6 +6,7 @@ run: the stage classification, and the reconciliation arithmetic that decides
 whether a cycle may be reported as "no write explains it" or must be reported
 indeterminate.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import pathlib
 import sys

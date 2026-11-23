@@ -1,0 +1,311 @@
+{
+ "kind": "persistence_zero_served_diagnostic",
+ "not_a_result": true,
+ "question": "Why does the persistence-off arm serve zero world edges on some seeds, and is the zero a threshold consequence or a failed measurement?",
+ "method": {
+  "replay": "the committed world and store sequence are replayed through the same memory service, without running a sleep cycle; counts are read before the end-of-cycle decay/reset and the world edges at or above the floor are accumulated",
+  "serving": "the five zero-S_ever cells and the highest-S_ever non-zero cell of each block are run through the real observer and sleep cycle at the shipped cap; the world edges actually served are counted",
+  "prediction_floor": 5,
+  "reset": "PersistenceOffMemory sets every precedes count to 0 after the engine's decay",
+  "load_order": "SleepService.run loads temporal edges at the start of the cycle; the reset runs at the end, so the arm reads only within-cycle counts",
+  "lookback": 3,
+  "acquisition_filter": "non-trainable events are skipped inside PHASE_ACQUISITION, as in the cells"
+ },
+ "rows": [
+  {
+   "block": "T1",
+   "seed": 20612201,
+   "arm": "shipped",
+   "observed_s_ever": 97,
+   "admissible_world_edges": 112,
+   "max_world_count": 51,
+   "cycles_with_admissible": 86
+  },
+  {
+   "block": "T1",
+   "seed": 20612201,
+   "arm": "persistence_off",
+   "observed_s_ever": 9,
+   "admissible_world_edges": 9,
+   "max_world_count": 6,
+   "cycles_with_admissible": 2
+  },
+  {
+   "block": "T1",
+   "seed": 20612202,
+   "arm": "shipped",
+   "observed_s_ever": 106,
+   "admissible_world_edges": 112,
+   "max_world_count": 53,
+   "cycles_with_admissible": 81
+  },
+  {
+   "block": "T1",
+   "seed": 20612202,
+   "arm": "persistence_off",
+   "observed_s_ever": 3,
+   "admissible_world_edges": 3,
+   "max_world_count": 6,
+   "cycles_with_admissible": 2
+  },
+  {
+   "block": "T1",
+   "seed": 20612203,
+   "arm": "shipped",
+   "observed_s_ever": 103,
+   "admissible_world_edges": 112,
+   "max_world_count": 58,
+   "cycles_with_admissible": 85
+  },
+  {
+   "block": "T1",
+   "seed": 20612203,
+   "arm": "persistence_off",
+   "observed_s_ever": 6,
+   "admissible_world_edges": 6,
+   "max_world_count": 5,
+   "cycles_with_admissible": 2
+  },
+  {
+   "block": "T1",
+   "seed": 20612204,
+   "arm": "shipped",
+   "observed_s_ever": 102,
+   "admissible_world_edges": 112,
+   "max_world_count": 50,
+   "cycles_with_admissible": 117
+  },
+  {
+   "block": "T1",
+   "seed": 20612204,
+   "arm": "persistence_off",
+   "observed_s_ever": 0,
+   "admissible_world_edges": 0,
+   "max_world_count": 4,
+   "cycles_with_admissible": 0
+  },
+  {
+   "block": "T1",
+   "seed": 20612205,
+   "arm": "shipped",
+   "observed_s_ever": 95,
+   "admissible_world_edges": 112,
+   "max_world_count": 54,
+   "cycles_with_admissible": 115
+  },
+  {
+   "block": "T1",
+   "seed": 20612205,
+   "arm": "persistence_off",
+   "observed_s_ever": 0,
+   "admissible_world_edges": 0,
+   "max_world_count": 3,
+   "cycles_with_admissible": 0
+  },
+  {
+   "block": "T1",
+   "seed": 20612206,
+   "arm": "shipped",
+   "observed_s_ever": 94,
+   "admissible_world_edges": 112,
+   "max_world_count": 57,
+   "cycles_with_admissible": 82
+  },
+  {
+   "block": "T1",
+   "seed": 20612206,
+   "arm": "persistence_off",
+   "observed_s_ever": 5,
+   "admissible_world_edges": 5,
+   "max_world_count": 6,
+   "cycles_with_admissible": 1
+  },
+  {
+   "block": "T1b",
+   "seed": 20612208,
+   "arm": "shipped",
+   "observed_s_ever": 101,
+   "admissible_world_edges": 112,
+   "max_world_count": 55,
+   "cycles_with_admissible": 116
+  },
+  {
+   "block": "T1b",
+   "seed": 20612208,
+   "arm": "persistence_off",
+   "observed_s_ever": 0,
+   "admissible_world_edges": 0,
+   "max_world_count": 4,
+   "cycles_with_admissible": 0
+  },
+  {
+   "block": "T1b",
+   "seed": 20612209,
+   "arm": "shipped",
+   "observed_s_ever": 95,
+   "admissible_world_edges": 112,
+   "max_world_count": 51,
+   "cycles_with_admissible": 84
+  },
+  {
+   "block": "T1b",
+   "seed": 20612209,
+   "arm": "persistence_off",
+   "observed_s_ever": 1,
+   "admissible_world_edges": 1,
+   "max_world_count": 5,
+   "cycles_with_admissible": 1
+  },
+  {
+   "block": "T1b",
+   "seed": 20612210,
+   "arm": "shipped",
+   "observed_s_ever": 100,
+   "admissible_world_edges": 112,
+   "max_world_count": 54,
+   "cycles_with_admissible": 115
+  },
+  {
+   "block": "T1b",
+   "seed": 20612210,
+   "arm": "persistence_off",
+   "observed_s_ever": 0,
+   "admissible_world_edges": 0,
+   "max_world_count": 3,
+   "cycles_with_admissible": 0
+  },
+  {
+   "block": "T1b",
+   "seed": 20612211,
+   "arm": "shipped",
+   "observed_s_ever": 103,
+   "admissible_world_edges": 112,
+   "max_world_count": 60,
+   "cycles_with_admissible": 82
+  },
+  {
+   "block": "T1b",
+   "seed": 20612211,
+   "arm": "persistence_off",
+   "observed_s_ever": 3,
+   "admissible_world_edges": 3,
+   "max_world_count": 6,
+   "cycles_with_admissible": 2
+  },
+  {
+   "block": "T1b",
+   "seed": 20612212,
+   "arm": "shipped",
+   "observed_s_ever": 98,
+   "admissible_world_edges": 111,
+   "max_world_count": 56,
+   "cycles_with_admissible": 115
+  },
+  {
+   "block": "T1b",
+   "seed": 20612212,
+   "arm": "persistence_off",
+   "observed_s_ever": 0,
+   "admissible_world_edges": 0,
+   "max_world_count": 4,
+   "cycles_with_admissible": 0
+  },
+  {
+   "block": "T1b",
+   "seed": 20612213,
+   "arm": "shipped",
+   "observed_s_ever": 99,
+   "admissible_world_edges": 112,
+   "max_world_count": 50,
+   "cycles_with_admissible": 80
+  },
+  {
+   "block": "T1b",
+   "seed": 20612213,
+   "arm": "persistence_off",
+   "observed_s_ever": 3,
+   "admissible_world_edges": 3,
+   "max_world_count": 5,
+   "cycles_with_admissible": 2
+  }
+ ],
+ "serving": [
+  {
+   "served_world_edges": 0,
+   "windows": 120,
+   "predictions_total": 23,
+   "arm": "persistence_off",
+   "block": "T1",
+   "seed": 20612204,
+   "observed_s_ever": 0
+  },
+  {
+   "served_world_edges": 0,
+   "windows": 120,
+   "predictions_total": 19,
+   "arm": "persistence_off",
+   "block": "T1",
+   "seed": 20612205,
+   "observed_s_ever": 0
+  },
+  {
+   "served_world_edges": 0,
+   "windows": 120,
+   "predictions_total": 13,
+   "arm": "persistence_off",
+   "block": "T1b",
+   "seed": 20612208,
+   "observed_s_ever": 0
+  },
+  {
+   "served_world_edges": 0,
+   "windows": 120,
+   "predictions_total": 31,
+   "arm": "persistence_off",
+   "block": "T1b",
+   "seed": 20612210,
+   "observed_s_ever": 0
+  },
+  {
+   "served_world_edges": 0,
+   "windows": 120,
+   "predictions_total": 26,
+   "arm": "persistence_off",
+   "block": "T1b",
+   "seed": 20612212,
+   "observed_s_ever": 0
+  },
+  {
+   "served_world_edges": 9,
+   "windows": 91,
+   "predictions_total": 61,
+   "arm": "persistence_off",
+   "block": "T1",
+   "seed": 20612201,
+   "observed_s_ever": 9
+  },
+  {
+   "served_world_edges": 3,
+   "windows": 89,
+   "predictions_total": 62,
+   "arm": "persistence_off",
+   "block": "T1b",
+   "seed": 20612211,
+   "observed_s_ever": 3
+  }
+ ],
+ "summary": {
+  "zero_s_ever_cells": 5,
+  "zero_cells_have_no_admissible_world_edge": true,
+  "zero_cells_serve_zero_world_edges": true,
+  "controls_serve_positive_world_edges": true,
+  "nonzero_cells_match_their_ceiling": true,
+  "shipped_observed_within_ceiling": true,
+  "finding": "Every zero-S_ever persistence-off cell is a seed on which no world edge reaches the prediction floor of 5 inside a single cycle after the reset: 5 such cells, all with 0 admissible world edges and a maximum observed world-edge count of [3, 4]. The full observer/sleep path confirms it: all 5 zero cells serve 0 world edges. On the 7 non-zero cells the admissibility ceiling equals the observed S_ever exactly (T1/20612201 9=9; T1/20612202 3=3; T1/20612203 6=6; T1/20612206 5=5; T1b/20612209 1=1; T1b/20612211 3=3; T1b/20612213 3=3), and the two positive controls serve T1/20612201 9, T1b/20612211 3 world edges. The zero is a threshold consequence, not a failed measurement: the reset removes the cross-cycle counts that carry a world edge over the floor, and within-cycle repetition alone reaches 5 only on some seeds."
+ },
+ "not_evidence": "A diagnostic replay and a fresh scratch serving run on stored seeds; it adjudicates no block, changes no gate or verdict, and makes no capability claim. It explains the zero S_ever cells in T1 and T1b.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__"
+}

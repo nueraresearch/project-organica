@@ -44,6 +44,7 @@ from organica.memory import MemoryService            # noqa: E402
 from organica.sleep import SleepService              # noqa: E402
 from organica.streams import EVENTS_PER_CYCLE        # noqa: E402
 from organica.paths import temp_db                   # noqa: E402
+from benchmarks import engine_stamp
 
 MAX_THEORIES = SleepService.MAX_THEORIES
 MAX_HYPOTHESES = SleepService.MAX_HYPOTHESES
@@ -97,6 +98,14 @@ class AntiEigService(SleepService):
         experiments.sort(key=lambda exp: exp.priority)
         return experiments[:self.MAX_EXPERIMENTS]
 
+
+#: The stimulus G1 witnesses on. On the campaign stimulus the reference arm is dead by cycle
+#: 39, so a cycle-40 snapshot reads as a broken arm; `docs/DECISION-G1-WITNESS.md` records the
+#: measurement, and `L3_hub1_t3_mixed` holds 12 beliefs and 4 theories at the same horizon.
+WITNESS_DESIGN = "L3_hub1_t3_mixed"
+CAMPAIGN_DESIGN = "L1_hub1_t3_disjoint"
+WITNESS_CYCLES = 40
+VERIFY_SEED = 20261023
 
 COLONIES = {
     "FULL": (FullService, "reference arm, alphabetical retention"),
@@ -446,13 +455,18 @@ def colony_class(name: str):
     return composed
 
 
-def run_colony(name: str, events: list[str], cycles: int, seed: int) -> dict:
+def run_colony(name: str, events: list[str], cycles: int, seed: int,
+               service_class=None) -> dict:
     cls, description = COLONIES[name]
     db = temp_db(f"matrix_{name}.db")
     if db.exists():
         db.unlink()
     mem = MemoryService(db_path=str(db))
-    svc = colony_class(name)(mem)
+    if name == "FULL" and service_class is not None:
+        svc = type("Instrumented_FULL_%s" % service_class.__name__,
+                   (Instrumented, service_class), {})(mem)
+    else:
+        svc = colony_class(name)(mem)
     if hasattr(svc, "_rng"):
         svc._rng.seed(seed)
 
@@ -595,7 +609,90 @@ def _discovery(rows: list[dict]) -> dict:
     }
 
 
-def verify_colonies(events: list[str], cycles: int = 40) -> list[dict]:
+def reference_arm_problems(checks: list[dict]) -> list[str]:
+    """Why the reference arm cannot be trusted, from the G1 checks.
+
+    A dead reference arm makes every other colony's comparison meaningless,
+    so the harness must fail rather than write an artifact that reads as a
+    verdict. `docs/RERUN-0.12.0.md` records the first version of this defect:
+    the check fired, printed the message, and the process exited 0.
+    """
+    by_name = {c.get("colony"): c for c in checks}
+    full = by_name.get("FULL")
+    if full is None:
+        return ["FULL was not verified -- the reference arm is missing"]
+    series = (full.get("series") or {}).get("theories")
+    if series is not None:
+        # A terminal snapshot cannot tell a dead arm from one that collapsed after a plateau,
+        # so the witness reads every cycle. `reference` keeps the old field for callers that
+        # still pass synthetic checks.
+        if not any(count > 0 for count in series):
+            return ["FULL produced no theories in any cycle -- the reference arm is broken"]
+        return []
+    if (full.get("theories") or 0) == 0:
+        return ["FULL produced no theories -- the reference arm is broken"]
+    return []
+
+
+def negative_control_problems(checks: list[dict]) -> list[str]:
+    """A suppression arm that stops suppressing must fail the check.
+
+    The two suppression colonies are the negative controls: on every cycle of the witness,
+    `NO_DREAMS` must record zero dreams and `NO_QUESTIONS` zero questions. A terminal count
+    could pass while the intervention failed in the middle of the run, so the control is
+    checked against the whole trace.
+    """
+    by_name = {c.get("colony"): c for c in checks}
+    problems = []
+    for colony, layer, noun in (("NO_DREAMS", "dreams", "a dream"),
+                                ("NO_QUESTIONS", "questions", "a question")):
+        series = ((by_name.get(colony) or {}).get("series") or {}).get(layer)
+        if series and any(count > 0 for count in series):
+            problems.append("%s produced %s -- the negative control is not active"
+                            % (colony, noun))
+    return problems
+
+
+def row_reference_problems(rows: list[dict]) -> list[str]:
+    """Why a measured campaign cannot be reported, from its own rows.
+
+    G1 runs a few cycles, so it cannot see an arm that is alive at the start
+    and dead at the end -- the 0.12.0 rerun's failure mode. This reads the
+    reference colony's own trace and fails when it holds no theory in its
+    final tenth of cycles, or in no cycle at all.
+    """
+    full = next((r for r in rows if r.get("colony") == "FULL"), None)
+    if full is None:
+        return ["FULL is absent from the artifact -- the reference arm is missing"]
+    counts = list((full.get("series") or {}).get("theories") or [])
+    if not counts:
+        return ["FULL recorded no theory trace -- the reference arm is unmeasured"]
+    if not any(c > 0 for c in counts):
+        return ["FULL produced no theories -- the reference arm is broken"]
+    tail = counts[-max(1, len(counts) // 10):]
+    if not any(c > 0 for c in tail):
+        return ["FULL held no theory in its final tenth of cycles -- "
+                "the reference arm is dead"]
+    return []
+
+
+def record_reference_check(out_path: Path, problems: list[str]) -> list[str]:
+    """Persist the reference-arm verdict beside the rows before the process exits.
+
+    The exit status must be attributable without parsing printed output: a pipeline reads
+    the artifact, not the console. Written on every run, so a pass is recorded with the same
+    shape as a failure, and a reader can tell the status apart from a crash.
+    """
+    try:
+        doc = json.loads(out_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        return list(problems) + ["the reference-arm check could not be recorded: %s" % exc]
+    doc["reference_arm"] = {"check": "row_reference_problems", "problems": list(problems)}
+    out_path.write_text(json.dumps(engine_stamp.stamp(doc), indent=2), encoding="utf-8")
+    return list(problems)
+
+
+def verify_colonies(events: list[str], cycles: int = 40, service_class=None) -> list[dict]:
     """G1: prove each colony's intervention is actually in the code path.
 
     The first pilot of this harness produced a byte-identical FULL and
@@ -607,37 +704,36 @@ def verify_colonies(events: list[str], cycles: int = 40) -> list[dict]:
     This is rung G1 of the perturbation ladder (code path). Rung G2 (the
     candidate pools) and G3 (the final outputs) are what the campaign
     itself measures.
+
+    The witness is the whole trace, not the last cycle. On the campaign's own
+    `L1_hub1_t3_disjoint` stimulus the reference arm plateaus at cycle 5 and is
+    dead by 39, so a cycle-40 terminal snapshot reports zero theories and G1
+    calls a live arm broken (`docs/DECISION-G1-WITNESS.md`). G1 therefore runs
+    on `WITNESS_DESIGN` and reads every cycle, and the caller records the
+    campaign stimulus's own trace beside the pass.
     """
     checks = []
 
     for name in COLONIES:
-        db = temp_db(f"verify_{name}.db")
-        if db.exists():
-            db.unlink()
-        mem = MemoryService(db_path=str(db))
-        svc = colony_class(name)(mem)
-        for text in events:
-            mem.store(text, event_type="event", source="seed:bootstrap")
-        for i in range(cycles):
-            start = (i * EVENTS_PER_CYCLE) % len(events)
-            for text in events[start:start + EVENTS_PER_CYCLE]:
-                mem.store(text, event_type="event", source=f"cycle:{i}")
-            svc.run_sleep_cycle()
-        row = capture_cycle(svc)
-        policy = type(svc).HYPOTHESIS_RETENTION
-        scale = type(svc).CONTRADICTION_SCALE
+        row = run_colony(name, events, cycles, seed=VERIFY_SEED,
+                         service_class=service_class if name == "FULL" else None)
+        series = row["series"]
+        cls = colony_class(name)
         checks.append({
             "colony": name,
-            "retention_policy": policy,
-            "contradiction_scale": scale,
-            "questions": row.get("question_count"),
-            "dreams": row.get("dream_count"),
-            "experiments": row.get("experiment_count"),
-            "beliefs": row.get("pre_beliefs"),
-            "theories": row.get("theory_count"),
+            "retention_policy": cls.HYPOTHESIS_RETENTION,
+            "contradiction_scale": cls.CONTRADICTION_SCALE,
+            "questions": series["questions"][-1] if series["questions"] else 0,
+            "dreams": series["dreams"][-1] if series["dreams"] else 0,
+            "experiments": series["experiments"][-1] if series["experiments"] else 0,
+            "beliefs": series["beliefs"][-1] if series["beliefs"] else 0,
+            "pre_beliefs": series["pre_beliefs"][-1] if series["pre_beliefs"] else 0,
+            "theories": series["theories"][-1] if series["theories"] else 0,
+            "theory_cycles": sum(1 for count in series["theories"] if count > 0),
+            "series": {"theories": series["theories"],
+                       "questions": series["questions"],
+                       "dreams": series["dreams"]},
         })
-        mem.close()
-        db.unlink(missing_ok=True)
 
     by_name = {c["colony"]: c for c in checks}
     problems = []
@@ -651,20 +747,97 @@ def verify_colonies(events: list[str], cycles: int = 40) -> list[dict]:
         problems.append("NO_QUESTIONS is still producing questions")
     if (by_name["NO_DREAMS"]["dreams"] or 0) != 0:
         problems.append("NO_DREAMS is still producing dreams")
-    if by_name["FULL"]["theories"] == 0:
-        problems.append("FULL produced no theories -- the reference arm is broken")
 
     for c in checks:
         print(f"  {c['colony']:<20} policy={c['retention_policy']:<14} "
               f"scale={c['contradiction_scale']:<5} Q={c['questions']:<3} "
               f"D={c['dreams']:<3} E={c['experiments']:<3} "
-              f"beliefs={c['beliefs']:<3} theories={c['theories']}")
+              f"beliefs={c['beliefs']:<3} theories={c['theories']:<3} "
+              f"theory_cycles={c['theory_cycles']}/{cycles}")
+    problems.extend(negative_control_problems(checks))
+    problems.extend(reference_arm_problems(checks))
     if problems:
         for p in problems:
             print(f"  !! {p}")
     else:
         print("  G1 code-path check: all six colonies verified distinct.")
-    return checks
+    return checks, problems
+
+
+def design_events(design: str) -> list[str]:
+    """The event stream for one frozen lattice design, by name."""
+    lattice = lattice_designs(NEUTRAL_HUB, NEUTRAL_PETALS)
+    if design not in lattice:
+        raise KeyError("no such lattice design: %s (have %s)"
+                       % (design, ", ".join(sorted(lattice))))
+    return lattice_stream(lattice[design]["triangles"])
+
+
+def trace_reference(design: str, horizon: int, seed: int = VERIFY_SEED,
+                    stop_at_death: bool = True, service_class=None) -> dict:
+    """The reference arm's theory count per cycle on one design.
+
+    D2 of `docs/DECISION-G1-WITNESS.md`: the campaign may not launch until this trace shows the
+    reference arm alive at the campaign horizon. The run stops at the first cycle with zero
+    theories after a positive one, because that is the quantity D2 reads; with
+    ``stop_at_death=False`` it runs the full horizon, which the witness uses.
+    """
+    events = design_events(design)
+    db = temp_db("preflight_%s.db" % design)
+    if db.exists():
+        db.unlink()
+    mem = MemoryService(db_path=str(db))
+    if service_class is not None:
+        svc = type("Instrumented_FULL_%s" % service_class.__name__,
+                   (Instrumented, service_class), {})(mem)
+    else:
+        svc = colony_class("FULL")(mem)
+    if hasattr(svc, "_rng"):
+        svc._rng.seed(seed)
+    for text in events:
+        mem.store(text, event_type="event", source="seed:bootstrap")
+
+    counts: list[int] = []
+    peak = 0
+    first_zero = None
+    positive = False
+    for i in range(horizon):
+        start = (i * EVENTS_PER_CYCLE) % len(events)
+        for text in events[start:start + EVENTS_PER_CYCLE]:
+            mem.store(text, event_type="event", source=f"cycle:{i}")
+        svc.run_sleep_cycle()
+        capture_cycle(svc)
+        count = svc.rows[-1]["theory_count"]
+        counts.append(count)
+        peak = max(peak, count)
+        if count > 0:
+            positive = True
+        elif positive and first_zero is None:
+            first_zero = i + 1
+            if stop_at_death:
+                break
+
+    mem.close()
+    db.unlink(missing_ok=True)
+    return {
+        "design": design,
+        "horizon": horizon,
+        "cycles_run": len(counts),
+        "peak": peak,
+        "first_zero_cycle": first_zero,
+        "alive_at_horizon": bool(peak and first_zero is None),
+        "theory_counts": counts,
+    }
+
+
+def persistence_verdict(trace: dict) -> str:
+    """D2's reading of a reference trace: alive at the horizon, dead before it, or never formed."""
+    if not trace.get("peak"):
+        return "REFERENCE_ARM_BROKEN"
+    first_zero = trace.get("first_zero_cycle")
+    if first_zero is not None and first_zero <= trace.get("horizon", 0):
+        return "NOT_MEASURABLE_AS_DESIGNED"
+    return "ALIVE_AT_HORIZON"
 
 
 def merge(parts: list[Path], out_path: Path,
@@ -709,7 +882,7 @@ def merge(parts: list[Path], out_path: Path,
     }
     if provenance:
         prov.update(provenance)
-    out_path.write_text(json.dumps({
+    out_path.write_text(json.dumps(engine_stamp.stamp({
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "cycles": rows[0]["cycles"] if rows else None,
         "seed": rows[0]["seed"] if rows else None,
@@ -717,8 +890,13 @@ def merge(parts: list[Path], out_path: Path,
         "merged_from": [p.name for p in parts],
         "provenance": prov,
         "rows": rows,
-    }, indent=2), encoding="utf-8")
+    }), indent=2), encoding="utf-8")
     print(f"merged {len(rows)} colonies into {out_path}")
+    dead = record_reference_check(out_path, row_reference_problems(rows))
+    if dead:
+        for p in dead:
+            print(f"  !! {p}")
+        raise SystemExit(1)
 
 
 def main() -> None:
@@ -730,6 +908,9 @@ def main() -> None:
     ap.add_argument("--no-verify", action="store_true",
                     help="skip the G1 code-path check (it is run once per "
                          "campaign, not once per colony process)")
+    ap.add_argument("--part", action="store_true",
+                    help="write one colony's part artifact; the reference-arm "
+                         "check belongs to the merged campaign")
     ap.add_argument("--merge", nargs="*", default=None,
                     help="merge per-colony artifacts into --out")
     ap.add_argument("--out", default=str(REPO / "docs" / "force_matrix.json"))
@@ -740,12 +921,16 @@ def main() -> None:
         return
 
     lattice = lattice_designs(NEUTRAL_HUB, NEUTRAL_PETALS)
-    events = lattice_stream(lattice["L1_hub1_t3_disjoint"]["triangles"])
+    events = lattice_stream(lattice[CAMPAIGN_DESIGN]["triangles"])
+    witness_events = lattice_stream(lattice[WITNESS_DESIGN]["triangles"])
 
     if not args.no_verify:
-        print("G1 code-path verification:")
-    checks = verify_colonies(events) if not args.no_verify else []
+        print("G1 code-path verification on %s:" % WITNESS_DESIGN)
+    checks, problems = (verify_colonies(witness_events) if not args.no_verify
+                        else ([], []))
     if args.verify_only:
+        if problems:
+            raise SystemExit(1)
         return
 
     rows = []
@@ -754,14 +939,14 @@ def main() -> None:
     for name in args.colonies:
         r = run_colony(name, events, args.cycles, args.seed)
         rows.append(r)
-        out_path.write_text(json.dumps({
+        out_path.write_text(json.dumps(engine_stamp.stamp({
             "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "cycles": args.cycles,
             "seed": args.seed,
             "stimulus": "lattice_L1 (three disjoint triangles)",
             "g1_verification": checks,
             "rows": list(rows),
-        }, indent=2), encoding="utf-8")
+        }), indent=2), encoding="utf-8")
         m = r["metrics"]
         print(f"{name:<20} TDC={m['M1_theory_duty_cycle']['whole_run']:.3f} "
               f"QDC={m['M2_question_duty_cycle']['whole_run']:.3f} "
@@ -775,7 +960,17 @@ def main() -> None:
               f"({r['seconds']}s)")
         sys.stdout.flush()
 
+    if args.part:
+        print(f"\nwrote {out_path}")
+        return
+
+    dead = record_reference_check(out_path, row_reference_problems(rows))
+    if dead:
+        for p in dead:
+            print(f"  !! {p}")
     print(f"\nwrote {out_path}")
+    if dead:
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

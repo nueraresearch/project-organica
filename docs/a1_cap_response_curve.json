@@ -1,0 +1,330 @@
+{
+ "kind": "a1_cap_response_curve",
+ "id": "A1-CAP-RESPONSE-CURVE-1",
+ "date": "2026-11-14",
+ "status": "DESCRIPTIVE \u2014 NORMALIZED A-COVERAGE RESPONSE CURVE; NO TARGET, FREEZE, GRANT OR A1 CELL",
+ "not_a_result": true,
+ "question": "Does one normalized A-coverage curve plus a block offset explain the cap response across current-16, fresh-16 and larger-28?",
+ "definition": "A_coverage = A / candidate_edges, aggregated to 12 block-by-cap cells. Models are fitted to cell means; leave-one-cell-out fits on 11 cells and predicts the held-out block-cap cell.",
+ "method": "Read the committed cap-20/40/80 and cap-112 rows; overlapping cap-40 and cap-80 cells must agree. Compare shared curves, arbitrary cap effects, block-specific slopes and the saturated interaction. Pure-Python OLS; no replay or engine change.",
+ "constants": {
+  "blocks": [
+   "current-16",
+   "fresh-16",
+   "larger-28"
+  ],
+  "caps": [
+   20,
+   40,
+   80,
+   112
+  ],
+  "cells": 12,
+  "seeds": 72
+ },
+ "governance": {
+  "freeze": false,
+  "grant": false,
+  "run": false,
+  "authorization": "none"
+ },
+ "reading": "A single square-root cap curve plus a block offset predicts the 12 block-by-cap cells with in-sample RMSE 0.0131 (max 0.0242) and leave-one-cell-out RMSE 0.0193 (max 0.0333). Block-specific square-root slopes reach LOO RMSE 0.0209, arbitrary per-cap effects 0.0232, and block-specific linear slopes 0.0398. The shared curve is therefore sufficient over this cap range: the blocks differ mainly by a baseline offset, not by response shape.",
+ "best_loo_model": "common_sqrt_offset",
+ "comparisons": [
+  {
+   "model": "block_only",
+   "parameters": 3,
+   "in_rmse": 0.111249,
+   "in_max": 0.162678,
+   "loo_rmse": 0.148331,
+   "loo_max": 0.216904,
+   "coefficients": [
+    0.77622768,
+    -0.0135582,
+    -0.35118485
+   ],
+   "k": null
+  },
+  {
+   "model": "cap_only",
+   "parameters": 4,
+   "in_rmse": 0.162862,
+   "in_max": 0.252456,
+   "loo_rmse": 0.244293,
+   "loo_max": 0.378684,
+   "coefficients": [
+    0.50245878,
+    0.10304279,
+    0.21333764,
+    0.2923711
+   ],
+   "k": null
+  },
+  {
+   "model": "common_linear_offset",
+   "parameters": 4,
+   "in_rmse": 0.019943,
+   "in_max": 0.035894,
+   "loo_rmse": 0.029916,
+   "loo_max": 0.050187,
+   "coefficients": [
+    0.5825171,
+    -0.0135582,
+    -0.35118485,
+    0.00307477
+   ],
+   "k": null
+  },
+  {
+   "model": "common_log_offset",
+   "parameters": 4,
+   "in_rmse": 0.014825,
+   "in_max": 0.029163,
+   "loo_rmse": 0.022022,
+   "loo_max": 0.039547,
+   "coefficients": [
+    0.1195379,
+    -0.0135582,
+    -0.35118485,
+    0.16640711
+   ],
+   "k": null
+  },
+  {
+   "model": "common_sqrt_offset",
+   "parameters": 4,
+   "in_rmse": 0.013061,
+   "in_max": 0.02421,
+   "loo_rmse": 0.019283,
+   "loo_max": 0.033338,
+   "coefficients": [
+    0.42002218,
+    -0.0135582,
+    -0.35118485,
+    0.04698666
+   ],
+   "k": null
+  },
+  {
+   "model": "common_quadratic_offset",
+   "parameters": 5,
+   "in_rmse": 0.014168,
+   "in_max": 0.026102,
+   "loo_rmse": 0.023422,
+   "loo_max": 0.03869,
+   "coefficients": [
+    0.53197175,
+    -0.0135582,
+    -0.35118485,
+    0.00523836,
+    -1.638e-05
+   ],
+   "k": null
+  },
+  {
+   "model": "common_exponential_offset",
+   "parameters": 5,
+   "in_rmse": 0.01341,
+   "in_max": 0.022811,
+   "loo_rmse": 0.022984,
+   "loo_max": 0.036795,
+   "coefficients": [
+    0.62776209,
+    -0.0135582,
+    -0.35118485,
+    0.42568408
+   ],
+   "k": 0.012
+  },
+  {
+   "model": "additive_cap_effects",
+   "parameters": 6,
+   "in_rmse": 0.011596,
+   "in_max": 0.022852,
+   "loo_rmse": 0.023193,
+   "loo_max": 0.045704,
+   "coefficients": [
+    0.62403979,
+    -0.0135582,
+    -0.35118485,
+    0.10304279,
+    0.21333764,
+    0.2923711
+   ],
+   "k": null
+  },
+  {
+   "model": "block_linear",
+   "parameters": 6,
+   "in_rmse": 0.018087,
+   "in_max": 0.0362,
+   "loo_rmse": 0.039759,
+   "loo_max": 0.077605,
+   "coefficients": [
+    0.60113704,
+    0.56812055,
+    0.21355066,
+    0.00277922,
+    0.00308808,
+    0.00335702
+   ],
+   "k": null
+  },
+  {
+   "model": "block_sqrt",
+   "parameters": 6,
+   "in_rmse": 0.010192,
+   "in_max": 0.024776,
+   "loo_rmse": 0.020933,
+   "loo_max": 0.048582,
+   "coefficients": [
+    0.45384394,
+    0.40305178,
+    0.03842775,
+    0.04252527,
+    0.04743676,
+    0.05099795
+   ],
+   "k": null
+  },
+  {
+   "model": "full_interaction",
+   "parameters": 12,
+   "in_rmse": 0.0,
+   "in_max": 0.0,
+   "loo_rmse": null,
+   "loo_max": null,
+   "coefficients": [
+    0.63624339,
+    0.73561508,
+    0.82990245,
+    0.9031498,
+    0.59999173,
+    0.72784392,
+    0.81965112,
+    0.90319114,
+    0.27114121,
+    0.35304571,
+    0.49783568,
+    0.5781487
+   ],
+   "k": null
+  }
+ ],
+ "selected_model": {
+  "model": "common_sqrt_offset",
+  "parameters": 4,
+  "in_rmse": 0.013061,
+  "in_max": 0.02421,
+  "loo_rmse": 0.019283,
+  "loo_max": 0.033338,
+  "coefficients": [
+   0.42002218,
+   -0.0135582,
+   -0.35118485,
+   0.04698666
+  ],
+  "k": null
+ },
+ "block_offsets": {
+  "current-16": 0.42002218,
+  "fresh-16": 0.40646398,
+  "larger-28": 0.06883733
+ },
+ "relative_offsets": {
+  "fresh-16": -0.0135582,
+  "larger-28": -0.35118485
+ },
+ "sqrt_coefficient": 0.04698666,
+ "cells": [
+  {
+   "block": "current-16",
+   "cap": 20,
+   "observed": 0.636243,
+   "predicted": 0.630153,
+   "residual": 0.00609
+  },
+  {
+   "block": "current-16",
+   "cap": 40,
+   "observed": 0.735615,
+   "predicted": 0.717192,
+   "residual": 0.018423
+  },
+  {
+   "block": "current-16",
+   "cap": 80,
+   "observed": 0.829902,
+   "predicted": 0.840284,
+   "residual": -0.010381
+  },
+  {
+   "block": "current-16",
+   "cap": 112,
+   "observed": 0.90315,
+   "predicted": 0.917282,
+   "residual": -0.014132
+  },
+  {
+   "block": "fresh-16",
+   "cap": 20,
+   "observed": 0.599992,
+   "predicted": 0.616595,
+   "residual": -0.016603
+  },
+  {
+   "block": "fresh-16",
+   "cap": 40,
+   "observed": 0.727844,
+   "predicted": 0.703634,
+   "residual": 0.02421
+  },
+  {
+   "block": "fresh-16",
+   "cap": 80,
+   "observed": 0.819651,
+   "predicted": 0.826725,
+   "residual": -0.007074
+  },
+  {
+   "block": "fresh-16",
+   "cap": 112,
+   "observed": 0.903191,
+   "predicted": 0.903724,
+   "residual": -0.000533
+  },
+  {
+   "block": "larger-28",
+   "cap": 20,
+   "observed": 0.271141,
+   "predicted": 0.278968,
+   "residual": -0.007827
+  },
+  {
+   "block": "larger-28",
+   "cap": 40,
+   "observed": 0.353046,
+   "predicted": 0.366007,
+   "residual": -0.012961
+  },
+  {
+   "block": "larger-28",
+   "cap": 80,
+   "observed": 0.497836,
+   "predicted": 0.489099,
+   "residual": 0.008737
+  },
+  {
+   "block": "larger-28",
+   "cap": 112,
+   "observed": 0.578149,
+   "predicted": 0.566097,
+   "residual": 0.012051
+  }
+ ],
+ "not_evidence": "A descriptive fit to 12 fixed block-by-cap cell means from 18 no-arm seeds. It compares interpolation models, not causal effects; it does not show that changing the prediction cap would move A by the fitted curve, and it is not a treatment, target viability or successor.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__"
+}

@@ -1,0 +1,847 @@
+{
+  "kind": "a1_target_freeze_act_n20",
+  "id": "A1-TARGET-FREEZE-N20-1",
+  "date": "2026-11-15",
+  "status": "SIGNED BY OWNER 2026-11-15 — PATH A FROZEN ON THE COMPETENT BLOCK (20/17/20/20/18/20); ESTIMAND CONDITIONAL ON BOTH BASELINE PATHS; SCORER PINNED; C5 RE-CLEARED ON THIS BLOCK; GRANT ISSUED 2026-11-15 (docs/A1-GRANT.md); RUN 2026-11-15 — ASSEMBLY VOID (C4_DELTA); docs/A1-RUN.md",
+  "signed": true,
+  "owner_signature": "Owner",
+  "effective_date": "2026-11-15",
+  "path": "A",
+  "estimand": "the pre-37 cycle-membership directed-edge effect, conditional on both an A carrier and a K path being present in the no-arm baseline",
+  "parent_act": {
+    "id": "A1-TARGET-FREEZE-1",
+    "record": "docs/A1-TARGET-FREEZE-ACT.md",
+    "status": "DRAFT — RE-ISSUED FOR THE ADOPTED BLOCK; AWAITING OWNER SIGNATURE; NOT FROZEN; NO GRANT, NO RUN",
+    "relationship": "This N=20 act supersedes the N=4 act if signed; the N=4 act remains unsigned and unexecuted."
+  },
+  "design": {
+    "id": "A1-C8-EXPANSION-1",
+    "record": "docs/A1-C8-EXPANSION.md",
+    "selection_artifact": "docs/a1_c8_target_selection.json",
+    "selection_artifact_digest": "2af0a2e0f4d8464b8c8e9fcaeefeb0268b896551fb2046491962b6465c73d54b"
+  },
+  "n_per_seed": 20,
+  "disjoint": false,
+  "max_endpoint_degree": 3,
+  "threshold": 0.05,
+  "threshold_changed": false,
+  "selection_artifact": "docs/a1_c8_target_selection_competent.json",
+  "selection_artifact_digest": "697dc9f95c606936a1d7b7bc8d59f4192f25db9e5b89a0a5b06a6a0a5d5dabde",
+  "targets_by_seed": {
+    "20740101": [
+      "amber>maple",
+      "amber>sable",
+      "amber>willow",
+      "birch>fern",
+      "birch>ochre",
+      "birch>olive",
+      "cedar>ochre",
+      "crimson>maple",
+      "crimson>sable",
+      "crimson>slate",
+      "fern>cedar",
+      "indigo>fern",
+      "indigo>olive",
+      "indigo>sable",
+      "maple>cedar",
+      "teal>willow",
+      "verdant>ochre",
+      "verdant>slate",
+      "verdant>umber",
+      "yarrow>willow"
+    ],
+    "20740102": [
+      "amber>birch",
+      "amber>indigo",
+      "birch>crimson",
+      "birch>ochre",
+      "crimson>indigo",
+      "fern>cedar",
+      "fern>willow",
+      "indigo>umber",
+      "ochre>sable",
+      "olive>cedar",
+      "olive>crimson",
+      "sable>maple",
+      "sable>teal",
+      "umber>yarrow",
+      "verdant>umber",
+      "yarrow>amber",
+      "yarrow>maple"
+    ],
+    "20740103": [
+      "amber>fern",
+      "amber>maple",
+      "amber>teal",
+      "birch>fern",
+      "cedar>fern",
+      "cedar>olive",
+      "crimson>maple",
+      "crimson>olive",
+      "crimson>slate",
+      "indigo>birch",
+      "maple>birch",
+      "ochre>teal",
+      "ochre>verdant",
+      "ochre>willow",
+      "olive>sable",
+      "sable>indigo",
+      "sable>slate",
+      "slate>cedar",
+      "umber>teal",
+      "umber>verdant"
+    ],
+    "20740104": [
+      "amber>maple",
+      "amber>willow",
+      "crimson>olive",
+      "crimson>slate",
+      "crimson>yarrow",
+      "fern>indigo",
+      "fern>maple",
+      "fern>ochre",
+      "indigo>birch",
+      "maple>sable",
+      "ochre>amber",
+      "ochre>birch",
+      "olive>indigo",
+      "slate>willow",
+      "teal>olive",
+      "teal>slate",
+      "teal>yarrow",
+      "umber>yarrow",
+      "verdant>birch",
+      "verdant>sable"
+    ],
+    "20740105": [
+      "amber>maple",
+      "amber>yarrow",
+      "birch>slate",
+      "birch>umber",
+      "cedar>ochre",
+      "crimson>slate",
+      "crimson>umber",
+      "fern>ochre",
+      "fern>slate",
+      "fern>umber",
+      "indigo>crimson",
+      "indigo>teal",
+      "indigo>willow",
+      "ochre>maple",
+      "teal>verdant",
+      "verdant>birch",
+      "verdant>willow",
+      "willow>amber"
+    ],
+    "20740106": [
+      "amber>birch",
+      "amber>sable",
+      "birch>ochre",
+      "cedar>ochre",
+      "crimson>fern",
+      "crimson>teal",
+      "fern>amber",
+      "maple>crimson",
+      "maple>ochre",
+      "olive>birch",
+      "olive>fern",
+      "olive>maple",
+      "sable>umber",
+      "slate>willow",
+      "teal>willow",
+      "umber>slate",
+      "verdant>sable",
+      "verdant>yarrow",
+      "willow>cedar",
+      "yarrow>umber"
+    ]
+  },
+  "current_targets_by_seed": {
+    "20740101": [
+      "indigo>fern",
+      "teal>slate",
+      "maple>cedar",
+      "verdant>umber"
+    ],
+    "20740102": [
+      "olive>umber",
+      "willow>yarrow",
+      "verdant>crimson",
+      "ochre>slate"
+    ],
+    "20740103": [
+      "yarrow>teal",
+      "amber>willow",
+      "birch>fern",
+      "verdant>sable"
+    ],
+    "20740104": [
+      "slate>indigo",
+      "umber>cedar",
+      "crimson>sable",
+      "willow>birch"
+    ],
+    "20740105": [
+      "ochre>crimson",
+      "verdant>willow",
+      "sable>yarrow",
+      "fern>olive"
+    ],
+    "20740106": [
+      "indigo>teal",
+      "birch>ochre",
+      "amber>yarrow",
+      "verdant>sable"
+    ]
+  },
+  "new_targets_by_seed": {
+    "20740101": [
+      "amber>maple",
+      "amber>sable",
+      "amber>willow",
+      "birch>fern",
+      "birch>ochre",
+      "birch>olive",
+      "cedar>ochre",
+      "crimson>maple",
+      "crimson>sable",
+      "crimson>slate",
+      "fern>cedar",
+      "indigo>olive",
+      "indigo>sable",
+      "teal>willow",
+      "verdant>ochre",
+      "verdant>slate",
+      "yarrow>willow"
+    ],
+    "20740102": [
+      "amber>birch",
+      "amber>indigo",
+      "birch>crimson",
+      "birch>ochre",
+      "crimson>indigo",
+      "fern>cedar",
+      "fern>willow",
+      "indigo>umber",
+      "ochre>sable",
+      "olive>cedar",
+      "olive>crimson",
+      "sable>maple",
+      "sable>teal",
+      "umber>yarrow",
+      "verdant>umber",
+      "yarrow>amber",
+      "yarrow>maple"
+    ],
+    "20740103": [
+      "amber>fern",
+      "amber>maple",
+      "amber>teal",
+      "cedar>fern",
+      "cedar>olive",
+      "crimson>maple",
+      "crimson>olive",
+      "crimson>slate",
+      "indigo>birch",
+      "maple>birch",
+      "ochre>teal",
+      "ochre>verdant",
+      "ochre>willow",
+      "olive>sable",
+      "sable>indigo",
+      "sable>slate",
+      "slate>cedar",
+      "umber>teal",
+      "umber>verdant"
+    ],
+    "20740104": [
+      "amber>maple",
+      "amber>willow",
+      "crimson>olive",
+      "crimson>slate",
+      "crimson>yarrow",
+      "fern>indigo",
+      "fern>maple",
+      "fern>ochre",
+      "indigo>birch",
+      "maple>sable",
+      "ochre>amber",
+      "ochre>birch",
+      "olive>indigo",
+      "slate>willow",
+      "teal>olive",
+      "teal>slate",
+      "teal>yarrow",
+      "umber>yarrow",
+      "verdant>birch",
+      "verdant>sable"
+    ],
+    "20740105": [
+      "amber>maple",
+      "amber>yarrow",
+      "birch>slate",
+      "birch>umber",
+      "cedar>ochre",
+      "crimson>slate",
+      "crimson>umber",
+      "fern>ochre",
+      "fern>slate",
+      "fern>umber",
+      "indigo>crimson",
+      "indigo>teal",
+      "indigo>willow",
+      "ochre>maple",
+      "teal>verdant",
+      "verdant>birch",
+      "willow>amber"
+    ],
+    "20740106": [
+      "amber>birch",
+      "amber>sable",
+      "cedar>ochre",
+      "crimson>fern",
+      "crimson>teal",
+      "fern>amber",
+      "maple>crimson",
+      "maple>ochre",
+      "olive>birch",
+      "olive>fern",
+      "olive>maple",
+      "sable>umber",
+      "slate>willow",
+      "teal>willow",
+      "umber>slate",
+      "verdant>yarrow",
+      "willow>cedar",
+      "yarrow>umber"
+    ]
+  },
+  "per_seed": {
+    "20740101": {
+      "block_size": 20,
+      "selection_digest": "9e53fc746c019f54",
+      "competent_pool": 38,
+      "retained_current": [
+        "indigo>fern",
+        "maple>cedar",
+        "verdant>umber"
+      ]
+    },
+    "20740102": {
+      "block_size": 17,
+      "selection_digest": "b3fbeebf449860a7",
+      "competent_pool": 27,
+      "retained_current": []
+    },
+    "20740103": {
+      "block_size": 20,
+      "selection_digest": "534800f94d15428b",
+      "competent_pool": 37,
+      "retained_current": [
+        "birch>fern"
+      ]
+    },
+    "20740104": {
+      "block_size": 20,
+      "selection_digest": "8fa7f0b3cb7ccfb9",
+      "competent_pool": 40,
+      "retained_current": []
+    },
+    "20740105": {
+      "block_size": 18,
+      "selection_digest": "a9f1a289db24c552",
+      "competent_pool": 32,
+      "retained_current": [
+        "verdant>willow"
+      ]
+    },
+    "20740106": {
+      "block_size": 20,
+      "selection_digest": "e1ec625f2d458f3d",
+      "competent_pool": 31,
+      "retained_current": [
+        "birch>ochre",
+        "verdant>sable"
+      ]
+    }
+  },
+  "target_count": 115,
+  "unique_target_edges": 90,
+  "current_target_count": 24,
+  "current_unique_target_edges": 23,
+  "current_targets_retained": false,
+  "superset_of_current_targets": false,
+  "c8_resolution": {
+    "status": "RESOLVED BY THIS ACT",
+    "rows_per_seed": "20, 17, 20, 20, 18, 20",
+    "n_min": 17,
+    "step": "1/20 where twenty rows form; 0/17 and 0/18 relaxed at the shorter seeds",
+    "threshold": 0.05,
+    "threshold_changed": false,
+    "assertions_allowed_per_seed": "1, 0, 1, 1, 0, 1",
+    "adjudicable_after_signature": true,
+    "unit": "PER SEED, PER TARGET ROW",
+    "note": "The C8 ceiling remains 0.05. floor(0.05 x N) allows one assertion at twenty rows and none at seventeen or eighteen, so the two short seeds must be perfect. The act changes the target denominator, not the threshold."
+  },
+  "c7_c1_c4_effect": {
+    "C7_status": "UNCHANGED — PER-EDGE A/K RATE OVER 120 CYCLES; RATE-RESOLVED, UNRUN",
+    "C7_Y_rows_per_seed": 40,
+    "C7_rate_step": 0.008333,
+    "C1_target_only_rows": 20,
+    "C1_target_only_status": "STILL BELOW THE 60-ROW FLOOR",
+    "C1_total_upper_bound": "63-64",
+    "C4_non_target_rows": "43-44",
+    "C1_C4_status": "POST-FREEZE VOID GATES; ADOPTED — BINDING FOR A1"
+  },
+  "current_manifest": {
+    "frozen": false,
+    "n_per_seed": 4,
+    "target_status": "UNRESOLVED — MUST BE FIXED BEFORE FREEZE",
+    "seed_block_status": "PROVISIONAL CANDIDATE — 20740101-20740106, NOT RESERVED, NOT FROZEN",
+    "granted": false
+  },
+  "manifest_target_status_after_signature": "FIXED BEFORE FREEZE",
+  "manifest_frozen_after_signature": true,
+  "seed_block_status_after_signature": "RESERVED — FROZEN",
+  "grant_after_signature": "ISSUED 2026-11-15 — docs/A1-GRANT.md",
+  "run_after_signature": "RAN 2026-11-15 — VOID (C4_DELTA) — docs/A1-RUN.md",
+  "blocking_preconditions": [
+    "C2_C8_competence_rule",
+    "C4_exposure_acceptance"
+  ],
+  "preconditions": [
+    {
+      "id": "P0_protocol_compliance",
+      "state": "PASS",
+      "blocking": false
+    },
+    {
+      "id": "six_target_sets_formed",
+      "state": "PASS",
+      "blocking": false
+    },
+    {
+      "id": "at_least_n_min_targets_per_seed",
+      "state": "PASS — 20/17/20/20/18/20; N_min = 17",
+      "blocking": false
+    },
+    {
+      "id": "four_current_targets_retained",
+      "state": "NOT MET — 7 of 24 current-target observations survive into the competent block (0 of 4 on seeds 20740102 and 20740104)",
+      "blocking": false
+    },
+    {
+      "id": "selection_artifact_consistent",
+      "state": "PASS",
+      "blocking": false
+    },
+    {
+      "id": "C5_earlier_U_before_carrier",
+      "state": "PASS — re-cleared on the competent block: 115 rows, 0 carriers before the cycle-4 U (A1-C5-TARGET-TIMING-COMPETENT)",
+      "blocking": false,
+      "u_cycle": 4,
+      "selection_u_cycle": 36,
+      "audit": "docs/a1_c5_target_timing.json"
+    },
+    {
+      "id": "N20_manifest_validator",
+      "state": "PASS — a1_two_path accepts the N=20 degree-3 target set",
+      "blocking": false
+    },
+    {
+      "id": "C8_denominator",
+      "state": "PASS — 20 rows per seed, 1/20 = 0.05, threshold unchanged",
+      "blocking": false
+    },
+    {
+      "id": "C1_acceptance_rule",
+      "state": "RECORDED — BINDING FOR A1",
+      "blocking": false
+    },
+    {
+      "id": "C1_C4_gate_order",
+      "state": "ADOPTED — BINDING FOR A1 (2026-11-14)",
+      "blocking": false
+    },
+    {
+      "id": "grant",
+      "state": "NOT ISSUED",
+      "blocking": false
+    },
+    {
+      "id": "run",
+      "state": "NOT STARTED",
+      "blocking": false
+    },
+    {
+      "id": "scorer_pinned_before_cells",
+      "state": "PASS — a1_arms and a1_result pinned; a1_result refuses to assemble on a mismatch",
+      "blocking": false
+    }
+  ],
+  "effect_if_signed": [
+    "Adopt A1-C8-EXPANSION-1 and replace the N=4 target block with the exact 20-target sets recorded here.",
+    "Preserve the four current Path A targets in every seed and add the 16 expansion rows per seed.",
+    "Set the manifest target block to FIXED BEFORE FREEZE, n_per_seed to 20, and frozen to true.",
+    "Reserve the six candidate seeds as the fixed seed block.",
+    "Make C8 evaluable at a 1/20 = 0.05 step without changing the 0.05 ceiling.",
+    "Leave authorisation.granted false; the execution gate still refuses.",
+    "Leave C1/C4 as post-freeze void gates and C7 unchanged."
+  ],
+  "not_effect": [
+    "It does not issue a grant.",
+    "It does not open a database or run a cell.",
+    "It does not produce a C1 or C4 denominator or a C8 measurement.",
+    "It does not measure C5; the cycle-4 earlier-U protocol only clears target timing before any granted cell.",
+    "It does not apply the N=20 target block to the live manifest before signature.",
+    "It does not regenerate targets, re-run the selector or permit post-outcome selection.",
+    "It does not change the C7 or C8 thresholds.",
+    "It does not alter the frozen engine.",
+    "It does not execute the N=4 act; that act remains unsigned and is superseded only if this act is signed."
+  ],
+  "checks": {
+    "a1_c8_target_selection_check": "CLEAN",
+    "a1_target_selection_check": "CLEAN",
+    "current_targets_are_subset": true,
+    "twenty_per_seed": true,
+    "target_set_problems": "PASS — a1_two_path validates the N=20 degree-3 target set against the C8 selection artifact",
+    "no_cell_run": true,
+    "a1_c5_target_timing_check": "CLEAN — cycle-4 U precedes the earliest current carrier at cycle 8; four current targets preserved",
+    "c5_competent_timing": "python -m benchmarks.a1_c5_competent_audit --check",
+    "scorer_pin": "python -m benchmarks.a1_scorer_pin --check",
+    "act_blocks": "python -m benchmarks.a1_act_blocks --check",
+    "freeze_fields": "python -m benchmarks.a1_freeze_fields --check"
+  },
+  "not_evidence": "A signed N=20 target-freeze act. It freezes the competent target block and the scorer, issues no grant, runs no cell and measures no gate. C1, C2, C4, C7 and C8 remain unmeasured; C5 is cleared by a no-arm timing audit, not by a cell.",
+  "c5_timing": {
+    "id": "A1-C5-TARGET-TIMING-1",
+    "status": "PASS — FIXED EARLIER-U AT CYCLE 4",
+    "u_cycle": 4,
+    "selection_u_cycle": 36,
+    "audit": "docs/a1_c5_target_timing.json",
+    "earliest_observed_carrier_cycle": 6,
+    "earliest_current_carrier_cycle": 8,
+    "current_observed_carriers": 13,
+    "current_missing_carriers": 11,
+    "current_carriers_before_u": 0,
+    "current_targets_preserved": true,
+    "note": "Cycle-36 remains the target-selection diagnostic; C5 uses the earlier sample. Missing carriers are left to the structural gates, not counted as timing failures."
+  },
+  "reissue": {
+    "date": "2026-11-15",
+    "previous_edition_seed_block": [
+      20630101,
+      20630102,
+      20630103,
+      20630104,
+      20630105,
+      20630106
+    ],
+    "current_seed_block": [
+      20740101,
+      20740102,
+      20740103,
+      20740104,
+      20740105,
+      20740106
+    ],
+    "reason": "the previous edition's per-seed tables, counts and digest were bound to 20630101-20630106, which A1-BASELINE-AVAILABILITY-1 spent; the two-path candidate block is now 20740101-20740106",
+    "previous_edition_selection_artifacts": {
+      "n4": "c8f96ff1888d5b9ae175950cb963e16b779a8caa5ebfa73e4b425fba7bec4f5a",
+      "n20": "daa207f2a6b0644081677691cebc54131d36151406e0121cbe364df005c5cc76"
+    },
+    "preserved_in": "git history: the superseded edition's tables are at 1b822af and earlier; they are not restated here",
+    "signed": false,
+    "owner_decision": "signing and dating this re-issued act is the owner's act, not a tool's",
+    "what_changed": "per-seed target tables, counts, unique-edge counts, selection digests and the C5 cycle figures now describe the adopted block; the act's text, gates, thresholds and decision structure are unchanged"
+  },
+  "design_viability": {
+    "id": "A1-DESIGN-VIABILITY-1",
+    "record": "docs/A1-DESIGN-VIABILITY.md",
+    "date": "2026-11-14",
+    "recorded_status": "FLAGGED — C1 CEILING BELOW FLOOR; C2/C8 TARGET COMPETENCE CONDITIONAL",
+    "recorded_seed_block": [
+      20630101,
+      20630102,
+      20630103,
+      20630104,
+      20630105,
+      20630106
+    ],
+    "floor": 60,
+    "recorded_c1_ceiling_by_seed": {
+      "20630101": {
+        "rows": 64,
+        "A_available": 44,
+        "K_available": 44,
+        "max_attainable": 44,
+        "shortfall": 16,
+        "reaches_floor": false
+      },
+      "20630102": {
+        "rows": 63,
+        "A_available": 44,
+        "K_available": 31,
+        "max_attainable": 31,
+        "shortfall": 29,
+        "reaches_floor": false
+      },
+      "20630103": {
+        "rows": 64,
+        "A_available": 52,
+        "K_available": 39,
+        "max_attainable": 39,
+        "shortfall": 21,
+        "reaches_floor": false
+      },
+      "20630104": {
+        "rows": 64,
+        "A_available": 43,
+        "K_available": 35,
+        "max_attainable": 35,
+        "shortfall": 25,
+        "reaches_floor": false
+      },
+      "20630105": {
+        "rows": 64,
+        "A_available": 49,
+        "K_available": 43,
+        "max_attainable": 43,
+        "shortfall": 17,
+        "reaches_floor": false
+      },
+      "20630106": {
+        "rows": 63,
+        "A_available": 49,
+        "K_available": 36,
+        "max_attainable": 36,
+        "shortfall": 24,
+        "reaches_floor": false
+      }
+    },
+    "recorded_conclusion": "every seed's C1 ceiling is below the 60-row floor; target selection cannot add available rows, only partition them",
+    "recorded_disposition": "Do not freeze or run the current A1 design on these records. C1 is not target-selectable, and target competence requires an owner rule. A1 must be redesigned with a C1-capable universe or seed block and a pre-registered competence rule, or parked. No cell, target freeze, grant or threshold change is authorised. C1 floor reachability is additionally convention-dependent: on 2074 directed rows clear the floor and undirected relations do not, and the protocol does not say which a C1 row is.",
+    "applies_to_the_adopted_block": "MEASURED on 2026-11-15 — see measured_for_adopted_block; the adopted stream's own ceiling is below the floor",
+    "what_signing_leaves_open": "whether the frozen stream can produce a 60-row C1 denominator at all. The only measurement in the repository says a sibling stream could not, and the disposition on that record is 'do not freeze'; this act does not repair that, re-measure it, or take a position on it",
+    "is_a_signature_blocker": true,
+    "blocker_id": "C1_denominator_confirmation",
+    "note": "The C1 ceiling is a property of the candidate stream, not of the target block: target selection partitions rows and cannot create them. So the recorded flag does not transfer to the adopted block as a measurement, and it does not lapse either — it says the one stream this design has in common with the record (its construction) failed the floor. Signing freezes targets on a stream whose ceiling is unknown.",
+    "measured_for_adopted_block": {
+      "artifact": "docs/a1_baseline_availability_adopted.json",
+      "id": "A1-BASELINE-AVAILABILITY-ADOPTED-1",
+      "date": "2026-11-15",
+      "artifact_digest": "4c01b4e9c2b1c058ae35c33079b004f03eb49c715fe689b81f4ee8ffc817fa5b",
+      "status": "FLAGGED — C1 FLOOR NOT REACHED IN THE CANDIDATE STREAM; C4 CELL STREAM IS WIDER THAN THE CANDIDATE PLAN",
+      "floor": 60,
+      "seed_block": [
+        20740101,
+        20740102,
+        20740103,
+        20740104,
+        20740105,
+        20740106
+      ],
+      "per_seed": {
+        "20740101": {
+          "A_available": 45,
+          "K_available": 46,
+          "max_attainable": 45,
+          "reaches_floor": false,
+          "cell_stream_min": 79
+        },
+        "20740102": {
+          "A_available": 51,
+          "K_available": 34,
+          "max_attainable": 34,
+          "reaches_floor": false,
+          "cell_stream_min": 64
+        },
+        "20740103": {
+          "A_available": 47,
+          "K_available": 48,
+          "max_attainable": 47,
+          "reaches_floor": false,
+          "cell_stream_min": 79
+        },
+        "20740104": {
+          "A_available": 50,
+          "K_available": 48,
+          "max_attainable": 48,
+          "reaches_floor": false,
+          "cell_stream_min": 74
+        },
+        "20740105": {
+          "A_available": 49,
+          "K_available": 38,
+          "max_attainable": 38,
+          "reaches_floor": false,
+          "cell_stream_min": 72
+        },
+        "20740106": {
+          "A_available": 48,
+          "K_available": 41,
+          "max_attainable": 41,
+          "reaches_floor": false,
+          "cell_stream_min": 74
+        }
+      },
+      "candidate_stream": {
+        "ceiling_by_seed": [
+          45,
+          34,
+          47,
+          48,
+          38,
+          41
+        ],
+        "min": 34,
+        "max": 48,
+        "seeds_reaching_floor": 0,
+        "conclusion": "every seed's candidate-stream C1 ceiling is below the 60-row floor: the adopted stream cannot produce the planned 60-row C1 denominator at any target selection"
+      },
+      "cell_stream": {
+        "min_by_seed": [
+          79,
+          64,
+          79,
+          74,
+          72,
+          74
+        ],
+        "min": 64,
+        "floor_pass": true,
+        "conclusion": "the full 120-cycle cell stream does reach the floor (min 64), so whether C1 is attainable depends on which stream its denominator is taken from"
+      },
+      "stream_divergence": 290,
+      "blocker_effect": "CONFIRMED, not inferred: the measurement that the acts were blocked for has now been made on the adopted block, and it fails the floor on the candidate stream"
+    },
+    "blocker_state": "RECONCILED AND OWNER-ADOPTED 2026-11-15 — THE EARLIER BLOCKER USED THE PLANNING QUANTITY; THE PROTOCOL'S DENOMINATOR IS NOW AUTHORITATIVE (DIRECTED CELL ROWS, FLOOR 64 vs 60, NOT SCORED). WHAT REMAINS IS NOT C1: C2/C8 TARGET COMPETENCE HAS NO RULE AND C4'S 108 NON-TARGET ROWS PER SEED ARE UNSIZED BY ANY MEASUREMENT. SEE DECISION-A1-C1-DENOMINATOR.md.",
+    "cleared": false,
+    "denominator_reconciliation": {
+      "defined_by": "docs/A1-TARGET-SELECTION-PROTOCOL.md",
+      "definition_quote": "`c1_rows` includes baseline-available non-target edges in the C1 denominator",
+      "definition": "the observed paired-control denominator: rows available in the paired A+K+ control, target and non-target edges alike",
+      "planning_quantity": "63-64 rows — a candidate-count upper bound, labelled in three committed documents as 'not an observed baseline-availability denominator' (docs/A1-POWER-REVIEW.md, docs/A1-C1-C4-VOID-GATE.md, docs/DECISION-A1-PATH-A-C1-RULE.md)",
+      "why_this_is_reconciliation_not_choice": "the protocol, the gate record and the decision rule all define the denominator before this measurement existed; the earlier blocker reasoned about the planning quantity as though it were the scored one",
+      "measured_under_the_protocol_definition": {
+        "artifact": "docs/a1_baseline_availability_adopted.json",
+        "denominator_by_seed": [
+          79,
+          64,
+          79,
+          74,
+          72,
+          74
+        ],
+        "min": 64,
+        "floor": 60,
+        "floor_reachable": true,
+        "candidate_stream_for_comparison": {
+          "denominator_by_seed": [
+            45,
+            34,
+            47,
+            48,
+            38,
+            41
+          ],
+          "min": 34,
+          "floor_reachable": false,
+          "status": "A different quantity: the planning upper bound, not the denominator"
+        }
+      },
+      "what_this_does_not_establish": "that C1 passes. The measurement is baseline availability in the paired control; C1 is retained / denominator and has not been scored, because no cell has run. The floor is reachable, not met",
+      "disclosed_consequences": {
+        "power_figure": "the 80% power target and the 63-row reference denominator in docs/DECISION-A1-PATH-A-C1-RULE.md were computed on the planning quantity; a larger true denominator is conservative for power, but the figure is not the quantity it names and should be corrected with disclosure rather than left standing",
+        "c4_exposure": "the same non-target stream that widens C1's denominator is C4's row set, and C4 requires every measurable non-target delta within 0.05; the wider denominator therefore moves the binding constraint from C1's row count to C4's delta ceiling, which no pre-run measurement can settle",
+        "viability_record": "docs/a1_design_viability.json reads C1 through the planning quantity, so its 'do not freeze' disposition is premised on the same reading; it is left intact and flagged here rather than rewritten"
+      },
+      "owner_action": "confirm that the protocol sentence is authoritative and the planning quantity was a sizing premise; that confirmation is the owner's, and this act records the reconciliation rather than adopting it",
+      "convention_question": {
+        "status": "OPEN — THE PROTOCOL DOES NOT DISAMBIGUATE A DIRECTED ROW FROM AN UNDIRECTED RELATION",
+        "recorded": "2026-11-15",
+        "finding": "On 2074 the two readings of the same word separate: directed rows give ceilings 64-79 and clear the floor on 6 of 6 seeds; undirected relations give 35-51 (any orientation) or 31-38 (both orientations) and clear it on 0 of 6. The orientations are not copies — A availability differs across orientations on 15-28 of 64 relations per seed — so the choice changes both the denominator and how many independent observations stand behind it. On 2063 the same split already exists: directed rows clear the floor on 4 of 6 seeds (70/59/69/58/72/72) and both relation readings clear it on none (31-46 and 28-42).",
+        "record": "docs/A1-DESIGN-VIABILITY.md#denominator-reconciliation-2026-11-15",
+        "owner_action": "Confirm not only that C1 counts non-target rows but whether a row is a directed orientation or an undirected relation.",
+        "owner_resolution": {
+          "decision": "docs/DECISION-A1-C1-DENOMINATOR.md",
+          "date": "2026-11-15",
+          "reading": "a C1 row is the recorded cell row (a directed orientation)",
+          "effect": "the adopted block's ceiling is 79/64/79/74/72/74 and the floor is reachable; C1 remains unscored"
+        }
+      }
+    }
+  },
+  "owner_decision_2026_11_15": {
+    "date": "2026-11-15",
+    "c1_denominator": {
+      "outcome": "ADOPTED",
+      "record": "docs/DECISION-A1-C1-DENOMINATOR.md",
+      "note": "The protocol denominator is authoritative; the 63-64 figure is planning."
+    },
+    "freezes": {
+      "outcome": "HELD",
+      "reason": "C2/C8 competence and C4 exposure, not C1."
+    },
+    "path_a_confirmation": {
+      "outcome": "HELD",
+      "reason": "C2/C8 competence and C4 exposure, not C1."
+    },
+    "grant": {
+      "outcome": "REFUSED",
+      "reason": "No run is authorised before a competence rule exists."
+    },
+    "disposition": {
+      "outcome": "TO BE RE-READ",
+      "reason": "Its C1 premise no longer carries the recommendation."
+    }
+  },
+  "digest_verified": {
+    "date": "2026-11-15",
+    "per_seed_matched": 6,
+    "artifact_matched": 1,
+    "artifact": "docs/a1_c8_target_selection.json",
+    "artifact_digest": "2af0a2e0f4d8464b8c8e9fcaeefeb0268b896551fb2046491962b6465c73d54b",
+    "recomputed": false
+  },
+  "held_on": {
+    "reason": "CLEARED_BY_DECISION-A1-COMPETENT-ESTIMAND",
+    "record": "docs/DECISION-A1-COMPETENT-ESTIMAND.md",
+    "c2_viability": "0/6 on the representative block (A1-TARGET-VIABILITY-ADOPTED); the competent block screens at 0 path failures in 115 rows (A1-VIABILITY-LEVERS)",
+    "c1_floor_on_operative_row": {
+      "min": 64,
+      "floor": 60,
+      "met": true,
+      "block": "20740101-20740106",
+      "artifact": "docs/a1_baseline_availability_adopted.json"
+    }
+  },
+  "current_targets_retained_by_seed": {
+    "20740101": [
+      "indigo>fern",
+      "maple>cedar",
+      "verdant>umber"
+    ],
+    "20740102": [],
+    "20740103": [
+      "birch>fern"
+    ],
+    "20740104": [],
+    "20740105": [
+      "verdant>willow"
+    ],
+    "20740106": [
+      "birch>ochre",
+      "verdant>sable"
+    ]
+  },
+  "block_sizes": [
+    20,
+    17,
+    20,
+    20,
+    18,
+    20
+  ],
+  "n_min": 17
+}

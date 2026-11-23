@@ -1,0 +1,2647 @@
+{
+ "kind": "assertion_carrier_trace",
+ "not_a_result": true,
+ "question": "Why do loop and dream structures assert the 26 world edges that never entered a served window, starting from the carriers' candidate formation?",
+ "definition": "A per-edge replay trace of the 26 rows in docs/assertion_provenance.json. For each row it records every final loop/dream path that contains the edge, the first cycle that carrier appeared, the loop/dream evidence, the final temporal counts in both directions, and whether a prediction candidate is a final source.",
+ "source": {
+  "provenance": "docs/assertion_provenance.json",
+  "rows": "the 26 asserted-but-never-served world edges",
+  "world": "generate_compositional_world(seed=, cycles=120), deterministic"
+ },
+ "method": "Same six Q4 seeds, 120 cycles, cap 40 and acquisition schedule as the provenance replay. The replay refuses to write unless each seed reproduces the stored asserted-world fingerprint and edge count. Candidate formation cycles are read from the sleep reports; final carriers are deduplicated by candidate id. No seed, arm, cap or engine edit is added.",
+ "cap": 40,
+ "cycles": 120,
+ "prediction_floor": 5,
+ "loop_floor": 5,
+ "rows": [
+  {
+   "seed": 20611601,
+   "edge": "olive>umber",
+   "category": "identity_mismatch",
+   "reverse_served_windows": 1,
+   "direct_temporal_count": 43,
+   "reverse_temporal_count": 25,
+   "prediction_source": false,
+   "carriers": [
+    {
+     "type": "loop_candidate",
+     "id": "loop_92fac5ca",
+     "path": [
+      "olive",
+      "umber",
+      "teal",
+      "olive"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "olive>umber"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 37,
+     "edge_counts": [
+      78,
+      43,
+      37
+     ],
+     "path_min_entropy": 3.5914,
+     "formation_cycle": 62,
+     "formation_path": [
+      "olive",
+      "umber",
+      "teal",
+      "olive"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    }
+   ],
+   "loop_carriers": 1,
+   "dream_carriers": 0,
+   "formation_cycles": [
+    62
+   ],
+   "mechanism": "A loop path contains the served reverse orientation; structure_edges adds both directions of that path."
+  },
+  {
+   "seed": 20611601,
+   "edge": "olive>willow",
+   "category": "alternate_assertion_path",
+   "reverse_served_windows": 0,
+   "direct_temporal_count": 38,
+   "reverse_temporal_count": 23,
+   "prediction_source": false,
+   "carriers": [
+    {
+     "type": "loop_candidate",
+     "id": "loop_2079c840",
+     "path": [
+      "olive",
+      "willow",
+      "teal",
+      "olive"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "olive>willow"
+     ],
+     "strength": 0.512,
+     "min_edge_count": 36,
+     "edge_counts": [
+      77,
+      37,
+      36
+     ],
+     "path_min_entropy": 3.5805,
+     "formation_cycle": 104,
+     "formation_path": [
+      "olive",
+      "willow",
+      "teal",
+      "olive"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    }
+   ],
+   "loop_carriers": 1,
+   "dream_carriers": 0,
+   "formation_cycles": [
+    104
+   ],
+   "mechanism": "A loop path contains the pair from the temporal graph; structure_edges adds both directions of that path, even though neither orientation is served."
+  },
+  {
+   "seed": 20611601,
+   "edge": "willow>olive",
+   "category": "alternate_assertion_path",
+   "reverse_served_windows": 0,
+   "direct_temporal_count": 23,
+   "reverse_temporal_count": 38,
+   "prediction_source": false,
+   "carriers": [
+    {
+     "type": "loop_candidate",
+     "id": "loop_2079c840",
+     "path": [
+      "olive",
+      "willow",
+      "teal",
+      "olive"
+     ],
+     "cycle_length": 3,
+     "orientation": "reverse",
+     "hit_edges": [
+      "olive>willow"
+     ],
+     "strength": 0.512,
+     "min_edge_count": 36,
+     "edge_counts": [
+      77,
+      37,
+      36
+     ],
+     "path_min_entropy": 3.5805,
+     "formation_cycle": 104,
+     "formation_path": [
+      "olive",
+      "willow",
+      "teal",
+      "olive"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    }
+   ],
+   "loop_carriers": 1,
+   "dream_carriers": 0,
+   "formation_cycles": [
+    104
+   ],
+   "mechanism": "A loop path contains the pair from the temporal graph; structure_edges adds both directions of that path, even though neither orientation is served."
+  },
+  {
+   "seed": 20611601,
+   "edge": "willow>teal",
+   "category": "identity_mismatch",
+   "reverse_served_windows": 46,
+   "direct_temporal_count": 36,
+   "reverse_temporal_count": 32,
+   "prediction_source": false,
+   "carriers": [
+    {
+     "type": "loop_candidate",
+     "id": "loop_197f380e",
+     "path": [
+      "teal",
+      "verdant",
+      "willow",
+      "teal"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "willow>teal"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 36,
+     "edge_counts": [
+      102,
+      38,
+      36
+     ],
+     "path_min_entropy": 3.5914,
+     "formation_cycle": 109,
+     "formation_path": [
+      "teal",
+      "verdant",
+      "willow",
+      "teal"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_eeb0bc74",
+     "path": [
+      "cedar",
+      "willow",
+      "teal",
+      "cedar"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "willow>teal"
+     ],
+     "strength": 3.8654,
+     "min_edge_count": 36,
+     "edge_counts": [
+      47,
+      66,
+      36
+     ],
+     "path_min_entropy": 3.5517,
+     "formation_cycle": 62,
+     "formation_path": [
+      "cedar",
+      "willow",
+      "teal",
+      "cedar"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_2079c840",
+     "path": [
+      "olive",
+      "willow",
+      "teal",
+      "olive"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "willow>teal"
+     ],
+     "strength": 0.512,
+     "min_edge_count": 36,
+     "edge_counts": [
+      77,
+      37,
+      36
+     ],
+     "path_min_entropy": 3.5805,
+     "formation_cycle": 104,
+     "formation_path": [
+      "olive",
+      "willow",
+      "teal",
+      "olive"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_71409608",
+     "path": [
+      "amber",
+      "willow",
+      "teal",
+      "amber"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "willow>teal"
+     ],
+     "strength": 0.512,
+     "min_edge_count": 36,
+     "edge_counts": [
+      38,
+      55,
+      36
+     ],
+     "path_min_entropy": 3.5805,
+     "formation_cycle": 62,
+     "formation_path": [
+      "amber",
+      "willow",
+      "teal",
+      "amber"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_841c5d11",
+     "path": [
+      "teal",
+      "umber",
+      "willow",
+      "teal"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "willow>teal"
+     ],
+     "strength": 0.512,
+     "min_edge_count": 36,
+     "edge_counts": [
+      37,
+      67,
+      36
+     ],
+     "path_min_entropy": 3.5805,
+     "formation_cycle": 62,
+     "formation_path": [
+      "teal",
+      "umber",
+      "willow",
+      "teal"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    }
+   ],
+   "loop_carriers": 5,
+   "dream_carriers": 0,
+   "formation_cycles": [
+    109,
+    62,
+    104,
+    62,
+    62
+   ],
+   "mechanism": "A loop path contains the served reverse orientation; structure_edges adds both directions of that path."
+  },
+  {
+   "seed": 20611602,
+   "edge": "amber>umber",
+   "category": "identity_mismatch",
+   "reverse_served_windows": 55,
+   "direct_temporal_count": 34,
+   "reverse_temporal_count": 27,
+   "prediction_source": false,
+   "carriers": [
+    {
+     "type": "loop_candidate",
+     "id": "loop_5dbe1f8e",
+     "path": [
+      "amber",
+      "umber",
+      "ochre",
+      "amber"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "amber>umber"
+     ],
+     "strength": 5.201,
+     "min_edge_count": 31,
+     "edge_counts": [
+      31,
+      33,
+      71
+     ],
+     "path_min_entropy": 3.5895,
+     "formation_cycle": 50,
+     "formation_path": [
+      "amber",
+      "umber",
+      "ochre",
+      "amber"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    }
+   ],
+   "loop_carriers": 1,
+   "dream_carriers": 0,
+   "formation_cycles": [
+    50
+   ],
+   "mechanism": "A loop path contains the served reverse orientation; structure_edges adds both directions of that path."
+  },
+  {
+   "seed": 20611602,
+   "edge": "indigo>umber",
+   "category": "identity_mismatch",
+   "reverse_served_windows": 56,
+   "direct_temporal_count": 28,
+   "reverse_temporal_count": 36,
+   "prediction_source": false,
+   "carriers": [
+    {
+     "type": "loop_candidate",
+     "id": "loop_04a152f1",
+     "path": [
+      "indigo",
+      "ochre",
+      "umber",
+      "indigo"
+     ],
+     "cycle_length": 3,
+     "orientation": "reverse",
+     "hit_edges": [
+      "umber>indigo"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 34,
+     "edge_counts": [
+      36,
+      34,
+      84
+     ],
+     "path_min_entropy": 3.6217,
+     "formation_cycle": 110,
+     "formation_path": [
+      "indigo",
+      "ochre",
+      "umber",
+      "indigo"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_f37e417b",
+     "path": [
+      "indigo",
+      "slate",
+      "umber",
+      "indigo"
+     ],
+     "cycle_length": 3,
+     "orientation": "reverse",
+     "hit_edges": [
+      "umber>indigo"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 36,
+     "edge_counts": [
+      36,
+      76,
+      39
+     ],
+     "path_min_entropy": 3.6217,
+     "formation_cycle": 114,
+     "formation_path": [
+      "indigo",
+      "slate",
+      "umber",
+      "indigo"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_ab1613e5",
+     "path": [
+      "indigo",
+      "willow",
+      "umber",
+      "indigo"
+     ],
+     "cycle_length": 3,
+     "orientation": "reverse",
+     "hit_edges": [
+      "umber>indigo"
+     ],
+     "strength": 5.201,
+     "min_edge_count": 31,
+     "edge_counts": [
+      31,
+      74,
+      31
+     ],
+     "path_min_entropy": 3.5895,
+     "formation_cycle": 112,
+     "formation_path": [
+      "indigo",
+      "willow",
+      "umber",
+      "indigo"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    }
+   ],
+   "loop_carriers": 3,
+   "dream_carriers": 0,
+   "formation_cycles": [
+    110,
+    114,
+    112
+   ],
+   "mechanism": "A loop path contains the served reverse orientation; structure_edges adds both directions of that path."
+  },
+  {
+   "seed": 20611602,
+   "edge": "sable>slate",
+   "category": "identity_mismatch",
+   "reverse_served_windows": 3,
+   "direct_temporal_count": 43,
+   "reverse_temporal_count": 32,
+   "prediction_source": false,
+   "carriers": [
+    {
+     "type": "loop_candidate",
+     "id": "loop_b9cb0a2e",
+     "path": [
+      "sable",
+      "slate",
+      "umber",
+      "sable"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "sable>slate"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 39,
+     "edge_counts": [
+      100,
+      43,
+      39
+     ],
+     "path_min_entropy": 3.6217,
+     "formation_cycle": 49,
+     "formation_path": [
+      "sable",
+      "slate",
+      "umber",
+      "sable"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    }
+   ],
+   "loop_carriers": 1,
+   "dream_carriers": 0,
+   "formation_cycles": [
+    49
+   ],
+   "mechanism": "A loop path contains the served reverse orientation; structure_edges adds both directions of that path."
+  },
+  {
+   "seed": 20611602,
+   "edge": "willow>umber",
+   "category": "identity_mismatch",
+   "reverse_served_windows": 55,
+   "direct_temporal_count": 33,
+   "reverse_temporal_count": 42,
+   "prediction_source": false,
+   "carriers": [
+    {
+     "type": "dream",
+     "id": "dream_mut_809ac598",
+     "path": [
+      "indigo",
+      "willow",
+      "umber"
+     ],
+     "cycle_length": 2,
+     "orientation": "direct",
+     "hit_edges": [
+      "willow>umber"
+     ],
+     "strength": 0.04,
+     "min_edge_count": null,
+     "edge_counts": null,
+     "path_min_entropy": null,
+     "formation_cycle": 84,
+     "formation_path": [
+      "indigo",
+      "willow",
+      "umber"
+     ],
+     "dream_category": "mutation",
+     "dream_reason": "path_extension",
+     "parent_events": 2
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_28153d47",
+     "path": [
+      "fern",
+      "willow",
+      "umber",
+      "fern"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "willow>umber"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 33,
+     "edge_counts": [
+      35,
+      43,
+      33
+     ],
+     "path_min_entropy": 3.6217,
+     "formation_cycle": 49,
+     "formation_path": [
+      "fern",
+      "willow",
+      "umber",
+      "fern"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_23b8db50",
+     "path": [
+      "ochre",
+      "willow",
+      "umber",
+      "ochre"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "willow>umber"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 33,
+     "edge_counts": [
+      79,
+      34,
+      33
+     ],
+     "path_min_entropy": 3.6217,
+     "formation_cycle": 68,
+     "formation_path": [
+      "ochre",
+      "willow",
+      "umber",
+      "ochre"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_ab1613e5",
+     "path": [
+      "indigo",
+      "willow",
+      "umber",
+      "indigo"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "willow>umber"
+     ],
+     "strength": 5.201,
+     "min_edge_count": 31,
+     "edge_counts": [
+      31,
+      74,
+      31
+     ],
+     "path_min_entropy": 3.5895,
+     "formation_cycle": 112,
+     "formation_path": [
+      "indigo",
+      "willow",
+      "umber",
+      "indigo"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_9a1f0c9b",
+     "path": [
+      "ochre",
+      "umber",
+      "willow",
+      "ochre"
+     ],
+     "cycle_length": 3,
+     "orientation": "reverse",
+     "hit_edges": [
+      "umber>willow"
+     ],
+     "strength": 5.3687,
+     "min_edge_count": 32,
+     "edge_counts": [
+      77,
+      38,
+      32
+     ],
+     "path_min_entropy": 3.5895,
+     "formation_cycle": 51,
+     "formation_path": [
+      "ochre",
+      "umber",
+      "willow",
+      "ochre"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_4715d17e",
+     "path": [
+      "sable",
+      "willow",
+      "umber",
+      "sable"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "willow>umber"
+     ],
+     "strength": 0.2098,
+     "min_edge_count": 32,
+     "edge_counts": [
+      96,
+      37,
+      32
+     ],
+     "path_min_entropy": 3.5892,
+     "formation_cycle": 37,
+     "formation_path": [
+      "sable",
+      "willow",
+      "umber",
+      "sable"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_70839500",
+     "path": [
+      "umber",
+      "verdant",
+      "willow",
+      "umber"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "willow>umber"
+     ],
+     "strength": 0.2098,
+     "min_edge_count": 32,
+     "edge_counts": [
+      72,
+      37,
+      32
+     ],
+     "path_min_entropy": 3.5892,
+     "formation_cycle": 37,
+     "formation_path": [
+      "umber",
+      "verdant",
+      "willow",
+      "umber"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_bfac5596",
+     "path": [
+      "slate",
+      "willow",
+      "umber",
+      "slate"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "willow>umber"
+     ],
+     "strength": 0.2098,
+     "min_edge_count": 32,
+     "edge_counts": [
+      38,
+      60,
+      32
+     ],
+     "path_min_entropy": 3.5892,
+     "formation_cycle": 56,
+     "formation_path": [
+      "slate",
+      "willow",
+      "umber",
+      "slate"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    }
+   ],
+   "loop_carriers": 7,
+   "dream_carriers": 1,
+   "formation_cycles": [
+    84,
+    49,
+    68,
+    112,
+    51,
+    37,
+    37,
+    56
+   ],
+   "mechanism": "A loop path contains the served reverse orientation; structure_edges adds both directions of that path. A dream path is a co-carrier, not the sole source."
+  },
+  {
+   "seed": 20611603,
+   "edge": "sable>yarrow",
+   "category": "alternate_assertion_path",
+   "reverse_served_windows": 0,
+   "direct_temporal_count": 39,
+   "reverse_temporal_count": 35,
+   "prediction_source": false,
+   "carriers": [
+    {
+     "type": "loop_candidate",
+     "id": "loop_fab8526f",
+     "path": [
+      "sable",
+      "yarrow",
+      "verdant",
+      "sable"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "sable>yarrow"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 38,
+     "edge_counts": [
+      43,
+      39,
+      38
+     ],
+     "path_min_entropy": 3.669,
+     "formation_cycle": 76,
+     "formation_path": [
+      "sable",
+      "yarrow",
+      "verdant",
+      "sable"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    }
+   ],
+   "loop_carriers": 1,
+   "dream_carriers": 0,
+   "formation_cycles": [
+    76
+   ],
+   "mechanism": "A loop path contains the pair from the temporal graph; structure_edges adds both directions of that path, even though neither orientation is served."
+  },
+  {
+   "seed": 20611603,
+   "edge": "slate>umber",
+   "category": "identity_mismatch",
+   "reverse_served_windows": 3,
+   "direct_temporal_count": 40,
+   "reverse_temporal_count": 37,
+   "prediction_source": false,
+   "carriers": [
+    {
+     "type": "loop_candidate",
+     "id": "loop_0ab6924e",
+     "path": [
+      "slate",
+      "teal",
+      "umber",
+      "slate"
+     ],
+     "cycle_length": 3,
+     "orientation": "reverse",
+     "hit_edges": [
+      "umber>slate"
+     ],
+     "strength": 0.64,
+     "min_edge_count": 32,
+     "edge_counts": [
+      77,
+      32,
+      34
+     ],
+     "path_min_entropy": 3.6724,
+     "formation_cycle": 66,
+     "formation_path": [
+      "slate",
+      "teal",
+      "umber",
+      "slate"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    }
+   ],
+   "loop_carriers": 1,
+   "dream_carriers": 0,
+   "formation_cycles": [
+    66
+   ],
+   "mechanism": "A loop path contains the served reverse orientation; structure_edges adds both directions of that path."
+  },
+  {
+   "seed": 20611603,
+   "edge": "slate>yarrow",
+   "category": "alternate_assertion_path",
+   "reverse_served_windows": 0,
+   "direct_temporal_count": 42,
+   "reverse_temporal_count": 32,
+   "prediction_source": false,
+   "carriers": [
+    {
+     "type": "loop_candidate",
+     "id": "loop_f414a1e1",
+     "path": [
+      "slate",
+      "teal",
+      "yarrow",
+      "slate"
+     ],
+     "cycle_length": 3,
+     "orientation": "reverse",
+     "hit_edges": [
+      "yarrow>slate"
+     ],
+     "strength": 15.36,
+     "min_edge_count": 30,
+     "edge_counts": [
+      77,
+      33,
+      30
+     ],
+     "path_min_entropy": 3.6693,
+     "formation_cycle": 67,
+     "formation_path": [
+      "slate",
+      "teal",
+      "yarrow",
+      "slate"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    }
+   ],
+   "loop_carriers": 1,
+   "dream_carriers": 0,
+   "formation_cycles": [
+    67
+   ],
+   "mechanism": "A loop path contains the pair from the temporal graph; structure_edges adds both directions of that path, even though neither orientation is served."
+  },
+  {
+   "seed": 20611603,
+   "edge": "umber>teal",
+   "category": "identity_mismatch",
+   "reverse_served_windows": 26,
+   "direct_temporal_count": 30,
+   "reverse_temporal_count": 33,
+   "prediction_source": false,
+   "carriers": [
+    {
+     "type": "loop_candidate",
+     "id": "loop_26aa6480",
+     "path": [
+      "indigo",
+      "teal",
+      "umber",
+      "indigo"
+     ],
+     "cycle_length": 3,
+     "orientation": "reverse",
+     "hit_edges": [
+      "teal>umber"
+     ],
+     "strength": 0.64,
+     "min_edge_count": 30,
+     "edge_counts": [
+      66,
+      32,
+      30
+     ],
+     "path_min_entropy": 3.6724,
+     "formation_cycle": 117,
+     "formation_path": [
+      "indigo",
+      "teal",
+      "umber",
+      "indigo"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_d7bb034e",
+     "path": [
+      "teal",
+      "umber",
+      "verdant",
+      "teal"
+     ],
+     "cycle_length": 3,
+     "orientation": "reverse",
+     "hit_edges": [
+      "teal>umber"
+     ],
+     "strength": 0.64,
+     "min_edge_count": 32,
+     "edge_counts": [
+      84,
+      32,
+      32
+     ],
+     "path_min_entropy": 3.6724,
+     "formation_cycle": 66,
+     "formation_path": [
+      "teal",
+      "umber",
+      "verdant",
+      "teal"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_0ab6924e",
+     "path": [
+      "slate",
+      "teal",
+      "umber",
+      "slate"
+     ],
+     "cycle_length": 3,
+     "orientation": "reverse",
+     "hit_edges": [
+      "teal>umber"
+     ],
+     "strength": 0.64,
+     "min_edge_count": 32,
+     "edge_counts": [
+      77,
+      32,
+      34
+     ],
+     "path_min_entropy": 3.6724,
+     "formation_cycle": 66,
+     "formation_path": [
+      "slate",
+      "teal",
+      "umber",
+      "slate"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    }
+   ],
+   "loop_carriers": 3,
+   "dream_carriers": 0,
+   "formation_cycles": [
+    117,
+    66,
+    66
+   ],
+   "mechanism": "A loop path contains the served reverse orientation; structure_edges adds both directions of that path."
+  },
+  {
+   "seed": 20611603,
+   "edge": "willow>verdant",
+   "category": "identity_mismatch",
+   "reverse_served_windows": 41,
+   "direct_temporal_count": 32,
+   "reverse_temporal_count": 43,
+   "prediction_source": false,
+   "carriers": [
+    {
+     "type": "loop_candidate",
+     "id": "loop_097b6b60",
+     "path": [
+      "verdant",
+      "willow",
+      "yarrow",
+      "verdant"
+     ],
+     "cycle_length": 3,
+     "orientation": "reverse",
+     "hit_edges": [
+      "verdant>willow"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 38,
+     "edge_counts": [
+      43,
+      68,
+      38
+     ],
+     "path_min_entropy": 3.669,
+     "formation_cycle": 69,
+     "formation_path": [
+      "verdant",
+      "willow",
+      "yarrow",
+      "verdant"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    }
+   ],
+   "loop_carriers": 1,
+   "dream_carriers": 0,
+   "formation_cycles": [
+    69
+   ],
+   "mechanism": "A loop path contains the served reverse orientation; structure_edges adds both directions of that path."
+  },
+  {
+   "seed": 20611603,
+   "edge": "yarrow>indigo",
+   "category": "identity_mismatch",
+   "reverse_served_windows": 10,
+   "direct_temporal_count": 30,
+   "reverse_temporal_count": 42,
+   "prediction_source": false,
+   "carriers": [
+    {
+     "type": "loop_candidate",
+     "id": "loop_85757d0a",
+     "path": [
+      "indigo",
+      "yarrow",
+      "verdant",
+      "indigo"
+     ],
+     "cycle_length": 3,
+     "orientation": "reverse",
+     "hit_edges": [
+      "indigo>yarrow"
+     ],
+     "strength": 38,
+     "min_edge_count": 38,
+     "edge_counts": [
+      81,
+      42,
+      38
+     ],
+     "path_min_entropy": 3.669,
+     "formation_cycle": 76,
+     "formation_path": [
+      "indigo",
+      "yarrow",
+      "verdant",
+      "indigo"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_2353e6d1",
+     "path": [
+      "indigo",
+      "teal",
+      "yarrow",
+      "indigo"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "yarrow>indigo"
+     ],
+     "strength": 0.64,
+     "min_edge_count": 30,
+     "edge_counts": [
+      66,
+      33,
+      30
+     ],
+     "path_min_entropy": 3.6724,
+     "formation_cycle": 117,
+     "formation_path": [
+      "indigo",
+      "teal",
+      "yarrow",
+      "indigo"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    }
+   ],
+   "loop_carriers": 2,
+   "dream_carriers": 0,
+   "formation_cycles": [
+    76,
+    117
+   ],
+   "mechanism": "A loop path contains the served reverse orientation; structure_edges adds both directions of that path."
+  },
+  {
+   "seed": 20611603,
+   "edge": "yarrow>sable",
+   "category": "alternate_assertion_path",
+   "reverse_served_windows": 0,
+   "direct_temporal_count": 35,
+   "reverse_temporal_count": 39,
+   "prediction_source": false,
+   "carriers": [
+    {
+     "type": "loop_candidate",
+     "id": "loop_fab8526f",
+     "path": [
+      "sable",
+      "yarrow",
+      "verdant",
+      "sable"
+     ],
+     "cycle_length": 3,
+     "orientation": "reverse",
+     "hit_edges": [
+      "sable>yarrow"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 38,
+     "edge_counts": [
+      43,
+      39,
+      38
+     ],
+     "path_min_entropy": 3.669,
+     "formation_cycle": 76,
+     "formation_path": [
+      "sable",
+      "yarrow",
+      "verdant",
+      "sable"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    }
+   ],
+   "loop_carriers": 1,
+   "dream_carriers": 0,
+   "formation_cycles": [
+    76
+   ],
+   "mechanism": "A loop path contains the pair from the temporal graph; structure_edges adds both directions of that path, even though neither orientation is served."
+  },
+  {
+   "seed": 20611603,
+   "edge": "yarrow>slate",
+   "category": "alternate_assertion_path",
+   "reverse_served_windows": 0,
+   "direct_temporal_count": 32,
+   "reverse_temporal_count": 42,
+   "prediction_source": false,
+   "carriers": [
+    {
+     "type": "loop_candidate",
+     "id": "loop_f414a1e1",
+     "path": [
+      "slate",
+      "teal",
+      "yarrow",
+      "slate"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "yarrow>slate"
+     ],
+     "strength": 15.36,
+     "min_edge_count": 30,
+     "edge_counts": [
+      77,
+      33,
+      30
+     ],
+     "path_min_entropy": 3.6693,
+     "formation_cycle": 67,
+     "formation_path": [
+      "slate",
+      "teal",
+      "yarrow",
+      "slate"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    }
+   ],
+   "loop_carriers": 1,
+   "dream_carriers": 0,
+   "formation_cycles": [
+    67
+   ],
+   "mechanism": "A loop path contains the pair from the temporal graph; structure_edges adds both directions of that path, even though neither orientation is served."
+  },
+  {
+   "seed": 20611603,
+   "edge": "yarrow>verdant",
+   "category": "identity_mismatch",
+   "reverse_served_windows": 41,
+   "direct_temporal_count": 38,
+   "reverse_temporal_count": 42,
+   "prediction_source": false,
+   "carriers": [
+    {
+     "type": "loop_candidate",
+     "id": "loop_bd2dc2a1",
+     "path": [
+      "ochre",
+      "yarrow",
+      "verdant",
+      "ochre"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "yarrow>verdant"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 36,
+     "edge_counts": [
+      36,
+      37,
+      38
+     ],
+     "path_min_entropy": 3.669,
+     "formation_cycle": 96,
+     "formation_path": [
+      "ochre",
+      "yarrow",
+      "verdant",
+      "ochre"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_fab8526f",
+     "path": [
+      "sable",
+      "yarrow",
+      "verdant",
+      "sable"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "yarrow>verdant"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 38,
+     "edge_counts": [
+      43,
+      39,
+      38
+     ],
+     "path_min_entropy": 3.669,
+     "formation_cycle": 76,
+     "formation_path": [
+      "sable",
+      "yarrow",
+      "verdant",
+      "sable"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_e712adc7",
+     "path": [
+      "fern",
+      "yarrow",
+      "verdant",
+      "fern"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "yarrow>verdant"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 38,
+     "edge_counts": [
+      43,
+      48,
+      38
+     ],
+     "path_min_entropy": 3.669,
+     "formation_cycle": 76,
+     "formation_path": [
+      "fern",
+      "yarrow",
+      "verdant",
+      "fern"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_b5212fe0",
+     "path": [
+      "umber",
+      "yarrow",
+      "verdant",
+      "umber"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "yarrow>verdant"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 38,
+     "edge_counts": [
+      41,
+      86,
+      38
+     ],
+     "path_min_entropy": 3.669,
+     "formation_cycle": 76,
+     "formation_path": [
+      "umber",
+      "yarrow",
+      "verdant",
+      "umber"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_85757d0a",
+     "path": [
+      "indigo",
+      "yarrow",
+      "verdant",
+      "indigo"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "yarrow>verdant"
+     ],
+     "strength": 38,
+     "min_edge_count": 38,
+     "edge_counts": [
+      81,
+      42,
+      38
+     ],
+     "path_min_entropy": 3.669,
+     "formation_cycle": 76,
+     "formation_path": [
+      "indigo",
+      "yarrow",
+      "verdant",
+      "indigo"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_545db9b2",
+     "path": [
+      "verdant",
+      "yarrow",
+      "verdant"
+     ],
+     "cycle_length": 2,
+     "orientation": "both",
+     "hit_edges": [
+      "yarrow>verdant",
+      "verdant>yarrow"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 38,
+     "edge_counts": [
+      42,
+      38
+     ],
+     "path_min_entropy": 3.669,
+     "formation_cycle": 69,
+     "formation_path": [
+      "verdant",
+      "yarrow",
+      "verdant"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_097b6b60",
+     "path": [
+      "verdant",
+      "willow",
+      "yarrow",
+      "verdant"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "yarrow>verdant"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 38,
+     "edge_counts": [
+      43,
+      68,
+      38
+     ],
+     "path_min_entropy": 3.669,
+     "formation_cycle": 69,
+     "formation_path": [
+      "verdant",
+      "willow",
+      "yarrow",
+      "verdant"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_5ac0c047",
+     "path": [
+      "teal",
+      "yarrow",
+      "verdant",
+      "teal"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "yarrow>verdant"
+     ],
+     "strength": 21.12,
+     "min_edge_count": 33,
+     "edge_counts": [
+      84,
+      33,
+      37
+     ],
+     "path_min_entropy": 3.6724,
+     "formation_cycle": 66,
+     "formation_path": [
+      "teal",
+      "yarrow",
+      "verdant",
+      "teal"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    }
+   ],
+   "loop_carriers": 8,
+   "dream_carriers": 0,
+   "formation_cycles": [
+    96,
+    76,
+    76,
+    76,
+    76,
+    69,
+    69,
+    66
+   ],
+   "mechanism": "A loop path contains the served reverse orientation; structure_edges adds both directions of that path."
+  },
+  {
+   "seed": 20611604,
+   "edge": "amber>maple",
+   "category": "alternate_assertion_path",
+   "reverse_served_windows": 0,
+   "direct_temporal_count": 36,
+   "reverse_temporal_count": 27,
+   "prediction_source": false,
+   "carriers": [
+    {
+     "type": "loop_candidate",
+     "id": "loop_728a11bd",
+     "path": [
+      "amber",
+      "maple",
+      "crimson",
+      "amber"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "amber>maple"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 35,
+     "edge_counts": [
+      35,
+      36,
+      80
+     ],
+     "path_min_entropy": 3.5851,
+     "formation_cycle": 79,
+     "formation_path": [
+      "amber",
+      "maple",
+      "crimson",
+      "amber"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    }
+   ],
+   "loop_carriers": 1,
+   "dream_carriers": 0,
+   "formation_cycles": [
+    79
+   ],
+   "mechanism": "A loop path contains the pair from the temporal graph; structure_edges adds both directions of that path, even though neither orientation is served."
+  },
+  {
+   "seed": 20611604,
+   "edge": "maple>amber",
+   "category": "alternate_assertion_path",
+   "reverse_served_windows": 0,
+   "direct_temporal_count": 27,
+   "reverse_temporal_count": 36,
+   "prediction_source": false,
+   "carriers": [
+    {
+     "type": "loop_candidate",
+     "id": "loop_728a11bd",
+     "path": [
+      "amber",
+      "maple",
+      "crimson",
+      "amber"
+     ],
+     "cycle_length": 3,
+     "orientation": "reverse",
+     "hit_edges": [
+      "amber>maple"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 35,
+     "edge_counts": [
+      35,
+      36,
+      80
+     ],
+     "path_min_entropy": 3.5851,
+     "formation_cycle": 79,
+     "formation_path": [
+      "amber",
+      "maple",
+      "crimson",
+      "amber"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    }
+   ],
+   "loop_carriers": 1,
+   "dream_carriers": 0,
+   "formation_cycles": [
+    79
+   ],
+   "mechanism": "A loop path contains the pair from the temporal graph; structure_edges adds both directions of that path, even though neither orientation is served."
+  },
+  {
+   "seed": 20611605,
+   "edge": "amber>birch",
+   "category": "identity_mismatch",
+   "reverse_served_windows": 23,
+   "direct_temporal_count": 23,
+   "reverse_temporal_count": 34,
+   "prediction_source": false,
+   "carriers": [
+    {
+     "type": "loop_candidate",
+     "id": "loop_2c3939b0",
+     "path": [
+      "amber",
+      "teal",
+      "birch",
+      "amber"
+     ],
+     "cycle_length": 3,
+     "orientation": "reverse",
+     "hit_edges": [
+      "birch>amber"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 30,
+     "edge_counts": [
+      34,
+      30,
+      88
+     ],
+     "path_min_entropy": 3.6008,
+     "formation_cycle": 100,
+     "formation_path": [
+      "amber",
+      "teal",
+      "birch",
+      "amber"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_e719913b",
+     "path": [
+      "amber",
+      "sable",
+      "birch",
+      "amber"
+     ],
+     "cycle_length": 3,
+     "orientation": "reverse",
+     "hit_edges": [
+      "birch>amber"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 33,
+     "edge_counts": [
+      34,
+      68,
+      33
+     ],
+     "path_min_entropy": 3.6008,
+     "formation_cycle": 111,
+     "formation_path": [
+      "amber",
+      "sable",
+      "birch",
+      "amber"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_aea2375a",
+     "path": [
+      "amber",
+      "umber",
+      "birch",
+      "amber"
+     ],
+     "cycle_length": 3,
+     "orientation": "reverse",
+     "hit_edges": [
+      "birch>amber"
+     ],
+     "strength": 0.4863,
+     "min_edge_count": 27,
+     "edge_counts": [
+      29,
+      50,
+      27
+     ],
+     "path_min_entropy": 3.6023,
+     "formation_cycle": 102,
+     "formation_path": [
+      "amber",
+      "umber",
+      "birch",
+      "amber"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    }
+   ],
+   "loop_carriers": 3,
+   "dream_carriers": 0,
+   "formation_cycles": [
+    100,
+    111,
+    102
+   ],
+   "mechanism": "A loop path contains the served reverse orientation; structure_edges adds both directions of that path."
+  },
+  {
+   "seed": 20611605,
+   "edge": "sable>birch",
+   "category": "identity_mismatch",
+   "reverse_served_windows": 24,
+   "direct_temporal_count": 33,
+   "reverse_temporal_count": 39,
+   "prediction_source": false,
+   "carriers": [
+    {
+     "type": "loop_candidate",
+     "id": "loop_63f85e4d",
+     "path": [
+      "birch",
+      "olive",
+      "sable",
+      "birch"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "sable>birch"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 30,
+     "edge_counts": [
+      30,
+      34,
+      33
+     ],
+     "path_min_entropy": 3.6008,
+     "formation_cycle": 111,
+     "formation_path": [
+      "birch",
+      "olive",
+      "sable",
+      "birch"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_5e9b5220",
+     "path": [
+      "birch",
+      "sable",
+      "teal",
+      "birch"
+     ],
+     "cycle_length": 3,
+     "orientation": "reverse",
+     "hit_edges": [
+      "birch>sable"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 31,
+     "edge_counts": [
+      39,
+      31,
+      88
+     ],
+     "path_min_entropy": 3.6008,
+     "formation_cycle": 85,
+     "formation_path": [
+      "birch",
+      "sable",
+      "teal",
+      "birch"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_5376c792",
+     "path": [
+      "birch",
+      "sable",
+      "willow",
+      "birch"
+     ],
+     "cycle_length": 3,
+     "orientation": "reverse",
+     "hit_edges": [
+      "birch>sable"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 32,
+     "edge_counts": [
+      39,
+      32,
+      84
+     ],
+     "path_min_entropy": 3.6008,
+     "formation_cycle": 102,
+     "formation_path": [
+      "birch",
+      "sable",
+      "willow",
+      "birch"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_e719913b",
+     "path": [
+      "amber",
+      "sable",
+      "birch",
+      "amber"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "sable>birch"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 33,
+     "edge_counts": [
+      34,
+      68,
+      33
+     ],
+     "path_min_entropy": 3.6008,
+     "formation_cycle": 111,
+     "formation_path": [
+      "amber",
+      "sable",
+      "birch",
+      "amber"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_399cc11a",
+     "path": [
+      "birch",
+      "sable",
+      "birch"
+     ],
+     "cycle_length": 2,
+     "orientation": "both",
+     "hit_edges": [
+      "sable>birch",
+      "birch>sable"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 33,
+     "edge_counts": [
+      39,
+      33
+     ],
+     "path_min_entropy": 3.6008,
+     "formation_cycle": 111,
+     "formation_path": [
+      "birch",
+      "sable",
+      "birch"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_51a5a3d0",
+     "path": [
+      "birch",
+      "sable",
+      "umber",
+      "birch"
+     ],
+     "cycle_length": 3,
+     "orientation": "reverse",
+     "hit_edges": [
+      "birch>sable"
+     ],
+     "strength": 0.2622,
+     "min_edge_count": 29,
+     "edge_counts": [
+      39,
+      48,
+      29
+     ],
+     "path_min_entropy": 3.5947,
+     "formation_cycle": 102,
+     "formation_path": [
+      "birch",
+      "sable",
+      "umber",
+      "birch"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    }
+   ],
+   "loop_carriers": 6,
+   "dream_carriers": 0,
+   "formation_cycles": [
+    111,
+    85,
+    102,
+    111,
+    111,
+    102
+   ],
+   "mechanism": "A loop path contains the served reverse orientation; structure_edges adds both directions of that path."
+  },
+  {
+   "seed": 20611605,
+   "edge": "sable>teal",
+   "category": "identity_mismatch",
+   "reverse_served_windows": 68,
+   "direct_temporal_count": 31,
+   "reverse_temporal_count": 37,
+   "prediction_source": false,
+   "carriers": [
+    {
+     "type": "loop_candidate",
+     "id": "loop_5e9b5220",
+     "path": [
+      "birch",
+      "sable",
+      "teal",
+      "birch"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "sable>teal"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 31,
+     "edge_counts": [
+      39,
+      31,
+      88
+     ],
+     "path_min_entropy": 3.6008,
+     "formation_cycle": 85,
+     "formation_path": [
+      "birch",
+      "sable",
+      "teal",
+      "birch"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_83076416",
+     "path": [
+      "sable",
+      "teal",
+      "willow",
+      "sable"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "sable>teal"
+     ],
+     "strength": 4.8654,
+     "min_edge_count": 29,
+     "edge_counts": [
+      39,
+      29,
+      88
+     ],
+     "path_min_entropy": 3.5944,
+     "formation_cycle": 112,
+     "formation_path": [
+      "sable",
+      "teal",
+      "willow",
+      "sable"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_0cbc0786",
+     "path": [
+      "olive",
+      "sable",
+      "teal",
+      "olive"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "sable>teal"
+     ],
+     "strength": 0.1678,
+     "min_edge_count": 29,
+     "edge_counts": [
+      30,
+      34,
+      29
+     ],
+     "path_min_entropy": 3.5944,
+     "formation_cycle": 73,
+     "formation_path": [
+      "olive",
+      "sable",
+      "teal",
+      "olive"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_c2dd7a77",
+     "path": [
+      "sable",
+      "teal",
+      "sable"
+     ],
+     "cycle_length": 2,
+     "orientation": "both",
+     "hit_edges": [
+      "sable>teal",
+      "teal>sable"
+     ],
+     "strength": 3.1138,
+     "min_edge_count": 29,
+     "edge_counts": [
+      29,
+      36
+     ],
+     "path_min_entropy": 3.5852,
+     "formation_cycle": 110,
+     "formation_path": [
+      "sable",
+      "teal",
+      "sable"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    }
+   ],
+   "loop_carriers": 4,
+   "dream_carriers": 0,
+   "formation_cycles": [
+    85,
+    112,
+    73,
+    110
+   ],
+   "mechanism": "A loop path contains the served reverse orientation; structure_edges adds both directions of that path."
+  },
+  {
+   "seed": 20611606,
+   "edge": "crimson>teal",
+   "category": "identity_mismatch",
+   "reverse_served_windows": 4,
+   "direct_temporal_count": 47,
+   "reverse_temporal_count": 45,
+   "prediction_source": false,
+   "carriers": [
+    {
+     "type": "loop_candidate",
+     "id": "loop_d5a03541",
+     "path": [
+      "crimson",
+      "teal",
+      "verdant",
+      "crimson"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "crimson>teal"
+     ],
+     "strength": 0.64,
+     "min_edge_count": 35,
+     "edge_counts": [
+      37,
+      47,
+      35
+     ],
+     "path_min_entropy": 3.6494,
+     "formation_cycle": 78,
+     "formation_path": [
+      "crimson",
+      "teal",
+      "verdant",
+      "crimson"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    }
+   ],
+   "loop_carriers": 1,
+   "dream_carriers": 0,
+   "formation_cycles": [
+    78
+   ],
+   "mechanism": "A loop path contains the served reverse orientation; structure_edges adds both directions of that path."
+  },
+  {
+   "seed": 20611606,
+   "edge": "ochre>amber",
+   "category": "identity_mismatch",
+   "reverse_served_windows": 27,
+   "direct_temporal_count": 27,
+   "reverse_temporal_count": 32,
+   "prediction_source": false,
+   "carriers": [
+    {
+     "type": "loop_candidate",
+     "id": "loop_a98cc2cc",
+     "path": [
+      "amber",
+      "ochre",
+      "verdant",
+      "amber"
+     ],
+     "cycle_length": 3,
+     "orientation": "reverse",
+     "hit_edges": [
+      "amber>ochre"
+     ],
+     "strength": 0.512,
+     "min_edge_count": 32,
+     "edge_counts": [
+      72,
+      32,
+      32
+     ],
+     "path_min_entropy": 3.6409,
+     "formation_cycle": 114,
+     "formation_path": [
+      "amber",
+      "ochre",
+      "verdant",
+      "amber"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    }
+   ],
+   "loop_carriers": 1,
+   "dream_carriers": 0,
+   "formation_cycles": [
+    114
+   ],
+   "mechanism": "A loop path contains the served reverse orientation; structure_edges adds both directions of that path."
+  },
+  {
+   "seed": 20611606,
+   "edge": "teal>amber",
+   "category": "identity_mismatch",
+   "reverse_served_windows": 28,
+   "direct_temporal_count": 31,
+   "reverse_temporal_count": 39,
+   "prediction_source": false,
+   "carriers": [
+    {
+     "type": "loop_candidate",
+     "id": "loop_851b8a9a",
+     "path": [
+      "amber",
+      "teal",
+      "verdant",
+      "amber"
+     ],
+     "cycle_length": 3,
+     "orientation": "reverse",
+     "hit_edges": [
+      "amber>teal"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 36,
+     "edge_counts": [
+      75,
+      39,
+      36
+     ],
+     "path_min_entropy": 3.6461,
+     "formation_cycle": 77,
+     "formation_path": [
+      "amber",
+      "teal",
+      "verdant",
+      "amber"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_2f220673",
+     "path": [
+      "amber",
+      "teal",
+      "sable",
+      "amber"
+     ],
+     "cycle_length": 3,
+     "orientation": "reverse",
+     "hit_edges": [
+      "amber>teal"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 36,
+     "edge_counts": [
+      36,
+      39,
+      50
+     ],
+     "path_min_entropy": 3.6461,
+     "formation_cycle": 99,
+     "formation_path": [
+      "amber",
+      "teal",
+      "sable",
+      "amber"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_ede8a76a",
+     "path": [
+      "amber",
+      "teal",
+      "willow",
+      "amber"
+     ],
+     "cycle_length": 3,
+     "orientation": "reverse",
+     "hit_edges": [
+      "amber>teal"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 39,
+     "edge_counts": [
+      39,
+      39,
+      40
+     ],
+     "path_min_entropy": 3.6461,
+     "formation_cycle": 97,
+     "formation_path": [
+      "amber",
+      "teal",
+      "willow",
+      "amber"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    },
+    {
+     "type": "loop_candidate",
+     "id": "loop_5b149f1c",
+     "path": [
+      "amber",
+      "teal",
+      "fern",
+      "amber"
+     ],
+     "cycle_length": 3,
+     "orientation": "reverse",
+     "hit_edges": [
+      "amber>teal"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 39,
+     "edge_counts": [
+      74,
+      39,
+      40
+     ],
+     "path_min_entropy": 3.6461,
+     "formation_cycle": 85,
+     "formation_path": [
+      "amber",
+      "teal",
+      "fern",
+      "amber"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    }
+   ],
+   "loop_carriers": 4,
+   "dream_carriers": 0,
+   "formation_cycles": [
+    77,
+    99,
+    97,
+    85
+   ],
+   "mechanism": "A loop path contains the served reverse orientation; structure_edges adds both directions of that path."
+  },
+  {
+   "seed": 20611606,
+   "edge": "teal>willow",
+   "category": "identity_mismatch",
+   "reverse_served_windows": 2,
+   "direct_temporal_count": 39,
+   "reverse_temporal_count": 37,
+   "prediction_source": false,
+   "carriers": [
+    {
+     "type": "loop_candidate",
+     "id": "loop_ede8a76a",
+     "path": [
+      "amber",
+      "teal",
+      "willow",
+      "amber"
+     ],
+     "cycle_length": 3,
+     "orientation": "direct",
+     "hit_edges": [
+      "teal>willow"
+     ],
+     "strength": 1.0,
+     "min_edge_count": 39,
+     "edge_counts": [
+      39,
+      39,
+      40
+     ],
+     "path_min_entropy": 3.6461,
+     "formation_cycle": 97,
+     "formation_path": [
+      "amber",
+      "teal",
+      "willow",
+      "amber"
+     ],
+     "dream_category": null,
+     "dream_reason": null,
+     "parent_events": 10
+    }
+   ],
+   "loop_carriers": 1,
+   "dream_carriers": 0,
+   "formation_cycles": [
+    97
+   ],
+   "mechanism": "A loop path contains the served reverse orientation; structure_edges adds both directions of that path."
+  }
+ ],
+ "summary": {
+  "edges": 26,
+  "loop_carrier_rows": 26,
+  "dream_carrier_rows": 1,
+  "loop_carriers": 61,
+  "dream_carriers": 1,
+  "two_cycle_loops": 3,
+  "three_cycle_loops": 58,
+  "reverse_served_rows": 18,
+  "alternate_rows": 8,
+  "direct_temporal_min": 23,
+  "direct_temporal_max": 47,
+  "reverse_temporal_min": 23,
+  "reverse_temporal_max": 45,
+  "direct_at_or_above_prediction_floor": 26,
+  "direct_prediction_final": 0,
+  "formation_cycle_min": 37,
+  "formation_cycle_max": 117,
+  "formation_cycle_median": 78.5,
+  "category_counts": {
+   "alternate_assertion_path": 8,
+   "identity_mismatch": 18
+  },
+  "findings": [
+   "All 26 direct edges are present in the final temporal graph at count 23-47, above PREDICTION_MIN_COUNT=5; the direct edge is not a floor miss.",
+   "Every row has a loop carrier: 61 loop-candidate occurrences, of which 58 are 3-cycles and 3 are 2-cycles. Every loop path contains the pair, and structure_edges expands each path edge in both directions.",
+   "The loop builder requires a minimum edge count of 5 and consumes temporal cycles, not served windows; the first observed carrier formations span cycles 37-117.",
+   "18 rows have the reverse orientation served and 8 have neither orientation served; both kinds still have a loop path containing the pair, which is why the loop readout supplies the direct assertion.",
+   "One row has a dream co-carrier as well; no row is carried only by a dream, and no row has a prediction candidate as its final assertion source."
+  ]
+ },
+ "controls": [
+  {
+   "name": "loop_symmetry_control",
+   "kind": "loop_candidate",
+   "path": [
+    "amber",
+    "birch",
+    "amber"
+   ],
+   "edge": "amber>birch",
+   "hits": [
+    "direct",
+    "reverse"
+   ],
+   "expected": [
+    "direct",
+    "reverse"
+   ],
+   "passes": true
+  },
+  {
+   "name": "loop_reverse_control",
+   "kind": "loop_candidate",
+   "path": [
+    "birch",
+    "amber",
+    "birch"
+   ],
+   "edge": "amber>birch",
+   "hits": [
+    "direct",
+    "reverse"
+   ],
+   "expected": [
+    "direct",
+    "reverse"
+   ],
+   "passes": true
+  },
+  {
+   "name": "dream_direct_control",
+   "kind": "dream",
+   "path": [
+    "amber",
+    "birch"
+   ],
+   "edge": "amber>birch",
+   "hits": [
+    "direct"
+   ],
+   "expected": [
+    "direct"
+   ],
+   "passes": true
+  },
+  {
+   "name": "loop_missing_control",
+   "kind": "loop_candidate",
+   "path": [
+    "amber",
+    "cedar",
+    "amber"
+   ],
+   "edge": "amber>birch",
+   "hits": [],
+   "expected": [],
+   "passes": true
+  },
+  {
+   "name": "dream_missing_control",
+   "kind": "dream",
+   "path": [
+    "amber",
+    "cedar"
+   ],
+   "edge": "amber>birch",
+   "hits": [],
+   "expected": [],
+   "passes": true
+  }
+ ],
+ "not_evidence": "A replay-only carrier trace on six committed Q4 seeds, one world family, one build and one cap. It explains how loop/dream paths reach the readout; it does not show that serving the direct edge would change A_W, does not decompose the full prediction-ranking history, and does not establish capability, retention, transfer or a general engine property.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__"
+}

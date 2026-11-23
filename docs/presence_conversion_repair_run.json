@@ -1,0 +1,328 @@
+{
+ "kind": "presence_conversion_repair_run",
+ "prereg": "PRESENCE-CONVERSION-2",
+ "cells": [
+  {
+   "seed": 20611601,
+   "arm": "off",
+   "cycles": 120,
+   "present": 112,
+   "s_ever": 76,
+   "a_w": 39,
+   "served_fingerprint": "d628917d1217e1ac"
+  },
+  {
+   "seed": 20611601,
+   "arm": "on",
+   "cycles": 120,
+   "present": 112,
+   "s_ever": 76,
+   "a_w": 39,
+   "served_fingerprint": "d628917d1217e1ac"
+  },
+  {
+   "seed": 20611602,
+   "arm": "off",
+   "cycles": 120,
+   "present": 112,
+   "s_ever": 84,
+   "a_w": 48,
+   "served_fingerprint": "dfe114def998cd78"
+  },
+  {
+   "seed": 20611602,
+   "arm": "on",
+   "cycles": 120,
+   "present": 112,
+   "s_ever": 84,
+   "a_w": 48,
+   "served_fingerprint": "dfe114def998cd78"
+  },
+  {
+   "seed": 20611603,
+   "arm": "off",
+   "cycles": 120,
+   "present": 112,
+   "s_ever": 71,
+   "a_w": 39,
+   "served_fingerprint": "853bf8d3e2331624"
+  },
+  {
+   "seed": 20611603,
+   "arm": "on",
+   "cycles": 120,
+   "present": 112,
+   "s_ever": 71,
+   "a_w": 39,
+   "served_fingerprint": "853bf8d3e2331624"
+  },
+  {
+   "seed": 20611604,
+   "arm": "off",
+   "cycles": 120,
+   "present": 112,
+   "s_ever": 89,
+   "a_w": 34,
+   "served_fingerprint": "f90f6dc53574f63d"
+  },
+  {
+   "seed": 20611604,
+   "arm": "on",
+   "cycles": 120,
+   "present": 112,
+   "s_ever": 89,
+   "a_w": 34,
+   "served_fingerprint": "f90f6dc53574f63d"
+  },
+  {
+   "seed": 20611605,
+   "arm": "off",
+   "cycles": 120,
+   "present": 112,
+   "s_ever": 76,
+   "a_w": 36,
+   "served_fingerprint": "b8e4f11939061d5a"
+  },
+  {
+   "seed": 20611605,
+   "arm": "on",
+   "cycles": 120,
+   "present": 112,
+   "s_ever": 76,
+   "a_w": 36,
+   "served_fingerprint": "b8e4f11939061d5a"
+  },
+  {
+   "seed": 20611606,
+   "arm": "off",
+   "cycles": 120,
+   "present": 112,
+   "s_ever": 96,
+   "a_w": 51,
+   "served_fingerprint": "f162365fd2b68a64"
+  },
+  {
+   "seed": 20611606,
+   "arm": "on",
+   "cycles": 120,
+   "present": 112,
+   "s_ever": 96,
+   "a_w": 51,
+   "served_fingerprint": "f162365fd2b68a64"
+  }
+ ],
+ "stage_table": [
+  {
+   "present": 112,
+   "constructed": 111,
+   "below_minimum": 1,
+   "served_ever": 76,
+   "never_served": 35,
+   "never_served_within_transition_budget": 0,
+   "never_served_rank_half_to_cap": 12,
+   "never_served_rank_above_cap": 23,
+   "never_served_relations": {
+    "transition": 35,
+    "cooccurrence": 0,
+    "unknown": 0
+   },
+   "asserted_final": 39,
+   "unexplained": 4,
+   "never_served_min_rank": 22,
+   "never_served_max_rank": 178,
+   "never_served_median_rank": 56,
+   "below_minimum_edges": [
+    "sable>ochre"
+   ],
+   "seed": 20611601
+  },
+  {
+   "present": 112,
+   "constructed": 112,
+   "below_minimum": 0,
+   "served_ever": 84,
+   "never_served": 28,
+   "never_served_within_transition_budget": 0,
+   "never_served_rank_half_to_cap": 9,
+   "never_served_rank_above_cap": 19,
+   "never_served_relations": {
+    "transition": 28,
+    "cooccurrence": 0,
+    "unknown": 0
+   },
+   "asserted_final": 48,
+   "unexplained": 4,
+   "never_served_min_rank": 22,
+   "never_served_max_rank": 152,
+   "never_served_median_rank": 59,
+   "below_minimum_edges": [],
+   "seed": 20611602
+  },
+  {
+   "present": 112,
+   "constructed": 112,
+   "below_minimum": 0,
+   "served_ever": 71,
+   "never_served": 41,
+   "never_served_within_transition_budget": 0,
+   "never_served_rank_half_to_cap": 16,
+   "never_served_rank_above_cap": 25,
+   "never_served_relations": {
+    "transition": 41,
+    "cooccurrence": 0,
+    "unknown": 0
+   },
+   "asserted_final": 39,
+   "unexplained": 9,
+   "never_served_min_rank": 21,
+   "never_served_max_rank": 144,
+   "never_served_median_rank": 44,
+   "below_minimum_edges": [],
+   "seed": 20611603
+  },
+  {
+   "present": 112,
+   "constructed": 112,
+   "below_minimum": 0,
+   "served_ever": 89,
+   "never_served": 23,
+   "never_served_within_transition_budget": 0,
+   "never_served_rank_half_to_cap": 9,
+   "never_served_rank_above_cap": 14,
+   "never_served_relations": {
+    "transition": 23,
+    "cooccurrence": 0,
+    "unknown": 0
+   },
+   "asserted_final": 34,
+   "unexplained": 2,
+   "never_served_min_rank": 22,
+   "never_served_max_rank": 145,
+   "never_served_median_rank": 41,
+   "below_minimum_edges": [],
+   "seed": 20611604
+  },
+  {
+   "present": 112,
+   "constructed": 112,
+   "below_minimum": 0,
+   "served_ever": 76,
+   "never_served": 36,
+   "never_served_within_transition_budget": 0,
+   "never_served_rank_half_to_cap": 14,
+   "never_served_rank_above_cap": 22,
+   "never_served_relations": {
+    "transition": 36,
+    "cooccurrence": 0,
+    "unknown": 0
+   },
+   "asserted_final": 36,
+   "unexplained": 3,
+   "never_served_min_rank": 22,
+   "never_served_max_rank": 159,
+   "never_served_median_rank": 61,
+   "below_minimum_edges": [],
+   "seed": 20611605
+  },
+  {
+   "present": 112,
+   "constructed": 112,
+   "below_minimum": 0,
+   "served_ever": 96,
+   "never_served": 16,
+   "never_served_within_transition_budget": 0,
+   "never_served_rank_half_to_cap": 2,
+   "never_served_rank_above_cap": 14,
+   "never_served_relations": {
+    "transition": 16,
+    "cooccurrence": 0,
+    "unknown": 0
+   },
+   "asserted_final": 51,
+   "unexplained": 4,
+   "never_served_min_rank": 27,
+   "never_served_max_rank": 189,
+   "never_served_median_rank": 54,
+   "below_minimum_edges": [],
+   "seed": 20611606
+  }
+ ],
+ "rank_semantics": {
+  "cycles": 720,
+  "served_is_order_subsequence": 720,
+  "served_transitions_are_prefix": 720,
+  "served_cooccurrences_are_prefix": 720,
+  "max_served_transition_rank": 20,
+  "max_served_cooccurrence_rank": 212,
+  "max_transition_block": 192,
+  "max_allocated_transitions": 20,
+  "unlabelled_universe_rows": 0,
+  "cycles_with_contiguous_relation_blocks": 720,
+  "in_cap_never_served": 62,
+  "in_cap_never_served_within_served_transitions": 0,
+  "in_cap_asserted_without_admission": 10,
+  "in_cap_asserted_without_admission_within_served_transitions": 0,
+  "closest_in_cap_miss_gap": 1,
+  "never_served_within_transition_budget": 0,
+  "never_served_relations": [
+   "transition"
+  ]
+ },
+ "gates": {
+  "N1_served_is_engine": {
+   "passed": true,
+   "failed_seeds": []
+  },
+  "N2_observation_cannot_leak": {
+   "passed": true,
+   "leaks": []
+  },
+  "N3_allocation_recorded": {
+   "passed": true,
+   "failures": []
+  },
+  "N4_stage_complete": {
+   "passed": true,
+   "failures": []
+  },
+  "N5_witness_reproduces_audit": {
+   "witness_seed": 20261100,
+   "expected": {
+    "present_world_edges": 112,
+    "asserted_world_edges": 40,
+    "asserted_fingerprint": "db2b1a46db2f4b7f"
+   },
+   "observed": {
+    "present_world_edges": 112,
+    "asserted_world_edges": 40,
+    "asserted_fingerprint": "db2b1a46db2f4b7f"
+   },
+   "passed": true
+  },
+  "N6_seed_axis": {
+   "passed": true,
+   "collisions": [],
+   "world_diffs": [],
+   "bootstrap": 20611607
+  },
+  "N7_determinism": {
+   "passed": true,
+   "seed": 20611601,
+   "fingerprint": "d628917d1217e1ac"
+  }
+ },
+ "verdict": "CONVERSION STAGE MEASURED",
+ "reading": "The stage table locates the loss at admission: 671 of 672 present edges became candidates (C) and 16-41 per seed were never served, so construction is not the step that loses them. This is a measurement of the path, not a capability result.",
+ "decision": "Report the stage table; the next step is an owner decision on the named step, with no engine change implied.",
+ "runs_executed": 20,
+ "controls": {
+  "plain_references": 6,
+  "witness": 1,
+  "determinism_rerun": 1
+ },
+ "not_evidence": "A stage measurement on six seeds; it is not a capability, retention or transfer result.",
+ "engine_version": "0.14.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "1fc7be8fae436fa154ce8a142412ffaeb8f54768f3b3ceaacd18d457b13f33f2",
+ "runner": "__main__"
+}

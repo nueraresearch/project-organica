@@ -28,6 +28,7 @@ Discipline (mirrors AGENTS.md):
     ONLY where it is explicitly marked as superseded.
 """
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import io
 import json

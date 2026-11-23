@@ -31,6 +31,7 @@ import sqlite3
 import sys
 import time
 from pathlib import Path
+from benchmarks import engine_stamp
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
@@ -198,7 +199,7 @@ def main() -> int:
 
     out = Path(__file__).parent.parent / args.out
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(result, indent=2))
+    out.write_text(json.dumps(engine_stamp.stamp(result), indent=2))
     print(f"\n  Full report written to: {out}")
     return 0
 

@@ -1,0 +1,138 @@
+{
+ "kind": "core_band_admission",
+ "prereg": "CORE-BAND-ADMISSION-1",
+ "status": "RUN",
+ "cells": 12,
+ "seeds": [
+  20617101,
+  20617102,
+  20617103,
+  20617104,
+  20617105,
+  20617106
+ ],
+ "design": {
+  "seeds": [
+   20617101,
+   20617102,
+   20617103,
+   20617104,
+   20617105,
+   20617106
+  ],
+  "arms": [
+   "control",
+   "treatment"
+  ],
+  "cap": 112,
+  "cycles": 120,
+  "cells": 12,
+  "pairing": "each seed's world and stimulus are identical in both arms",
+  "control": "the shipped cap-112 engine ordering",
+  "treatment": "the same cap-112 run, with every top-20 core and rank-21-40 band transition guaranteed a served seat; a missing tier edge replaces the lowest-priority non-tier transition, then a cooccurrence if no transition remains",
+  "tier": "core is transition rank 1-20 in the cycle's full pre-cap universe; band is rank 21-40 in that same universe",
+  "window": "the engine's served list remains 112 rows; treatment only replaces seats"
+ },
+ "gates": {
+  "C1_build": {
+   "passed": true
+  },
+  "C2_world": {
+   "passed": true
+  },
+  "C3_tier": {
+   "passed": false
+  },
+  "C4_length": {
+   "passed": false
+  },
+  "C5_ledger": {
+   "passed": true
+  },
+  "C6_control": {
+   "passed": true
+  },
+  "C7_treatment": {
+   "passed": true
+  }
+ },
+ "control": {
+  "tier_available": 22753,
+  "tier_served": 22753,
+  "coverage": 1.0,
+  "served_rows": 63666,
+  "false_rows": 44668,
+  "false_admission": 0.7015989696227186,
+  "replacements": 0,
+  "missing_cycles": 0
+ },
+ "treatment": {
+  "tier_available": 22753,
+  "tier_served": 22753,
+  "coverage": 1.0,
+  "served_rows": 63666,
+  "false_rows": 44668,
+  "false_admission": 0.7015989696227186,
+  "replacements": 0,
+  "missing_cycles": 0,
+  "false_admission_difference": 0.0
+ },
+ "per_seed": {
+  "20617101": {
+   "control_coverage": 1.0,
+   "treatment_coverage": 1.0,
+   "control_false_admission": 0.680064829821718,
+   "treatment_false_admission": 0.680064829821718,
+   "replacements": 0,
+   "missing_cycles": 0
+  },
+  "20617102": {
+   "control_coverage": 1.0,
+   "treatment_coverage": 1.0,
+   "control_false_admission": 0.6950961859223841,
+   "treatment_false_admission": 0.6950961859223841,
+   "replacements": 0,
+   "missing_cycles": 0
+  },
+  "20617103": {
+   "control_coverage": 1.0,
+   "treatment_coverage": 1.0,
+   "control_false_admission": 0.7193768455350779,
+   "treatment_false_admission": 0.7193768455350779,
+   "replacements": 0,
+   "missing_cycles": 0
+  },
+  "20617104": {
+   "control_coverage": 1.0,
+   "treatment_coverage": 1.0,
+   "control_false_admission": 0.7129229203764945,
+   "treatment_false_admission": 0.7129229203764945,
+   "replacements": 0,
+   "missing_cycles": 0
+  },
+  "20617105": {
+   "control_coverage": 1.0,
+   "treatment_coverage": 1.0,
+   "control_false_admission": 0.6745600519017111,
+   "treatment_false_admission": 0.6745600519017111,
+   "replacements": 0,
+   "missing_cycles": 0
+  },
+  "20617106": {
+   "control_coverage": 1.0,
+   "treatment_coverage": 1.0,
+   "control_false_admission": 0.7335822712882539,
+   "treatment_false_admission": 0.7335822712882539,
+   "replacements": 0,
+   "missing_cycles": 0
+  }
+ },
+ "window_digests_equal": true,
+ "verdict": "VOID",
+ "reading": "At least one frozen gate failed; no coverage effect is adjudicated. The observed windows are identical, but that is descriptive only.",
+ "not_evidence": "A twelve-cell test of one admission guarantee on one synthetic world family. It does not establish capability, retention, transfer or a general operating cap.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__"
+}

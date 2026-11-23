@@ -1,0 +1,1083 @@
+{
+ "answer": "On the formation limb 1834 of 3840 measurable claims fail. Excluding every transition that involves a payload field name rescues 0 of them; excluding only transitions between two field names rescues 0. The largest self class is 'content_unresolved' (44897 of 60525 formation self transitions), and its origin is unresolved: the payloads carry 2340 parent ids and 0 event references, so these cells cannot say whether that content is world-rooted.",
+ "authorises_confirmatory": false,
+ "cap": 1000,
+ "classification": {
+  "claim_restated": "the sleep payload asserts this very pair (circular)",
+  "content_unresolved": "non-schema content in a sleep payload, origin NOT traced to a world event",
+  "field_name_both": "BOTH endpoints are the payload's own field names",
+  "field_name_one": "one endpoint is a field name, the other is content",
+  "meta": "the sleep row is the cycle marker",
+  "opaque": "the sleep row's payload is not candidate JSON",
+  "world": "direct evidence; carries no self class"
+ },
+ "confirms_seeds_touched": false,
+ "content_origin": {
+  "payload_fields": {
+   "evidence_keys": [
+    "avg_clustering",
+    "avg_predictive_reach",
+    "cost",
+    "decay_cycle",
+    "decayed_from",
+    "dominance_ratio",
+    "edge_count",
+    "expected_count",
+    "formula",
+    "investigation_eig",
+    "observed_count",
+    "ratio",
+    "source_frequency",
+    "target_frequency",
+    "temporal_count"
+   ],
+   "keys": [
+    "action_type",
+    "composites_created",
+    "confidence",
+    "context",
+    "cost",
+    "cycle",
+    "evidence",
+    "expected",
+    "expected_outcomes",
+    "generation",
+    "id",
+    "investigation_id",
+    "members",
+    "observed",
+    "parent_ids",
+    "priority",
+    "probe_payload",
+    "ran_at",
+    "source",
+    "status",
+    "strength",
+    "target",
+    "target_id",
+    "target_type",
+    "type"
+   ],
+   "payloads_with_event_reference": 0,
+   "payloads_with_parent_ids": 2340
+  },
+  "status": "unresolved",
+  "why": "a payload records its content but not the world events behind it, so `content_unresolved` establishes only that non-schema content appeared in a sleep row; it does not establish that the content is world-rooted"
+ },
+ "kind": "reusable_knowledge_postmortem",
+ "note": "Diagnostic only. The preregistered per-claim rule and its verdict are unchanged, and no confirmatory seed was run or touched.",
+ "pythonhashseed": "0",
+ "question": "are claims failing on circular self-support, on world content relayed through sleep rows, or on the payload encoding itself?",
+ "rule_unchanged": true,
+ "seeds": [
+  20261201,
+  20261202,
+  20261203,
+  20261204,
+  20261205
+ ],
+ "seeds_detail": [
+  {
+   "formation": {
+    "claims": 1313,
+    "examples": [
+     {
+      "edge": [
+       "conditional",
+       "cedar"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 5,
+      "self_classes": {
+       "content_unresolved": 5
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     },
+     {
+      "edge": [
+       "sable",
+       "amber"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 5,
+      "self_classes": {
+       "content_unresolved": 5
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     },
+     {
+      "edge": [
+       "willow",
+       "slate"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 6,
+      "self_classes": {
+       "content_unresolved": 6
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     }
+    ],
+    "failing": 576,
+    "failing_by_dominant_self_class": {
+     "content_unresolved": 448,
+     "field_name_one": 128
+    },
+    "failing_by_size": {
+     "16+": 428,
+     "4-7": 28,
+     "8-15": 120
+    },
+    "failing_by_type": {
+     "prediction_candidate": 576
+    },
+    "failing_that_pass_when_all_field_name_transitions_excluded": 0,
+    "failing_that_pass_when_pure_encoding_excluded": 0,
+    "measurable": 1277,
+    "passed": 701,
+    "self_transitions_by_class": {
+     "claim_restated": 4,
+     "content_unresolved": 14985,
+     "field_name_one": 5216,
+     "meta": 8
+    },
+    "unmeasurable": 36
+   },
+   "payload_fields": {
+    "evidence_keys": [
+     "cost",
+     "dominance_ratio",
+     "expected_count",
+     "formula",
+     "investigation_eig",
+     "observed_count",
+     "ratio",
+     "source_frequency",
+     "target_frequency",
+     "temporal_count"
+    ],
+    "keys": [
+     "action_type",
+     "composites_created",
+     "context",
+     "cost",
+     "cycle",
+     "evidence",
+     "expected",
+     "expected_outcomes",
+     "generation",
+     "id",
+     "investigation_id",
+     "observed",
+     "parent_ids",
+     "priority",
+     "probe_payload",
+     "ran_at",
+     "source",
+     "status",
+     "strength",
+     "target",
+     "target_id",
+     "target_type",
+     "type"
+    ],
+    "payloads_with_event_reference": 0,
+    "payloads_with_parent_ids": 468
+   },
+   "revision": {
+    "claims": 656,
+    "examples": [
+     {
+      "edge": [
+       "conditional",
+       "cedar"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 5,
+      "self_classes": {
+       "content_unresolved": 5
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     },
+     {
+      "edge": [
+       "sable",
+       "slate"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 5,
+      "self_classes": {
+       "content_unresolved": 5
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     },
+     {
+      "edge": [
+       "conditional",
+       "teal"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 7,
+      "self_classes": {
+       "content_unresolved": 7
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     }
+    ],
+    "failing": 308,
+    "failing_by_dominant_self_class": {
+     "content_unresolved": 244,
+     "field_name_one": 64
+    },
+    "failing_by_size": {
+     "16+": 250,
+     "4-7": 14,
+     "8-15": 44
+    },
+    "failing_by_type": {
+     "prediction_candidate": 308
+    },
+    "failing_that_pass_when_all_field_name_transitions_excluded": 0,
+    "failing_that_pass_when_pure_encoding_excluded": 0,
+    "measurable": 638,
+    "passed": 330,
+    "self_transitions_by_class": {
+     "claim_restated": 2,
+     "content_unresolved": 10990,
+     "field_name_one": 3808,
+     "meta": 4
+    },
+    "unmeasurable": 18
+   },
+   "seed": 20261201
+  },
+  {
+   "formation": {
+    "claims": 680,
+    "examples": [
+     {
+      "edge": [
+       "question",
+       "maple"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 5,
+      "self_classes": {
+       "content_unresolved": 5
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     },
+     {
+      "edge": [
+       "conditional",
+       "crimson"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 5,
+      "self_classes": {
+       "content_unresolved": 5
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     },
+     {
+      "edge": [
+       "ochre",
+       "birch"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 5,
+      "self_classes": {
+       "content_unresolved": 5
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     }
+    ],
+    "failing": 346,
+    "failing_by_dominant_self_class": {
+     "content_unresolved": 282,
+     "field_name_one": 64
+    },
+    "failing_by_size": {
+     "16+": 260,
+     "4-7": 24,
+     "8-15": 62
+    },
+    "failing_by_type": {
+     "prediction_candidate": 346
+    },
+    "failing_that_pass_when_all_field_name_transitions_excluded": 0,
+    "failing_that_pass_when_pure_encoding_excluded": 0,
+    "measurable": 664,
+    "passed": 318,
+    "self_transitions_by_class": {
+     "claim_restated": 2,
+     "content_unresolved": 7448,
+     "field_name_one": 2584,
+     "meta": 12
+    },
+    "unmeasurable": 16
+   },
+   "payload_fields": {
+    "evidence_keys": [
+     "cost",
+     "dominance_ratio",
+     "expected_count",
+     "formula",
+     "investigation_eig",
+     "observed_count",
+     "ratio",
+     "source_frequency",
+     "target_frequency",
+     "temporal_count"
+    ],
+    "keys": [
+     "action_type",
+     "composites_created",
+     "context",
+     "cost",
+     "cycle",
+     "evidence",
+     "expected",
+     "expected_outcomes",
+     "generation",
+     "id",
+     "investigation_id",
+     "observed",
+     "parent_ids",
+     "priority",
+     "probe_payload",
+     "ran_at",
+     "source",
+     "status",
+     "strength",
+     "target",
+     "target_id",
+     "target_type",
+     "type"
+    ],
+    "payloads_with_event_reference": 0,
+    "payloads_with_parent_ids": 465
+   },
+   "revision": {
+    "claims": 684,
+    "examples": [
+     {
+      "edge": [
+       "question",
+       "maple"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 5,
+      "self_classes": {
+       "content_unresolved": 5
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     },
+     {
+      "edge": [
+       "conditional",
+       "crimson"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 5,
+      "self_classes": {
+       "content_unresolved": 5
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     },
+     {
+      "edge": [
+       "ochre",
+       "birch"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 5,
+      "self_classes": {
+       "content_unresolved": 5
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     }
+    ],
+    "failing": 356,
+    "failing_by_dominant_self_class": {
+     "content_unresolved": 292,
+     "field_name_one": 64
+    },
+    "failing_by_size": {
+     "16+": 300,
+     "4-7": 24,
+     "8-15": 32
+    },
+    "failing_by_type": {
+     "prediction_candidate": 356
+    },
+    "failing_that_pass_when_all_field_name_transitions_excluded": 0,
+    "failing_that_pass_when_pure_encoding_excluded": 0,
+    "measurable": 668,
+    "passed": 312,
+    "self_transitions_by_class": {
+     "claim_restated": 2,
+     "content_unresolved": 11082,
+     "field_name_one": 3784,
+     "meta": 12
+    },
+    "unmeasurable": 16
+   },
+   "seed": 20261202
+  },
+  {
+   "formation": {
+    "claims": 658,
+    "examples": [
+     {
+      "edge": [
+       "sable",
+       "maple"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 5,
+      "self_classes": {
+       "content_unresolved": 5
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     },
+     {
+      "edge": [
+       "mutation",
+       "willow"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 6,
+      "self_classes": {
+       "content_unresolved": 6
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     },
+     {
+      "edge": [
+       "conditional",
+       "slate"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 7,
+      "self_classes": {
+       "content_unresolved": 7
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     }
+    ],
+    "failing": 326,
+    "failing_by_dominant_self_class": {
+     "content_unresolved": 262,
+     "field_name_one": 64
+    },
+    "failing_by_size": {
+     "16+": 256,
+     "4-7": 12,
+     "8-15": 58
+    },
+    "failing_by_type": {
+     "prediction_candidate": 326
+    },
+    "failing_that_pass_when_all_field_name_transitions_excluded": 0,
+    "failing_that_pass_when_pure_encoding_excluded": 0,
+    "measurable": 642,
+    "passed": 316,
+    "self_transitions_by_class": {
+     "claim_restated": 2,
+     "content_unresolved": 7372,
+     "field_name_one": 2584,
+     "meta": 12
+    },
+    "unmeasurable": 16
+   },
+   "payload_fields": {
+    "evidence_keys": [
+     "cost",
+     "dominance_ratio",
+     "expected_count",
+     "formula",
+     "investigation_eig",
+     "observed_count",
+     "ratio",
+     "source_frequency",
+     "target_frequency",
+     "temporal_count"
+    ],
+    "keys": [
+     "action_type",
+     "composites_created",
+     "context",
+     "cost",
+     "cycle",
+     "evidence",
+     "expected",
+     "expected_outcomes",
+     "generation",
+     "id",
+     "investigation_id",
+     "observed",
+     "parent_ids",
+     "priority",
+     "probe_payload",
+     "ran_at",
+     "source",
+     "status",
+     "strength",
+     "target",
+     "target_id",
+     "target_type",
+     "type"
+    ],
+    "payloads_with_event_reference": 0,
+    "payloads_with_parent_ids": 465
+   },
+   "revision": {
+    "claims": 1002,
+    "examples": [
+     {
+      "edge": [
+       "umber",
+       "willow"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 5,
+      "self_classes": {
+       "content_unresolved": 5
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     },
+     {
+      "edge": [
+       "sable",
+       "willow"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 5,
+      "self_classes": {
+       "content_unresolved": 5
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     },
+     {
+      "edge": [
+       "sable",
+       "maple"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 5,
+      "self_classes": {
+       "content_unresolved": 5
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     }
+    ],
+    "failing": 510,
+    "failing_by_dominant_self_class": {
+     "content_unresolved": 414,
+     "field_name_one": 96
+    },
+    "failing_by_size": {
+     "16+": 396,
+     "4-7": 21,
+     "8-15": 93
+    },
+    "failing_by_type": {
+     "prediction_candidate": 510
+    },
+    "failing_that_pass_when_all_field_name_transitions_excluded": 0,
+    "failing_that_pass_when_pure_encoding_excluded": 0,
+    "measurable": 978,
+    "passed": 468,
+    "self_transitions_by_class": {
+     "claim_restated": 3,
+     "content_unresolved": 16455,
+     "field_name_one": 5676,
+     "meta": 18
+    },
+    "unmeasurable": 24
+   },
+   "seed": 20261203
+  },
+  {
+   "formation": {
+    "claims": 622,
+    "examples": [
+     {
+      "edge": [
+       "conditional",
+       "indigo"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 5,
+      "self_classes": {
+       "content_unresolved": 5
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     },
+     {
+      "edge": [
+       "conditional",
+       "umber"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 6,
+      "self_classes": {
+       "content_unresolved": 6
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     },
+     {
+      "edge": [
+       "mutation",
+       "crimson"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 6,
+      "self_classes": {
+       "content_unresolved": 6
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     }
+    ],
+    "failing": 254,
+    "failing_by_dominant_self_class": {
+     "content_unresolved": 194,
+     "field_name_one": 60
+    },
+    "failing_by_size": {
+     "16+": 198,
+     "4-7": 40,
+     "8-15": 16
+    },
+    "failing_by_type": {
+     "prediction_candidate": 254
+    },
+    "failing_that_pass_when_all_field_name_transitions_excluded": 0,
+    "failing_that_pass_when_pure_encoding_excluded": 0,
+    "measurable": 604,
+    "passed": 350,
+    "self_transitions_by_class": {
+     "content_unresolved": 7438,
+     "field_name_one": 2576,
+     "meta": 12
+    },
+    "unmeasurable": 18
+   },
+   "payload_fields": {
+    "evidence_keys": [
+     "avg_clustering",
+     "avg_predictive_reach",
+     "cost",
+     "decay_cycle",
+     "decayed_from",
+     "dominance_ratio",
+     "edge_count",
+     "expected_count",
+     "formula",
+     "investigation_eig",
+     "observed_count"
+    ],
+    "keys": [
+     "action_type",
+     "composites_created",
+     "confidence",
+     "context",
+     "cost",
+     "cycle",
+     "evidence",
+     "expected",
+     "expected_outcomes",
+     "generation",
+     "id",
+     "investigation_id",
+     "members",
+     "observed",
+     "parent_ids",
+     "priority",
+     "probe_payload",
+     "ran_at",
+     "status",
+     "target_id",
+     "target_type",
+     "type"
+    ],
+    "payloads_with_event_reference": 0,
+    "payloads_with_parent_ids": 468
+   },
+   "revision": {
+    "claims": 632,
+    "examples": [
+     {
+      "edge": [
+       "conditional",
+       "indigo"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 5,
+      "self_classes": {
+       "content_unresolved": 5
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     },
+     {
+      "edge": [
+       "conditional",
+       "umber"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 6,
+      "self_classes": {
+       "content_unresolved": 6
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     },
+     {
+      "edge": [
+       "mutation",
+       "teal"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 8,
+      "self_classes": {
+       "content_unresolved": 8
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     }
+    ],
+    "failing": 282,
+    "failing_by_dominant_self_class": {
+     "content_unresolved": 218,
+     "field_name_one": 64
+    },
+    "failing_by_size": {
+     "16+": 230,
+     "4-7": 4,
+     "8-15": 48
+    },
+    "failing_by_type": {
+     "prediction_candidate": 282
+    },
+    "failing_that_pass_when_all_field_name_transitions_excluded": 0,
+    "failing_that_pass_when_pure_encoding_excluded": 0,
+    "measurable": 614,
+    "passed": 332,
+    "self_transitions_by_class": {
+     "content_unresolved": 11004,
+     "field_name_one": 3792,
+     "meta": 12
+    },
+    "unmeasurable": 18
+   },
+   "seed": 20261204
+  },
+  {
+   "formation": {
+    "claims": 669,
+    "examples": [
+     {
+      "edge": [
+       "amber",
+       "sable"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 31,
+      "self_classes": {
+       "content_unresolved": 31
+      },
+      "share": 0.198718,
+      "type": "hypothesis",
+      "world": 125
+     },
+     {
+      "edge": [
+       "question",
+       "umber"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 5,
+      "self_classes": {
+       "content_unresolved": 5
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     },
+     {
+      "edge": [
+       "question",
+       "cedar"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 5,
+      "self_classes": {
+       "content_unresolved": 5
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     }
+    ],
+    "failing": 332,
+    "failing_by_dominant_self_class": {
+     "content_unresolved": 268,
+     "field_name_one": 64
+    },
+    "failing_by_size": {
+     "16+": 236,
+     "4-7": 44,
+     "8-15": 52
+    },
+    "failing_by_type": {
+     "hypothesis": 2,
+     "prediction_candidate": 330
+    },
+    "failing_that_pass_when_all_field_name_transitions_excluded": 0,
+    "failing_that_pass_when_pure_encoding_excluded": 0,
+    "measurable": 653,
+    "passed": 321,
+    "self_transitions_by_class": {
+     "content_unresolved": 7654,
+     "field_name_one": 2616
+    },
+    "unmeasurable": 16
+   },
+   "payload_fields": {
+    "evidence_keys": [
+     "cost",
+     "dominance_ratio",
+     "expected_count",
+     "formula",
+     "investigation_eig",
+     "observed_count"
+    ],
+    "keys": [
+     "action_type",
+     "context",
+     "cost",
+     "evidence",
+     "expected",
+     "expected_outcomes",
+     "generation",
+     "id",
+     "investigation_id",
+     "observed",
+     "parent_ids",
+     "priority",
+     "probe_payload",
+     "status",
+     "target_id",
+     "target_type",
+     "type"
+    ],
+    "payloads_with_event_reference": 0,
+    "payloads_with_parent_ids": 474
+   },
+   "revision": {
+    "claims": 666,
+    "examples": [
+     {
+      "edge": [
+       "amber",
+       "sable"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 39,
+      "self_classes": {
+       "content_unresolved": 39
+      },
+      "share": 0.182243,
+      "type": "hypothesis",
+      "world": 175
+     },
+     {
+      "edge": [
+       "question",
+       "umber"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 5,
+      "self_classes": {
+       "content_unresolved": 5
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     },
+     {
+      "edge": [
+       "question",
+       "cedar"
+      ],
+      "passes_without_field_names": false,
+      "passes_without_pure_encoding": false,
+      "self": 5,
+      "self_classes": {
+       "content_unresolved": 5
+      },
+      "share": 1.0,
+      "type": "prediction_candidate",
+      "world": 0
+     }
+    ],
+    "failing": 336,
+    "failing_by_dominant_self_class": {
+     "content_unresolved": 272,
+     "field_name_one": 64
+    },
+    "failing_by_size": {
+     "16+": 252,
+     "4-7": 18,
+     "8-15": 66
+    },
+    "failing_by_type": {
+     "hypothesis": 2,
+     "prediction_candidate": 334
+    },
+    "failing_that_pass_when_all_field_name_transitions_excluded": 0,
+    "failing_that_pass_when_pure_encoding_excluded": 0,
+    "measurable": 650,
+    "passed": 314,
+    "self_transitions_by_class": {
+     "content_unresolved": 11164,
+     "field_name_one": 3816
+    },
+    "unmeasurable": 16
+   },
+   "seed": 20261205
+  }
+ ],
+ "summary": {
+  "formation": {
+   "claims": 3942,
+   "failing": 1834,
+   "failing_by_size": {
+    "16+": 1378,
+    "4-7": 148,
+    "8-15": 308
+   },
+   "failing_by_type": {
+    "hypothesis": 2,
+    "prediction_candidate": 1832
+   },
+   "failing_that_pass_when_all_field_name_transitions_excluded": 0,
+   "failing_that_pass_when_pure_encoding_excluded": 0,
+   "measurable": 3840,
+   "passed": 2006,
+   "self_transitions_by_class": {
+    "claim_restated": 8,
+    "content_unresolved": 44897,
+    "field_name_one": 15576,
+    "meta": 44
+   },
+   "unmeasurable": 102
+  },
+  "revision": {
+   "claims": 3640,
+   "failing": 1792,
+   "failing_by_size": {
+    "16+": 1428,
+    "4-7": 81,
+    "8-15": 283
+   },
+   "failing_by_type": {
+    "hypothesis": 2,
+    "prediction_candidate": 1790
+   },
+   "failing_that_pass_when_all_field_name_transitions_excluded": 0,
+   "failing_that_pass_when_pure_encoding_excluded": 0,
+   "measurable": 3548,
+   "passed": 1756,
+   "self_transitions_by_class": {
+    "claim_restated": 7,
+    "content_unresolved": 60695,
+    "field_name_one": 20876,
+    "meta": 46
+   },
+   "unmeasurable": 92
+  }
+ },
+ "variant": "V1.1-cap(1000)",
+ "verdict_kept": {
+  "calibration_authorises_confirmatory": false,
+  "per_claim_rule_all_seeds_passed": false,
+  "source": "docs/reusable_knowledge_calibration.json"
+ }
+}

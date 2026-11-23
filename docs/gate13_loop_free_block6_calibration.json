@@ -1,0 +1,123 @@
+{
+  "what": "pooled calibration, criterion choice, bar provenance and power for block 6 (loop-free preference arm Y vs R)",
+  "judged_by_block": false,
+  "arm": "Y = R with the cap reserved for edges no loop asserts; loop-asserted edges admitted only as backfill",
+  "doses_are_one_function": {
+    "claim": "the soft reorder (X) and the reserved cap (Y) select the same candidates whenever at least cap edges in the pool are not loop-asserted, which held on every cycle of every calibration seed",
+    "evidence": "the two calibration artifacts' per-seed effect, composition and displacement statistics are identical on all ten seeds, field for field",
+    "consequence": "the block runs one intervention arm (Y); X is not a second dose",
+    "floor": "the two arms would diverge only on a seed whose candidate pool holds fewer than 20 non-loop edges"
+  },
+  "calibration_seeds": [
+    20271604,
+    20271605,
+    20271606,
+    20271607,
+    20271608,
+    20271609,
+    20271610,
+    20271611,
+    20271612,
+    20271613
+  ],
+  "reused_from": [
+    "docs/gate13_loop_free_admission_calibration.json",
+    "docs/gate13_loop_free_dose_calibration.json"
+  ],
+  "effect": {
+    "mean": 0.0152,
+    "median": 0.0044,
+    "sd": 0.0211,
+    "min": 0.0,
+    "max": 0.0625,
+    "positive_share": 0.5,
+    "positive_n": 5,
+    "n": 10,
+    "mean_ci": [
+      0.00447,
+      0.02858
+    ],
+    "mean_se_at_100": 0.00211,
+    "novel_mean": 1.7,
+    "novel_ci": [
+      0.5,
+      3.2
+    ],
+    "loop_covered_mean": 0.0,
+    "mean_r_coverage": 0.6053,
+    "mean_y_coverage": 0.6205
+  },
+  "perturbation": {
+    "seeds_with_any_displacement": 10,
+    "mean_disp_total": 626.4,
+    "median_disp_total": 550.5,
+    "max_disp_total": 977,
+    "min_disp_total": 378,
+    "mean_cycles_with_displacement": 88.5,
+    "loop_edges_mean": 47.8
+  },
+  "composition": {
+    "r_covered_loop_mean": 20.6,
+    "y_covered_loop_mean": 20.6,
+    "r_covered_novel_mean": 47.2,
+    "y_covered_novel_mean": 48.9
+  },
+  "criterion_choice": {
+    "primary": "paired mean difference in coverage, Y - R",
+    "why_mean": "the per-seed effect is 0 on half the calibration seeds and 0.027-0.063 on the rest, so median and sign criteria are near-blind at n=100 (power 0.03) while the mean is bounded (se 0.0021 at n=100)",
+    "why_not_median": "a median criterion would report the structural zeros as the effect and discard the large gains the mechanism predicts",
+    "disclosure": "the mean is sensitive to the tail; the artifact reports the median, the positive share and the per-seed rows beside it, and no criterion reads them"
+  },
+  "bar": {
+    "m1_mean_difference": 0.01,
+    "provenance": "one fifth of the R-over-C gain on block 5's 100 fresh seeds (mean 0.0485), read from docs/gate13_temporal_redundancy_block5.json; the intervention is meant to add to that gain, and 0.01 is a fifth of it rather than the smallest detectable effect",
+    "calibrated_effect": 0.0152
+  },
+  "band": [
+    0.4347,
+    0.4987
+  ],
+  "allocation": {
+    "lo": 20271614,
+    "hi": 20271713,
+    "seeds": 100
+  },
+  "allocation_rule": "first free 100-seed window after the calibration block, scanned over the tree plus the calibration seeds; an allocation may not contain a seed already written into the tree",
+  "bars_simulated": [
+    0.005,
+    0.01,
+    0.015,
+    0.02,
+    0.03
+  ],
+  "power": {
+    "0.005": {
+      "bar": 0.005,
+      "power_point": 1.0,
+      "power_point_and_ci": 1.0
+    },
+    "0.01": {
+      "bar": 0.01,
+      "power_point": 0.997,
+      "power_point_and_ci": 0.997
+    },
+    "0.015": {
+      "bar": 0.015,
+      "power_point": 0.534,
+      "power_point_and_ci": 0.534
+    },
+    "0.02": {
+      "bar": 0.02,
+      "power_point": 0.011,
+      "power_point_and_ci": 0.011
+    },
+    "0.03": {
+      "bar": 0.03,
+      "power_point": 0.0,
+      "power_point_and_ci": 0.0
+    }
+  },
+  "null_check": "at bar 0.01 with a true effect of zero the point criterion passes ~0% of the time by construction; the calibration therefore also reports the bar's distance from the calibrated mean in sd units below",
+  "bar_in_sd_units": 2.46,
+  "caveat": "ten seeds give a noisy sd and a noisy mean; the power table is an estimate from them, and the block reports its own observed mean and interval beside the bar either way"
+}

@@ -1,0 +1,61 @@
+{
+  "prereg": "DENSITY-PADDING-1",
+  "title": "Does the primary scheme's partial final pass explain the density ladder's non-monotonicity?",
+  "status": "RUN",
+  "date": "2026-11-07",
+  "amends": null,
+  "question": "The A2 record shows the primary scheme's advantage is not monotone across the ladder while the sensitivity scheme's rises. The decision record attributes this to the primary scheme's partial final pass. If that attribution is right, a scheme that pads in whole cycles should have a monotone ladder.",
+  "inherits": {
+    "seeds": "docs/density_interaction_a2_prereg.json:design.seeds",
+    "densities": "docs/density_interaction_a2_prereg.json:design.densities",
+    "cap": 20,
+    "filler": "constant",
+    "world": "benchmarks/density_worlds.py, unchanged for the registered schemes"
+  },
+  "scheme": {
+    "name": "whole_cycle",
+    "definition": "the base stream (world edges in sorted order, then the within-cell filler) repeated ceil(TOTAL_EVENTS / len(base)) times, so every base occurrence is emitted the same number of times and the stream always ends on the filler tail",
+    "totals": {
+      "0.1": 432,
+      "0.2": 480,
+      "0.4": 432,
+      "0.6": 624,
+      "0.8": 408
+    },
+    "why_not_fixed_total": "holding total exposure at 400 events is exactly what forces a partial final pass, so this scheme removes the phase by letting the total vary"
+  },
+  "endpoint": "precision at cap 20; Delta = treated precision - control precision",
+  "criteria": {
+    "P1_every_step_non_negative": {
+      "judged": true,
+      "definition": "for every adjacent pair in the ladder, mean Delta(next) - mean Delta(current) >= 0"
+    },
+    "P2_does_not_shrink": {
+      "judged": true,
+      "definition": "mean Delta(0.6) >= mean Delta(0.1)"
+    }
+  },
+  "gate": {
+    "name": "phase_neutral",
+    "definition": "at every density each base occurrence appears exactly `passes` times, the last event is a filler event, and len(stream) == passes * len(base)"
+  },
+  "negative_control": "P1 applied to the registered A2 primary profile must return not monotone; a criterion that cannot fire on the profile it was written for is decoration",
+  "decision_table": {
+    "monotone": "the padding phase explains the mid-ladder dip: report the primary ladder as an instrument property in the decision record and quote the whole-cycle profile as the phase-free reading",
+    "not_monotone": "the padding phase is not the whole story: name the failing step and the class that holds the budget there, and stop attributing the ladder to padding alone"
+  },
+  "not_claimed": [
+    "no cognitive or behavioural claim: the endpoint is a selection reading",
+    "no claim about exposure in general: the scheme varies total exposure with density",
+    "no amendment to A2: its schemes, criteria and artifacts are unchanged"
+  ],
+  "run": {
+    "cells": 160,
+    "seeds": 16,
+    "of_seeds": 16,
+    "densities": 5,
+    "gate_passed": true,
+    "artifact": "docs/density_padding_run.json",
+    "slices": 4
+  }
+}

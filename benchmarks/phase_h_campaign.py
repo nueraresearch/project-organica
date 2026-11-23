@@ -24,6 +24,7 @@ sys.path.insert(0, str(REPO))
 
 from benchmarks.ground_truth_recovery import run as run_recovery  # noqa: E402
 from benchmarks.heldout_prediction import run as run_prediction  # noqa: E402
+from benchmarks import engine_stamp
 
 DEFAULT_SEEDS = list(range(20261023, 20261033))
 BOOTSTRAP_REPLICATES = 10_000
@@ -250,7 +251,7 @@ def main() -> None:
             "The prediction curriculum is deterministic and identical across seeds; its intervals reflect Organica's seeded sleep RNG only, while baseline scores repeat on the same stream.",
             "Recovery seeds vary synthetic samples and Organica's seeded sleep RNG; neither task samples real-world environments.",
         ]
-        output.write_text(json.dumps(result, indent=2), encoding="utf-8")
+        output.write_text(json.dumps(engine_stamp.stamp(result), indent=2), encoding="utf-8")
         print(json.dumps(result["structure_recovery"]["difficulty_trends"], indent=2))
         print(f"updated {output}")
         return
@@ -259,7 +260,7 @@ def main() -> None:
     seeds = list(range(args.first_seed, args.first_seed + args.seeds))
     result = run_campaign(seeds, workers=args.workers)
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(result, indent=2), encoding="utf-8")
+    output.write_text(json.dumps(engine_stamp.stamp(result), indent=2), encoding="utf-8")
     print(json.dumps(result["protocol"], indent=2))
     print(json.dumps({
         "prediction": result["prediction"]["summary"],

@@ -49,6 +49,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from organica import MemoryService, SleepService  # noqa: E402
+from benchmarks import engine_stamp
 
 
 # ---------------------------------------------------------------------------
@@ -459,7 +460,7 @@ def main() -> int:
 
     out = Path(__file__).parent.parent / args.out
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps({
+    out.write_text(json.dumps(engine_stamp.stamp({
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "phase": "G",
         "title": "G5 Gap Diagnostic (Theories/Questions never emerge)",
@@ -467,7 +468,7 @@ def main() -> int:
                   "compared the resulting ceiling against actual production, across the "
                   "longitudinal-study stream and the Phase F positive control.",
         "streams": results,
-    }, indent=2))
+    }), indent=2))
     print(f"\n  Full report written to: {out}")
     return 0
 

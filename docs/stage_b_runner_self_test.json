@@ -1,0 +1,22 @@
+{
+  "what_this_is": "The runner's own controls: the allocation guard, the eligibility arithmetic, the scoring shape, and an analysis that both detects a planted relation and fails to detect a flat one. No engine ran and no seed was touched.",
+  "checks": {
+    "refuses_a_seed_under_an_empty_allocation": true,
+    "accepts_a_seed_under_a_record_that_names_it": true,
+    "refuses_a_seed_the_record_does_not_name": true,
+    "refuses_a_reserved_spare": true,
+    "accepts_a_consumed_design_block_seed": true,
+    "eligible_exactly_when_the_follow_up_fits": true,
+    "a_readout_that_knows_the_pair_scores_better": true,
+    "an_empty_window_is_not_measurable_not_zero": true,
+    "detects_a_planted_relation": true,
+    "permutation_control_includes_zero": true,
+    "does_not_detect_a_flat_outcome": true,
+    "all_four_holding_is_supported": true,
+    "one_configuration_short_is_mixed": true
+  },
+  "passed": true,
+  "prng_state": 20261107,
+  "alpha": 256.0,
+  "no_engine": "No engine ran and no Stage B seed was read or written."
+}

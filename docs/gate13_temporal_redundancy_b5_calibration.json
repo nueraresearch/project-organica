@@ -1,0 +1,1153 @@
+{
+  "what": "cut, calibration association and power for block 5 (block-4 covariate, floor lowered, cut re-estimated)",
+  "judged_by_block": false,
+  "covariate": "o_s = |L_s and P_s and W| / |P_s and W| on the control cell, measurable when |P_s and W| >= 1",
+  "floor": 1,
+  "fixes_from_block4": {
+    "floor": "3 -> 1: at floor 3 only 87/100 block-4 cells were measurable, so G2's 96/100 was unreachable",
+    "cut": "median of 10 calibration seeds (0.3095) -> balance-optimal cut over 110 cells",
+    "why_not_a_count": "the count |L and P and W| is always defined but carries only Spearman 0.241 on 110 cells with an expected half-split gap of 0.015 against a 0.03 bar; it would be a null ritual"
+  },
+  "calibration_sources": {
+    "block2": 10,
+    "block4": 100,
+    "total": 110,
+    "measurable": 109,
+    "note": "block 4 was voided by its own gate, so its cells are not being judged by block 5; rule 19 permits re-calibration on data that is not being judged"
+  },
+  "allocation": {
+    "lo": 20271403,
+    "hi": 20271502,
+    "seeds": 100
+  },
+  "freshness": {
+    "files_scanned": 532,
+    "rejected_hits": [
+      20271302,
+      20271303,
+      20271402
+    ]
+  },
+  "pairs": [
+    {
+      "seed": 20270901,
+      "overlap": 0,
+      "pred_world": 7,
+      "o": 0.0,
+      "gain": 0.0,
+      "source": "block2"
+    },
+    {
+      "seed": 20270902,
+      "overlap": 2,
+      "pred_world": 7,
+      "o": 0.2857,
+      "gain": 0.0536,
+      "source": "block2"
+    },
+    {
+      "seed": 20270903,
+      "overlap": 5,
+      "pred_world": 7,
+      "o": 0.7143,
+      "gain": 0.0625,
+      "source": "block2"
+    },
+    {
+      "seed": 20270905,
+      "overlap": 0,
+      "pred_world": 3,
+      "o": 0.0,
+      "gain": -0.0089,
+      "source": "block2"
+    },
+    {
+      "seed": 20270906,
+      "overlap": 9,
+      "pred_world": 9,
+      "o": 1.0,
+      "gain": 0.1339,
+      "source": "block2"
+    },
+    {
+      "seed": 20270907,
+      "overlap": 6,
+      "pred_world": 6,
+      "o": 1.0,
+      "gain": 0.0536,
+      "source": "block2"
+    },
+    {
+      "seed": 20270908,
+      "overlap": 1,
+      "pred_world": 8,
+      "o": 0.125,
+      "gain": -0.0179,
+      "source": "block2"
+    },
+    {
+      "seed": 20270913,
+      "overlap": 4,
+      "pred_world": 4,
+      "o": 1.0,
+      "gain": 0.0,
+      "source": "block2"
+    },
+    {
+      "seed": 20270921,
+      "overlap": 2,
+      "pred_world": 9,
+      "o": 0.2222,
+      "gain": -0.0446,
+      "source": "block2"
+    },
+    {
+      "seed": 20270924,
+      "overlap": 4,
+      "pred_world": 12,
+      "o": 0.3333,
+      "gain": 0.0089,
+      "source": "block2"
+    },
+    {
+      "seed": 20271202,
+      "overlap": 5,
+      "pred_world": 6,
+      "o": 0.8333,
+      "gain": 0.0804,
+      "source": "block4"
+    },
+    {
+      "seed": 20271203,
+      "overlap": 3,
+      "pred_world": 6,
+      "o": 0.5,
+      "gain": 0.0804,
+      "source": "block4"
+    },
+    {
+      "seed": 20271204,
+      "overlap": 6,
+      "pred_world": 6,
+      "o": 1.0,
+      "gain": 0.0535,
+      "source": "block4"
+    },
+    {
+      "seed": 20271205,
+      "overlap": 0,
+      "pred_world": 0,
+      "o": null,
+      "gain": 0.0447,
+      "source": "block4"
+    },
+    {
+      "seed": 20271206,
+      "overlap": 3,
+      "pred_world": 6,
+      "o": 0.5,
+      "gain": 0.0179,
+      "source": "block4"
+    },
+    {
+      "seed": 20271207,
+      "overlap": 7,
+      "pred_world": 8,
+      "o": 0.875,
+      "gain": 0.0804,
+      "source": "block4"
+    },
+    {
+      "seed": 20271208,
+      "overlap": 5,
+      "pred_world": 7,
+      "o": 0.7143,
+      "gain": 0.0,
+      "source": "block4"
+    },
+    {
+      "seed": 20271209,
+      "overlap": 8,
+      "pred_world": 8,
+      "o": 1.0,
+      "gain": 0.0536,
+      "source": "block4"
+    },
+    {
+      "seed": 20271210,
+      "overlap": 5,
+      "pred_world": 9,
+      "o": 0.5556,
+      "gain": 0.0178,
+      "source": "block4"
+    },
+    {
+      "seed": 20271211,
+      "overlap": 4,
+      "pred_world": 5,
+      "o": 0.8,
+      "gain": 0.0715,
+      "source": "block4"
+    },
+    {
+      "seed": 20271212,
+      "overlap": 3,
+      "pred_world": 3,
+      "o": 1.0,
+      "gain": 0.0268,
+      "source": "block4"
+    },
+    {
+      "seed": 20271213,
+      "overlap": 3,
+      "pred_world": 3,
+      "o": 1.0,
+      "gain": 0.0357,
+      "source": "block4"
+    },
+    {
+      "seed": 20271214,
+      "overlap": 5,
+      "pred_world": 7,
+      "o": 0.7143,
+      "gain": 0.0357,
+      "source": "block4"
+    },
+    {
+      "seed": 20271215,
+      "overlap": 6,
+      "pred_world": 6,
+      "o": 1.0,
+      "gain": 0.1161,
+      "source": "block4"
+    },
+    {
+      "seed": 20271216,
+      "overlap": 2,
+      "pred_world": 3,
+      "o": 0.6667,
+      "gain": 0.0446,
+      "source": "block4"
+    },
+    {
+      "seed": 20271217,
+      "overlap": 4,
+      "pred_world": 4,
+      "o": 1.0,
+      "gain": 0.0982,
+      "source": "block4"
+    },
+    {
+      "seed": 20271218,
+      "overlap": 4,
+      "pred_world": 7,
+      "o": 0.5714,
+      "gain": 0.0268,
+      "source": "block4"
+    },
+    {
+      "seed": 20271219,
+      "overlap": 4,
+      "pred_world": 4,
+      "o": 1.0,
+      "gain": 0.0625,
+      "source": "block4"
+    },
+    {
+      "seed": 20271220,
+      "overlap": 8,
+      "pred_world": 8,
+      "o": 1.0,
+      "gain": 0.0625,
+      "source": "block4"
+    },
+    {
+      "seed": 20271221,
+      "overlap": 6,
+      "pred_world": 6,
+      "o": 1.0,
+      "gain": 0.0625,
+      "source": "block4"
+    },
+    {
+      "seed": 20271222,
+      "overlap": 3,
+      "pred_world": 3,
+      "o": 1.0,
+      "gain": 0.0982,
+      "source": "block4"
+    },
+    {
+      "seed": 20271223,
+      "overlap": 1,
+      "pred_world": 3,
+      "o": 0.3333,
+      "gain": 0.1071,
+      "source": "block4"
+    },
+    {
+      "seed": 20271224,
+      "overlap": 1,
+      "pred_world": 1,
+      "o": 1.0,
+      "gain": 0.0714,
+      "source": "block4"
+    },
+    {
+      "seed": 20271225,
+      "overlap": 7,
+      "pred_world": 8,
+      "o": 0.875,
+      "gain": 0.009,
+      "source": "block4"
+    },
+    {
+      "seed": 20271226,
+      "overlap": 3,
+      "pred_world": 4,
+      "o": 0.75,
+      "gain": 0.0,
+      "source": "block4"
+    },
+    {
+      "seed": 20271227,
+      "overlap": 5,
+      "pred_world": 5,
+      "o": 1.0,
+      "gain": 0.0268,
+      "source": "block4"
+    },
+    {
+      "seed": 20271228,
+      "overlap": 4,
+      "pred_world": 6,
+      "o": 0.6667,
+      "gain": 0.0803,
+      "source": "block4"
+    },
+    {
+      "seed": 20271229,
+      "overlap": 1,
+      "pred_world": 4,
+      "o": 0.25,
+      "gain": 0.0357,
+      "source": "block4"
+    },
+    {
+      "seed": 20271230,
+      "overlap": 6,
+      "pred_world": 6,
+      "o": 1.0,
+      "gain": 0.0625,
+      "source": "block4"
+    },
+    {
+      "seed": 20271231,
+      "overlap": 3,
+      "pred_world": 4,
+      "o": 0.75,
+      "gain": 0.0982,
+      "source": "block4"
+    },
+    {
+      "seed": 20271232,
+      "overlap": 5,
+      "pred_world": 5,
+      "o": 1.0,
+      "gain": 0.0357,
+      "source": "block4"
+    },
+    {
+      "seed": 20271233,
+      "overlap": 2,
+      "pred_world": 6,
+      "o": 0.3333,
+      "gain": 0.0179,
+      "source": "block4"
+    },
+    {
+      "seed": 20271234,
+      "overlap": 6,
+      "pred_world": 7,
+      "o": 0.8571,
+      "gain": 0.0357,
+      "source": "block4"
+    },
+    {
+      "seed": 20271235,
+      "overlap": 4,
+      "pred_world": 4,
+      "o": 1.0,
+      "gain": 0.0536,
+      "source": "block4"
+    },
+    {
+      "seed": 20271236,
+      "overlap": 6,
+      "pred_world": 6,
+      "o": 1.0,
+      "gain": 0.0358,
+      "source": "block4"
+    },
+    {
+      "seed": 20271237,
+      "overlap": 2,
+      "pred_world": 3,
+      "o": 0.6667,
+      "gain": 0.0893,
+      "source": "block4"
+    },
+    {
+      "seed": 20271238,
+      "overlap": 7,
+      "pred_world": 7,
+      "o": 1.0,
+      "gain": 0.0625,
+      "source": "block4"
+    },
+    {
+      "seed": 20271239,
+      "overlap": 2,
+      "pred_world": 2,
+      "o": 1.0,
+      "gain": 0.0089,
+      "source": "block4"
+    },
+    {
+      "seed": 20271240,
+      "overlap": 1,
+      "pred_world": 7,
+      "o": 0.1429,
+      "gain": 0.0,
+      "source": "block4"
+    },
+    {
+      "seed": 20271241,
+      "overlap": 3,
+      "pred_world": 6,
+      "o": 0.5,
+      "gain": 0.0268,
+      "source": "block4"
+    },
+    {
+      "seed": 20271242,
+      "overlap": 7,
+      "pred_world": 7,
+      "o": 1.0,
+      "gain": 0.0625,
+      "source": "block4"
+    },
+    {
+      "seed": 20271243,
+      "overlap": 5,
+      "pred_world": 6,
+      "o": 0.8333,
+      "gain": 0.0715,
+      "source": "block4"
+    },
+    {
+      "seed": 20271244,
+      "overlap": 0,
+      "pred_world": 1,
+      "o": 0.0,
+      "gain": 0.0268,
+      "source": "block4"
+    },
+    {
+      "seed": 20271245,
+      "overlap": 5,
+      "pred_world": 6,
+      "o": 0.8333,
+      "gain": 0.0714,
+      "source": "block4"
+    },
+    {
+      "seed": 20271246,
+      "overlap": 2,
+      "pred_world": 5,
+      "o": 0.4,
+      "gain": 0.0268,
+      "source": "block4"
+    },
+    {
+      "seed": 20271247,
+      "overlap": 5,
+      "pred_world": 5,
+      "o": 1.0,
+      "gain": 0.0804,
+      "source": "block4"
+    },
+    {
+      "seed": 20271248,
+      "overlap": 0,
+      "pred_world": 5,
+      "o": 0.0,
+      "gain": 0.0089,
+      "source": "block4"
+    },
+    {
+      "seed": 20271249,
+      "overlap": 0,
+      "pred_world": 2,
+      "o": 0.0,
+      "gain": 0.0179,
+      "source": "block4"
+    },
+    {
+      "seed": 20271250,
+      "overlap": 4,
+      "pred_world": 7,
+      "o": 0.5714,
+      "gain": 0.0625,
+      "source": "block4"
+    },
+    {
+      "seed": 20271251,
+      "overlap": 7,
+      "pred_world": 7,
+      "o": 1.0,
+      "gain": 0.0982,
+      "source": "block4"
+    },
+    {
+      "seed": 20271252,
+      "overlap": 6,
+      "pred_world": 6,
+      "o": 1.0,
+      "gain": 0.0803,
+      "source": "block4"
+    },
+    {
+      "seed": 20271253,
+      "overlap": 3,
+      "pred_world": 4,
+      "o": 0.75,
+      "gain": 0.1071,
+      "source": "block4"
+    },
+    {
+      "seed": 20271254,
+      "overlap": 1,
+      "pred_world": 1,
+      "o": 1.0,
+      "gain": 0.0804,
+      "source": "block4"
+    },
+    {
+      "seed": 20271255,
+      "overlap": 6,
+      "pred_world": 6,
+      "o": 1.0,
+      "gain": 0.0179,
+      "source": "block4"
+    },
+    {
+      "seed": 20271256,
+      "overlap": 2,
+      "pred_world": 7,
+      "o": 0.2857,
+      "gain": 0.009,
+      "source": "block4"
+    },
+    {
+      "seed": 20271257,
+      "overlap": 2,
+      "pred_world": 6,
+      "o": 0.3333,
+      "gain": -0.0178,
+      "source": "block4"
+    },
+    {
+      "seed": 20271258,
+      "overlap": 0,
+      "pred_world": 4,
+      "o": 0.0,
+      "gain": 0.0535,
+      "source": "block4"
+    },
+    {
+      "seed": 20271259,
+      "overlap": 6,
+      "pred_world": 6,
+      "o": 1.0,
+      "gain": 0.0803,
+      "source": "block4"
+    },
+    {
+      "seed": 20271260,
+      "overlap": 5,
+      "pred_world": 5,
+      "o": 1.0,
+      "gain": 0.0803,
+      "source": "block4"
+    },
+    {
+      "seed": 20271261,
+      "overlap": 0,
+      "pred_world": 1,
+      "o": 0.0,
+      "gain": 0.0804,
+      "source": "block4"
+    },
+    {
+      "seed": 20271262,
+      "overlap": 2,
+      "pred_world": 3,
+      "o": 0.6667,
+      "gain": 0.0803,
+      "source": "block4"
+    },
+    {
+      "seed": 20271263,
+      "overlap": 4,
+      "pred_world": 6,
+      "o": 0.6667,
+      "gain": 0.0536,
+      "source": "block4"
+    },
+    {
+      "seed": 20271264,
+      "overlap": 4,
+      "pred_world": 4,
+      "o": 1.0,
+      "gain": 0.0804,
+      "source": "block4"
+    },
+    {
+      "seed": 20271265,
+      "overlap": 6,
+      "pred_world": 6,
+      "o": 1.0,
+      "gain": 0.0714,
+      "source": "block4"
+    },
+    {
+      "seed": 20271266,
+      "overlap": 6,
+      "pred_world": 6,
+      "o": 1.0,
+      "gain": 0.0357,
+      "source": "block4"
+    },
+    {
+      "seed": 20271267,
+      "overlap": 3,
+      "pred_world": 5,
+      "o": 0.6,
+      "gain": 0.0625,
+      "source": "block4"
+    },
+    {
+      "seed": 20271268,
+      "overlap": 1,
+      "pred_world": 4,
+      "o": 0.25,
+      "gain": 0.0357,
+      "source": "block4"
+    },
+    {
+      "seed": 20271269,
+      "overlap": 1,
+      "pred_world": 3,
+      "o": 0.3333,
+      "gain": 0.0089,
+      "source": "block4"
+    },
+    {
+      "seed": 20271270,
+      "overlap": 8,
+      "pred_world": 8,
+      "o": 1.0,
+      "gain": 0.0268,
+      "source": "block4"
+    },
+    {
+      "seed": 20271271,
+      "overlap": 2,
+      "pred_world": 4,
+      "o": 0.5,
+      "gain": 0.0446,
+      "source": "block4"
+    },
+    {
+      "seed": 20271272,
+      "overlap": 0,
+      "pred_world": 3,
+      "o": 0.0,
+      "gain": 0.0625,
+      "source": "block4"
+    },
+    {
+      "seed": 20271273,
+      "overlap": 2,
+      "pred_world": 5,
+      "o": 0.4,
+      "gain": 0.0446,
+      "source": "block4"
+    },
+    {
+      "seed": 20271274,
+      "overlap": 4,
+      "pred_world": 6,
+      "o": 0.6667,
+      "gain": 0.0,
+      "source": "block4"
+    },
+    {
+      "seed": 20271275,
+      "overlap": 2,
+      "pred_world": 4,
+      "o": 0.5,
+      "gain": 0.0268,
+      "source": "block4"
+    },
+    {
+      "seed": 20271276,
+      "overlap": 1,
+      "pred_world": 2,
+      "o": 0.5,
+      "gain": 0.0715,
+      "source": "block4"
+    },
+    {
+      "seed": 20271277,
+      "overlap": 7,
+      "pred_world": 7,
+      "o": 1.0,
+      "gain": 0.0982,
+      "source": "block4"
+    },
+    {
+      "seed": 20271278,
+      "overlap": 5,
+      "pred_world": 6,
+      "o": 0.8333,
+      "gain": 0.009,
+      "source": "block4"
+    },
+    {
+      "seed": 20271279,
+      "overlap": 1,
+      "pred_world": 4,
+      "o": 0.25,
+      "gain": 0.009,
+      "source": "block4"
+    },
+    {
+      "seed": 20271280,
+      "overlap": 3,
+      "pred_world": 9,
+      "o": 0.3333,
+      "gain": -0.0089,
+      "source": "block4"
+    },
+    {
+      "seed": 20271281,
+      "overlap": 2,
+      "pred_world": 2,
+      "o": 1.0,
+      "gain": 0.116,
+      "source": "block4"
+    },
+    {
+      "seed": 20271282,
+      "overlap": 6,
+      "pred_world": 6,
+      "o": 1.0,
+      "gain": 0.0804,
+      "source": "block4"
+    },
+    {
+      "seed": 20271283,
+      "overlap": 7,
+      "pred_world": 8,
+      "o": 0.875,
+      "gain": 0.0625,
+      "source": "block4"
+    },
+    {
+      "seed": 20271284,
+      "overlap": 5,
+      "pred_world": 7,
+      "o": 0.7143,
+      "gain": 0.0714,
+      "source": "block4"
+    },
+    {
+      "seed": 20271285,
+      "overlap": 6,
+      "pred_world": 6,
+      "o": 1.0,
+      "gain": 0.0179,
+      "source": "block4"
+    },
+    {
+      "seed": 20271286,
+      "overlap": 3,
+      "pred_world": 5,
+      "o": 0.6,
+      "gain": 0.0536,
+      "source": "block4"
+    },
+    {
+      "seed": 20271287,
+      "overlap": 0,
+      "pred_world": 2,
+      "o": 0.0,
+      "gain": 0.0089,
+      "source": "block4"
+    },
+    {
+      "seed": 20271288,
+      "overlap": 4,
+      "pred_world": 5,
+      "o": 0.8,
+      "gain": 0.0893,
+      "source": "block4"
+    },
+    {
+      "seed": 20271289,
+      "overlap": 2,
+      "pred_world": 3,
+      "o": 0.6667,
+      "gain": 0.0357,
+      "source": "block4"
+    },
+    {
+      "seed": 20271290,
+      "overlap": 4,
+      "pred_world": 5,
+      "o": 0.8,
+      "gain": 0.0625,
+      "source": "block4"
+    },
+    {
+      "seed": 20271291,
+      "overlap": 1,
+      "pred_world": 1,
+      "o": 1.0,
+      "gain": 0.0625,
+      "source": "block4"
+    },
+    {
+      "seed": 20271292,
+      "overlap": 2,
+      "pred_world": 2,
+      "o": 1.0,
+      "gain": 0.0714,
+      "source": "block4"
+    },
+    {
+      "seed": 20271293,
+      "overlap": 4,
+      "pred_world": 5,
+      "o": 0.8,
+      "gain": 0.0089,
+      "source": "block4"
+    },
+    {
+      "seed": 20271294,
+      "overlap": 4,
+      "pred_world": 6,
+      "o": 0.6667,
+      "gain": 0.0268,
+      "source": "block4"
+    },
+    {
+      "seed": 20271295,
+      "overlap": 1,
+      "pred_world": 7,
+      "o": 0.1429,
+      "gain": 0.0178,
+      "source": "block4"
+    },
+    {
+      "seed": 20271296,
+      "overlap": 4,
+      "pred_world": 6,
+      "o": 0.6667,
+      "gain": 0.0447,
+      "source": "block4"
+    },
+    {
+      "seed": 20271297,
+      "overlap": 4,
+      "pred_world": 4,
+      "o": 1.0,
+      "gain": 0.0536,
+      "source": "block4"
+    },
+    {
+      "seed": 20271298,
+      "overlap": 5,
+      "pred_world": 6,
+      "o": 0.8333,
+      "gain": 0.0446,
+      "source": "block4"
+    },
+    {
+      "seed": 20271299,
+      "overlap": 7,
+      "pred_world": 11,
+      "o": 0.6364,
+      "gain": 0.009,
+      "source": "block4"
+    },
+    {
+      "seed": 20271300,
+      "overlap": 3,
+      "pred_world": 6,
+      "o": 0.5,
+      "gain": 0.0804,
+      "source": "block4"
+    },
+    {
+      "seed": 20271301,
+      "overlap": 1,
+      "pred_world": 2,
+      "o": 0.5,
+      "gain": 0.0714,
+      "source": "block4"
+    }
+  ],
+  "cut_rule": "among observed values, maximise the smaller calibration half; ties by smaller imbalance, then lower cut",
+  "cut_candidates": [
+    {
+      "cut": 0.0,
+      "low": 0,
+      "high": 109,
+      "smaller": 0,
+      "imbalance": 109
+    },
+    {
+      "cut": 0.125,
+      "low": 9,
+      "high": 100,
+      "smaller": 9,
+      "imbalance": 91
+    },
+    {
+      "cut": 0.1429,
+      "low": 10,
+      "high": 99,
+      "smaller": 10,
+      "imbalance": 89
+    },
+    {
+      "cut": 0.2222,
+      "low": 12,
+      "high": 97,
+      "smaller": 12,
+      "imbalance": 85
+    },
+    {
+      "cut": 0.25,
+      "low": 13,
+      "high": 96,
+      "smaller": 13,
+      "imbalance": 83
+    },
+    {
+      "cut": 0.2857,
+      "low": 16,
+      "high": 93,
+      "smaller": 16,
+      "imbalance": 77
+    },
+    {
+      "cut": 0.3333,
+      "low": 18,
+      "high": 91,
+      "smaller": 18,
+      "imbalance": 73
+    },
+    {
+      "cut": 0.4,
+      "low": 24,
+      "high": 85,
+      "smaller": 24,
+      "imbalance": 61
+    },
+    {
+      "cut": 0.5,
+      "low": 26,
+      "high": 83,
+      "smaller": 26,
+      "imbalance": 57
+    },
+    {
+      "cut": 0.5556,
+      "low": 34,
+      "high": 75,
+      "smaller": 34,
+      "imbalance": 41
+    },
+    {
+      "cut": 0.5714,
+      "low": 35,
+      "high": 74,
+      "smaller": 35,
+      "imbalance": 39
+    },
+    {
+      "cut": 0.6,
+      "low": 37,
+      "high": 72,
+      "smaller": 37,
+      "imbalance": 35
+    },
+    {
+      "cut": 0.6364,
+      "low": 39,
+      "high": 70,
+      "smaller": 39,
+      "imbalance": 31
+    },
+    {
+      "cut": 0.6667,
+      "low": 40,
+      "high": 69,
+      "smaller": 40,
+      "imbalance": 29
+    },
+    {
+      "cut": 0.7143,
+      "low": 49,
+      "high": 60,
+      "smaller": 49,
+      "imbalance": 11
+    },
+    {
+      "cut": 0.75,
+      "low": 53,
+      "high": 56,
+      "smaller": 53,
+      "imbalance": 3
+    },
+    {
+      "cut": 0.8,
+      "low": 56,
+      "high": 53,
+      "smaller": 53,
+      "imbalance": 3
+    },
+    {
+      "cut": 0.8333,
+      "low": 60,
+      "high": 49,
+      "smaller": 49,
+      "imbalance": 11
+    },
+    {
+      "cut": 0.8571,
+      "low": 65,
+      "high": 44,
+      "smaller": 44,
+      "imbalance": 21
+    },
+    {
+      "cut": 0.875,
+      "low": 66,
+      "high": 43,
+      "smaller": 43,
+      "imbalance": 23
+    },
+    {
+      "cut": 1.0,
+      "low": 69,
+      "high": 40,
+      "smaller": 40,
+      "imbalance": 29
+    }
+  ],
+  "cut_o": 0.75,
+  "calibration_split": {
+    "low_n": 53,
+    "high_n": 56,
+    "low_median_gain": 0.0268,
+    "high_median_gain": 0.0625,
+    "observed_difference": 0.0357
+  },
+  "association": {
+    "pearson": 0.449,
+    "spearman": 0.425,
+    "n": 109
+  },
+  "linear_fit": {
+    "intercept": 0.016,
+    "slope": 0.0469,
+    "resid_sd": 0.031,
+    "expected_half_split_gap": 0.0258
+  },
+  "sensitivity_floor3": {
+    "n": 97,
+    "spearman": 0.447
+  },
+  "o_range": {
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.6811,
+    "distinct": [
+      0.0,
+      0.125,
+      0.1429,
+      0.2222,
+      0.25,
+      0.2857,
+      0.3333,
+      0.4,
+      0.5,
+      0.5556,
+      0.5714,
+      0.6,
+      0.6364,
+      0.6667,
+      0.7143,
+      0.75,
+      0.8,
+      0.8333,
+      0.8571,
+      0.875,
+      1.0
+    ]
+  },
+  "denominator": {
+    "le2": 12,
+    "min": 1,
+    "max": 12
+  },
+  "bars": {
+    "m1_median_gain_difference": 0.03,
+    "m2_spearman_min": 0.25,
+    "m3_positive_share": 0.66
+  },
+  "power": {
+    "n100_mechanism_sized": {
+      "n": 100,
+      "slope": 0.0546,
+      "sd": 0.031,
+      "power_m1_half_split": 0.478,
+      "power_m2_spearman": 0.994,
+      "power_both": 0.478,
+      "power_m3_replication": 1.0
+    },
+    "n100_calibration_implied": {
+      "n": 100,
+      "slope": 0.0469,
+      "sd": 0.031,
+      "power_m1_half_split": 0.283,
+      "power_m2_spearman": 0.978,
+      "power_both": 0.283,
+      "power_m3_replication": 1.0
+    },
+    "n100_null": {
+      "n": 100,
+      "slope": 0.0,
+      "sd": 0.031,
+      "power_m1_half_split": 0.0,
+      "power_m2_spearman": 0.009,
+      "power_both": 0.0,
+      "power_m3_replication": 1.0
+    }
+  }
+}

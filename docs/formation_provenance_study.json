@@ -1,0 +1,205 @@
+{
+ "all_gates_passed": true,
+ "arms": {
+  "origin_includes_self": {
+   "hits": 2036,
+   "n": 8528,
+   "rate": 0.238743
+  },
+  "pair_world_attributed": {
+   "hits": 1938,
+   "n": 4280,
+   "rate": 0.452804
+  }
+ },
+ "association_detected": true,
+ "bootstrap_replicates": 10000,
+ "design_block_artifact": "docs/formation_provenance_study_design.json",
+ "difference": 0.214061,
+ "does_not_establish": [
+  "that the knowledge is useful or reusable",
+  "that the closed study's transfer failed or passed",
+  "that the content originated in the world",
+  "anything about observation-level causation"
+ ],
+ "excluded_unattributed": 0,
+ "gates": {
+  "G1_liveness": true,
+  "G2_denominators": true,
+  "G3_permutation_includes_zero": true,
+  "G4_instrument_neutrality": true
+ },
+ "interpretation": "recorded provenance is associated with the asserted pair occurring in a window the organism was never shown",
+ "interval": [
+  0.195886,
+  0.228119
+ ],
+ "interval_level": 0.9833,
+ "interval_method": "percentile interval from 10,000 cluster-bootstrap resamples of the 15 confirmatory seeds; candidates are not independent of their seed",
+ "kind": "formation_provenance_study",
+ "per_seed": [
+  {
+   "candidates": 620,
+   "counts": {
+    "self_includes": 410,
+    "unattributed": 0,
+    "world": 210
+   },
+   "seed": 20270106
+  },
+  {
+   "candidates": 630,
+   "counts": {
+    "self_includes": 418,
+    "unattributed": 0,
+    "world": 212
+   },
+   "seed": 20270107
+  },
+  {
+   "candidates": 942,
+   "counts": {
+    "self_includes": 636,
+    "unattributed": 0,
+    "world": 306
+   },
+   "seed": 20270108
+  },
+  {
+   "candidates": 939,
+   "counts": {
+    "self_includes": 615,
+    "unattributed": 0,
+    "world": 324
+   },
+   "seed": 20270109
+  },
+  {
+   "candidates": 618,
+   "counts": {
+    "self_includes": 412,
+    "unattributed": 0,
+    "world": 206
+   },
+   "seed": 20270110
+  },
+  {
+   "candidates": 919,
+   "counts": {
+    "self_includes": 612,
+    "unattributed": 0,
+    "world": 307
+   },
+   "seed": 20270111
+  },
+  {
+   "candidates": 640,
+   "counts": {
+    "self_includes": 432,
+    "unattributed": 0,
+    "world": 208
+   },
+   "seed": 20270112
+  },
+  {
+   "candidates": 636,
+   "counts": {
+    "self_includes": 426,
+    "unattributed": 0,
+    "world": 210
+   },
+   "seed": 20270113
+  },
+  {
+   "candidates": 1890,
+   "counts": {
+    "self_includes": 1260,
+    "unattributed": 0,
+    "world": 630
+   },
+   "seed": 20270114
+  },
+  {
+   "candidates": 634,
+   "counts": {
+    "self_includes": 434,
+    "unattributed": 0,
+    "world": 200
+   },
+   "seed": 20270115
+  },
+  {
+   "candidates": 903,
+   "counts": {
+    "self_includes": 576,
+    "unattributed": 0,
+    "world": 327
+   },
+   "seed": 20270116
+  },
+  {
+   "candidates": 1252,
+   "counts": {
+    "self_includes": 828,
+    "unattributed": 0,
+    "world": 424
+   },
+   "seed": 20270117
+  },
+  {
+   "candidates": 628,
+   "counts": {
+    "self_includes": 446,
+    "unattributed": 0,
+    "world": 182
+   },
+   "seed": 20270118
+  },
+  {
+   "candidates": 927,
+   "counts": {
+    "self_includes": 609,
+    "unattributed": 0,
+    "world": 318
+   },
+   "seed": 20270119
+  },
+  {
+   "candidates": 630,
+   "counts": {
+    "self_includes": 414,
+    "unattributed": 0,
+    "world": 216
+   },
+   "seed": 20270120
+  }
+ ],
+ "permutation": {
+  "difference": 0.000359,
+  "includes_zero": true,
+  "interval": [
+   -0.016244,
+   0.016023
+  ]
+ },
+ "preregistration": "docs/FORMATION-PROVENANCE-PREREGISTRATION.md",
+ "seeds": [
+  20270106,
+  20270107,
+  20270108,
+  20270109,
+  20270110,
+  20270111,
+  20270112,
+  20270113,
+  20270114,
+  20270115,
+  20270116,
+  20270117,
+  20270118,
+  20270119,
+  20270120
+ ],
+ "status": "confirmatory_run_once",
+ "verdict": "association detected"
+}

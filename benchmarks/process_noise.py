@@ -27,6 +27,7 @@ import json
 import os
 import sys
 from pathlib import Path
+from benchmarks import engine_stamp
 
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
@@ -201,7 +202,7 @@ def sweep(cycles: int, colony: str, seed: int, hash_seeds: list[str],
         print(f"    {items['new_items_per_run']}  item spread = "
               f"{items['item_spread']}")
 
-    out.write_text(json.dumps({
+    out.write_text(json.dumps(engine_stamp.stamp({
         "colony": colony,
         "cycles": cycles,
         "seed": seed,
@@ -210,7 +211,7 @@ def sweep(cycles: int, colony: str, seed: int, hash_seeds: list[str],
         "table": table,
         "varying_fields": [t["field"] for t in varying],
         "m5_in_items": items,
-    }, indent=2), encoding="utf-8")
+    }), indent=2), encoding="utf-8")
     print(f"\nwrote {out}")
 
 

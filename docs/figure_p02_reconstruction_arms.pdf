@@ -1,190 +1,74 @@
 %PDF-1.4
-%âãÏÓ
+%“Œ‹ž ReportLab Generated PDF document (opensource)
 1 0 obj
-<< /Type /Catalog /Pages 2 0 R >>
+<<
+/F1 2 0 R /F2 3 0 R
+>>
 endobj
 2 0 obj
-<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+<<
+/BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font
+>>
 endobj
 3 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 810 420] /Resources << /Font << /F1 5 0 R /F2 6 0 R >> /ExtGState << /GS7 7 0 R >> >> /Contents 4 0 R >>
+<<
+/BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font
+>>
 endobj
 4 0 obj
-<< /Length 4415 >>
-stream
-1 1 1 rg
-0 0 1080 560 re f
-0.102 0.102 0.102 rg
-BT /F2 16 Tf 36 522 Td (The selection check could only fail where the contest was decided) Tj ET
-0.3725 0.3725 0.3725 rg
-BT /F1 11.5 Tf 36 500 Td (Candidates dropped and candidates that lost on rank, per arm, with what each arm checked.) Tj ET
-0.5412 0.5412 0.5412 rg
-BT /F1 10 Tf 36 16 Td (Source: docs/audit_trace_probe.json, docs/audit_trace_probe_stress.json, docs/audit_trace_probe_tie.json  |  drawn by benchmarks/figure_papers.py) Tj ET
-0.102 0.102 0.102 rg
-BT /F2 13 Tf 96 438 Td (A. Candidates that lost on rank) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-118 174 m 556 174 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 10.5 Tf 102.162 170 Td (0) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-118 226 m 556 226 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 10.5 Tf 90.486 222 Td (100) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-118 278 m 556 278 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 10.5 Tf 90.486 274 Td (200) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-118 330 m 556 330 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 10.5 Tf 90.486 326 Td (300) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-118 382 m 556 382 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 10.5 Tf 90.486 378 Td (400) Tj ET
-0.102 0.102 0.102 RG
-1.2 w
-1 J
-118 174 m 556 174 l S
-/GS1 gs
-0.7529 0.3137 0.302 rg
-154 174 74 2 re f
-0.3725 0.3725 0.3725 rg
-BT /F2 13 Tf 187.386 184 Td (0) Tj ET
-0.5412 0.5412 0.5412 rg
-BT /F1 10 Tf 149.595 200 Td (max 0 in one cycle) Tj ET
-0.102 0.102 0.102 rg
-BT /F2 12 Tf 158.66 152 Td (default arm) Tj ET
-0.3725 0.3725 0.3725 rg
-BT /F1 10 Tf 132.17 134 Td (120 cycles  |  1,412 beliefs) Tj ET
-0.3725 0.3725 0.3725 rg
-BT /F1 10 Tf 135.14 120 Td (8,061 structures checked) Tj ET
-/GS1 gs
-0.7529 0.3137 0.302 rg
-300 174 74 209.6 re f
-0.7529 0.3137 0.302 rg
-BT /F2 13 Tf 326.158 393.6 Td (403) Tj ET
-0.5412 0.5412 0.5412 rg
-BT /F1 10 Tf 295.595 409.6 Td (max 7 in one cycle) Tj ET
-0.102 0.102 0.102 rg
-BT /F2 12 Tf 306.652 152 Td (stress arm) Tj ET
-0.3725 0.3725 0.3725 rg
-BT /F1 10 Tf 285.12 134 Td (60 cycles  |  290 beliefs) Tj ET
-0.3725 0.3725 0.3725 rg
-BT /F1 10 Tf 281.14 120 Td (3,240 structures checked) Tj ET
-/GS1 gs
-0.7529 0.3137 0.302 rg
-446 174 74 2 re f
-0.3725 0.3725 0.3725 rg
-BT /F2 13 Tf 479.386 184 Td (0) Tj ET
-0.5412 0.5412 0.5412 rg
-BT /F1 10 Tf 441.595 200 Td (max 0 in one cycle) Tj ET
-0.102 0.102 0.102 rg
-BT /F2 12 Tf 442.992 152 Td (forced-tie arm) Tj ET
-0.3725 0.3725 0.3725 rg
-BT /F1 10 Tf 431.12 134 Td (60 cycles  |  692 beliefs) Tj ET
-0.3725 0.3725 0.3725 rg
-BT /F1 10 Tf 427.14 120 Td (3,988 structures checked) Tj ET
-0.102 0.102 0.102 rg
-BT /F1 11.5 Tf 36 86 Td (In the default and forced-tie arms no candidate ever lost on rank, so the selection test could not have failed there.) Tj ET
-0.3725 0.3725 0.3725 rg
-BT /F1 11.5 Tf 36 68 Td (The stress arm carries the non-vacuity argument: the cap bound, and 403 candidates lost on it.) Tj ET
-0.102 0.102 0.102 rg
-BT /F2 13 Tf 654 438 Td (B. Candidates dropped \(died\)) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-676 174 m 1042 174 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 10.5 Tf 660.162 170 Td (0) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-676 252 m 1042 252 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 10.5 Tf 660.162 248 Td (2) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-676 330 m 1042 330 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 10.5 Tf 660.162 326 Td (4) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-676 408 m 1042 408 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 10.5 Tf 660.162 404 Td (6) Tj ET
-0.102 0.102 0.102 RG
-1.2 w
-1 J
-676 174 m 1042 174 l S
-/GS1 gs
-0.6588 0.6588 0.6588 rg
-706 174 62 156 re f
-0.102 0.102 0.102 rg
-BT /F2 13 Tf 733.386 340 Td (4) Tj ET
-0.5412 0.5412 0.5412 rg
-BT /F1 10 Tf 695.595 356 Td (max 2 in one cycle) Tj ET
-0.3725 0.3725 0.3725 rg
-BT /F1 11.5 Tf 708.2385 152 Td (default arm) Tj ET
-/GS1 gs
-0.6588 0.6588 0.6588 rg
-828 174 62 117 re f
-0.102 0.102 0.102 rg
-BT /F2 13 Tf 855.386 301 Td (3) Tj ET
-0.5412 0.5412 0.5412 rg
-BT /F1 10 Tf 817.595 317 Td (max 1 in one cycle) Tj ET
-0.3725 0.3725 0.3725 rg
-BT /F1 11.5 Tf 832.1648 152 Td (stress arm) Tj ET
-/GS1 gs
-0.6588 0.6588 0.6588 rg
-950 174 62 156 re f
-0.102 0.102 0.102 rg
-BT /F2 13 Tf 977.386 340 Td (4) Tj ET
-0.5412 0.5412 0.5412 rg
-BT /F1 10 Tf 939.595 356 Td (max 2 in one cycle) Tj ET
-0.3725 0.3725 0.3725 rg
-BT /F1 11.5 Tf 945.534 152 Td (forced-tie arm) Tj ET
-0.3725 0.3725 0.3725 rg
-BT /F1 11.5 Tf 36 50 Td (The forced-tie arm additionally made 479 stores carry a tied timestamp window, and the observer still reproduced the engine's choice.) Tj ET
-endstream
+<<
+/Contents 8 0 R /MediaBox [ 0 0 810 420 ] /Parent 7 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
 endobj
 5 0 obj
-<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+<<
+/PageMode /UseNone /Pages 7 0 R /Type /Catalog
+>>
 endobj
 6 0 obj
-<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+<<
+/Author (anonymous) /CreationDate (D:20261102160205+00'00') /Creator (anonymous) /Keywords () /ModDate (D:20261102160205+00'00') /Producer (ReportLab PDF Library - \(opensource\)) 
+  /Subject (unspecified) /Title (untitled) /Trapped /False
+>>
 endobj
 7 0 obj
-<< /Type /ExtGState /ca 0.900 /CA 0.900 >>
+<<
+/Count 1 /Kids [ 4 0 R ] /Type /Pages
+>>
 endobj
 8 0 obj
-<< /Title (The three audit-trace arms and the non-vacuity of the selection check) /Producer (benchmarks/svg_to_pdf.py) >>
+<<
+/Filter [ /ASCII85Decode /FlateDecode ] /Length 1611
+>>
+stream
+Gb!#\9lK&M&A@sBbcSL2_iPR(OaHCHg7h"hg\%[Q"H#Uf8n?$oa`.FTa*/rSFtC\5gaZ0/`1fhXRQ$at2oC1*LGduZ'&_dY/q7?G36^O#";*?b%=XgAfYP;D\*aB9#/C1so,IVt/,n@"rqI/iP'3t?R;<D3c/H;uqWZ\.2gh*V:c:NjW#l>[PJqt>"])cnpSUh^5q8,9_L1p"GP]:Riu:!<0\+6QaFS_7bS*I6;%1$3%s0=MT\q$@0O)E+ftp'e1E4q[O[HdcnK#Qe3_Q-eZNljfBa1&\71j=j)&IR8Wu<ln"c85f`$Xq]FpkYFh9/#I#6M<LLht!=M!h5;G_H8DQbl#^Gmjfjk^\&<ng$pR'G$A4=KQB@3!8]"\m@c^A-IjO8BWErS&3=6&=(EfCsmW\3,sS1ie<ln]!)K$"(32i,#U*1.d0'WJOq"'A7(4:);>[`'QJ75Xcp-+Wllg!=0&X:[cFkHo')"MX/[dh<B\*p:Al@*2eju!jDb%tf/A[+bG`(S0'DKD]#;8o.]XboLVEUMlO4]mP,ODkG3Aa*X[/L3c5W>P5iC*I2gZep1%!)RB,_gmf0:/%&825?OA[s2%)2YomC,R/&+Mioda,QDjb,(Cc>("Sdp[b1@LET7@fS<L#jm4?)hf+L"rZ%*7HR'L,3/I[OR]$+"a#Y28#%79Hrp^[6H2@J,'0M6OYQ6UMg,T^M%Jd1@J2i7KHO4O7c5-bF7S71([dk?$VUp*IfZ5ChM3ZS%_M[kO:Fk/3,>Hf"JOGgLeJX0NC5MTKYNKF_M'heR#f2H+jTElRAih*:X/XW9MB2q:d]j2E0f.%[*EDV,DOcL^FKZpEN0Z,h\^F1e7kku*7(J`O1Vi'C?O,<i^puiMC8<rl7#/e,#qdd2,]EK9>-@Vn4^m=&;<D=&aqd1T]H^K5,Y6&biH8XBHR!rjTP,D,oFUT\<5X%R&$i4cABEIiC!]H6qP,e,0sObF!?Wacg6'N4`V^+FDOVUigLlI:b^ujH3"6`6B.@X6tkFDjq33YfutZD-cS8hRX'Il@WI#Wh.VfnK&DmR-o5c'&NoD>NmYG!isaGekhVdATo[O7jA"NC7k!p2%WAk/]\#/'^u!hOe)RBak(nGLVs3.7*`$+lY__^ae*!umgK<0N3Z]s'dLh6&Ro?pMJ2#/%D9@9bP33YU;7oZi#@+lD05Y$Fn3*db"kU^S:Ss,_0\JX-!c<(Df"GK%hT/O7kBEJUNsD57D<pKQ]-Of+fD#<W_G[(BWt7`(+0Ca#'HOcKd3,31LQ%6l4RS=dJ"_6$AA6o=OH!90muVB:IPD*`-M\FF)iff7aYlWu;"$X/Buk(tjoW-?;m\'Nh>id=dBGK$Y5f;H#&f;6kOc^;^BX4+gNnS&IC6rl'CgC2<#&;*GbAW__Z*jccs-ZSVD/,f^:k1m.9e$Y`fm5rN'O_R2$+BVN.AS^,LD#-d0nd2DEZSUN233Q!Y^<,+V:$V]]h[h"9tkk$rDYk%%iiEmeHFJBFlI]lDfFab8t%/-.Z)P8@j_V)FD<#oGV[)ect@O$\rE+Jk_[]`Q$ABa1.&nb*K4"W9Q4_cq7ANOfW&":Op].dbK<7C9&P<O/`TfJ]U,6&L%h~>endstream
 endobj
 xref
 0 9
 0000000000 65535 f 
-0000000015 00000 n 
-0000000064 00000 n 
-0000000121 00000 n 
-0000000285 00000 n 
-0000004751 00000 n 
-0000004848 00000 n 
-0000004950 00000 n 
-0000005008 00000 n 
+0000000061 00000 n 
+0000000102 00000 n 
+0000000209 00000 n 
+0000000321 00000 n 
+0000000514 00000 n 
+0000000582 00000 n 
+0000000843 00000 n 
+0000000902 00000 n 
 trailer
-<< /Size 9 /Root 1 0 R /Info 8 0 R >>
+<<
+/ID 
+[<09053b2fd8ba5f4823009adfa2fdd8e1><09053b2fd8ba5f4823009adfa2fdd8e1>]
+% ReportLab generated PDF document -- digest (opensource)
+
+/Info 6 0 R
+/Root 5 0 R
+/Size 9
+>>
 startxref
-5145
+2604
 %%EOF

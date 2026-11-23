@@ -1,0 +1,243 @@
+{
+  "date": "2026-11-07",
+  "degree": 12,
+  "cycles": 300,
+  "seeds": [
+    20300601,
+    20300602,
+    20300603
+  ],
+  "cells": 6,
+  "arms": [
+    "engine",
+    "no_temporal_decay"
+  ],
+  "delay_margin": 10,
+  "preregistration": "docs/DECAY-ATTRIBUTION-PREREGISTRATION.md",
+  "preregistration_sha256": "168796a7fe88d5edd9b9c1d276aff67fc543e55d77d9851865c774fcc4e23d2a",
+  "by_arm": {
+    "engine": {
+      "cells": 3,
+      "peak": 35,
+      "peak_range": [
+        35,
+        35
+      ],
+      "peak_cycle_range": [
+        15,
+        15
+      ],
+      "first_fall_range": [
+        16,
+        16
+      ],
+      "first_fall_by_seed": {
+        "20300601": 16,
+        "20300602": 16,
+        "20300603": 16
+      },
+      "half_life_range": [
+        65,
+        65
+      ],
+      "zero_cycle_range": [
+        173,
+        173
+      ],
+      "final_stable_range": [
+        0,
+        0
+      ],
+      "final_coverage_range": [
+        0.0,
+        0.0
+      ],
+      "increases_after_peak": [
+        50,
+        50,
+        50
+      ]
+    },
+    "no_temporal_decay": {
+      "cells": 3,
+      "peak": 42,
+      "peak_range": [
+        42,
+        42
+      ],
+      "peak_cycle_range": [
+        20,
+        20
+      ],
+      "first_fall_range": [
+        22,
+        22
+      ],
+      "first_fall_by_seed": {
+        "20300601": 22,
+        "20300602": 22,
+        "20300603": 22
+      },
+      "half_life_range": null,
+      "zero_cycle_range": null,
+      "final_stable_range": [
+        30,
+        30
+      ],
+      "final_coverage_range": [
+        0.5,
+        0.5
+      ],
+      "increases_after_peak": [
+        38,
+        38,
+        38
+      ]
+    }
+  },
+  "death_shares": {
+    "below_threshold": 0.3103,
+    "decayed": 0.6897
+  },
+  "deaths_total_engine": 1044,
+  "ratio_at_peak": [
+    1.25,
+    1.25
+  ],
+  "ratio_after_peak": [
+    0.375,
+    0.375
+  ],
+  "hub_frequency_at_peak": [
+    88,
+    88
+  ],
+  "hub_frequency_final": [
+    1608,
+    1608
+  ],
+  "temporal_sum_at_peak": [
+    726,
+    726
+  ],
+  "temporal_sum_final": [
+    1325,
+    1325
+  ],
+  "theory_zero_range": [
+    29,
+    29
+  ],
+  "peak_edge_death_shares": {
+    "below_threshold": 0.3143,
+    "decayed": 0.6857
+  },
+  "peak_edge_deaths_total": 105,
+  "peak_edge_last_death_range": [
+    79,
+    79
+  ],
+  "peak_edges_alive_final_range": [
+    0,
+    0
+  ],
+  "cycles_stable_exceeds_emitted_range": [
+    0,
+    0
+  ],
+  "controls": {
+    "ceiling_reproduced": {
+      "ok": true,
+      "peaks": [
+        35,
+        35,
+        35
+      ],
+      "peak_coverages": [
+        0.5833,
+        0.5833,
+        0.5833
+      ],
+      "required": "peak stable 35 and peak coverage 0.5833 in every engine cell"
+    },
+    "decay_perturbation_applied": {
+      "ok": true,
+      "engine_factors": [
+        0.95
+      ],
+      "control_factors": [
+        1.0
+      ],
+      "required": "engine calls decay with 0.95, control with 1.0, and the engine's graph sum moves across the run"
+    }
+  },
+  "predictions": {
+    "P1_peak_is_35_at_0.5833": {
+      "held": true,
+      "observed": [
+        [
+          35,
+          0.5833
+        ],
+        [
+          35,
+          0.5833
+        ],
+        [
+          35,
+          0.5833
+        ]
+      ]
+    },
+    "P2_final_is_zero": {
+      "held": true,
+      "observed": [
+        0,
+        0,
+        0
+      ]
+    },
+    "P3_edges_fall_after_theories_die": {
+      "held": false,
+      "observed": [
+        [
+          29,
+          16
+        ],
+        [
+          29,
+          16
+        ],
+        [
+          29,
+          16
+        ]
+      ],
+      "note": "paired as (cycle after the last live theory, first cycle the edges fall); the first zero is cycle 1 and is not the comparison"
+    },
+    "P4_control_survives_minus_ten_cycles": {
+      "held": false,
+      "observed": {
+        "control_final": [
+          30,
+          30,
+          30
+        ],
+        "delay_median_cycles": 6
+      }
+    },
+    "P5_strength_rule_outweighs_pruning": {
+      "held": false,
+      "observed": {
+        "below_threshold": 0.3103,
+        "decayed": 0.6897
+      }
+    }
+  },
+  "verdict": "TEMPORAL_EDGE_DECAY",
+  "findings": [
+    "engine: peak 35 at cycle [15, 15], first fall [16, 16], half-life [65, 65] cycles, zero at [173, 173], final [0, 0], deaths [348, 348]",
+    "no temporal decay: peak 42 at cycle [20, 20], first fall [22, 22], half-life None cycles, zero at None, final [30, 30], deaths [91, 91]"
+  ],
+  "failures": []
+}

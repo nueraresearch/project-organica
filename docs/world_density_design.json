@@ -1,0 +1,172 @@
+{
+ "created": "2026-11-07",
+ "status": "DESIGN RECORD: untested hypothesis. No cell, no seed, no threshold, no bar.",
+ "hypothesis": "sparse-world geometry: selection precision depends on the density of true edges in the candidate universe, not only on the selection rule",
+ "not_evidence": [
+  "docs/DECAY-FIX-CONFIRMATION-PREREGISTRATION.md section 18: that campaign held world geometry fixed and varied only the threshold, so it says nothing about density",
+  "no result in this repository varies density as a manipulation"
+ ],
+ "universe": {
+  "world_pairs": {
+   "definition": "P_world = directed non-self tag pairs of the world's own vocabulary",
+   "formula": "|P_world| = n(n-1) for n tags",
+   "table": [
+    {
+     "tags": 16,
+     "pairs": 240
+    },
+    {
+     "tags": 24,
+     "pairs": 552
+    },
+    {
+     "tags": 32,
+     "pairs": 992
+    }
+   ],
+   "role": "the oracle-filtered universe; |W|/|P_world| is a property of the world"
+  },
+  "rank_population": {
+   "definition": "P_rank = the rows the ranker can actually select from at the end of a run: intra-cell co-occurrence rows, sleep-sourced pairs, and any pair over the world vocabulary the engine holds",
+   "role": "produced by the frozen engine, so it is measured per cell, never set",
+   "note": "|W|/|P_world| and |W and P_rank|/|P_rank| are different ratios and can move in different directions; a design that reports only the first reports a world property as if it were the ranker's difficulty"
+  }
+ },
+ "density": {
+  "measure_world": "rho_world = |W| / |P_world|",
+  "measure_rank": "rho_rank = |W and P_rank| / |P_rank|",
+  "manipulated": "rho_world",
+  "measured": "rho_rank",
+  "levels": [
+   0.1,
+   0.2,
+   0.4,
+   0.6,
+   0.8
+  ],
+  "counts_at_16_tags": [
+   24,
+   48,
+   96,
+   144,
+   192
+  ],
+  "note": "counts and densities are different manipulations: 500 true edges is impossible at 16 tags, because |P_world| is 240"
+ },
+ "counts_are_not_densities": {
+  "example_edges": 500,
+  "min_tags": 23,
+  "pairs_then": 506,
+  "density_then": 0.988,
+  "note": "a 500-edge world needs at least 23 tags and is then 0.988 dense, not a denser version of the 16-tag world"
+ },
+ "exposure": {
+  "choice_required": true,
+  "primary": "fixed total exposure: the same events and cycles at every density, so each edge is observed fewer times as density rises",
+  "sensitivity": "fixed exposure per edge: cycles scale with |W|, so the curriculum length varies with density",
+  "confound_rule": "a density effect that reverses under the other exposure scheme is an exposure artifact, not geometry"
+ },
+ "comparison": {
+  "design": "at each density, the same ranking intervention and its control, differing only in the selection rule",
+  "estimand": "Delta(d) = treated(d) - control(d)",
+  "claim": "the intervention's benefit depends on density iff Delta varies with density",
+  "not_claimed": [
+   "a main effect of density is not an interaction",
+   "an interaction does not show that density caused any earlier failure"
+  ]
+ },
+ "confounds_to_hold": {
+  "vocabulary": "fix the tag count, so |C| and every source-frequency denominator stay fixed; adding tags to reach higher edge counts is a separate arm and is never pooled with the fixed-vocabulary ladder",
+  "world_family": "one generator; a second family is a separate arm",
+  "horizon": "the primary scheme fixes it; the sensitivity scheme reports its own"
+ },
+ "ranking_bottleneck": {
+  "evidence": [
+   "all 112 true world edges were present in memory in the Gate 13 world, so presence was never the binding constraint",
+   "under global count-ranked selection the top 20 recovered 0-1 of 112 in the three-seed table and 0-3 of 112 in the five-seed capacity sweep",
+   "cap 40 recovered 1-8 of 112; top 320, about 16x the engine's budget, recovered 106-109"
+  ],
+  "sources": [
+   "docs/GATE13-RELATION-SEPARATION.md section 4",
+   "docs/GATE13-CAUSAL-ACCOUNT.md"
+  ],
+  "ceiling_caveat": "0.3438 is the maximum precision observed for the tested frequency-based allocation rules and budgets in that world family; it is not an information-theoretic bound and must not be quoted as the ceiling of what any selection could achieve"
+ },
+ "endpoints": [
+  "presence ceiling: |W available in memory| / |W|; must be 1.0 or the cell tests memory",
+  "coverage: |asserted and W| / |W|",
+  "precision: |asserted and W| / |asserted|, reported with rho_rank",
+  "recovery distribution at each budget",
+  "interaction: Delta(rho) across density levels, with a paired interval on the difference of differences"
+ ],
+ "falsifier": "Delta(d) flat in density falsifies the claim that geometry is the lever for this ranking bottleneck; it does not falsify density as a factor elsewhere",
+ "allocation": {
+  "seeds": 0,
+  "cells": 0,
+  "thresholds": 0,
+  "bars": 0,
+  "note": "this record allocates nothing; a pre-registration with fresh seeds comes first, per docs/DECAY-TUNING-CYCLE.md"
+ },
+ "revised": "2026-11-07",
+ "treatment": {
+  "control": {
+   "name": "global count-ranked top-k",
+   "rule": "the engine's own selection: rank every candidate by count and take the top k at the frozen cap"
+  },
+  "treatment": {
+   "name": "intra-cell-excluded ranking",
+   "rule": "identical cap, identical scoring, identical admission window; intra-cell co-occurrence rows are simply not eligible for the top-k"
+  },
+  "identical_by_construction": [
+   "candidate generation, the cap, the scoring function and the admission window",
+   "the world, the seed, the exposure scheme and the horizon at each density level"
+  ],
+  "mechanism_claim": "the intervention changes only what may occupy the budget, so any gain is budget competition, not a better score",
+  "why_this_one": "Gate 13 measured the top-20 as 75-100% intra-cell, so a row class that cannot be a world edge was occupying budget that world edges needed"
+ },
+ "predicted_direction": {
+  "predictions": [
+   "the control's top-k precision rises with rho_world, mechanically, because the population it samples is denser; this is predicted and is not the claim",
+   "Delta(rho) = treated - control declines as rho_world rises",
+   "the advantage is largest at the lowest density, where control coverage is near zero"
+  ],
+  "limit": "as rho_world approaches 1 every candidate is a true edge, the two arms select the same rows, and Delta must go to 0; a non-zero Delta there is a harness defect",
+  "falsifiers": [
+   "Delta flat in rho: geometry is not the lever for this ranking bottleneck",
+   "Delta rising in rho: the mechanism claim is wrong and something other than budget competition is being measured",
+   "Delta non-zero at rho_world = 1: the arms are not identical where they must be"
+  ]
+ },
+ "analysis_rules": [
+  "axis liveness: rho_rank must move with rho_world, or the manipulation did not reach the ranker and the cells measure nothing",
+  "precision cannot exceed min(1, |W and P_rank| / k): a k-row selection cannot contain more world rows than the pool holds. It is NOT bounded by rho_rank -- a ranker that prefers world rows can exceed it, measured at 1.000 against 0.800 in the density review (2026-11-07). Every precision figure is reported beside rho_rank and the budget it was measured at",
+  "coverage is reported with its denominator |W|, because a denser world makes the same selection cover less of a larger W",
+  "recovery is reported as a distribution across budgets, never as the rank of the first edge"
+ ],
+ "amendments": [
+  {
+   "id": "A1",
+   "date": "2026-11-07",
+   "pre_run": true,
+   "supersedes": [
+    "predicted_direction.predictions[1]",
+    "predicted_direction.predictions[2]"
+   ],
+   "direction": "at a fixed cap, the treatment's advantage rises with rho_world; the advantage is largest at the dense end",
+   "why": "the benefit of freeing budget is bounded by how many world rows exist to fill it, and that count grows with density: a sparse world has too few world edges for the freed budget to spend on. The original prediction reasoned from coverage's denominator (small |W|, large relative gain) to a claim about a fixed budget",
+   "evidence": "docs/density_interaction_prereg.json, leverage_audit: on the designed pools over the registered seeds the advantage is 0.075 at rho_world 0.1 and 0.350 at 0.8",
+   "measured_with": "no engine, no judged cell",
+   "registered_in": "docs/density_interaction_prereg.json",
+   "unchanged": [
+    "manipulation",
+    "world family",
+    "arms",
+    "caps",
+    "endpoint",
+    "seed block",
+    "bars"
+   ],
+   "consequence": "'rising' is no longer a falsifier of the claim; it is the claim, and the registration carries its own falsifiers (flat, or falling)"
+  }
+ ]
+}

@@ -1,0 +1,545 @@
+{
+  "probe": "can any computable ordering beat the pool base rate at the top?",
+  "build": "amended engine (working tree)",
+  "cap": 1000,
+  "seeds": [
+    20261101,
+    20261102,
+    20261103,
+    20261104,
+    20261105
+  ],
+  "pool_base_rate": 0.4667,
+  "summary": {
+    "count": {
+      "distinct_values_range": [
+        9,
+        14
+      ],
+      "modal_share_range": [
+        0.7833,
+        0.8625
+      ],
+      "top20_range": [
+        0.15,
+        0.25
+      ],
+      "top40_range": [
+        0.3,
+        0.375
+      ],
+      "top80_range": [
+        0.4,
+        0.4625
+      ],
+      "beats_base_at_20": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    "ratio": {
+      "distinct_values_range": [
+        39,
+        48
+      ],
+      "modal_share_range": [
+        0.1083,
+        0.1375
+      ],
+      "top20_range": [
+        0.5,
+        0.6
+      ],
+      "top40_range": [
+        0.5,
+        0.55
+      ],
+      "top80_range": [
+        0.4375,
+        0.5
+      ],
+      "beats_base_at_20": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    "target_ratio": {
+      "distinct_values_range": [
+        41,
+        48
+      ],
+      "modal_share_range": [
+        0.0875,
+        0.1208
+      ],
+      "top20_range": [
+        0.2,
+        0.4
+      ],
+      "top40_range": [
+        0.3,
+        0.35
+      ],
+      "top80_range": [
+        0.25,
+        0.3125
+      ],
+      "beats_base_at_20": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    "cosine": {
+      "distinct_values_range": [
+        107,
+        137
+      ],
+      "modal_share_range": [
+        0.0167,
+        0.0333
+      ],
+      "top20_range": [
+        0.15,
+        0.4
+      ],
+      "top40_range": [
+        0.325,
+        0.45
+      ],
+      "top80_range": [
+        0.4125,
+        0.4625
+      ],
+      "beats_base_at_20": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    "pmi": {
+      "distinct_values_range": [
+        106,
+        137
+      ],
+      "modal_share_range": [
+        0.0167,
+        0.0333
+      ],
+      "top20_range": [
+        0.15,
+        0.4
+      ],
+      "top40_range": [
+        0.325,
+        0.475
+      ],
+      "top80_range": [
+        0.45,
+        0.475
+      ],
+      "beats_base_at_20": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    "count_per_outdeg": {
+      "distinct_values_range": [
+        9,
+        14
+      ],
+      "modal_share_range": [
+        0.7833,
+        0.8625
+      ],
+      "top20_range": [
+        0.15,
+        0.25
+      ],
+      "top40_range": [
+        0.3,
+        0.375
+      ],
+      "top80_range": [
+        0.4,
+        0.4625
+      ],
+      "beats_base_at_20": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    }
+  },
+  "cells": [
+    {
+      "seed": 20261101,
+      "pool_rows": 240,
+      "pool_base_rate": 0.4667,
+      "runtime_s": 8.2,
+      "criteria": {
+        "count": {
+          "distinct_values": 11,
+          "modal_share": 0.85,
+          "top_k": {
+            "20": 0.15,
+            "40": 0.375,
+            "80": 0.4375
+          }
+        },
+        "ratio": {
+          "distinct_values": 43,
+          "modal_share": 0.1083,
+          "top_k": {
+            "20": 0.5,
+            "40": 0.5,
+            "80": 0.5
+          }
+        },
+        "target_ratio": {
+          "distinct_values": 41,
+          "modal_share": 0.0875,
+          "top_k": {
+            "20": 0.35,
+            "40": 0.3,
+            "80": 0.3
+          }
+        },
+        "cosine": {
+          "distinct_values": 137,
+          "modal_share": 0.0167,
+          "top_k": {
+            "20": 0.2,
+            "40": 0.375,
+            "80": 0.45
+          }
+        },
+        "pmi": {
+          "distinct_values": 137,
+          "modal_share": 0.0167,
+          "top_k": {
+            "20": 0.15,
+            "40": 0.375,
+            "80": 0.475
+          }
+        },
+        "count_per_outdeg": {
+          "distinct_values": 11,
+          "modal_share": 0.85,
+          "top_k": {
+            "20": 0.15,
+            "40": 0.375,
+            "80": 0.4375
+          }
+        }
+      }
+    },
+    {
+      "seed": 20261102,
+      "pool_rows": 240,
+      "pool_base_rate": 0.4667,
+      "runtime_s": 8.3,
+      "criteria": {
+        "count": {
+          "distinct_values": 14,
+          "modal_share": 0.7833,
+          "top_k": {
+            "20": 0.15,
+            "40": 0.3,
+            "80": 0.425
+          }
+        },
+        "ratio": {
+          "distinct_values": 48,
+          "modal_share": 0.1167,
+          "top_k": {
+            "20": 0.5,
+            "40": 0.5,
+            "80": 0.4375
+          }
+        },
+        "target_ratio": {
+          "distinct_values": 48,
+          "modal_share": 0.1,
+          "top_k": {
+            "20": 0.4,
+            "40": 0.3,
+            "80": 0.25
+          }
+        },
+        "cosine": {
+          "distinct_values": 107,
+          "modal_share": 0.0333,
+          "top_k": {
+            "20": 0.3,
+            "40": 0.45,
+            "80": 0.4375
+          }
+        },
+        "pmi": {
+          "distinct_values": 106,
+          "modal_share": 0.0333,
+          "top_k": {
+            "20": 0.4,
+            "40": 0.475,
+            "80": 0.475
+          }
+        },
+        "count_per_outdeg": {
+          "distinct_values": 14,
+          "modal_share": 0.7833,
+          "top_k": {
+            "20": 0.15,
+            "40": 0.3,
+            "80": 0.425
+          }
+        }
+      }
+    },
+    {
+      "seed": 20261103,
+      "pool_rows": 240,
+      "pool_base_rate": 0.4667,
+      "runtime_s": 8.7,
+      "criteria": {
+        "count": {
+          "distinct_values": 9,
+          "modal_share": 0.8458,
+          "top_k": {
+            "20": 0.25,
+            "40": 0.35,
+            "80": 0.4625
+          }
+        },
+        "ratio": {
+          "distinct_values": 39,
+          "modal_share": 0.1375,
+          "top_k": {
+            "20": 0.6,
+            "40": 0.55,
+            "80": 0.45
+          }
+        },
+        "target_ratio": {
+          "distinct_values": 41,
+          "modal_share": 0.1208,
+          "top_k": {
+            "20": 0.35,
+            "40": 0.3,
+            "80": 0.3125
+          }
+        },
+        "cosine": {
+          "distinct_values": 115,
+          "modal_share": 0.0333,
+          "top_k": {
+            "20": 0.15,
+            "40": 0.325,
+            "80": 0.4375
+          }
+        },
+        "pmi": {
+          "distinct_values": 111,
+          "modal_share": 0.0333,
+          "top_k": {
+            "20": 0.2,
+            "40": 0.325,
+            "80": 0.45
+          }
+        },
+        "count_per_outdeg": {
+          "distinct_values": 9,
+          "modal_share": 0.8458,
+          "top_k": {
+            "20": 0.25,
+            "40": 0.35,
+            "80": 0.4625
+          }
+        }
+      }
+    },
+    {
+      "seed": 20261104,
+      "pool_rows": 240,
+      "pool_base_rate": 0.4667,
+      "runtime_s": 8.6,
+      "criteria": {
+        "count": {
+          "distinct_values": 13,
+          "modal_share": 0.8458,
+          "top_k": {
+            "20": 0.25,
+            "40": 0.3,
+            "80": 0.4
+          }
+        },
+        "ratio": {
+          "distinct_values": 40,
+          "modal_share": 0.1167,
+          "top_k": {
+            "20": 0.6,
+            "40": 0.55,
+            "80": 0.5
+          }
+        },
+        "target_ratio": {
+          "distinct_values": 41,
+          "modal_share": 0.1042,
+          "top_k": {
+            "20": 0.2,
+            "40": 0.3,
+            "80": 0.2875
+          }
+        },
+        "cosine": {
+          "distinct_values": 110,
+          "modal_share": 0.025,
+          "top_k": {
+            "20": 0.2,
+            "40": 0.425,
+            "80": 0.4125
+          }
+        },
+        "pmi": {
+          "distinct_values": 108,
+          "modal_share": 0.025,
+          "top_k": {
+            "20": 0.2,
+            "40": 0.4,
+            "80": 0.4625
+          }
+        },
+        "count_per_outdeg": {
+          "distinct_values": 13,
+          "modal_share": 0.8458,
+          "top_k": {
+            "20": 0.25,
+            "40": 0.3,
+            "80": 0.4
+          }
+        }
+      }
+    },
+    {
+      "seed": 20261105,
+      "pool_rows": 240,
+      "pool_base_rate": 0.4667,
+      "runtime_s": 8.0,
+      "criteria": {
+        "count": {
+          "distinct_values": 11,
+          "modal_share": 0.8625,
+          "top_k": {
+            "20": 0.2,
+            "40": 0.375,
+            "80": 0.45
+          }
+        },
+        "ratio": {
+          "distinct_values": 43,
+          "modal_share": 0.1167,
+          "top_k": {
+            "20": 0.5,
+            "40": 0.5,
+            "80": 0.45
+          }
+        },
+        "target_ratio": {
+          "distinct_values": 41,
+          "modal_share": 0.1125,
+          "top_k": {
+            "20": 0.35,
+            "40": 0.35,
+            "80": 0.3
+          }
+        },
+        "cosine": {
+          "distinct_values": 132,
+          "modal_share": 0.0167,
+          "top_k": {
+            "20": 0.4,
+            "40": 0.45,
+            "80": 0.4625
+          }
+        },
+        "pmi": {
+          "distinct_values": 129,
+          "modal_share": 0.0208,
+          "top_k": {
+            "20": 0.4,
+            "40": 0.45,
+            "80": 0.45
+          }
+        },
+        "count_per_outdeg": {
+          "distinct_values": 11,
+          "modal_share": 0.8625,
+          "top_k": {
+            "20": 0.2,
+            "40": 0.375,
+            "80": 0.45
+          }
+        }
+      }
+    }
+  ],
+  "pooled_top20": {
+    "count": {
+      "covered": 20,
+      "rows": 100,
+      "expected": 46.67,
+      "se": 4.99,
+      "z": -5.35
+    },
+    "ratio": {
+      "covered": 54,
+      "rows": 100,
+      "expected": 46.67,
+      "se": 4.99,
+      "z": 1.47
+    },
+    "target_ratio": {
+      "covered": 33,
+      "rows": 100,
+      "expected": 46.67,
+      "se": 4.99,
+      "z": -2.74
+    },
+    "cosine": {
+      "covered": 25,
+      "rows": 100,
+      "expected": 46.67,
+      "se": 4.99,
+      "z": -4.34
+    },
+    "pmi": {
+      "covered": 27,
+      "rows": 100,
+      "expected": 46.67,
+      "se": 4.99,
+      "z": -3.94
+    },
+    "count_per_outdeg": {
+      "covered": 20,
+      "rows": 100,
+      "expected": 46.67,
+      "se": 4.99,
+      "z": -5.35
+    }
+  }
+}

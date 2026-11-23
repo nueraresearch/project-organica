@@ -178,6 +178,7 @@ from benchmarks.acquisition_world import (  # noqa: E402
     group_of,
     next_event_distribution,
 )
+from benchmarks import engine_stamp
 
 # ---------------------------------------------------------------------------
 # Constants — every one of them committed before the timing run
@@ -1789,7 +1790,7 @@ def _run_unit(unit: tuple[str, int]) -> dict[str, Any]:
 def _write_json(path: str, payload: dict) -> None:
     out = Path(path)
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    out.write_text(json.dumps(engine_stamp.stamp(payload), indent=2) + "\n", encoding="utf-8")
 
 
 def main(argv: list[str] | None = None) -> int:

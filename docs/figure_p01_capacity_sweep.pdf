@@ -1,323 +1,74 @@
 %PDF-1.4
-%âãÏÓ
+%“Œ‹ž ReportLab Generated PDF document (opensource)
 1 0 obj
-<< /Type /Catalog /Pages 2 0 R >>
+<<
+/F1 2 0 R /F2 3 0 R
+>>
 endobj
 2 0 obj
-<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+<<
+/BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font
+>>
 endobj
 3 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 660 397.5] /Resources << /Font << /F1 5 0 R /F2 6 0 R >> /ExtGState << /GS7 7 0 R >> >> /Contents 4 0 R >>
+<<
+/BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font
+>>
 endobj
 4 0 obj
-<< /Length 8025 >>
-stream
-1 1 1 rg
-0 0 880 530 re f
-0.102 0.102 0.102 rg
-BT /F2 16 Tf 36 492 Td (Coverage is a steep dose-response in the selection budget) Tj ET
-0.3725 0.3725 0.3725 rg
-BT /F1 11.5 Tf 36 470 Td (Fraction of the world's 112 relations the organism asserted, against the candidate budget; five diagnostic seeds per point.) Tj ET
-0.5412 0.5412 0.5412 rg
-BT /F1 10 Tf 36 16 Td (Source: docs/gate13_capacity_sweep.json  |  drawn by benchmarks/figure_papers.py) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-96 154 m 790 154 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 11 Tf 70.71 150 Td (0.0) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-96 206 m 790 206 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 11 Tf 70.71 202 Td (0.2) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-96 258 m 790 258 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 11 Tf 70.71 254 Td (0.4) Tj ET
-0.102 0.102 0.102 RG
-1.3 w
-1 J
-[5 4] 0 d
-96 284 m 790 284 l S
-0.102 0.102 0.102 rg
-BT /F1 11 Tf 70.71 280 Td (0.5) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-96 310 m 790 310 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 11 Tf 70.71 306 Td (0.6) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-96 362 m 790 362 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 11 Tf 70.71 358 Td (0.8) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-96 414 m 790 414 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 11 Tf 70.71 410 Td (1.0) Tj ET
-0.102 0.102 0.102 rg
-BT /F1 10.5 Tf 796 280 Td (gate 0.50) Tj ET
-/GS1 gs
-155.3 154 m
-155.3 156.4853 153.2853 158.5 150.8 158.5 c
-148.3147 158.5 146.3 156.4853 146.3 154 c
-146.3 151.5147 148.3147 149.5 150.8 149.5 c
-153.2853 149.5 155.3 151.5147 155.3 154 c
-0.1216 0.3059 0.4745 rg f
-/GS1 gs
-171.3 156.3 m
-171.3 158.7853 169.2853 160.8 166.8 160.8 c
-164.3147 160.8 162.3 158.7853 162.3 156.3 c
-162.3 153.8147 164.3147 151.8 166.8 151.8 c
-169.2853 151.8 171.3 153.8147 171.3 156.3 c
-0.1216 0.3059 0.4745 rg f
-/GS1 gs
-187.3 156.3 m
-187.3 158.7853 185.2853 160.8 182.8 160.8 c
-180.3147 160.8 178.3 158.7853 178.3 156.3 c
-178.3 153.8147 180.3147 151.8 182.8 151.8 c
-185.2853 151.8 187.3 153.8147 187.3 156.3 c
-0.1216 0.3059 0.4745 rg f
-/GS1 gs
-203.3 154 m
-203.3 156.4853 201.2853 158.5 198.8 158.5 c
-196.3147 158.5 194.3 156.4853 194.3 154 c
-194.3 151.5147 196.3147 149.5 198.8 149.5 c
-201.2853 149.5 203.3 151.5147 203.3 154 c
-0.1216 0.3059 0.4745 rg f
-/GS1 gs
-219.3 161 m
-219.3 163.4853 217.2853 165.5 214.8 165.5 c
-212.3147 165.5 210.3 163.4853 210.3 161 c
-210.3 158.5147 212.3147 156.5 214.8 156.5 c
-217.2853 156.5 219.3 158.5147 219.3 161 c
-0.1216 0.3059 0.4745 rg f
-150.8 154 m
-166.8 156.3 l
-182.8 156.3 l
-198.8 154 l
-214.8 161 l
-0.1216 0.3059 0.4745 RG
-1.6 w
-1 j
-[3 3] 0 d
-S
-188.3 156.3 m
-188.3 159.3376 185.8376 161.8 182.8 161.8 c
-179.7624 161.8 177.3 159.3376 177.3 156.3 c
-177.3 153.2624 179.7624 150.8 182.8 150.8 c
-185.8376 150.8 188.3 153.2624 188.3 156.3 c
-0.1216 0.3059 0.4745 rg f
-0.1216 0.3059 0.4745 rg
-BT /F1 10.5 Tf 169.6645 170.3 Td (0.009) Tj ET
-0.102 0.102 0.102 rg
-BT /F1 11.5 Tf 165.5385 134 Td (cap 20) Tj ET
-/GS1 gs
-328.7 163.3 m
-328.7 165.7853 326.6853 167.8 324.2 167.8 c
-321.7147 167.8 319.7 165.7853 319.7 163.3 c
-319.7 160.8147 321.7147 158.8 324.2 158.8 c
-326.6853 158.8 328.7 160.8147 328.7 163.3 c
-0.1216 0.3059 0.4745 rg f
-/GS1 gs
-344.7 170.2 m
-344.7 172.6853 342.6853 174.7 340.2 174.7 c
-337.7147 174.7 335.7 172.6853 335.7 170.2 c
-335.7 167.7147 337.7147 165.7 340.2 165.7 c
-342.6853 165.7 344.7 167.7147 344.7 170.2 c
-0.1216 0.3059 0.4745 rg f
-/GS1 gs
-360.7 156.3 m
-360.7 158.7853 358.6853 160.8 356.2 160.8 c
-353.7147 160.8 351.7 158.7853 351.7 156.3 c
-351.7 153.8147 353.7147 151.8 356.2 151.8 c
-358.6853 151.8 360.7 153.8147 360.7 156.3 c
-0.1216 0.3059 0.4745 rg f
-/GS1 gs
-376.7 158.7 m
-376.7 161.1853 374.6853 163.2 372.2 163.2 c
-369.7147 163.2 367.7 161.1853 367.7 158.7 c
-367.7 156.2147 369.7147 154.2 372.2 154.2 c
-374.6853 154.2 376.7 156.2147 376.7 158.7 c
-0.1216 0.3059 0.4745 rg f
-/GS1 gs
-392.7 172.6 m
-392.7 175.0853 390.6853 177.1 388.2 177.1 c
-385.7147 177.1 383.7 175.0853 383.7 172.6 c
-383.7 170.1147 385.7147 168.1 388.2 168.1 c
-390.6853 168.1 392.7 170.1147 392.7 172.6 c
-0.1216 0.3059 0.4745 rg f
-324.2 163.3 m
-340.2 170.2 l
-356.2 156.3 l
-372.2 158.7 l
-388.2 172.6 l
-0.1216 0.3059 0.4745 RG
-1.6 w
-1 j
-[3 3] 0 d
-S
-361.7 164.2 m
-361.7 167.2376 359.2376 169.7 356.2 169.7 c
-353.1624 169.7 350.7 167.2376 350.7 164.2 c
-350.7 161.1624 353.1624 158.7 356.2 158.7 c
-359.2376 158.7 361.7 161.1624 361.7 164.2 c
-0.1216 0.3059 0.4745 rg f
-0.1216 0.3059 0.4745 rg
-BT /F1 10.5 Tf 343.0645 178.2 Td (0.039) Tj ET
-0.102 0.102 0.102 rg
-BT /F1 11.5 Tf 338.9385 134 Td (cap 40) Tj ET
-/GS1 gs
-502.3 200.4 m
-502.3 202.8853 500.2853 204.9 497.8 204.9 c
-495.3147 204.9 493.3 202.8853 493.3 200.4 c
-493.3 197.9147 495.3147 195.9 497.8 195.9 c
-500.2853 195.9 502.3 197.9147 502.3 200.4 c
-0.1216 0.3059 0.4745 rg f
-/GS1 gs
-518.3 188.8 m
-518.3 191.2853 516.2853 193.3 513.8 193.3 c
-511.3147 193.3 509.3 191.2853 509.3 188.8 c
-509.3 186.3147 511.3147 184.3 513.8 184.3 c
-516.2853 184.3 518.3 186.3147 518.3 188.8 c
-0.1216 0.3059 0.4745 rg f
-/GS1 gs
-534.3 188.8 m
-534.3 191.2853 532.2853 193.3 529.8 193.3 c
-527.3147 193.3 525.3 191.2853 525.3 188.8 c
-525.3 186.3147 527.3147 184.3 529.8 184.3 c
-532.2853 184.3 534.3 186.3147 534.3 188.8 c
-0.1216 0.3059 0.4745 rg f
-/GS1 gs
-550.3 177.2 m
-550.3 179.6853 548.2853 181.7 545.8 181.7 c
-543.3147 181.7 541.3 179.6853 541.3 177.2 c
-541.3 174.7147 543.3147 172.7 545.8 172.7 c
-548.2853 172.7 550.3 174.7147 550.3 177.2 c
-0.1216 0.3059 0.4745 rg f
-/GS1 gs
-566.3 200.4 m
-566.3 202.8853 564.2853 204.9 561.8 204.9 c
-559.3147 204.9 557.3 202.8853 557.3 200.4 c
-557.3 197.9147 559.3147 195.9 561.8 195.9 c
-564.2853 195.9 566.3 197.9147 566.3 200.4 c
-0.1216 0.3059 0.4745 rg f
-497.8 200.4 m
-513.8 188.8 l
-529.8 188.8 l
-545.8 177.2 l
-561.8 200.4 l
-0.1216 0.3059 0.4745 RG
-1.6 w
-1 j
-[3 3] 0 d
-S
-535.3 191.1 m
-535.3 194.1376 532.8376 196.6 529.8 196.6 c
-526.7624 196.6 524.3 194.1376 524.3 191.1 c
-524.3 188.0624 526.7624 185.6 529.8 185.6 c
-532.8376 185.6 535.3 188.0624 535.3 191.1 c
-0.1216 0.3059 0.4745 rg f
-0.1216 0.3059 0.4745 rg
-BT /F1 10.5 Tf 516.6645 205.1 Td (0.143) Tj ET
-0.102 0.102 0.102 rg
-BT /F1 11.5 Tf 512.5385 134 Td (cap 80) Tj ET
-/GS1 gs
-675.7 411.7 m
-675.7 414.1853 673.6853 416.2 671.2 416.2 c
-668.7147 416.2 666.7 414.1853 666.7 411.7 c
-666.7 409.2147 668.7147 407.2 671.2 407.2 c
-673.6853 407.2 675.7 409.2147 675.7 411.7 c
-0.1216 0.3059 0.4745 rg f
-/GS1 gs
-691.7 414 m
-691.7 416.4853 689.6853 418.5 687.2 418.5 c
-684.7147 418.5 682.7 416.4853 682.7 414 c
-682.7 411.5147 684.7147 409.5 687.2 409.5 c
-689.6853 409.5 691.7 411.5147 691.7 414 c
-0.1216 0.3059 0.4745 rg f
-/GS1 gs
-707.7 414 m
-707.7 416.4853 705.6853 418.5 703.2 418.5 c
-700.7147 418.5 698.7 416.4853 698.7 414 c
-698.7 411.5147 700.7147 409.5 703.2 409.5 c
-705.6853 409.5 707.7 411.5147 707.7 414 c
-0.1216 0.3059 0.4745 rg f
-/GS1 gs
-723.7 414 m
-723.7 416.4853 721.6853 418.5 719.2 418.5 c
-716.7147 418.5 714.7 416.4853 714.7 414 c
-714.7 411.5147 716.7147 409.5 719.2 409.5 c
-721.6853 409.5 723.7 411.5147 723.7 414 c
-0.1216 0.3059 0.4745 rg f
-/GS1 gs
-739.7 414 m
-739.7 416.4853 737.6853 418.5 735.2 418.5 c
-732.7147 418.5 730.7 416.4853 730.7 414 c
-730.7 411.5147 732.7147 409.5 735.2 409.5 c
-737.6853 409.5 739.7 411.5147 739.7 414 c
-0.1216 0.3059 0.4745 rg f
-671.2 411.7 m
-687.2 414 l
-703.2 414 l
-719.2 414 l
-735.2 414 l
-0.1216 0.3059 0.4745 RG
-1.6 w
-1 j
-[3 3] 0 d
-S
-708.7 413.5 m
-708.7 416.5376 706.2376 419 703.2 419 c
-700.1624 419 697.7 416.5376 697.7 413.5 c
-697.7 410.4624 700.1624 408 703.2 408 c
-706.2376 408 708.7 410.4624 708.7 413.5 c
-0.1216 0.3059 0.4745 rg f
-0.1216 0.3059 0.4745 rg
-BT /F1 10.5 Tf 690.0645 427.5 Td (0.998) Tj ET
-0.102 0.102 0.102 rg
-BT /F1 11.5 Tf 677.946 134 Td (uncapped) Tj ET
-0.3725 0.3725 0.3725 rg
-BT /F1 11.5 Tf 327.6377 110 Td (candidate budget \(MAX_PREDICTIONS cap\)) Tj ET
-0.102 0.102 0.102 rg
-BT /F1 11.5 Tf 36 80 Td (At the frozen cap of 20 the organism asserts almost nothing; raising the budget restores coverage.) Tj ET
-0.3725 0.3725 0.3725 rg
-BT /F1 11.5 Tf 36 62 Td (The budget is the proximate bound: precision never exceeds 0.3438 at any budget under either allocation rule.) Tj ET
-endstream
+<<
+/Contents 8 0 R /MediaBox [ 0 0 660 397.5 ] /Parent 7 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
 endobj
 5 0 obj
-<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+<<
+/PageMode /UseNone /Pages 7 0 R /Type /Catalog
+>>
 endobj
 6 0 obj
-<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+<<
+/Author (anonymous) /CreationDate (D:20261102160205+00'00') /Creator (anonymous) /Keywords () /ModDate (D:20261102160205+00'00') /Producer (ReportLab PDF Library - \(opensource\)) 
+  /Subject (unspecified) /Title (untitled) /Trapped /False
+>>
 endobj
 7 0 obj
-<< /Type /ExtGState /ca 0.750 /CA 0.750 >>
+<<
+/Count 1 /Kids [ 4 0 R ] /Type /Pages
+>>
 endobj
 8 0 obj
-<< /Title (Asserted structure coverage against the candidate budget) /Producer (benchmarks/svg_to_pdf.py) >>
+<<
+/Filter [ /ASCII85Decode /FlateDecode ] /Length 2991
+>>
+stream
+Gau`V=`Ygs&UroH^g$/)G'7g,p64Oh.Aq4>X+sZnW@aPYBt9p.R6u85WVlNJqS3M-Gp?7n<@Wj]e*,g2oRW]*Wuc^Hr`re[p%o-ink6*l;&>Qk]?[C65H?Fi(:mYXq#9]8*f4h7#hRr7o-a<]]D1R(i7aW2LT?+Gn'SXRe+[34naQLOM]S9&4]+,Xc:^"U#@-'EIYUNEou^JE@o/MMYH.I81]&#F;*&)-\SD8ZkBa%QSV'se57+<BDhE@EPIe8)++:m'@5ogA#.5?!;N8_*\5DSj34q3Zj3<$3JmbL:D[&'/gL56[m!%a,g\'*9r)d7;<>WD%:;?d)n8K$tgl`;ImF%R&HRe8r1u;edp[](akRkUsLF%Y^^Vi+hm17tEDapsJi5TZ$75glNJ%/\M2WM2KNoP(<%dW#OjjeCX)ilCR/U-O*H?gJIi2>j\o>@6PS)r1<59;a6\-9cr<&_]\h<[)4A+qcs_*cYOo1nTgeD8GLk[$?hrb?q0=:Ln<L98I^<tMsOY?/o:j_Ajas*B%tHeH(QiR[p.XUiU!Y]K9`GJe=kk'D=Jp\=<"F*2gH?Jd:7dFd9f5Cq9p:80hB>Z1E9:?S9$`-\UqmZH5'=8sp2Gl-sdRCh&mQ51(4:m]\/eEFOD8MD#0R"0K89I;J@o+[Qc1lSD1c\0D*M@_+YMWlK,=i&V@3@_5f*12om/CY=7HVe2e?sXJm5KRN*?8)EQ>ao:E@gZ"_8Vb6O$M@)[1upi/8l(%19C<P[\M+oD4ag,tqnRU=6#=,OG=J,o*`rbg6Y[d/fqcF34oJJ%m6e_>qim')>]frmO%g#L4]FX@R7aC&-#](BE5r:dm2ofg*d3h5eO$mt=m_ph?"d3*%ChR7g\J.(;N,q-MDVE:/m7BWeJdagEHr>PW7bK.E1%*)`gB+/hl/+R_17(O)?L:AU*cRJ<DBl*ee4lBK2G_#i]uiS?.Om3&opO;3fE`;a=5CX1FI/ih`sqK%N.0J%N58k<LIF>bXpSiPu*TKJR"bO0Xe"OZ&h[uCJ"uZH"hT\Ui]B'Pg5sol0Ok'Aen=6C!"Pu86JSd3Me*iGX2C?eLB'j_8<MchT>ncB^eAsFVN01G_RTZ`&*,NrJ+l0@Ge*YCpg>i3cN#;&b<M:7CoQ8QRp@_C9CT%#St`3J`5kq(XutJ8B3-R6&N$[bI6OdF1_rnE(H3rD&9D$/#1UYOjl]Kp.IlQ6J+7jpW2S/T/"-_B46aYC5bk)&I1gXU+rX%=a>a$bD;[o0K#jZSWqN#%BH,4EO/eJg0+d-__KmJ#'kIWo.Tcuqk+7qKC?HI-)sWDAU(Y9&q'$SKh$tP@[`YE&2$nVZmKl\lJIgRT(3]^'s,r)`o,,CQZ[1FR16Z__Du@qP:DN\C)?,D=.HQM[AmqQpT1f5SLZ$pF&RW`>k*MCSIt>C-XDe,'cKEF;;t'=oo1H+BXb&h/oo"3WcSdp]1BinlBI"*;4Y[Q0'(B'Z*jYkGT9nZA=!r6'l]M=<%XVTi\X6/f<)'UG0=(KGT9JY3%W`8:X[?6#rs8.S],q.jO0pPU+MIp"+u9V$"T+q%PnQ.#Rqtea=%J%;.WeWc4L:u/.#4/*%&9g_qOC?KqVA7`Hs5uCcH?<J]o+0%6DbIGh65UErp5,dL[<RA<*.4[S^VEfI^lqF'YXFLT#MTfgQh1<i75(O@44,mpi5poFL:s[BrQ:ChkrX>a::$2gJV;/cO(dXlY"s]B6)Z0UI$q5n&K[/"VGT'[@\s%Sa9pKRKoT=1`$\c]*ZKC/k`AA/FL9<h,>76P@pP][&99Xg;<ZZW25?-!"rVGIC\E\pQ8;h4nV`n*si/^j-!EK/m_Y^/TdSHPmd*e&pcSH32NqL!*fB"ps[%Q!(Iuee/c\>r3m.j!VH0Y83=#]H@6\l9*oZ>EIH]G&ub5E*YIs9u-';6ak3.NuLMEKEg2OispckDH*%#UBbkED:j+\<?!9s2R$J,b/2Z.VO?93+Bpd[bacUg9`s)03FidBaMp0=bVE_gC>;gS:m#%7>b.%>6E7&lGgD*1WUC\jHG]3IZ$2&<QNIZ#3(/m`ci>**bsL6dl>!f0Q,\UuPA9n/7dM=)er!B=E_)ocMt^Jt+j=_i\6@);F?7sX%sh:"*ZFUNQ9>;A</K_*'2An?W`$Bj?)crNP_Gf.S]1Jnfdcq&ES$@*\[/EkbT(Q._7;)$(;2M:X1+8_)%0*[+d_FoEh"JQ/,oa<:`LN&4?PsW\7;4J</mr%b??pKVkPoF>!(D+RL4tCP)ob[eQKQ20O%2Fj6'HnP^0]PB:j=TH@U#3gmT9I>=0qn;e,^=(=)Po7LtW.W&>q@"$W@j]ip*)NKAj=Cn+I]e^RWQo5mHo<:N/V?)1nGFim&.W6XBcZNZ&ad6q\66Lu"@+_:[ZZ6uH(JEa\^OIQ:tTkRL9>:h@^jtHKV7GN@#W\muqQR(XB7(($\-J6tk$<Ci#3;.e22YM:u2YMP$2Q$a1ZNuk2Nd+Gi4D^;!:+fZd>LiL>Yf9FGR23"r2dl1KNX?OoIKgS/7[;YW.pWg.<?s\;<PVY%,ijJD[DmMF=IU\B9M<;^2IN5PcG2d<SV+=uX4g?WR?iZ0,2j]G!k,[N@;]*:_n^_?L.\)R?<,1II((V/L,<fMdN%<#ZSV<Fk^_p/EZ&%89X!(RH:3Dr=Nea(n_f%2@7-&r-"-mUJ!LF\Ac8F'oi*tc;-]e;[7Y.FnQ2?L+ntmcWo:M/o=W<CoY8/Uk.D*WG1hR`>i+mV@,;=XkC(;VNg7H#W*VI_O7M*CUsujqrT1A8]`.de?i8l`cS*$/gL";:M#5qfTD-/Cm\AhB3e'UPG$Q0_ru#u+[doFqJ@XiSYYd!]fDG*:G5L<hc0jjqF]`NN+E0'q4Ug@j%tE)d?^gjPDh.dA0>Y1ahl'dR;/YT7\!t;7a3?L0f)Bj%rWFh^.tG"aWSIR5X5V)6^<[#08^8Zj4K@N2]bgd0Z=F''%WH3lq\?h9V[g2j'@cZL(B4Im3L-?~>endstream
 endobj
 xref
 0 9
 0000000000 65535 f 
-0000000015 00000 n 
-0000000064 00000 n 
-0000000121 00000 n 
-0000000287 00000 n 
-0000008363 00000 n 
-0000008460 00000 n 
-0000008562 00000 n 
-0000008620 00000 n 
+0000000061 00000 n 
+0000000102 00000 n 
+0000000209 00000 n 
+0000000321 00000 n 
+0000000516 00000 n 
+0000000584 00000 n 
+0000000845 00000 n 
+0000000904 00000 n 
 trailer
-<< /Size 9 /Root 1 0 R /Info 8 0 R >>
+<<
+/ID 
+[<8005eafda12dcdf2d40ca7e710683eff><8005eafda12dcdf2d40ca7e710683eff>]
+% ReportLab generated PDF document -- digest (opensource)
+
+/Info 6 0 R
+/Root 5 0 R
+/Size 9
+>>
 startxref
-8744
+3986
 %%EOF

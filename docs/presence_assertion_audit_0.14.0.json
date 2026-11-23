@@ -1,0 +1,134 @@
+{
+ "kind": "presence_assertion_construct_audit",
+ "date": "2026-11-10",
+ "what": "same-build construct audit of raw temporal presence versus final asserted coverage",
+ "question": "On one build, with the shipped 40-slot Layer-1 prediction cap, how many of the world's edges are present in raw temporal memory, and how many survive into the final asserted structure?",
+ "method": "gate_acquisition_sufficiency on the Gate-13 compositional world, six historical seeds, cycles=120 (warmup + acquisition), max_predictions=None so SleepService.MAX_PREDICTIONS=40 is used unchanged. Presence is measured from database temporal edges before the cap; assertion is measured from the final structure after the acquisition loop.",
+ "cap_scope": "The 40-slot cap is the Layer-1 prediction admission budget. presence is measured before that budget is applied. The final asserted structure aggregates all six structure types, so final_asserted_edges is not capped at 40 and must not be read as the number of prediction slots.",
+ "same_build": {
+  "version": "0.14.0",
+  "sha256": "477aeb2ff34dd2cc857520d139d1b452892ec95a8158aedf72a089e8318f05e2",
+  "layer1_cap": 40,
+  "cap_source": "organica.sleep.SleepService.MAX_PREDICTIONS"
+ },
+ "rows": [
+  {
+   "seed": 20261100,
+   "world_edges": 112,
+   "present_world_edges": 112,
+   "presence_rate": 1.0,
+   "asserted_world_edges": 40,
+   "assertion_rate": 0.357143,
+   "conversion": 0.357143,
+   "present_not_asserted": 72,
+   "final_asserted_edges": 119,
+   "asserted_fingerprint": "db2b1a46db2f4b7f"
+  },
+  {
+   "seed": 20261101,
+   "world_edges": 112,
+   "present_world_edges": 112,
+   "presence_rate": 1.0,
+   "asserted_world_edges": 44,
+   "assertion_rate": 0.392857,
+   "conversion": 0.392857,
+   "present_not_asserted": 68,
+   "final_asserted_edges": 118,
+   "asserted_fingerprint": "9394c3783c77e343"
+  },
+  {
+   "seed": 20261102,
+   "world_edges": 112,
+   "present_world_edges": 112,
+   "presence_rate": 1.0,
+   "asserted_world_edges": 38,
+   "assertion_rate": 0.339286,
+   "conversion": 0.339286,
+   "present_not_asserted": 74,
+   "final_asserted_edges": 111,
+   "asserted_fingerprint": "18799ace1e38cd34"
+  },
+  {
+   "seed": 20261103,
+   "world_edges": 112,
+   "present_world_edges": 112,
+   "presence_rate": 1.0,
+   "asserted_world_edges": 46,
+   "assertion_rate": 0.410714,
+   "conversion": 0.410714,
+   "present_not_asserted": 66,
+   "final_asserted_edges": 106,
+   "asserted_fingerprint": "d173a51c062b12a5"
+  },
+  {
+   "seed": 20261104,
+   "world_edges": 112,
+   "present_world_edges": 112,
+   "presence_rate": 1.0,
+   "asserted_world_edges": 34,
+   "assertion_rate": 0.303571,
+   "conversion": 0.303571,
+   "present_not_asserted": 78,
+   "final_asserted_edges": 100,
+   "asserted_fingerprint": "dec5f04453dbb7d4"
+  },
+  {
+   "seed": 20261105,
+   "world_edges": 112,
+   "present_world_edges": 112,
+   "presence_rate": 1.0,
+   "asserted_world_edges": 47,
+   "assertion_rate": 0.419643,
+   "conversion": 0.419643,
+   "present_not_asserted": 65,
+   "final_asserted_edges": 132,
+   "asserted_fingerprint": "40bab96db9b4c057"
+  }
+ ],
+ "summary": {
+  "seeds": 6,
+  "world_edges": [
+   112
+  ],
+  "presence_rate_range": [
+   1.0,
+   1.0
+  ],
+  "assertion_rate_range": [
+   0.303571,
+   0.419643
+  ],
+  "conversion_range": [
+   0.303571,
+   0.419643
+  ],
+  "present_not_asserted_range": [
+   65,
+   78
+  ],
+  "final_asserted_edges_range": [
+   100,
+   132
+  ],
+  "all_presence_full": true,
+  "all_assertion_below_presence": true,
+  "layer1_cap": 40
+ },
+ "prior_reference": {
+  "artifact": "docs/temporal_presence_0.13.0.json",
+  "build": "0.13.0",
+  "presence_range": 1.0,
+  "assertion_range": [
+   0.25,
+   0.321429
+  ],
+  "note": "descriptive prior only; the same-build audit does not re-score or pool the 0.13.0 rows"
+ },
+ "verdict": "PRESENCE NOT ASSERTION",
+ "reading": "The two quantities answer different questions. Presence is availability in the temporal substrate; assertion is survival in the final structure. A presence rate near 1.0 with a lower assertion rate is a construct separation, not by itself a defect or a causal claim about selection.",
+ "not_evidence": "This audit does not identify which stage loses a present edge, does not manipulate the cap, and does not authorize an engine change. It is a same-build construct check, not a mechanism experiment.",
+ "engine_version": "0.14.0",
+ "engine_commit": "8f9d3b71340729d3c61165d5e51ad0db3c2694c3",
+ "engine_sha256": "477aeb2ff34dd2cc857520d139d1b452892ec95a8158aedf72a089e8318f05e2",
+ "runner": "__main__"
+}

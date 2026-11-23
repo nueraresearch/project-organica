@@ -1,0 +1,373 @@
+{
+  "kind": "a1_board_manifest",
+  "version": 1,
+  "date": "2026-11-15",
+  "note": "Each branch names the record, artifact or act that settles it, and the check that proves it. A branch may also declare note_claims: the numbers its note quotes, and where they must be found, so a restated count cannot drift while the row stays green.",
+  "branches": [
+    {
+      "id": "c1-denominator-definition",
+      "branch": "C1 denominator definition",
+      "kind": "decision",
+      "decision": "DECISION-A1-C1-DENOMINATOR",
+      "note": "the recorded cell row, non-target edges included",
+      "proved_by": [
+        "tests/test_a1_c1_ceiling.py"
+      ]
+    },
+    {
+      "id": "c1-denominator-invariance",
+      "branch": "C1 denominator invariance",
+      "kind": "artifact",
+      "artifact": "docs/a1_c8_target_selection_competent.json",
+      "contains": [
+        {
+          "path": "docs/a1_c8_target_selection_competent.json",
+          "strings": [
+            "c1_min_denominator",
+            "79"
+          ]
+        }
+      ],
+      "note": "C1 counts every recorded row, so the target set cannot move it; the competent selection reproduces 79/64/79/74/72/74",
+      "proved_by": [
+        "tests/test_a1_c8_selection_competent.py"
+      ],
+      "note_claims": [
+        {
+          "note_regex": "reproduces ([0-9]+(?:/[0-9]+){5})",
+          "path": "docs/a1_c8_target_selection_competent.json",
+          "field": "per_seed.*.c1.c1_min_denominator"
+        }
+      ]
+    },
+    {
+      "id": "c1-unit",
+      "branch": "C1 unit of evidence",
+      "kind": "decision",
+      "decision": "DECISION-A1-C1-UNIT",
+      "note": "the directed edge; the relation is a declared dependence class on its own denominator",
+      "proved_by": [
+        "docs/A1-C1-UNIT-OF-EVIDENCE.md"
+      ]
+    },
+    {
+      "id": "competence-contract",
+      "branch": "Competence contract, N_min, capacity",
+      "kind": "decision",
+      "decision": "DECISION-A1-C8-NMIN",
+      "note": "unit, threshold 0.05, endpoint cap 3, N_min = 17",
+      "proved_by": [
+        "tests/test_a1_target_viability_adopted.py"
+      ],
+      "note_claims": [
+        {
+          "note_regex": "threshold ([0-9.]+)",
+          "doc": "docs/DECISION-A1-C8-NMIN.md",
+          "doc_regex": "\\|\\s*Threshold\\s*\\|\\s*\\*\\*([0-9.]+)\\*\\* per seed"
+        },
+        {
+          "note_regex": "endpoint cap ([0-9]+)",
+          "doc": "docs/DECISION-A1-C8-NMIN.md",
+          "doc_regex": "\\|\\s*Endpoint cap\\s*\\|\\s*([0-9]+) selected edges"
+        },
+        {
+          "note_regex": "N_min = ([0-9]+)",
+          "doc": "docs/DECISION-A1-C8-NMIN.md",
+          "doc_regex": "\\|\\s*\\*\\*N_min\\*\\*\\s*\\|\\s*\\*\\*([0-9]+) rows per seed"
+        }
+      ]
+    },
+    {
+      "id": "c8-selection-procedure",
+      "branch": "C8 selection procedure",
+      "kind": "decision",
+      "decision": "DECISION-A1-C8-SELECTION",
+      "note": "the pool, the record before the freeze, no fallback, no re-filtering, and disclosure — binding only once signed",
+      "proved_by": [
+        "tests/test_a1_competence_rule_page.py"
+      ]
+    },
+    {
+      "id": "s5-disclosure",
+      "branch": "S5 unfiltered-selection disclosure",
+      "kind": "artifact",
+      "artifact": "docs/A1-C8-SELECTION-DISCLOSURE.md",
+      "contains": [
+        {
+          "path": "docs/A1-C8-SELECTION-DISCLOSURE.md",
+          "strings": [
+            "The filter ran before any cell",
+            "This is not a subtraction"
+          ]
+        }
+      ],
+      "note": "the unfiltered block beside the competent one, generated from both artifacts",
+      "proved_by": [
+        "tests/test_a1_c8_selection_disclosure.py"
+      ]
+    },
+    {
+      "id": "competent-construction",
+      "branch": "Competent-selection construction",
+      "kind": "artifact",
+      "artifact": "docs/A1-C8-TARGET-SELECTION-COMPETENT.md",
+      "contains": [
+        {
+          "path": "docs/a1_c8_target_selection_competent.json",
+          "strings": [
+            "A1-C8-EXPANSION-COMPETENT-1"
+          ]
+        },
+        {
+          "path": "docs/A1-C8-TARGET-SELECTION-COMPETENT.md",
+          "strings": [
+            "20/17/20/20/18/20"
+          ]
+        }
+      ],
+      "note": "20/17/20/20/18/20; every larger size proved impossible on both short seeds",
+      "proved_by": [
+        "tests/test_a1_c8_selection_competent.py"
+      ],
+      "note_claims": [
+        {
+          "note_regex": "([0-9]+(?:/[0-9]+){5});",
+          "path": "docs/a1_c8_target_selection_competent.json",
+          "field": "sizes"
+        }
+      ]
+    },
+    {
+      "id": "c4-measurability",
+      "branch": "C4 measurability semantics",
+      "kind": "artifact",
+      "artifact": "docs/A1-C1-C4-VOID-GATE.md",
+      "contains": [
+        {
+          "path": "docs/A1-C1-C4-VOID-GATE.md",
+          "strings": [
+            "C1_UNMEASURABLE"
+          ]
+        },
+        {
+          "path": "benchmarks/a1_gate_readiness.py",
+          "strings": [
+            "_delta_clean"
+          ]
+        }
+      ],
+      "note": "an unmeasurable quantity is VOID, never a pass or a crash",
+      "proved_by": [
+        "tests/test_a1_gate_measurability.py"
+      ]
+    },
+    {
+      "id": "c4-completeness",
+      "branch": "C4 completeness detection",
+      "kind": "artifact",
+      "artifact": "docs/A1-C1-C4-VOID-GATE.md",
+      "contains": [
+        {
+          "path": "benchmarks/a1_arms.py",
+          "strings": [
+            "CONTROL_NOT_SCORED",
+            "AWAITING_TREATED_ROW"
+          ]
+        },
+        {
+          "path": "docs/A1-C1-C4-VOID-GATE.md",
+          "strings": [
+            "CONTROL_NOT_SCORED"
+          ]
+        }
+      ],
+      "note": "an absent or short treated stream VOIDs instead of passing on the control's own rows",
+      "proved_by": [
+        "tests/test_a1_c4_completeness.py"
+      ]
+    },
+    {
+      "id": "c4-posture-multiplicity",
+      "branch": "C4 posture clause 1 (declared multiplicity)",
+      "kind": "conditional",
+      "when_pending": "DECISION-A1-COMPETENT-ESTIMAND",
+      "contains": [
+        {
+          "path": "docs/DECISION-A1-C4-POSTURE.md",
+          "strings": [
+            "324 deltas per seed",
+            "1,944"
+          ]
+        }
+      ],
+      "open_state": "OPEN UNTIL THE ESTIMAND IS ADOPTED",
+      "closed_state": "CLOSED — RESTATED",
+      "restated": [
+        {
+          "path": "docs/DECISION-A1-C4-POSTURE.md",
+          "strings": [
+            "276",
+            "1,671"
+          ]
+        }
+      ],
+      "note": "the posture still declares 324 / 1,944, the N=4 figures; the operative block needs 276–285 / 1,671",
+      "proved_by": [
+        "tests/test_a1_target_viability_adopted.py"
+      ],
+      "note_claims": [
+        {
+          "note_regex": "declares ([0-9]+ / [0-9,]+),",
+          "doc": "docs/DECISION-A1-C4-POSTURE.md",
+          "doc_regex": "The ([0-9]+) / ([0-9,]+) figures are multiplication"
+        },
+        {
+          "note_regex": "needs ([0-9]+)–([0-9]+) / ([0-9,]+)",
+          "doc": "docs/DECISION-A1-COMPETENT-ESTIMAND.md",
+          "doc_regex": "maximum over ([0-9]+)–([0-9]+) deltas per seed, ([0-9,]+) across the block"
+        }
+      ]
+    },
+    {
+      "id": "c1-ceiling-universe",
+      "branch": "C1 ceiling — preplanned-universe clause",
+      "kind": "conditional",
+      "when_pending": "DECISION-A1-C1-CEILING",
+      "contains": [
+        {
+          "path": "docs/DECISION-A1-C1-CEILING.md",
+          "strings": [
+            "The ceiling's function is carried by a comparison rather than a constant",
+            "preplanned universe"
+          ]
+        }
+      ],
+      "open_state": "AWAITING THE CEILING DECISION",
+      "closed_state": "CLOSED — UNIVERSE RESTATED",
+      "restated": [
+        {
+          "path": "docs/DECISION-A1-PATH-A-C1-RULE.md",
+          "strings": [
+            "preplanned universe",
+            "DECISION-A1-C1-CEILING"
+          ]
+        }
+      ],
+      "note": "the >64 VOID is narrowed to the candidate-plan count it was written against; its function is carried by the scored denominator equalling the preplanned universe, 79 / 64 / 79 / 74 / 72 / 74",
+      "note_claims": [
+        {
+          "note_regex": "preplanned universe, ([0-9]+ / [0-9]+ / [0-9]+ / [0-9]+ / [0-9]+ / [0-9]+)",
+          "path": "docs/a1_baseline_availability_adopted.json",
+          "field": "per_seed.*.c1_min_denominator"
+        }
+      ],
+      "proved_by": [
+        "tests/test_a1_c1_ceiling.py"
+      ]
+    },
+    {
+      "id": "freeze-acts",
+      "branch": "Freeze acts",
+      "kind": "act",
+      "docs": [
+        "docs/A1-TARGET-FREEZE-ACT.md",
+        "docs/A1-TARGET-FREEZE-ACT-N20.md"
+      ],
+      "note": "the N=20 act is signed on the competent block, at the floor for two seeds and above it for one, with the scorer pinned; the N=4 act is below N_min = 17 and stays unsigned",
+      "proved_by": [
+        "tests/test_a1_prefreeze.py",
+        "tests/test_a1_freeze_fields.py"
+      ],
+      "note_claims": [
+        {
+          "note_regex": "N_min = ([0-9]+)",
+          "doc": "docs/DECISION-A1-C8-NMIN.md",
+          "doc_regex": "\\*\\*N_min\\*\\* \\| \\*\\*([0-9]+)"
+        }
+      ]
+    },
+    {
+      "id": "grant-run",
+      "branch": "Grant, run",
+      "kind": "artifact",
+      "artifact": "docs/A1-RUN.md",
+      "contains": [
+        {
+          "path": "docs/A1-RUN.md",
+          "strings": [
+            "VOID gates: C4_no_interference",
+            "reason code: C4_DELTA"
+          ]
+        },
+        {
+          "path": "docs/a1_two_path_result.json",
+          "strings": [
+            "\"status\": \"VOID\"",
+            "C4_DELTA"
+          ]
+        }
+      ],
+      "note": "the block ran once under the grant and the assembly is VOID on C4; nothing here is an effect estimate",
+      "proved_by": [
+        "tests/test_a1_prefreeze.py"
+      ]
+    },
+    {
+      "id": "void-accepted",
+      "branch": "The VOID is accepted, not rescored",
+      "kind": "decision",
+      "decision": "DECISION-A1-VOID-ACCEPTED",
+      "note": "the block ran once, assembled to VOID on C4, and stays that way; the scorer repair applies to future runs only",
+      "proved_by": [
+        "tests/test_a1_prefreeze.py"
+      ]
+    },
+    {
+      "id": "a2-sham",
+      "branch": "A2 sham matching",
+      "kind": "artifact",
+      "artifact": "docs/A2-SHAM-FEASIBILITY.md",
+      "contains": [
+        {
+          "path": "docs/A2-SHAM-FEASIBILITY.md",
+          "strings": [
+            "Per edge: no construction found",
+            "does not establish that none exists"
+          ]
+        }
+      ],
+      "note": "a matched sham exists in aggregate but not per non-target edge, so the per-edge C4' is not constructible from this selection",
+      "proved_by": [
+        "tests/test_a2_sham_feasibility.py"
+      ]
+    },
+    {
+      "id": "v2-charter",
+      "branch": "V2 charter",
+      "kind": "decision",
+      "decision": "DECISION-V2-CHARTER",
+      "note": "a draft that commissions a charter rather than a build; nothing is authorised until the owner signs it",
+      "proved_by": [
+        "tests/test_v2_charter_decision.py"
+      ]
+    },
+    {
+      "id": "a2-estimand",
+      "branch": "A2 estimand",
+      "kind": "decision",
+      "decision": "DECISION-A2-ESTIMAND",
+      "note": "A2 is closed: the matchable control differs per edge, and the carrier unit makes the locality criterion unfalsifiable; no A2 arm runs",
+      "proved_by": [
+        "tests/test_a2_estimand_decision.py"
+      ]
+    }
+  ],
+  "bare_allowlist": {
+    "c1-ceiling-universe": {
+      "numbers": [
+        "64"
+      ],
+      "why": "the constant the pending ceiling decision narrows"
+    }
+  }
+}

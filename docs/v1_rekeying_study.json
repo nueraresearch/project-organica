@@ -1,0 +1,159 @@
+{
+  "kind": "v1_rekeying_study",
+  "date": "2026-11-15",
+  "seed": 20740101,
+  "world_cycles": 120,
+  "note": "counterfactual simulated under the engine's selection rules (+0.05 on the fresh detection, x0.8 otherwise, death <0.15); the direction-bearing simulation reproduces the store's identities and all 186 retirement rows before the key is swapped",
+  "observed": {
+    "detections": 1299,
+    "distinct_paths": 177,
+    "distinct_node_sets": 158,
+    "stored_rows": 4303,
+    "stored_identities": 177,
+    "retired_rows": 186,
+    "sleep_cycles_run": 92
+  },
+  "validation": {
+    "identities_match": true,
+    "deaths_observed": 186,
+    "deaths_simulated": 186,
+    "deaths_match": true,
+    "note": "identities and retirement rows both match the store exactly under the direction-bearing key. An earlier version of this study reported 201 retirements and attributed the gap to the 4,000-event window; that was wrong. The simulator reinforced from the prior strength instead of the fresh detection, which is what _reinforce_current does. With the rule corrected the simulation reproduces all 186 retirements, and a separate measurement found the window never forgot a live carrier."
+  },
+  "direction_bearing": {
+    "identities": 177,
+    "deaths": 186,
+    "live": 30,
+    "stable": 29,
+    "reinforcements": 1083,
+    "decays": 3004,
+    "mean_live_strength": 0.8043,
+    "max_live_strength": 1.0
+  },
+  "direction_free": {
+    "identities": 158,
+    "deaths": 170,
+    "live": 28,
+    "stable": 27,
+    "reinforcements": 1101,
+    "decays": 2735,
+    "mean_live_strength": 0.816,
+    "max_live_strength": 1.0
+  },
+  "comparison": {
+    "identities_saved": 19,
+    "flip_events": 55,
+    "deaths_bearing": 186,
+    "deaths_free": 170,
+    "live_bearing": 30,
+    "live_free": 28,
+    "stable_bearing": 29,
+    "stable_free": 27,
+    "reinforcements_bearing": 1083,
+    "reinforcements_free": 1101,
+    "top5_appearance_share_bearing": 0.2032,
+    "top5_appearance_share_free": 0.2194
+  },
+  "merged_node_sets": [
+    {
+      "node_set": [
+        "maple",
+        "sable",
+        "slate"
+      ],
+      "appearances": 60,
+      "orientations": 2,
+      "flips": 13
+    },
+    {
+      "node_set": [
+        "maple",
+        "sable",
+        "willow"
+      ],
+      "appearances": 56,
+      "orientations": 2,
+      "flips": 11
+    },
+    {
+      "node_set": [
+        "amber",
+        "maple",
+        "slate"
+      ],
+      "appearances": 9,
+      "orientations": 2,
+      "flips": 4
+    },
+    {
+      "node_set": [
+        "cedar",
+        "maple",
+        "sable"
+      ],
+      "appearances": 28,
+      "orientations": 2,
+      "flips": 4
+    },
+    {
+      "node_set": [
+        "amber",
+        "birch",
+        "cedar"
+      ],
+      "appearances": 4,
+      "orientations": 2,
+      "flips": 3
+    },
+    {
+      "node_set": [
+        "amber",
+        "maple",
+        "sable"
+      ],
+      "appearances": 17,
+      "orientations": 2,
+      "flips": 3
+    },
+    {
+      "node_set": [
+        "birch",
+        "cedar",
+        "umber"
+      ],
+      "appearances": 7,
+      "orientations": 2,
+      "flips": 3
+    },
+    {
+      "node_set": [
+        "amber",
+        "sable",
+        "willow"
+      ],
+      "appearances": 45,
+      "orientations": 2,
+      "flips": 2
+    },
+    {
+      "node_set": [
+        "crimson",
+        "sable",
+        "willow"
+      ],
+      "appearances": 12,
+      "orientations": 2,
+      "flips": 2
+    },
+    {
+      "node_set": [
+        "amber",
+        "birch",
+        "verdant"
+      ],
+      "appearances": 2,
+      "orientations": 2,
+      "flips": 1
+    }
+  ]
+}

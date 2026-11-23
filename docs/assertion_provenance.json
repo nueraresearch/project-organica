@@ -1,0 +1,1621 @@
+{
+ "kind": "assertion_provenance",
+ "prereg": "PRESENCE-CONVERSION-2",
+ "not_a_result": true,
+ "question": "For each asserted world edge that never entered a served window, what does the evidence say: a recording gap, an alternate assertion path, an identity mismatch, or genuine assertion without service?",
+ "definition": "A per-edge provenance ledger over the 26 rows in docs/presence_unexplained_edges.json. Categories are assigned in this order: recording gap (replay direct service exceeds committed direct service), identity mismatch (the reverse orientation was committed as served), alternate assertion path (a non-prediction structure carries the edge), genuine assertion without service (only a prediction candidate carries it and neither orientation was served).",
+ "source": {
+  "edge_rows": "docs/presence_unexplained_edges.json",
+  "committed_served": "docs/presence_conversion_2_n3_tables.json",
+  "world": "generate_compositional_world(seed=, cycles=120), deterministic",
+  "assertion_sources": "a behaviour-neutral replay of the same six Q4 on-arm cells; asserted fingerprint and served set must match"
+ },
+ "method": "The same six Q4 seeds, 120 cycles, cap 40 and acquisition schedule are replayed to retain the final candidate types. The replay is accepted only when each seed's asserted-world fingerprint equals the stored Q4 fingerprint and its served-world set equals the committed N3 served set. No seed, arm, cap or treatment is added; the run is a provenance replay, not a new cell.",
+ "cap": 40,
+ "cycles": 120,
+ "seeds": [
+  {
+   "seed": 20611601,
+   "asserted_world_edges": 39,
+   "asserted_fingerprint": "870dfcc70f9bcad6",
+   "replay_world_served": 76,
+   "committed_world_served": 76,
+   "served_sets_match": true,
+   "categories": {
+    "identity_mismatch": 2,
+    "alternate_assertion_path": 2
+   },
+   "rows": [
+    {
+     "seed": 20611601,
+     "edge": "olive>umber",
+     "rank": 31,
+     "best_cycle": 15,
+     "relation": "transition",
+     "served_transitions_in_best_cycle": 20,
+     "gap": 11,
+     "in_cap": true,
+     "band": "21-40",
+     "category": "identity_mismatch",
+     "cofactors": [
+      "alternate_assertion_path"
+     ],
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "alternate_source": true,
+     "prediction_source": false,
+     "direct_replay_windows": 0,
+     "direct_committed_windows": 0,
+     "reverse_replay_windows": 1,
+     "reverse_committed_windows": 1,
+     "reverse_in_world": true,
+     "recording_gap_windows": 0,
+     "reverse_recording_gap_windows": 0,
+     "explanation": "The direct edge was served in no committed window, but `umber>olive` (also a world edge) was served in 1. A symmetric loop/dream structure asserts both orientations."
+    },
+    {
+     "seed": 20611601,
+     "edge": "olive>willow",
+     "rank": 39,
+     "best_cycle": 104,
+     "relation": "transition",
+     "served_transitions_in_best_cycle": 20,
+     "gap": 19,
+     "in_cap": true,
+     "band": "21-40",
+     "category": "alternate_assertion_path",
+     "cofactors": [],
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "alternate_source": true,
+     "prediction_source": false,
+     "direct_replay_windows": 0,
+     "direct_committed_windows": 0,
+     "reverse_replay_windows": 0,
+     "reverse_committed_windows": 0,
+     "reverse_in_world": true,
+     "recording_gap_windows": 0,
+     "reverse_recording_gap_windows": 0,
+     "explanation": "Neither orientation was served; the edge is carried by loop_candidate, which asserts structures independently of the prediction window."
+    },
+    {
+     "seed": 20611601,
+     "edge": "willow>olive",
+     "rank": 127,
+     "best_cycle": 116,
+     "relation": "transition",
+     "served_transitions_in_best_cycle": 20,
+     "gap": 107,
+     "in_cap": false,
+     "band": "113+",
+     "category": "alternate_assertion_path",
+     "cofactors": [],
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "alternate_source": true,
+     "prediction_source": false,
+     "direct_replay_windows": 0,
+     "direct_committed_windows": 0,
+     "reverse_replay_windows": 0,
+     "reverse_committed_windows": 0,
+     "reverse_in_world": true,
+     "recording_gap_windows": 0,
+     "reverse_recording_gap_windows": 0,
+     "explanation": "Neither orientation was served; the edge is carried by loop_candidate, which asserts structures independently of the prediction window."
+    },
+    {
+     "seed": 20611601,
+     "edge": "willow>teal",
+     "rank": 124,
+     "best_cycle": 116,
+     "relation": "transition",
+     "served_transitions_in_best_cycle": 20,
+     "gap": 104,
+     "in_cap": false,
+     "band": "113+",
+     "category": "identity_mismatch",
+     "cofactors": [
+      "alternate_assertion_path"
+     ],
+     "assertion_sources": {
+      "loop_candidate": 5.0
+     },
+     "alternate_source": true,
+     "prediction_source": false,
+     "direct_replay_windows": 0,
+     "direct_committed_windows": 0,
+     "reverse_replay_windows": 46,
+     "reverse_committed_windows": 46,
+     "reverse_in_world": true,
+     "recording_gap_windows": 0,
+     "reverse_recording_gap_windows": 0,
+     "explanation": "The direct edge was served in no committed window, but `teal>willow` (also a world edge) was served in 46. A symmetric loop/dream structure asserts both orientations."
+    }
+   ]
+  },
+  {
+   "seed": 20611602,
+   "asserted_world_edges": 48,
+   "asserted_fingerprint": "e7807c59774cc135",
+   "replay_world_served": 84,
+   "committed_world_served": 84,
+   "served_sets_match": true,
+   "categories": {
+    "identity_mismatch": 4
+   },
+   "rows": [
+    {
+     "seed": 20611602,
+     "edge": "amber>umber",
+     "rank": 61,
+     "best_cycle": 81,
+     "relation": "transition",
+     "served_transitions_in_best_cycle": 20,
+     "gap": 41,
+     "in_cap": false,
+     "band": "41-80",
+     "category": "identity_mismatch",
+     "cofactors": [
+      "alternate_assertion_path"
+     ],
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "alternate_source": true,
+     "prediction_source": false,
+     "direct_replay_windows": 0,
+     "direct_committed_windows": 0,
+     "reverse_replay_windows": 55,
+     "reverse_committed_windows": 55,
+     "reverse_in_world": true,
+     "recording_gap_windows": 0,
+     "reverse_recording_gap_windows": 0,
+     "explanation": "The direct edge was served in no committed window, but `umber>amber` (also a world edge) was served in 55. A symmetric loop/dream structure asserts both orientations."
+    },
+    {
+     "seed": 20611602,
+     "edge": "indigo>umber",
+     "rank": 52,
+     "best_cycle": 31,
+     "relation": "transition",
+     "served_transitions_in_best_cycle": 20,
+     "gap": 32,
+     "in_cap": false,
+     "band": "41-80",
+     "category": "identity_mismatch",
+     "cofactors": [
+      "alternate_assertion_path"
+     ],
+     "assertion_sources": {
+      "loop_candidate": 3.0
+     },
+     "alternate_source": true,
+     "prediction_source": false,
+     "direct_replay_windows": 0,
+     "direct_committed_windows": 0,
+     "reverse_replay_windows": 56,
+     "reverse_committed_windows": 56,
+     "reverse_in_world": true,
+     "recording_gap_windows": 0,
+     "reverse_recording_gap_windows": 0,
+     "explanation": "The direct edge was served in no committed window, but `umber>indigo` (also a world edge) was served in 56. A symmetric loop/dream structure asserts both orientations."
+    },
+    {
+     "seed": 20611602,
+     "edge": "sable>slate",
+     "rank": 26,
+     "best_cycle": 119,
+     "relation": "transition",
+     "served_transitions_in_best_cycle": 20,
+     "gap": 6,
+     "in_cap": true,
+     "band": "21-40",
+     "category": "identity_mismatch",
+     "cofactors": [
+      "alternate_assertion_path"
+     ],
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "alternate_source": true,
+     "prediction_source": false,
+     "direct_replay_windows": 0,
+     "direct_committed_windows": 0,
+     "reverse_replay_windows": 3,
+     "reverse_committed_windows": 3,
+     "reverse_in_world": true,
+     "recording_gap_windows": 0,
+     "reverse_recording_gap_windows": 0,
+     "explanation": "The direct edge was served in no committed window, but `slate>sable` (also a world edge) was served in 3. A symmetric loop/dream structure asserts both orientations."
+    },
+    {
+     "seed": 20611602,
+     "edge": "willow>umber",
+     "rank": 54,
+     "best_cycle": 119,
+     "relation": "transition",
+     "served_transitions_in_best_cycle": 20,
+     "gap": 34,
+     "in_cap": false,
+     "band": "41-80",
+     "category": "identity_mismatch",
+     "cofactors": [
+      "alternate_assertion_path"
+     ],
+     "assertion_sources": {
+      "dream": 1.0,
+      "loop_candidate": 7.0
+     },
+     "alternate_source": true,
+     "prediction_source": false,
+     "direct_replay_windows": 0,
+     "direct_committed_windows": 0,
+     "reverse_replay_windows": 55,
+     "reverse_committed_windows": 55,
+     "reverse_in_world": true,
+     "recording_gap_windows": 0,
+     "reverse_recording_gap_windows": 0,
+     "explanation": "The direct edge was served in no committed window, but `umber>willow` (also a world edge) was served in 55. A symmetric loop/dream structure asserts both orientations."
+    }
+   ]
+  },
+  {
+   "seed": 20611603,
+   "asserted_world_edges": 39,
+   "asserted_fingerprint": "1236b18abf56753c",
+   "replay_world_served": 71,
+   "committed_world_served": 71,
+   "served_sets_match": true,
+   "categories": {
+    "alternate_assertion_path": 4,
+    "identity_mismatch": 5
+   },
+   "rows": [
+    {
+     "seed": 20611603,
+     "edge": "sable>yarrow",
+     "rank": 111,
+     "best_cycle": 110,
+     "relation": "transition",
+     "served_transitions_in_best_cycle": 20,
+     "gap": 91,
+     "in_cap": false,
+     "band": "81-112",
+     "category": "alternate_assertion_path",
+     "cofactors": [],
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "alternate_source": true,
+     "prediction_source": false,
+     "direct_replay_windows": 0,
+     "direct_committed_windows": 0,
+     "reverse_replay_windows": 0,
+     "reverse_committed_windows": 0,
+     "reverse_in_world": true,
+     "recording_gap_windows": 0,
+     "reverse_recording_gap_windows": 0,
+     "explanation": "Neither orientation was served; the edge is carried by loop_candidate, which asserts structures independently of the prediction window."
+    },
+    {
+     "seed": 20611603,
+     "edge": "slate>umber",
+     "rank": 27,
+     "best_cycle": 106,
+     "relation": "transition",
+     "served_transitions_in_best_cycle": 20,
+     "gap": 7,
+     "in_cap": true,
+     "band": "21-40",
+     "category": "identity_mismatch",
+     "cofactors": [
+      "alternate_assertion_path"
+     ],
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "alternate_source": true,
+     "prediction_source": false,
+     "direct_replay_windows": 0,
+     "direct_committed_windows": 0,
+     "reverse_replay_windows": 3,
+     "reverse_committed_windows": 3,
+     "reverse_in_world": true,
+     "recording_gap_windows": 0,
+     "reverse_recording_gap_windows": 0,
+     "explanation": "The direct edge was served in no committed window, but `umber>slate` (also a world edge) was served in 3. A symmetric loop/dream structure asserts both orientations."
+    },
+    {
+     "seed": 20611603,
+     "edge": "slate>yarrow",
+     "rank": 26,
+     "best_cycle": 86,
+     "relation": "transition",
+     "served_transitions_in_best_cycle": 20,
+     "gap": 6,
+     "in_cap": true,
+     "band": "21-40",
+     "category": "alternate_assertion_path",
+     "cofactors": [],
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "alternate_source": true,
+     "prediction_source": false,
+     "direct_replay_windows": 0,
+     "direct_committed_windows": 0,
+     "reverse_replay_windows": 0,
+     "reverse_committed_windows": 0,
+     "reverse_in_world": true,
+     "recording_gap_windows": 0,
+     "reverse_recording_gap_windows": 0,
+     "explanation": "Neither orientation was served; the edge is carried by loop_candidate, which asserts structures independently of the prediction window."
+    },
+    {
+     "seed": 20611603,
+     "edge": "umber>teal",
+     "rank": 28,
+     "best_cycle": 68,
+     "relation": "transition",
+     "served_transitions_in_best_cycle": 20,
+     "gap": 8,
+     "in_cap": true,
+     "band": "21-40",
+     "category": "identity_mismatch",
+     "cofactors": [
+      "alternate_assertion_path"
+     ],
+     "assertion_sources": {
+      "loop_candidate": 3.0
+     },
+     "alternate_source": true,
+     "prediction_source": false,
+     "direct_replay_windows": 0,
+     "direct_committed_windows": 0,
+     "reverse_replay_windows": 26,
+     "reverse_committed_windows": 26,
+     "reverse_in_world": true,
+     "recording_gap_windows": 0,
+     "reverse_recording_gap_windows": 0,
+     "explanation": "The direct edge was served in no committed window, but `teal>umber` (also a world edge) was served in 26. A symmetric loop/dream structure asserts both orientations."
+    },
+    {
+     "seed": 20611603,
+     "edge": "willow>verdant",
+     "rank": 41,
+     "best_cycle": 84,
+     "relation": "transition",
+     "served_transitions_in_best_cycle": 20,
+     "gap": 21,
+     "in_cap": false,
+     "band": "41-80",
+     "category": "identity_mismatch",
+     "cofactors": [
+      "alternate_assertion_path"
+     ],
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "alternate_source": true,
+     "prediction_source": false,
+     "direct_replay_windows": 0,
+     "direct_committed_windows": 0,
+     "reverse_replay_windows": 41,
+     "reverse_committed_windows": 41,
+     "reverse_in_world": true,
+     "recording_gap_windows": 0,
+     "reverse_recording_gap_windows": 0,
+     "explanation": "The direct edge was served in no committed window, but `verdant>willow` (also a world edge) was served in 41. A symmetric loop/dream structure asserts both orientations."
+    },
+    {
+     "seed": 20611603,
+     "edge": "yarrow>indigo",
+     "rank": 80,
+     "best_cycle": 107,
+     "relation": "transition",
+     "served_transitions_in_best_cycle": 20,
+     "gap": 60,
+     "in_cap": false,
+     "band": "41-80",
+     "category": "identity_mismatch",
+     "cofactors": [
+      "alternate_assertion_path"
+     ],
+     "assertion_sources": {
+      "loop_candidate": 2.0
+     },
+     "alternate_source": true,
+     "prediction_source": false,
+     "direct_replay_windows": 0,
+     "direct_committed_windows": 0,
+     "reverse_replay_windows": 10,
+     "reverse_committed_windows": 10,
+     "reverse_in_world": true,
+     "recording_gap_windows": 0,
+     "reverse_recording_gap_windows": 0,
+     "explanation": "The direct edge was served in no committed window, but `indigo>yarrow` (also a world edge) was served in 10. A symmetric loop/dream structure asserts both orientations."
+    },
+    {
+     "seed": 20611603,
+     "edge": "yarrow>sable",
+     "rank": 79,
+     "best_cycle": 107,
+     "relation": "transition",
+     "served_transitions_in_best_cycle": 20,
+     "gap": 59,
+     "in_cap": false,
+     "band": "41-80",
+     "category": "alternate_assertion_path",
+     "cofactors": [],
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "alternate_source": true,
+     "prediction_source": false,
+     "direct_replay_windows": 0,
+     "direct_committed_windows": 0,
+     "reverse_replay_windows": 0,
+     "reverse_committed_windows": 0,
+     "reverse_in_world": true,
+     "recording_gap_windows": 0,
+     "reverse_recording_gap_windows": 0,
+     "explanation": "Neither orientation was served; the edge is carried by loop_candidate, which asserts structures independently of the prediction window."
+    },
+    {
+     "seed": 20611603,
+     "edge": "yarrow>slate",
+     "rank": 81,
+     "best_cycle": 107,
+     "relation": "transition",
+     "served_transitions_in_best_cycle": 20,
+     "gap": 61,
+     "in_cap": false,
+     "band": "81-112",
+     "category": "alternate_assertion_path",
+     "cofactors": [],
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "alternate_source": true,
+     "prediction_source": false,
+     "direct_replay_windows": 0,
+     "direct_committed_windows": 0,
+     "reverse_replay_windows": 0,
+     "reverse_committed_windows": 0,
+     "reverse_in_world": true,
+     "recording_gap_windows": 0,
+     "reverse_recording_gap_windows": 0,
+     "explanation": "Neither orientation was served; the edge is carried by loop_candidate, which asserts structures independently of the prediction window."
+    },
+    {
+     "seed": 20611603,
+     "edge": "yarrow>verdant",
+     "rank": 77,
+     "best_cycle": 107,
+     "relation": "transition",
+     "served_transitions_in_best_cycle": 20,
+     "gap": 57,
+     "in_cap": false,
+     "band": "41-80",
+     "category": "identity_mismatch",
+     "cofactors": [
+      "alternate_assertion_path"
+     ],
+     "assertion_sources": {
+      "loop_candidate": 9.0
+     },
+     "alternate_source": true,
+     "prediction_source": false,
+     "direct_replay_windows": 0,
+     "direct_committed_windows": 0,
+     "reverse_replay_windows": 41,
+     "reverse_committed_windows": 41,
+     "reverse_in_world": true,
+     "recording_gap_windows": 0,
+     "reverse_recording_gap_windows": 0,
+     "explanation": "The direct edge was served in no committed window, but `verdant>yarrow` (also a world edge) was served in 41. A symmetric loop/dream structure asserts both orientations."
+    }
+   ]
+  },
+  {
+   "seed": 20611604,
+   "asserted_world_edges": 34,
+   "asserted_fingerprint": "e8475dd16f9698e7",
+   "replay_world_served": 89,
+   "committed_world_served": 89,
+   "served_sets_match": true,
+   "categories": {
+    "alternate_assertion_path": 2
+   },
+   "rows": [
+    {
+     "seed": 20611604,
+     "edge": "amber>maple",
+     "rank": 35,
+     "best_cycle": 16,
+     "relation": "transition",
+     "served_transitions_in_best_cycle": 20,
+     "gap": 15,
+     "in_cap": true,
+     "band": "21-40",
+     "category": "alternate_assertion_path",
+     "cofactors": [],
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "alternate_source": true,
+     "prediction_source": false,
+     "direct_replay_windows": 0,
+     "direct_committed_windows": 0,
+     "reverse_replay_windows": 0,
+     "reverse_committed_windows": 0,
+     "reverse_in_world": true,
+     "recording_gap_windows": 0,
+     "reverse_recording_gap_windows": 0,
+     "explanation": "Neither orientation was served; the edge is carried by loop_candidate, which asserts structures independently of the prediction window."
+    },
+    {
+     "seed": 20611604,
+     "edge": "maple>amber",
+     "rank": 41,
+     "best_cycle": 81,
+     "relation": "transition",
+     "served_transitions_in_best_cycle": 20,
+     "gap": 21,
+     "in_cap": false,
+     "band": "41-80",
+     "category": "alternate_assertion_path",
+     "cofactors": [],
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "alternate_source": true,
+     "prediction_source": false,
+     "direct_replay_windows": 0,
+     "direct_committed_windows": 0,
+     "reverse_replay_windows": 0,
+     "reverse_committed_windows": 0,
+     "reverse_in_world": true,
+     "recording_gap_windows": 0,
+     "reverse_recording_gap_windows": 0,
+     "explanation": "Neither orientation was served; the edge is carried by loop_candidate, which asserts structures independently of the prediction window."
+    }
+   ]
+  },
+  {
+   "seed": 20611605,
+   "asserted_world_edges": 36,
+   "asserted_fingerprint": "79f5979592b76711",
+   "replay_world_served": 76,
+   "committed_world_served": 76,
+   "served_sets_match": true,
+   "categories": {
+    "identity_mismatch": 3
+   },
+   "rows": [
+    {
+     "seed": 20611605,
+     "edge": "amber>birch",
+     "rank": 22,
+     "best_cycle": 31,
+     "relation": "transition",
+     "served_transitions_in_best_cycle": 20,
+     "gap": 2,
+     "in_cap": true,
+     "band": "21-40",
+     "category": "identity_mismatch",
+     "cofactors": [
+      "alternate_assertion_path"
+     ],
+     "assertion_sources": {
+      "loop_candidate": 3.0
+     },
+     "alternate_source": true,
+     "prediction_source": false,
+     "direct_replay_windows": 0,
+     "direct_committed_windows": 0,
+     "reverse_replay_windows": 23,
+     "reverse_committed_windows": 23,
+     "reverse_in_world": true,
+     "recording_gap_windows": 0,
+     "reverse_recording_gap_windows": 0,
+     "explanation": "The direct edge was served in no committed window, but `birch>amber` (also a world edge) was served in 23. A symmetric loop/dream structure asserts both orientations."
+    },
+    {
+     "seed": 20611605,
+     "edge": "sable>birch",
+     "rank": 31,
+     "best_cycle": 12,
+     "relation": "transition",
+     "served_transitions_in_best_cycle": 20,
+     "gap": 11,
+     "in_cap": true,
+     "band": "21-40",
+     "category": "identity_mismatch",
+     "cofactors": [
+      "alternate_assertion_path"
+     ],
+     "assertion_sources": {
+      "loop_candidate": 7.0
+     },
+     "alternate_source": true,
+     "prediction_source": false,
+     "direct_replay_windows": 0,
+     "direct_committed_windows": 0,
+     "reverse_replay_windows": 24,
+     "reverse_committed_windows": 24,
+     "reverse_in_world": true,
+     "recording_gap_windows": 0,
+     "reverse_recording_gap_windows": 0,
+     "explanation": "The direct edge was served in no committed window, but `birch>sable` (also a world edge) was served in 24. A symmetric loop/dream structure asserts both orientations."
+    },
+    {
+     "seed": 20611605,
+     "edge": "sable>teal",
+     "rank": 81,
+     "best_cycle": 19,
+     "relation": "transition",
+     "served_transitions_in_best_cycle": 20,
+     "gap": 61,
+     "in_cap": false,
+     "band": "81-112",
+     "category": "identity_mismatch",
+     "cofactors": [
+      "alternate_assertion_path"
+     ],
+     "assertion_sources": {
+      "loop_candidate": 5.0
+     },
+     "alternate_source": true,
+     "prediction_source": false,
+     "direct_replay_windows": 0,
+     "direct_committed_windows": 0,
+     "reverse_replay_windows": 68,
+     "reverse_committed_windows": 68,
+     "reverse_in_world": true,
+     "recording_gap_windows": 0,
+     "reverse_recording_gap_windows": 0,
+     "explanation": "The direct edge was served in no committed window, but `teal>sable` (also a world edge) was served in 68. A symmetric loop/dream structure asserts both orientations."
+    }
+   ]
+  },
+  {
+   "seed": 20611606,
+   "asserted_world_edges": 51,
+   "asserted_fingerprint": "6fc0f21cf1811b80",
+   "replay_world_served": 96,
+   "committed_world_served": 96,
+   "served_sets_match": true,
+   "categories": {
+    "identity_mismatch": 4
+   },
+   "rows": [
+    {
+     "seed": 20611606,
+     "edge": "crimson>teal",
+     "rank": 27,
+     "best_cycle": 31,
+     "relation": "transition",
+     "served_transitions_in_best_cycle": 20,
+     "gap": 7,
+     "in_cap": true,
+     "band": "21-40",
+     "category": "identity_mismatch",
+     "cofactors": [
+      "alternate_assertion_path"
+     ],
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "alternate_source": true,
+     "prediction_source": false,
+     "direct_replay_windows": 0,
+     "direct_committed_windows": 0,
+     "reverse_replay_windows": 4,
+     "reverse_committed_windows": 4,
+     "reverse_in_world": true,
+     "recording_gap_windows": 0,
+     "reverse_recording_gap_windows": 0,
+     "explanation": "The direct edge was served in no committed window, but `teal>crimson` (also a world edge) was served in 4. A symmetric loop/dream structure asserts both orientations."
+    },
+    {
+     "seed": 20611606,
+     "edge": "ochre>amber",
+     "rank": 82,
+     "best_cycle": 120,
+     "relation": "transition",
+     "served_transitions_in_best_cycle": 20,
+     "gap": 62,
+     "in_cap": false,
+     "band": "81-112",
+     "category": "identity_mismatch",
+     "cofactors": [
+      "alternate_assertion_path"
+     ],
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "alternate_source": true,
+     "prediction_source": false,
+     "direct_replay_windows": 0,
+     "direct_committed_windows": 0,
+     "reverse_replay_windows": 27,
+     "reverse_committed_windows": 27,
+     "reverse_in_world": true,
+     "recording_gap_windows": 0,
+     "reverse_recording_gap_windows": 0,
+     "explanation": "The direct edge was served in no committed window, but `amber>ochre` (also a world edge) was served in 27. A symmetric loop/dream structure asserts both orientations."
+    },
+    {
+     "seed": 20611606,
+     "edge": "teal>amber",
+     "rank": 51,
+     "best_cycle": 28,
+     "relation": "transition",
+     "served_transitions_in_best_cycle": 20,
+     "gap": 31,
+     "in_cap": false,
+     "band": "41-80",
+     "category": "identity_mismatch",
+     "cofactors": [
+      "alternate_assertion_path"
+     ],
+     "assertion_sources": {
+      "loop_candidate": 4.0
+     },
+     "alternate_source": true,
+     "prediction_source": false,
+     "direct_replay_windows": 0,
+     "direct_committed_windows": 0,
+     "reverse_replay_windows": 28,
+     "reverse_committed_windows": 28,
+     "reverse_in_world": true,
+     "recording_gap_windows": 0,
+     "reverse_recording_gap_windows": 0,
+     "explanation": "The direct edge was served in no committed window, but `amber>teal` (also a world edge) was served in 28. A symmetric loop/dream structure asserts both orientations."
+    },
+    {
+     "seed": 20611606,
+     "edge": "teal>willow",
+     "rank": 50,
+     "best_cycle": 28,
+     "relation": "transition",
+     "served_transitions_in_best_cycle": 20,
+     "gap": 30,
+     "in_cap": false,
+     "band": "41-80",
+     "category": "identity_mismatch",
+     "cofactors": [
+      "alternate_assertion_path"
+     ],
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "alternate_source": true,
+     "prediction_source": false,
+     "direct_replay_windows": 0,
+     "direct_committed_windows": 0,
+     "reverse_replay_windows": 2,
+     "reverse_committed_windows": 2,
+     "reverse_in_world": true,
+     "recording_gap_windows": 0,
+     "reverse_recording_gap_windows": 0,
+     "explanation": "The direct edge was served in no committed window, but `willow>teal` (also a world edge) was served in 2. A symmetric loop/dream structure asserts both orientations."
+    }
+   ]
+  }
+ ],
+ "rows": [
+  {
+   "seed": 20611601,
+   "edge": "olive>umber",
+   "rank": 31,
+   "best_cycle": 15,
+   "relation": "transition",
+   "served_transitions_in_best_cycle": 20,
+   "gap": 11,
+   "in_cap": true,
+   "band": "21-40",
+   "category": "identity_mismatch",
+   "cofactors": [
+    "alternate_assertion_path"
+   ],
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "alternate_source": true,
+   "prediction_source": false,
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_replay_windows": 1,
+   "reverse_committed_windows": 1,
+   "reverse_in_world": true,
+   "recording_gap_windows": 0,
+   "reverse_recording_gap_windows": 0,
+   "explanation": "The direct edge was served in no committed window, but `umber>olive` (also a world edge) was served in 1. A symmetric loop/dream structure asserts both orientations."
+  },
+  {
+   "seed": 20611601,
+   "edge": "olive>willow",
+   "rank": 39,
+   "best_cycle": 104,
+   "relation": "transition",
+   "served_transitions_in_best_cycle": 20,
+   "gap": 19,
+   "in_cap": true,
+   "band": "21-40",
+   "category": "alternate_assertion_path",
+   "cofactors": [],
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "alternate_source": true,
+   "prediction_source": false,
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_replay_windows": 0,
+   "reverse_committed_windows": 0,
+   "reverse_in_world": true,
+   "recording_gap_windows": 0,
+   "reverse_recording_gap_windows": 0,
+   "explanation": "Neither orientation was served; the edge is carried by loop_candidate, which asserts structures independently of the prediction window."
+  },
+  {
+   "seed": 20611601,
+   "edge": "willow>olive",
+   "rank": 127,
+   "best_cycle": 116,
+   "relation": "transition",
+   "served_transitions_in_best_cycle": 20,
+   "gap": 107,
+   "in_cap": false,
+   "band": "113+",
+   "category": "alternate_assertion_path",
+   "cofactors": [],
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "alternate_source": true,
+   "prediction_source": false,
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_replay_windows": 0,
+   "reverse_committed_windows": 0,
+   "reverse_in_world": true,
+   "recording_gap_windows": 0,
+   "reverse_recording_gap_windows": 0,
+   "explanation": "Neither orientation was served; the edge is carried by loop_candidate, which asserts structures independently of the prediction window."
+  },
+  {
+   "seed": 20611601,
+   "edge": "willow>teal",
+   "rank": 124,
+   "best_cycle": 116,
+   "relation": "transition",
+   "served_transitions_in_best_cycle": 20,
+   "gap": 104,
+   "in_cap": false,
+   "band": "113+",
+   "category": "identity_mismatch",
+   "cofactors": [
+    "alternate_assertion_path"
+   ],
+   "assertion_sources": {
+    "loop_candidate": 5.0
+   },
+   "alternate_source": true,
+   "prediction_source": false,
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_replay_windows": 46,
+   "reverse_committed_windows": 46,
+   "reverse_in_world": true,
+   "recording_gap_windows": 0,
+   "reverse_recording_gap_windows": 0,
+   "explanation": "The direct edge was served in no committed window, but `teal>willow` (also a world edge) was served in 46. A symmetric loop/dream structure asserts both orientations."
+  },
+  {
+   "seed": 20611602,
+   "edge": "amber>umber",
+   "rank": 61,
+   "best_cycle": 81,
+   "relation": "transition",
+   "served_transitions_in_best_cycle": 20,
+   "gap": 41,
+   "in_cap": false,
+   "band": "41-80",
+   "category": "identity_mismatch",
+   "cofactors": [
+    "alternate_assertion_path"
+   ],
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "alternate_source": true,
+   "prediction_source": false,
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_replay_windows": 55,
+   "reverse_committed_windows": 55,
+   "reverse_in_world": true,
+   "recording_gap_windows": 0,
+   "reverse_recording_gap_windows": 0,
+   "explanation": "The direct edge was served in no committed window, but `umber>amber` (also a world edge) was served in 55. A symmetric loop/dream structure asserts both orientations."
+  },
+  {
+   "seed": 20611602,
+   "edge": "indigo>umber",
+   "rank": 52,
+   "best_cycle": 31,
+   "relation": "transition",
+   "served_transitions_in_best_cycle": 20,
+   "gap": 32,
+   "in_cap": false,
+   "band": "41-80",
+   "category": "identity_mismatch",
+   "cofactors": [
+    "alternate_assertion_path"
+   ],
+   "assertion_sources": {
+    "loop_candidate": 3.0
+   },
+   "alternate_source": true,
+   "prediction_source": false,
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_replay_windows": 56,
+   "reverse_committed_windows": 56,
+   "reverse_in_world": true,
+   "recording_gap_windows": 0,
+   "reverse_recording_gap_windows": 0,
+   "explanation": "The direct edge was served in no committed window, but `umber>indigo` (also a world edge) was served in 56. A symmetric loop/dream structure asserts both orientations."
+  },
+  {
+   "seed": 20611602,
+   "edge": "sable>slate",
+   "rank": 26,
+   "best_cycle": 119,
+   "relation": "transition",
+   "served_transitions_in_best_cycle": 20,
+   "gap": 6,
+   "in_cap": true,
+   "band": "21-40",
+   "category": "identity_mismatch",
+   "cofactors": [
+    "alternate_assertion_path"
+   ],
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "alternate_source": true,
+   "prediction_source": false,
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_replay_windows": 3,
+   "reverse_committed_windows": 3,
+   "reverse_in_world": true,
+   "recording_gap_windows": 0,
+   "reverse_recording_gap_windows": 0,
+   "explanation": "The direct edge was served in no committed window, but `slate>sable` (also a world edge) was served in 3. A symmetric loop/dream structure asserts both orientations."
+  },
+  {
+   "seed": 20611602,
+   "edge": "willow>umber",
+   "rank": 54,
+   "best_cycle": 119,
+   "relation": "transition",
+   "served_transitions_in_best_cycle": 20,
+   "gap": 34,
+   "in_cap": false,
+   "band": "41-80",
+   "category": "identity_mismatch",
+   "cofactors": [
+    "alternate_assertion_path"
+   ],
+   "assertion_sources": {
+    "dream": 1.0,
+    "loop_candidate": 7.0
+   },
+   "alternate_source": true,
+   "prediction_source": false,
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_replay_windows": 55,
+   "reverse_committed_windows": 55,
+   "reverse_in_world": true,
+   "recording_gap_windows": 0,
+   "reverse_recording_gap_windows": 0,
+   "explanation": "The direct edge was served in no committed window, but `umber>willow` (also a world edge) was served in 55. A symmetric loop/dream structure asserts both orientations."
+  },
+  {
+   "seed": 20611603,
+   "edge": "sable>yarrow",
+   "rank": 111,
+   "best_cycle": 110,
+   "relation": "transition",
+   "served_transitions_in_best_cycle": 20,
+   "gap": 91,
+   "in_cap": false,
+   "band": "81-112",
+   "category": "alternate_assertion_path",
+   "cofactors": [],
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "alternate_source": true,
+   "prediction_source": false,
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_replay_windows": 0,
+   "reverse_committed_windows": 0,
+   "reverse_in_world": true,
+   "recording_gap_windows": 0,
+   "reverse_recording_gap_windows": 0,
+   "explanation": "Neither orientation was served; the edge is carried by loop_candidate, which asserts structures independently of the prediction window."
+  },
+  {
+   "seed": 20611603,
+   "edge": "slate>umber",
+   "rank": 27,
+   "best_cycle": 106,
+   "relation": "transition",
+   "served_transitions_in_best_cycle": 20,
+   "gap": 7,
+   "in_cap": true,
+   "band": "21-40",
+   "category": "identity_mismatch",
+   "cofactors": [
+    "alternate_assertion_path"
+   ],
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "alternate_source": true,
+   "prediction_source": false,
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_replay_windows": 3,
+   "reverse_committed_windows": 3,
+   "reverse_in_world": true,
+   "recording_gap_windows": 0,
+   "reverse_recording_gap_windows": 0,
+   "explanation": "The direct edge was served in no committed window, but `umber>slate` (also a world edge) was served in 3. A symmetric loop/dream structure asserts both orientations."
+  },
+  {
+   "seed": 20611603,
+   "edge": "slate>yarrow",
+   "rank": 26,
+   "best_cycle": 86,
+   "relation": "transition",
+   "served_transitions_in_best_cycle": 20,
+   "gap": 6,
+   "in_cap": true,
+   "band": "21-40",
+   "category": "alternate_assertion_path",
+   "cofactors": [],
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "alternate_source": true,
+   "prediction_source": false,
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_replay_windows": 0,
+   "reverse_committed_windows": 0,
+   "reverse_in_world": true,
+   "recording_gap_windows": 0,
+   "reverse_recording_gap_windows": 0,
+   "explanation": "Neither orientation was served; the edge is carried by loop_candidate, which asserts structures independently of the prediction window."
+  },
+  {
+   "seed": 20611603,
+   "edge": "umber>teal",
+   "rank": 28,
+   "best_cycle": 68,
+   "relation": "transition",
+   "served_transitions_in_best_cycle": 20,
+   "gap": 8,
+   "in_cap": true,
+   "band": "21-40",
+   "category": "identity_mismatch",
+   "cofactors": [
+    "alternate_assertion_path"
+   ],
+   "assertion_sources": {
+    "loop_candidate": 3.0
+   },
+   "alternate_source": true,
+   "prediction_source": false,
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_replay_windows": 26,
+   "reverse_committed_windows": 26,
+   "reverse_in_world": true,
+   "recording_gap_windows": 0,
+   "reverse_recording_gap_windows": 0,
+   "explanation": "The direct edge was served in no committed window, but `teal>umber` (also a world edge) was served in 26. A symmetric loop/dream structure asserts both orientations."
+  },
+  {
+   "seed": 20611603,
+   "edge": "willow>verdant",
+   "rank": 41,
+   "best_cycle": 84,
+   "relation": "transition",
+   "served_transitions_in_best_cycle": 20,
+   "gap": 21,
+   "in_cap": false,
+   "band": "41-80",
+   "category": "identity_mismatch",
+   "cofactors": [
+    "alternate_assertion_path"
+   ],
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "alternate_source": true,
+   "prediction_source": false,
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_replay_windows": 41,
+   "reverse_committed_windows": 41,
+   "reverse_in_world": true,
+   "recording_gap_windows": 0,
+   "reverse_recording_gap_windows": 0,
+   "explanation": "The direct edge was served in no committed window, but `verdant>willow` (also a world edge) was served in 41. A symmetric loop/dream structure asserts both orientations."
+  },
+  {
+   "seed": 20611603,
+   "edge": "yarrow>indigo",
+   "rank": 80,
+   "best_cycle": 107,
+   "relation": "transition",
+   "served_transitions_in_best_cycle": 20,
+   "gap": 60,
+   "in_cap": false,
+   "band": "41-80",
+   "category": "identity_mismatch",
+   "cofactors": [
+    "alternate_assertion_path"
+   ],
+   "assertion_sources": {
+    "loop_candidate": 2.0
+   },
+   "alternate_source": true,
+   "prediction_source": false,
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_replay_windows": 10,
+   "reverse_committed_windows": 10,
+   "reverse_in_world": true,
+   "recording_gap_windows": 0,
+   "reverse_recording_gap_windows": 0,
+   "explanation": "The direct edge was served in no committed window, but `indigo>yarrow` (also a world edge) was served in 10. A symmetric loop/dream structure asserts both orientations."
+  },
+  {
+   "seed": 20611603,
+   "edge": "yarrow>sable",
+   "rank": 79,
+   "best_cycle": 107,
+   "relation": "transition",
+   "served_transitions_in_best_cycle": 20,
+   "gap": 59,
+   "in_cap": false,
+   "band": "41-80",
+   "category": "alternate_assertion_path",
+   "cofactors": [],
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "alternate_source": true,
+   "prediction_source": false,
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_replay_windows": 0,
+   "reverse_committed_windows": 0,
+   "reverse_in_world": true,
+   "recording_gap_windows": 0,
+   "reverse_recording_gap_windows": 0,
+   "explanation": "Neither orientation was served; the edge is carried by loop_candidate, which asserts structures independently of the prediction window."
+  },
+  {
+   "seed": 20611603,
+   "edge": "yarrow>slate",
+   "rank": 81,
+   "best_cycle": 107,
+   "relation": "transition",
+   "served_transitions_in_best_cycle": 20,
+   "gap": 61,
+   "in_cap": false,
+   "band": "81-112",
+   "category": "alternate_assertion_path",
+   "cofactors": [],
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "alternate_source": true,
+   "prediction_source": false,
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_replay_windows": 0,
+   "reverse_committed_windows": 0,
+   "reverse_in_world": true,
+   "recording_gap_windows": 0,
+   "reverse_recording_gap_windows": 0,
+   "explanation": "Neither orientation was served; the edge is carried by loop_candidate, which asserts structures independently of the prediction window."
+  },
+  {
+   "seed": 20611603,
+   "edge": "yarrow>verdant",
+   "rank": 77,
+   "best_cycle": 107,
+   "relation": "transition",
+   "served_transitions_in_best_cycle": 20,
+   "gap": 57,
+   "in_cap": false,
+   "band": "41-80",
+   "category": "identity_mismatch",
+   "cofactors": [
+    "alternate_assertion_path"
+   ],
+   "assertion_sources": {
+    "loop_candidate": 9.0
+   },
+   "alternate_source": true,
+   "prediction_source": false,
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_replay_windows": 41,
+   "reverse_committed_windows": 41,
+   "reverse_in_world": true,
+   "recording_gap_windows": 0,
+   "reverse_recording_gap_windows": 0,
+   "explanation": "The direct edge was served in no committed window, but `verdant>yarrow` (also a world edge) was served in 41. A symmetric loop/dream structure asserts both orientations."
+  },
+  {
+   "seed": 20611604,
+   "edge": "amber>maple",
+   "rank": 35,
+   "best_cycle": 16,
+   "relation": "transition",
+   "served_transitions_in_best_cycle": 20,
+   "gap": 15,
+   "in_cap": true,
+   "band": "21-40",
+   "category": "alternate_assertion_path",
+   "cofactors": [],
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "alternate_source": true,
+   "prediction_source": false,
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_replay_windows": 0,
+   "reverse_committed_windows": 0,
+   "reverse_in_world": true,
+   "recording_gap_windows": 0,
+   "reverse_recording_gap_windows": 0,
+   "explanation": "Neither orientation was served; the edge is carried by loop_candidate, which asserts structures independently of the prediction window."
+  },
+  {
+   "seed": 20611604,
+   "edge": "maple>amber",
+   "rank": 41,
+   "best_cycle": 81,
+   "relation": "transition",
+   "served_transitions_in_best_cycle": 20,
+   "gap": 21,
+   "in_cap": false,
+   "band": "41-80",
+   "category": "alternate_assertion_path",
+   "cofactors": [],
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "alternate_source": true,
+   "prediction_source": false,
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_replay_windows": 0,
+   "reverse_committed_windows": 0,
+   "reverse_in_world": true,
+   "recording_gap_windows": 0,
+   "reverse_recording_gap_windows": 0,
+   "explanation": "Neither orientation was served; the edge is carried by loop_candidate, which asserts structures independently of the prediction window."
+  },
+  {
+   "seed": 20611605,
+   "edge": "amber>birch",
+   "rank": 22,
+   "best_cycle": 31,
+   "relation": "transition",
+   "served_transitions_in_best_cycle": 20,
+   "gap": 2,
+   "in_cap": true,
+   "band": "21-40",
+   "category": "identity_mismatch",
+   "cofactors": [
+    "alternate_assertion_path"
+   ],
+   "assertion_sources": {
+    "loop_candidate": 3.0
+   },
+   "alternate_source": true,
+   "prediction_source": false,
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_replay_windows": 23,
+   "reverse_committed_windows": 23,
+   "reverse_in_world": true,
+   "recording_gap_windows": 0,
+   "reverse_recording_gap_windows": 0,
+   "explanation": "The direct edge was served in no committed window, but `birch>amber` (also a world edge) was served in 23. A symmetric loop/dream structure asserts both orientations."
+  },
+  {
+   "seed": 20611605,
+   "edge": "sable>birch",
+   "rank": 31,
+   "best_cycle": 12,
+   "relation": "transition",
+   "served_transitions_in_best_cycle": 20,
+   "gap": 11,
+   "in_cap": true,
+   "band": "21-40",
+   "category": "identity_mismatch",
+   "cofactors": [
+    "alternate_assertion_path"
+   ],
+   "assertion_sources": {
+    "loop_candidate": 7.0
+   },
+   "alternate_source": true,
+   "prediction_source": false,
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_replay_windows": 24,
+   "reverse_committed_windows": 24,
+   "reverse_in_world": true,
+   "recording_gap_windows": 0,
+   "reverse_recording_gap_windows": 0,
+   "explanation": "The direct edge was served in no committed window, but `birch>sable` (also a world edge) was served in 24. A symmetric loop/dream structure asserts both orientations."
+  },
+  {
+   "seed": 20611605,
+   "edge": "sable>teal",
+   "rank": 81,
+   "best_cycle": 19,
+   "relation": "transition",
+   "served_transitions_in_best_cycle": 20,
+   "gap": 61,
+   "in_cap": false,
+   "band": "81-112",
+   "category": "identity_mismatch",
+   "cofactors": [
+    "alternate_assertion_path"
+   ],
+   "assertion_sources": {
+    "loop_candidate": 5.0
+   },
+   "alternate_source": true,
+   "prediction_source": false,
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_replay_windows": 68,
+   "reverse_committed_windows": 68,
+   "reverse_in_world": true,
+   "recording_gap_windows": 0,
+   "reverse_recording_gap_windows": 0,
+   "explanation": "The direct edge was served in no committed window, but `teal>sable` (also a world edge) was served in 68. A symmetric loop/dream structure asserts both orientations."
+  },
+  {
+   "seed": 20611606,
+   "edge": "crimson>teal",
+   "rank": 27,
+   "best_cycle": 31,
+   "relation": "transition",
+   "served_transitions_in_best_cycle": 20,
+   "gap": 7,
+   "in_cap": true,
+   "band": "21-40",
+   "category": "identity_mismatch",
+   "cofactors": [
+    "alternate_assertion_path"
+   ],
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "alternate_source": true,
+   "prediction_source": false,
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_replay_windows": 4,
+   "reverse_committed_windows": 4,
+   "reverse_in_world": true,
+   "recording_gap_windows": 0,
+   "reverse_recording_gap_windows": 0,
+   "explanation": "The direct edge was served in no committed window, but `teal>crimson` (also a world edge) was served in 4. A symmetric loop/dream structure asserts both orientations."
+  },
+  {
+   "seed": 20611606,
+   "edge": "ochre>amber",
+   "rank": 82,
+   "best_cycle": 120,
+   "relation": "transition",
+   "served_transitions_in_best_cycle": 20,
+   "gap": 62,
+   "in_cap": false,
+   "band": "81-112",
+   "category": "identity_mismatch",
+   "cofactors": [
+    "alternate_assertion_path"
+   ],
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "alternate_source": true,
+   "prediction_source": false,
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_replay_windows": 27,
+   "reverse_committed_windows": 27,
+   "reverse_in_world": true,
+   "recording_gap_windows": 0,
+   "reverse_recording_gap_windows": 0,
+   "explanation": "The direct edge was served in no committed window, but `amber>ochre` (also a world edge) was served in 27. A symmetric loop/dream structure asserts both orientations."
+  },
+  {
+   "seed": 20611606,
+   "edge": "teal>amber",
+   "rank": 51,
+   "best_cycle": 28,
+   "relation": "transition",
+   "served_transitions_in_best_cycle": 20,
+   "gap": 31,
+   "in_cap": false,
+   "band": "41-80",
+   "category": "identity_mismatch",
+   "cofactors": [
+    "alternate_assertion_path"
+   ],
+   "assertion_sources": {
+    "loop_candidate": 4.0
+   },
+   "alternate_source": true,
+   "prediction_source": false,
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_replay_windows": 28,
+   "reverse_committed_windows": 28,
+   "reverse_in_world": true,
+   "recording_gap_windows": 0,
+   "reverse_recording_gap_windows": 0,
+   "explanation": "The direct edge was served in no committed window, but `amber>teal` (also a world edge) was served in 28. A symmetric loop/dream structure asserts both orientations."
+  },
+  {
+   "seed": 20611606,
+   "edge": "teal>willow",
+   "rank": 50,
+   "best_cycle": 28,
+   "relation": "transition",
+   "served_transitions_in_best_cycle": 20,
+   "gap": 30,
+   "in_cap": false,
+   "band": "41-80",
+   "category": "identity_mismatch",
+   "cofactors": [
+    "alternate_assertion_path"
+   ],
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "alternate_source": true,
+   "prediction_source": false,
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_replay_windows": 2,
+   "reverse_committed_windows": 2,
+   "reverse_in_world": true,
+   "recording_gap_windows": 0,
+   "reverse_recording_gap_windows": 0,
+   "explanation": "The direct edge was served in no committed window, but `willow>teal` (also a world edge) was served in 2. A symmetric loop/dream structure asserts both orientations."
+  }
+ ],
+ "summary": {
+  "edges": 26,
+  "categories": {
+   "recording_gap": 0,
+   "identity_mismatch": 18,
+   "alternate_assertion_path": 8,
+   "assertion_without_service": 0
+  },
+  "recording_gap_windows": 0,
+  "reverse_recording_gap_windows": 0,
+  "reverse_served": 18,
+  "reverse_in_world": 26,
+  "direct_served": 0,
+  "no_reverse": 8,
+  "alternate_source": 26,
+  "prediction_source": 0,
+  "cofactor_alternate": 18,
+  "in_cap": 10,
+  "within_served_transitions": 0,
+  "category_by_seed": {
+   "20611601": {
+    "identity_mismatch": 2,
+    "alternate_assertion_path": 2
+   },
+   "20611602": {
+    "identity_mismatch": 4
+   },
+   "20611603": {
+    "alternate_assertion_path": 4,
+    "identity_mismatch": 5
+   },
+   "20611604": {
+    "alternate_assertion_path": 2
+   },
+   "20611605": {
+    "identity_mismatch": 3
+   },
+   "20611606": {
+    "identity_mismatch": 4
+   }
+  }
+ },
+ "controls": [
+  {
+   "name": "recording_gap_control",
+   "direct_replay_windows": 3,
+   "direct_committed_windows": 0,
+   "reverse_committed_windows": 0,
+   "assertion_sources": {
+    "prediction_candidate": 1.0
+   },
+   "category": "recording_gap"
+  },
+  {
+   "name": "identity_mismatch_control",
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_committed_windows": 2,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "category": "identity_mismatch"
+  },
+  {
+   "name": "alternate_path_control",
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_committed_windows": 0,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "category": "alternate_assertion_path"
+  },
+  {
+   "name": "prediction_residual_control",
+   "direct_replay_windows": 0,
+   "direct_committed_windows": 0,
+   "reverse_committed_windows": 0,
+   "assertion_sources": {
+    "prediction_candidate": 1.0
+   },
+   "category": "assertion_without_service"
+  }
+ ],
+ "findings": [
+  "All 26 edges reproduce their stored asserted fingerprint, and every seed's replay served-world set equals the committed N3 served set: no recording gap was observed.",
+  "18 edges have their endpoint pair served only in the reverse orientation; the reverse is itself a world edge, and the loop/dream readout is symmetric, so these are orientation/identity mismatches in the direct record, not proof that the directed edge was served.",
+  "8 edges were served in neither orientation and are carried by loop/dream structures: alternate assertion paths.",
+  "0 edges are carried only by a prediction candidate: the genuine assertion-without-service residual is empty on this block."
+ ],
+ "not_evidence": "A provenance classification of one readout on six seeds, one world family, one build and one cap. It does not show why loop/dream structures carry these pairs, whether serving them would change A_W, or that any engine change is warranted. The reverse-orientation bucket is a record-identity description, not an engine defect.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__"
+}

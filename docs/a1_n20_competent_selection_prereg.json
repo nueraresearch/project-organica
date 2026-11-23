@@ -1,0 +1,124 @@
+{
+  "kind": "a1_n20_competent_selection_prereg",
+  "id": "A1-N20-COMPETENT-1",
+  "date": "2026-11-14",
+  "status": "DRAFT \u2014 RULE PRE-REGISTERED, NOT FROZEN, NOT APPLIED, NOT RUN, NO GRANT",
+  "source_artifacts": {
+    "design_viability": "docs/a1_design_viability.json",
+    "target_viability": "docs/a1_target_viability.json",
+    "target_selection": "docs/a1_target_selection.json",
+    "baseline_availability": "docs/a1_baseline_availability.json"
+  },
+  "parent_records": {
+    "target_selection": "docs/A1-TARGET-SELECTION-PROTOCOL.md",
+    "c8_expansion": "docs/A1-C8-EXPANSION.md",
+    "c7_c8_unit": "docs/A1-C7-C8-DENOMINATOR.md"
+  },
+  "rule": {
+    "id": "A1-N20-COMPETENT-1",
+    "n_per_seed": 20,
+    "cycles": 120,
+    "u_cycle": 36,
+    "candidate_universe": "The first 36 acquisition cycles, one orientation per candidate, with positive cycle-36 U strength and cycle membership.",
+    "competence_screen": "Both baseline A and baseline K must be true in the no-arm A+K+ replay. A row missing either path is ineligible; there is no fallback to a non-competent row.",
+    "selection_order": "Force the current N4 targets that pass the competence screen. Then visit the remaining eligible edges in ascending sha256('A1-N20-COMPETENT-1|seed|source>target') order and accept an edge only when both endpoint caps remain and the residual graph still admits enough edges to reach 20. The result is the lexicographically earliest 20-edge b-matching, not a first-fit greedy pass. The hash is blind to U magnitude, treatment outputs, reports and outcomes.",
+    "endpoint_degree_cap": 3,
+    "overlap": "permitted; each tag may appear in at most three selected edges",
+    "failure_rule": "If fewer than 20 eligible rows can be selected after the degree cap, that seed fails and the block is not run. Do not add non-competent rows, relax the cap, or re-select after seeing treatment data.",
+    "preserves_current_n4": "Only the current N4 targets that pass the competence screen. The carrier-missing N4 rows are deliberately dropped; this is a replacement N20 block, not a superset of the current N4 set.",
+    "selection_performed": false,
+    "targets_selected": 0,
+    "frozen": false,
+    "granted": false,
+    "run": false
+  },
+  "feasibility": {
+    "per_seed": [
+      {
+        "seed": 20630101,
+        "competent_candidates": 32,
+        "required_rows": 20,
+        "current_n4_competent": 2,
+        "forced_current_n4": 2,
+        "current_n4_dropped": 2,
+        "max_cap_matching": 32,
+        "new_rows_needed": 18,
+        "feasible": true
+      },
+      {
+        "seed": 20630102,
+        "competent_candidates": 23,
+        "required_rows": 20,
+        "current_n4_competent": 3,
+        "forced_current_n4": 3,
+        "current_n4_dropped": 1,
+        "max_cap_matching": 23,
+        "new_rows_needed": 17,
+        "feasible": true
+      },
+      {
+        "seed": 20630103,
+        "competent_candidates": 36,
+        "required_rows": 20,
+        "current_n4_competent": 3,
+        "forced_current_n4": 3,
+        "current_n4_dropped": 1,
+        "max_cap_matching": 36,
+        "new_rows_needed": 17,
+        "feasible": true
+      },
+      {
+        "seed": 20630104,
+        "competent_candidates": 27,
+        "required_rows": 20,
+        "current_n4_competent": 1,
+        "forced_current_n4": 1,
+        "current_n4_dropped": 3,
+        "max_cap_matching": 27,
+        "new_rows_needed": 19,
+        "feasible": true
+      },
+      {
+        "seed": 20630105,
+        "competent_candidates": 35,
+        "required_rows": 20,
+        "current_n4_competent": 2,
+        "forced_current_n4": 2,
+        "current_n4_dropped": 2,
+        "max_cap_matching": 35,
+        "new_rows_needed": 18,
+        "feasible": true
+      },
+      {
+        "seed": 20630106,
+        "competent_candidates": 33,
+        "required_rows": 20,
+        "current_n4_competent": 1,
+        "forced_current_n4": 1,
+        "current_n4_dropped": 3,
+        "max_cap_matching": 33,
+        "new_rows_needed": 19,
+        "feasible": true
+      }
+    ],
+    "min_competent_candidates": 23,
+    "max_competent_candidates": 36,
+    "min_max_cap_matching": 23,
+    "max_max_cap_matching": 36,
+    "seeds_feasible": 6,
+    "seeds_infeasible": 0,
+    "current_n4_competent": 12,
+    "current_n4_dropped": 12,
+    "expected_new_rows": 108,
+    "conclusion": "A capacity-respecting b-matching with the current competent N4 rows forced reaches at least 20 on all six seeds: 23-36 A&K-available candidates per seed, and a maximum matching of 23-36 rows under the three-edge endpoint cap. The current N4 block contributes only 12 of its 24 rows; the other 12 are carrier- or admission-missing and are dropped. Existence is not a selected target set, a freeze or a result."
+  },
+  "consequences": {
+    "c2": "All selected rows are baseline A/K-competent under the stated reading. Exact C2 remains a treatment measurement; this rule removes the baseline-ineligible rows rather than proving C2 will pass.",
+    "c8": "20 rows give a 1/20 = 0.05 step at the unchanged 0.05 ceiling; one assertion is at the ceiling and two exceed it. The C8 threshold is not changed.",
+    "c1": "Unaffected. C1's full-stream K availability remains 31-44 against the 60-row floor; a competent target block cannot repair the denominator.",
+    "estimand": "Changes the target population from representative eligible edges to baseline-competent edges. It is a new estimand and cannot be described as a repair of the current representative target set.",
+    "blindness": "The screen uses no treatment output and no report field. It is pre-treatment, but it is not future-blind to the 120-cycle no-arm baseline. That limitation is part of the rule."
+  },
+  "disposition": "This is a draft rule only. It is not adopted, not frozen, not applied and not run. Adopting it requires a separate target-freeze act and a separate dated grant; it does not change the current N4 manifest or authorise an N20 cell.",
+  "not_evidence": "A pre-registered selection rule and a feasibility count over existing no-arm artifacts. No target edge is selected, no target is frozen, no grant exists, no A1 cell runs and no C2/C8 result is measured."
+}

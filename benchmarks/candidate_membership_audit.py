@@ -57,6 +57,7 @@ if str(REPO) not in sys.path:
 
 from benchmarks import formation_utilization as fu          # noqa: E402
 from organica.memory import MemoryService                    # noqa: E402
+from benchmarks import engine_stamp
 
 #: The eight seeds whose D0 reproduction failed, with the limbs that failed.
 #: Source: ``docs/USE-PATH-AUDIT.md`` section 2 and
@@ -333,7 +334,7 @@ def run_worker(task: str, seed: int, out_path: Path) -> dict[str, Any]:
         "windows": windows,
     }
     with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(payload, f)
+        json.dump(engine_stamp.stamp(payload), f)
     return payload
 
 
@@ -1122,7 +1123,7 @@ def main(argv: list[str] | None = None) -> int:
         specs.append(CONTROL_SEED)
     hash_seeds = parse_hash_seeds(args.hash_seeds)
     artifact = build(specs, hash_seeds, args.workers, force=False)
-    ARTIFACT.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+    ARTIFACT.write_text(json.dumps(engine_stamp.stamp(artifact), indent=2) + "\n", encoding="utf-8")
     DOC.write_text(render(artifact), encoding="utf-8")
     print("wrote %s and %s" % (ARTIFACT, DOC))
     return 0

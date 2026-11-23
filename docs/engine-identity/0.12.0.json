@@ -1,0 +1,66 @@
+{
+ "version": "0.12.0",
+ "tag": "v0.12.0",
+ "commit": "5804e609e5978bb6437da79827f14002b006457a",
+ "recorded_at": "2026-11-06",
+ "engine_root": "organica",
+ "note": "Identity of the released engine: every organica module's blob at the tag and its sha256. tests/test_engine_identity.py fails if a working-tree module differs, and if a module is added without a new identity record.",
+ "files": {
+  "organica/__init__.py": {
+   "git_blob": "6ed9644436f852790e92799b16746ccb251af7ae",
+   "sha256": "e64e97a3ec6de915123dd2821acd419b2c0e5414f7ae5d4a6de78621efd7ce75"
+  },
+  "organica/branch_streams.py": {
+   "git_blob": "65fb0513c6c4cd8bd7778586540e8e442a636907",
+   "sha256": "e466ae55d3075fe4d31c88d22402a0f6df80ff73c97ff61143870e22d9b8c29f"
+  },
+  "organica/candidates.py": {
+   "git_blob": "9405e4920adb20694ef3c13613de669dce1f4c4c",
+   "sha256": "a91d58b325b69ecaef9ab7fe9a1f006538a6d7418110c0a053eb8ceb36722d3a"
+  },
+  "organica/environment.py": {
+   "git_blob": "48e3815a317c3c57dc5ac086aa4e3928a8a6d679",
+   "sha256": "63aff73afcb9ee2ce5e93aeb8502e7d09ba9be850dec0008dd7770c6c69c99dd"
+  },
+  "organica/ground_truth_worlds.py": {
+   "git_blob": "58d72f99eece28943e269d86cdea2ddd33169de1",
+   "sha256": "6269ed21645372f8a7098a636643c1cb63fb85fdac9197b2c03df4877d9ee8bd"
+  },
+  "organica/memory.py": {
+   "git_blob": "7e8419f9dbc7476d3bb796a5accad3a2a4425e22",
+   "sha256": "dd40cce387ac668d9c3acf1675f4ffb0abf80a70a9a990999da68fe002775465"
+  },
+  "organica/paths.py": {
+   "git_blob": "75ec4c0e027b272ca5cf6f118e7ca78d2702f295",
+   "sha256": "0ae01842d788b408e3eb6a6f3e468cd4838de004939bb956a2dd72ffd0217e78"
+  },
+  "organica/scale_streams.py": {
+   "git_blob": "571c3aff05cbef6af1a346fd38864ea305b0f5f5",
+   "sha256": "ac84794f053635423e24afab7e493fdd520c5df38b1d3b5a407f5d0c773405db"
+  },
+  "organica/sleep.py": {
+   "git_blob": "648abc1bd6da308e72bee6ff1e9a0a1233cd6600",
+   "sha256": "a1451ca4518f3a6758f4ed1f37fc37beba2ef25b9ce3a4e71e86cc33f271a75d"
+  },
+  "organica/sleep_extraction.py": {
+   "git_blob": "fff9028a77421cd8e00e962bcbbd5f5222fc1688",
+   "sha256": "96546edab6f138042c80ea88bedce4eee79f65086825f475b2e917d024407000"
+  },
+  "organica/sleep_inquiry.py": {
+   "git_blob": "c3c1fa1b5e79627dc0aeb039bc6e2f932f6349c7",
+   "sha256": "90eb625055c9c5fe2a2a910482fb0579d5dabf592e6c32028949937d11512c4c"
+  },
+  "organica/sleep_selection.py": {
+   "git_blob": "73653f36f35552972f36a2d4ef806d2d6f827cc0",
+   "sha256": "3741bd07776942719344cd64962bf819e9933596f3e3b2d8271b4e569098c868"
+  },
+  "organica/sleep_synthesis.py": {
+   "git_blob": "d4491ea77dde9b85753d02f520c5f1800da8194e",
+   "sha256": "69e6c0b6404a6cd68bdf1b19e427731f6e3b41f677543934e29ac2c5f779f533"
+  },
+  "organica/streams.py": {
+   "git_blob": "7daa6e1df5905774ef827df30dd19340eb6464d2",
+   "sha256": "8fc956ed3f6d03b81900e5ae72b8e016982384f2644945782aa25e6a0865aa2b"
+  }
+ }
+}

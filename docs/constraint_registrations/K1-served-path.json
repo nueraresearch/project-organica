@@ -1,0 +1,29 @@
+{
+ "kind": "constraint_registration",
+ "id": "CONSTRAINT-K1-1",
+ "constraint": "K1 - incremental world modeling reversed",
+ "status": "registered",
+ "status_date": "2026-11-19",
+ "intervention": "Force incremental updates into the served set, in-process, with no frozen-engine edit.",
+ "endpoint": "paired K1 difference (Organica minus the strongest-of-grid baseline) on the ten K1 seeds, with its 98.33% interval",
+ "comparator": "strongest-of-grid simple baseline, best configuration per seed",
+ "seed_block": "Phase K K1 seeds 20261023-20261032",
+ "decision_threshold": {
+  "pass": "K1 paired difference improves by at least 0.10 relative to the 0.15.0 pre-intervention -0.623961 gap, and the K2 and K3 paired differences change by no more than 0.05 absolute.",
+  "fail": "K1 improves by less than 0.05, or a guard family changes by more than 0.05 absolute.",
+  "inconclusive": "K1 improvement is between 0.05 and 0.10, or the registration's audit/validity condition fails."
+ },
+ "threshold_values": {
+  "baseline_gap": -0.623961,
+  "pass_min_improvement": 0.10,
+  "pass_max_k1_abs_change": 0.05,
+  "fail_below_improvement": 0.05,
+  "inconclusive_min_improvement": 0.05,
+  "inconclusive_max_improvement": 0.10
+ },
+ "threshold_rule": "These are pre-registered provisional thresholds, not values estimated from the intervention run. The baseline is the same-build 0.15.0 K1 gap measured by the 2026-11-19 replication, not the 0.9.0 -0.3437 value. Improvement is the post-intervention K1 difference minus baseline_gap.",
+ "guard": "K2 and K3 paired differences; the legacy pass_max_k1_abs_change key carries the guard's 0.05 bound in this registration.",
+ "selection_observability": "The audit trace reconstructs the selection contest externally under the salience policy. If the forced-set selection point is not observable on the arm's build, the intervention did not occur and the arm is VOID, not a null result.",
+ "feasibility_review": "docs/K1-IMPLEMENTABILITY-REVIEW.md (2026-11-19). The intervention point is overridable in-process without an engine edit, but on 0.15.0 the forced set is already served (recall 1.000 on all ten seeds) and the selection point this registration names is not the one the audit trace reconstructs, so selection_observability already fires. No grant should be considered until the hypothesis is re-scoped to the deficit 0.15.0 has. This pointer adds no term, threshold, seed, grant or cell.",
+ "does_not_allocate": "This registration allocates no seed, cell, grant or result; it makes K1 eligible to be in-test. No cell may run without a dated owner grant."
+}

@@ -34,6 +34,7 @@ from organica.memory import MemoryService           # noqa: E402
 from organica.sleep import SleepService             # noqa: E402
 from organica.streams import EVENTS_PER_CYCLE, STUDY_STREAM  # noqa: E402
 from organica.paths import temp_db                  # noqa: E402
+from benchmarks import engine_stamp
 
 
 class Traced(SleepService):
@@ -130,11 +131,11 @@ def main() -> None:
         sys.stdout.flush()
 
     p = Path(args.out)
-    p.write_text(json.dumps({
+    p.write_text(json.dumps(engine_stamp.stamp({
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "cycles": args.cycles,
         "rows": out_rows,
-    }, indent=2), encoding="utf-8")
+    }), indent=2), encoding="utf-8")
     print(f"\nwrote {p}")
 
 

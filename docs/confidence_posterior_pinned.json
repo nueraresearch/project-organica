@@ -1,0 +1,32 @@
+{
+  "stream": "real_git_history",
+  "corpus_events": 328,
+  "corpus_sha256": "a8bd3d3afcfae25a5cbddf8dcf6763e40321303741a124f6e54c4b14ac53b270",
+  "confidence_level_mismatches": [],
+  "arms": {
+    "share": {
+      "cells": 12,
+      "g5": 0,
+      "median_confidence": 0.44584999999999997,
+      "median_beliefs": 4.0
+    },
+    "share_reimplemented": {
+      "cells": 12,
+      "g5": 0,
+      "median_confidence": 0.44584999999999997,
+      "median_beliefs": 4.0
+    },
+    "jeffreys": {
+      "cells": 12,
+      "g5": 0,
+      "median_confidence": 0.44584999999999997,
+      "median_beliefs": 4.0
+    },
+    "laplace": {
+      "cells": 12,
+      "g5": 0,
+      "median_confidence": 0.44584999999999997,
+      "median_beliefs": 4.0
+    }
+  }
+}

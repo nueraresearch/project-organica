@@ -1,0 +1,392 @@
+{
+  "kind": "a1_competence_adopted",
+  "id": "A1-COMPETENCE-ADOPTED-1",
+  "date": "2026-11-15",
+  "status": "MEASURED \u2014 NO SEED SUPPLIES A CLEAN BLOCK UNDER THE CURRENT SELECTION; THE COMPETENT POOL DOES",
+  "block": 2074,
+  "seed_block": [
+    20740101,
+    20740102,
+    20740103,
+    20740104,
+    20740105,
+    20740106
+  ],
+  "seed_block_note": "the reserved A1-TWO-PATH-1 candidate block; this record names it and measures it only from committed no-arm artifacts",
+  "source_artifacts": {
+    "availability": "docs/a1_baseline_availability_adopted.json",
+    "n4_selection": "docs/a1_target_selection.json",
+    "n20_selection": "docs/a1_c8_target_selection.json"
+  },
+  "reading": {
+    "definition": "a row is competent when both baseline paths, A and K, are present at the recorded no-arm baseline for that directed edge",
+    "induction_caveat": "C2 is a treatment gate, not a no-arm gate. The no-arm baseline cannot show that a missing path stays missing under A- or K+ treatment, so these counts are a conditional target-selection incompatibility and not a proof that C2 or C8 must fail.",
+    "inherited_from": "docs/A1-DESIGN-VIABILITY.md (c2_c8_competence)"
+  },
+  "N4": {
+    "required_per_seed": 4,
+    "rows": 24,
+    "competent": 12,
+    "per_seed_min": 0,
+    "per_seed_max": 3,
+    "seeds_with_clean_block": 0,
+    "seeds": 6
+  },
+  "N20": {
+    "required_per_seed": 20,
+    "rows": 120,
+    "competent": 58,
+    "per_seed_min": 7,
+    "per_seed_max": 13,
+    "seeds_with_clean_block": 0,
+    "seeds": 6
+  },
+  "competent_pool": {
+    "per_seed_min": 27,
+    "per_seed_max": 40,
+    "required_for_N20": 20,
+    "sufficient_on_every_seed": true
+  },
+  "per_seed": [
+    {
+      "seed": 20740101,
+      "universe": 64,
+      "N4": {
+        "selected": 4,
+        "competent": 3,
+        "non_competent": [
+          "teal>slate"
+        ],
+        "unrecorded": [],
+        "competent_edges": [
+          "indigo>fern",
+          "maple>cedar",
+          "verdant>umber"
+        ],
+        "required": 4,
+        "shortfall": 1,
+        "clean_block_possible": false
+      },
+      "N20": {
+        "selected": 20,
+        "competent": 10,
+        "non_competent": [
+          "teal>slate",
+          "slate>birch",
+          "fern>yarrow",
+          "indigo>maple",
+          "cedar>sable",
+          "verdant>olive",
+          "umber>birch",
+          "amber>olive",
+          "yarrow>slate",
+          "ochre>crimson"
+        ],
+        "unrecorded": [],
+        "competent_edges": [
+          "indigo>fern",
+          "maple>cedar",
+          "umber>cedar",
+          "verdant>umber",
+          "crimson>sable",
+          "indigo>olive",
+          "sable>verdant",
+          "birch>fern",
+          "crimson>maple",
+          "teal>willow"
+        ],
+        "required": 20,
+        "shortfall": 10,
+        "clean_block_possible": false,
+        "off_universe": []
+      },
+      "competent_pool": 38,
+      "pool_sufficient_for_N20": true
+    },
+    {
+      "seed": 20740102,
+      "universe": 64,
+      "N4": {
+        "selected": 4,
+        "competent": 0,
+        "non_competent": [
+          "olive>umber",
+          "willow>yarrow",
+          "verdant>crimson",
+          "ochre>slate"
+        ],
+        "unrecorded": [],
+        "competent_edges": [],
+        "required": 4,
+        "shortfall": 4,
+        "clean_block_possible": false
+      },
+      "N20": {
+        "selected": 20,
+        "competent": 7,
+        "non_competent": [
+          "olive>umber",
+          "willow>yarrow",
+          "verdant>crimson",
+          "verdant>ochre",
+          "ochre>slate",
+          "verdant>willow",
+          "yarrow>ochre",
+          "umber>slate",
+          "sable>willow",
+          "olive>maple",
+          "yarrow>crimson",
+          "fern>teal",
+          "slate>amber"
+        ],
+        "unrecorded": [],
+        "competent_edges": [
+          "amber>sable",
+          "sable>maple",
+          "crimson>indigo",
+          "amber>birch",
+          "maple>birch",
+          "teal>birch",
+          "indigo>umber"
+        ],
+        "required": 20,
+        "shortfall": 13,
+        "clean_block_possible": false,
+        "off_universe": []
+      },
+      "competent_pool": 27,
+      "pool_sufficient_for_N20": true
+    },
+    {
+      "seed": 20740103,
+      "universe": 64,
+      "N4": {
+        "selected": 4,
+        "competent": 3,
+        "non_competent": [
+          "yarrow>teal"
+        ],
+        "unrecorded": [],
+        "competent_edges": [
+          "amber>willow",
+          "birch>fern",
+          "verdant>sable"
+        ],
+        "required": 4,
+        "shortfall": 1,
+        "clean_block_possible": false
+      },
+      "N20": {
+        "selected": 20,
+        "competent": 11,
+        "non_competent": [
+          "yarrow>teal",
+          "cedar>teal",
+          "sable>teal",
+          "fern>ochre",
+          "ochre>olive",
+          "amber>slate",
+          "yarrow>indigo",
+          "fern>umber",
+          "slate>umber"
+        ],
+        "unrecorded": [],
+        "competent_edges": [
+          "willow>yarrow",
+          "amber>willow",
+          "birch>fern",
+          "verdant>sable",
+          "olive>sable",
+          "maple>cedar",
+          "cedar>olive",
+          "amber>verdant",
+          "ochre>willow",
+          "umber>verdant",
+          "crimson>maple"
+        ],
+        "required": 20,
+        "shortfall": 9,
+        "clean_block_possible": false,
+        "off_universe": []
+      },
+      "competent_pool": 37,
+      "pool_sufficient_for_N20": true
+    },
+    {
+      "seed": 20740104,
+      "universe": 64,
+      "N4": {
+        "selected": 4,
+        "competent": 2,
+        "non_competent": [
+          "umber>cedar",
+          "crimson>sable"
+        ],
+        "unrecorded": [],
+        "competent_edges": [
+          "slate>indigo",
+          "willow>birch"
+        ],
+        "required": 4,
+        "shortfall": 2,
+        "clean_block_possible": false
+      },
+      "N20": {
+        "selected": 20,
+        "competent": 13,
+        "non_competent": [
+          "umber>cedar",
+          "crimson>sable",
+          "cedar>verdant",
+          "indigo>amber",
+          "teal>cedar",
+          "birch>umber",
+          "crimson>fern"
+        ],
+        "unrecorded": [],
+        "competent_edges": [
+          "slate>indigo",
+          "olive>indigo",
+          "slate>maple",
+          "willow>birch",
+          "amber>maple",
+          "teal>slate",
+          "maple>sable",
+          "umber>olive",
+          "verdant>olive",
+          "teal>yarrow",
+          "verdant>yarrow",
+          "ochre>amber",
+          "crimson>yarrow"
+        ],
+        "required": 20,
+        "shortfall": 7,
+        "clean_block_possible": false,
+        "off_universe": []
+      },
+      "competent_pool": 40,
+      "pool_sufficient_for_N20": true
+    },
+    {
+      "seed": 20740105,
+      "universe": 64,
+      "N4": {
+        "selected": 4,
+        "competent": 2,
+        "non_competent": [
+          "sable>yarrow",
+          "fern>olive"
+        ],
+        "unrecorded": [],
+        "competent_edges": [
+          "ochre>crimson",
+          "verdant>willow"
+        ],
+        "required": 4,
+        "shortfall": 2,
+        "clean_block_possible": false
+      },
+      "N20": {
+        "selected": 20,
+        "competent": 10,
+        "non_competent": [
+          "sable>yarrow",
+          "olive>willow",
+          "fern>olive",
+          "sable>teal",
+          "cedar>slate",
+          "verdant>cedar",
+          "cedar>amber",
+          "olive>crimson",
+          "birch>indigo",
+          "verdant>maple"
+        ],
+        "unrecorded": [],
+        "competent_edges": [
+          "ochre>crimson",
+          "verdant>willow",
+          "fern>ochre",
+          "willow>amber",
+          "teal>slate",
+          "teal>umber",
+          "fern>umber",
+          "crimson>slate",
+          "amber>maple",
+          "umber>maple"
+        ],
+        "required": 20,
+        "shortfall": 10,
+        "clean_block_possible": false,
+        "off_universe": []
+      },
+      "competent_pool": 32,
+      "pool_sufficient_for_N20": true
+    },
+    {
+      "seed": 20740106,
+      "universe": 62,
+      "N4": {
+        "selected": 4,
+        "competent": 2,
+        "non_competent": [
+          "indigo>teal",
+          "amber>yarrow"
+        ],
+        "unrecorded": [],
+        "competent_edges": [
+          "birch>ochre",
+          "verdant>sable"
+        ],
+        "required": 4,
+        "shortfall": 2,
+        "clean_block_possible": false
+      },
+      "N20": {
+        "selected": 20,
+        "competent": 7,
+        "non_competent": [
+          "indigo>teal",
+          "verdant>teal",
+          "amber>yarrow",
+          "ochre>fern",
+          "birch>crimson",
+          "crimson>cedar",
+          "umber>teal",
+          "amber>maple",
+          "fern>willow",
+          "maple>indigo",
+          "indigo>birch",
+          "amber>slate",
+          "umber>cedar"
+        ],
+        "unrecorded": [],
+        "competent_edges": [
+          "birch>ochre",
+          "verdant>yarrow",
+          "yarrow>willow",
+          "verdant>sable",
+          "maple>ochre",
+          "slate>willow",
+          "olive>fern"
+        ],
+        "required": 20,
+        "shortfall": 13,
+        "clean_block_possible": false,
+        "off_universe": []
+      },
+      "competent_pool": 31,
+      "pool_sufficient_for_N20": true
+    }
+  ],
+  "integrity": {
+    "unrecorded_selected_rows": 0,
+    "n20_rows_off_the_universe": 0,
+    "note": "a selected row with no availability record is not called incompetent; the count is zero here, which is what makes the competence figures exact rather than lower bounds"
+  },
+  "finding": {
+    "selection_not_supply": "On the adopted block the current N=4 selection supplies 12 competent rows of 24 and the N=20 selection 58 of 120, while the competent pool is 27-40 per seed against 20 required. The block has no seed on which either selection can be adjudicated. The pool comparison is a count, not a construction: with the endpoint cap in force no twenty-row competent block exists on every adopted seed (see A1-COMPETENCE-FILTER-DRAFT-1).",
+    "what_this_does_not_establish": "that C8 would pass on a competent block, that the 2063 block behaves the same way per seed, or that any treatment effect exists. It counts availability, not outcomes.",
+    "consequence_for_the_rule": "under the drafted C2/C8 competence rule a block with any non-competent row is VOID rather than partial-scored, so both current selections would be void as recorded"
+  },
+  "not_evidence": "A read-only join of committed no-arm artifacts. It runs no A1 cell, selects no target, freezes no target, changes no threshold and measures no treatment effect."
+}

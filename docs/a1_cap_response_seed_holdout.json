@@ -1,0 +1,447 @@
+{
+ "kind": "a1_cap_response_seed_holdout",
+ "id": "A1-CAP-RESPONSE-SEED-HOLDOUT-1",
+ "date": "2026-11-14",
+ "status": "DESCRIPTIVE \u2014 UNSEEN-SEED-BLOCK VALIDATION OF THE SHARED CURVE; NO TARGET, FREEZE, GRANT OR A1 CELL",
+ "not_a_result": true,
+ "question": "Does the candidate-size offset that replaced the free block label predict A coverage on a 16-tag seed block the fit never saw?",
+ "definition": "A_coverage = A / candidate_edges on a fresh 16-tag block (20670101-20670106) at the fitted caps 20/40/80/112. Predicted values are frozen from the committed candidate-size model; nothing is refitted on the new block.",
+ "method": "The candidate stream is derived by a1_target_selection.run_seed with boundary_safe=True \u2014 the committed fixed rule, no K or A screening \u2014 then replayed no-arm at loop cap 120. The block must appear in no committed docs artifact other than this one, and cap 80 on two committed seeds must reproduce their counts.",
+ "constants": {
+  "cycles": 120,
+  "loop_cap": 120,
+  "block": "unseen-16",
+  "seeds": [
+   20670101,
+   20670102,
+   20670103,
+   20670104,
+   20670105,
+   20670106
+  ],
+  "caps": [
+   20,
+   40,
+   80,
+   112
+  ],
+  "control_cap": 80,
+  "control_seeds": [
+   20630101,
+   20650101
+  ],
+  "size_coefficients": [
+   1.90290201,
+   -0.35852459,
+   0.04698666
+  ],
+  "sqrt_coefficient": 0.04698666,
+  "block_offsets": {
+   "current-16": 0.42002218,
+   "fresh-16": 0.40646398,
+   "larger-28": 0.06883733
+  }
+ },
+ "governance": {
+  "freeze": false,
+  "grant": false,
+  "run": false,
+  "authorization": "none"
+ },
+ "reading": "On the unseen block the offset model misses the block's level. The frozen candidate-size offset predicts the four fitted caps with RMSE 0.0321 (max 0.0432) and mean residual -0.0313, against a 16-tag leave-one-cell-out error of 0.0216 for the curve with free block offsets and 0.0184 for the size model itself. The 24 seed-by-cap values give RMSE 0.0592 (max 0.1153), inside the 16-tag seed LOO of 0.0747, so the per-seed scatter is no worse than at fitting time while the level is. The block sits below both fitted 16-tag blocks at all four caps \u2014 coverage 0.5797/0.6789/0.8096/0.8826 at caps 20/40/80/112 against 0.6362/0.7356/0.8299/0.9032 for current-16 \u2014 although its candidate space is the same size (63 edges per seed). Its mean log candidate size, 4.156258, is identical to fresh-16's, so the size model gives it fresh-16's offset (0.4128) and cannot tell the two blocks apart, yet the block still sits 0.0171 to 0.0369 below the fresh-16 bracket at every cap. Applying a known 16-tag offset instead is no better in kind: cell RMSE 0.0392 (current-16) and 0.0260 (fresh-16), both outside the fitted 16-tag LOO. Candidate size therefore replaces the block label inside the fitted blocks, but it does not predict a new block's offset; the cell error is outside the fitted 16-tag scale.",
+ "metrics": {
+  "cell_rmse_size": 0.03213,
+  "cell_max_size": 0.043216,
+  "seed_rmse_size": 0.059151,
+  "seed_max_size": 0.11526,
+  "cell_mean_residual": -0.031263,
+  "cell_rmse_current": 0.039212,
+  "cell_rmse_fresh": 0.026024,
+  "reference_size_cell_loo": 0.018372,
+  "reference_size_seed_loo": 0.066656,
+  "reference_shared_cell_loo": 0.019283,
+  "reference_shared_cell_loo_16tag": 0.021622,
+  "reference_size_seed_loo_16tag": 0.074702,
+  "log_candidates": 4.156258,
+  "size_offset": 0.412781,
+  "fresh16_log_candidates": 4.156258,
+  "fresh_bracket_residual_min": -0.036899,
+  "fresh_bracket_residual_max": -0.017077,
+  "same_size_as_fresh16": true
+ },
+ "cells": [
+  {
+   "cap": 20,
+   "seeds": 6,
+   "observed": 0.579696,
+   "predicted_size": 0.622912,
+   "residual_size": -0.043216,
+   "predicted_current": 0.630153,
+   "residual_current": -0.050457,
+   "predicted_fresh": 0.616595,
+   "residual_fresh": -0.036899
+  },
+  {
+   "cap": 40,
+   "seeds": 6,
+   "observed": 0.678902,
+   "predicted_size": 0.709951,
+   "residual_size": -0.031049,
+   "predicted_current": 0.717192,
+   "residual_current": -0.03829,
+   "predicted_fresh": 0.703634,
+   "residual_fresh": -0.024732
+  },
+  {
+   "cap": 80,
+   "seeds": 6,
+   "observed": 0.809648,
+   "predicted_size": 0.833043,
+   "residual_size": -0.023395,
+   "predicted_current": 0.840284,
+   "residual_current": -0.030636,
+   "predicted_fresh": 0.826725,
+   "residual_fresh": -0.017077
+  },
+  {
+   "cap": 112,
+   "seeds": 6,
+   "observed": 0.882647,
+   "predicted_size": 0.910041,
+   "residual_size": -0.027394,
+   "predicted_current": 0.917282,
+   "residual_current": -0.034635,
+   "predicted_fresh": 0.903724,
+   "residual_fresh": -0.021077
+  }
+ ],
+ "per_seed": [
+  {
+   "seed": 20670101,
+   "candidate_edges": 63,
+   "mean_coverage": 0.785714,
+   "rmse_size": 0.038163,
+   "max_abs_size": 0.067014
+  },
+  {
+   "seed": 20670102,
+   "candidate_edges": 64,
+   "mean_coverage": 0.710938,
+   "rmse_size": 0.078451,
+   "max_abs_size": 0.11526
+  },
+  {
+   "seed": 20670103,
+   "candidate_edges": 64,
+   "mean_coverage": 0.765625,
+   "rmse_size": 0.035039,
+   "max_abs_size": 0.056615
+  },
+  {
+   "seed": 20670104,
+   "candidate_edges": 64,
+   "mean_coverage": 0.707031,
+   "rmse_size": 0.065598,
+   "max_abs_size": 0.099635
+  },
+  {
+   "seed": 20670105,
+   "candidate_edges": 64,
+   "mean_coverage": 0.765625,
+   "rmse_size": 0.040524,
+   "max_abs_size": 0.049725
+  },
+  {
+   "seed": 20670106,
+   "candidate_edges": 64,
+   "mean_coverage": 0.691406,
+   "rmse_size": 0.078796,
+   "max_abs_size": 0.097727
+  }
+ ],
+ "rows": [
+  {
+   "seed": 20670101,
+   "cap": 20,
+   "candidate_edges": 63,
+   "A": 38,
+   "K": 63,
+   "A_and_K": 38,
+   "A_coverage": 0.603175
+  },
+  {
+   "seed": 20670102,
+   "cap": 20,
+   "candidate_edges": 64,
+   "A": 33,
+   "K": 64,
+   "A_and_K": 33,
+   "A_coverage": 0.515625
+  },
+  {
+   "seed": 20670103,
+   "cap": 20,
+   "candidate_edges": 64,
+   "A": 39,
+   "K": 64,
+   "A_and_K": 39,
+   "A_coverage": 0.609375
+  },
+  {
+   "seed": 20670104,
+   "cap": 20,
+   "candidate_edges": 64,
+   "A": 36,
+   "K": 64,
+   "A_and_K": 36,
+   "A_coverage": 0.5625
+  },
+  {
+   "seed": 20670105,
+   "cap": 20,
+   "candidate_edges": 64,
+   "A": 42,
+   "K": 64,
+   "A_and_K": 42,
+   "A_coverage": 0.65625
+  },
+  {
+   "seed": 20670106,
+   "cap": 20,
+   "candidate_edges": 64,
+   "A": 34,
+   "K": 64,
+   "A_and_K": 34,
+   "A_coverage": 0.53125
+  },
+  {
+   "seed": 20670101,
+   "cap": 40,
+   "candidate_edges": 63,
+   "A": 44,
+   "K": 63,
+   "A_and_K": 44,
+   "A_coverage": 0.698413
+  },
+  {
+   "seed": 20670102,
+   "cap": 40,
+   "candidate_edges": 64,
+   "A": 38,
+   "K": 64,
+   "A_and_K": 38,
+   "A_coverage": 0.59375
+  },
+  {
+   "seed": 20670103,
+   "cap": 40,
+   "candidate_edges": 64,
+   "A": 49,
+   "K": 64,
+   "A_and_K": 49,
+   "A_coverage": 0.765625
+  },
+  {
+   "seed": 20670104,
+   "cap": 40,
+   "candidate_edges": 64,
+   "A": 39,
+   "K": 64,
+   "A_and_K": 39,
+   "A_coverage": 0.609375
+  },
+  {
+   "seed": 20670105,
+   "cap": 40,
+   "candidate_edges": 64,
+   "A": 48,
+   "K": 64,
+   "A_and_K": 48,
+   "A_coverage": 0.75
+  },
+  {
+   "seed": 20670106,
+   "cap": 40,
+   "candidate_edges": 64,
+   "A": 42,
+   "K": 64,
+   "A_and_K": 42,
+   "A_coverage": 0.65625
+  },
+  {
+   "seed": 20670101,
+   "cap": 80,
+   "candidate_edges": 63,
+   "A": 57,
+   "K": 63,
+   "A_and_K": 57,
+   "A_coverage": 0.904762
+  },
+  {
+   "seed": 20670102,
+   "cap": 80,
+   "candidate_edges": 64,
+   "A": 53,
+   "K": 64,
+   "A_and_K": 53,
+   "A_coverage": 0.828125
+  },
+  {
+   "seed": 20670103,
+   "cap": 80,
+   "candidate_edges": 64,
+   "A": 52,
+   "K": 64,
+   "A_and_K": 52,
+   "A_coverage": 0.8125
+  },
+  {
+   "seed": 20670104,
+   "cap": 80,
+   "candidate_edges": 64,
+   "A": 50,
+   "K": 64,
+   "A_and_K": 50,
+   "A_coverage": 0.78125
+  },
+  {
+   "seed": 20670105,
+   "cap": 80,
+   "candidate_edges": 64,
+   "A": 51,
+   "K": 64,
+   "A_and_K": 51,
+   "A_coverage": 0.796875
+  },
+  {
+   "seed": 20670106,
+   "cap": 80,
+   "candidate_edges": 64,
+   "A": 47,
+   "K": 64,
+   "A_and_K": 47,
+   "A_coverage": 0.734375
+  },
+  {
+   "seed": 20670101,
+   "cap": 112,
+   "candidate_edges": 63,
+   "A": 59,
+   "K": 63,
+   "A_and_K": 59,
+   "A_coverage": 0.936508
+  },
+  {
+   "seed": 20670102,
+   "cap": 112,
+   "candidate_edges": 64,
+   "A": 58,
+   "K": 64,
+   "A_and_K": 58,
+   "A_coverage": 0.90625
+  },
+  {
+   "seed": 20670103,
+   "cap": 112,
+   "candidate_edges": 64,
+   "A": 56,
+   "K": 64,
+   "A_and_K": 56,
+   "A_coverage": 0.875
+  },
+  {
+   "seed": 20670104,
+   "cap": 112,
+   "candidate_edges": 64,
+   "A": 56,
+   "K": 64,
+   "A_and_K": 56,
+   "A_coverage": 0.875
+  },
+  {
+   "seed": 20670105,
+   "cap": 112,
+   "candidate_edges": 64,
+   "A": 55,
+   "K": 64,
+   "A_and_K": 55,
+   "A_coverage": 0.859375
+  },
+  {
+   "seed": 20670106,
+   "cap": 112,
+   "candidate_edges": 64,
+   "A": 54,
+   "K": 64,
+   "A_and_K": 54,
+   "A_coverage": 0.84375
+  }
+ ],
+ "control": [
+  {
+   "block": "current-16",
+   "seed": 20630101,
+   "prediction_cap": 80,
+   "A": 51,
+   "K": 64,
+   "A_and_K": 51,
+   "matches_committed": true
+  },
+  {
+   "block": "fresh-16",
+   "seed": 20650101,
+   "prediction_cap": 80,
+   "A": 56,
+   "K": 64,
+   "A_and_K": 56,
+   "matches_committed": true
+  }
+ ],
+ "fitted_16tag_cells": [
+  {
+   "cap": 20,
+   "block": "current-16",
+   "observed": 0.636243
+  },
+  {
+   "cap": 40,
+   "block": "current-16",
+   "observed": 0.735615
+  },
+  {
+   "cap": 80,
+   "block": "current-16",
+   "observed": 0.829902
+  },
+  {
+   "cap": 112,
+   "block": "current-16",
+   "observed": 0.90315
+  },
+  {
+   "cap": 20,
+   "block": "fresh-16",
+   "observed": 0.599992
+  },
+  {
+   "cap": 40,
+   "block": "fresh-16",
+   "observed": 0.727844
+  },
+  {
+   "cap": 80,
+   "block": "fresh-16",
+   "observed": 0.819651
+  },
+  {
+   "cap": 112,
+   "block": "fresh-16",
+   "observed": 0.903191
+  }
+ ],
+ "not_evidence": "A descriptive held-out prediction from no-arm replays. The seed block is new, the caps are the fitted ones, and the model is frozen; this bounds seed-axis transfer of the offset model over one 16-tag block, not a population of blocks. The candidate stream comes from a fixed rule, not from target selection, so these are not A1 protocol cells. It is not a treatment, target viability or successor.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__"
+}

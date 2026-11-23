@@ -1,0 +1,1025 @@
+{
+ "baseline_family_by_seed": {
+  "20270206": "bigram",
+  "20270207": "bigram",
+  "20270208": "bigram",
+  "20270209": "bigram",
+  "20270210": "bigram",
+  "20270211": "bigram",
+  "20270212": "bigram",
+  "20270213": "bigram",
+  "20270214": "bigram",
+  "20270215": "bigram",
+  "20270216": "bigram",
+  "20270217": "bigram",
+  "20270218": "bigram",
+  "20270219": "bigram",
+  "20270220": "bigram"
+ },
+ "cells": [
+  {
+   "baseline_family": "bigram",
+   "seconds": 29.7,
+   "seed": 20270206,
+   "windows": {
+    "co_primary": {
+     "attribution": {
+      "by_group": {
+       "self": 95,
+       "unattributed": 265,
+       "world": 0
+      },
+      "margin_positive": 1066.3427834451813,
+      "margins": {
+       "positive": 1066.3427834451813,
+       "self": 280.80297109411043,
+       "unattributed": 785.5398123510707,
+       "world": 0.0
+      },
+      "share_self": 0.26333274389205447,
+      "share_unattributed": 0.7366672561079454,
+      "share_world": 0.0,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.9688869290520118,
+     "cells": 2880,
+     "delta": -0.37890176887079174,
+     "organica_log_loss": 0.58998516018122,
+     "pairs": 90
+    },
+    "primary": {
+     "attribution": {
+      "by_group": {
+       "self": 95,
+       "unattributed": 265,
+       "world": 0
+      },
+      "margin_positive": 1066.3427834451813,
+      "margins": {
+       "positive": 1066.3427834451813,
+       "self": 280.80297109411043,
+       "unattributed": 785.5398123510707,
+       "world": 0.0
+      },
+      "share_self": 0.26333274389205447,
+      "share_unattributed": 0.7366672561079454,
+      "share_world": 0.0,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.4324085299815675,
+     "cells": 12768,
+     "delta": 0.0012930113011292432,
+     "organica_log_loss": 0.4337015412826967,
+     "pairs": 399
+    }
+   }
+  },
+  {
+   "baseline_family": "bigram",
+   "seconds": 32.9,
+   "seed": 20270207,
+   "windows": {
+    "co_primary": {
+     "attribution": {
+      "by_group": {
+       "self": 130,
+       "unattributed": 354,
+       "world": 0
+      },
+      "margin_positive": 1355.1749487638656,
+      "margins": {
+       "positive": 1355.1749487638656,
+       "self": 376.1971881262076,
+       "unattributed": 978.977760637657,
+       "world": 0.0
+      },
+      "share_self": 0.27760045923912563,
+      "share_unattributed": 0.7223995407608736,
+      "share_world": 0.0,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.9566662600022248,
+     "cells": 3872,
+     "delta": -0.3583979774015872,
+     "organica_log_loss": 0.5982682826006376,
+     "pairs": 121
+    },
+    "primary": {
+     "attribution": {
+      "by_group": {
+       "self": 130,
+       "unattributed": 354,
+       "world": 0
+      },
+      "margin_positive": 1355.1749487638656,
+      "margins": {
+       "positive": 1355.1749487638656,
+       "self": 376.1971881262076,
+       "unattributed": 978.977760637657,
+       "world": 0.0
+      },
+      "share_self": 0.27760045923912563,
+      "share_unattributed": 0.7223995407608736,
+      "share_world": 0.0,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.4825950492334075,
+     "cells": 12768,
+     "delta": -0.0270994698304845,
+     "organica_log_loss": 0.455495579402923,
+     "pairs": 399
+    }
+   }
+  },
+  {
+   "baseline_family": "bigram",
+   "seconds": 28.7,
+   "seed": 20270208,
+   "windows": {
+    "co_primary": {
+     "attribution": {
+      "by_group": {
+       "self": 124,
+       "unattributed": 328,
+       "world": 0
+      },
+      "margin_positive": 1284.2413266467581,
+      "margins": {
+       "positive": 1284.2413266467581,
+       "self": 372.0876807225172,
+       "unattributed": 912.1536459242413,
+       "world": 0.0
+      },
+      "share_self": 0.28973345819205454,
+      "share_unattributed": 0.7102665418079458,
+      "share_world": 0.0,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.9697108616452977,
+     "cells": 3616,
+     "delta": -0.36344541954261245,
+     "organica_log_loss": 0.6062654421026853,
+     "pairs": 113
+    },
+    "primary": {
+     "attribution": {
+      "by_group": {
+       "self": 124,
+       "unattributed": 328,
+       "world": 27
+      },
+      "margin_positive": 1287.4120829386961,
+      "margins": {
+       "positive": 1287.4120829386961,
+       "self": 372.0876807225172,
+       "unattributed": 912.1536459242413,
+       "world": 3.1707562919382446
+      },
+      "share_self": 0.28901987611703595,
+      "share_unattributed": 0.7085172323706366,
+      "share_world": 0.0024628915123280147,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.4729083143702198,
+     "cells": 12768,
+     "delta": -0.02003500914875672,
+     "organica_log_loss": 0.4528733052214631,
+     "pairs": 399
+    }
+   }
+  },
+  {
+   "baseline_family": "bigram",
+   "seconds": 31.2,
+   "seed": 20270209,
+   "windows": {
+    "co_primary": {
+     "attribution": {
+      "by_group": {
+       "self": 193,
+       "unattributed": 179,
+       "world": 0
+      },
+      "margin_positive": 1124.2939714436156,
+      "margins": {
+       "positive": 1124.2939714436156,
+       "self": 577.9067291129464,
+       "unattributed": 546.3872423306697,
+       "world": 0.0
+      },
+      "share_self": 0.514017457881503,
+      "share_unattributed": 0.4859825421184974,
+      "share_world": 0.0,
+      "status": "not_a_transfer_result",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.9894958996085608,
+     "cells": 2976,
+     "delta": -0.3861108909319243,
+     "organica_log_loss": 0.6033850086766365,
+     "pairs": 93
+    },
+    "primary": {
+     "attribution": {
+      "by_group": {
+       "self": 193,
+       "unattributed": 179,
+       "world": 15
+      },
+      "margin_positive": 1125.8109565308675,
+      "margins": {
+       "positive": 1125.8109565308675,
+       "self": 577.9067291129464,
+       "unattributed": 546.3872423306697,
+       "world": 1.5169850872518595
+      },
+      "share_self": 0.5133248399835602,
+      "share_unattributed": 0.4853277001445569,
+      "share_world": 0.0013474598718832657,
+      "status": "not_a_transfer_result",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.4359733195446668,
+     "cells": 12768,
+     "delta": -0.0017862037211399673,
+     "organica_log_loss": 0.4341871158235268,
+     "pairs": 399
+    }
+   }
+  },
+  {
+   "baseline_family": "bigram",
+   "seconds": 29.4,
+   "seed": 20270210,
+   "windows": {
+    "co_primary": {
+     "attribution": {
+      "by_group": {
+       "self": 127,
+       "unattributed": 313,
+       "world": 0
+      },
+      "margin_positive": 1030.4116382885495,
+      "margins": {
+       "positive": 1030.4116382885495,
+       "self": 335.185337093431,
+       "unattributed": 695.2263011951186,
+       "world": 0.0
+      },
+      "share_self": 0.325292654545472,
+      "share_unattributed": 0.674707345454528,
+      "share_world": 0.0,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.8767501633685065,
+     "cells": 3520,
+     "delta": -0.3016139164567896,
+     "organica_log_loss": 0.5751362469117169,
+     "pairs": 110
+    },
+    "primary": {
+     "attribution": {
+      "by_group": {
+       "self": 127,
+       "unattributed": 313,
+       "world": 61
+      },
+      "margin_positive": 1049.3924048873348,
+      "margins": {
+       "positive": 1049.3924048873348,
+       "self": 335.185337093431,
+       "unattributed": 695.2263011951186,
+       "world": 18.98076659878567
+      },
+      "share_self": 0.3194089603968663,
+      "share_unattributed": 0.6625036525490764,
+      "share_world": 0.018087387054057713,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.4423727473836582,
+     "cells": 12768,
+     "delta": 0.000291700644663051,
+     "organica_log_loss": 0.4426644480283213,
+     "pairs": 399
+    }
+   }
+  },
+  {
+   "baseline_family": "bigram",
+   "seconds": 30.0,
+   "seed": 20270211,
+   "windows": {
+    "co_primary": {
+     "attribution": {
+      "by_group": {
+       "self": 126,
+       "unattributed": 306,
+       "world": 0
+      },
+      "margin_positive": 1186.6969556030058,
+      "margins": {
+       "positive": 1186.6969556030058,
+       "self": 348.5921579735535,
+       "unattributed": 838.1047976294518,
+       "world": 0.0
+      },
+      "share_self": 0.29374993870816885,
+      "share_unattributed": 0.7062500612918308,
+      "share_world": 0.0,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.9711693375650087,
+     "cells": 3456,
+     "delta": -0.351572544073512,
+     "organica_log_loss": 0.6195967934914967,
+     "pairs": 108
+    },
+    "primary": {
+     "attribution": {
+      "by_group": {
+       "self": 126,
+       "unattributed": 306,
+       "world": 25
+      },
+      "margin_positive": 1195.1076438370774,
+      "margins": {
+       "positive": 1195.1076438370774,
+       "self": 348.5921579735535,
+       "unattributed": 838.1047976294518,
+       "world": 8.410688234071431
+      },
+      "share_self": 0.29168264446401215,
+      "share_unattributed": 0.7012797566406547,
+      "share_world": 0.007037598895332658,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.4612628480961654,
+     "cells": 12768,
+     "delta": -0.01179905741033771,
+     "organica_log_loss": 0.4494637906858277,
+     "pairs": 399
+    }
+   }
+  },
+  {
+   "baseline_family": "bigram",
+   "seconds": 28.1,
+   "seed": 20270212,
+   "windows": {
+    "co_primary": {
+     "attribution": {
+      "by_group": {
+       "self": 125,
+       "unattributed": 283,
+       "world": 0
+      },
+      "margin_positive": 1178.9993541821777,
+      "margins": {
+       "positive": 1178.9993541821777,
+       "self": 372.0550503981315,
+       "unattributed": 806.9443037840463,
+       "world": 0.0
+      },
+      "share_self": 0.3155684938065216,
+      "share_unattributed": 0.6844315061934785,
+      "share_world": 0.0,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.9783593248573789,
+     "cells": 3264,
+     "delta": -0.3693605032040559,
+     "organica_log_loss": 0.608998821653323,
+     "pairs": 102
+    },
+    "primary": {
+     "attribution": {
+      "by_group": {
+       "self": 125,
+       "unattributed": 283,
+       "world": 23
+      },
+      "margin_positive": 1181.1123942555173,
+      "margins": {
+       "positive": 1181.1123942555173,
+       "self": 372.0550503981315,
+       "unattributed": 806.9443037840463,
+       "world": 2.1130400733395627
+      },
+      "share_self": 0.31500393375572566,
+      "share_unattributed": 0.6832070408444761,
+      "share_world": 0.00178902539979818,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.4512404003346544,
+     "cells": 12768,
+     "delta": -0.009733004149040991,
+     "organica_log_loss": 0.4415073961856134,
+     "pairs": 399
+    }
+   }
+  },
+  {
+   "baseline_family": "bigram",
+   "seconds": 27.0,
+   "seed": 20270213,
+   "windows": {
+    "co_primary": {
+     "attribution": {
+      "by_group": {
+       "self": 105,
+       "unattributed": 243,
+       "world": 0
+      },
+      "margin_positive": 985.1222454876099,
+      "margins": {
+       "positive": 985.1222454876099,
+       "self": 288.7310591785471,
+       "unattributed": 696.3911863090632,
+       "world": 0.0
+      },
+      "share_self": 0.2930916041142008,
+      "share_unattributed": 0.7069083958857996,
+      "share_world": 0.0,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.9613056117742315,
+     "cells": 2784,
+     "delta": -0.36233749301983464,
+     "organica_log_loss": 0.5989681187543968,
+     "pairs": 87
+    },
+    "primary": {
+     "attribution": {
+      "by_group": {
+       "self": 105,
+       "unattributed": 243,
+       "world": 11
+      },
+      "margin_positive": 986.0025749381518,
+      "margins": {
+       "positive": 986.0025749381518,
+       "self": 288.7310591785471,
+       "unattributed": 696.3911863090632,
+       "world": 0.8803294505418728
+      },
+      "share_self": 0.292829924096961,
+      "share_unattributed": 0.7062772491773108,
+      "share_world": 0.0008928267257284724,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.42621820636961366,
+     "cells": 12768,
+     "delta": 0.006910639807996999,
+     "organica_log_loss": 0.43312884617761066,
+     "pairs": 399
+    }
+   }
+  },
+  {
+   "baseline_family": "bigram",
+   "seconds": 27.5,
+   "seed": 20270214,
+   "windows": {
+    "co_primary": {
+     "attribution": {
+      "by_group": {
+       "self": 93,
+       "unattributed": 327,
+       "world": 0
+      },
+      "margin_positive": 1126.3493515788432,
+      "margins": {
+       "positive": 1126.3493515788432,
+       "self": 253.2298123444122,
+       "unattributed": 873.1195392344317,
+       "world": 0.0
+      },
+      "share_self": 0.22482350790139058,
+      "share_unattributed": 0.7751764920986101,
+      "share_world": 0.0,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.9600416835119023,
+     "cells": 3360,
+     "delta": -0.34345174051952,
+     "organica_log_loss": 0.6165899429923823,
+     "pairs": 105
+    },
+    "primary": {
+     "attribution": {
+      "by_group": {
+       "self": 93,
+       "unattributed": 327,
+       "world": 14
+      },
+      "margin_positive": 1127.6096462133817,
+      "margins": {
+       "positive": 1127.6096462133817,
+       "self": 253.2298123444122,
+       "unattributed": 873.1195392344317,
+       "world": 1.2602946345381065
+      },
+      "share_self": 0.2245722295785439,
+      "share_unattributed": 0.7743101011652823,
+      "share_world": 0.0011176692561741498,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.4519119446157553,
+     "cells": 12768,
+     "delta": -0.004114455256555349,
+     "organica_log_loss": 0.44779748935919994,
+     "pairs": 399
+    }
+   }
+  },
+  {
+   "baseline_family": "bigram",
+   "seconds": 28.5,
+   "seed": 20270215,
+   "windows": {
+    "co_primary": {
+     "attribution": {
+      "by_group": {
+       "self": 91,
+       "unattributed": 265,
+       "world": 0
+      },
+      "margin_positive": 1016.2050476099263,
+      "margins": {
+       "positive": 1016.2050476099263,
+       "self": 260.62433533327817,
+       "unattributed": 755.5807122766475,
+       "world": 0.0
+      },
+      "share_self": 0.25646825504976206,
+      "share_unattributed": 0.7435317449502374,
+      "share_world": 0.0,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.956538327310145,
+     "cells": 2848,
+     "delta": -0.36529931933963344,
+     "organica_log_loss": 0.5912390079705115,
+     "pairs": 89
+    },
+    "primary": {
+     "attribution": {
+      "by_group": {
+       "self": 91,
+       "unattributed": 265,
+       "world": 18
+      },
+      "margin_positive": 1018.9484610318515,
+      "margins": {
+       "positive": 1018.9484610318515,
+       "self": 260.62433533327817,
+       "unattributed": 755.5807122766475,
+       "world": 2.7434134219253883
+      },
+      "share_self": 0.2557777407793065,
+      "share_unattributed": 0.7415298625717525,
+      "share_world": 0.0026923966489406487,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.42620657924623045,
+     "cells": 12768,
+     "delta": 0.0069557077030137915,
+     "organica_log_loss": 0.43316228694924425,
+     "pairs": 399
+    }
+   }
+  },
+  {
+   "baseline_family": "bigram",
+   "seconds": 27.1,
+   "seed": 20270216,
+   "windows": {
+    "co_primary": {
+     "attribution": {
+      "by_group": {
+       "self": 107,
+       "unattributed": 241,
+       "world": 0
+      },
+      "margin_positive": 991.460207478836,
+      "margins": {
+       "positive": 991.460207478836,
+       "self": 315.6241715889035,
+       "unattributed": 675.8360358899337,
+       "world": 0.0
+      },
+      "share_self": 0.3183427526471262,
+      "share_unattributed": 0.681657247352875,
+      "share_world": 0.0,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.9767226608225965,
+     "cells": 2784,
+     "delta": -0.36434444713443304,
+     "organica_log_loss": 0.6123782136881635,
+     "pairs": 87
+    },
+    "primary": {
+     "attribution": {
+      "by_group": {
+       "self": 107,
+       "unattributed": 241,
+       "world": 42
+      },
+      "margin_positive": 998.8184727132815,
+      "margins": {
+       "positive": 998.8184727132815,
+       "self": 315.6241715889035,
+       "unattributed": 675.8360358899337,
+       "world": 7.3582652344461845
+      },
+      "share_self": 0.31599753129466385,
+      "share_unattributed": 0.6766354991953955,
+      "share_world": 0.007366969509942605,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.42552361744572414,
+     "cells": 12768,
+     "delta": 0.006690886711091026,
+     "organica_log_loss": 0.43221450415681517,
+     "pairs": 399
+    }
+   }
+  },
+  {
+   "baseline_family": "bigram",
+   "seconds": 29.9,
+   "seed": 20270217,
+   "windows": {
+    "co_primary": {
+     "attribution": {
+      "by_group": {
+       "self": 113,
+       "unattributed": 251,
+       "world": 0
+      },
+      "margin_positive": 1067.701631342225,
+      "margins": {
+       "positive": 1067.701631342225,
+       "self": 335.7465192323119,
+       "unattributed": 731.9551121099128,
+       "world": 0.0
+      },
+      "share_self": 0.3144572503932953,
+      "share_unattributed": 0.6855427496067044,
+      "share_world": 0.0,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.9750557317408348,
+     "cells": 2912,
+     "delta": -0.3749833750893725,
+     "organica_log_loss": 0.6000723566514623,
+     "pairs": 91
+    },
+    "primary": {
+     "attribution": {
+      "by_group": {
+       "self": 113,
+       "unattributed": 251,
+       "world": 19
+      },
+      "margin_positive": 1071.686325536079,
+      "margins": {
+       "positive": 1071.686325536079,
+       "self": 335.7465192323119,
+       "unattributed": 731.9551121099128,
+       "world": 3.9846941938540477
+      },
+      "share_self": 0.3132880500871976,
+      "share_unattributed": 0.6829937964765708,
+      "share_world": 0.003718153436231281,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.42762920345203675,
+     "cells": 12768,
+     "delta": 0.001146573769714998,
+     "organica_log_loss": 0.42877577722175175,
+     "pairs": 399
+    }
+   }
+  },
+  {
+   "baseline_family": "bigram",
+   "seconds": 26.5,
+   "seed": 20270218,
+   "windows": {
+    "co_primary": {
+     "attribution": {
+      "by_group": {
+       "self": 107,
+       "unattributed": 313,
+       "world": 0
+      },
+      "margin_positive": 1171.3447353220945,
+      "margins": {
+       "positive": 1171.3447353220945,
+       "self": 295.50465981349396,
+       "unattributed": 875.8400755085994,
+       "world": 0.0
+      },
+      "share_self": 0.25227813034241925,
+      "share_unattributed": 0.7477218696575798,
+      "share_world": 0.0,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.9543036373115531,
+     "cells": 3360,
+     "delta": -0.3570278448271691,
+     "organica_log_loss": 0.597275792484384,
+     "pairs": 105
+    },
+    "primary": {
+     "attribution": {
+      "by_group": {
+       "self": 107,
+       "unattributed": 313,
+       "world": 8
+      },
+      "margin_positive": 1171.7108357846819,
+      "margins": {
+       "positive": 1171.7108357846819,
+       "self": 295.50465981349396,
+       "unattributed": 875.8400755085994,
+       "world": 0.36610046258694595
+      },
+      "share_self": 0.2521993061672061,
+      "share_unattributed": 0.7474882443346689,
+      "share_world": 0.0003124494981236326,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.4533368245060181,
+     "cells": 12768,
+     "delta": -0.007803454584790537,
+     "organica_log_loss": 0.44553336992122755,
+     "pairs": 399
+    }
+   }
+  },
+  {
+   "baseline_family": "bigram",
+   "seconds": 26.9,
+   "seed": 20270219,
+   "windows": {
+    "co_primary": {
+     "attribution": {
+      "by_group": {
+       "self": 72,
+       "unattributed": 260,
+       "world": 0
+      },
+      "margin_positive": 941.618493216315,
+      "margins": {
+       "positive": 941.618493216315,
+       "self": 209.25928478966705,
+       "unattributed": 732.3592084266483,
+       "world": 0.0
+      },
+      "share_self": 0.22223361828302005,
+      "share_unattributed": 0.7777663817169803,
+      "share_world": 0.0,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.951747031869607,
+     "cells": 2656,
+     "delta": -0.3630645643206599,
+     "organica_log_loss": 0.588682467548947,
+     "pairs": 83
+    },
+    "primary": {
+     "attribution": {
+      "by_group": {
+       "self": 72,
+       "unattributed": 260,
+       "world": 8
+      },
+      "margin_positive": 944.4296447384477,
+      "margins": {
+       "positive": 944.4296447384477,
+       "self": 209.25928478966705,
+       "unattributed": 732.3592084266483,
+       "world": 2.811151522132569
+      },
+      "share_self": 0.22157212657976208,
+      "share_unattributed": 0.7754513134003427,
+      "share_world": 0.0029765600198954946,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.41543766406474586,
+     "cells": 12768,
+     "delta": 0.015468450048537141,
+     "organica_log_loss": 0.430906114113283,
+     "pairs": 399
+    }
+   }
+  },
+  {
+   "baseline_family": "bigram",
+   "seconds": 28.1,
+   "seed": 20270220,
+   "windows": {
+    "co_primary": {
+     "attribution": {
+      "by_group": {
+       "self": 137,
+       "unattributed": 291,
+       "world": 0
+      },
+      "margin_positive": 1217.721038577644,
+      "margins": {
+       "positive": 1217.721038577644,
+       "self": 388.0457703278625,
+       "unattributed": 829.6752682497806,
+       "world": 0.0
+      },
+      "share_self": 0.31866557120596223,
+      "share_unattributed": 0.681334428794037,
+      "share_world": 0.0,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.9663596172576469,
+     "cells": 3424,
+     "delta": -0.3640027328896144,
+     "organica_log_loss": 0.6023568843680325,
+     "pairs": 107
+    },
+    "primary": {
+     "attribution": {
+      "by_group": {
+       "self": 137,
+       "unattributed": 291,
+       "world": 5
+      },
+      "margin_positive": 1219.420427723742,
+      "margins": {
+       "positive": 1219.420427723742,
+       "self": 388.0457703278625,
+       "unattributed": 829.6752682497806,
+       "world": 1.699389146097956
+      },
+      "share_self": 0.31822147760163133,
+      "share_unattributed": 0.6803849184308912,
+      "share_world": 0.001393603967476712,
+      "status": "not_attributable",
+      "withheld": true
+     },
+     "baseline_log_loss": 0.4574833635453615,
+     "cells": 12768,
+     "delta": -0.013662170301636578,
+     "organica_log_loss": 0.44382119324372493,
+     "pairs": 399
+    }
+   }
+  }
+ ],
+ "claim": "no improvement detected on the primary window (no improvement detected)",
+ "co_primary": {
+  "attribution_pooled": {
+   "cells_by_group": {
+    "self": 1745,
+    "unattributed": 4219,
+    "world": 0
+   },
+   "share_self": 0.299193,
+   "share_unattributed": 0.700807,
+   "share_world": 0.0,
+   "status": "not_attributable",
+   "withheld": true
+  },
+  "bar": "upper bound below zero",
+  "interval": {
+   "bootstrap_seed": 20261102,
+   "high": -0.345823,
+   "level": 0.9833,
+   "low": -0.369382,
+   "method": "percentile interval, cluster (seed) bootstrap, nearest-rank",
+   "resamples": 10000
+  },
+  "outcome": "improvement",
+  "passed": true,
+  "per_seed_delta": {
+   "20270206": -0.378902,
+   "20270207": -0.358398,
+   "20270208": -0.363445,
+   "20270209": -0.386111,
+   "20270210": -0.301614,
+   "20270211": -0.351573,
+   "20270212": -0.369361,
+   "20270213": -0.362337,
+   "20270214": -0.343452,
+   "20270215": -0.365299,
+   "20270216": -0.364344,
+   "20270217": -0.374983,
+   "20270218": -0.357028,
+   "20270219": -0.363065,
+   "20270220": -0.364003
+  },
+  "pooled_delta": -0.359327
+ },
+ "constants": {
+  "alpha": 256.0,
+  "bootstrap_resamples": 10000,
+  "bootstrap_seed": 20261102,
+  "cap": 1000,
+  "interval_level": 0.9833,
+  "pythonhashseed": "0",
+  "tuning_cycles": 15
+ },
+ "kind": "functional_structure_confirmatory",
+ "n": 15,
+ "primary": {
+  "attribution_pooled": {
+   "cells_by_group": {
+    "self": 1745,
+    "unattributed": 4219,
+    "world": 276
+   },
+   "share_self": 0.298208,
+   "share_unattributed": 0.6985,
+   "share_world": 0.003292,
+   "status": "not_attributable",
+   "withheld": true
+  },
+  "bar": "upper bound below zero",
+  "interval": {
+   "bootstrap_seed": 20261102,
+   "high": 0.002863,
+   "level": 0.9833,
+   "low": -0.010802,
+   "method": "percentile interval, cluster (seed) bootstrap, nearest-rank",
+   "resamples": 10000
+  },
+  "outcome": "no improvement detected",
+  "passed": false,
+  "per_seed_delta": {
+   "20270206": 0.001293,
+   "20270207": -0.027099,
+   "20270208": -0.020035,
+   "20270209": -0.001786,
+   "20270210": 0.000292,
+   "20270211": -0.011799,
+   "20270212": -0.009733,
+   "20270213": 0.006911,
+   "20270214": -0.004114,
+   "20270215": 0.006956,
+   "20270216": 0.006691,
+   "20270217": 0.001147,
+   "20270218": -0.007803,
+   "20270219": 0.015468,
+   "20270220": -0.013662
+  },
+  "pooled_delta": -0.003818
+ },
+ "protocol": "docs/FUNCTIONAL-STRUCTURE-PREREGISTRATION.md \u00a74, \u00a79, \u00a710 step 3",
+ "seconds": 431.7,
+ "seeds": [
+  20270206,
+  20270207,
+  20270208,
+  20270209,
+  20270210,
+  20270211,
+  20270212,
+  20270213,
+  20270214,
+  20270215,
+  20270216,
+  20270217,
+  20270218,
+  20270219,
+  20270220
+ ],
+ "status": "no improvement detected",
+ "transfer_limb": "not attributable under the current provenance measure; reported whatever its score"
+}

@@ -40,7 +40,10 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
 
-from benchmarks.force_matrix import COLONIES  # noqa: E402
+from benchmarks.force_matrix import (  # noqa: E402
+    CAMPAIGN_DESIGN, COLONIES, WITNESS_DESIGN, persistence_verdict,
+    row_reference_problems, trace_reference)
+from benchmarks import engine_stamp
 
 PARTS_DIR = REPO / ".scratch" / "matrix_parts"
 
@@ -75,16 +78,26 @@ def main() -> None:
 
     # ---- G1: prove the six colonies are genuinely distinct code paths -------
     if not args.no_verify:
-        from benchmarks.force_matrix import verify_colonies
-        from organica.branch_streams import (
-            NEUTRAL_HUB, NEUTRAL_PETALS, lattice_designs, lattice_stream)
-        lattice = lattice_designs(NEUTRAL_HUB, NEUTRAL_PETALS)
-        events = lattice_stream(lattice["L1_hub1_t3_disjoint"]["triangles"])
-        print("G1 code-path verification:")
-        checks = verify_colonies(events)
+        from benchmarks.force_matrix import design_events, verify_colonies
+        print("G1 code-path verification on %s:" % WITNESS_DESIGN)
+        checks, problems = verify_colonies(design_events(WITNESS_DESIGN))
         by_name = {c["colony"]: c for c in checks}
         if len(by_name) < len(args.colonies):
             raise SystemExit("G1 did not verify every colony")
+        if problems:
+            raise SystemExit("G1 failed: " + "; ".join(problems))
+
+        # D2: the campaign may not launch on a design its reference arm does not survive.
+        # The pre-flight runs the campaign stimulus itself, to the campaign horizon, and stops
+        # at the first zero after a positive cycle.
+        persistence = trace_reference(CAMPAIGN_DESIGN, args.cycles, args.seed)
+        verdict = persistence_verdict(persistence)
+        if verdict != "ALIVE_AT_HORIZON":
+            raise SystemExit(
+                "Tier-1 pre-flight: %s -- the reference arm's theory count first reaches zero "
+                "at cycle %s against a horizon of %s, so the campaign is not measurable as "
+                "designed and does not run (docs/DECISION-G1-WITNESS.md D2)."
+                % (verdict, persistence["first_zero_cycle"], args.cycles))
     else:
         checks = []
 
@@ -97,7 +110,8 @@ def main() -> None:
         part = parts_dir / f"{name}.json"
         cmd = [sys.executable, str(REPO / "benchmarks" / "force_matrix.py"),
                "--cycles", str(args.cycles), "--seed", str(args.seed),
-               "--no-verify", "--colonies", name, "--out", str(part)]
+               "--no-verify", "--part", "--colonies", name,
+               "--out", str(part)]
         print(f"  launching {name} (PYTHONHASHSEED={args.hash_seed}) ...",
               flush=True)
         procs[name] = (subprocess.Popen(cmd, cwd=str(REPO), env=env,
@@ -137,7 +151,7 @@ def main() -> None:
 
     out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps({
+    out_path.write_text(json.dumps(engine_stamp.stamp({
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "cycles": args.cycles,
         "seed": args.seed,
@@ -157,10 +171,15 @@ def main() -> None:
             "g1_verification": checks,
         },
         "rows": rows,
-    }, indent=2), encoding="utf-8")
+    }), indent=2), encoding="utf-8")
 
     print(f"\nmerged {len(rows)} colonies into {out_path} "
           f"({round(time.time() - started, 1)}s total)")
+    dead = row_reference_problems(rows)
+    if dead:
+        for p in dead:
+            print(f"  !! {p}")
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

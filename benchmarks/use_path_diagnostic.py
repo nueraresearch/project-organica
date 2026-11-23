@@ -53,6 +53,7 @@ from benchmarks.acquisition_runner import (  # noqa: E402
     make_organica_backoff,
     structure_edges,
 )
+from benchmarks import engine_stamp
 
 # ---------------------------------------------------------------------------
 # Frozen constants — mirrored in the protocol and the freeze record
@@ -505,7 +506,7 @@ def load_or_run_calibration(force: bool = False) -> dict[str, Any]:
     calibration = {"seed": CALIBRATION_SEED, "tasks": tasks}
     CALIBRATION_CACHE.parent.mkdir(parents=True, exist_ok=True)
     CALIBRATION_CACHE.write_text(
-        json.dumps(calibration, indent=2, sort_keys=True) + "\n",
+        json.dumps(engine_stamp.stamp(calibration), indent=2, sort_keys=True) + "\n",
         encoding="utf-8")
     return calibration
 
@@ -1360,7 +1361,7 @@ def run_all(workers: int, force: bool = False, seeds: tuple[int, ...] = SEEDS,
                                "error": f"{type(exc).__name__}: {exc}"}
                     print(f"[error] {task} {seed}: {payload['error']}", flush=True)
                 _atomic_write(_part_path(task, seed),
-                              json.dumps(payload, indent=2, sort_keys=True) + "\n")
+                              json.dumps(engine_stamp.stamp(payload), indent=2, sort_keys=True) + "\n")
 
     wanted = {(task, seed) for task in tasks for seed in seeds}
     parts = [p for p in _load_parts()
@@ -1439,7 +1440,7 @@ def run_all(workers: int, force: bool = False, seeds: tuple[int, ...] = SEEDS,
     }
     if not gate["passed"]:
         artifact["d0_diagnosis"] = d0_diagnosis()
-    _atomic_write(ARTIFACT, json.dumps(artifact, indent=2, sort_keys=False) + "\n")
+    _atomic_write(ARTIFACT, json.dumps(engine_stamp.stamp(artifact), indent=2, sort_keys=False) + "\n")
     _atomic_write(RESULT_MD, render_results(artifact))
     return artifact
 
@@ -1489,7 +1490,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.structure_check:
         result = structure_check()
-        _atomic_write(STRUCTURE_CHECK_JSON, json.dumps(result, indent=2) + "\n")
+        _atomic_write(STRUCTURE_CHECK_JSON, json.dumps(engine_stamp.stamp(result), indent=2) + "\n")
         print(json.dumps({k: v for k, v in result.items()
                           if k not in ("rows",)}, indent=2))
         return 0

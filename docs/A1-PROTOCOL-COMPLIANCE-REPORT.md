@@ -1,0 +1,138 @@
+# A1 protocol compliance report
+
+**ID:** `A1-PROTOCOL-COMPLIANCE-1`  
+**Date:** 2026-11-14  
+**Status:** `P0 PASS — FREEZE READINESS OPEN (PASS: NO); PROTOCOL COMPLIANCE; RUN NOT AUTHORISED`
+
+**This is a compliance report, not a target freeze, a grant or an experimental result.**
+No A1 cell has run; no seed is reserved; no target is fixed in the manifest.
+
+## Scope
+
+This report answers one question: **does the implementation execute the registered
+pre-cycle-37 target-selection boundary?** It does not answer whether the target rule
+is scientifically optimal, whether `N = 4` is powered, or whether C4 measures acceptable spillover.
+
+The registered boundary is the **36th acquisition cycle**, not the engine's sleep-cycle
+counter. The sleep counter can lag the acquisition index; following it allowed event
+cycles 37–48 into the candidate universe during the first audit run.
+
+## Current state
+
+```text
+P0 Protocol Compliance   PASS
+        ↓
+Target Feasibility       PASS
+        ↓
+Freeze Readiness         OPEN (PASS: NO)
+        ↓
+Grant Decision           OPEN
+        ↓
+A1 Run                   NOT STARTED
+```
+
+P0 and feasibility are demonstrated. Freeze readiness cannot move to PASS: the no-arm baseline audit now measures the C1 denominator and finds it **below the 60-row floor** on all six candidate-protocol seeds (minimum **31–44**; individual path denominators span **31–52**) and on two current cell-stream seeds (minimum **58**). The current cell stream is also wider than the candidate plan: C4 would emit **108** N=4 and **92** N=20 non-target rows per seed, not **59–60** and **43–44**, because `a1_arms.run_cell` uses the full 120-cycle directed universe. C4 treatment deltas remain unmeasured. Separately, C7 is per seed and per edge with a 0.05 A/K rate over 120 cycles, so it is rate-resolved at N=4; C8 is per seed and per target row, and the current N=4 block cannot resolve its 0.05 ceiling. A separate N=20 C8 expansion design is registered with 20 A-K- rows per seed and a 0.05 step; it is not frozen and is not the live manifest. The dated freeze decision is **DO NOT FREEZE (2026-11-14)**, answering the adequacy question **NO — NOT AS CURRENTLY EMITTED**. The grant decision and run remain separate acts.
+
+## Compliance table
+
+| Requirement | Status | Evidence |
+| --- | --- | --- |
+| A1 estimand path | **PATH A — RECORDED; TARGETS DRAFT** | [`A1-TARGET-SELECTION-PROTOCOL.md`](A1-TARGET-SELECTION-PROTOCOL.md) records the representative eligible pre-37 cycle-membership directed-edge effect. Path B is not selected; it would require a new selector and target artifact. No target is frozen and no cell has run. |
+| Pre-37 candidate universe | **PASS** | First 36 acquisition cycles; `run_seed` truncation; audit P0 |
+| Pre-sleep U sampling | **PASS** | `a1_arms.run_cell`; `test_cycle_36_u_is_sampled_before_consolidation`; audit P0 |
+| Future-blindness | **PASS** | 36-cycle vs 120-cycle world; identical targets, U and digest; audit |
+| Report-blindness | **PASS** | No `SleepReport` field read; audit forbidden-token check |
+| Sleep-blindness | **PASS** | Stored sleep payload leaves U unchanged; audit |
+| Determinism | **PASS** | Two independent passes; identical targets, U and digest; audit |
+| Four-target feasibility | **PASS** | Four disjoint targets for all six provisional seeds; audit |
+| C8 expansion feasibility | **REGISTERED — NOT FROZEN** | Six seeds x 20 A-K- rows, maximum endpoint degree 3, no repeated target edge; [design](A1-C8-EXPANSION.md); [artifact](a1_c8_target_selection.json) |
+| Digest stability | **PASS** | Stored artifact digest checked against contents; independent pass matches |
+
+The audit artifact is [`a1_adversarial_audit.json`](a1_adversarial_audit.json), rendered
+as [`A1-ADVERSARIAL-AUDIT.md`](A1-ADVERSARIAL-AUDIT.md). The selection artifact is
+[`a1_target_selection.json`](a1_target_selection.json).
+
+## Estimand record
+
+The selected targets are a **representative eligible pre-37 cycle-membership directed-edge sample**, not a high-`U`, hard-edge or carrier-enriched sample: 24 observations across 23 unique edges, all 382 candidates eligible, selected vs unselected cycle-36 strength p = 0.918. This is a design fact, not a P0 condition. If a high-propensity estimand is required, the selector must be redesigned before freeze; that is a different experiment.
+
+## Sensitivity evidence
+
+The first audit run **failed** future-blindness for seeds `20630104` and `20630106`.
+The cause was not a target hash collision; it was the clock boundary. For seed 104,
+sleep cycle 36 arrived at acquisition cycle 48, so the selector could see event cycles
+37–48 while claiming to be a cycle-36 selector. Seed 104's selected edge `sable>olive`
+was absent from the first 36 acquisition cycles.
+
+After the boundary was corrected:
+
+- seed 104 changed from `sable>olive` to `willow>olive`;
+- all six seeds selected from exactly the first 36 acquisition cycles;
+- every seed reported `event_cycles = 36`;
+- the audit passed future-blindness and the remaining P0 checks.
+
+That failure and the resulting target change are evidence that the audit is sensitive
+to actual leakage, not merely confirming the implementation.
+
+## What this report does not establish
+
+- It does not validate target selection as a scientific result.
+- It does not establish freeze readiness; the power review is in [`A1-POWER-REVIEW.md`](A1-POWER-REVIEW.md).
+- It does not clear C4; A1 cell output emits target rows and a separate
+  non-target neighbour stream, but no cell has run.
+- It does not freeze the target sets or the manifest.
+- It does not authorise a grant, a cell or a database opening.
+
+The target sets are a feasibility artifact. They are not fixed experimental targets
+until the manifest is frozen by a separate act.
+
+## Remaining gates
+
+| Gate | State |
+| --- | --- |
+| Power/prevalence review for `N = 4` | **DONE — C1 DENOMINATOR FRAGILITY**; C4 contributes at most 59–60 non-target rows/seed, so C1 is at most 63–64 — an upper bound, not an observed baseline-availability denominator ([risk note](A1-POWER-REVIEW.md#c1-denominator-feasibility-risk-note)) |
+| C1 denominator-feasibility risk | **HISTORICAL — NOW OBSERVED BELOW FLOOR**; the 63–64 upper bound was not reached, so the run would be **VOID — `C1_DENOMINATOR_BELOW_FLOOR`** before any model is read; C6 K/Y_ind and A0 hard-edge percentages are not baseline-availability proxies |
+| C1 baseline availability | **FLAGGED — BELOW FLOOR IN BOTH REPORTED STREAMS**; the candidate stream gives a per-seed minimum of **31–44** (individual path denominators span **31–52**), and the current cell stream **58** with two seeds below 60; C4 candidate rows are 59–60/43–44 while the current cell stream is 108/92. The two streams differ by 290 directed edges; see [the audit](A1-BASELINE-AVAILABILITY.md). |
+| Design viability / C1 ceiling | **FLAGGED — BELOW FLOOR AND NOT TARGET-SELECTABLE**; the candidate stream's maximum attainable C1 denominator is **44/31/39/35/43/36** against 60, and the 112-edge cell stream still fails `20630102` (59) and `20630104` (58). A new universe, seed block or C1 estimator is required; target selection cannot repair it. See [the report](A1-DESIGN-VIABILITY.md). |
+| Successor preflight harness | **CANDIDATE TESTED — FAILS; CURRENT CONTROL FAILS**; checks candidate no-arm A/K rows for **≥60 independent/C1 rows per seed**, rejects duplicate/reverse-duplicate streams, and checks a **20-row** matching if C2/C8 are in scope. The predeclared fresh block `20650101–20650106` fails **0/6** at C1 **40, 37, 46, 42, 31, 38** (best gap **14**); current six-seed control **0/6** at **44, 31, 39, 35, 43, 36**. No target is selected; `PASS` would not freeze or authorise a run. See [preflight](A1-SUCCESSOR-PREFLIGHT.md) and [candidate](A1-SUCCESSOR-CANDIDATE.md). |
+| A1 disposition memo | **DRAFT — OWNER DECISION REQUIRED; HOLD**; redesign requires a no-arm **≥60 K rows/seed** preflight, one universe/scorer, a new protocol, and **20 competent targets/seed** if C2/C8 stay in scope. At 63–64 edges this needs **93.8–95.2% K**; a larger universe lowers the rate. Park if no fresh universe/seed block clears the floor without selecting on the judging baseline, or if only a floor/estimator change could. See [memo](A1-DISPOSITION-MEMO.md); no choice, freeze, grant or run. |
+| K-availability decomposition | **DESCRIPTIVE — K IS THE LOWER PATH; SHORTAGE IS BROAD, PAIR-LEVEL AND LOW-U**; A **281/382**, K **228/382**; K-only gap **95**, A-only **42**, neither **59**. K is lower on five seeds, short **16–29** rows/seed. K rises **31.8%→89.1%** across cycle-36 U quartiles, but the high-U half has only **28–31** rows/seed; **154/382** never form K and only **28/228** available form it after cycle 60. No stable tag (pooled **44.7–77.1%**, per-seed **0–100%**); **97.2%** of candidate/reverse pairs agree; universe near-regular. At 63–64 edges a successor needs **93.8–95.2%** K or a larger universe. See [report](A1-K-DECOMPOSITION.md). |
+| N20 competent rule draft | **DRAFT — RULE FIXED; NO TARGET SELECTED, NOT FROZEN, NOT RUN**; retain competent current N4 targets, fill to 20 by fixed hash order with endpoint degree ≤3, fail rather than admit non-competent rows. Capacity-respecting matching reaches **23–36** rows; **6/6** seeds feasible; current N4 supplies only **12/24** competent rows, dropping **12/24**, so the rule defines a baseline-competent replacement estimand. The 120-cycle no-arm screen is not future-blind; C1 remains 31–44. See [the draft](A1-N20-COMPETENT-SELECTION.md). |
+| Stream dedupe / target pool | **FLAGGED — 112-ROW STREAM IS DUPLICATED; POOL SUFFICIENT FOR 20**; 382 candidate + 286 reverse + 4 extra rows collapse to 384 unique undirected edges (64/seed), so the four-seed C1 pass is not a wider universe and unique C1 remains **31–44**. The candidate pool has **23–36 A&K-available edges/seed**, enough for 20 competent N20 rows, while the current selection has **5–12**; C2/C8 is a selection problem, C1 is not repaired. See [the report](A1-DESIGN-VIABILITY.md). |
+| Target viability / C2 | **FLAGGED — C2 NOT PASSABLE UNDER N4 OR N20**; N4 has 10/24 carrier-missing target rows and N20 has 52/120; both have 0/6 C2-viable seeds. N20 adds 42 missing rows and retains all 10 N4 missing rows. Under C2's predicates, 38/96 N4 and 202/480 N20 target cell-rows cannot pass; see [the report](A1-TARGET-VIABILITY.md). |
+| C1 denominator floor | **ADOPTED — BINDING FOR A1** with the C1/C4 VOID gate; minimum 60 paired-control rows; 60–64 may be read with three losses; below 60 is **VOID — `C1_DENOMINATOR_BELOW_FLOOR`**, even at 59/59 |
+| C1 denominator impact | **RECORDED — REFERENCE ONLY**; 59→60 rows at `q=.95` is **0.000039 → 0.005409**, a loss-boundary step; required-retention scenarios cover 50–95% power |
+| C1 power-design target | **RECORDED — DESIGN CRITERION**; 80% all-six-seed power at the upper-bound 63-row scenario requires **q=0.984017** under the independent model (0.984271 at 64; 0.983204 at 60); not an observed retention or a second acceptance gate |
+| C1 power curve | **RECORDED — REFERENCE ONLY**; the denominators are scenario sizes, not observed availability; at assumed `q=.95, n=63`, all six seeds pass at **0.003**; at `q=.98` at **0.632**. Correlation sensitivity at the same point: path rho=.5 per-seed **0.454**; seed rho=.5 all-six **0.073**; both .5 all-six **0.113**. These are sensitivity assumptions, not estimated correlations ([review](A1-POWER-REVIEW.md)) |
+| C7/C8 denominator unit | **ADOPTED — C7 PER-EDGE RATE; C8 N=20 DESIGN REGISTERED, NOT FROZEN**; both gates are per seed and pooled rows are rejected. C7 has 8 Y- rows at N=4 for completeness/order, but its 0.05 margin is an A/K rate over 120 cycles per edge (1/120 = 0.008333), so C7 is **RESOLVED** at N=4. C8 has 4 A-K- target rows (1/4 = 0.25); at the N=8 maximum, 8 (1/8 = 0.125). The separate N=20 design supplies 20 rows and a 0.05 step if adopted ([design](A1-C8-EXPANSION.md)); the current block remains C8-under-resolved ([record](A1-C7-C8-DENOMINATOR.md)) |
+| Denominator-resolution audit | **FLAGGED — 4 CURRENT SCENARIOS; N=20 REGISTERED PASSES**; C1 target-only at 4 and N=8, C8 at 4 and N=8 (8 rows, 1/8 = 0.125); C7 is rate-resolved at 1/120 = 0.008333 and is not flagged; the registered N=20 C8 design passes at 1/20 = 0.05; expanded C1 at the 63-row upper bound and C4 at N=8 pass ([audit](A1-DENOMINATOR-RESOLUTION.md)); `--parts` recomputes these from actual cells once parts exist, with no parts yet |
+| C1/C4 gate order | **ADOPTED — ONE POST-FREEZE VOID GATE (2026-11-14)**; C1 or C4 failure/unmeasurability VOIDs the result; the 60-row floor is part of the same decision ([record](A1-C1-C4-VOID-GATE.md)) |
+| C4 non-target neighbour rows | **IMPLEMENTED — NOT RUN**; `c1_rows`/`score_c1` can include baseline-available non-target edges in C1; `a1_result.assemble` reports C1 and C4 together |
+| C1/C4 observed assembly | **IMPLEMENTED — NOT RUN**; `python -m benchmarks.a1_result --parts` reads actual cell files and reports the observed denominators; an empty directory is **NOT RUN**, exit 2 |
+| C2/C3/C5/C7/C9 complete-coverage scoring | **IMPLEMENTED — NOT RUN**; `a1_arms.score_complete_gates` requires all six seeds, required cells and expected target rows; C2 is per seed and checks Y− A/K, C5 treats an absent carrier as no timing violation while rejecting malformed cycles, C7 checks each Y− cell against its paired control, and C9 requires all six cells; `a1_result.assemble` includes the scores for real parts |
+| C5 target timing | **PASS — FIXED EARLIER-U; NOT RUN**; `A1-C5-TARGET-TIMING-1` fixes the C5 sample at cycle 4, before the earliest current target carrier at cycle 5, and preserves all four current targets; the cycle-36 sample remains the target-selection diagnostic. C5 remains unrun until a granted cell produces its own U and carrier rows; 10 of 24 current observations have no carrier by cycle 120, which is left to the structural carrier gates rather than counted as a timing failure ([audit](A1-C5-TARGET-TIMING.md)) |
+| C1/C4 VOID gate | **ADOPTED — BINDING FOR A1**; a single post-freeze validity test where either C1 or C4 failure/unmeasurability makes the run **VOID**; the 60-row floor is adopted with it |
+| Target-freeze act | **DRAFT — AWAITING OWNER SIGNATURE; NOT FROZEN**; exact six target sets prepared for a separate freeze; no grant or run |
+| Owner decision memo | **DRAFT — C1/C4 ADOPTED ELSEWHERE**; remains for remaining Path A confirmation and provisional freeze; C1/C4 gate and floor are adopted separately; no freeze, grant or run |
+| Provisional-freeze gate order | **DRAFT — PROVISIONAL FREEZE ONLY**; drafts a provisional Path A target freeze; the post-freeze C1/C4 VOID gate and 60-row floor are **ADOPTED — BINDING FOR A1**; provisional means conditional evidentiary status, not revocable target identity; no freeze, grant or run |
+| Manifest freeze | **NOT DONE** |
+| Dated owner grant | **NOT DONE** |
+| A1 run | **NOT AUTHORISED** |
+
+## Checks
+
+```bash
+python -m benchmarks.a1_target_selection --check
+python -m benchmarks.a1_c8_target_selection --check
+python -m benchmarks.a1_adversarial_audit --check
+python -m benchmarks.a1_c5_target_timing --check
+python -m benchmarks.a1_two_path --self-test
+python -m pytest -q tests/test_a1_prefreeze.py tests/test_a1_c8_target_selection.py tests/test_a1_c5_target_timing.py
+```
+
+All six checks pass on the working tree that produced this report. The A1 gate still
+refuses because the manifest is unfrozen, no grant exists and the target block is
+unresolved.
+
+**Not evidence:** A protocol-compliance report. It records that the implementation
+matches the registered boundary; it creates no target freeze, grant, cell or result.

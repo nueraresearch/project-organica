@@ -40,6 +40,7 @@ from organica.memory import MemoryService            # noqa: E402
 from organica.sleep import SleepService              # noqa: E402
 from organica.streams import EVENTS_PER_CYCLE, STUDY_STREAM  # noqa: E402
 from organica.paths import temp_db                   # noqa: E402
+from benchmarks import engine_stamp
 
 MAX_THEORIES = SleepService.MAX_THEORIES
 MAX_HYPOTHESES = SleepService.MAX_HYPOTHESES
@@ -180,14 +181,14 @@ def main() -> None:
     for name, events, note in stimuli:
         r = evaluate(name, events, args.cycles, note)
         rows.append(r)
-        out_path.write_text(json.dumps({
+        out_path.write_text(json.dumps(engine_stamp.stamp({
             "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "cycles": args.cycles,
             "sustain_floor": SUSTAIN_FLOOR,
             "gate_population": "PRE-retention belief pool (policy-independent)",
             "substrate": "tag-frequency counter scoped to world events",
             "rows": list(rows),
-        }, indent=2), encoding="utf-8")
+        }), indent=2), encoding="utf-8")
         g = r["gates"]
         print(f"{name:<14} bel={r['pre_beliefs_mean']:>6.2f}/{r['pre_beliefs_p95']:<3} "
               f"ge2={r['pre_ge2_mean']:>5.2f}/{r['pre_ge2_max']:<2} "

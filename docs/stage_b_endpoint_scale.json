@@ -1,0 +1,146 @@
+{
+  "status": "NOT MEASURABLE AS DEFINED: the withheld set is empty on every cell (see `finding`), so no standard error exists and the gate cannot be evaluated. This is a result about the endpoint, not a bug in the probe.",
+  "finding": {
+    "measurable_cells": 0,
+    "cells": 12,
+    "formation_ordered_pairs_min": 756,
+    "formation_ordered_pairs_max": 756,
+    "statement": "an absence-based withheld set is empty on every cell: the formation window already exhibits every ordered tag-pair transition the behavioural window uses, because the world's vocabulary is small and a few hundred cycles of twelve events saturate the pair space. `held_out_next_tag` therefore cannot be defined by absence on this stream. It needs a world that DECLARES a withheld set and enforces it by conditioned sampling, as the compositional family does."
+  },
+  "what_this_is": "The per-world standard error of `held_out_next_tag`, the Stage B outcome redefined on the scale-stream family (option A), measured by a cluster bootstrap over scored behavioural-test positions for three consumed design-block seeds in each claimed configuration.",
+  "why_it_exists": "protocol \u00a75a: the predictor `DI` is defined only in the scale-stream family and the former outcome only in the compositional family. Option A keeps the predictor and defines the outcome on the stream the predictor lives on.",
+  "endpoint": {
+    "name": "held_out_next_tag",
+    "scorer": "benchmarks.acquisition_compositional.score -- mean pairwise binary log loss, the same scorer the composed endpoint used",
+    "scored": "consecutive-event positions in the behavioural test window that carry an ordered tag transition never seen in formation",
+    "window": "learning 50 cycles then test 50 cycles, starting one cycle after the world's confirmed onset"
+  },
+  "method": "each scored position is a cluster; its cells move together because the vocabulary is scored under every position; the world's score is the ratio (sum of position losses) / (sum of position cell counts), bootstrapped by resampling positions with replacement",
+  "replicates": 200,
+  "effect_gap_assumed": 0.05,
+  "design_block_cells": [
+    20261023,
+    20261024,
+    20261025
+  ],
+  "cells_are": "consumed Phase L seeds, regenerated deterministically; no seed is spent and none is re-allocated",
+  "confirmation_cycles_are": "the protocol \u00a72 medians per configuration, used to position the behavioural window; no onset is measured here and none is inferred",
+  "configurations": {},
+  "cells": [
+    {
+      "configuration": "2:1",
+      "design_block_cell": 20261023,
+      "withheld_transitions": 0,
+      "measurable": false,
+      "formation_pairs": 756,
+      "test_pairs": 670,
+      "reason": "no withheld transition occurs in the behavioural test window: formation already covers every ordered pair the test window uses"
+    },
+    {
+      "configuration": "2:1",
+      "design_block_cell": 20261024,
+      "withheld_transitions": 0,
+      "measurable": false,
+      "formation_pairs": 756,
+      "test_pairs": 640,
+      "reason": "no withheld transition occurs in the behavioural test window: formation already covers every ordered pair the test window uses"
+    },
+    {
+      "configuration": "2:1",
+      "design_block_cell": 20261025,
+      "withheld_transitions": 0,
+      "measurable": false,
+      "formation_pairs": 756,
+      "test_pairs": 676,
+      "reason": "no withheld transition occurs in the behavioural test window: formation already covers every ordered pair the test window uses"
+    },
+    {
+      "configuration": "3:1",
+      "design_block_cell": 20261023,
+      "withheld_transitions": 0,
+      "measurable": false,
+      "formation_pairs": 756,
+      "test_pairs": 647,
+      "reason": "no withheld transition occurs in the behavioural test window: formation already covers every ordered pair the test window uses"
+    },
+    {
+      "configuration": "3:1",
+      "design_block_cell": 20261024,
+      "withheld_transitions": 0,
+      "measurable": false,
+      "formation_pairs": 756,
+      "test_pairs": 644,
+      "reason": "no withheld transition occurs in the behavioural test window: formation already covers every ordered pair the test window uses"
+    },
+    {
+      "configuration": "3:1",
+      "design_block_cell": 20261025,
+      "withheld_transitions": 0,
+      "measurable": false,
+      "formation_pairs": 756,
+      "test_pairs": 630,
+      "reason": "no withheld transition occurs in the behavioural test window: formation already covers every ordered pair the test window uses"
+    },
+    {
+      "configuration": "4:1",
+      "design_block_cell": 20261023,
+      "withheld_transitions": 0,
+      "measurable": false,
+      "formation_pairs": 756,
+      "test_pairs": 622,
+      "reason": "no withheld transition occurs in the behavioural test window: formation already covers every ordered pair the test window uses"
+    },
+    {
+      "configuration": "4:1",
+      "design_block_cell": 20261024,
+      "withheld_transitions": 0,
+      "measurable": false,
+      "formation_pairs": 756,
+      "test_pairs": 618,
+      "reason": "no withheld transition occurs in the behavioural test window: formation already covers every ordered pair the test window uses"
+    },
+    {
+      "configuration": "4:1",
+      "design_block_cell": 20261025,
+      "withheld_transitions": 0,
+      "measurable": false,
+      "formation_pairs": 756,
+      "test_pairs": 606,
+      "reason": "no withheld transition occurs in the behavioural test window: formation already covers every ordered pair the test window uses"
+    },
+    {
+      "configuration": "6:1",
+      "design_block_cell": 20261023,
+      "withheld_transitions": 0,
+      "measurable": false,
+      "formation_pairs": 756,
+      "test_pairs": 516,
+      "reason": "no withheld transition occurs in the behavioural test window: formation already covers every ordered pair the test window uses"
+    },
+    {
+      "configuration": "6:1",
+      "design_block_cell": 20261024,
+      "withheld_transitions": 0,
+      "measurable": false,
+      "formation_pairs": 756,
+      "test_pairs": 548,
+      "reason": "no withheld transition occurs in the behavioural test window: formation already covers every ordered pair the test window uses"
+    },
+    {
+      "configuration": "6:1",
+      "design_block_cell": 20261025,
+      "withheld_transitions": 0,
+      "measurable": false,
+      "formation_pairs": 756,
+      "test_pairs": 523,
+      "reason": "no withheld transition occurs in the behavioural test window: formation already covers every ordered pair the test window uses"
+    }
+  ],
+  "limits": [
+    "the two readouts bracket plausible prediction quality (the world's own law and the same machinery rotated onto a wrong law); neither is the engine's readout, whose loss distribution does not exist before the run",
+    "the confirmation cycles are the protocol's medians, not measured onsets, so this measures the estimator on plausible windows rather than reproducing a run",
+    "the readouts carry no noise beyond the world's own, so a real readout with heavier-tailed losses would give a larger standard error",
+    "three design-block seeds per configuration measure the estimator; they do not authorise the run and they are not the confirmatory block",
+    "a bootstrap standard deviation is itself estimated, so the reported figures carry Monte-Carlo uncertainty not shown here"
+  ]
+}

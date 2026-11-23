@@ -1,0 +1,254 @@
+{
+  "what_this_is": "A reproduction check of four committed Stage B cells: the engine was re-executed and its DI trajectory, onset, eligibility and score were compared with the assembly.",
+  "selection_rule": "the 90th cell of each configuration's 180-cell block, fixed before any cell was re-run",
+  "picks": [
+    {
+      "configuration": "2:1",
+      "seed": 700000090
+    },
+    {
+      "configuration": "3:1",
+      "seed": 700000270
+    },
+    {
+      "configuration": "4:1",
+      "seed": 700000450
+    },
+    {
+      "configuration": "6:1",
+      "seed": 700000630
+    }
+  ],
+  "cells": [
+    {
+      "configuration": "2:1",
+      "seed": 700000090,
+      "assembly": {
+        "onset": 562,
+        "eligible": false,
+        "censored": false,
+        "outcome": null,
+        "cycles_run": 589,
+        "trajectory_sha": "ebbed5bdc7fbeb7d"
+      },
+      "rerun": {
+        "onset": 552,
+        "eligible": false,
+        "censored": false,
+        "outcome": null,
+        "cycles_run": 589,
+        "trajectory_sha": "9225c9bdf0a2e15c"
+      },
+      "comparison": {
+        "trajectories_identical": false,
+        "cycles_differing": 10,
+        "first_difference": 552,
+        "last_difference": 561,
+        "onset_difference": -10,
+        "outcome_identical": true,
+        "eligibility_identical": true
+      }
+    },
+    {
+      "configuration": "3:1",
+      "seed": 700000270,
+      "assembly": {
+        "onset": 326,
+        "eligible": true,
+        "censored": false,
+        "outcome": 0.154001,
+        "cycles_run": 454,
+        "trajectory_sha": "54c4f9c3a6abc59a"
+      },
+      "rerun": {
+        "onset": 332,
+        "eligible": true,
+        "censored": false,
+        "outcome": 0.154001,
+        "cycles_run": 454,
+        "trajectory_sha": "ea00a79583ba87b8"
+      },
+      "comparison": {
+        "trajectories_identical": false,
+        "cycles_differing": 35,
+        "first_difference": 326,
+        "last_difference": 453,
+        "onset_difference": 6,
+        "outcome_identical": true,
+        "eligibility_identical": true
+      }
+    },
+    {
+      "configuration": "4:1",
+      "seed": 700000450,
+      "assembly": {
+        "onset": 279,
+        "eligible": true,
+        "censored": false,
+        "outcome": 0.147971,
+        "cycles_run": 412,
+        "trajectory_sha": "25dbddee16cdfd44"
+      },
+      "rerun": {
+        "onset": 279,
+        "eligible": true,
+        "censored": false,
+        "outcome": 0.147971,
+        "cycles_run": 412,
+        "trajectory_sha": "25dbddee16cdfd44"
+      },
+      "comparison": {
+        "trajectories_identical": true,
+        "cycles_differing": 0,
+        "first_difference": null,
+        "last_difference": null,
+        "onset_difference": 0,
+        "outcome_identical": true,
+        "eligibility_identical": true
+      }
+    },
+    {
+      "configuration": "6:1",
+      "seed": 700000630,
+      "assembly": {
+        "onset": 259,
+        "eligible": true,
+        "censored": false,
+        "outcome": 0.147733,
+        "cycles_run": 379,
+        "trajectory_sha": "afd818ace3488bf8"
+      },
+      "rerun": {
+        "onset": 250,
+        "eligible": true,
+        "censored": false,
+        "outcome": 0.147733,
+        "cycles_run": 379,
+        "trajectory_sha": "dc8853d960c88fae"
+      },
+      "comparison": {
+        "trajectories_identical": false,
+        "cycles_differing": 71,
+        "first_difference": 250,
+        "last_difference": 375,
+        "onset_difference": -9,
+        "outcome_identical": true,
+        "eligibility_identical": true
+      }
+    }
+  ],
+  "replicates": {
+    "free": {
+      "pythonhashseed": "unset (random per process)",
+      "runs": [
+        {
+          "configuration": "2:1",
+          "seed": 700000090,
+          "onsets": [
+            552,
+            552
+          ],
+          "outcomes": [
+            null,
+            null
+          ],
+          "trajectories_identical": true,
+          "trajectory_sha": "9225c9bdf0a2e15c"
+        },
+        {
+          "configuration": "6:1",
+          "seed": 700000630,
+          "onsets": [
+            250,
+            250
+          ],
+          "outcomes": [
+            0.147733,
+            0.147733
+          ],
+          "trajectories_identical": true,
+          "trajectory_sha": "dc8853d960c88fae"
+        }
+      ]
+    },
+    "pinned": {
+      "pythonhashseed": "0",
+      "runs": [
+        {
+          "configuration": "2:1",
+          "seed": 700000090,
+          "onsets": [
+            552,
+            552
+          ],
+          "outcomes": [
+            null,
+            null
+          ],
+          "trajectories_identical": true,
+          "trajectory_sha": "9225c9bdf0a2e15c"
+        },
+        {
+          "configuration": "6:1",
+          "seed": 700000630,
+          "onsets": [
+            250,
+            250
+          ],
+          "outcomes": [
+            0.147733,
+            0.147733
+          ],
+          "trajectories_identical": true,
+          "trajectory_sha": "dc8853d960c88fae"
+        }
+      ]
+    }
+  },
+  "hash_seed_sweep": {
+    "cell": {
+      "configuration": "6:1",
+      "seed": 700000630
+    },
+    "note": "the same cell, once per PYTHONHASHSEED value, to separate nondeterminism from an environment difference",
+    "runs": [
+      {
+        "pythonhashseed": "0",
+        "onset": 250,
+        "outcome": 0.147733,
+        "trajectory_sha": "dc8853d960c88fae"
+      },
+      {
+        "pythonhashseed": "1",
+        "onset": 259,
+        "outcome": 0.147733,
+        "trajectory_sha": "afd818ace3488bf8"
+      },
+      {
+        "pythonhashseed": "2",
+        "onset": 250,
+        "outcome": 0.147733,
+        "trajectory_sha": "06375034c0ead26d"
+      },
+      {
+        "pythonhashseed": "3",
+        "onset": 259,
+        "outcome": 0.147733,
+        "trajectory_sha": "afd818ace3488bf8"
+      },
+      {
+        "pythonhashseed": "4",
+        "onset": 250,
+        "outcome": 0.147733,
+        "trajectory_sha": "dc8853d960c88fae"
+      },
+      {
+        "pythonhashseed": "5",
+        "onset": 259,
+        "outcome": 0.147733,
+        "trajectory_sha": "afd818ace3488bf8"
+      }
+    ]
+  },
+  "what_this_does_not_show": "It does not re-run the block and does not re-score the verdict. Four cells of 720 were re-executed."
+}

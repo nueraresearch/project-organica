@@ -21,6 +21,7 @@ conversion is also verified against an independent reader (pypdf) during
 development; that verification is recorded in ``docs/PDF-PIPELINE.md``.
 """
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import io
 import re

@@ -30,6 +30,7 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
 
 from benchmarks.force_matrix import Instrumented  # noqa: E402
+from benchmarks import engine_stamp
 
 
 class Diag(Instrumented):
@@ -164,11 +165,11 @@ def main() -> None:
               f"{r['beliefs_final']:<10}{str(r['pre_beliefs_final']):<13}"
               f"{str(r['competing_subjects_final']):<11}")
 
-    Path(args.out).write_text(json.dumps({
+    Path(args.out).write_text(json.dumps(engine_stamp.stamp({
         "cycles": args.cycles,
         "threshold": results[0]["threshold"],
         "results": results,
-    }, indent=2), encoding="utf-8")
+    }), indent=2), encoding="utf-8")
     print(f"\nwrote {args.out}")
 
 

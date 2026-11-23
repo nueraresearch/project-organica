@@ -1,0 +1,33 @@
+{
+  "kind": "active_inquiry_benchmark",
+  "generated_utc": "2026-11-05T02:32:22Z",
+  "cycles": 150,
+  "passive": {
+    "arm": "passive_observation",
+    "cycles": 150,
+    "seconds": 49.5,
+    "inventory_total": 129,
+    "mean_hypotheses": 14.35,
+    "mean_theories": 0.0,
+    "mean_questions": 0.0,
+    "mean_experiments": 4.9,
+    "questions_closed": 0,
+    "interventions_executed": 0
+  },
+  "active": {
+    "arm": "active_inquiry",
+    "cycles": 150,
+    "seconds": 98.03,
+    "inventory_total": 285,
+    "mean_hypotheses": 21.72,
+    "mean_theories": 4.09,
+    "mean_questions": 4.09,
+    "mean_experiments": 4.9,
+    "interventions_executed": 735,
+    "experiments_validated": 0,
+    "experiments_refuted": 735,
+    "questions_closed": 0
+  },
+  "delta_inventory": 156,
+  "delta_inventory_pct": 120.93
+}

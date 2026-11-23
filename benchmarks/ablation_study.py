@@ -77,6 +77,7 @@ from ablation_metrics import (  # noqa: E402
     structure_tags,
 )
 from lineage_audit import audit as lineage_audit  # noqa: E402
+from benchmarks import engine_stamp
 
 
 # ---------------------------------------------------------------------------
@@ -224,17 +225,34 @@ class NoFalsificationService(SleepService):
 
     DEATH_THRESHOLD = -1.0
 
-    def _natural_selection(self, prior, concepts, phrases, loops, predictions):
+    def _natural_selection(self, prior, concepts, phrases, loops, predictions, **kw):
+        """Keep reinforcement; remove decay and extinction only.
+
+        The signature mirrors ``SleepService._natural_selection``, which now
+        selects over G1-G8. The extra generations are re-stored untouched, so
+        nothing can die and the D arm keeps measuring "no extinction" rather
+        than "no selection at all".
+
+        Both sides of the identity comparison are built with
+        ``_candidate_key``. An earlier version spelled the current-cycle keys
+        as unsorted joins of member lists, while the engine's key sorts them,
+        so a multi-member concept could fail to match its prior copy and lose
+        the reinforcement this arm is supposed to keep.
+        """
         strengthened = 0
-        current_keys: set[str] = set()
-        for c in concepts:
-            current_keys.add(f"concept:{'|'.join(c.members)}")
-        for p in phrases:
-            current_keys.add(f"phrase:{'|'.join(p.members)}")
-        for l in loops:
-            current_keys.add(f"loop:{'|'.join(l.path)}")
-        for p in predictions:
-            current_keys.add(f"prediction:{p.source}|{p.target}")
+        current = [*concepts, *phrases, *loops, *predictions]
+        for name in (
+            "meta_concepts", "processes", "roles", "workflows", "schemas",
+            "hypotheses", "theories", "questions", "dreams",
+            "investigations", "experiments",
+        ):
+            for cand in kw.get(name) or ():
+                # A carried-forward structure is a view of prior state, not
+                # evidence produced this cycle (docs/V1-FREEZE.md section 6).
+                if not getattr(cand, "carried_forward", False):
+                    current.append(cand)
+        current_keys = {self._candidate_key(asdict(c)) for c in current}
+        current_keys.discard("")
 
         for prior_c in prior:
             key = self._candidate_key(prior_c)
@@ -249,6 +267,7 @@ class NoFalsificationService(SleepService):
                 self._reinforce_current(
                     key, prior_conf, prior_gen, prior_obs,
                     concepts, phrases, loops, predictions,
+                    roles=kw.get("roles"), schemas=kw.get("schemas"),
                 )
             else:
                 # No decay, no extinction: re-stored at its current
@@ -958,7 +977,7 @@ def main() -> int:
 
     out = REPO_ROOT / args.out
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps({
+    out.write_text(json.dumps(engine_stamp.stamp({
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "phase": "G",
         "title": "Organica Ablation Study",
@@ -987,7 +1006,7 @@ def main() -> int:
         "cross_domain_transfer": cdt,
         "conditions": results,
         "comparisons": comparisons,
-    }, indent=2), encoding="utf-8")
+    }), indent=2), encoding="utf-8")
     print(f"\n  Full report written to: {out}")
     return 0
 

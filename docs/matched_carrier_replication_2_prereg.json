@@ -1,0 +1,110 @@
+{
+ "prereg": "MATCHED-CARRIER-REPLICATION-2",
+ "kind": "matched_carrier_replication_prereg",
+ "status": "FROZEN, RUN",
+ "frozen_on": "2026-11-12",
+ "question": "Does the matched carrier base-rate contrast replicate on a fresh six-seed block: do asserted-but-never-served world edges form reported loops more often than matched never-served and never-asserted controls?",
+ "reference": {
+  "source": ".scratch/loop_retention.json",
+  "case_loops": 26,
+  "case_n": 26,
+  "control_loops": 13,
+  "control_n": 26,
+  "risk_difference_pp": 50.0,
+  "seed_cluster_ci95_pp": [
+   34.5,
+   69.6
+  ],
+  "mcnemar_exact_p": 0.00024,
+  "seeds": [
+   20611601,
+   20611602,
+   20611603,
+   20611604,
+   20611605,
+   20611606
+  ]
+ },
+ "design": {
+  "seeds": [
+   20615201,
+   20615202,
+   20615203,
+   20615204,
+   20615205,
+   20615206
+  ],
+  "cells": 6,
+  "cycles": 120,
+  "cap": 40,
+  "world": "generate_compositional_world(seed=, cycles=120) with the PHASE_ACQUISITION schedule and one replay per seed",
+  "case": "asserted world edge with zero direct served windows",
+  "control": "same-seed world edge with asserted=false and zero direct served windows",
+  "matching": "cases sorted by (final temporal count, edge); each case takes the nearest unused same-seed control by |final temporal count difference|; ties by lexicographically smaller edge; 1:1, no replacement",
+  "direct_count": "final direct temporal transition count from service._load_temporal(); validated against the Q4 census on seed 20611601, where all 112 world edges match the recorded count exactly",
+  "endpoint": "ever_loop: at least one reported loop_candidate path in any of the 120 cycles contains the edge in either orientation",
+  "replay": "A single replay supplies the final asserted set, the direct served windows and every reported loop path. No committed fingerprint is available for this fresh block; the replay is the observation."
+ },
+ "endpoint": {
+  "name": "ever_loop",
+  "case_rate": "case_loops / matched_pairs",
+  "control_rate": "control_loops / matched_pairs",
+  "contrast": "case rate minus control rate, in percentage points"
+ },
+ "inference": {
+  "paired_test": "exact two-sided McNemar test on the discordant pairs; p = min(1, 2 * sum_{k=0}^{min(b,c)} C(b+c,k) / 2^(b+c))",
+  "cluster_interval": "percentile bootstrap over the six seeds as clusters: resample six seeds with replacement, pool their matched pairs, recompute the risk difference; 10,000 replicates; fixed RNG seed 20261112",
+  "alpha": 0.05,
+  "multiplicity": "one prespecified contrast; no adjustment",
+  "magnitude_note": "Whether the original +50 pp lies inside the fresh interval is reported, but it does not decide the replication verdict"
+ },
+ "criteria": [
+  {
+   "id": "R1",
+   "name": "direction",
+   "test": "case ever_loop rate > control ever_loop rate"
+  },
+  {
+   "id": "R2",
+   "name": "paired association",
+   "test": "exact two-sided McNemar p < 0.05"
+  },
+  {
+   "id": "R3",
+   "name": "cluster precision",
+   "test": "seed-cluster 95% interval lower bound > 0 pp"
+  }
+ ],
+ "verdicts": {
+  "REPLICATED": "R1, R2 and R3 all pass.",
+  "NOT REPLICATED": "Any of R1, R2 or R3 fails.",
+  "VOID": "No case exists, the seed block collides with a recorded block, or 1:1 matching cannot be completed in every seed."
+ },
+ "engine": {
+  "version": "0.15.0",
+  "cap": 40,
+  "cycles": 120,
+  "edit": "none"
+ },
+ "voided_prior_attempt": {
+  "prereg": "MATCHED-CARRIER-REPLICATION-1",
+  "seeds": [
+   20615101,
+   20615102,
+   20615103,
+   20615104,
+   20615105,
+   20615106
+  ],
+  "reason": "The first pipeline matched on served-window counts, which are zero for every never-served edge, instead of the final temporal count. The control sample is therefore not the matched sample the census defines, and no contrast from that run is read. The seeds are not reused here.",
+  "record": ".scratch/matched_carrier_replication_1_void.json"
+ },
+ "result": "docs/matched_carrier_replication_2.json",
+ "not_evidence": "A six-seed diagnostic of one matched contrast in one synthetic world family. It is not a capability, retention, transfer, causal or engine-effect claim, and it does not show that loops cause assertion.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__",
+ "completed_on": "2026-11-12",
+ "verdict": "REPLICATED"
+}

@@ -1,0 +1,233 @@
+{
+  "prereg": "PRESENCE-CONSTRUCT-1",
+  "status": "FROZEN, RUN",
+  "no_cells_run": false,
+  "frozen_on": "2026-11-10",
+  "freeze_notes": {
+    "part_stamp_check": "On 2026-11-10, before any cell, C1 and the result check were tightened to require each part's `engine_commit` to equal the current pin's `head_at_pin`, in addition to the engine version and digest. A part built before a re-pin is rejected even when the byte digest is unchanged; a part built by another engine is rejected on version or digest. No seed, gate count, endpoint, verdict or authorisation changed.",
+    "additions_before_any_cell": [
+      "Q1 adds one gate the draft does not have: `C9_audit_row_reproduced`, which requires every Q1 cell to reproduce the published audit row for its seed (world edges, present edges, asserted world edges and asserted fingerprint). The draft's C1-C8 stand unchanged. The gate exists because Q1 reuses the audit's seeds and build: without it, a cell could differ from the audit for an unstated reason and the construct comparison would be made against a different world than the one it names.",
+      "Q1 names its determinism control explicitly: `C8` reruns the audit's first seed in a fresh process. The draft says \"one seed\" and does not name it; naming it at freeze time prevents choosing the seed after the readings are seen."
+    ],
+    "seed_reuse": "The six seeds are the published audit's own seeds, not a fresh block. Reuse is deliberate: Q1 asks whether the quantities are comparable on the same build, the same world and the same window as the audit, and a fresh seed block could not be compared with it. This record therefore makes no freshness claim and no claim of a new world axis; C9 turns the reuse into a check rather than a convenience.",
+    "no_threshold": "Q1 declares no bar and no ceiling. Its verdicts are membership and identity checks, not magnitude estimates, so there is no threshold that could be calibrated from the data it judges.",
+    "runner_installed": "The runner was installed on 2026-11-10 after the freeze. It changes no seed, gate, verdict or endpoint, runs no cell, and refuses while authorisation is false; the dated record remains FROZEN, NOT RUN and unauthorised.",
+    "authorisation_request": "The request was added on 2026-11-10 after the freeze. It asks for the frozen block, changes no seed, gate, endpoint or verdict, and remains REQUESTED \u2014 NOT GRANTED. **Superseded the same day:** on 2026-11-10 the owner authorised all three frozen blocks (`Authorize all runs`); see `authorisation` and `docs/AUTHORISATION-PRESENCE-CONSTRUCT-1.md`.",
+    "c9_fingerprint_basis": "C9 compares the audit's `asserted_fingerprint`, which the harness computes over the whole asserted set of all six structure types (`asserted_pairs`), not over the 40-edge `A_W` subset. Q1 calls `benchmarks.acquisition_harness.asserted_fingerprint`, the same function the audit gate uses, so the rule cannot drift from the audit, and compares `asserted_world_edges` separately, so a cell that fingerprinted only `A_W` would fail C9 rather than pass it. The basis was checked against the harness that produced the audit on 2026-11-10, before any grant.",
+    "audit_row_preflight": "On 2026-11-10, before any cell, Q1 added an audit-row preflight that runs immediately after the record's own validation and before a granted run can launch a cell. It requires the comparator audit to have exactly one row per frozen seed, and every row to carry a lowercase 16-hex `asserted_fingerprint`. A row that is missing the field, carries a non-hex or wrong-length value, or a comparator whose row count differs from the six frozen seeds is REFUSED before `--measure` or `--cell` can run. Tests mutate the comparator's fingerprint and row count independently and prove the grant is refused with no cell attempted. No seed, gate, endpoint, verdict or authorisation changed.",
+    "authorisation_recorded": "On 2026-11-10, after the freeze and before any cell, the owner authorised all three frozen conversion blocks: `Authorize all runs`, recorded in `docs/AUTHORISATION-PRESENCE-CONSTRUCT-1.md` with the scope and the absence of an authorised commit. The amendment sets `granted`, `granted_on`, `document`, `quote`, `scope` and `request` and changes no seed, gate, endpoint, verdict or cycle count. No cell was run while recording it.",
+    "execution_record": "On 2026-11-10 the authorised block was run on the shipped engine: verdict `CONSTRUCT VALID`, recorded in `docs/presence_construct_audit_run.json` with the generated page `docs/PRESENCE-CONSTRUCT-AUDIT-RESULT.md`. No seed, level, gate, endpoint, verdict or decision-table row was changed before or after the run; the result is the one the frozen gates produced."
+  },
+  "program": {
+    "draft": "docs/PRESENCE-ASSERTION-CONVERSION-PREREGISTRATION.md",
+    "question": "Q1 construct audit",
+    "relationship": "This is Q1 of the draft program, frozen on its own so the program's construct stage is a record rather than a draft. It uses the draft's Q1 quantities, its six audit seeds, its 120-cycle window and its C1-C8 gates without renaming them, and adds C9 so that the reused seeds are checked against the published audit rather than assumed. It does not wait for Q2 or Q3 and it does not use their cells. If Q2 or Q3 later changes a definition, this block is not re-scored; if this block finds the construct unsound, both later blocks must say so in their own records."
+  },
+  "question": "On the shipped 0.14.0 engine at the shipped cap, are presence, admitted and asserted measured as comparable quantities on the same world edges, the same build and the same observation window, so that a conversion or cap reading rests on an edge-level measurement rather than on a count difference?",
+  "hypothesis": {
+    "statement": "The published audit reports two endpoints on one build but not the edges between them: it has no per-edge presence, no union of admitted predictions, no surviving admitted set and no bypass. If the quantities are comparable, every asserted world edge is also present, every seed's world and presence are the audit's own, and the six seeds produce more than one stage fingerprint; if they are not, an asserted world edge can be absent from raw presence, which is an object mismatch rather than a conversion result.",
+    "prediction": "On every seed, `A_W` is a subset of `P`, `P` equals the audit's present count and digest-bearing membership, each cell reproduces its audit row, at least two distinct `(P, S_ever, A_W)` fingerprints appear across the six seeds, and a fresh-process rerun reproduces its seed's stage fingerprints.",
+    "falsifier": "Any seed on which an asserted world edge is absent from `P`, or on which `P`, `S_ever` or `A_W` has a zero denominator, or on which the cell does not reproduce the published audit row.",
+    "alternative": "The quantities may be comparable in principle and still collapse in this window \u2014 for example if `S_ever` or `A_W` is empty, if all six seeds produce one fingerprint, or if a rerun changes a fingerprint. Those outcomes are reported as `NOT MEASURABLE` or `VOID`, not as a construct pass."
+  },
+  "engine": {
+    "version": "0.14.0",
+    "edit": "none",
+    "pin": "docs/engine_pin.json",
+    "treatment": "none: the shipped `organica.sleep.SleepService`, no subclass and no observer",
+    "cap_source": "organica.sleep.SleepService.MAX_PREDICTIONS",
+    "digest_recorded_per_cell": "engine version and sha256, so a cell built by another engine is caught rather than averaged"
+  },
+  "prior": [
+    {
+      "block": "same-build presence/assertion audit",
+      "artifact": "docs/presence_assertion_audit_0.14.0.json",
+      "reading": "112 of 112 world edges present and 34-47 asserted on the six seeds, at the shipped cap of 40",
+      "why_it_does_not_answer": "it is count-only: it records no per-edge membership, no `S_ever`, no `S_final`, no `A_pred` and no bypass, so it cannot show that presence, admission and assertion are the same object"
+    },
+    {
+      "block": "presence-to-assertion ladder trace",
+      "artifact": "docs/presence_assertion_ladder_0.14.0.json",
+      "reading": "171 of 423 misses are never admitted and 252 are admitted and not asserted; the verdict is MIXED",
+      "why_it_does_not_answer": "it traces one cap level with an offered arm that raises the cap in a recording subclass, so it quantifies the split but does not establish the construct Q1 asks about"
+    }
+  ],
+  "design": {
+    "seeds": [
+      20261100,
+      20261101,
+      20261102,
+      20261103,
+      20261104,
+      20261105
+    ],
+    "cycles": 120,
+    "cells": 6,
+    "cap": 40,
+    "control_cell": {
+      "seed": 20261100,
+      "why": "the audit's first seed, rerun in a fresh process with the shipped engine; `C8` compares its stage fingerprints with the reading cell. It is a control, not a seventh reading cell."
+    },
+    "world": "the Gate-13 compositional world (16 tags, 112 derivable edges), 120 cycles covering warmup and acquisition, the same world and window as the published audit",
+    "pairing": "one cell per audit seed; each cell is paired with its own published audit row, so the comparison is per seed and never pooled",
+    "fresh": false,
+    "freshness": "Not a fresh seed block. These are the audit's six historical seeds, reused so that Q1 can compare against the audit row itself; the reuse is disclosed and checked by `C9`, not presented as independence.",
+    "no_cells_run": false
+  },
+  "endpoints": {
+    "W": "the world's derivable edges from the training stream",
+    "P": "world edges present in raw temporal memory at the end of the run (`temporal_edges(min_count=1)`), before any cap",
+    "S_cycle": "the prediction edges the engine returned from one sleep cycle, read from the `SleepReport` the public API already returns",
+    "S_ever": "the union of `S_cycle` over the run; a union, not a retention step",
+    "S_final": "the admitted prediction edges still present in the surviving candidate snapshots",
+    "A": "the final asserted structure over all six structure types (`structure_edges`)",
+    "A_W": "`A` intersected with `W`, the assertion endpoint",
+    "A_pred": "`A_W` intersected with `S_ever`: world edges asserted and ever admitted",
+    "A_other": "`A_W` minus `S_ever`: world edges asserted without ever being admitted, the bypass"
+  },
+  "not_measured": {
+    "C": "constructed candidates; defined by the draft, not observed by Q1",
+    "E": "eligibility reason; defined by the draft, not observed by Q1",
+    "R": "rank; defined by the draft, not observed by Q1",
+    "U": "readout use; outside this block's instrument",
+    "rule": "A stage listed here is not measured, not zero. Q1 may not impute a count for it, and a later block that reads it does so under its own record."
+  },
+  "gates": {
+    "C1_build": "one build, the exact digest, the pin's `head_at_pin` commit, every module in `docs/engine_pin.json` unchanged; no `organica/` module differs from the pin",
+    "C2_world": "one `W` per seed; no perturbation of event order or training window",
+    "C3_presence": "`P` is a set, not a count; its digest and per-edge membership are recorded",
+    "C4_denominator": "`W`, `P` and `S_ever` are non-empty in every cell; a zero denominator is not measurable",
+    "C5_object": "`A_W` is a subset of `P`; a failure is `OBJECT MISMATCH`",
+    "C6_witnesses": "at least one positive `A_W` edge and one negative `P` minus `A_W` edge per seed",
+    "C7_seed_axis": "at least two distinct `(P, S_ever, A_W)` fingerprints across the six seeds",
+    "C8_determinism": "a fresh-process rerun of the declared control seed reproduces its stage fingerprints and its ordered admission window",
+    "C9_audit_row_reproduced": "every cell reproduces its published audit row: world edges, present edges, asserted world edges and asserted fingerprint"
+  },
+  "verdict_order": [
+    "C1_build",
+    "C8_determinism",
+    "C5_object",
+    "C4_denominator",
+    "C2_world",
+    "C3_presence",
+    "C6_witnesses",
+    "C7_seed_axis",
+    "C9_audit_row_reproduced"
+  ],
+  "decision_table": [
+    {
+      "condition": "C1 fails: a cell is built by an engine that is not the pinned build",
+      "verdict": "VOID",
+      "decision": "no reading is made; repair the build and register a fresh block",
+      "licenses": "nothing; a mixed-build cell is inadmissible"
+    },
+    {
+      "condition": "C8 fails: a fresh-process rerun changes a stage fingerprint",
+      "verdict": "VOID",
+      "decision": "no reading is made; repair the instrument and register a fresh block",
+      "licenses": "nothing; a non-deterministic measurement is not a construct result"
+    },
+    {
+      "condition": "C5 fails: an asserted world edge is not in `P`",
+      "verdict": "OBJECT MISMATCH",
+      "decision": "stop the program's construct reading; repair the definition or the measurement and register a new block",
+      "licenses": "nothing about conversion or capacity; it reports that the quantities are not the same object"
+    },
+    {
+      "condition": "C4 fails: `W`, `P` or `S_ever` has a zero denominator",
+      "verdict": "NOT MEASURABLE",
+      "decision": "report the empty stage and make no construct reading; do not report the ratio as 0.0",
+      "licenses": "nothing; the empty stage is named, not smoothed"
+    },
+    {
+      "condition": "C2, C3, C6, C7 or C9 fails",
+      "verdict": "VOID",
+      "decision": "no reading is made; repair the harness and register a fresh block",
+      "licenses": "nothing; a world that moves, a count without membership, a missing witness, a single fingerprint or a cell that does not reproduce its audit row is inadmissible"
+    },
+    {
+      "condition": "every C gate passes",
+      "verdict": "CONSTRUCT VALID",
+      "decision": "publish the per-edge table and let the later blocks read their own stage tables as same-object measurements",
+      "licenses": "the program's construct step only: no conversion, cap, defect, mechanism or capability claim, and no authorisation of Q2 or Q3"
+    }
+  ],
+  "adoption": {
+    "rule": "Only `CONSTRUCT VALID` licenses anything, and what it licenses is that the later blocks may treat their per-edge readings as measurements of the same object. It does not license an engine change, a mechanism, a defect verdict, a capability claim or a run of Q2 or Q3. No cell in this block edits `organica/`.",
+    "withdrawal": "A construct reading is withdrawn if a cell stops reproducing its audit row, if the engine pin moves without a version bump, if a rerun changes a stage fingerprint, or if a later block finds `A_W` was not a subset of `P`. A withdrawn reading is recorded, not deleted.",
+    "not_authorised": [
+      "running the six cells or the control before the owner records authorisation",
+      "editing any file under organica/",
+      "imputing a count for `C`, `E`, `R` or `U`",
+      "claiming a conversion, cap, defect or capability result from a construct pass"
+    ]
+  },
+  "runner": {
+    "status": "built",
+    "why": "The freeze fixed the protocol; the runner is installed and refuses every entry point while authorisation is false.",
+    "entry_points": [
+      "--measure",
+      "--cell",
+      "--finish",
+      "--check",
+      "--dry-run"
+    ],
+    "cells": "six reading cells plus a fresh-process control rerun of seed 20261100",
+    "parts": "docs/presence_construct_audit_parts",
+    "consequence": "A granted record with a dated authorisation document can run the six cells and the control; without a grant, or with a grant whose document, quote or date is missing, --measure and --cell refuse. A --dry-run mode prints the seven cell commands and target part paths without running a cell or requiring a grant."
+  },
+  "stop_condition": "One block, six audit seeds, one control rerun, one per-edge table, no engine change. When it is analysed, the construct question is closed in one of the four verdicts above. A follow-up may read these cells at a different resolution; it may not add a seed, a stage, a gate or a criterion after the first cell, and it may not re-score the audit, the ladder or either frozen block. Q2 and Q3 remain separate records with their own authorisation.",
+  "cost": {
+    "cells": 6,
+    "control_cells": 1,
+    "cycles": 840,
+    "wall_clock_estimate": "not measured; the record does not invent an estimate, and the owner should treat the cost as unknown until the first authorised run reports it"
+  },
+  "authorisation": {
+    "required": true,
+    "granted": true,
+    "granted_on": "2026-11-10",
+    "document": "docs/AUTHORISATION-PRESENCE-CONSTRUCT-1.md",
+    "quote": "Authorize all runs",
+    "scope": "all three frozen conversion blocks: PRESENCE-CONSTRUCT-1 (Q1), PRESENCE-CAP-1 (Q2) and PRESENCE-CONVERSION-1 (Q3); the grants are recorded and no cell has been executed",
+    "request": "docs/AUTHORISATION-PRESENCE-CONSTRUCT-1.md",
+    "note": "The draft program's freeze checklist requires the owner's authorisation before a run, and the owner gave it on 2026-11-10: `Authorize all runs`, covering all three frozen conversion blocks. The grant is recorded in `docs/AUTHORISATION-PRESENCE-CONSTRUCT-1.md` and quoted there; the record stays FROZEN, NOT RUN and no cell has run. `--measure` and `--cell` still validate the grant on every invocation. A grant is not a run: executing the first cell is a separate, dated act."
+  },
+  "not_evidence": "This block does not show that the cap causes the presence/assertion gap, that conversion is efficient or defective, or that any mechanism is responsible. It does not measure `C`, `E`, `R` or `U`, and it does not establish a conversion rate beyond these six historical seeds. It may show only whether the endpoints are the same object on the same world, build and window; a `CONSTRUCT VALID` result is a measurement precondition, not a finding about the organism.",
+  "result": {
+    "artifact": "docs/presence_construct_audit_run.json",
+    "page": "docs/PRESENCE-CONSTRUCT-AUDIT-RESULT.md",
+    "verdict": "CONSTRUCT VALID",
+    "details": {
+      "seeds": 6
+    },
+    "engine_version": "0.14.0",
+    "ran_on": "2026-11-10"
+  },
+  "amendments": [
+    {
+      "date": "2026-11-11",
+      "kind": "sibling-independence",
+      "reason": "The three run conversion blocks share an engine build and an audit lineage and partly a seed set, so each record states what its verdict is independent of before any sibling result can be read as support.",
+      "clause": "PRESENCE-CONSTRUCT-1, PRESENCE-CAP-1 and PRESENCE-CONVERSION-1 are siblings: they measure different quantities on the same 0.14.0 build. This record's verdict is independent of its siblings in four senses. (a) No rows are pooled across the three, and no gate is satisfied by a sibling's measurement. (b) A sibling's verdict is not evidence for this record, in either direction: CONSTRUCT VALID does not support this verdict, CAP LIMITING does not support it, and OBSERVER NOT NEUTRAL does not withdraw it. (c) A sibling's failure does not void this record, and this record's verdict does not rescue a sibling. (d) What the three do share is disclosed rather than claimed as independence: the same engine build and the comparator audit lineage, which Q1 and Q2 reuse by design. Independence here means independence of evidence and verdict, not of seeds or build.",
+      "specific": "This record reuses the audit's six seeds; that reuse is a disclosed dependency on the audit lineage, not support from a sibling.",
+      "unchanged": [
+        "status",
+        "verdict",
+        "gates",
+        "seeds",
+        "result",
+        "authorisation"
+      ]
+    }
+  ],
+  "build_superseded": {
+    "date": "2026-11-11",
+    "recorded_version": "0.14.0",
+    "recorded_cap": 40,
+    "recorded_sha256": "1fc7be8fae436fa154ce8a142412ffaeb8f54768f3b3ceaacd18d457b13f33f2",
+    "shipped_version": "0.15.0",
+    "shipped_cap": 112,
+    "note": "This record fixes the cap-40 build it was written on. The cap landed at 112 in 0.15.0 under DECISION-CAP-LEVEL; the record is not re-scored and its verdict, if any, stands for the 0.14.0 cap-40 build. The cap-112 reading has its own record."
+  }
+}

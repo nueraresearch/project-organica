@@ -1,0 +1,124 @@
+{
+  "prereg": "DENSITY-PADDING-1",
+  "scheme": "whole_cycle",
+  "cells": 160,
+  "profile": {
+    "0.1": {
+      "delta_mean": 0.053125,
+      "control_mean": 0.38125,
+      "treated_mean": 0.434375,
+      "seeds_positive": 10,
+      "of": 16
+    },
+    "0.2": {
+      "delta_mean": 0.071875,
+      "control_mean": 0.509375,
+      "treated_mean": 0.58125,
+      "seeds_positive": 12,
+      "of": 16
+    },
+    "0.4": {
+      "delta_mean": 0.084375,
+      "control_mean": 0.696875,
+      "treated_mean": 0.78125,
+      "seeds_positive": 15,
+      "of": 16
+    },
+    "0.6": {
+      "delta_mean": 0.05,
+      "control_mean": 0.85625,
+      "treated_mean": 0.90625,
+      "seeds_positive": 14,
+      "of": 16
+    },
+    "0.8": {
+      "delta_mean": 0.15,
+      "control_mean": 0.85,
+      "treated_mean": 1.0,
+      "seeds_positive": 16,
+      "of": 16
+    }
+  },
+  "slots": {
+    "0.1": {
+      "control_intra": 3.9375,
+      "control_cross": 8.4375,
+      "treated_cross": 11.3125
+    },
+    "0.2": {
+      "control_intra": 3.5625,
+      "control_cross": 6.25,
+      "treated_cross": 8.375
+    },
+    "0.4": {
+      "control_intra": 2.4375,
+      "control_cross": 3.625,
+      "treated_cross": 4.375
+    },
+    "0.6": {
+      "control_intra": 1.0625,
+      "control_cross": 1.8125,
+      "treated_cross": 1.875
+    },
+    "0.8": {
+      "control_intra": 3.0,
+      "control_cross": 0.0,
+      "treated_cross": 0.0
+    }
+  },
+  "steps": [
+    {
+      "from": 0.1,
+      "to": 0.2,
+      "step": 0.01875
+    },
+    {
+      "from": 0.2,
+      "to": 0.4,
+      "step": 0.0125
+    },
+    {
+      "from": 0.4,
+      "to": 0.6,
+      "step": -0.034375
+    },
+    {
+      "from": 0.6,
+      "to": 0.8,
+      "step": 0.1
+    }
+  ],
+  "criteria": {
+    "P1": {
+      "judged": true,
+      "passed": false,
+      "definition": "for every adjacent pair in the ladder, mean Delta(next) - mean Delta(current) >= 0"
+    },
+    "P2": {
+      "judged": true,
+      "passed": false,
+      "definition": "mean Delta(0.6) >= mean Delta(0.1)"
+    }
+  },
+  "negative_control": {
+    "profile": "A2 primary",
+    "steps": [
+      -0.00625,
+      -0.025,
+      0.003125,
+      0.11875
+    ],
+    "P1_passed": false
+  },
+  "decision": {
+    "verdict": "WHOLE-CYCLE PADDING DOES NOT RESTORE A MONOTONE LADDER",
+    "reading": "the padding phase is not the whole story; the failing step is 0.4->0.6 (-0.0344)",
+    "monotone": false
+  },
+  "gate_passed": true,
+  "provenance": {
+    "cells": "docs/density_padding_run.json",
+    "prereg": "docs/density_padding_prereg.json",
+    "a2": "docs/density_interaction_a2_result.json"
+  }
+}

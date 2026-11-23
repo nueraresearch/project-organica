@@ -1,0 +1,35 @@
+{
+  "probe": "gate13_asserted_basis_under_supersession_and_freeze_amendment",
+  "measured": "2026-11-06",
+  "harness": "benchmarks.acquisition_harness.gate_acquisition_sufficiency",
+  "seed": 20261100,
+  "cycles": 120,
+  "threshold": 0.5,
+  "world_edges": 112,
+  "builds": [
+    {
+      "build": "e6d1bcc (pre-amendment)",
+      "covered_asserted_edges": 26,
+      "asserted_coverage": 0.232143,
+      "covered_temporal_edges": 112,
+      "raw_temporal_coverage": 1.0
+    },
+    {
+      "build": "supersession reader only (newest copy per id, death records)",
+      "covered_asserted_edges": 22,
+      "asserted_coverage": 0.196429,
+      "covered_temporal_edges": 112,
+      "raw_temporal_coverage": 1.0
+    },
+    {
+      "build": "reader + carried-forward amendment",
+      "covered_asserted_edges": 34,
+      "asserted_coverage": 0.303571,
+      "covered_temporal_edges": 112,
+      "raw_temporal_coverage": 1.0
+    }
+  ],
+  "method": "Each build is the same seed and world through the same harness. The pre-amendment build is `git archive e6d1bcc`; the reader-only build is that archive with organica/candidates.py and organica/sleep_selection.py from the working tree; the amended build is the working tree itself. Values reproduced in separate processes.",
+  "attribution_limit": "The measurement decomposes the reader step from the amendment step and no further. Inside the amendment step the guards act on both the current-cycle key set and the store; this figure does not separate those two effects.",
+  "consequence": "Gate 13's verdict does not move: the amended asserted coverage is far below the threshold, so the gate still fires. Gate 13 artifacts recorded before the amendment describe the pre-amendment engine."
+}

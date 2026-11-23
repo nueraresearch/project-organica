@@ -1,0 +1,81 @@
+{
+  "kind": "temporal_presence",
+  "date": "2026-11-09",
+  "claim": "C003 re-specified as raw temporal presence on the pinned engine",
+  "world": "the Gate-13 compositional acquisition world (generate_compositional_world, 16 tags, 112 derivable edges). NOT the force-matrix world, which is lattice_L1 (three disjoint triangles)",
+  "cap_note": "presence is measured in raw temporal memory, so the frozen prediction cap of 20 does not apply; the asserted basis is reported beside it for contrast",
+  "instrument": "benchmarks.acquisition_harness.gate_acquisition_sufficiency",
+  "seeds": [
+    20261100,
+    20261101,
+    20261102,
+    20261103,
+    20261104,
+    20261105
+  ],
+  "rows": [
+    {
+      "seed": 20261100,
+      "world_edges": 112,
+      "covered_temporal_edges": 112,
+      "raw_temporal_coverage": 1.0,
+      "covered_asserted_edges": 34,
+      "asserted_coverage": 0.303571
+    },
+    {
+      "seed": 20261101,
+      "world_edges": 112,
+      "covered_temporal_edges": 112,
+      "raw_temporal_coverage": 1.0,
+      "covered_asserted_edges": 35,
+      "asserted_coverage": 0.3125
+    },
+    {
+      "seed": 20261102,
+      "world_edges": 112,
+      "covered_temporal_edges": 112,
+      "raw_temporal_coverage": 1.0,
+      "covered_asserted_edges": 31,
+      "asserted_coverage": 0.276786
+    },
+    {
+      "seed": 20261103,
+      "world_edges": 112,
+      "covered_temporal_edges": 112,
+      "raw_temporal_coverage": 1.0,
+      "covered_asserted_edges": 32,
+      "asserted_coverage": 0.285714
+    },
+    {
+      "seed": 20261104,
+      "world_edges": 112,
+      "covered_temporal_edges": 112,
+      "raw_temporal_coverage": 1.0,
+      "covered_asserted_edges": 28,
+      "asserted_coverage": 0.25
+    },
+    {
+      "seed": 20261105,
+      "world_edges": 112,
+      "covered_temporal_edges": 112,
+      "raw_temporal_coverage": 1.0,
+      "covered_asserted_edges": 36,
+      "asserted_coverage": 0.321429
+    }
+  ],
+  "summary": {
+    "edges": 112,
+    "seeds": 6,
+    "temporal_presence_min": 1.0,
+    "temporal_presence_max": 1.0,
+    "temporal_edges_min": 112,
+    "asserted_coverage_range": [
+      0.25,
+      0.321429
+    ]
+  },
+  "engine_version": "0.13.0",
+  "engine_commit": "6e0ff24d84d34fd7e99b79173e2247f035e194c1",
+  "engine_sha256": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2",
+  "runner": "__main__"
+}

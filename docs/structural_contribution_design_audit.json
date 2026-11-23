@@ -1,0 +1,1084 @@
+{
+ "cells": [
+  {
+   "arm_diagnostics": {
+    "full": {
+     "bigram": {
+      "cells": 12768,
+      "log_loss": 0.472716065
+     },
+     "full": {
+      "cells": 12768,
+      "log_loss": 0.446960779
+     },
+     "label": "gate diagnostic \u2014 arm losses, not a contrast",
+     "removed": {
+      "cells": 12768,
+      "log_loss": 0.430287515
+     },
+     "rewired": {
+      "cells": 12768,
+      "draws": 25,
+      "log_loss_max": 0.441794497,
+      "log_loss_mean": 0.434798346,
+      "log_loss_median": 0.434083845,
+      "log_loss_min": 0.426687089
+     }
+    },
+    "withheld": {
+     "bigram": {
+      "cells": 3680,
+      "log_loss": 0.985393162
+     },
+     "full": {
+      "cells": 3680,
+      "log_loss": 0.595804195
+     },
+     "label": "gate diagnostic \u2014 arm losses, not a contrast",
+     "removed": {
+      "cells": 3680,
+      "log_loss": 0.487588889
+     },
+     "rewired": {
+      "cells": 3680,
+      "draws": 25,
+      "log_loss_max": 0.565776745,
+      "log_loss_mean": 0.544502997,
+      "log_loss_median": 0.54473557,
+      "log_loss_min": 0.522317942
+     }
+    }
+   },
+   "baseline": {
+    "config": {
+     "alpha": 0.1,
+     "half_life": null,
+     "window": null
+    },
+    "family": "bigram",
+    "tuning_log_loss": 0.26091
+   },
+   "constants": {
+    "alpha": 256.0,
+    "cap": 1000,
+    "draws": 25,
+    "pythonhashseed": "0",
+    "tuning_cycles": 15
+   },
+   "deltas": null,
+   "endpoint": "the pooled d_removed, d_rewired and d_bigram of \u00a75 are not formed on design seeds (\u00a79 step 2): they need the confirmatory block, and no design margin is compared with \u00a75's bar",
+   "formation": {
+    "compensated_events": 169,
+    "cycles": 110,
+    "events": 880,
+    "seconds": 31.9
+   },
+   "gates": {
+    "S1": {
+     "edges": 333,
+     "passed": true,
+     "realised_cells": 460,
+     "realised_cells_with_support": 460,
+     "source_tags": 24
+    },
+    "S2": {
+     "cells_by_arm": {
+      "bigram": 3680,
+      "full": 3680,
+      "removed": 3680,
+      "rewired": 3680
+     },
+     "cells_expected": 3680,
+     "passed": true,
+     "rewired_draws": 25,
+     "vocab": 16
+    },
+    "S3": {
+     "S3a_removed_equals_base_rate": {
+      "max_abs_gap": 0.0,
+      "passed": true,
+      "tolerance": 1e-12
+     },
+     "S3b_rewiring_changes_cells": {
+      "min_realised_cell_difference": 0.040241449,
+      "passed": false,
+      "unchanged_limit": 0.2,
+      "unchanged_share_max": 0.960961
+     },
+     "passed": false
+    },
+    "S3c": {
+     "edge_removed_log_loss": 0.487588889,
+     "full_beats_removed": true,
+     "full_beats_rewired": true,
+     "label": "gate diagnostic \u2014 oracle plant, not a result about Organica",
+     "oracle_full_log_loss": 0.378706939,
+     "passed": true,
+     "rewired_log_loss_mean": 0.443568952
+    },
+    "S4": {
+     "all_invariants_preserved": true,
+     "draws_failing_invariants": [],
+     "passed": true,
+     "unchanged_share_median": 0.942943
+    },
+    "S5": {
+     "alpha_is_256": true,
+     "attempts_per_edge_is_10": true,
+     "bootstrap_resamples_is_10000": true,
+     "bootstrap_seed_is_20261102": true,
+     "cap_is_1000": true,
+     "confirmatory_seeds_read": 0,
+     "draw_seed_multiplier_is_1009": true,
+     "draws_is_25": true,
+     "interval_level_is_0_9833": true,
+     "passed": true,
+     "pythonhashseed_is_0": true,
+     "seed_in_design_block": true,
+     "tuning_cycles_is_15": true,
+     "unchanged_limit_is_0_20": true
+    },
+    "S6": {
+     "deterministic": true,
+     "passed": true
+    }
+   },
+   "kind": "structural_contribution_design_cell",
+   "readout": {
+    "distinct_targets": 17,
+    "edges": 333,
+    "possible_pairs_over_vocab": 384,
+    "source_tags": 24,
+    "total_weight": 12272.0
+   },
+   "rewiring": {
+    "all_invariants_preserved": true,
+    "attempts_per_edge": 10,
+    "deterministic": true,
+    "draw_seed_rule": "seed * 1009 + draw",
+    "draws": 25,
+    "draws_failing_invariants": [],
+    "edges": 333,
+    "unchanged_limit": 0.2,
+    "unchanged_share_max": 0.960961,
+    "unchanged_share_median": 0.942943,
+    "unchanged_within_limit": false
+   },
+   "seconds": 34.3,
+   "seed": 20270301,
+   "world": {
+    "cycles": 300,
+    "primary_cycles": [
+     150,
+     200
+    ],
+    "vocab": 16,
+    "withheld_instances": {
+     "flip_p": 70,
+     "flip_q": 45
+    },
+    "withheld_pairs": 115
+   }
+  },
+  {
+   "arm_diagnostics": {
+    "full": {
+     "bigram": {
+      "cells": 12768,
+      "log_loss": 0.457908618
+     },
+     "full": {
+      "cells": 12768,
+      "log_loss": 0.447168598
+     },
+     "label": "gate diagnostic \u2014 arm losses, not a contrast",
+     "removed": {
+      "cells": 12768,
+      "log_loss": 0.427582805
+     },
+     "rewired": {
+      "cells": 12768,
+      "draws": 25,
+      "log_loss_max": 0.440823642,
+      "log_loss_mean": 0.434202417,
+      "log_loss_median": 0.434381952,
+      "log_loss_min": 0.428210816
+     }
+    },
+    "withheld": {
+     "bigram": {
+      "cells": 3360,
+      "log_loss": 0.97036629
+     },
+     "full": {
+      "cells": 3360,
+      "log_loss": 0.61730873
+     },
+     "label": "gate diagnostic \u2014 arm losses, not a contrast",
+     "removed": {
+      "cells": 3360,
+      "log_loss": 0.51136728
+     },
+     "rewired": {
+      "cells": 3360,
+      "draws": 25,
+      "log_loss_max": 0.577338411,
+      "log_loss_mean": 0.561865424,
+      "log_loss_median": 0.5638559,
+      "log_loss_min": 0.547642739
+     }
+    }
+   },
+   "baseline": {
+    "config": {
+     "alpha": 0.1,
+     "half_life": null,
+     "window": null
+    },
+    "family": "bigram",
+    "tuning_log_loss": 0.260318
+   },
+   "constants": {
+    "alpha": 256.0,
+    "cap": 1000,
+    "draws": 25,
+    "pythonhashseed": "0",
+    "tuning_cycles": 15
+   },
+   "deltas": null,
+   "endpoint": "the pooled d_removed, d_rewired and d_bigram of \u00a75 are not formed on design seeds (\u00a79 step 2): they need the confirmatory block, and no design margin is compared with \u00a75's bar",
+   "formation": {
+    "compensated_events": 174,
+    "cycles": 110,
+    "events": 880,
+    "seconds": 30.6
+   },
+   "gates": {
+    "S1": {
+     "edges": 332,
+     "passed": true,
+     "realised_cells": 420,
+     "realised_cells_with_support": 420,
+     "source_tags": 24
+    },
+    "S2": {
+     "cells_by_arm": {
+      "bigram": 3360,
+      "full": 3360,
+      "removed": 3360,
+      "rewired": 3360
+     },
+     "cells_expected": 3360,
+     "passed": true,
+     "rewired_draws": 25,
+     "vocab": 16
+    },
+    "S3": {
+     "S3a_removed_equals_base_rate": {
+      "max_abs_gap": 0.0,
+      "passed": true,
+      "tolerance": 1e-12
+     },
+     "S3b_rewiring_changes_cells": {
+      "min_realised_cell_difference": 0.032178218,
+      "passed": false,
+      "unchanged_limit": 0.2,
+      "unchanged_share_max": 0.960843
+     },
+     "passed": false
+    },
+    "S3c": {
+     "edge_removed_log_loss": 0.51136728,
+     "full_beats_removed": true,
+     "full_beats_rewired": true,
+     "label": "gate diagnostic \u2014 oracle plant, not a result about Organica",
+     "oracle_full_log_loss": 0.392881186,
+     "passed": true,
+     "rewired_log_loss_mean": 0.462708826
+    },
+    "S4": {
+     "all_invariants_preserved": true,
+     "draws_failing_invariants": [],
+     "passed": true,
+     "unchanged_share_median": 0.942771
+    },
+    "S5": {
+     "alpha_is_256": true,
+     "attempts_per_edge_is_10": true,
+     "bootstrap_resamples_is_10000": true,
+     "bootstrap_seed_is_20261102": true,
+     "cap_is_1000": true,
+     "confirmatory_seeds_read": 0,
+     "draw_seed_multiplier_is_1009": true,
+     "draws_is_25": true,
+     "interval_level_is_0_9833": true,
+     "passed": true,
+     "pythonhashseed_is_0": true,
+     "seed_in_design_block": true,
+     "tuning_cycles_is_15": true,
+     "unchanged_limit_is_0_20": true
+    },
+    "S6": {
+     "deterministic": true,
+     "passed": true
+    }
+   },
+   "kind": "structural_contribution_design_cell",
+   "readout": {
+    "distinct_targets": 17,
+    "edges": 332,
+    "possible_pairs_over_vocab": 384,
+    "source_tags": 24,
+    "total_weight": 12255.0
+   },
+   "rewiring": {
+    "all_invariants_preserved": true,
+    "attempts_per_edge": 10,
+    "deterministic": true,
+    "draw_seed_rule": "seed * 1009 + draw",
+    "draws": 25,
+    "draws_failing_invariants": [],
+    "edges": 332,
+    "unchanged_limit": 0.2,
+    "unchanged_share_max": 0.960843,
+    "unchanged_share_median": 0.942771,
+    "unchanged_within_limit": false
+   },
+   "seconds": 33.2,
+   "seed": 20270302,
+   "world": {
+    "cycles": 300,
+    "primary_cycles": [
+     150,
+     200
+    ],
+    "vocab": 16,
+    "withheld_instances": {
+     "flip_p": 64,
+     "flip_q": 41
+    },
+    "withheld_pairs": 105
+   }
+  },
+  {
+   "arm_diagnostics": {
+    "full": {
+     "bigram": {
+      "cells": 12768,
+      "log_loss": 0.450453127
+     },
+     "full": {
+      "cells": 12768,
+      "log_loss": 0.442228062
+     },
+     "label": "gate diagnostic \u2014 arm losses, not a contrast",
+     "removed": {
+      "cells": 12768,
+      "log_loss": 0.427384692
+     },
+     "rewired": {
+      "cells": 12768,
+      "draws": 25,
+      "log_loss_max": 0.434833422,
+      "log_loss_mean": 0.429674201,
+      "log_loss_median": 0.430335618,
+      "log_loss_min": 0.422400166
+     }
+    },
+    "withheld": {
+     "bigram": {
+      "cells": 3232,
+      "log_loss": 0.966891551
+     },
+     "full": {
+      "cells": 3232,
+      "log_loss": 0.602146746
+     },
+     "label": "gate diagnostic \u2014 arm losses, not a contrast",
+     "removed": {
+      "cells": 3232,
+      "log_loss": 0.501098926
+     },
+     "rewired": {
+      "cells": 3232,
+      "draws": 25,
+      "log_loss_max": 0.568392496,
+      "log_loss_mean": 0.549550036,
+      "log_loss_median": 0.553280304,
+      "log_loss_min": 0.52078955
+     }
+    }
+   },
+   "baseline": {
+    "config": {
+     "alpha": 0.1,
+     "half_life": null,
+     "window": null
+    },
+    "family": "bigram",
+    "tuning_log_loss": 0.266638
+   },
+   "constants": {
+    "alpha": 256.0,
+    "cap": 1000,
+    "draws": 25,
+    "pythonhashseed": "0",
+    "tuning_cycles": 15
+   },
+   "deltas": null,
+   "endpoint": "the pooled d_removed, d_rewired and d_bigram of \u00a75 are not formed on design seeds (\u00a79 step 2): they need the confirmatory block, and no design margin is compared with \u00a75's bar",
+   "formation": {
+    "compensated_events": 152,
+    "cycles": 110,
+    "events": 880,
+    "seconds": 32.7
+   },
+   "gates": {
+    "S1": {
+     "edges": 329,
+     "passed": true,
+     "realised_cells": 404,
+     "realised_cells_with_support": 404,
+     "source_tags": 24
+    },
+    "S2": {
+     "cells_by_arm": {
+      "bigram": 3232,
+      "full": 3232,
+      "removed": 3232,
+      "rewired": 3232
+     },
+     "cells_expected": 3232,
+     "passed": true,
+     "rewired_draws": 25,
+     "vocab": 16
+    },
+    "S3": {
+     "S3a_removed_equals_base_rate": {
+      "max_abs_gap": 0.0,
+      "passed": true,
+      "tolerance": 1e-12
+     },
+     "S3b_rewiring_changes_cells": {
+      "min_realised_cell_difference": 0.037209302,
+      "passed": false,
+      "unchanged_limit": 0.2,
+      "unchanged_share_max": 0.957447
+     },
+     "passed": false
+    },
+    "S3c": {
+     "edge_removed_log_loss": 0.501098926,
+     "full_beats_removed": true,
+     "full_beats_rewired": true,
+     "label": "gate diagnostic \u2014 oracle plant, not a result about Organica",
+     "oracle_full_log_loss": 0.391721799,
+     "passed": true,
+     "rewired_log_loss_mean": 0.453702497
+    },
+    "S4": {
+     "all_invariants_preserved": true,
+     "draws_failing_invariants": [],
+     "passed": true,
+     "unchanged_share_median": 0.945289
+    },
+    "S5": {
+     "alpha_is_256": true,
+     "attempts_per_edge_is_10": true,
+     "bootstrap_resamples_is_10000": true,
+     "bootstrap_seed_is_20261102": true,
+     "cap_is_1000": true,
+     "confirmatory_seeds_read": 0,
+     "draw_seed_multiplier_is_1009": true,
+     "draws_is_25": true,
+     "interval_level_is_0_9833": true,
+     "passed": true,
+     "pythonhashseed_is_0": true,
+     "seed_in_design_block": true,
+     "tuning_cycles_is_15": true,
+     "unchanged_limit_is_0_20": true
+    },
+    "S6": {
+     "deterministic": true,
+     "passed": true
+    }
+   },
+   "kind": "structural_contribution_design_cell",
+   "readout": {
+    "distinct_targets": 17,
+    "edges": 329,
+    "possible_pairs_over_vocab": 384,
+    "source_tags": 24,
+    "total_weight": 12274.0
+   },
+   "rewiring": {
+    "all_invariants_preserved": true,
+    "attempts_per_edge": 10,
+    "deterministic": true,
+    "draw_seed_rule": "seed * 1009 + draw",
+    "draws": 25,
+    "draws_failing_invariants": [],
+    "edges": 329,
+    "unchanged_limit": 0.2,
+    "unchanged_share_max": 0.957447,
+    "unchanged_share_median": 0.945289,
+    "unchanged_within_limit": false
+   },
+   "seconds": 35.3,
+   "seed": 20270303,
+   "world": {
+    "cycles": 300,
+    "primary_cycles": [
+     150,
+     200
+    ],
+    "vocab": 16,
+    "withheld_instances": {
+     "flip_p": 62,
+     "flip_q": 39
+    },
+    "withheld_pairs": 101
+   }
+  },
+  {
+   "arm_diagnostics": {
+    "full": {
+     "bigram": {
+      "cells": 12768,
+      "log_loss": 0.453423077
+     },
+     "full": {
+      "cells": 12768,
+      "log_loss": 0.440459314
+     },
+     "label": "gate diagnostic \u2014 arm losses, not a contrast",
+     "removed": {
+      "cells": 12768,
+      "log_loss": 0.4246697
+     },
+     "rewired": {
+      "cells": 12768,
+      "draws": 25,
+      "log_loss_max": 0.436199511,
+      "log_loss_mean": 0.429441517,
+      "log_loss_median": 0.429539275,
+      "log_loss_min": 0.421086447
+     }
+    },
+    "withheld": {
+     "bigram": {
+      "cells": 3328,
+      "log_loss": 0.97992058
+     },
+     "full": {
+      "cells": 3328,
+      "log_loss": 0.60004915
+     },
+     "label": "gate diagnostic \u2014 arm losses, not a contrast",
+     "removed": {
+      "cells": 3328,
+      "log_loss": 0.492382388
+     },
+     "rewired": {
+      "cells": 3328,
+      "draws": 25,
+      "log_loss_max": 0.566152729,
+      "log_loss_mean": 0.547784048,
+      "log_loss_median": 0.54717867,
+      "log_loss_min": 0.516494508
+     }
+    }
+   },
+   "baseline": {
+    "config": {
+     "alpha": 0.1,
+     "half_life": null,
+     "window": null
+    },
+    "family": "bigram",
+    "tuning_log_loss": 0.266656
+   },
+   "constants": {
+    "alpha": 256.0,
+    "cap": 1000,
+    "draws": 25,
+    "pythonhashseed": "0",
+    "tuning_cycles": 15
+   },
+   "deltas": null,
+   "endpoint": "the pooled d_removed, d_rewired and d_bigram of \u00a75 are not formed on design seeds (\u00a79 step 2): they need the confirmatory block, and no design margin is compared with \u00a75's bar",
+   "formation": {
+    "compensated_events": 162,
+    "cycles": 110,
+    "events": 880,
+    "seconds": 35.6
+   },
+   "gates": {
+    "S1": {
+     "edges": 329,
+     "passed": true,
+     "realised_cells": 416,
+     "realised_cells_with_support": 416,
+     "source_tags": 24
+    },
+    "S2": {
+     "cells_by_arm": {
+      "bigram": 3328,
+      "full": 3328,
+      "removed": 3328,
+      "rewired": 3328
+     },
+     "cells_expected": 3328,
+     "passed": true,
+     "rewired_draws": 25,
+     "vocab": 16
+    },
+    "S3": {
+     "S3a_removed_equals_base_rate": {
+      "max_abs_gap": 0.0,
+      "passed": true,
+      "tolerance": 1e-12
+     },
+     "S3b_rewiring_changes_cells": {
+      "min_realised_cell_difference": 0.036674817,
+      "passed": false,
+      "unchanged_limit": 0.2,
+      "unchanged_share_max": 0.954407
+     },
+     "passed": false
+    },
+    "S3c": {
+     "edge_removed_log_loss": 0.492382388,
+     "full_beats_removed": true,
+     "full_beats_rewired": true,
+     "label": "gate diagnostic \u2014 oracle plant, not a result about Organica",
+     "oracle_full_log_loss": 0.386991062,
+     "passed": true,
+     "rewired_log_loss_mean": 0.448178106
+    },
+    "S4": {
+     "all_invariants_preserved": true,
+     "draws_failing_invariants": [],
+     "passed": true,
+     "unchanged_share_median": 0.942249
+    },
+    "S5": {
+     "alpha_is_256": true,
+     "attempts_per_edge_is_10": true,
+     "bootstrap_resamples_is_10000": true,
+     "bootstrap_seed_is_20261102": true,
+     "cap_is_1000": true,
+     "confirmatory_seeds_read": 0,
+     "draw_seed_multiplier_is_1009": true,
+     "draws_is_25": true,
+     "interval_level_is_0_9833": true,
+     "passed": true,
+     "pythonhashseed_is_0": true,
+     "seed_in_design_block": true,
+     "tuning_cycles_is_15": true,
+     "unchanged_limit_is_0_20": true
+    },
+    "S6": {
+     "deterministic": true,
+     "passed": true
+    }
+   },
+   "kind": "structural_contribution_design_cell",
+   "readout": {
+    "distinct_targets": 17,
+    "edges": 329,
+    "possible_pairs_over_vocab": 384,
+    "source_tags": 24,
+    "total_weight": 12334.0
+   },
+   "rewiring": {
+    "all_invariants_preserved": true,
+    "attempts_per_edge": 10,
+    "deterministic": true,
+    "draw_seed_rule": "seed * 1009 + draw",
+    "draws": 25,
+    "draws_failing_invariants": [],
+    "edges": 329,
+    "unchanged_limit": 0.2,
+    "unchanged_share_max": 0.954407,
+    "unchanged_share_median": 0.942249,
+    "unchanged_within_limit": false
+   },
+   "seconds": 38.2,
+   "seed": 20270304,
+   "world": {
+    "cycles": 300,
+    "primary_cycles": [
+     150,
+     200
+    ],
+    "vocab": 16,
+    "withheld_instances": {
+     "flip_p": 63,
+     "flip_q": 41
+    },
+    "withheld_pairs": 104
+   }
+  },
+  {
+   "arm_diagnostics": {
+    "full": {
+     "bigram": {
+      "cells": 12768,
+      "log_loss": 0.415037254
+     },
+     "full": {
+      "cells": 12768,
+      "log_loss": 0.427166889
+     },
+     "label": "gate diagnostic \u2014 arm losses, not a contrast",
+     "removed": {
+      "cells": 12768,
+      "log_loss": 0.413845286
+     },
+     "rewired": {
+      "cells": 12768,
+      "draws": 25,
+      "log_loss_max": 0.427887991,
+      "log_loss_mean": 0.420245949,
+      "log_loss_median": 0.419927713,
+      "log_loss_min": 0.411601311
+     }
+    },
+    "withheld": {
+     "bigram": {
+      "cells": 2592,
+      "log_loss": 0.981637429
+     },
+     "full": {
+      "cells": 2592,
+      "log_loss": 0.606149777
+     },
+     "label": "gate diagnostic \u2014 arm losses, not a contrast",
+     "removed": {
+      "cells": 2592,
+      "log_loss": 0.502642037
+     },
+     "rewired": {
+      "cells": 2592,
+      "draws": 25,
+      "log_loss_max": 0.571680859,
+      "log_loss_mean": 0.549481083,
+      "log_loss_median": 0.552105609,
+      "log_loss_min": 0.520323461
+     }
+    }
+   },
+   "baseline": {
+    "config": {
+     "alpha": 0.1,
+     "half_life": null,
+     "window": null
+    },
+    "family": "bigram",
+    "tuning_log_loss": 0.256206
+   },
+   "constants": {
+    "alpha": 256.0,
+    "cap": 1000,
+    "draws": 25,
+    "pythonhashseed": "0",
+    "tuning_cycles": 15
+   },
+   "deltas": null,
+   "endpoint": "the pooled d_removed, d_rewired and d_bigram of \u00a75 are not formed on design seeds (\u00a79 step 2): they need the confirmatory block, and no design margin is compared with \u00a75's bar",
+   "formation": {
+    "compensated_events": 165,
+    "cycles": 110,
+    "events": 880,
+    "seconds": 32.3
+   },
+   "gates": {
+    "S1": {
+     "edges": 329,
+     "passed": true,
+     "realised_cells": 324,
+     "realised_cells_with_support": 324,
+     "source_tags": 23
+    },
+    "S2": {
+     "cells_by_arm": {
+      "bigram": 2592,
+      "full": 2592,
+      "removed": 2592,
+      "rewired": 2592
+     },
+     "cells_expected": 2592,
+     "passed": true,
+     "rewired_draws": 25,
+     "vocab": 16
+    },
+    "S3": {
+     "S3a_removed_equals_base_rate": {
+      "max_abs_gap": 0.0,
+      "passed": true,
+      "tolerance": 1e-12
+     },
+     "S3b_rewiring_changes_cells": {
+      "min_realised_cell_difference": 0.036866359,
+      "passed": false,
+      "unchanged_limit": 0.2,
+      "unchanged_share_max": 0.957447
+     },
+     "passed": false
+    },
+    "S3c": {
+     "edge_removed_log_loss": 0.502642037,
+     "full_beats_removed": true,
+     "full_beats_rewired": true,
+     "label": "gate diagnostic \u2014 oracle plant, not a result about Organica",
+     "oracle_full_log_loss": 0.404354406,
+     "passed": true,
+     "rewired_log_loss_mean": 0.460287646
+    },
+    "S4": {
+     "all_invariants_preserved": true,
+     "draws_failing_invariants": [],
+     "passed": true,
+     "unchanged_share_median": 0.93921
+    },
+    "S5": {
+     "alpha_is_256": true,
+     "attempts_per_edge_is_10": true,
+     "bootstrap_resamples_is_10000": true,
+     "bootstrap_seed_is_20261102": true,
+     "cap_is_1000": true,
+     "confirmatory_seeds_read": 0,
+     "draw_seed_multiplier_is_1009": true,
+     "draws_is_25": true,
+     "interval_level_is_0_9833": true,
+     "passed": true,
+     "pythonhashseed_is_0": true,
+     "seed_in_design_block": true,
+     "tuning_cycles_is_15": true,
+     "unchanged_limit_is_0_20": true
+    },
+    "S6": {
+     "deterministic": true,
+     "passed": true
+    }
+   },
+   "kind": "structural_contribution_design_cell",
+   "readout": {
+    "distinct_targets": 17,
+    "edges": 329,
+    "possible_pairs_over_vocab": 368,
+    "source_tags": 23,
+    "total_weight": 12162.0
+   },
+   "rewiring": {
+    "all_invariants_preserved": true,
+    "attempts_per_edge": 10,
+    "deterministic": true,
+    "draw_seed_rule": "seed * 1009 + draw",
+    "draws": 25,
+    "draws_failing_invariants": [],
+    "edges": 329,
+    "unchanged_limit": 0.2,
+    "unchanged_share_max": 0.957447,
+    "unchanged_share_median": 0.93921,
+    "unchanged_within_limit": false
+   },
+   "seconds": 35.0,
+   "seed": 20270305,
+   "world": {
+    "cycles": 300,
+    "primary_cycles": [
+     150,
+     200
+    ],
+    "vocab": 16,
+    "withheld_instances": {
+     "flip_p": 50,
+     "flip_q": 31
+    },
+    "withheld_pairs": 81
+   }
+  }
+ ],
+ "confirmatory_seeds_run": 0,
+ "constants": {
+  "alpha": 256.0,
+  "attempts_per_edge": 10,
+  "bootstrap_resamples": 10000,
+  "bootstrap_seed": 20261102,
+  "cap": 1000,
+  "draws": 25,
+  "interval_level": 0.9833,
+  "pythonhashseed": "0",
+  "tuning_cycles": 15,
+  "unchanged_limit": 0.2
+ },
+ "endpoint": "the pooled d_removed, d_rewired and d_bigram of \u00a75 are not formed on design seeds (\u00a79 step 2): they need the confirmatory block, and no design margin is compared with \u00a75's bar",
+ "endpoint_boundary": {
+  "computed_on_design_seeds": [
+   "per-cell losses for all four arms on both windows, because \u00a78's gates need them",
+   "arm-level window log-losses, for the S1\u2013S3 diagnostics",
+   "the rewiring report: invariants, unchanged share, draw reproducibility",
+   "the S3c oracle plant, which is a check on the harness and not on Organica"
+  ],
+  "counts_as": "endpoint-derived diagnostic",
+  "not_computed_on_design_seeds": [
+   "the pooled contrasts d_removed, d_rewired, d_bigram across seeds",
+   "any comparison of a design number with \u00a75's bar",
+   "any statement about which of \u00a76's five rows the study would land in",
+   "any statistic from a confirmatory seed"
+  ],
+  "note": "The gates need per-cell losses; the pooled contrasts and the outcome label are not formed."
+ },
+ "failures": [
+  {
+   "detail": {
+    "S3a_removed_equals_base_rate": {
+     "max_abs_gap": 0.0,
+     "passed": true,
+     "tolerance": 1e-12
+    },
+    "S3b_rewiring_changes_cells": {
+     "min_realised_cell_difference": 0.040241449,
+     "passed": false,
+     "unchanged_limit": 0.2,
+     "unchanged_share_max": 0.960961
+    },
+    "passed": false
+   },
+   "gate": "S3",
+   "seed": 20270301
+  },
+  {
+   "detail": {
+    "S3a_removed_equals_base_rate": {
+     "max_abs_gap": 0.0,
+     "passed": true,
+     "tolerance": 1e-12
+    },
+    "S3b_rewiring_changes_cells": {
+     "min_realised_cell_difference": 0.032178218,
+     "passed": false,
+     "unchanged_limit": 0.2,
+     "unchanged_share_max": 0.960843
+    },
+    "passed": false
+   },
+   "gate": "S3",
+   "seed": 20270302
+  },
+  {
+   "detail": {
+    "S3a_removed_equals_base_rate": {
+     "max_abs_gap": 0.0,
+     "passed": true,
+     "tolerance": 1e-12
+    },
+    "S3b_rewiring_changes_cells": {
+     "min_realised_cell_difference": 0.037209302,
+     "passed": false,
+     "unchanged_limit": 0.2,
+     "unchanged_share_max": 0.957447
+    },
+    "passed": false
+   },
+   "gate": "S3",
+   "seed": 20270303
+  },
+  {
+   "detail": {
+    "S3a_removed_equals_base_rate": {
+     "max_abs_gap": 0.0,
+     "passed": true,
+     "tolerance": 1e-12
+    },
+    "S3b_rewiring_changes_cells": {
+     "min_realised_cell_difference": 0.036674817,
+     "passed": false,
+     "unchanged_limit": 0.2,
+     "unchanged_share_max": 0.954407
+    },
+    "passed": false
+   },
+   "gate": "S3",
+   "seed": 20270304
+  },
+  {
+   "detail": {
+    "S3a_removed_equals_base_rate": {
+     "max_abs_gap": 0.0,
+     "passed": true,
+     "tolerance": 1e-12
+    },
+    "S3b_rewiring_changes_cells": {
+     "min_realised_cell_difference": 0.036866359,
+     "passed": false,
+     "unchanged_limit": 0.2,
+     "unchanged_share_max": 0.957447
+    },
+    "passed": false
+   },
+   "gate": "S3",
+   "seed": 20270305
+  }
+ ],
+ "kind": "structural_contribution_design_audit",
+ "layer_gates": {
+  "cases": [
+   {
+    "case": "sparse_graph_rewires_into_a_control",
+    "edges": 90,
+    "unchanged_share_max": 0.111111
+   },
+   {
+    "case": "dense_graph_fails_the_control_gate",
+    "edges": 24,
+    "passed": false,
+    "unchanged_share_max": 0.708333
+   },
+   {
+    "case": "weight_moved_between_sources_fails_invariants",
+    "checks": {
+     "edge_count": true,
+     "in_degree": true,
+     "node_set": true,
+     "out_degree": true,
+     "total_weight": false,
+     "weight_multiset": false
+    }
+   },
+   {
+    "case": "identity_rewiring_fails_the_control_gate",
+    "limit": 0.2,
+    "unchanged_share": 1.0
+   },
+   {
+    "case": "empty_graph_is_not_a_control",
+    "passed": false,
+    "unchanged_share_max": 1.0
+   },
+   {
+    "case": "outcome_table_reaches_five_labels",
+    "labels": [
+     "graph structure helps; its specific content is not established",
+     "inconsistent, and the current interpretation needs rethinking",
+     "no detectable contribution from the formed edges on this window",
+     "structural contribution supported within this design",
+     "structure carries information the ablations destroy, and it is not enough for a predictive advantage over the simple baseline"
+    ]
+   }
+  ],
+  "passed": true
+ },
+ "protocol": "docs/STRUCTURAL-CONTRIBUTION-PREREGISTRATION.md \u00a78, \u00a79",
+ "seconds": 176.2,
+ "seeds": [
+  20270301,
+  20270302,
+  20270303,
+  20270304,
+  20270305
+ ],
+ "status": "design block FAILED: the protocol stops here"
+}

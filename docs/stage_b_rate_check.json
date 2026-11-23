@@ -1,0 +1,75 @@
+{
+  "checked": true,
+  "cells": 10,
+  "configurations": [
+    "2:1",
+    "3:1",
+    "4:1",
+    "6:1"
+  ],
+  "fit": {
+    "slope_seconds_per_cycle": 0.354538,
+    "intercept_seconds": -33.93,
+    "r_squared": 0.9128
+  },
+  "per_configuration": {
+    "2:1": {
+      "cells": 3,
+      "cycles_per_cell": [
+        639
+      ],
+      "rate_min": 0.282144,
+      "rate_mean": 0.297058,
+      "rate_max": 0.318279,
+      "seconds": [
+        180.29,
+        203.38,
+        185.79
+      ]
+    },
+    "3:1": {
+      "cells": 2,
+      "cycles_per_cell": [
+        504
+      ],
+      "rate_min": 0.298313,
+      "rate_mean": 0.304752,
+      "rate_max": 0.31119,
+      "seconds": [
+        156.84,
+        150.35
+      ]
+    },
+    "4:1": {
+      "cells": 2,
+      "cycles_per_cell": [
+        462
+      ],
+      "rate_min": 0.295498,
+      "rate_mean": 0.29553,
+      "rate_max": 0.295563,
+      "seconds": [
+        136.55,
+        136.52
+      ]
+    },
+    "6:1": {
+      "cells": 3,
+      "cycles_per_cell": [
+        429
+      ],
+      "rate_min": 0.235431,
+      "rate_mean": 0.257894,
+      "rate_max": 0.270373,
+      "seconds": [
+        101.0,
+        114.92,
+        115.99
+      ]
+    }
+  },
+  "shared_rate_interval": null,
+  "proportional_within_measured_range": false,
+  "decision_rule": "proportional iff the per-configuration rate ranges intersect; declared before the cells it judges were run",
+  "what_this_cannot_show": "a per-world charge that scales with the cycle count is indistinguishable from a per-cycle charge here, because no cell varies its cycle count inside a configuration; and a cell does not record how many workers shared the machine, so a cross-configuration difference may be load rather than configuration"
+}

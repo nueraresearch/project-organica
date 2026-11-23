@@ -1,0 +1,433 @@
+{
+  "kind": "v2_first_cell_run_log",
+  "id": "V2-FIRST-CELL-RUN-LOG-1",
+  "date": "2026-11-19",
+  "status": "RAW EXECUTION LOG — NOT A RESULT AND NOT A VERDICT",
+  "seeds": [
+    {
+      "seed": 20910101,
+      "cycles": 120,
+      "detections": 1736,
+      "a1": {
+        "seed": 20910101,
+        "cycles": 120,
+        "detections": 1736,
+        "keys": 120,
+        "node_sets": 120,
+        "mixed": 0,
+        "flips": 0
+      },
+      "measurable": true,
+      "exclusion": null,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.284755,
+          "calibration_log_loss": null,
+          "scored": 5440,
+          "composites": 0,
+          "mutations": 0
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.29527,
+          "calibration_log_loss": 0.254983,
+          "scored": 5440,
+          "composites": 100,
+          "mutations": 0
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.289374,
+          "calibration_log_loss": 0.248343,
+          "scored": 5440,
+          "composites": 100,
+          "mutations": 243
+        }
+      }
+    },
+    {
+      "seed": 20910102,
+      "cycles": 120,
+      "detections": 1740,
+      "a1": {
+        "seed": 20910102,
+        "cycles": 120,
+        "detections": 1740,
+        "keys": 132,
+        "node_sets": 132,
+        "mixed": 0,
+        "flips": 0
+      },
+      "measurable": true,
+      "exclusion": null,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.289616,
+          "calibration_log_loss": null,
+          "scored": 5440,
+          "composites": 0,
+          "mutations": 0
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.299567,
+          "calibration_log_loss": 0.252217,
+          "scored": 5440,
+          "composites": 95,
+          "mutations": 0
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.292858,
+          "calibration_log_loss": 0.245278,
+          "scored": 5440,
+          "composites": 95,
+          "mutations": 208
+        }
+      }
+    },
+    {
+      "seed": 20910103,
+      "cycles": 120,
+      "detections": 1749,
+      "a1": {
+        "seed": 20910103,
+        "cycles": 120,
+        "detections": 1749,
+        "keys": 136,
+        "node_sets": 136,
+        "mixed": 0,
+        "flips": 0
+      },
+      "measurable": true,
+      "exclusion": null,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.285311,
+          "calibration_log_loss": null,
+          "scored": 5504,
+          "composites": 0,
+          "mutations": 0
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.298366,
+          "calibration_log_loss": 0.259245,
+          "scored": 5504,
+          "composites": 108,
+          "mutations": 0
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.288652,
+          "calibration_log_loss": 0.249742,
+          "scored": 5504,
+          "composites": 108,
+          "mutations": 227
+        }
+      }
+    },
+    {
+      "seed": 20910104,
+      "cycles": 120,
+      "detections": 1722,
+      "a1": {
+        "seed": 20910104,
+        "cycles": 120,
+        "detections": 1722,
+        "keys": 102,
+        "node_sets": 102,
+        "mixed": 0,
+        "flips": 0
+      },
+      "measurable": true,
+      "exclusion": null,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.296052,
+          "calibration_log_loss": null,
+          "scored": 5696,
+          "composites": 0,
+          "mutations": 0
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.305066,
+          "calibration_log_loss": 0.2625,
+          "scored": 5696,
+          "composites": 82,
+          "mutations": 0
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.300054,
+          "calibration_log_loss": 0.257334,
+          "scored": 5696,
+          "composites": 82,
+          "mutations": 172
+        }
+      }
+    },
+    {
+      "seed": 20910105,
+      "cycles": 120,
+      "detections": 1721,
+      "a1": {
+        "seed": 20910105,
+        "cycles": 120,
+        "detections": 1721,
+        "keys": 141,
+        "node_sets": 141,
+        "mixed": 0,
+        "flips": 0
+      },
+      "measurable": true,
+      "exclusion": null,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.290391,
+          "calibration_log_loss": null,
+          "scored": 5632,
+          "composites": 0,
+          "mutations": 0
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.305873,
+          "calibration_log_loss": 0.277995,
+          "scored": 5632,
+          "composites": 105,
+          "mutations": 0
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.294501,
+          "calibration_log_loss": 0.268436,
+          "scored": 5632,
+          "composites": 105,
+          "mutations": 321
+        }
+      }
+    },
+    {
+      "seed": 20910106,
+      "cycles": 120,
+      "detections": 1731,
+      "a1": {
+        "seed": 20910106,
+        "cycles": 120,
+        "detections": 1731,
+        "keys": 91,
+        "node_sets": 91,
+        "mixed": 0,
+        "flips": 0
+      },
+      "measurable": true,
+      "exclusion": null,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.291052,
+          "calibration_log_loss": null,
+          "scored": 5632,
+          "composites": 0,
+          "mutations": 0
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.302835,
+          "calibration_log_loss": 0.286066,
+          "scored": 5632,
+          "composites": 80,
+          "mutations": 0
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.29674,
+          "calibration_log_loss": 0.283612,
+          "scored": 5632,
+          "composites": 80,
+          "mutations": 145
+        }
+      }
+    },
+    {
+      "seed": 20910107,
+      "cycles": 120,
+      "detections": 1712,
+      "a1": {
+        "seed": 20910107,
+        "cycles": 120,
+        "detections": 1712,
+        "keys": 113,
+        "node_sets": 113,
+        "mixed": 0,
+        "flips": 0
+      },
+      "measurable": true,
+      "exclusion": null,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.30509,
+          "calibration_log_loss": null,
+          "scored": 5760,
+          "composites": 0,
+          "mutations": 0
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.318184,
+          "calibration_log_loss": 0.30489,
+          "scored": 5760,
+          "composites": 91,
+          "mutations": 0
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.309593,
+          "calibration_log_loss": 0.299267,
+          "scored": 5760,
+          "composites": 91,
+          "mutations": 217
+        }
+      }
+    },
+    {
+      "seed": 20910108,
+      "cycles": 120,
+      "detections": 1250,
+      "a1": {
+        "seed": 20910108,
+        "cycles": 120,
+        "detections": 1250,
+        "keys": 105,
+        "node_sets": 105,
+        "mixed": 0,
+        "flips": 0
+      },
+      "measurable": true,
+      "exclusion": null,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.29822,
+          "calibration_log_loss": null,
+          "scored": 5664,
+          "composites": 0,
+          "mutations": 0
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.30947,
+          "calibration_log_loss": 0.246353,
+          "scored": 5664,
+          "composites": 82,
+          "mutations": 0
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.302304,
+          "calibration_log_loss": 0.242587,
+          "scored": 5664,
+          "composites": 82,
+          "mutations": 148
+        }
+      }
+    },
+    {
+      "seed": 20910109,
+      "cycles": 120,
+      "detections": 1723,
+      "a1": {
+        "seed": 20910109,
+        "cycles": 120,
+        "detections": 1723,
+        "keys": 86,
+        "node_sets": 86,
+        "mixed": 0,
+        "flips": 0
+      },
+      "measurable": true,
+      "exclusion": null,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.28914,
+          "calibration_log_loss": null,
+          "scored": 5632,
+          "composites": 0,
+          "mutations": 0
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.297229,
+          "calibration_log_loss": 0.277303,
+          "scored": 5632,
+          "composites": 75,
+          "mutations": 0
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.292367,
+          "calibration_log_loss": 0.27134,
+          "scored": 5632,
+          "composites": 75,
+          "mutations": 184
+        }
+      }
+    },
+    {
+      "seed": 20910110,
+      "cycles": 120,
+      "detections": 1230,
+      "a1": {
+        "seed": 20910110,
+        "cycles": 120,
+        "detections": 1230,
+        "keys": 100,
+        "node_sets": 100,
+        "mixed": 0,
+        "flips": 0
+      },
+      "measurable": true,
+      "exclusion": null,
+      "arms": {
+        "A": {
+          "beta": null,
+          "log_loss": 0.279977,
+          "calibration_log_loss": null,
+          "scored": 5408,
+          "composites": 0,
+          "mutations": 0
+        },
+        "B": {
+          "beta": 1,
+          "log_loss": 0.287119,
+          "calibration_log_loss": 0.272858,
+          "scored": 5408,
+          "composites": 77,
+          "mutations": 0
+        },
+        "C": {
+          "beta": 1,
+          "log_loss": 0.285148,
+          "calibration_log_loss": 0.270309,
+          "scored": 5408,
+          "composites": 77,
+          "mutations": 121
+        }
+      }
+    }
+  ],
+  "note": "Per-seed arm losses, betas and counts. The result is assembled from the same arm records; no label or interval is defined here.",
+  "engine_version": "0.15.0",
+  "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+  "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+  "runner": "__main__"
+}

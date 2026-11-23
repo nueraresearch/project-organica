@@ -1,0 +1,15 @@
+{
+ "kind": "constraint_decision",
+ "id": "DECISION-K2-RETIRE-1",
+ "registration": "CONSTRAINT-K2-1",
+ "result": "RESULT-K2-ATTEMPT-1",
+ "date": "2026-11-19",
+ "decision": "RETIRE THE K2 ROW AS AN INVALID ATTEMPT; THE HYPOTHESIS IS UNTESTED, NOT REFUTED; CLOSE THE K SEARCH.",
+ "reading": "The one block produced no admissible comparison. It is not evidence for or against the K2 hypothesis, and it may not be cited as a failed replication or as a null result.",
+ "consequences": [
+  "K2 leaves in-test and no second K2 block is authorised.",
+  "No seventh task family is added.",
+  "Future constraint registrations use a same-build comparator.",
+  "The in-test slot is free for the K1 forced-selection arm."
+ ]
+}

@@ -1,0 +1,99 @@
+{
+  "kind": "pruning_reachability",
+  "date": "2026-11-09",
+  "factor_source": "the 0.8 literal in SleepService._natural_selection",
+  "bound": {
+    "stable_threshold": 0.3,
+    "death_threshold": 0.15,
+    "factor": 0.8,
+    "one_step_from_a_threshold_edge": 0.24,
+    "input_the_branch_would_need": 0.1875,
+    "margin_above_the_branch": 0.09,
+    "unreachable_from_a_stable_edge": true,
+    "the_required_input_is_below_the_stable_threshold": true
+  },
+  "trace": [
+    {
+      "step": 1,
+      "prior_strength": 0.3,
+      "after_decay": 0.24,
+      "reason": "decayed"
+    },
+    {
+      "step": 2,
+      "prior_strength": 0.24,
+      "after_decay": 0.192,
+      "reason": "decayed"
+    },
+    {
+      "step": 3,
+      "prior_strength": 0.192,
+      "after_decay": 0.1536,
+      "reason": "decayed"
+    },
+    {
+      "step": 4,
+      "prior_strength": 0.1536,
+      "after_decay": 0.12288,
+      "reason": "pruned"
+    }
+  ],
+  "steps_the_ledger_takes": 1,
+  "steps_to_the_branch": 4,
+  "observed": {
+    "engine": {
+      "seeds": [
+        20300601,
+        20300602,
+        20300603
+      ],
+      "ledger_edge_deaths": {
+        "below_threshold": 324,
+        "decayed": 720
+      },
+      "engine_candidate_counters": {
+        "decayed": 21522,
+        "pruned": 7122,
+        "strengthened": 105111
+      },
+      "pruning": {
+        "cycles_with_a_pruning": 894,
+        "first_cycle_with_a_pruning": 3
+      },
+      "cycles": 300
+    },
+    "no_temporal_decay": {
+      "seeds": [
+        20300601,
+        20300602,
+        20300603
+      ],
+      "ledger_edge_deaths": {
+        "below_threshold": 42,
+        "decayed": 231
+      },
+      "engine_candidate_counters": {
+        "decayed": 27819,
+        "pruned": 4920,
+        "strengthened": 140247
+      },
+      "pruning": {
+        "cycles_with_a_pruning": 885,
+        "first_cycle_with_a_pruning": 3
+      },
+      "cycles": 300
+    }
+  },
+  "gates": {
+    "G1_branch_unreachable_from_a_stable_edge": true,
+    "G2_branch_fires_when_followed_below_the_threshold": true,
+    "G3_the_engine_recorded_prunings": true,
+    "G4_the_ledger_recorded_no_pruned_edge_death": true,
+    "G5_the_thresholds_came_from_the_engine": true
+  },
+  "label": "UNREACHABLE_IN_THE_LEDGER",
+  "engine_version": "0.13.0",
+  "engine_commit": "6e0ff24d84d34fd7e99b79173e2247f035e194c1",
+  "engine_sha256": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2",
+  "runner": "__main__"
+}

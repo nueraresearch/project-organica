@@ -1,0 +1,177 @@
+{
+ "prereg": "CONFIRMATORY-RETENTION-ENTRY-TRANSITION-1",
+ "kind": "retention_entry_transition_prereg",
+ "status": "FROZEN, NOT RUN",
+ "frozen_on": "2026-11-13",
+ "design_document": "docs/RETENTION-ENTRY-TRANSITION-DESIGN.md",
+ "question": "Among never-served world edges that first loop by cycle 60 and remain absent from the readout structure through cycle f + 39, does loop retention in the first 20 cycles predict a sustained first structure entry in cycles f + 40 through 120, after controlling for retention in the adjacent 20-cycle window and for early rank, count, strength and follow-up horizon?",
+ "reference": {
+  "source": "docs/retention_formation_anchored.json",
+  "status": "CONFIRMED, TEMPORALLY AMBIGUOUS; not a temporal-order result",
+  "prior_population": {
+   "never_served": 434,
+   "loop_forming": 180,
+   "eligible": 172,
+   "asserted_events": 70,
+   "late_edges": 36,
+   "late_events": 18
+  },
+  "why_this_block": "The prior block's assertion_cycle was the first structure appearance after the landmark. That admits a re-entry by an edge already present before the landmark and labels it a new assertion. The reverse model also used a post-landmark rate whose denominator was the follow-up control. This block requires a structure-free interval through f + 39, makes the event a two-cycle entry at f + 40 or later, and measures both early and proximal retention before the outcome window. No seed, row or part from the prior block is reused."
+ },
+ "design": {
+  "seeds": [
+   20620101,
+   20620102,
+   20620103,
+   20620104,
+   20620105,
+   20620106,
+   20620107,
+   20620108,
+   20620109,
+   20620110,
+   20620111,
+   20620112,
+   20620113,
+   20620114,
+   20620115,
+   20620116,
+   20620117,
+   20620118,
+   20620119,
+   20620120,
+   20620121,
+   20620122,
+   20620123,
+   20620124
+  ],
+  "cells": 24,
+  "cycles": 120,
+  "cap": 40,
+  "early_window_cycles": 20,
+  "proximal_window_cycles": 20,
+  "max_formation_cycle": 60,
+  "structure_free_through_offset": 39,
+  "outcome_start_offset": 40,
+  "entry_run_cycles": 2,
+  "world": "generate_compositional_world(seed=, cycles=120) with the PHASE_ACQUISITION schedule and one replay per seed",
+  "population": "never-served world edges with ever_loop=true, formation_cycle <= 60, no structure appearance at any cycle <= formation_cycle + 39, and full early and proximal windows",
+  "excluded": "never-served edges that never loop; edges forming after cycle 60; edges with any structure appearance through f + 39; edges served at least once; edges with incomplete predictor windows",
+  "windows": {
+   "early": "formation_cycle through formation_cycle + 19",
+   "proximal": "formation_cycle + 20 through formation_cycle + 39",
+   "outcome": "formation_cycle + 40 through 120"
+  },
+  "structure_free_interval": "no structure appearance at any cycle from formation_cycle through formation_cycle + 39, inclusive",
+  "outcome": "sustained first structure entry: the first cycle t >= formation_cycle + 40 with appearances at both t and t + 1; entry_cycle = t. Final presence at cycle 120 is descriptive only.",
+  "outcome_horizon": "formation_cycle + 40 through 120; f <= 60 leaves at least 21 outcome cycles; followup_cycles/120 is the single horizon control",
+  "freshness": "New seed block 20620101-20620124. The collision scan over docs JSON is empty at freeze time. No prior block's seed, row or part is reused.",
+  "primary_predictors": {
+   "early_retention": "distinct loop cycles in formation_cycle..formation_cycle+19 divided by 20",
+   "proximal_retention": "distinct loop cycles in formation_cycle+20..formation_cycle+39 divided by 20",
+   "rank20": "minimum 1-based position in the repaired observer's full pre-cap universe over formation_cycle..formation_cycle+19",
+   "count20": "direct temporal transition count at formation_cycle + 19",
+   "strength20": "maximum loop_candidate strength over reported loops in formation_cycle..formation_cycle+19",
+   "followup": "outcome cycles from formation_cycle + 40 through 120, divided by 120; the single fitted horizon control"
+  },
+  "sensitivity_predictors": {
+   "rank40": "minimum rank over formation_cycle+20..formation_cycle+39",
+   "count40": "direct temporal transition count at formation_cycle + 39",
+   "strength40": "maximum loop_candidate strength over formation_cycle+20..formation_cycle+39",
+   "final_assertion": "presence in the structure at cycle 120; descriptive secondary outcome, never the primary event"
+  },
+  "late_cohort": null,
+  "late_cohort_note": "No late-formation subgroup. Edges with formation_cycle > 60 are outside this block's scope because the structure-free interval would leave too few outcome cycles."
+ },
+ "model": {
+  "family": "binary logistic regression",
+  "primary_formula": "logit P(sustained entry) = b0 + b_early*z(early_retention) + b_proximal*z(proximal_retention) + b_rank*z(log2(rank20)) + b_count*z(count20) + b_strength*z(strength20) + b_followup*z(followup) + seed fixed effects",
+  "estimator": "Firth penalized likelihood",
+  "standardization": "complete-case mean and population SD",
+  "seed": "twenty-four-level fixed effect, first seed as reference",
+  "selection": "none",
+  "primary_coefficient": "b_early",
+  "proximal_role": "pre-outcome control. It is measured in f+20..f+39, before the outcome window begins at f+40; it is not a reverse-time variable and is not defined after the event.",
+  "sensitivity_models": [
+   "base model without proximal_retention",
+   "full model adding rank40, count40 and strength40",
+   "final-presence model with final_assertion as outcome"
+  ],
+  "sensitivity_status": "reported but not used for the verdict; they cannot rescue a failed primary criterion"
+ },
+ "inference": {
+  "primary": "Firth Wald 95% interval for the early-retention odds ratio per 1 SD in the joint model. This is the single primary criterion.",
+  "proximal": "The proximal-retention coefficient is reported as the separation control. It determines whether the early window is distinguishable from the adjacent pre-outcome window.",
+  "alpha": 0.05,
+  "multiplicity": "one primary coefficient; the base, full and final-presence models are sensitivity diagnostics, not additional tests",
+  "no_causal_claim": "Observational entry-transition model. A positive early coefficient narrows the timing question; it does not identify a mechanism or a causal effect."
+ },
+ "criteria": [
+  {
+   "id": "P1",
+   "name": "early-retention direction",
+   "test": "joint-model early-retention OR > 1"
+  },
+  {
+   "id": "P2",
+   "name": "early-retention interval",
+   "test": "joint-model early-retention 95% CI lower bound > 1"
+  },
+  {
+   "id": "P3",
+   "name": "gates",
+   "test": "all gates D1-D10 pass"
+  },
+  {
+   "id": "P4",
+   "name": "proximal separation",
+   "test": "proximal-retention OR <= 1 or its 95% CI includes 1"
+  }
+ ],
+ "verdicts": {
+  "CONFIRMED": "P1-P4 pass: early retention adds a positive association with the later entry transition beyond proximal retention and the controls.",
+  "CONFIRMED, PROXIMALLY AMBIGUOUS": "P1-P3 pass but P4 fails: both windows carry positive associations; the block does not identify the early window as the relevant one.",
+  "DIRECTIONAL ONLY": "P1 and P3 pass but P2 fails: the point estimate is positive, the interval is not.",
+  "NOT CONFIRMED": "P1 fails.",
+  "VOID": "A gate fails; no coefficient is read."
+ },
+ "gates": {
+  "D1_population": "at least 60 eligible edges and 20 sustained entries; one row per seed-edge",
+  "D2_structure_free": "every eligible edge has no structure appearance at any cycle <= f + 39, has finite early and proximal retention in full 20-cycle windows, and has f <= 60",
+  "D3_rank_coverage": "at least 95% of eligible edges have a finite rank20",
+  "D4_seed_levels": "all 24 planned seeds contribute eligible rows",
+  "D5_convergence": "the primary joint fit and the base fit converge with finite coefficients",
+  "D6_complete": "every fitted row has finite count20, strength20 and followup",
+  "D7_entry_validity": "every entry has a finite entry_cycle > f + 39 with appearances at entry_cycle and entry_cycle + 1; every non-entry has entry_cycle = None; no edge has a structure appearance before f + 40",
+  "D8_no_collision": "the seed block is collision-free at freeze and check",
+  "D9_separation": "abs(Pearson r(early_retention, proximal_retention)) <= 0.80; otherwise the two windows are not separable and the block is VOID",
+  "D10_exposure": "every eligible edge has at least 20 cycles in f + 40..120; f <= 60 already implies at least 21"
+ },
+ "sample_size": {
+  "planned_seeds": 24,
+  "minimum_edges": 60,
+  "minimum_events": 20,
+  "power_calculation": "none. The structure-free 40-cycle requirement may leave too few entries; D1 is the only feasibility check and is applied once. The thresholds are not lowered after the count is seen."
+ },
+ "amendments": [],
+ "authorisation": {
+  "required": true,
+  "granted": false,
+  "document": null,
+  "quote": null,
+  "note": "No grant is recorded. This module freezes the design only; it must not run a cell."
+ },
+ "runner": {
+  "built": true,
+  "planned_module": "benchmarks.retention_entry_transition",
+  "cells_run": 0,
+  "measure_command": "python -m benchmarks.retention_entry_transition --measure",
+  "write_command": "python -m benchmarks.retention_entry_transition --finish",
+  "note": "Runner built behind the grant check. --dry-run prints the 24 commands without a database; --cell, --measure and --finish refuse until a complete dated grant is recorded. No grant, cell or result exists."
+ },
+ "result": "docs/retention_entry_transition.json",
+ "not_evidence": "A preregistration, not a result. It spends no seed and makes no capability, causal, retention or general engine claim. The prior block's ambiguous result is not evidence for this design; the structure-free interval, the two-cycle entry and the 24-seed block are design choices, and a different interval or entry rule is a different block.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711"
+}

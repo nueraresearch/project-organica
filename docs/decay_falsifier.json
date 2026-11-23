@@ -1,0 +1,72 @@
+{
+  "artifact": "docs/decay_falsifier/parts/FULL.json",
+  "command": "PYTHONHASHSEED=0 python benchmarks/force_matrix.py --cycles 300 --seed 20261023 --colonies FULL",
+  "date": "2026-11-07",
+  "engine_version": "0.13.0",
+  "engine_pin_current": true,
+  "seed": 20261023,
+  "cycles": 300,
+  "stimulus": "lattice_L1 (three disjoint triangles)",
+  "py_hash_seed": 0,
+  "harness_exit_code": 1,
+  "harness_reference_arm_failed": true,
+  "harness_mode": "fail-closed",
+  "harness_reference_arm_problems": [
+    "FULL held no theory in its final tenth of cycles -- the reference arm is dead"
+  ],
+  "harness_reference_arm_attributed": true,
+  "harness_tail": [
+    "G1 code-path verification:",
+    "  FULL                 policy=alphabetical   scale=1.0   Q=0   D=8   E=5   beliefs=6   theories=0",
+    "  SALIENCE             policy=salience       scale=1.0   Q=0   D=8   E=5   beliefs=6   theories=0",
+    "  NO_CONTRADICTIONS    policy=salience       scale=0.0   Q=0   D=8   E=5   beliefs=6   theories=0",
+    "  NO_QUESTIONS         policy=salience       scale=1.0   Q=0   D=8   E=5   beliefs=6   theories=0",
+    "  NO_DREAMS            policy=salience       scale=1.0   Q=0   D=0   E=0   beliefs=6   theories=0",
+    "  ANTI_EIG             policy=salience       scale=1.0   Q=0   D=8   E=5   beliefs=6   theories=0",
+    "  !! FULL produced no theories -- the reference arm is broken",
+    "FULL                 TDC=0.123 QDC=0.123 CD=131.9489 CS=0.0 DV=19.0 gen=8 life=58.278 psi_b=-0.5298 rev=0 (14.9s)",
+    "  !! FULL held no theory in its final tenth of cycles -- the reference arm is dead",
+    "",
+    "wrote /workspace/chats/41c104dc975752552e0b5d73/docs/decay_falsifier/parts/FULL.json"
+  ],
+  "verdict": "VOID_REFERENCE_DEAD",
+  "falsifier_fired": false,
+  "theories": {
+    "cycles": 300,
+    "cycles_with_any": 37,
+    "last_nonzero_cycle": 38,
+    "at_end": 0
+  },
+  "beliefs": {
+    "cycles": 300,
+    "cycles_with_any": 112,
+    "last_nonzero_cycle": 113,
+    "at_end": 0
+  },
+  "series_verdict": "REPRODUCES",
+  "certified": false,
+  "observation": "REPRODUCES",
+  "gate": {
+    "reference_arm_failed": true,
+    "problems": [
+      "FULL held no theory in its final tenth of cycles -- the reference arm is dead"
+    ],
+    "reason": "the harness's own reference-arm check failed the run"
+  },
+  "reference": {
+    "artifact": "docs/rerun-0.12.0/parts/FULL.json",
+    "version": "0.12.0",
+    "theories": {
+      "cycles": 3000,
+      "cycles_with_any": 37,
+      "last_nonzero_cycle": 38,
+      "at_end": 0
+    },
+    "beliefs": {
+      "cycles": 3000,
+      "cycles_with_any": 112,
+      "last_nonzero_cycle": 113,
+      "at_end": 0
+    }
+  }
+}

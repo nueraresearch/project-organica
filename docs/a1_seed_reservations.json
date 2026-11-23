@@ -1,0 +1,226 @@
+{
+  "kind": "a1_seed_reservations",
+  "id": "A1-SEED-RESERVATIONS-1",
+  "date": "2026-11-14",
+  "note": "Seed blocks declared by an artifact but never spent. The freshness scan skips the artifacts it is told to allow, so a block declared inside an allow-listed artifact is invisible to it; these reservations are checked separately by benchmarks.a1_seed_reservations and by the two-path preflight.",
+  "reservations": [
+    {
+      "label": "pair-split offset-discriminator construction",
+      "owner": "docs/a1_offset_discriminator_spec.json",
+      "restated_by": [
+        "docs/a1_pair_split_rule_amended.json"
+      ],
+      "seeds": [
+        20690101,
+        20690102,
+        20690103,
+        20690104,
+        20690105,
+        20690106
+      ],
+      "spent": false
+    },
+    {
+      "label": "cap-112 baseline availability, already run",
+      "owner": "docs/a1_baseline_availability.json",
+      "restated_by": [],
+      "seeds": [
+        20630101,
+        20630102,
+        20630103,
+        20630104,
+        20630105,
+        20630106
+      ],
+      "spent": true
+    },
+    {
+      "label": "two-path candidate block, held for A1-TWO-PATH-1",
+      "owner": "docs/a1_two_path_manifest.json",
+      "restated_by": [
+        "docs/a1_target_selection.json",
+        "docs/a1_c8_target_selection.json",
+        "docs/a1_c5_target_timing.json",
+        "docs/a1_adversarial_audit.json",
+        "docs/a1_target_freeze_act.json",
+        "docs/a1_target_freeze_act_n20.json",
+        "docs/a1_c8_expansion.json",
+        "docs/a1_baseline_availability_adopted.json",
+        "docs/a1_c5_carrier_divergence.json",
+        "docs/a1_design_viability.json",
+        "docs/a1_competence_adopted.json",
+        "docs/a1_competence_filter_draft.json",
+        "docs/a1_c8_target_selection_competent.json",
+        "docs/a1_c5_target_timing_competent.json",
+        "docs/a1_scorer_pin.json",
+        "docs/decisions.json",
+        "docs/a1_viability_levers.json",
+        "docs/a1_two_path_result.json",
+        "docs/a2_sham_feasibility.json",
+        "docs/v1_carrier_identity.json",
+        "docs/v1_rekeying_study.json",
+        "docs/v1_carrier_forgetting.json"
+      ],
+      "seeds": [
+        20740102,
+        20740103,
+        20740104,
+        20740105,
+        20740106
+      ],
+      "spent": false
+    },
+    {
+      "label": "A1-TWO-PATH-1 base seed, released to the V2 A4 storage measurement (no cell)",
+      "owner": "docs/a1_two_path_manifest.json",
+      "restated_by": [
+        "docs/a1_target_selection.json",
+        "docs/a1_c8_target_selection.json",
+        "docs/a1_c5_target_timing.json",
+        "docs/a1_adversarial_audit.json",
+        "docs/a1_target_freeze_act.json",
+        "docs/a1_target_freeze_act_n20.json",
+        "docs/a1_c8_expansion.json",
+        "docs/a1_baseline_availability_adopted.json",
+        "docs/a1_c5_carrier_divergence.json",
+        "docs/a1_design_viability.json",
+        "docs/a1_competence_adopted.json",
+        "docs/a1_competence_filter_draft.json",
+        "docs/a1_c8_target_selection_competent.json",
+        "docs/a1_c5_target_timing_competent.json",
+        "docs/a1_scorer_pin.json",
+        "docs/decisions.json",
+        "docs/a1_viability_levers.json",
+        "docs/a1_two_path_result.json",
+        "docs/a2_sham_feasibility.json",
+        "docs/v1_carrier_identity.json",
+        "docs/v1_rekeying_study.json",
+        "docs/v1_carrier_forgetting.json",
+        "docs/v2_first_cell_gates.json",
+        "docs/DECISION-V2-A4-BASE-WORLD.md"
+      ],
+      "seeds": [
+        20740101
+      ],
+      "spent": true
+    },
+    {
+      "label": "primitive sizing across world size",
+      "owner": "docs/v2_primitive_sizing_scaled.json",
+      "restated_by": [],
+      "seeds": [
+        20800101
+      ],
+      "spent": false
+    },
+    {
+      "label": "re-keying replication, second world",
+      "owner": "docs/v1_rekeying_study_20900101.json",
+      "restated_by": [],
+      "seeds": [
+        20900101
+      ],
+      "spent": false
+    },
+    {
+      "label": "first V2 cell, ten paired worlds",
+      "owner": "docs/v2_first_cell_seeds.json",
+      "restated_by": [],
+      "seeds": [
+        20910101,
+        20910102,
+        20910103,
+        20910104,
+        20910105,
+        20910106,
+        20910107,
+        20910108,
+        20910109,
+        20910110
+      ],
+      "spent": true
+    },
+    {
+      "label": "readout dry run, smoke world (never scored against the charter)",
+      "owner": "docs/v2_first_cell_dry_run.json",
+      "restated_by": [],
+      "seeds": [
+        20911101
+      ],
+      "spent": true
+    },
+    {
+      "label": "null-world calibration, structureless worlds (diagnostic, never a cell)",
+      "owner": "docs/v2_first_cell_null.json",
+      "restated_by": [
+        "docs/v2_first_cell_mass_match.json"
+      ],
+      "seeds": [
+        20920101,
+        20920102,
+        20920103,
+        20920104,
+        20920105,
+        20920106,
+        20920107,
+        20920108,
+        20920109,
+        20920110,
+        20920111,
+        20920112,
+        20920113,
+        20920114,
+        20920115,
+        20920116,
+        20920117,
+        20920118,
+        20920119,
+        20920120
+      ],
+      "spent": true
+    },
+    {
+      "label": "first V2 cell positive control, planted-signal worlds (diagnostic, never a cell)",
+      "owner": "docs/v2_first_cell_planted_seeds.json",
+      "restated_by": [
+        "docs/v2_first_cell_planted.json",
+        "docs/v2_first_cell_planted_selection.json"
+      ],
+      "seeds": [
+        20930101,
+        20930102,
+        20930103,
+        20930104,
+        20930105,
+        20930106,
+        20930107,
+        20930108,
+        20930109,
+        20930110,
+        20930111
+      ],
+      "spent": true
+    }
+  ],
+  "shared_blocks": [
+    {
+      "label": "the six historical audit seeds at cap 112",
+      "seeds": [
+        20261100,
+        20261101,
+        20261102,
+        20261103,
+        20261104,
+        20261105
+      ],
+      "artifacts": [
+        "docs/presence_comparator_112_prereg.json",
+        "docs/presence_construct_1_112_prereg.json"
+      ],
+      "declared_by": "seed_reuse",
+      "basis": "the construct preregistration's gate C9_comparator_row requires each cell to reproduce the cap-112 comparator row for its seed, so the two designs must run the same six seeds; both artifacts declare the reuse in seed_reuse and pair it against the 0.14.0 audit",
+      "provenance": "docs/presence_assertion_audit_0.14.0.json",
+      "page": "docs/PRESENCE-CONSTRUCT-1-112-PREREGISTRATION.md"
+    }
+  ]
+}

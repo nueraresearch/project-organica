@@ -79,6 +79,7 @@ from benchmarks.acquisition_harness import (  # noqa: E402
     _world_compositional_edges,
     generate_compositional_world,
 )
+from benchmarks import engine_stamp
 
 SEEDS = [20261101, 20261102, 20261103]
 ENGINE_CAP = 20          # MAX_PREDICTIONS, the frozen budget
@@ -344,7 +345,7 @@ def main():
         print(flush=True)
 
     out = REPO / "docs" / "gate13_relation_separation.json"
-    out.write_text(json.dumps(results, indent=2), encoding="utf-8")
+    out.write_text(json.dumps(engine_stamp.stamp(results), indent=2), encoding="utf-8")
     print(f"wrote {out}")
 
 

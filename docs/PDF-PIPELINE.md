@@ -86,18 +86,46 @@ template carried. Each of these was a build failure before it was a repair.
 | `\def\LTcaptype{}` | Pandoc wraps a table in `{\def\LTcaptype{none} % do not increment counter}`. longtable reads `\LTcaptype` as the **name of a counter** and steps it unless the value is empty, so `none` is read as a counter that does not exist. The empty value is exactly what pandoc means, so the generated file is rewritten to say it — on the build copy only. |
 | `\DeclareUnicodeCharacter` for eleven characters | The manuscripts are written with typographic punctuation: em dash, en dash, minus sign, rightwards arrow, almost-equal, greater-or-equal, multiplication sign, plus-minus, section sign, Greek alpha, and `o` with grave. pdfLaTeX has no declaration for these by default. The mathematical ones are wrapped in `\ensuremath` so they are correct in text and in math mode alike. |
 | `\usepackage{fancyvrb}` and `$highlighting-macros$` | Pandoc emits a code block that carries a class as `\begin{Shaded}\begin{Highlighting}[] ... \end{Highlighting}\end{Shaded}`. Both environments come from pandoc's default template. |
+| `\hypersetup{pdftitle, pdfauthor, pdfsubject, pdfkeywords}` | hyperref fills none of these unless it is asked, so both PDFs opened with an **empty** title bar and imported into a reference manager as an untitled, unattributed document. `pdfusetitle` is not the repair here: this template's `\title` is a `\parbox`, and hyperref would copy the markup. The values arrive as pandoc metadata from `PDF_INFO` in the renderer — the paper's own title, not the project's "Paper 1/2" label — and `verify_pdf_info` reads all four back out of the built file, so "the PDF has a title" is a checked claim rather than an assumption about what hyperref did. Because the title would otherwise live in two places, `verify_title_matches` also asserts that `PDF_INFO`'s title is the manuscript's own level-one heading with the project's "Paper N:" label removed — the heading is the source of truth, so a retitle cannot ship under a stale title. |
+
+## Build-copy rewrites
+
+The build never edits a manuscript. Each repair below is applied to the copy
+under `.scratch/paper-build/`, between pandoc and pdfLaTeX, by
+`benchmarks/render_papers.py`. Every one of them was a box in the margin or a
+word the deposited text could not spell before it was a rewrite.
+
+| Rewrite | Defect it repairs |
+|---|---|
+| the level-one heading is removed from the body | pandoc typesets it as the title *and* as a numbered section heading; the second copy of the title ran 61 pt into the margin. |
+| the author line is split at its em dashes | the author is a single unbreakable box in a `\title` block, so a name, an ORCID URL and an address ran 63 pt into the margin. |
+| figure references point at the SVG's PDF | LaTeX cannot include an SVG. The committed Markdown keeps pointing at the committed SVG. |
+| `\allowbreak` inside `\texttt` | inline code has no break opportunity, so ten paths were single unbreakable boxes, the widest 140 pt over. A span over 24 characters is broken between characters, as `\seqsplit` does, **whether or not it contains a slash**; shorter spans break only at a slash or an underscore escape. Length, not shape, decides: the earlier version of this rule skipped every slash-free span, and Paper 02's four-column table of 40-character test names then ran 209 pt into the margin with no break opportunity anywhere in the column. |
+| `\LTcaptype` is emptied | longtable reads pandoc's `none` as the name of a counter and steps a counter that does not exist. |
+| tables of seven columns or more are set a size or two down, in a narrower gutter | pandoc divides the measure evenly, so a nine-column table gives each column 41 pt while its header word "Reachability" is 58 pt. Rotating those tables onto landscape pages removed the overrun and cost three page-flow defects: `pdflscape` breaks the page at both ends, so the heading arrived alone on the page before and each three-row table sat at the top of an otherwise blank rotated sheet. Setting the table down and narrowing `\tabcolsep` from 6 pt to 4 pt returns 32 pt of text across nine columns, which is enough — `\footnotesize` for seven or eight columns, `\scriptsize` for nine or more, where the widest header word is 38 pt in a 43 pt column. |
+| the author block breaks at its em dashes | the author line is one hbox, so name, ORCID and address on one line overran the margin by 63 pt. Splitting it with a backslash pair in the metadata does **not** work: pandoc parses metadata values as markdown and escapes the pair, so the title page printed a literal `\\` between the three parts — the owner's deposit review caught it on a rendered page, not in a diff. The separator is now a sentinel, `@AUTHORBREAK@`, which survives pandoc untouched; `fix_author_breaks` replaces it with a real break on the build copy, and **fails the build** if the sentinel survives. |
+| each figure is pinned where it is written, and keeps one caption | pandoc's `implicit_figures` turns an image's alt text into a float with its own `\caption`, so a figure page carried **two** captions — `Figure 2: Figure 2. …` — and, because the image was a float, the pair could separate: in the 25-page build Figure 2 landed alone on a page under a quarter-page of white while its own caption stayed on the page before. `pin_figures` rewrites each `\begin{figure}` as `[H]` (float.sty, installed) and drops the duplicated caption, leaving the manuscript's bold caption directly beneath its figure. |
+| a heading is kept with the table beneath it | a longtable may break between the heading and its first row, and a `\filbreak` before the heading loses that contest: the heading fits, the table does not, and the heading stays behind — which is the defect the landscape pages were traded for. `\keepwithnext{110pt}` measures what is left on the page, the technique `needspace.sty` uses, written into the template because that package is not in this installation; when the heading and table cannot both fit it takes a forced break before the heading. |
+| a code block is set with `samepage=true` | a verbatim block is a sequence of ordinary lines, so LaTeX will split it anywhere. Paper 02's reproduction block broke after eight lines and left two orphaned lines above the next heading; `samepage` moves the block whole instead. |
+| code blocks are set at `footnotesize` | Paper 02's longest comment line is 103 characters and ran 61 pt over. Wrapping it would put a break into a block a reader may copy, so the block is set one size down instead. |
 
 ## The tools
 
-Neither tool is on PATH on this machine. The script finds both:
+pandoc and pdfLaTeX are looked up in the locations the script already knows — the Windows pandoc and MiKTeX install paths, then `PATH`:
 
 | Tool | Location |
 |---|---|
-| pandoc 3.13 | `%LOCALAPPDATA%\Pandoc\pandoc.exe` |
-| MiKTeX-pdfTeX 4.23 (MiKTeX 25.12) | `%LOCALAPPDATA%\Programs\MiKTeX\miktex\bin\x64\pdflatex.exe` |
+| pandoc 3.5 | `%LOCALAPPDATA%\Pandoc\pandoc.exe` |
+| pdfTeX 1.40.29 (TeX Live 2026) | `%LOCALAPPDATA%\Programs\MiKTeX\miktex\bin\x64\pdflatex.exe` |
 
 MiKTeX's package auto-install is on (`initexmf --set-config-value=[MPM]auto-install=1`),
 so a missing package is fetched on first use.
+
+Those are the Windows paths the script was written against. The build recorded with this
+deposit ran in a Linux container with pandoc 3.5 and TinyTeX on `PATH`, after
+`tlmgr install caption lm microtype`. The versions that actually built the PDFs
+are recorded in the reproduction bundle's `ENVIRONMENT.json`, so the pipeline states what
+it ran on instead of assuming it.
 
 Still absent on this machine: LibreOffice, Ghostscript, `pdftoppm`,
 `pdftocairo`, Inkscape, and every Python imaging library the project does not
@@ -111,8 +139,56 @@ use. Nothing in the pipeline needs them.
   numbers. `tests/test_paper_numbers.py` does that, against the artifacts
   rather than against the PDF.
 - It does not submit anything. The PDF is a deposit artifact.
+- **It does not look at the pages by itself.** The log proves there are no
+  overfull boxes, the extraction proves the words are on them, and
+  `verify_pdf_info` proves the file carries its title and author — but
+  nothing in this pipeline rasterises a page, so figure placement, caption
+  collisions and page breaks are **not** covered by any check above. A
+  rasteriser is not a build dependency and is not installed on this machine;
+  to look at the pages, render them in a scratch environment
+  (`python3 -m venv /tmp/pdfrender` then
+  `/tmp/pdfrender/bin/pip install pymupdf`) and inspect the images. **Done
+  2026-11-02 for all 40 pages:** Paper 01 renders clean — both multi-page
+  tables break at row boundaries with the header repeated, and all five
+  figures carry their captions and source lines. Paper 02 had **three layout
+  defects** found in that review — a code block split across pages 7–8
+  leaving two orphaned lines, a heading-only page 12, and two captionless,
+  mostly blank landscape table pages (9 and 13) — all downstream of the
+  landscape pass. They are fixed: those tables are set in portrait, the code
+  block is unbreakable, and a heading now breaks the page rather than being
+  left above its table (Journal §128). The rebuilt Paper 02 is 14 pages, 0
+  errors, 0 overfull boxes. It still stays **unverified visually** until the
+  owner looks at the new pages, because a machine check found the old defects
+  only after they were looked at. No text check substitutes for looking, and none of the
+  checks above should be read as if it had.
 
 → `benchmarks/svg_to_pdf.py`; `benchmarks/make_font_widths.py`;
 `benchmarks/helvetica_widths.json`; `benchmarks/render_papers.py`;
 `benchmarks/paper-template.tex`; `tests/test_svg_to_pdf.py`;
 `docs/ZENODO-DEPOSIT.md`.
+
+## How the figure PDFs are made
+
+`benchmarks/figure_papers.py` writes **SVG** only, because the project is
+standard-library-only and has no plotting dependency; the manuscripts embed the
+**PDF** beside each SVG, and `render_papers.py` rewrites every `../docs/*.svg`
+link to that PDF on the build copy. The two files therefore have to be kept in
+step by hand, and nothing in the pipeline notices when they are not — the
+deposited Figure 1 was rendered from a six-point version of a figure whose text
+and caption describe eight ratios (journal §129).
+
+Rendering is `svglib` + `reportlab` in a throwaway environment at the size the
+committed files use (svglib already converts SVG px to PDF pt at 0.75, so the
+scale is **1**, not 0.75 — scaling again renders the content at 56 % inside a
+full-size page and leaves a blank band at the top):
+
+```bash
+python -m pip install svglib            # outside the project; the repo stays stdlib-only
+python .scratch/svg2pdf.py              # writes docs/figure_p*.pdf from docs/figure_p*.svg
+```
+
+Check the result by extraction, not by eye alone: every page size should equal
+the previous file's, and no text span should end past the page width
+(`pymupdf`'s `get_text("dict")` gives the span bboxes). The generator's own guard
+now uses real Helvetica advance widths, so a label that would overrun its canvas
+is refused instead of clipped — which is what let three labels through before.

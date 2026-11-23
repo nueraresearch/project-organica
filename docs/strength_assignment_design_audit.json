@@ -1,0 +1,1152 @@
+{
+ "cells": [
+  {
+   "arm_diagnostics": {
+    "full": {
+     "bigram": {
+      "cells": 12768,
+      "log_loss": 0.436629321
+     },
+     "full": {
+      "cells": 12768,
+      "log_loss": 0.433693791
+     },
+     "label": "gate diagnostic \u2014 arm losses, not a contrast",
+     "shuffled": {
+      "cells": 12768,
+      "draws": 25,
+      "log_loss_max": 0.450744877,
+      "log_loss_mean": 0.44469139,
+      "log_loss_median": 0.444176027,
+      "log_loss_min": 0.437459996
+     }
+    },
+    "withheld": {
+     "bigram": {
+      "cells": 2976,
+      "log_loss": 0.966530175
+     },
+     "full": {
+      "cells": 2976,
+      "log_loss": 0.5801323
+     },
+     "label": "gate diagnostic \u2014 arm losses, not a contrast",
+     "shuffled": {
+      "cells": 2976,
+      "draws": 25,
+      "log_loss_max": 0.579739346,
+      "log_loss_mean": 0.575948219,
+      "log_loss_median": 0.574962355,
+      "log_loss_min": 0.573473307
+     }
+    }
+   },
+   "baseline": {
+    "config": {
+     "alpha": 0.1,
+     "half_life": null,
+     "window": null
+    },
+    "family": "bigram",
+    "tuning_log_loss": 0.272128
+   },
+   "constants": {
+    "alpha": 256.0,
+    "cap": 1000,
+    "draws": 25,
+    "pythonhashseed": "0",
+    "tuning_cycles": 15
+   },
+   "deltas": null,
+   "draws": {
+    "all_invariants_preserved": true,
+    "changed_rows_median": 23,
+    "deterministic": true,
+    "draw_seed_rule": "seed * 1013 + draw",
+    "draws": 25,
+    "draws_failing_invariants": [],
+    "edges": 329,
+    "moved_limit": 0.5,
+    "moved_share_max": 0.930091,
+    "moved_share_median": 0.905775,
+    "moved_share_min": 0.87538,
+    "movement_within_limit": true,
+    "multi_target_rows": 23,
+    "rows": 23
+   },
+   "endpoint": "d_shuffled, d_bigram and the \u00a76 label are not formed on design seeds (\u00a79): they need the confirmatory block, and no design margin is compared with \u00a75's bar",
+   "formation": {
+    "cycles": 110,
+    "events": 880,
+    "seconds": 25.6
+   },
+   "gates": {
+    "S1": {
+     "all_invariants_preserved": true,
+     "draws_failing_invariants": [],
+     "passed": true
+    },
+    "S2": {
+     "coverage_floor": 0.5,
+     "coverage_met": true,
+     "coverage_share": 0.770677,
+     "draws_unmoved": 0,
+     "max_prob_difference_max": 0.117967332,
+     "max_prob_difference_median": 0.092592593,
+     "max_prob_difference_min": 0.083576288,
+     "moved_limit": 0.5,
+     "moved_share_median": 0.905775,
+     "movement_within_limit": true,
+     "passed": true,
+     "readout_changes": true,
+     "realised_cells": 1596,
+     "realised_cells_with_target_edge": 1230
+    },
+    "S3": {
+     "case": "positive_plant_shuffling_costs_loss",
+     "full_log_loss": 0.327263197,
+     "increase": 0.603358781,
+     "passed": true,
+     "shuffled_log_loss": 0.930621977
+    },
+    "S4": {
+     "constant_weights": {
+      "case": "negative_plant_constant_weights",
+      "change": 0.0,
+      "label": "weaker fixture: passes trivially, not evidence about the design",
+      "passed": true
+     },
+     "exchangeable_nonconstant": {
+      "case": "negative_plant_exchangeable_nonconstant_weights",
+      "change": 0.0,
+      "observation_set": "closed under the permutation (every target observed)",
+      "passed": true,
+      "weights": [
+       0.05,
+       0.1,
+       0.85
+      ],
+      "weights_are_nonconstant": true
+     },
+     "fixture_can_fail": {
+      "case": "negative_fixture_fails_when_exchangeability_breaks",
+      "change": 0.603358781,
+      "passed": true
+     },
+     "passed": true
+    },
+    "S5": {
+     "constants": {
+      "alpha_is_256": true,
+      "bootstrap_resamples_is_10000": true,
+      "bootstrap_seed_is_20261102": true,
+      "cap_is_1000": true,
+      "confirmatory_seeds_read": 0,
+      "draw_seed_multiplier_is_1013": true,
+      "draws_is_25": true,
+      "interval_level_is_0_9833": true,
+      "moved_limit_is_0_50": true,
+      "passed": true,
+      "pythonhashseed_is_0": true,
+      "seed_in_design_block": true,
+      "tuning_cycles_is_15": true
+     },
+     "deterministic": true,
+     "passed": true
+    },
+    "S6": {
+     "cells_by_arm": {
+      "bigram": 12768,
+      "full": 12768,
+      "shuffled": 12768
+     },
+     "cells_expected": 12768,
+     "passed": true,
+     "shuffled_draws": 25,
+     "vocab": 16
+    },
+    "S7": {
+     "edges": 329,
+     "passed": true,
+     "rebuild_max_abs_gap": 0.0,
+     "tolerance": 1e-12,
+     "topology_identical_across_arms": true
+    },
+    "liveness": {
+     "passed": true,
+     "realised_cells": 1596,
+     "realised_cells_with_support": 1596,
+     "source_tags": 23
+    }
+   },
+   "kind": "strength_assignment_design_cell",
+   "readout": {
+    "edges": 329,
+    "multi_target_rows": 23,
+    "rows": 23,
+    "total_weight": 12259.0
+   },
+   "seconds": 28.1,
+   "seed": 20270401,
+   "world": {
+    "cycles": 300,
+    "primary_cycles": [
+     150,
+     200
+    ],
+    "primary_window": "full",
+    "vocab": 16,
+    "withheld_instances": {
+     "flip_p": 66,
+     "flip_q": 27
+    },
+    "withheld_pairs": 93
+   }
+  },
+  {
+   "arm_diagnostics": {
+    "full": {
+     "bigram": {
+      "cells": 12768,
+      "log_loss": 0.435679904
+     },
+     "full": {
+      "cells": 12768,
+      "log_loss": 0.432293075
+     },
+     "label": "gate diagnostic \u2014 arm losses, not a contrast",
+     "shuffled": {
+      "cells": 12768,
+      "draws": 25,
+      "log_loss_max": 0.456280227,
+      "log_loss_mean": 0.443182571,
+      "log_loss_median": 0.442753459,
+      "log_loss_min": 0.434596555
+     }
+    },
+    "withheld": {
+     "bigram": {
+      "cells": 3008,
+      "log_loss": 0.954185069
+     },
+     "full": {
+      "cells": 3008,
+      "log_loss": 0.569809369
+     },
+     "label": "gate diagnostic \u2014 arm losses, not a contrast",
+     "shuffled": {
+      "cells": 3008,
+      "draws": 25,
+      "log_loss_max": 0.559041742,
+      "log_loss_mean": 0.551674334,
+      "log_loss_median": 0.552378022,
+      "log_loss_min": 0.544560746
+     }
+    }
+   },
+   "baseline": {
+    "config": {
+     "alpha": 0.1,
+     "half_life": null,
+     "window": null
+    },
+    "family": "bigram",
+    "tuning_log_loss": 0.264343
+   },
+   "constants": {
+    "alpha": 256.0,
+    "cap": 1000,
+    "draws": 25,
+    "pythonhashseed": "0",
+    "tuning_cycles": 15
+   },
+   "deltas": null,
+   "draws": {
+    "all_invariants_preserved": true,
+    "changed_rows_median": 24,
+    "deterministic": true,
+    "draw_seed_rule": "seed * 1013 + draw",
+    "draws": 25,
+    "draws_failing_invariants": [],
+    "edges": 338,
+    "moved_limit": 0.5,
+    "moved_share_max": 0.926036,
+    "moved_share_median": 0.902367,
+    "moved_share_min": 0.852071,
+    "movement_within_limit": true,
+    "multi_target_rows": 24,
+    "rows": 24
+   },
+   "endpoint": "d_shuffled, d_bigram and the \u00a76 label are not formed on design seeds (\u00a79): they need the confirmatory block, and no design margin is compared with \u00a75's bar",
+   "formation": {
+    "cycles": 110,
+    "events": 880,
+    "seconds": 27.6
+   },
+   "gates": {
+    "S1": {
+     "all_invariants_preserved": true,
+     "draws_failing_invariants": [],
+     "passed": true
+    },
+    "S2": {
+     "coverage_floor": 0.5,
+     "coverage_met": true,
+     "coverage_share": 0.788847,
+     "draws_unmoved": 0,
+     "max_prob_difference_max": 0.113364055,
+     "max_prob_difference_median": 0.105777778,
+     "max_prob_difference_min": 0.086677368,
+     "moved_limit": 0.5,
+     "moved_share_median": 0.902367,
+     "movement_within_limit": true,
+     "passed": true,
+     "readout_changes": true,
+     "realised_cells": 1596,
+     "realised_cells_with_target_edge": 1259
+    },
+    "S3": {
+     "case": "positive_plant_shuffling_costs_loss",
+     "full_log_loss": 0.327263197,
+     "increase": 0.603358781,
+     "passed": true,
+     "shuffled_log_loss": 0.930621977
+    },
+    "S4": {
+     "constant_weights": {
+      "case": "negative_plant_constant_weights",
+      "change": 0.0,
+      "label": "weaker fixture: passes trivially, not evidence about the design",
+      "passed": true
+     },
+     "exchangeable_nonconstant": {
+      "case": "negative_plant_exchangeable_nonconstant_weights",
+      "change": 0.0,
+      "observation_set": "closed under the permutation (every target observed)",
+      "passed": true,
+      "weights": [
+       0.05,
+       0.1,
+       0.85
+      ],
+      "weights_are_nonconstant": true
+     },
+     "fixture_can_fail": {
+      "case": "negative_fixture_fails_when_exchangeability_breaks",
+      "change": 0.603358781,
+      "passed": true
+     },
+     "passed": true
+    },
+    "S5": {
+     "constants": {
+      "alpha_is_256": true,
+      "bootstrap_resamples_is_10000": true,
+      "bootstrap_seed_is_20261102": true,
+      "cap_is_1000": true,
+      "confirmatory_seeds_read": 0,
+      "draw_seed_multiplier_is_1013": true,
+      "draws_is_25": true,
+      "interval_level_is_0_9833": true,
+      "moved_limit_is_0_50": true,
+      "passed": true,
+      "pythonhashseed_is_0": true,
+      "seed_in_design_block": true,
+      "tuning_cycles_is_15": true
+     },
+     "deterministic": true,
+     "passed": true
+    },
+    "S6": {
+     "cells_by_arm": {
+      "bigram": 12768,
+      "full": 12768,
+      "shuffled": 12768
+     },
+     "cells_expected": 12768,
+     "passed": true,
+     "shuffled_draws": 25,
+     "vocab": 16
+    },
+    "S7": {
+     "edges": 338,
+     "passed": true,
+     "rebuild_max_abs_gap": 0.0,
+     "tolerance": 1e-12,
+     "topology_identical_across_arms": true
+    },
+    "liveness": {
+     "passed": true,
+     "realised_cells": 1596,
+     "realised_cells_with_support": 1596,
+     "source_tags": 24
+    }
+   },
+   "kind": "strength_assignment_design_cell",
+   "readout": {
+    "edges": 338,
+    "multi_target_rows": 24,
+    "rows": 24,
+    "total_weight": 12280.0
+   },
+   "seconds": 30.1,
+   "seed": 20270402,
+   "world": {
+    "cycles": 300,
+    "primary_cycles": [
+     150,
+     200
+    ],
+    "primary_window": "full",
+    "vocab": 16,
+    "withheld_instances": {
+     "flip_p": 71,
+     "flip_q": 23
+    },
+    "withheld_pairs": 94
+   }
+  },
+  {
+   "arm_diagnostics": {
+    "full": {
+     "bigram": {
+      "cells": 12768,
+      "log_loss": 0.43106594
+     },
+     "full": {
+      "cells": 12768,
+      "log_loss": 0.436166413
+     },
+     "label": "gate diagnostic \u2014 arm losses, not a contrast",
+     "shuffled": {
+      "cells": 12768,
+      "draws": 25,
+      "log_loss_max": 0.455976874,
+      "log_loss_mean": 0.447682035,
+      "log_loss_median": 0.448217127,
+      "log_loss_min": 0.437390815
+     }
+    },
+    "withheld": {
+     "bigram": {
+      "cells": 2976,
+      "log_loss": 0.960216623
+     },
+     "full": {
+      "cells": 2976,
+      "log_loss": 0.599310205
+     },
+     "label": "gate diagnostic \u2014 arm losses, not a contrast",
+     "shuffled": {
+      "cells": 2976,
+      "draws": 25,
+      "log_loss_max": 0.595814804,
+      "log_loss_mean": 0.588649842,
+      "log_loss_median": 0.588650254,
+      "log_loss_min": 0.582259583
+     }
+    }
+   },
+   "baseline": {
+    "config": {
+     "alpha": 0.1,
+     "half_life": null,
+     "window": null
+    },
+    "family": "bigram",
+    "tuning_log_loss": 0.261774
+   },
+   "constants": {
+    "alpha": 256.0,
+    "cap": 1000,
+    "draws": 25,
+    "pythonhashseed": "0",
+    "tuning_cycles": 15
+   },
+   "deltas": null,
+   "draws": {
+    "all_invariants_preserved": true,
+    "changed_rows_median": 23,
+    "deterministic": true,
+    "draw_seed_rule": "seed * 1013 + draw",
+    "draws": 25,
+    "draws_failing_invariants": [],
+    "edges": 331,
+    "moved_limit": 0.5,
+    "moved_share_max": 0.933535,
+    "moved_share_median": 0.906344,
+    "moved_share_min": 0.891239,
+    "movement_within_limit": true,
+    "multi_target_rows": 23,
+    "rows": 23
+   },
+   "endpoint": "d_shuffled, d_bigram and the \u00a76 label are not formed on design seeds (\u00a79): they need the confirmatory block, and no design margin is compared with \u00a75's bar",
+   "formation": {
+    "cycles": 110,
+    "events": 880,
+    "seconds": 29.0
+   },
+   "gates": {
+    "S1": {
+     "all_invariants_preserved": true,
+     "draws_failing_invariants": [],
+     "passed": true
+    },
+    "S2": {
+     "coverage_floor": 0.5,
+     "coverage_met": true,
+     "coverage_share": 0.779449,
+     "draws_unmoved": 0,
+     "max_prob_difference_max": 0.108433735,
+     "max_prob_difference_median": 0.103346457,
+     "max_prob_difference_min": 0.09039548,
+     "moved_limit": 0.5,
+     "moved_share_median": 0.906344,
+     "movement_within_limit": true,
+     "passed": true,
+     "readout_changes": true,
+     "realised_cells": 1596,
+     "realised_cells_with_target_edge": 1244
+    },
+    "S3": {
+     "case": "positive_plant_shuffling_costs_loss",
+     "full_log_loss": 0.327263197,
+     "increase": 0.603358781,
+     "passed": true,
+     "shuffled_log_loss": 0.930621977
+    },
+    "S4": {
+     "constant_weights": {
+      "case": "negative_plant_constant_weights",
+      "change": 0.0,
+      "label": "weaker fixture: passes trivially, not evidence about the design",
+      "passed": true
+     },
+     "exchangeable_nonconstant": {
+      "case": "negative_plant_exchangeable_nonconstant_weights",
+      "change": 0.0,
+      "observation_set": "closed under the permutation (every target observed)",
+      "passed": true,
+      "weights": [
+       0.05,
+       0.1,
+       0.85
+      ],
+      "weights_are_nonconstant": true
+     },
+     "fixture_can_fail": {
+      "case": "negative_fixture_fails_when_exchangeability_breaks",
+      "change": 0.603358781,
+      "passed": true
+     },
+     "passed": true
+    },
+    "S5": {
+     "constants": {
+      "alpha_is_256": true,
+      "bootstrap_resamples_is_10000": true,
+      "bootstrap_seed_is_20261102": true,
+      "cap_is_1000": true,
+      "confirmatory_seeds_read": 0,
+      "draw_seed_multiplier_is_1013": true,
+      "draws_is_25": true,
+      "interval_level_is_0_9833": true,
+      "moved_limit_is_0_50": true,
+      "passed": true,
+      "pythonhashseed_is_0": true,
+      "seed_in_design_block": true,
+      "tuning_cycles_is_15": true
+     },
+     "deterministic": true,
+     "passed": true
+    },
+    "S6": {
+     "cells_by_arm": {
+      "bigram": 12768,
+      "full": 12768,
+      "shuffled": 12768
+     },
+     "cells_expected": 12768,
+     "passed": true,
+     "shuffled_draws": 25,
+     "vocab": 16
+    },
+    "S7": {
+     "edges": 331,
+     "passed": true,
+     "rebuild_max_abs_gap": 0.0,
+     "tolerance": 1e-12,
+     "topology_identical_across_arms": true
+    },
+    "liveness": {
+     "passed": true,
+     "realised_cells": 1596,
+     "realised_cells_with_support": 1596,
+     "source_tags": 23
+    }
+   },
+   "kind": "strength_assignment_design_cell",
+   "readout": {
+    "edges": 331,
+    "multi_target_rows": 23,
+    "rows": 23,
+    "total_weight": 12285.0
+   },
+   "seconds": 31.8,
+   "seed": 20270403,
+   "world": {
+    "cycles": 300,
+    "primary_cycles": [
+     150,
+     200
+    ],
+    "primary_window": "full",
+    "vocab": 16,
+    "withheld_instances": {
+     "flip_p": 61,
+     "flip_q": 32
+    },
+    "withheld_pairs": 93
+   }
+  },
+  {
+   "arm_diagnostics": {
+    "full": {
+     "bigram": {
+      "cells": 12768,
+      "log_loss": 0.419242196
+     },
+     "full": {
+      "cells": 12768,
+      "log_loss": 0.433060691
+     },
+     "label": "gate diagnostic \u2014 arm losses, not a contrast",
+     "shuffled": {
+      "cells": 12768,
+      "draws": 25,
+      "log_loss_max": 0.451382158,
+      "log_loss_mean": 0.443252557,
+      "log_loss_median": 0.443718911,
+      "log_loss_min": 0.434014844
+     }
+    },
+    "withheld": {
+     "bigram": {
+      "cells": 2688,
+      "log_loss": 0.963237425
+     },
+     "full": {
+      "cells": 2688,
+      "log_loss": 0.597003071
+     },
+     "label": "gate diagnostic \u2014 arm losses, not a contrast",
+     "shuffled": {
+      "cells": 2688,
+      "draws": 25,
+      "log_loss_max": 0.586028883,
+      "log_loss_mean": 0.570682389,
+      "log_loss_median": 0.571360824,
+      "log_loss_min": 0.55849625
+     }
+    }
+   },
+   "baseline": {
+    "config": {
+     "alpha": 0.1,
+     "half_life": null,
+     "window": null
+    },
+    "family": "bigram",
+    "tuning_log_loss": 0.261257
+   },
+   "constants": {
+    "alpha": 256.0,
+    "cap": 1000,
+    "draws": 25,
+    "pythonhashseed": "0",
+    "tuning_cycles": 15
+   },
+   "deltas": null,
+   "draws": {
+    "all_invariants_preserved": true,
+    "changed_rows_median": 23,
+    "deterministic": true,
+    "draw_seed_rule": "seed * 1013 + draw",
+    "draws": 25,
+    "draws_failing_invariants": [],
+    "edges": 326,
+    "moved_limit": 0.5,
+    "moved_share_max": 0.93865,
+    "moved_share_median": 0.90184,
+    "moved_share_min": 0.874233,
+    "movement_within_limit": true,
+    "multi_target_rows": 23,
+    "rows": 23
+   },
+   "endpoint": "d_shuffled, d_bigram and the \u00a76 label are not formed on design seeds (\u00a79): they need the confirmatory block, and no design margin is compared with \u00a75's bar",
+   "formation": {
+    "cycles": 110,
+    "events": 880,
+    "seconds": 27.8
+   },
+   "gates": {
+    "S1": {
+     "all_invariants_preserved": true,
+     "draws_failing_invariants": [],
+     "passed": true
+    },
+    "S2": {
+     "coverage_floor": 0.5,
+     "coverage_met": true,
+     "coverage_share": 0.81391,
+     "draws_unmoved": 0,
+     "max_prob_difference_max": 0.118122977,
+     "max_prob_difference_median": 0.1125,
+     "max_prob_difference_min": 0.086870681,
+     "moved_limit": 0.5,
+     "moved_share_median": 0.90184,
+     "movement_within_limit": true,
+     "passed": true,
+     "readout_changes": true,
+     "realised_cells": 1596,
+     "realised_cells_with_target_edge": 1299
+    },
+    "S3": {
+     "case": "positive_plant_shuffling_costs_loss",
+     "full_log_loss": 0.327263197,
+     "increase": 0.603358781,
+     "passed": true,
+     "shuffled_log_loss": 0.930621977
+    },
+    "S4": {
+     "constant_weights": {
+      "case": "negative_plant_constant_weights",
+      "change": 0.0,
+      "label": "weaker fixture: passes trivially, not evidence about the design",
+      "passed": true
+     },
+     "exchangeable_nonconstant": {
+      "case": "negative_plant_exchangeable_nonconstant_weights",
+      "change": 0.0,
+      "observation_set": "closed under the permutation (every target observed)",
+      "passed": true,
+      "weights": [
+       0.05,
+       0.1,
+       0.85
+      ],
+      "weights_are_nonconstant": true
+     },
+     "fixture_can_fail": {
+      "case": "negative_fixture_fails_when_exchangeability_breaks",
+      "change": 0.603358781,
+      "passed": true
+     },
+     "passed": true
+    },
+    "S5": {
+     "constants": {
+      "alpha_is_256": true,
+      "bootstrap_resamples_is_10000": true,
+      "bootstrap_seed_is_20261102": true,
+      "cap_is_1000": true,
+      "confirmatory_seeds_read": 0,
+      "draw_seed_multiplier_is_1013": true,
+      "draws_is_25": true,
+      "interval_level_is_0_9833": true,
+      "moved_limit_is_0_50": true,
+      "passed": true,
+      "pythonhashseed_is_0": true,
+      "seed_in_design_block": true,
+      "tuning_cycles_is_15": true
+     },
+     "deterministic": true,
+     "passed": true
+    },
+    "S6": {
+     "cells_by_arm": {
+      "bigram": 12768,
+      "full": 12768,
+      "shuffled": 12768
+     },
+     "cells_expected": 12768,
+     "passed": true,
+     "shuffled_draws": 25,
+     "vocab": 16
+    },
+    "S7": {
+     "edges": 326,
+     "passed": true,
+     "rebuild_max_abs_gap": 0.0,
+     "tolerance": 1e-12,
+     "topology_identical_across_arms": true
+    },
+    "liveness": {
+     "passed": true,
+     "realised_cells": 1596,
+     "realised_cells_with_support": 1596,
+     "source_tags": 23
+    }
+   },
+   "kind": "strength_assignment_design_cell",
+   "readout": {
+    "edges": 326,
+    "multi_target_rows": 23,
+    "rows": 23,
+    "total_weight": 12175.0
+   },
+   "seconds": 30.7,
+   "seed": 20270404,
+   "world": {
+    "cycles": 300,
+    "primary_cycles": [
+     150,
+     200
+    ],
+    "primary_window": "full",
+    "vocab": 16,
+    "withheld_instances": {
+     "flip_p": 58,
+     "flip_q": 26
+    },
+    "withheld_pairs": 84
+   }
+  },
+  {
+   "arm_diagnostics": {
+    "full": {
+     "bigram": {
+      "cells": 12768,
+      "log_loss": 0.437230267
+     },
+     "full": {
+      "cells": 12768,
+      "log_loss": 0.436765445
+     },
+     "label": "gate diagnostic \u2014 arm losses, not a contrast",
+     "shuffled": {
+      "cells": 12768,
+      "draws": 25,
+      "log_loss_max": 0.4570678,
+      "log_loss_mean": 0.451003085,
+      "log_loss_median": 0.451146445,
+      "log_loss_min": 0.439280833
+     }
+    },
+    "withheld": {
+     "bigram": {
+      "cells": 3008,
+      "log_loss": 0.964733802
+     },
+     "full": {
+      "cells": 3008,
+      "log_loss": 0.596496985
+     },
+     "label": "gate diagnostic \u2014 arm losses, not a contrast",
+     "shuffled": {
+      "cells": 3008,
+      "draws": 25,
+      "log_loss_max": 0.595081904,
+      "log_loss_mean": 0.588977291,
+      "log_loss_median": 0.588204587,
+      "log_loss_min": 0.583831083
+     }
+    }
+   },
+   "baseline": {
+    "config": {
+     "alpha": 0.1,
+     "half_life": null,
+     "window": null
+    },
+    "family": "bigram",
+    "tuning_log_loss": 0.262068
+   },
+   "constants": {
+    "alpha": 256.0,
+    "cap": 1000,
+    "draws": 25,
+    "pythonhashseed": "0",
+    "tuning_cycles": 15
+   },
+   "deltas": null,
+   "draws": {
+    "all_invariants_preserved": true,
+    "changed_rows_median": 23,
+    "deterministic": true,
+    "draw_seed_rule": "seed * 1013 + draw",
+    "draws": 25,
+    "draws_failing_invariants": [],
+    "edges": 334,
+    "moved_limit": 0.5,
+    "moved_share_max": 0.928144,
+    "moved_share_median": 0.898204,
+    "moved_share_min": 0.859281,
+    "movement_within_limit": true,
+    "multi_target_rows": 23,
+    "rows": 23
+   },
+   "endpoint": "d_shuffled, d_bigram and the \u00a76 label are not formed on design seeds (\u00a79): they need the confirmatory block, and no design margin is compared with \u00a75's bar",
+   "formation": {
+    "cycles": 110,
+    "events": 880,
+    "seconds": 28.4
+   },
+   "gates": {
+    "S1": {
+     "all_invariants_preserved": true,
+     "draws_failing_invariants": [],
+     "passed": true
+    },
+    "S2": {
+     "coverage_floor": 0.5,
+     "coverage_met": true,
+     "coverage_share": 0.77193,
+     "draws_unmoved": 0,
+     "max_prob_difference_max": 0.113419913,
+     "max_prob_difference_median": 0.098143236,
+     "max_prob_difference_min": 0.079646018,
+     "moved_limit": 0.5,
+     "moved_share_median": 0.898204,
+     "movement_within_limit": true,
+     "passed": true,
+     "readout_changes": true,
+     "realised_cells": 1596,
+     "realised_cells_with_target_edge": 1232
+    },
+    "S3": {
+     "case": "positive_plant_shuffling_costs_loss",
+     "full_log_loss": 0.327263197,
+     "increase": 0.603358781,
+     "passed": true,
+     "shuffled_log_loss": 0.930621977
+    },
+    "S4": {
+     "constant_weights": {
+      "case": "negative_plant_constant_weights",
+      "change": 0.0,
+      "label": "weaker fixture: passes trivially, not evidence about the design",
+      "passed": true
+     },
+     "exchangeable_nonconstant": {
+      "case": "negative_plant_exchangeable_nonconstant_weights",
+      "change": 0.0,
+      "observation_set": "closed under the permutation (every target observed)",
+      "passed": true,
+      "weights": [
+       0.05,
+       0.1,
+       0.85
+      ],
+      "weights_are_nonconstant": true
+     },
+     "fixture_can_fail": {
+      "case": "negative_fixture_fails_when_exchangeability_breaks",
+      "change": 0.603358781,
+      "passed": true
+     },
+     "passed": true
+    },
+    "S5": {
+     "constants": {
+      "alpha_is_256": true,
+      "bootstrap_resamples_is_10000": true,
+      "bootstrap_seed_is_20261102": true,
+      "cap_is_1000": true,
+      "confirmatory_seeds_read": 0,
+      "draw_seed_multiplier_is_1013": true,
+      "draws_is_25": true,
+      "interval_level_is_0_9833": true,
+      "moved_limit_is_0_50": true,
+      "passed": true,
+      "pythonhashseed_is_0": true,
+      "seed_in_design_block": true,
+      "tuning_cycles_is_15": true
+     },
+     "deterministic": true,
+     "passed": true
+    },
+    "S6": {
+     "cells_by_arm": {
+      "bigram": 12768,
+      "full": 12768,
+      "shuffled": 12768
+     },
+     "cells_expected": 12768,
+     "passed": true,
+     "shuffled_draws": 25,
+     "vocab": 16
+    },
+    "S7": {
+     "edges": 334,
+     "passed": true,
+     "rebuild_max_abs_gap": 0.0,
+     "tolerance": 1e-12,
+     "topology_identical_across_arms": true
+    },
+    "liveness": {
+     "passed": true,
+     "realised_cells": 1596,
+     "realised_cells_with_support": 1596,
+     "source_tags": 23
+    }
+   },
+   "kind": "strength_assignment_design_cell",
+   "readout": {
+    "edges": 334,
+    "multi_target_rows": 23,
+    "rows": 23,
+    "total_weight": 12284.0
+   },
+   "seconds": 31.4,
+   "seed": 20270405,
+   "world": {
+    "cycles": 300,
+    "primary_cycles": [
+     150,
+     200
+    ],
+    "primary_window": "full",
+    "vocab": 16,
+    "withheld_instances": {
+     "flip_p": 63,
+     "flip_q": 31
+    },
+    "withheld_pairs": 94
+   }
+  }
+ ],
+ "confirmatory_seeds_run": 0,
+ "constants": {
+  "alpha": 256.0,
+  "bootstrap_resamples": 10000,
+  "bootstrap_seed": 20261102,
+  "cap": 1000,
+  "draw_seed_multiplier": 1013,
+  "draws": 25,
+  "interval_level": 0.9833,
+  "moved_limit": 0.5,
+  "pythonhashseed": "0",
+  "tuning_cycles": 15
+ },
+ "endpoint": "d_shuffled, d_bigram and the \u00a76 label are not formed on design seeds (\u00a79): they need the confirmatory block, and no design margin is compared with \u00a75's bar",
+ "endpoint_boundary": {
+  "computed_on_design_seeds": [
+   "per-cell losses for all three arms on both windows, because \u00a77's gates need them",
+   "arm-level window log-losses, for the S2 and S6 diagnostics",
+   "the draw report: invariants, moved share, changed rows, reproducibility",
+   "the planted controls, which are checks on the harness and not on Organica"
+  ],
+  "counts_as": "endpoint-derived diagnostic",
+  "not_computed_on_design_seeds": [
+   "d_shuffled and d_bigram, the paired differences of \u00a75",
+   "any comparison of a design number with \u00a75's bar",
+   "any statement about which of \u00a76's four rows the study would land in",
+   "any statistic from a confirmatory seed"
+  ],
+  "note": "The gates need per-cell losses; the paired contrasts and the \u00a76 label are not formed."
+ },
+ "failures": [],
+ "kind": "strength_assignment_design_audit",
+ "layer_gates": {
+  "cases": [
+   {
+    "case": "invariants_preserved",
+    "checks": {
+     "edge_pairs": true,
+     "in_degree": true,
+     "node_set": true,
+     "out_degree": true,
+     "row_totals": true,
+     "row_weight_multiset": true,
+     "total_weight": true
+    }
+   },
+   {
+    "case": "cross_row_move_fails_invariants",
+    "checks": {
+     "edge_pairs": false,
+     "in_degree": true,
+     "node_set": true,
+     "out_degree": false,
+     "row_totals": false,
+     "row_weight_multiset": false,
+     "total_weight": true
+    }
+   },
+   {
+    "case": "identity_permutation_moves_nothing",
+    "limit": 0.5,
+    "moved_share": 0.0
+   },
+   {
+    "case": "real_draw_moves_most_edges",
+    "changed_rows": 2,
+    "limit": 0.5,
+    "moved_share": 0.666667
+   },
+   {
+    "case": "positive_plant_shuffling_costs_loss",
+    "full_log_loss": 0.327263197,
+    "increase": 0.603358781,
+    "passed": true,
+    "shuffled_log_loss": 0.930621977
+   },
+   {
+    "case": "negative_plant_exchangeable_nonconstant_weights",
+    "change": 0.0,
+    "observation_set": "closed under the permutation (every target observed)",
+    "passed": true,
+    "weights": [
+     0.05,
+     0.1,
+     0.85
+    ],
+    "weights_are_nonconstant": true
+   },
+   {
+    "case": "negative_plant_constant_weights",
+    "change": 0.0,
+    "label": "weaker fixture: passes trivially, not evidence about the design",
+    "passed": true
+   },
+   {
+    "case": "negative_fixture_fails_when_exchangeability_breaks",
+    "change": 0.603358781,
+    "passed": true
+   },
+   {
+    "case": "negative_fixture_weights_are_nonconstant",
+    "weights": [
+     0.05,
+     0.1,
+     0.85
+    ]
+   },
+   {
+    "case": "outcome_table_reaches_four_labels",
+    "labels": [
+     "no detectable contribution of the strength assignment on this window",
+     "strength assignment contributes, and the readout beats the tuned bigram",
+     "strength assignment contributes; not enough for an advantage over the simple baseline",
+     "the readout's advantage does not depend on which weight is where"
+    ]
+   },
+   {
+    "case": "draws_reproduce_within_a_process",
+    "draws": 25
+   }
+  ],
+  "passed": true
+ },
+ "protocol": "docs/STRENGTH-ASSIGNMENT-PREREGISTRATION.md \u00a77, \u00a79",
+ "seconds": 152.1,
+ "seeds": [
+  20270401,
+  20270402,
+  20270403,
+  20270404,
+  20270405
+ ],
+ "status": "design block passed: the confirmatory block may run"
+}

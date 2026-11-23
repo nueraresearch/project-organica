@@ -41,6 +41,7 @@ from organica.memory import MemoryService         # noqa: E402
 from organica.sleep import SleepService           # noqa: E402
 from organica.streams import EVENTS_PER_CYCLE, STUDY_STREAM  # noqa: E402
 from organica.paths import temp_db                # noqa: E402
+from benchmarks import engine_stamp
 
 MAX_THEORIES = SleepService.MAX_THEORIES
 
@@ -156,7 +157,7 @@ def main() -> None:
             "rows": list(rows),
         }
         out_path.parent.mkdir(parents=True, exist_ok=True)
-        out_path.write_text(json.dumps(out, indent=2), encoding="utf-8")
+        out_path.write_text(json.dumps(engine_stamp.stamp(out), indent=2), encoding="utf-8")
 
     for idx, (code, name, desc, sleep_cls, mem_cls) in enumerate(CONDITIONS):
         seed = 1000 + idx

@@ -1,0 +1,258 @@
+{
+  "kind": "a1_two_path_manifest",
+  "id": "A1-TWO-PATH-1",
+  "date": "2026-11-14",
+  "status": "GRANTED, RUN \u2014 VOID (C4_DELTA)",
+  "frozen": true,
+  "design": "docs/TWO-PATH-ADMISSION-CARRIER-DESIGN.md",
+  "thresholds": "docs/A1-PRECOMMITTED-THRESHOLDS.md",
+  "engine": "0.15.0",
+  "seed_block": {
+    "status": "PROVISIONAL CANDIDATE \u2014 NOT RESERVED, NOT FROZEN",
+    "seeds": [
+      20740101,
+      20740102,
+      20740103,
+      20740104,
+      20740105,
+      20740106
+    ],
+    "cycles": 120,
+    "cap": 40,
+    "freshness": "held in docs/a1_seed_reservations.json; no artifact outside this manifest and its two target selections names these seeds",
+    "note": "adopted 2026-11-14: 20630101-20630106 was the A1-BASELINE-AVAILABILITY-1 block, already run at caps 112 and 64, so it was spent and not fresh; 20740101-20740106 was screened against the pre-freeze set - both selections form (24 rows at N=4, 120 at N=20) and C5 clears (earliest carrier 6 over the N=20 rows, 8 over the current rows, none at or before the fixed U of 4). 20710101-20710106 formed both and failed C5 at seed 20710101 (carrier at cycle 4); 20720101-06, 20730101-06 and 20750101-06 form no selections"
+  },
+  "world": "compositional world family",
+  "candidate_universe": "fixed compositional-world directed-edge universe",
+  "cells": [
+    {
+      "id": "A+K+",
+      "admission": "allowed",
+      "carrier": "available",
+      "assertion": "on"
+    },
+    {
+      "id": "A+K-",
+      "admission": "allowed",
+      "carrier": "blocked",
+      "assertion": "on"
+    },
+    {
+      "id": "A-K+",
+      "admission": "blocked",
+      "carrier": "available",
+      "assertion": "on"
+    },
+    {
+      "id": "A-K-",
+      "admission": "blocked",
+      "carrier": "blocked",
+      "assertion": "on"
+    },
+    {
+      "id": "Y_MINUS_A+K+",
+      "admission": "allowed",
+      "carrier": "available",
+      "assertion": "blocked"
+    },
+    {
+      "id": "Y_MINUS_A-K+",
+      "admission": "blocked",
+      "carrier": "available",
+      "assertion": "blocked"
+    }
+  ],
+  "cell_count": 36,
+  "planned_cells": 36,
+  "control": {
+    "seed": 20740101,
+    "cell": "A+K+",
+    "why": "fresh-process determinism rerun"
+  },
+  "object_fingerprint": {
+    "fields": [
+      "world",
+      "seed",
+      "cycles",
+      "cap",
+      "candidate_universe",
+      "U"
+    ],
+    "rule": "every cell of a seed must carry one fingerprint"
+  },
+  "targets": {
+    "status": "FIXED BEFORE FREEZE \u2014 FROZEN BY A1-TARGET-FREEZE-N20-1, SIGNED 2026-11-15",
+    "protocol": "docs/A1-C8-EXPANSION.md",
+    "n_per_seed": 20,
+    "n_min": 17,
+    "disjoint": false,
+    "max_endpoint_degree": 3,
+    "selection_artifact": "docs/a1_c8_target_selection_competent.json",
+    "selection_artifact_digest": "697dc9f95c606936a1d7b7bc8d59f4192f25db9e5b89a0a5b06a6a0a5d5dabde",
+    "freeze_act": "docs/a1_target_freeze_act_n20.json",
+    "freeze_act_id": "A1-TARGET-FREEZE-N20-1",
+    "by_seed": {
+      "20740101": [
+        "amber>maple",
+        "amber>sable",
+        "amber>willow",
+        "birch>fern",
+        "birch>ochre",
+        "birch>olive",
+        "cedar>ochre",
+        "crimson>maple",
+        "crimson>sable",
+        "crimson>slate",
+        "fern>cedar",
+        "indigo>fern",
+        "indigo>olive",
+        "indigo>sable",
+        "maple>cedar",
+        "teal>willow",
+        "verdant>ochre",
+        "verdant>slate",
+        "verdant>umber",
+        "yarrow>willow"
+      ],
+      "20740102": [
+        "amber>birch",
+        "amber>indigo",
+        "birch>crimson",
+        "birch>ochre",
+        "crimson>indigo",
+        "fern>cedar",
+        "fern>willow",
+        "indigo>umber",
+        "ochre>sable",
+        "olive>cedar",
+        "olive>crimson",
+        "sable>maple",
+        "sable>teal",
+        "umber>yarrow",
+        "verdant>umber",
+        "yarrow>amber",
+        "yarrow>maple"
+      ],
+      "20740103": [
+        "amber>fern",
+        "amber>maple",
+        "amber>teal",
+        "birch>fern",
+        "cedar>fern",
+        "cedar>olive",
+        "crimson>maple",
+        "crimson>olive",
+        "crimson>slate",
+        "indigo>birch",
+        "maple>birch",
+        "ochre>teal",
+        "ochre>verdant",
+        "ochre>willow",
+        "olive>sable",
+        "sable>indigo",
+        "sable>slate",
+        "slate>cedar",
+        "umber>teal",
+        "umber>verdant"
+      ],
+      "20740104": [
+        "amber>maple",
+        "amber>willow",
+        "crimson>olive",
+        "crimson>slate",
+        "crimson>yarrow",
+        "fern>indigo",
+        "fern>maple",
+        "fern>ochre",
+        "indigo>birch",
+        "maple>sable",
+        "ochre>amber",
+        "ochre>birch",
+        "olive>indigo",
+        "slate>willow",
+        "teal>olive",
+        "teal>slate",
+        "teal>yarrow",
+        "umber>yarrow",
+        "verdant>birch",
+        "verdant>sable"
+      ],
+      "20740105": [
+        "amber>maple",
+        "amber>yarrow",
+        "birch>slate",
+        "birch>umber",
+        "cedar>ochre",
+        "crimson>slate",
+        "crimson>umber",
+        "fern>ochre",
+        "fern>slate",
+        "fern>umber",
+        "indigo>crimson",
+        "indigo>teal",
+        "indigo>willow",
+        "ochre>maple",
+        "teal>verdant",
+        "verdant>birch",
+        "verdant>willow",
+        "willow>amber"
+      ],
+      "20740106": [
+        "amber>birch",
+        "amber>sable",
+        "birch>ochre",
+        "cedar>ochre",
+        "crimson>fern",
+        "crimson>teal",
+        "fern>amber",
+        "maple>crimson",
+        "maple>ochre",
+        "olive>birch",
+        "olive>fern",
+        "olive>maple",
+        "sable>umber",
+        "slate>willow",
+        "teal>willow",
+        "umber>slate",
+        "verdant>sable",
+        "verdant>yarrow",
+        "willow>cedar",
+        "yarrow>umber"
+      ]
+    },
+    "u_cycle": 4,
+    "selection_u_cycle": 36,
+    "c5_timing_audit": "docs/a1_c5_target_timing_competent.json",
+    "estimand": "the pre-37 cycle-membership directed-edge effect, conditional on both an A carrier and a K path being present in the no-arm baseline",
+    "current_targets_retained": false,
+    "rule": "Directed world edges fixed per seed by the signed N=20 act, on the block DECISION-A1-COMPETENT-ESTIMAND adopts; one target set is applied in every cell of that seed; no post-outcome target selection. C5 U is measured at cycle 4, before the earliest observed target carrier at cycle 5; the cycle-36 sample remains the target-selection diagnostic. The block is not a superset of the previous N=4 targets: 7 of 24 survive."
+  },
+  "U": {
+    "direct_count": "pre-carrier",
+    "reverse_count": "pre-carrier",
+    "strength": "pre-carrier",
+    "measured_cycle": 4,
+    "measured_before": [
+      "carrier",
+      "K",
+      "Y"
+    ],
+    "sampling": "after cycle-4 observations, before the cycle-4 sleep call"
+  },
+  "authorisation": {
+    "granted": true,
+    "granted_on": "2026-11-15",
+    "document": "docs/A1-GRANT.md",
+    "quote": "Sign updated freeze act. Grant. Run."
+  },
+  "runner": {
+    "built": true,
+    "planned_module": "benchmarks.a1_two_path",
+    "note": "A-/K-/Y- treatments built; execution still requires frozen targets and a grant"
+  },
+  "result": {
+    "path": "docs/a1_two_path_result.json",
+    "exists": true
+  },
+  "not_evidence": "A frozen manifest whose block has run once. The assembly is VOID on C4 and five structural gates were read against the wrong target list; nothing here is an effect estimate, and the manifest now refuses a second run."
+}

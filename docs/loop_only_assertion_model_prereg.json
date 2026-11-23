@@ -1,0 +1,117 @@
+{
+ "prereg": "CONFIRMATORY-LOOP-ONLY-ASSERTION-1",
+ "kind": "loop_only_assertion_model_prereg",
+ "status": "FROZEN, FIT",
+ "frozen_on": "2026-11-12",
+ "question": "Among never-served world edges that ever form a reported loop, does the direct temporal count remain positively associated with final assertion after rank and seed are held fixed?",
+ "reference": {
+  "source": ".scratch/loop_forming_assertion_model.json",
+  "status": "exploratory Q4 subgroup fit, not confirmatory",
+  "n_loop": 61,
+  "n_asserted": 26,
+  "rank_or_firth": 1.09,
+  "rank_ci95_firth": [
+   0.62,
+   1.9
+  ],
+  "count_or_firth": 1.69,
+  "count_ci95_firth": [
+   0.85,
+   3.36
+  ],
+  "count_or_mle": 1.89,
+  "count_ci95_mle": [
+   0.92,
+   3.88
+  ],
+  "count_lrt_p_mle": 0.067
+ },
+ "design": {
+  "seeds": [
+   20616101,
+   20616102,
+   20616103,
+   20616104,
+   20616105,
+   20616106,
+   20616107,
+   20616108,
+   20616109,
+   20616110,
+   20616111,
+   20616112
+  ],
+  "cells": 12,
+  "cycles": 120,
+  "cap": 40,
+  "world": "generate_compositional_world(seed=, cycles=120) with the PHASE_ACQUISITION schedule and one replay per seed",
+  "population": "every world edge with zero direct served windows AND ever_loop=True; the loop term is therefore constant and is not estimated",
+  "outcome": "asserted=true in the final structure",
+  "rank": "minimum 1-based position in the repaired observer's full pre-cap universe across all 120 cycles",
+  "count": "final direct temporal transition count",
+  "loop": "ever_loop: at least one reported loop_candidate path contains the edge in either orientation in any cycle",
+  "freshness": "The collision scan over docs JSON is empty at freeze time. No seed in this block has been replayed before the freeze."
+ },
+ "model": {
+  "family": "binary logistic regression",
+  "formula": "logit P(asserted) = b0 + b_rank*z(log2(min_rank)) + b_count*z(direct_count) + seed fixed effects",
+  "estimator": "Firth penalized likelihood (Jeffreys prior); fixed before the run because the subgroup is small and the event count is limited",
+  "standardization": "complete-case mean and population SD",
+  "seed": "twelve-level fixed effect, first seed as reference",
+  "interactions": "none",
+  "selection": "none"
+ },
+ "inference": {
+  "primary": "Firth Wald 95% interval for the count odds ratio per 1 SD. The count coefficient is the single primary criterion.",
+  "secondary": "Rank OR per 1 SD, reported descriptively with its interval; no rank-based verdict.",
+  "alpha": 0.05,
+  "multiplicity": "one primary coefficient; rank is secondary and unadjusted",
+  "no_causal_claim": "Observational subgroup model; no coefficient is causal."
+ },
+ "criteria": [
+  {
+   "id": "C1",
+   "name": "count direction",
+   "test": "count OR > 1"
+  },
+  {
+   "id": "C2",
+   "name": "count interval",
+   "test": "count 95% CI lower bound > 1"
+  },
+  {
+   "id": "C3",
+   "name": "gates",
+   "test": "all confirmatory gates pass"
+  }
+ ],
+ "verdicts": {
+  "CONFIRMED": "C1-C3 all pass.",
+  "DIRECTIONAL ONLY": "C1 and C3 pass, but the count interval includes 1.",
+  "NOT CONFIRMED": "The count OR is at or below 1, or C3 fails.",
+  "VOID": "A gate fails; no coefficient is read."
+ },
+ "gates": {
+  "M1_population": "at least 40 loop-forming never-served edges and 10 asserted events; no duplicate seed-edge rows",
+  "M2_rank_coverage": "at least 95% of loop-forming edges have a finite rank",
+  "M3_no_duplicate": "one row per seed-edge",
+  "M4_seed_levels": "all twelve seeds contribute rows",
+  "M5_convergence": "Firth fit converges with finite coefficients and information",
+  "M6_complete": "every fitted row has a finite rank and a count",
+  "M7_loop_only": "every fitted row has ever_loop=true"
+ },
+ "sample_size": {
+  "planned_seeds": 12,
+  "minimum_loop_edges": 40,
+  "minimum_events": 10,
+  "power_calculation": "none. Twelve seeds are used to improve on the exploratory 61-edge subgroup, not to claim a powered test of the exploratory point estimate."
+ },
+ "result": "docs/loop_only_assertion_model.json",
+ "not_evidence": "A twelve-seed observational subgroup model in one synthetic world family. It does not establish causation, capability, retention, transfer or a general engine property.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__",
+ "completed_on": "2026-11-12",
+ "verdict": "CONFIRMED"
+}

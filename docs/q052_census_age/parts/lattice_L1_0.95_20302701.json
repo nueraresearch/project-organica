@@ -1,0 +1,1003 @@
+{
+ "family": "lattice_L1",
+ "factor": 0.95,
+ "seed": 20302701,
+ "facts": {
+  "decay_calls_count": 300,
+  "decay_factors": [
+   0.95
+  ],
+  "decay_rows_min": 27,
+  "stream_digest": "7e338cbb7748bcfe",
+  "live_cycles": 37
+ },
+ "window": {
+  "1": {
+   "theories": [],
+   "retained_hypotheses": [],
+   "edges": [
+    [
+     "alpha",
+     "bravo",
+     106
+    ],
+    [
+     "bravo",
+     "charlie",
+     106
+    ],
+    [
+     "alpha",
+     "charlie",
+     105
+    ],
+    [
+     "bravo",
+     "alpha",
+     105
+    ],
+    [
+     "charlie",
+     "alpha",
+     104
+    ],
+    [
+     "alpha",
+     "delta",
+     96
+    ],
+    [
+     "alpha",
+     "echo",
+     96
+    ],
+    [
+     "alpha",
+     "foxtrot",
+     96
+    ],
+    [
+     "alpha",
+     "golf",
+     96
+    ],
+    [
+     "delta",
+     "alpha",
+     96
+    ],
+    [
+     "delta",
+     "echo",
+     96
+    ],
+    [
+     "echo",
+     "alpha",
+     96
+    ],
+    [
+     "foxtrot",
+     "alpha",
+     96
+    ],
+    [
+     "foxtrot",
+     "golf",
+     96
+    ],
+    [
+     "golf",
+     "alpha",
+     96
+    ],
+    [
+     "charlie",
+     "bravo",
+     87
+    ],
+    [
+     "echo",
+     "delta",
+     78
+    ],
+    [
+     "golf",
+     "foxtrot",
+     78
+    ],
+    [
+     "charlie",
+     "delta",
+     18
+    ],
+    [
+     "echo",
+     "foxtrot",
+     18
+    ],
+    [
+     "golf",
+     "bravo",
+     18
+    ],
+    [
+     "bravo",
+     "delta",
+     6
+    ],
+    [
+     "charlie",
+     "echo",
+     6
+    ],
+    [
+     "delta",
+     "foxtrot",
+     6
+    ],
+    [
+     "echo",
+     "golf",
+     6
+    ],
+    [
+     "foxtrot",
+     "bravo",
+     6
+    ],
+    [
+     "golf",
+     "charlie",
+     6
+    ]
+   ]
+  },
+  "2": {
+   "theories": [
+    {
+     "subject": "alpha",
+     "support_count": 308,
+     "hypotheses": [
+      {
+       "id": "hyp_ad069edf",
+       "subject": "alpha",
+       "expectation": "charlie",
+       "support_count": 106
+      },
+      {
+       "id": "hyp_ed0de0bf",
+       "subject": "alpha",
+       "expectation": "bravo",
+       "support_count": 105
+      },
+      {
+       "id": "hyp_690b51c1",
+       "subject": "alpha",
+       "expectation": "delta",
+       "support_count": 97
+      }
+     ]
+    },
+    {
+     "subject": "bravo",
+     "support_count": 214,
+     "hypotheses": [
+      {
+       "id": "hyp_6deca6e5",
+       "subject": "bravo",
+       "expectation": "charlie",
+       "support_count": 107
+      },
+      {
+       "id": "hyp_3b619419",
+       "subject": "bravo",
+       "expectation": "alpha",
+       "support_count": 107
+      }
+     ]
+    },
+    {
+     "subject": "charlie",
+     "support_count": 194,
+     "hypotheses": [
+      {
+       "id": "hyp_a4d217c8",
+       "subject": "charlie",
+       "expectation": "alpha",
+       "support_count": 107
+      },
+      {
+       "id": "hyp_0b2d0f52",
+       "subject": "charlie",
+       "expectation": "bravo",
+       "support_count": 87
+      }
+     ]
+    },
+    {
+     "subject": "delta",
+     "support_count": 191,
+     "hypotheses": [
+      {
+       "id": "hyp_adb85b80",
+       "subject": "delta",
+       "expectation": "alpha",
+       "support_count": 96
+      },
+      {
+       "id": "hyp_2ffaa1fc",
+       "subject": "delta",
+       "expectation": "echo",
+       "support_count": 95
+      }
+     ]
+    },
+    {
+     "subject": "echo",
+     "support_count": 172,
+     "hypotheses": [
+      {
+       "id": "hyp_43e92be6",
+       "subject": "echo",
+       "expectation": "alpha",
+       "support_count": 95
+      },
+      {
+       "id": "hyp_d27deb10",
+       "subject": "echo",
+       "expectation": "delta",
+       "support_count": 77
+      }
+     ]
+    }
+   ],
+   "retained_hypotheses": [
+    {
+     "subject": "alpha",
+     "expectation": "charlie",
+     "support_count": 106
+    },
+    {
+     "subject": "alpha",
+     "expectation": "bravo",
+     "support_count": 105
+    },
+    {
+     "subject": "alpha",
+     "expectation": "delta",
+     "support_count": 97
+    },
+    {
+     "subject": "alpha",
+     "expectation": "echo",
+     "support_count": 95
+    },
+    {
+     "subject": "alpha",
+     "expectation": "golf",
+     "support_count": 91
+    },
+    {
+     "subject": "alpha",
+     "expectation": "foxtrot",
+     "support_count": 91
+    },
+    {
+     "subject": "bravo",
+     "expectation": "charlie",
+     "support_count": 107
+    },
+    {
+     "subject": "bravo",
+     "expectation": "alpha",
+     "support_count": 107
+    },
+    {
+     "subject": "charlie",
+     "expectation": "alpha",
+     "support_count": 107
+    },
+    {
+     "subject": "charlie",
+     "expectation": "bravo",
+     "support_count": 87
+    },
+    {
+     "subject": "delta",
+     "expectation": "alpha",
+     "support_count": 96
+    },
+    {
+     "subject": "delta",
+     "expectation": "echo",
+     "support_count": 95
+    },
+    {
+     "subject": "echo",
+     "expectation": "alpha",
+     "support_count": 95
+    },
+    {
+     "subject": "echo",
+     "expectation": "delta",
+     "support_count": 77
+    },
+    {
+     "subject": "foxtrot",
+     "expectation": "golf",
+     "support_count": 91
+    },
+    {
+     "subject": "alpha",
+     "expectation": "high_structural_significance",
+     "support_count": 23
+    },
+    {
+     "subject": "bravo",
+     "expectation": "high_structural_significance",
+     "support_count": 13
+    },
+    {
+     "subject": "charlie",
+     "expectation": "high_structural_significance",
+     "support_count": 9
+    },
+    {
+     "subject": "delta",
+     "expectation": "high_structural_significance",
+     "support_count": 12
+    },
+    {
+     "subject": "echo",
+     "expectation": "high_structural_significance",
+     "support_count": 9
+    },
+    {
+     "subject": "foxtrot",
+     "expectation": "high_structural_significance",
+     "support_count": 12
+    },
+    {
+     "subject": "golf",
+     "expectation": "high_structural_significance",
+     "support_count": 9
+    }
+   ],
+   "edges": [
+    [
+     "bravo",
+     "alpha",
+     107
+    ],
+    [
+     "bravo",
+     "charlie",
+     107
+    ],
+    [
+     "charlie",
+     "alpha",
+     107
+    ],
+    [
+     "alpha",
+     "charlie",
+     106
+    ],
+    [
+     "alpha",
+     "bravo",
+     105
+    ],
+    [
+     "alpha",
+     "delta",
+     97
+    ],
+    [
+     "delta",
+     "alpha",
+     96
+    ],
+    [
+     "alpha",
+     "echo",
+     95
+    ],
+    [
+     "delta",
+     "echo",
+     95
+    ],
+    [
+     "echo",
+     "alpha",
+     95
+    ],
+    [
+     "alpha",
+     "foxtrot",
+     91
+    ],
+    [
+     "alpha",
+     "golf",
+     91
+    ],
+    [
+     "foxtrot",
+     "alpha",
+     91
+    ],
+    [
+     "foxtrot",
+     "golf",
+     91
+    ],
+    [
+     "golf",
+     "alpha",
+     91
+    ],
+    [
+     "charlie",
+     "bravo",
+     87
+    ],
+    [
+     "echo",
+     "delta",
+     77
+    ],
+    [
+     "golf",
+     "foxtrot",
+     74
+    ],
+    [
+     "charlie",
+     "delta",
+     20
+    ],
+    [
+     "echo",
+     "foxtrot",
+     17
+    ],
+    [
+     "golf",
+     "bravo",
+     17
+    ],
+    [
+     "bravo",
+     "delta",
+     7
+    ],
+    [
+     "charlie",
+     "echo",
+     7
+    ],
+    [
+     "delta",
+     "foxtrot",
+     6
+    ],
+    [
+     "echo",
+     "golf",
+     6
+    ],
+    [
+     "foxtrot",
+     "bravo",
+     6
+    ],
+    [
+     "golf",
+     "charlie",
+     6
+    ]
+   ]
+  },
+  "38": {
+   "theories": [
+    {
+     "subject": "bravo",
+     "support_count": 162,
+     "hypotheses": [
+      {
+       "id": "hyp_6deca6e5",
+       "subject": "bravo",
+       "expectation": "charlie",
+       "support_count": 81
+      },
+      {
+       "id": "hyp_3b619419",
+       "subject": "bravo",
+       "expectation": "alpha",
+       "support_count": 81
+      }
+     ]
+    },
+    {
+     "subject": "alpha",
+     "support_count": 159,
+     "hypotheses": [
+      {
+       "id": "hyp_ad069edf",
+       "subject": "alpha",
+       "expectation": "charlie",
+       "support_count": 80
+      },
+      {
+       "id": "hyp_ed0de0bf",
+       "subject": "alpha",
+       "expectation": "bravo",
+       "support_count": 79
+      }
+     ]
+    },
+    {
+     "subject": "charlie",
+     "support_count": 148,
+     "hypotheses": [
+      {
+       "id": "hyp_a4d217c8",
+       "subject": "charlie",
+       "expectation": "alpha",
+       "support_count": 81
+      },
+      {
+       "id": "hyp_0b2d0f52",
+       "subject": "charlie",
+       "expectation": "bravo",
+       "support_count": 67
+      }
+     ]
+    }
+   ],
+   "retained_hypotheses": [
+    {
+     "subject": "alpha",
+     "expectation": "charlie",
+     "support_count": 80
+    },
+    {
+     "subject": "alpha",
+     "expectation": "bravo",
+     "support_count": 79
+    },
+    {
+     "subject": "bravo",
+     "expectation": "charlie",
+     "support_count": 81
+    },
+    {
+     "subject": "bravo",
+     "expectation": "alpha",
+     "support_count": 81
+    },
+    {
+     "subject": "charlie",
+     "expectation": "alpha",
+     "support_count": 81
+    },
+    {
+     "subject": "charlie",
+     "expectation": "bravo",
+     "support_count": 67
+    },
+    {
+     "subject": "delta",
+     "expectation": "echo",
+     "support_count": 72
+    },
+    {
+     "subject": "echo",
+     "expectation": "delta",
+     "support_count": 61
+    },
+    {
+     "subject": "foxtrot",
+     "expectation": "golf",
+     "support_count": 71
+    },
+    {
+     "subject": "golf",
+     "expectation": "foxtrot",
+     "support_count": 62
+    },
+    {
+     "subject": "delta",
+     "expectation": "high_structural_significance",
+     "support_count": 14
+    },
+    {
+     "subject": "foxtrot",
+     "expectation": "high_structural_significance",
+     "support_count": 14
+    },
+    {
+     "subject": "golf",
+     "expectation": "high_structural_significance",
+     "support_count": 10
+    },
+    {
+     "subject": "alpha",
+     "expectation": "high_structural_significance",
+     "support_count": 22
+    },
+    {
+     "subject": "echo",
+     "expectation": "high_structural_significance",
+     "support_count": 10
+    },
+    {
+     "subject": "bravo",
+     "expectation": "high_structural_significance",
+     "support_count": 17
+    },
+    {
+     "subject": "charlie",
+     "expectation": "high_structural_significance",
+     "support_count": 12
+    }
+   ],
+   "edges": [
+    [
+     "bravo",
+     "alpha",
+     81
+    ],
+    [
+     "bravo",
+     "charlie",
+     81
+    ],
+    [
+     "charlie",
+     "alpha",
+     81
+    ],
+    [
+     "alpha",
+     "charlie",
+     80
+    ],
+    [
+     "alpha",
+     "bravo",
+     79
+    ],
+    [
+     "alpha",
+     "delta",
+     74
+    ],
+    [
+     "delta",
+     "alpha",
+     73
+    ],
+    [
+     "alpha",
+     "echo",
+     72
+    ],
+    [
+     "delta",
+     "echo",
+     72
+    ],
+    [
+     "echo",
+     "alpha",
+     72
+    ],
+    [
+     "golf",
+     "alpha",
+     72
+    ],
+    [
+     "alpha",
+     "foxtrot",
+     71
+    ],
+    [
+     "alpha",
+     "golf",
+     71
+    ],
+    [
+     "foxtrot",
+     "alpha",
+     71
+    ],
+    [
+     "foxtrot",
+     "golf",
+     71
+    ],
+    [
+     "charlie",
+     "bravo",
+     67
+    ],
+    [
+     "golf",
+     "foxtrot",
+     62
+    ],
+    [
+     "echo",
+     "delta",
+     61
+    ],
+    [
+     "charlie",
+     "delta",
+     13
+    ],
+    [
+     "golf",
+     "bravo",
+     12
+    ],
+    [
+     "bravo",
+     "delta",
+     11
+    ],
+    [
+     "charlie",
+     "echo",
+     11
+    ],
+    [
+     "delta",
+     "foxtrot",
+     10
+    ],
+    [
+     "echo",
+     "foxtrot",
+     10
+    ],
+    [
+     "echo",
+     "golf",
+     10
+    ],
+    [
+     "foxtrot",
+     "bravo",
+     10
+    ],
+    [
+     "golf",
+     "charlie",
+     10
+    ]
+   ]
+  },
+  "39": {
+   "theories": [],
+   "retained_hypotheses": [
+    {
+     "subject": "bravo",
+     "expectation": "charlie",
+     "support_count": 77
+    },
+    {
+     "subject": "charlie",
+     "expectation": "bravo",
+     "support_count": 64
+    },
+    {
+     "subject": "delta",
+     "expectation": "echo",
+     "support_count": 80
+    },
+    {
+     "subject": "echo",
+     "expectation": "delta",
+     "support_count": 68
+    },
+    {
+     "subject": "foxtrot",
+     "expectation": "golf",
+     "support_count": 67
+    },
+    {
+     "subject": "golf",
+     "expectation": "foxtrot",
+     "support_count": 59
+    },
+    {
+     "subject": "alpha",
+     "expectation": "high_structural_significance",
+     "support_count": 20
+    },
+    {
+     "subject": "delta",
+     "expectation": "high_structural_significance",
+     "support_count": 14
+    },
+    {
+     "subject": "bravo",
+     "expectation": "high_structural_significance",
+     "support_count": 15
+    },
+    {
+     "subject": "foxtrot",
+     "expectation": "high_structural_significance",
+     "support_count": 14
+    },
+    {
+     "subject": "golf",
+     "expectation": "high_structural_significance",
+     "support_count": 10
+    },
+    {
+     "subject": "charlie",
+     "expectation": "high_structural_significance",
+     "support_count": 11
+    },
+    {
+     "subject": "echo",
+     "expectation": "high_structural_significance",
+     "support_count": 10
+    }
+   ],
+   "edges": [
+    [
+     "alpha",
+     "delta",
+     80
+    ],
+    [
+     "alpha",
+     "echo",
+     80
+    ],
+    [
+     "delta",
+     "echo",
+     80
+    ],
+    [
+     "delta",
+     "alpha",
+     79
+    ],
+    [
+     "echo",
+     "alpha",
+     78
+    ],
+    [
+     "bravo",
+     "alpha",
+     77
+    ],
+    [
+     "bravo",
+     "charlie",
+     77
+    ],
+    [
+     "charlie",
+     "alpha",
+     77
+    ],
+    [
+     "alpha",
+     "charlie",
+     76
+    ],
+    [
+     "alpha",
+     "bravo",
+     75
+    ],
+    [
+     "echo",
+     "delta",
+     68
+    ],
+    [
+     "golf",
+     "alpha",
+     68
+    ],
+    [
+     "alpha",
+     "foxtrot",
+     67
+    ],
+    [
+     "alpha",
+     "golf",
+     67
+    ],
+    [
+     "foxtrot",
+     "alpha",
+     67
+    ],
+    [
+     "foxtrot",
+     "golf",
+     67
+    ],
+    [
+     "charlie",
+     "bravo",
+     64
+    ],
+    [
+     "golf",
+     "foxtrot",
+     59
+    ],
+    [
+     "charlie",
+     "delta",
+     12
+    ],
+    [
+     "golf",
+     "bravo",
+     11
+    ],
+    [
+     "bravo",
+     "delta",
+     10
+    ],
+    [
+     "charlie",
+     "echo",
+     10
+    ],
+    [
+     "delta",
+     "foxtrot",
+     10
+    ],
+    [
+     "echo",
+     "foxtrot",
+     10
+    ],
+    [
+     "echo",
+     "golf",
+     10
+    ],
+    [
+     "foxtrot",
+     "bravo",
+     10
+    ],
+    [
+     "golf",
+     "charlie",
+     10
+    ]
+   ]
+  }
+ },
+ "captured_cycles": [
+  1,
+  39
+ ],
+ "engine_version": "0.13.0",
+ "engine_commit": "6e0ff24d84d34fd7e99b79173e2247f035e194c1",
+ "engine_sha256": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2",
+ "runner": "__main__"
+}

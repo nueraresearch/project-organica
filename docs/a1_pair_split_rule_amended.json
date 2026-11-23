@@ -1,0 +1,147 @@
+{
+ "kind": "a1_pair_split_rule_amended",
+ "id": "A1-PAIR-SPLIT-RULE-AMENDED-1",
+ "date": "2026-11-14",
+ "status": "AMENDED DESIGN RULE \u2014 PAIR-SPLIT DIFFERENTIAL WITH REPAIRED BANDS; NO ARM, NO RUN, NO TARGET, NO GRANT",
+ "not_a_result": true,
+ "question": "What decision rule should the pair-split discriminator use, given that its committed bands cost nine seeds per block and its construction lists six?",
+ "definition": "The amended pair-split rule: statistic, bands, predictions, seed budget, error rates and power at the committed seed count, with each superseded number named against the artifact that carried it.",
+ "method": "Read the committed rule and construction, the frontier's recommended bands and the split-power budget; recompute the four branch probabilities at six seeds with the same exact two-sample t used by both power artifacts; refuse to write unless the amended bands meet their own budget.",
+ "rule": {
+  "statistic": "measured offset(split-32) minus offset(split-48)",
+  "floor": 0.05,
+  "ceiling": 0.07,
+  "size_if": "|d| <= 0.05",
+  "density_if": "d <= -0.07",
+  "undecided_if": "-0.07 < d < -0.05, or d > 0.05",
+  "size_prediction": 0.0,
+  "density_prediction": -0.11638,
+  "seeds_per_block": 6,
+  "seeds": [
+   20690101,
+   20690102,
+   20690103,
+   20690104,
+   20690105,
+   20690106
+  ],
+  "blocks": [
+   "split-32",
+   "split-48"
+  ],
+  "error_budget": 0.05,
+  "power_target": 0.8
+ },
+ "provenance": [
+  {
+   "value": "floor 0.05",
+   "artifact": "a1_offset_discriminator_spec.json",
+   "field": "constants.decision_floor"
+  },
+  {
+   "value": "ceiling 0.09 (superseded)",
+   "artifact": "a1_offset_discriminator_spec.json",
+   "field": "constants.decision_ceiling"
+  },
+  {
+   "value": "ceiling 0.07 (amended)",
+   "artifact": "a1_band_frontier.json",
+   "field": "found.cheapest_ceiling"
+  },
+  {
+   "value": "six seeds per block",
+   "artifact": "a1_offset_discriminator_spec.json",
+   "field": "construction.seeds"
+  },
+  {
+   "value": "admissible ceiling edge 0.0633",
+   "artifact": "a1_band_frontier.json",
+   "field": "found.bounds[0].ceiling_min"
+  },
+  {
+   "value": "per-seed SD 0.066656",
+   "artifact": "a1_split_power.json",
+   "field": "found.primary_sigma"
+  }
+ ],
+ "governance": {
+  "freeze": false,
+  "grant": false,
+  "run": false,
+  "authorization": "none"
+ },
+ "reading": "The amended rule keeps the committed construction, the committed six seeds per block and the committed **0.05** floor, and moves **one** number: the density ceiling falls from **0.09** to **0.07**. What it supersedes is the previous rule's cost, not its intent. `A1-OFFSET-DISCRIMINATOR-SPEC-1` needed **9** seeds per block at a 5%/5% guarantee and reached only **0.767** density-branch power at six; at the repaired ceiling the same six seeds hold the false-density rate at **0.0357** and the false-size rate at **0.0425**, with **0.818** power on the size branch and **0.894** on the density branch \u2014 admissible at the stated budget, so the seeds the construction already lists are enough and no new seed is bought. The amended rule is therefore: **size** if |d| \u2264 **0.05**, **density** if d \u2264 **\u22120.07**, undecided between them, on the split-32 minus split-48 difference with predictions **0.000** and **\u22120.116**. The ceiling cannot fall further at this budget: **0.0633** is the admissible edge at six seeds, and below it the rule starts calling density on seeds where the size summary is true. The ceiling touches only the density branch's two outcomes: the size branch's false rate is **0.0425** under either band, which is why the floor, not the ceiling, binds the size account. The amendment costs nothing to adopt \u2014 it removes the need for the three extra seeds the committed bands implied \u2014 and it is written as a separate artifact so the committed spec remains readable as the rule that was signed.",
+ "found": {
+  "gap": 0.11638,
+  "old_rule": {
+   "floor": 0.05,
+   "ceiling": 0.09,
+   "seeds_per_block": 9,
+   "power_density_at_six": 0.767202,
+   "power_size_at_six": 0.81794,
+   "false_density_at_six": 0.01268,
+   "false_size_at_six": 0.042472
+  },
+  "new_rule": {
+   "floor": 0.05,
+   "ceiling": 0.07,
+   "seeds_per_block": 6
+  },
+  "seeds_saved_per_block": 3,
+  "amended_at_six": {
+   "n": 6,
+   "se": 0.038484,
+   "size_if_size": 0.81794,
+   "density_if_size": 0.035678,
+   "density_if_density": 0.893506,
+   "size_if_density": 0.042472,
+   "undecided_if_size": 0.146383,
+   "undecided_if_density": 0.064023
+  },
+  "admissible_at_six": true,
+  "sigma": 0.066656,
+  "sigma_source": "candidate-size cell seed-level LOO RMSE",
+  "supersedes": [
+   {
+    "id": "A1-OFFSET-DISCRIMINATOR-SPEC-1",
+    "field": "decision_rule.if_abs_above",
+    "committed": "0.09 with the density sign -> density tracks the level",
+    "amended": "0.07 with the density sign"
+   },
+   {
+    "id": "A1-SPLIT-POWER-1",
+    "field": "found.seeds_both_at_primary",
+    "committed": 9,
+    "amended": 6
+   }
+  ],
+  "unchanged": {
+   "construction": "compositional (4 cells, flip_p/flip_q successor, 2 tags per event)",
+   "split_blocks": [
+    "split-32",
+    "split-48"
+   ],
+   "seeds": [
+    20690101,
+    20690102,
+    20690103,
+    20690104,
+    20690105,
+    20690106
+   ],
+   "equal_m_check": 0.05,
+   "floor": 0.05
+  }
+ },
+ "limits": [
+  "The amendment changes a rule on paper only; no split block has been run, so the error rates it guarantees are the design's, not a measurement.",
+  "The seeds the construction lists are reused, but they have never been spent on a split block; the budget statement says the block is sufficient, not that it has been executed.",
+  "The per-seed SD is borrowed from 16-tag blocks; at a larger SD the admissible ceiling rises and the rule would need re-pricing before use.",
+  "The committed spec is left unedited on purpose: a reader must be able to see the rule that was signed beside the rule that replaces it."
+ ],
+ "not_evidence": "An amended design rule priced from committed artifacts. It runs no arm, measures no split block, and is not a treatment, target, freeze, grant or A1 cell.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__"
+}

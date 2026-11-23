@@ -42,6 +42,7 @@ sys.path.insert(0, str(REPO))
 
 from benchmarks.figure_campaign import (  # noqa: E402
     COLORS, Svg, axes, panel, series_points)
+from benchmarks import engine_stamp
 
 CATEGORIES = ["beliefs", "questions", "theories", "dreams", "investigations",
               "experiments"]
@@ -167,14 +168,14 @@ def main() -> None:
     print()
     print("  " + stim["note"])
 
-    Path(args.out).write_text(json.dumps({
+    Path(args.out).write_text(json.dumps(engine_stamp.stamp({
         "matrix_artifact": args.matrix,
         "cycles": cycles,
         "stimulus": doc.get("stimulus"),
         "inventory": inventory,
         "discovery_curves": curve_stats,
         "stimulus_facts": stim,
-    }, indent=2), encoding="utf-8")
+    }), indent=2), encoding="utf-8")
     print(f"\nwrote {args.out}")
 
     _figure(rows, curve_stats, cycles, Path(args.figure))

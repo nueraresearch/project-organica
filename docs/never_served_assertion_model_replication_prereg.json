@@ -1,0 +1,119 @@
+{
+ "prereg": "NEVER-SERVED-ASSERTION-MODEL-REPLICATION-1",
+ "kind": "never_served_assertion_model_replication_prereg",
+ "status": "FROZEN, FIT",
+ "frozen_on": "2026-11-12",
+ "question": "Does the frozen never-served assertion model reproduce on the fresh provenance block: does loop formation dominate, and are the rank and count associations in the same direction, with seed held fixed?",
+ "reference": {
+  "source": "docs/never_served_assertion_model.json",
+  "n_complete": 179,
+  "n_events": 26,
+  "loop_or": 75.1,
+  "loop_ci95": [
+   6.66,
+   847.08
+  ],
+  "rank_or": 1.09,
+  "rank_ci95": [
+   0.61,
+   1.95
+  ],
+  "count_or": 1.96,
+  "count_ci95": [
+   0.87,
+   4.4
+  ],
+  "separation": {
+   "loop_1_asserted": 26,
+   "loop_1_not": 35,
+   "loop_0_asserted": 0,
+   "loop_0_not": 118
+  }
+ },
+ "design": {
+  "seeds": [
+   20613101,
+   20613102,
+   20613103,
+   20613104,
+   20613105,
+   20613106
+  ],
+  "cells": 6,
+  "cycles": 120,
+  "cap": 40,
+  "world": "generate_compositional_world(seed=, cycles=120) with the PHASE_ACQUISITION schedule and one replay per seed",
+  "population": "every world edge with zero direct served windows",
+  "rank": "minimum 1-based position in the repaired observer's full pre-cap universe across all 120 cycles; the served window remains the engine's own cap-40 list",
+  "loop": "ever_loop: at least one reported loop_candidate path contains the edge in either orientation in any cycle",
+  "count": "final direct temporal transition count from service._load_temporal",
+  "replay": "One replay per seed. The repaired observer's second call records the full universe without changing the served list.",
+  "freshness_note": "These six seeds already carry ASSERTION-PROVENANCE-REPLICATION-1. They are fresh relative to the Q4 model, but this is a replication on that existing fresh block, not a new independent seed draw."
+ },
+ "model": {
+  "family": "binary logistic regression",
+  "formula": "logit P(asserted) = b0 + b_loop*loop + b_rank*z(log2(min_rank)) + b_count*z(direct_count) + seed fixed effects",
+  "estimator": "Firth penalized likelihood (Jeffreys prior), fixed before the fit, because the original model had an empty no-loop asserted cell",
+  "standardization": "complete-case mean and population SD",
+  "convergence": "max absolute Newton step < 1e-8, at most 200 iterations"
+ },
+ "inference": {
+  "primary": "Firth Wald 95% intervals for loop, rank and count",
+  "odds_ratios": "loop is 0/1; rank and count are per 1 SD. A rank OR below 1 means a worse rank is associated with lower assertion.",
+  "sensitivity": "leave-one-seed-out refits with the same model; no cluster-robust SE claim is made.",
+  "alpha": 0.05,
+  "multiplicity": "one model, three reported coefficients; unadjusted",
+  "no_causal_claim": "The model is descriptive; no coefficient is read as a causal effect."
+ },
+ "criteria": [
+  {
+   "id": "R1",
+   "name": "loop direction",
+   "test": "loop OR > 1"
+  },
+  {
+   "id": "R2",
+   "name": "loop interval",
+   "test": "loop 95% CI lower bound > 1"
+  },
+  {
+   "id": "R3",
+   "name": "loop variation",
+   "test": "both loop levels are present"
+  },
+  {
+   "id": "R4",
+   "name": "gates",
+   "test": "all replication gates pass"
+  }
+ ],
+ "verdicts": {
+  "REPLICATED": "R1-R4 all pass.",
+  "DIRECTIONAL ONLY": "R1, R3 and R4 pass, but the loop interval includes 1.",
+  "NOT REPLICATED": "The loop OR is at or below 1, or the model does not reproduce.",
+  "VOID": "A replication gate fails; no coefficient is read."
+ },
+ "gates": {
+  "M1_population": "at least one never-served edge and one event; no duplicate seed-edge rows",
+  "M2_rank_coverage": "at least 95% of never-served edges have a finite minimum rank",
+  "M3_provenance_replay": "per-seed asserted and never-served-asserted counts match the provenance replication",
+  "M4_loop_variation": "both loop levels are present",
+  "M5_convergence": "the Firth fit converges with finite coefficients and information",
+  "M6_complete_predictors": "every fitted row has loop, rank and count; no silent row loss",
+  "M7_seed_levels": "all six seeds contribute rows and the seed fixed effect is full rank"
+ },
+ "engine": {
+  "version": "0.15.0",
+  "cap": 40,
+  "cycles": 120,
+  "edit": "none"
+ },
+ "result": "docs/never_served_assertion_model_replication.json",
+ "not_evidence": "A six-seed replication on one synthetic world family. The seeds were already used for the provenance split, so this is not a new independent draw. It does not establish causation, capability, retention or a general engine property.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__",
+ "completed_on": "2026-11-12",
+ "verdict": "REPLICATED"
+}

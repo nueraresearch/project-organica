@@ -1,0 +1,1214 @@
+{
+  "kind": "decision_registry",
+  "version": 1,
+  "date": "2026-11-07",
+  "note": "An index into docs/DECISION-*.md, not a second record. The document is authoritative; every string here except rejected[].alternative must appear verbatim in the document it is attributed to, and tests/test_decision_graph.py fails otherwise. Questions are not stored here: they are derived from docs/research_question_registry.json.",
+  "statuses": {
+    "ADOPTED": "in force; the document records it as implemented or effective",
+    "WITHDRAWN": "reversed by its own record; kept because a correction is part of the record",
+    "PENDING": "decided and not in force; the document says so"
+  },
+  "decisions": [
+    {
+      "decision_id": "DECISION-V2-SCOPE",
+      "date": "2026-10-30",
+      "status": "ADOPTED",
+      "status_quote": "a scope decision and a bounded diagnostic authorization",
+      "chosen": [
+        "H2 stands and binds V2 design.",
+        "H2 does not bind one diagnostic arm."
+      ],
+      "rejected": [
+        {
+          "alternative": "Design a V2 architecture from the Gate 13 diagnosis",
+          "reason": "No task family was supported; the Gate 13 diagnosis does not reverse that result."
+        }
+      ],
+      "evidence": [
+        "docs/V2-CAPACITY-DESIGN-BRIEF.md",
+        "docs/G13-D-DIAGNOSTIC-PLAN.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-STAGE-B-SEQUENCE",
+      "date": "2026-11-03",
+      "status": "ADOPTED",
+      "status_quote": "a sequencing decision by the owner",
+      "chosen": [
+        "a **machine pre-pass** on the frozen protocol, transcript saved and named for its model and commit",
+        "an **authorisation decision** by the owner, dated, citing the pre-pass transcript"
+      ],
+      "rejected": [
+        {
+          "alternative": "Wait for an eligible independent reviewer",
+          "reason": "no eligible reviewer has been found"
+        }
+      ],
+      "evidence": [
+        "docs/AI-REVIEW-2026-11-02.md",
+        "docs/AI-REVIEW-2026-11-03.md",
+        "docs/AI-REVIEW-2026-11-03-chatgpt.md",
+        "docs/STAGE-B-PROTOCOL.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-EARNED-SCHEMA-PRIMING",
+      "date": "2026-11-05",
+      "status": "ADOPTED",
+      "status_quote": "RECORDED, EFFECTIVE **BEFORE** THE RUN IT GOVERNS",
+      "chosen": [
+        "An edge must earn admission on its own evidence.",
+        "A consolidated schema may **reorder** admissible transition candidates; it may never admit one."
+      ],
+      "rejected": [
+        {
+          "alternative": "Keep the confidence boost that lowered the evidence bar",
+          "reason": "The v1 advantage was produced by F4, which D1 removes"
+        }
+      ],
+      "evidence": [
+        "docs/cross_context_reuse_benchmark.json",
+        "docs/cross_context_reuse_benchmark_earned.json"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-CANDIDATE-SUPERSESSION",
+      "date": "2026-11-06",
+      "status": "ADOPTED",
+      "status_quote": "implemented; probe predictions recorded below **before** the run.",
+      "chosen": [
+        "An identity is read once, at its newest generation.",
+        "Death is recorded, not inferred from absence."
+      ],
+      "rejected": [
+        {
+          "alternative": "Infer death from absence, with no tombstone",
+          "reason": "D1 alone would freeze every pruned candidate at the last value above the threshold and re-decay it forever"
+        }
+      ],
+      "evidence": [
+        "docs/candidate_supersession_probe.json",
+        "docs/cross_context_reuse_benchmark_earned.json"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-ADMISSION-RULE",
+      "date": "2026-11-07",
+      "status": "WITHDRAWN",
+      "status_quote": "The rule was adopted on this evidence and withdrawn the same day",
+      "chosen": [
+        "Diversity-first admission replaces count-ranked admission."
+      ],
+      "rejected": [
+        {
+          "alternative": "Mark the module deprecated while keeping it callable",
+          "reason": "Withdrawal is the removal of the code, so the package no longer offers the rule at all"
+        }
+      ],
+      "evidence": [
+        "docs/admission_two_arm_result.json",
+        "docs/admission_two_arm_run.json",
+        "docs/ADMISSION-TWO-ARM-PREREGISTRATION.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-DENSITY-EXCLUSION",
+      "date": "2026-11-07",
+      "status": "PENDING",
+      "status_quote": "The allocation change is licensed; it is **NOT IMPLEMENTED** by this record.",
+      "chosen": [
+        "Intra-cell exclusion is adopted as an allocation change on the selection layer."
+      ],
+      "rejected": [
+        {
+          "alternative": "Adopt the verdict's growth-with-density clause as a mechanism claim",
+          "reason": "The growth is a descriptive interval that lies above zero; the pre-registration did not judge it"
+        }
+      ],
+      "evidence": [
+        "docs/density_interaction_a2_result.json",
+        "docs/density_interaction_a2_run.json",
+        "docs/DENSITY-INTERACTION-A2-PREREGISTRATION.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-STORE-TIME-ROLE-RECORD",
+      "date": "2026-11-07",
+      "status": "ADOPTED",
+      "status_quote": "no engine change",
+      "chosen": [
+        "B first. No engine change (A), and no withdrawal of Q028 (C)."
+      ],
+      "rejected": [
+        {
+          "alternative": "Record the role on the prediction now (option A)",
+          "reason": "nothing, while the resolver demands one role for a two-role schema: the new field would be recorded and then ignored by the same unsatisfiable predicate"
+        },
+        {
+          "alternative": "Drop Q028 from the licence (option C)",
+          "reason": "removes a claim that cannot be resolved — premature while B is untested and cheap"
+        }
+      ],
+      "evidence": [
+        "docs/transfer_provenance.json",
+        "docs/store_time_role_durability.json",
+        "docs/STORE-TIME-ROLE-DURABILITY.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-UNCERTIFIED-RUN",
+      "date": "2026-11-07",
+      "status": "ADOPTED",
+      "status_quote": "adopted and enforced",
+      "chosen": [
+        "The gate precedes every scientific bucket.",
+        "A void run is not an unrun experiment",
+        "one run, one certificate, one verdict — or none."
+      ],
+      "rejected": [
+        {
+          "alternative": "Report the series' REPRODUCES as the verdict",
+          "reason": "Reporting the first as the verdict answers the scientific question with the prerequisite's status"
+        },
+        {
+          "alternative": "Discard the reading",
+          "reason": "Deleting it would erase the only evidence that the pinned engine reproduces the historical death"
+        },
+        {
+          "alternative": "Treat the void as a null result",
+          "reason": "A null is a measured absence; a void is no test."
+        }
+      ],
+      "evidence": [
+        "benchmarks/verdict_policy.py",
+        "benchmarks/decay_falsifier.py",
+        "docs/decay_falsifier.json",
+        "docs/DECAY-FALSIFIER-RESULT.md",
+        "tests/test_verdict_policy.py",
+        "tests/test_decay_falsifier.py"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-G1-WITNESS",
+      "date": "2026-11-09",
+      "status": "ADOPTED",
+      "status_quote": "The Tier-1 pre-flight is re-based on a witness the arm is alive at",
+      "chosen": [
+        "G1's witness is the per-cycle trace on a design the arm is alive at, not a terminal snapshot.",
+        "The Tier-1 campaign may not launch until a persistence pre-flight on its own stimulus shows the reference arm alive at the campaign horizon.",
+        "The matched-frequency persistence repair is promoted into the engine on 2026-11-10.",
+        "Each sleep cycle maintains a per-tag denominator `D = 0.95 * D_previous + delta`, where `delta` is the increase in `MemoryService.tag_frequencies()` since the previous cycle; prediction strength divides the temporal count by `max(D, 1)`.",
+        "The temporal decay constant, death threshold, stable threshold, candidate decay, admission floor, caps, retention policy and candidate set are unchanged."
+      ],
+      "rejected": [
+        {
+          "alternative": "Keep the 40-cycle L1 snapshot and lower the probe to 35 cycles",
+          "reason": "It moves the witness to a cliff edge and passes only because the collapse is three cycles later, so the next unrelated change re-breaks it."
+        },
+        {
+          "alternative": "Run the Tier-1 matrix and drop the early cycles afterwards",
+          "reason": "Selecting the window after seeing the result is the defect the preregistration exists to prevent."
+        },
+        {
+          "alternative": "Change the decay rule so the reference arm survives",
+          "reason": "It is a cognition change with no preregistration, and it would make the run measure the fix rather than the engine."
+        },
+        {
+          "alternative": "Keep the repair in process only",
+          "reason": "It would leave D2's gate measured on an engine that is not the one the campaign would run."
+        },
+        {
+          "alternative": "Promote without a version bump and re-pin",
+          "reason": "The pin would stop describing the engine, and AGENTS.md rule 12 would record the change as unrecorded bytes."
+        }
+      ],
+      "evidence": [
+        "docs/DECISION-G1-WITNESS.md",
+        "docs/pruning_by_type.json",
+        "docs/force_matrix.json",
+        "docs/d3_persistence_seed_varying_run.json",
+        "docs/D3-PERSISTENCE-SEED-VARYING-RESULT.md",
+        "docs/tier1_preflight.json",
+        "docs/engine_pin.json"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-ENGINE-EFFECT-STANDARD",
+      "date": "2026-11-10",
+      "status": "ADOPTED",
+      "status_quote": "An engine-effect claim rests on a single-variable arm, a same-build control, a shipped-build reproduction and a live seed axis.",
+      "chosen": [
+        "A treatment that changes one engine constant and nothing else is measured in process first, against the shipped arm on the same seeds.",
+        "The control is the same build the claim names: the pre-repair behaviour is measured, not inferred from an earlier version.",
+        "The repair is reproduced with the shipped engine at the new version, end to end.",
+        "The seed axis must be live: distinct per-seed trajectories, or the block is a single case wearing a seed count.",
+        "Gates are fixed before the run, and a block that fails its own preflight gate is VOID.",
+        "A VOID block may not be cited as confirmation and may not be cited as a failed replication; it measured nothing about the engine.",
+        "The claim's build is derived from artifact stamps, and a chain that spans builds says so instead of naming one of them.",
+        "Promotion into the engine is a separate owner decision with its own date, its own record and a version bump."
+      ],
+      "rejected": [
+        {
+          "alternative": "Accept the in-process treatment as evidence about the shipped engine.",
+          "reason": "An in-process subclass is not the shipped build, and rule 22 already separates a perturbation of the observer from one of the organism."
+        },
+        {
+          "alternative": "Cite the VOID replication arm as a failed replication.",
+          "reason": "A block that fails its own preflight gate measured nothing about the engine, and reporting it as a failed replication turns an inadmissible run into evidence."
+        },
+        {
+          "alternative": "Let the claim's engine version be the one the author remembers.",
+          "reason": "The build is derived from artifact stamps; a chain that spans builds must say so, and a mixed field is the honest record."
+        }
+      ],
+      "evidence": [
+        "docs/D3-PERSISTENCE-SEED-VARYING-RESULT.md",
+        "docs/D3-PERSISTENCE-ENGINE-REPLICATION-RESULT.md",
+        "docs/D3-PERSISTENCE-G1-RECALIBRATED-RESULT.md",
+        "docs/d3_persistence_g1_recalibrated_run.json",
+        "docs/claim_ledger.json",
+        "docs/ENGINE-CHANGE-AUDIT.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-CAP-SEMANTICS",
+      "date": "2026-11-10",
+      "status": "ADOPTED",
+      "status_quote": "In force: the split landed through a recorded lineage link, proven by unchanged canary digests.",
+      "chosen": [
+        "Split the prediction budget into named transition and cooccurrence allocations, with their values derived from the returned window."
+      ],
+      "rejected": [
+        {
+          "alternative": "Leave the constant as one integer.",
+          "reason": "Leaving the constant as one integer keeps the coupling implicit and the name misleading."
+        },
+        {
+          "alternative": "Rename `MAX_PREDICTIONS` and give the allocations stored values.",
+          "reason": "A stored value can drift from the window it is spent from, and a second override site is a second way for the served set to change without a digest moving."
+        }
+      ],
+      "evidence": [
+        "docs/CAP-DECISION-BRIEF.md",
+        "docs/presence_cap_run.json",
+        "docs/block_canaries.json",
+        "docs/DECISION-CAP-SEMANTICS.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-CAP-LEVEL",
+      "date": "2026-11-11",
+      "status": "PENDING",
+      "status_quote": "Decided, not in force: the cap-40 comparator and the three frozen blocks cannot run under 112, so landing it needs a version bump and fresh records for them.",
+      "chosen": [
+        "Raise the Layer-1 prediction cap from 40 to 112."
+      ],
+      "rejected": [
+        {
+          "alternative": "B — raise the cap to 80.",
+          "reason": "The midpoint is descriptive, not judged: its mean gain is 3.50 asserted edges and no interval was registered for it, so choosing 80 would trade the one pre-registered comparison for a smaller step with no passed criterion."
+        },
+        {
+          "alternative": "A — keep the cap at 40.",
+          "reason": "Keeping 40 would record the CAP LIMITING reading and then discard the only pre-registered comparison that cleared its bar, closing the budget route at this cap and world family."
+        }
+      ],
+      "evidence": [
+        "docs/CAP-DECISION-BRIEF.md",
+        "docs/presence_cap_run.json",
+        "docs/PRESENCE-CAP-RESULT.md",
+        "docs/block_canaries.json",
+        "docs/PRESENCE-REBUILD-PLAN.md",
+        "docs/DECISION-CAP-LEVEL.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-ADMISSION-STEP",
+      "date": "2026-11-11",
+      "status": "PENDING",
+      "status_quote": "Decided, not in force: the cap is still 40, no cap-112 runner exists, and the three cap-112 records are frozen and unrun. Nothing on disk in the engine changes. **Superseded later on 2026-11-11:** the level landed in 0.15.0 and the three runners are runnable; the decision and its acceptance condition are unchanged, and the amendment below records the build state.",
+      "chosen": [
+        "Name the step: the loss is constructed but not admitted — 179 of 671 candidate world edges, 16–41 per seed, never entered a served window.",
+        "Do not change the engine on this record: a stage measurement authorises no cap, allocation, ranking or threshold edit.",
+        "Test the step with an allocation arm, not another description: the registered cap-112 records raise the guaranteed transition budget from 20 to 56; at 112 the band arm observed 64-69 transitions because unused cooccurrence slots were backfilled, and the arm is the designated counterfactual.",
+        "Accept the allocation explanation only if the 21–40 transitions are served at 112 and the block's own gates pass; if they are not, the explanation is refuted and the next step is the admission rule.",
+        "No capability, retention or transfer claim follows from this record; it locates a loss, it does not measure an ability.",
+        "Record BAND-5 as a fresh-world confirmation of the allocation-law mechanism, not as a re-score of BAND-1 and not as acceptance of the named-Q4-edge condition."
+      ],
+      "rejected": [
+        {
+          "alternative": "Treat the 62 rank-21–40 misses as a ranking defect and change the ranking.",
+          "reason": "The 62 rank-21–40 misses are outside the 20-slot transition allocation, so changing the ranking would answer a defect the record did not find."
+        },
+        {
+          "alternative": "Close the conversion route as assertion losing nothing.",
+          "reason": "A_W is an end-state stock and S_ever a cumulative union, and 26 asserted edges were never admitted, so the assertion step was not measured as a loss."
+        },
+        {
+          "alternative": "Call the step admitted but not constructed.",
+          "reason": "Served edges are a subset of the recorded universe in every cycle, so admitted-but-not-constructed is zero by construction and cannot be the step that was measured."
+        }
+      ],
+      "evidence": [
+        "docs/presence_conversion_repair_run.json",
+        "docs/PRESENCE-CONVERSION-2-RESULT.md",
+        "docs/presence_conversion_repair_prereg.json",
+        "docs/presence_conversion_2_n3_tables.json",
+        "docs/DECISION-CAP-LEVEL.md",
+        "docs/LANDING-0.15.0.md",
+        "docs/presence_band_rank_prereg.json",
+        "docs/PRESENCE-BAND-RANK-PREREGISTRATION.md",
+        "docs/presence_band_rank_run.json",
+        "docs/PRESENCE-BAND-RANK-RESULT.md",
+        "docs/AUTHORISATION-PRESENCE-BAND-1.md",
+        "docs/presence_band_rank_5_prereg.json",
+        "docs/presence_band_rank_5_run.json",
+        "docs/PRESENCE-BAND-RANK-5-RESULT.md",
+        "docs/AUTHORISATION-PRESENCE-BAND-5.md"
+      ],
+      "superseded_by": null,
+      "open_question": "The record now has two questions that must not be read as one. The **outcome question** -- does raising the Layer-1 cap from 40 to 112 increase admission and assertion? -- is answered: `CAP LIMITING`, positive on 6 of 6 seeds, with a mean paired gain of **17.833333** asserted world edges and a 95% lower bound of **13.613754** against the bar of **10**. The **mechanism question** -- do the specific rank-21-40 transitions named by this decision enter service? -- stays **unadjudicated**: BAND-5 confirmed the allocation-law band on fresh worlds, with **89 of 89** measured rank-21-40 edges served at 112 and **0** at 40, but its fresh seeds and measured band are not the **62** named Q4 edges, so it is not a re-score and does not satisfy this decision's specific condition."
+    },
+    {
+      "decision_id": "DECISION-PERSISTENCE-INTERVENTION",
+      "date": "2026-11-11",
+      "status": "PENDING",
+      "status_quote": "The choice is recorded; the carry arm is not in force and no cell has run.",
+      "chosen": [
+        "Carry counts across cycles is the persistence intervention; the floor and the event lookback stay fixed.",
+        "The arm that follows is PERSISTENCE-CARRY-1, a clean carry-versus-reset block at cap 112."
+      ],
+      "rejected": [
+        {
+          "alternative": "Lower PREDICTION_MIN_COUNT from 5 to 4, 3, 2 or 1",
+          "reason": "It changes a global admission threshold and admits edges that never crossed the persistence threshold; at 4 it leaves three of the five zero cells at zero, and at 2 or 1 it makes almost every world edge admissible, so it cannot isolate persistence."
+        },
+        {
+          "alternative": "Extend the temporal event lookback from 3 to 4, 6, 8 or 16",
+          "reason": "It changes the event graph globally and, because event rows persist across the reset, it reintroduces cross-cycle context through the lookback; at 8 it admits 86-93 edges from the carried replay, so it is a carry channel in disguise."
+        },
+        {
+          "alternative": "Amend PERSISTENCE-MECHANISM-1 to add a lookback arm",
+          "reason": "The frozen 2x2 remains unrun and is not amended; a lookback arm is a separate treatment and would confound its decay and floor contrasts."
+        },
+        {
+          "alternative": "Promote the zero-cell diagnostic to a capability finding",
+          "reason": "The diagnostic explains a ceiling on five seeds; it is not a new cell and cannot support a capability, retention or transfer claim."
+        }
+      ],
+      "open_question": "Does an explicitly reset cycle-boundary carry arm preserve the T1b direction while closing the skipped-reset leak?",
+      "evidence": [
+        "docs/t1b_persistence_off_run.json",
+        "docs/T1B-PERSISTENCE-OFF-RESULT.md",
+        "docs/persistence_zero_served_diagnostic.json",
+        "docs/PERSISTENCE-ZERO-SERVED-NOTE.md",
+        "docs/persistence_mechanism_prereg.json",
+        "docs/PERSISTENCE-MECHANISM-PREREGISTRATION.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-PROGRESSION-BEYOND-G8",
+      "date": "2026-11-14",
+      "status": "ADOPTED",
+      "status_quote": "PLANNING DECISION — GENERATION 9 REMAINS LOCKED",
+      "chosen": [
+        "Generation 9 — self-modeling — remains locked.",
+        "One A3 design and one registered run.",
+        "No G9 design is written before X1 passes."
+      ],
+      "rejected": [],
+      "evidence": [
+        "docs/G9-ACTIVATION-DESIGN.md",
+        "docs/formation_utilization.md",
+        "docs/USE-PATH-DIAGNOSTIC-RESULTS.md",
+        "docs/C6-TIMING-BLOCK.md",
+        "docs/CARRIER-FORMATION-A0.md",
+        "docs/DECISION-PROGRESSION-BEYOND-G8.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-A1-DISPOSITION",
+      "date": "2026-11-14",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED — COMMITTED TO TARGET RESOLUTION; NO RUN AUTHORISED",
+      "chosen": [
+        "A1 is **committed to target resolution**.",
+        "This is a commitment to the preparation path, not to a run.",
+        "No cell is authorised by this decision."
+      ],
+      "rejected": [
+        {
+          "alternative": "Park A1 now.",
+          "reason": "the remaining blockers are concrete and bounded; parking before attempting target selection would close the question without using the built gate and arms."
+        },
+        {
+          "alternative": "Freeze and run A1 without fixed targets.",
+          "reason": "a frozen manifest with an empty target set cannot discriminate the two paths and would spend the registered attempt on an uninterpretable run."
+        },
+        {
+          "alternative": "Move directly to A3 or V2 while A1 stays unfrozen.",
+          "reason": "A3/X1 is downstream of A1/M1 routing; V2 is reserved for a mechanism-driven redesign after M1 and G4."
+        }
+      ],
+      "evidence": [
+        "docs/A1-TWO-PATH-MANIFEST.md",
+        "docs/A1-GATE-READINESS.md",
+        "docs/A1-PRECOMMITTED-THRESHOLDS.md",
+        "docs/TWO-PATH-ADMISSION-CARRIER-DESIGN.md",
+        "ROADMAP.md"
+      ],
+      "superseded_by": "DECISION-A1-DISPOSITION-2"
+    },
+    {
+      "decision_id": "DECISION-0X-ENGINEERING-CHARTER",
+      "date": "2026-11-14",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED — IN FORCE",
+      "chosen": [
+        "The 0.x engineering charter is adopted as the dated engineering boundary for the 0.x line.",
+        "This adoption is a planning and engineering decision, not a scientific result."
+      ],
+      "rejected": [
+        {
+          "alternative": "Adopt a fixed 0.16–0.20 version schedule.",
+          "reason": "version numbers should describe actual changes, not anticipated milestones"
+        },
+        {
+          "alternative": "Treat this charter as a scientific decision or an A1 authorisation.",
+          "reason": "it bounds engineering work; it does not select targets, freeze a manifest, issue a grant or produce evidence."
+        },
+        {
+          "alternative": "Leave the charter as a permanent draft.",
+          "reason": "the owner has adopted it, and a draft cannot bind the work it is meant to bound."
+        }
+      ],
+      "evidence": [
+        "docs/0X-ENGINEERING-CHARTER.md",
+        "ROADMAP.md",
+        "CHANGELOG.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-A1-PATH-A-C1-RULE",
+      "date": "2026-11-14",
+      "status": "ADOPTED",
+      "status_quote": "RECORDED — BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN",
+      "chosen": [
+        "Path A is the A1 estimand",
+        "It does not freeze the targets, reserve seeds or authorise the run.",
+        "There is no averaging across seeds or paths.",
+        "The fraction cannot rescue a denominator below the designed resolution.",
+        "a missing denominator is not a zero-row pass."
+      ],
+      "rejected": [],
+      "evidence": [
+        "docs/A1-C1-C4-VOID-GATE.md",
+        "docs/A1-TARGET-SELECTION-PROTOCOL.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-A1-PATH-A-C1-C4",
+      "date": "2026-11-14",
+      "status": "PENDING",
+      "status_quote": "DRAFT — C1/C4 GATE ADOPTED ELSEWHERE; PATH A CONFIRMATION AND PROVISIONAL FREEZE NOT ADOPTED",
+      "chosen": [
+        "The five proposals above were each taken in a separate adopting record: the C1/C4 gate order and the VOID disposition in [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md), and the Path A estimand and C1 acceptance rule in [`A1-PATH-A-C1-RULE-1`](DECISION-A1-PATH-A-C1-RULE.md)."
+      ],
+      "rejected": [],
+      "evidence": [
+        "docs/A1-C1-C4-VOID-GATE.md",
+        "docs/DECISION-A1-PATH-A-C1-RULE.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-A1-C1-DENOMINATOR",
+      "date": "2026-11-15",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED — THE PROTOCOL DENOMINATOR IS AUTHORITATIVE; NO RUN AUTHORISED",
+      "chosen": [
+        "The protocol's C1 denominator is authoritative: C1 counts the observed paired-control rows across the cell stream, including baseline-available non-target edges.",
+        "The 63–64 candidate-count figure is a planning quantity, not C1's denominator.",
+        "The operative row is the recorded cell row, which is what `c1_rows` counts and `score_c1` scores.",
+        "No cell is authorised by this decision."
+      ],
+      "rejected": [
+        {
+          "alternative": "Treat 63–64 as the C1 denominator.",
+          "reason": "the protocol defines the denominator and `c1_rows` implements it; the candidate count is a planning quantity that the downstream reading mistook for the definition."
+        },
+        {
+          "alternative": "Leave the definition open and let each record choose.",
+          "reason": "a denominator that can differ between records cannot be compared across runs, and C1's floor is only meaningful against one denominator."
+        },
+        {
+          "alternative": "Decide C1's reachability from the availability ceiling alone.",
+          "reason": "a ceiling is not an observation: no cell has run, so C1 remains unscored under the adopted definition."
+        }
+      ],
+      "evidence": [
+        "docs/A1-TARGET-SELECTION-PROTOCOL.md",
+        "docs/A1-C1-C4-VOID-GATE.md",
+        "docs/DECISION-A1-PATH-A-C1-RULE.md",
+        "docs/A1-DESIGN-VIABILITY.md",
+        "docs/a1_design_viability.json",
+        "docs/a1_baseline_availability_adopted.json",
+        "benchmarks/a1_arms.py"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-A1-C8-NMIN",
+      "date": "2026-11-15",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED BY OWNER 2026-11-15 — AT-LEAST-N_min REPLACES EXACT-N; N_min = 17 CERTIFIED; NOT FROZEN, NOT RUN",
+      "chosen": [
+        "C8 is adjudicated on any block containing at least N_min competent directed target rows; exact-N construction is preferred but not required.",
+        "N_min is 17, certified as the largest block the binding adopted seed can reach.",
+        "The threshold stays 0.05 per seed, read as the assertion rate over that seed's competent rows.",
+        "The observed row count per seed is reported with the result, and any count below 20 is named as such.",
+        "No cell is authorised by this decision."
+      ],
+      "rejected": [
+        {
+          "alternative": "Keep exactly-N and treat a short block as VOID.",
+          "reason": "it makes an 18-row block inadmissible while judging it against a stricter criterion (zero assertions tolerated against one at twenty), which is not defensible as a rule."
+        },
+        {
+          "alternative": "Set N_min to 20.",
+          "reason": "seed 20740102 cannot field twenty competent rows under the cap: all 4,686,825 eighteen-row subsets were enumerated and none is feasible, so its maximum is 17."
+        },
+        {
+          "alternative": "Run whatever block the search happens to find, without a floor.",
+          "reason": "an unfloored block lets a small block pass trivially and turns the constructor into the estimand."
+        }
+      ],
+      "evidence": [
+        "docs/A1-C2-C8-COMPETENCE-RULE.md",
+        "docs/A1-COMPETENCE-FILTER-DRAFT.md",
+        "docs/a1_competence_filter_draft.json",
+        "docs/A1-C4-RISK-POSTURE.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-A1-C1-UNIT",
+      "date": "2026-11-15",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED BY OWNER 2026-11-15 — DIRECTED EDGE IS THE UNIT; RELATION IS A DECLARED SENSITIVITY; NOT FROZEN, NOT RUN",
+      "chosen": [
+        "C1's unit of evidence is the directed edge. The undirected relation is a dependence class, not a competing denominator.",
+        "The estimate is directed.",
+        "The relation is reported, not pooled.",
+        "Neither reading rescues the other.",
+        "C4's protected set is the directed one.",
+        "No threshold moves."
+      ],
+      "rejected": [
+        {
+          "alternative": "Make the relation the unit outright.",
+          "reason": "C1's claim is about a directed carrier path: a relation-level proportion answers whether the coupling survives, not whether the path does, and adopting it would have the gate measuring a different quantity than the design asserts."
+        },
+        {
+          "alternative": "Count both orientations and treat them as independent.",
+          "reason": "K is 97.2% concordant across candidate/reverse pairs and the two orientations share one coupling; counting both inflates n with correlated members, and no correction for that dependence is declared anywhere in the C1 machinery."
+        },
+        {
+          "alternative": "Leave it to the implementation.",
+          "reason": "that is the current state: `c1_rows` counts directed rows while selection takes one orientation per pair, so the mixture exists by default rather than by decision, and a reader cannot tell which reading a later result was scored under."
+        },
+        {
+          "alternative": "Adopt the directed unit and drop the relation reading.",
+          "reason": "the orientations differ on 15–28 of 64 relations; without the relation-level proportion a reader cannot see how much of the directed result is two views of one coupling."
+        }
+      ],
+      "evidence": [
+        "docs/A1-C1-UNIT-OF-EVIDENCE.md",
+        "docs/A1-DESIGN-VIABILITY.md",
+        "docs/a1_design_viability.json",
+        "docs/DECISION-A1-C1-DENOMINATOR.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-A1-C4-POSTURE",
+      "date": "2026-11-15",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED — BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN",
+      "chosen": [
+        "The multiplicity is declared, not corrected.",
+        "A failure names what fired.",
+        "The VOID probability is unmeasured.",
+        "A VOID is a result about the design.",
+        "Nothing is relaxed."
+      ],
+      "rejected": [
+        {
+          "alternative": "narrow the protected set",
+          "reason": "clause 5 must be amended and the row counts replaced, and C1's denominator shrinks with them"
+        }
+      ],
+      "evidence": [
+        "docs/A1-C4-RISK-POSTURE.md",
+        "docs/A1-C4-NOISE-FEASIBILITY.md",
+        "docs/DECISION-A1-C4-POSTURE.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-A1-DISPOSITION-2",
+      "date": "2026-11-15",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED — PATH A CONTINUES; NO FREEZE, NO GRANT, NO RUN",
+      "chosen": [
+        "Path A continues.",
+        "Continuing is conditional."
+      ],
+      "rejected": [
+        {
+          "alternative": "Redesign",
+          "reason": "Rejected on measurement, not on appetite"
+        },
+        {
+          "alternative": "Park",
+          "reason": "Rejected because the reason for parking has been removed twice"
+        }
+      ],
+      "evidence": [
+        "docs/A1-DISPOSITION-REREAD.md",
+        "docs/DECISION-A1-C4-POSTURE.md",
+        "docs/A1-PRE-FREEZE-CHECKLIST.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-A1-C1-UNMEASURABLE",
+      "date": "2026-11-15",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED — BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN",
+      "chosen": [
+        "C1 gains `C1_UNMEASURABLE`. `C1_THRESHOLD` is not widened; it keeps exactly one meaning.",
+        "Structural causes outrank unmeasurability because a missing or below-floor denominator also makes the rate\nuncomputable, and the cause that fired first is the one worth reporting."
+      ],
+      "rejected": [
+        {
+          "alternative": "Widen `C1_THRESHOLD` to cover \"not measurable\".",
+          "reason": "Rejected on the naming rule this project already applies to counts: a label must name what it counts."
+        }
+      ],
+      "evidence": [
+        "docs/A1-GATE-MEASURABILITY-AUDIT.md",
+        "docs/A1-C1-C4-VOID-GATE.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-A1-COMPETENT-ESTIMAND",
+      "date": "2026-11-15",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED BY OWNER 2026-11-15 — PATH A TARGETS ARE BASELINE-COMPETENT; THE ESTIMAND IS CONDITIONAL; NOT FROZEN, NOT RUN",
+      "chosen": [
+        "An edge is an admissible target only when the no-arm A+K+ replay records both an `A` carrier and a `K` path for it.",
+        "Path A estimates *the pre-37 cycle-membership directed-edge effect, conditional on both paths being present in the no-arm baseline.*",
+        "The veto is therefore **the maximum over 276–285 deltas per seed, 1,671 across the block**."
+      ],
+      "rejected": [
+        {
+          "alternative": "Keep the representative-eligible population",
+          "reason": "The measurement refuses it: 0 of 6 seeds is C2-viable at both designs, and under C8's adopted rule that is VOID on every seed before any treatment effect is read."
+        },
+        {
+          "alternative": "Use 17 rows uniformly",
+          "reason": "It is constructible everywhere, but it discards rows the construction can reach on four seeds, it puts C8 at zero tolerance on every seed rather than two, and it shrinks the non-target stream by three rows per seed for no gain."
+        },
+        {
+          "alternative": "Raise the endpoint cap to 4 so twenty rows exist everywhere",
+          "reason": "It works — at cap 4 all six seeds take twenty — but it changes the registered selection rule, and it concentrates more target edges on fewer tags."
+        },
+        {
+          "alternative": "Score only the competent rows of the current selection, post hoc",
+          "reason": "That conditions the analysis on a treated run rather than a pre-treatment baseline, and it silently redefines the population after the rows are known."
+        }
+      ],
+      "evidence": [
+        "docs/a1_baseline_availability_adopted.json",
+        "docs/a1_competence_adopted.json",
+        "docs/A1-COMPETENCE-ADOPTED.md",
+        "docs/A1-TARGET-VIABILITY-ADOPTED.md",
+        "tests/test_a1_target_viability_adopted.py"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-A1-C1-CEILING",
+      "date": "2026-11-15",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED BY OWNER 2026-11-15 — THE 63–64 CLAUSE GOVERNS THE CANDIDATE-PLAN COUNT; THE CEILING IS THE PREPLANNED UNIVERSE; IN FORCE",
+      "chosen": [
+        "The `>64` clause is narrowed to the quantity it names — the 63–64 candidate-plan count — and does not govern the operative cell-row denominator that `DECISION-A1-C1-DENOMINATOR-1` adopted.",
+        "The ceiling's function is carried by a comparison rather than a constant: the scored denominator must equal the preplanned universe recorded in the freeze act, and any denominator larger than that universe is `VOID — design inconsistency`.",
+        "The preplanned universe is restated from the pre-treatment baseline artifact before either act is signed, and the restated value is written into the act it freezes."
+      ],
+      "rejected": [
+        {
+          "alternative": "Read the clause literally and accept five seeds as VOID",
+          "reason": "It voids the adopted block before any retention is read, for a denominator that is exactly the preplanned one; and it would still pass a 64-row run that added four rows after the baseline, so it fires where nothing is wrong and stays silent where the defect is."
+        },
+        {
+          "alternative": "Keep the ceiling and shrink the candidate universe to 64 rows or fewer",
+          "reason": "It changes the target population to satisfy a planning number, drops rows the baseline shows are available, shrinks the non-target stream C4 is computed over, and would be a design change made after the baseline was seen."
+        },
+        {
+          "alternative": "Delete the ceiling and rely on the instruction to score preplanned rows",
+          "reason": "A check that must be remembered is not a check: with no comparison against the recorded universe, a scored population larger than the planned one is invisible."
+        },
+        {
+          "alternative": "Treat the narrow reading as already settled by the checklist footnote",
+          "reason": "A documentation edit cannot decide a binding record, and that footnote has been retracted; the clause needs a record of its own."
+        }
+      ],
+      "evidence": [
+        "docs/A1-C1-CEILING-CONFLICT.md",
+        "docs/DECISION-A1-PATH-A-C1-RULE.md",
+        "docs/DECISION-A1-C1-DENOMINATOR.md",
+        "docs/a1_baseline_availability_adopted.json",
+        "tests/test_a1_c1_ceiling.py"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-A1-C8-SELECTION",
+      "date": "2026-11-15",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED BY OWNER 2026-11-15 — THE SELECTION PROCEDURE IS BINDING; S1–S7 IN FORCE; NOTHING FROZEN, NOTHING RUN",
+      "chosen": [
+        "Every C8 row is drawn from the competent pool.",
+        "The pool and the selected block are written into the freeze act, together with the identity of the constructor that produced the block, before any cell runs.",
+        "A row that fails competence is never added to reach a size.",
+        "After a run, the pool, the block, the competence predicate or the constructor may not be re-derived to fit an observed outcome.",
+        "The unfiltered selection is reported beside the filtered block, so the filter's effect is visible rather than baked in.",
+        "A breach of S2, S3 or S4 voids the block for C8 and is recorded as VOID with the breach named.",
+        "This decision changes no engine file, threshold, floor, gate, seed or cell."
+      ],
+      "rejected": [
+        {
+          "alternative": "Leave it in the draft and cite the draft from the acts",
+          "reason": "A draft marked NOT IN FORCE cannot make anything binding; citing it gives the appearance of a rule without the effect"
+        },
+        {
+          "alternative": "Restate the clauses inside each freeze act",
+          "reason": "The acts would then define the procedure, and two acts could define it differently while both claiming to implement one rule."
+        },
+        {
+          "alternative": "Put the clauses into DECISION-A1-C8-NMIN by amendment",
+          "reason": "That record is signed and about what is adjudicated, not how rows are chosen; amending it makes its status quote describe less than the document contains."
+        },
+        {
+          "alternative": "Treat the implementation as the rule",
+          "reason": "Code is what runs, not what was agreed: a rule that lives only in code can be changed by a commit nobody reviewed as a decision."
+        }
+      ],
+      "evidence": [
+        "docs/A1-C2-C8-COMPETENCE-RULE.md",
+        "benchmarks/a1_c8_target_selection_competent.py",
+        "docs/A1-COMPETENCE-RULE-IN-FORCE.md",
+        "docs/A1-C8-TARGET-SELECTION-COMPETENT.md",
+        "docs/DECISION-A1-C8-NMIN.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-A1-VOID-ACCEPTED",
+      "date": "2026-11-15",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED BY OWNER 2026-11-15 — THE A1 BLOCK IS VOID ON C4; NOT RESCORED; SCORER REPAIR AUTHORISED FOR FUTURE RUNS ONLY",
+      "chosen": [
+        "The A1 assembly is accepted as the study's outcome: VOID on C4_no_interference, reason C4_DELTA.",
+        "The completed run is not rescored; the repaired scorer applies only to runs authorised after this decision.",
+        "The scorer repair is authorised under a disclosed re-pin, with the pre-repair digests preserved in the run record.",
+        "No effect estimate, C8 assertion or competence claim is reported from this block, and none is derived from it by re-assembly."
+      ],
+      "rejected": [
+        {
+          "alternative": "Fix the scorer and re-assemble the same cells",
+          "reason": "It would change five gate outcomes after the cells were seen, which is the adjustment the pin exists to prevent."
+        },
+        {
+          "alternative": "Relax the C4 tolerance or redefine the non-target denominator",
+          "reason": "The interference is 0.575 against 0.05 and sits entirely in the K-blocked cells; a tolerance that admits it would stop C4 detecting anything."
+        },
+        {
+          "alternative": "Report the C1 pass as a positive result",
+          "reason": "C1 passing is a precondition, not the estimand; with C4 VOID the block cannot adjudicate the effect C1 was protecting."
+        }
+      ],
+      "evidence": [
+        "docs/A1-RUN.md",
+        "docs/a1_two_path_result.json",
+        "docs/a1_scorer_pin.json",
+        "tests/test_a1_prefreeze.py"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-V2-CHARTER",
+      "date": "2026-11-15",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED 2026-11-16 — A V2 CHARTER IS COMMISSIONED; NO BUILD IS AUTHORISED",
+      "chosen": [
+        "A V2 charter is commissioned: a design document with one pre-committed question, one pre-committed failure criterion, and its own freeze, written before any V2 cell runs.",
+        "The charter's first experiment tests the converged diagnosis: that V1 has no addressable, intervention-relevant handle on what it stores, at selection, at readout and at manipulation.",
+        "V2 is a separate lineage: V1 stays frozen at its pin as the reference object, and no V1 result may be cited as V2 evidence.",
+        "No V2 cell, module or engine change is authorised by this decision; the charter returns to the owner for its own adoption."
+      ],
+      "rejected": [
+        {
+          "alternative": "Keep H2's prohibition in force and continue harness-only work",
+          "reason": "Because the prohibition rests on an arm that never ran, while three independent measurements now name the same missing capability."
+        },
+        {
+          "alternative": "Treat the charter as permission to build",
+          "reason": "Because a charter that arrives with an implementation is a design decision made by whoever wrote the code."
+        },
+        {
+          "alternative": "Rewrite the frozen engine in place",
+          "reason": "Because it would break comparability with the published record and the pin that enforces it."
+        },
+        {
+          "alternative": "Commission a charter without a pre-committed failure criterion",
+          "reason": "Because V1's record shows how easily an architecture programme becomes unfalsifiable."
+        }
+      ],
+      "evidence": [
+        "docs/claim_ledger.json",
+        "docs/DECISION-V2-SCOPE.md",
+        "docs/ORGANICA-V2-DESIGN-BRIEF.md",
+        "docs/GATE13-RANKING-CRITERION.md",
+        "docs/BOTTLENECK-MAP.md",
+        "docs/functional_structure_confirmatory.json",
+        "docs/A1-RUN.md",
+        "docs/a1_two_path_result.json",
+        "docs/DECISION-A1-VOID-ACCEPTED.md",
+        "docs/V2-MUTABLE-IDENTITY-SPEC.md",
+        "docs/V2-PRIMITIVE-SIZING.md",
+        "docs/DECISION-V2-PRIMITIVE-RESOLUTIONS.md",
+        "docs/V1-REKEYING-TWO-SEEDS.md",
+        "docs/V1-CARRIER-FORGETTING.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-A2-ESTIMAND",
+      "date": "2026-11-15",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED — A2 IS CLOSED AND NO A2 ARM RUNS",
+      "chosen": [
+        "A2 is closed: the edge-level question A1 asked is not testable with this intervention, because the only control that can be matched differs from the treatment on the same per-edge quantity the estimand depends on.",
+        "The carrier-level alternative is not adopted as A2: its locality condition is satisfied by construction, so it cannot fail, and its estimand belongs to a different study.",
+        "A1 remains `VOID`, frozen and un-rescored, and this decision changes no verdict, no frozen file and no published artifact.",
+        "A future carrier-level study, if one is wanted, arrives as its own charter with its own estimand, target set and a criterion that can fail; nothing here authorises one."
+      ],
+      "rejected": [
+        {
+          "alternative": "Adopt A2c′ because the aggregate match exists",
+          "reason": "Because a matched total is not a matched distribution, and the per-edge estimand depends on the distribution."
+        },
+        {
+          "alternative": "Adopt A2b because it makes interference local",
+          "reason": "Because a criterion that cannot fail cannot license a result, and the unit change makes it a different study."
+        },
+        {
+          "alternative": "Keep the fork open and wait for a measurement to settle it",
+          "reason": "Because no measurement can settle an estimand question, and an open choice that nothing can close holds the line open without producing information."
+        },
+        {
+          "alternative": "Describe the aggregate criterion as the per-edge design succeeding",
+          "reason": "Because that is the pattern the record spent months eliminating: a failed condition, a new condition, and the new one described as if it were the old one."
+        },
+        {
+          "alternative": "Choose by implementation convenience",
+          "reason": "Because the two branches cost about the same to build, and the difference between them is what the study would mean."
+        },
+        {
+          "alternative": "Run more sham search to decide",
+          "reason": "Because a search cannot answer an estimand question; it can only report what a criterion admits, which is already known for both."
+        }
+      ],
+      "evidence": [
+        "docs/A2-SHAM-FEASIBILITY.md",
+        "docs/a2_sham_feasibility.json",
+        "docs/DECISION-A1-VOID-ACCEPTED.md",
+        "docs/A1-RUN.md",
+        "docs/a1_two_path_result.json",
+        "docs/A1-REDESIGN-REQUIREMENTS.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-V2-PRIMITIVE-RESOLUTIONS",
+      "date": "2026-11-15",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED 2026-11-16 — THE FOUR RESOLUTIONS ARE THE CHARTER'S REQUIREMENT 6; NO BUILD IS AUTHORISED",
+      "chosen": [
+        "Adopt, as the content of the V2 charter's mutable-identity requirement, the four argued resolutions in V2-MUTABLE-IDENTITY-SPEC §10 — edges as members and tags as the key, homogeneous typed levels with level 1 built first and level 2 permitted but unbuilt, per-kind canonicalisation, reference-count reclamation that never frees an id, a key or a tombstone, and registration admitted on total appearances — with none of them in force until the charter is signed and a build is separately authorised, and none of them authorising a build by themselves."
+      ],
+      "rejected": [
+        {
+          "alternative": "Tags as members",
+          "reason": "A tag triple with a missing third edge would count as a carrier, and the baseline the primitive must beat counts pairs."
+        },
+        {
+          "alternative": "Atoms-only membership",
+          "reason": "It would make a theory-level composite unrepresentable by schema, deciding a substantive question by accident."
+        },
+        {
+          "alternative": "One global canonicalisation rule",
+          "reason": "Too coarse merges distinct cycles that share a node set; too fine never merges the two directions of one cycle."
+        },
+        {
+          "alternative": "Register on first detection or on consecutive streaks",
+          "reason": "First detection makes the object population an artifact of thresholds, and direction flips would make a streak rule reject a stable object."
+        }
+      ],
+      "evidence": [
+        "docs/V2-MUTABLE-IDENTITY-SPEC.md",
+        "docs/v2_mutable_identity_spec.json",
+        "docs/v1_carrier_identity.json",
+        "docs/V2-PRIMITIVE-SIZING.md",
+        "docs/CODE-AS-EVIDENCE.md",
+        "docs/V1-REKEYING-STUDY.md",
+        "docs/V1-REKEYING-TWO-SEEDS.md",
+        "docs/v1_rekeying_study_20900101.json",
+        "docs/V1-REKEYING-STUDY-20900101.md",
+        "docs/V1-CARRIER-FORGETTING.md"
+      ]
+    },
+    {
+      "decision_id": "DECISION-V2-FIRST-CELL",
+      "date": "2026-11-16",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED 2026-11-16 — THE TEN-SEED BLOCK IS SPENT; THE CELL IS AUTHORISED AND NOT RUN",
+      "chosen": [
+        "Authorise one cell of the pre-registered first V2 experiment — ten seeds `20910101`–`20910110`, three arms on each, held-out next-edge log-loss under the pre-registered 99% paired-bootstrap rule, with `m = 2`, the pinned world, detector and log-loss instrument, and a build confined to `benchmarks/v2_first_cell_readout.py` — with no engine change, no V2 module, no promotion, no second report and no seed spent beyond that block, and with the cell refusing to run until the adapter's digest is in the scorer pin."
+      ],
+      "rejected": [
+        {
+          "alternative": "Run the cell without a signed pre-registration",
+          "reason": "The endpoint and `m` would be chosen after the first look, which is the failure the pre-registration exists to prevent."
+        },
+        {
+          "alternative": "Authorise the build without a cell",
+          "reason": "An open-ended build has no stop condition and would become the phase the charter forbids."
+        },
+        {
+          "alternative": "Authorise more than one cell",
+          "reason": "The charter reports the first experiment once; a second cell would re-score a verdict already delivered."
+        },
+        {
+          "alternative": "Settle the scorer or the β grid during the run",
+          "reason": "A scorer chosen after seeing held-out data is not a scorer, and the baseline would be tuned against the test."
+        },
+        {
+          "alternative": "Authorise an engine change at the same time",
+          "reason": "It would confound the cell: a changed substrate cannot be compared with the pinned one."
+        }
+      ],
+      "evidence": [
+        "docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md",
+        "docs/v2_first_cell_seeds.json",
+        "docs/v2_first_cell_scorer_pin.json",
+        "docs/V2-MUTABLE-IDENTITY-SPEC.md",
+        "docs/DECISION-V2-PRIMITIVE-RESOLUTIONS.md",
+        "docs/V2-PRIMITIVE-SIZING.md",
+        "docs/CODE-AS-EVIDENCE.md",
+        "docs/V1-REKEYING-TWO-SEEDS.md"
+      ]
+    },
+    {
+      "decision_id": "DECISION-V2-FIRST-CELL-INTERPRETATION",
+      "date": "2026-11-16",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED 2026-11-16 — THE FOUR READINGS ARE FIXED BEFORE THE CELL; NO CELL IS AUTHORISED",
+      "chosen": [
+        "A cell outcome is read by one of four labels fixed here before the cell runs: PASS when the interval lies entirely below zero, BOOKKEEPING when it includes zero, REVERSAL when it lies entirely above zero, and VOID when no admissible interval was produced.",
+        "PASS authorises one report that the primitive earned held-out prediction beyond the counts on the measured world family, and no build, promotion or attribution of the gain to maintained selection.",
+        "BOOKKEEPING authorises the report that the primitive is bookkeeping and the charter fails at its first experiment, and no feature, rescore or second run of the same block.",
+        "REVERSAL authorises the report that maintained membership cost held-out prediction, which is a failure and is not evidence that selection found signal with the wrong sign.",
+        "VOID authorises no effect estimate and no scientific reading at all, because a failure to produce an admissible comparison is not a negative result and a further attempt needs a new pre-registration, a fresh seed block and a new dated grant."
+      ],
+      "rejected": [
+        {
+          "alternative": "Choose the reading after seeing the interval",
+          "reason": "The reading is what turns an interval into a claim, and choosing it after the interval is seen is how a failed criterion becomes a rescued one. This document exists so that sentence is not available."
+        },
+        {
+          "alternative": "Treat VOID as a negative result",
+          "reason": "A run that produced no admissible comparison is not evidence for or against the primitive, and reporting it as a null converts an instrument failure into a scientific finding."
+        },
+        {
+          "alternative": "Attribute a PASS to maintained selection",
+          "reason": "The matched selection measurement is `+0.002091` on a deliberately best-case planted world and `−0.000497` on a structureless one, so its sign depends on the world and a pass does not establish the mechanism."
+        },
+        {
+          "alternative": "Rescore the block after BOOKKEEPING or REVERSAL",
+          "reason": "The endpoint, the power and the seed block were fixed before the run, so a second look at the same block is a new experiment reported as if it were the first."
+        },
+        {
+          "alternative": "Read a REVERSAL as signal found backwards",
+          "reason": "On structureless worlds the same rule excluded zero above zero in 943 of 1,000 cells, so a reversal is what no signal looks like, not a signal found in reverse."
+        }
+      ],
+      "evidence": [
+        "docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md",
+        "docs/v2_first_cell_null.json",
+        "docs/v2_first_cell_power.json",
+        "docs/v2_first_cell_handicap.json",
+        "docs/v2_first_cell_mass_match.json",
+        "docs/v2_first_cell_planted.json",
+        "docs/v2_first_cell_planted_selection.json",
+        "docs/v2_first_cell_seeds.json",
+        "docs/a1_seed_reservations.json",
+        "docs/DECISION-A1-VOID-ACCEPTED.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-V2-PRIMITIVE-BUILD",
+      "date": "2026-11-16",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED 2026-11-16 — THE BOUNDED BUILD IS AUTHORISED; THIS RECORD WRITES NO CODE",
+      "chosen": [
+        "Authorise a bounded build of the level-1 mutable-identity primitive — a separate SQLite store with a monotone content-free id, a canonical-key registry, versioned member references, copy-on-write add and remove, tombstones and reference-count reclamation — solely so the A2–A5 gates can be run.",
+        "The build is confined to one new benchmark module and its tests; it writes only its own scratch store, never the live memory.db, and it may not change the readout, `m`, the endpoint or any frozen engine file.",
+        "The build stops when A2–A5 have a gate record and the named tests pass; running the cell still needs `DECISION-V2-FIRST-CELL`, and any second feature needs a new decision."
+      ],
+      "rejected": [
+        {
+          "alternative": "Build the primitive inside organica/",
+          "reason": "Adding a module moves the engine pin and the frozen reference object, and the first experiment's primitive can live in the harness without changing V1."
+        },
+        {
+          "alternative": "Authorise the cell and let A2–A5 fail there",
+          "reason": "The runner treats a failed or unrun gate as `VOID`, so the block would be spent without scoring an arm."
+        },
+        {
+          "alternative": "Use a content hash as the id",
+          "reason": "A hash is a function of the members, so it changes when the object is revised; `I2` is the invariant the primitive exists to satisfy."
+        },
+        {
+          "alternative": "Keep a history row for every version",
+          "reason": "A4 forbids a per-mutation history table and the sizing puts it about a third higher; the current version plus a tombstone is the specification's surface."
+        },
+        {
+          "alternative": "Build the primitive and run the cell in one act",
+          "reason": "It would confound the primitive's validity gates with the cell's endpoint, and the cell still needs its own authorisation and its own seed block."
+        }
+      ],
+      "evidence": [
+        "docs/V2-MUTABLE-IDENTITY-SPEC.md",
+        "docs/DECISION-V2-PRIMITIVE-RESOLUTIONS.md",
+        "docs/V2-FIRST-CELL-GATES.md",
+        "docs/v2_first_cell_gates.json",
+        "docs/V2-PRIMITIVE-SIZING.md",
+        "docs/v2_primitive_sizing.json",
+        "docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md",
+        "docs/DECISION-V2-FIRST-CELL.md",
+        "benchmarks/v2_first_cell_runner.py"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-V2-A4-BASE-WORLD",
+      "date": "2026-11-16",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED 2026-11-16 — ONE A1 SEED IS RELEASED TO A4; THE 135,168-BYTE CAP IS UNCHANGED",
+      "chosen": [
+        "Release seed 20740101 from the A1-TWO-PATH-1 reservation and reallocate it as the base world for A4, which is a storage measurement and not an A1 cell.",
+        "A1-TWO-PATH-1 is frozen on a VOID synthetic-fixture assembly and refuses a second run, so the released seed has no remaining A1 use; the other five seeds stay held and the ten V2 cell seeds are untouched.",
+        "The 135,168-byte A4 cap is unchanged; only the reservation that made the seed unavailable is changed."
+      ],
+      "rejected": [
+        {
+          "alternative": "Reuse the seed without releasing it",
+          "reason": "The reservation would still hold a seed that another artifact uses, and the collision scan would refuse the gate record."
+        },
+        {
+          "alternative": "Substitute the spent smoke world",
+          "reason": "It is not the base world and cannot support the 135,168-byte criterion."
+        },
+        {
+          "alternative": "Allocate a different seed",
+          "reason": "A4's budget was measured on this world; a different world would be a new criterion, not the same gate."
+        },
+        {
+          "alternative": "Mark the whole A1 block spent",
+          "reason": "A1 ran a synthetic fixture, not cells; marking all six spent would discard five unspent seeds and overstate what A1 used."
+        }
+      ],
+      "evidence": [
+        "docs/a1_two_path_manifest.json",
+        "docs/a1_two_path_result.json",
+        "docs/a1_seed_reservations.json",
+        "docs/v2_first_cell_gates.json",
+        "docs/V2-PRIMITIVE-SIZING.md",
+        "docs/v2_primitive_sizing.json"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-V2-RUNTIME-FAILURE",
+      "date": "2026-11-16",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED 2026-11-16 — A STARTED-BUT-UNFINISHED RUN IS VOID OR UNRUN AND IS NEVER RETRIED",
+      "chosen": [
+        "A run is started when `docs/v2_first_cell_run.json` exists; an attempt with a `STARTED` marker, a missing result, or an incomplete artifact set is VOID, while a run with no marker or artifact is UNRUN.",
+        "A VOID run reports no interval, no effect estimate and no scientific reading, and it is not a negative result.",
+        "A started-but-unfinished run is never retried: no resume, deletion, replacement or second execution is permitted, and the one-shot guard refuses every later --run.",
+        "A completed attempt is audit-only; a further attempt needs a new pre-registration, a fresh seed block and a new dated grant, not a retry of this cell."
+      ],
+      "rejected": [
+        {
+          "alternative": "Delete the marker and retry the block",
+          "reason": "Deleting the marker to run again is a second execution and would make the stop condition depend on inspecting the outcome."
+        },
+        {
+          "alternative": "Resume from the partial raw log",
+          "reason": "Resuming from a partial raw log would start a new run with state the protocol never fixed, and the interval would not be the pre-registered one."
+        },
+        {
+          "alternative": "Report the crash as a null result",
+          "reason": "Reporting a crash as a null or negative result converts an instrument failure into evidence, which the adopted reading forbids."
+        },
+        {
+          "alternative": "Treat every missing result as unrun",
+          "reason": "Calling an interrupted attempt unrun erases the marker that proves the one-shot attempt began."
+        }
+      ],
+      "evidence": [
+        "docs/DECISION-V2-FIRST-CELL-INTERPRETATION.md",
+        "docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md",
+        "benchmarks/v2_first_cell_runner.py",
+        "tests/test_v2_first_cell_runner.py",
+        "docs/USER-MANUAL.md",
+        "CHANGELOG.md"
+      ],
+      "superseded_by": null
+    }
+  ]
+}

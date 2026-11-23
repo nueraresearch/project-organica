@@ -1,343 +1,74 @@
 %PDF-1.4
-%âãÏÓ
+%“Œ‹ž ReportLab Generated PDF document (opensource)
 1 0 obj
-<< /Type /Catalog /Pages 2 0 R >>
+<<
+/F1 2 0 R /F2 3 0 R
+>>
 endobj
 2 0 obj
-<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+<<
+/BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font
+>>
 endobj
 3 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 630 390] /Resources << /Font << /F1 5 0 R /F2 6 0 R >> /ExtGState << /GS7 7 0 R >> >> /Contents 4 0 R >>
+<<
+/BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font
+>>
 endobj
 4 0 obj
-<< /Length 6571 >>
-stream
-1 1 1 rg
-0 0 840 520 re f
-0.102 0.102 0.102 rg
-BT /F2 16 Tf 36 482 Td (Phase L: the displacement curve is a step function) Tj ET
-0.3725 0.3725 0.3725 rg
-BT /F1 11.5 Tf 36 460 Td (Displacement index \(DI\) and preservation index \(PI\) against support ratio; 30 seeds per point; bars are +/-1 sd across seeds.) Tj ET
-0.5412 0.5412 0.5412 rg
-BT /F1 10 Tf 36 16 Td (Source: docs/phase_l_results.json -> summaries.V1.curve  |  drawn by benchmarks/figure_papers.py) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-76 128 m 800 128 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 11 Tf 50.71 124 Td (0.0) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-76 186.4 m 800 186.4 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 11 Tf 50.71 182.4 Td (0.2) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-76 244.8 m 800 244.8 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 11 Tf 50.71 240.8 Td (0.4) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-76 303.2 m 800 303.2 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 11 Tf 50.71 299.2 Td (0.6) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-76 361.6 m 800 361.6 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 11 Tf 50.71 357.6 Td (0.8) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-76 420 m 800 420 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 11 Tf 50.71 416 Td (1.0) Tj ET
-0.102 0.102 0.102 RG
-1.2 w
-1 J
-76 128 m 800 128 l S
-0.1216 0.3059 0.4745 rg
-116.8 123.5 9 9 re f
-/GS1 gs
-0.7529 0.3137 0.302 RG
-1.4 w
-1 J
-121.2 374.2 m 121.2 315.5 l S
-/GS1 gs
-0.7529 0.3137 0.302 RG
-1.4 w
-1 J
-117.2 374.2 m 125.2 374.2 l S
-/GS1 gs
-0.7529 0.3137 0.302 RG
-1.4 w
-1 J
-117.2 315.5 m 125.2 315.5 l S
-125.7 344.8 m
-125.7 347.2853 123.6853 349.3 121.2 349.3 c
-118.7147 349.3 116.7 347.2853 116.7 344.8 c
-116.7 342.3147 118.7147 340.3 121.2 340.3 c
-123.6853 340.3 125.7 342.3147 125.7 344.8 c
-0.7529 0.3137 0.302 rg f
-0.1216 0.3059 0.4745 rg
-207.2 123.5 9 9 re f
-/GS1 gs
-0.7529 0.3137 0.302 RG
-1.4 w
-1 J
-211.8 371.3 m 211.8 324.9 l S
-/GS1 gs
-0.7529 0.3137 0.302 RG
-1.4 w
-1 J
-207.8 371.3 m 215.8 371.3 l S
-/GS1 gs
-0.7529 0.3137 0.302 RG
-1.4 w
-1 J
-207.8 324.9 m 215.8 324.9 l S
-216.3 348.1 m
-216.3 350.5853 214.2853 352.6 211.8 352.6 c
-209.3147 352.6 207.3 350.5853 207.3 348.1 c
-207.3 345.6147 209.3147 343.6 211.8 343.6 c
-214.2853 343.6 216.3 345.6147 216.3 348.1 c
-0.7529 0.3137 0.302 rg f
-0.1216 0.3059 0.4745 rg
-297.8 123.5 9 9 re f
-/GS1 gs
-0.7529 0.3137 0.302 RG
-1.4 w
-1 J
-302.2 373 m 302.2 319.9 l S
-/GS1 gs
-0.7529 0.3137 0.302 RG
-1.4 w
-1 J
-298.2 373 m 306.2 373 l S
-/GS1 gs
-0.7529 0.3137 0.302 RG
-1.4 w
-1 J
-298.2 319.9 m 306.2 319.9 l S
-306.7 346.5 m
-306.7 348.9853 304.6853 351 302.2 351 c
-299.7147 351 297.7 348.9853 297.7 346.5 c
-297.7 344.0147 299.7147 342 302.2 342 c
-304.6853 342 306.7 344.0147 306.7 346.5 c
-0.7529 0.3137 0.302 rg f
-0.1216 0.3059 0.4745 rg
-388.2 123.5 9 9 re f
-/GS1 gs
-0.7529 0.3137 0.302 RG
-1.4 w
-1 J
-392.8 356 m 392.8 318.5 l S
-/GS1 gs
-0.7529 0.3137 0.302 RG
-1.4 w
-1 J
-388.8 356 m 396.8 356 l S
-/GS1 gs
-0.7529 0.3137 0.302 RG
-1.4 w
-1 J
-388.8 318.5 m 396.8 318.5 l S
-397.3 337.3 m
-397.3 339.7853 395.2853 341.8 392.8 341.8 c
-390.3147 341.8 388.3 339.7853 388.3 337.3 c
-388.3 334.8147 390.3147 332.8 392.8 332.8 c
-395.2853 332.8 397.3 334.8147 397.3 337.3 c
-0.7529 0.3137 0.302 rg f
-/GS1 gs
-0.1216 0.3059 0.4745 RG
-1.4 w
-1 J
-483.2 222.2 m 483.2 152.8 l S
-/GS1 gs
-0.1216 0.3059 0.4745 RG
-1.4 w
-1 J
-479.2 222.2 m 487.2 222.2 l S
-/GS1 gs
-0.1216 0.3059 0.4745 RG
-1.4 w
-1 J
-479.2 152.8 m 487.2 152.8 l S
-0.1216 0.3059 0.4745 rg
-478.8 183 9 9 re f
-/GS1 gs
-0.7529 0.3137 0.302 RG
-1.4 w
-1 J
-483.2 331.2 m 483.2 278.4 l S
-/GS1 gs
-0.7529 0.3137 0.302 RG
-1.4 w
-1 J
-479.2 331.2 m 487.2 331.2 l S
-/GS1 gs
-0.7529 0.3137 0.302 RG
-1.4 w
-1 J
-479.2 278.4 m 487.2 278.4 l S
-487.7 304.8 m
-487.7 307.2853 485.6853 309.3 483.2 309.3 c
-480.7147 309.3 478.7 307.2853 478.7 304.8 c
-478.7 302.3147 480.7147 300.3 483.2 300.3 c
-485.6853 300.3 487.7 302.3147 487.7 304.8 c
-0.7529 0.3137 0.302 rg f
-/GS1 gs
-0.1216 0.3059 0.4745 RG
-1.4 w
-1 J
-573.8 351.1 m 573.8 316.9 l S
-/GS1 gs
-0.1216 0.3059 0.4745 RG
-1.4 w
-1 J
-569.8 351.1 m 577.8 351.1 l S
-/GS1 gs
-0.1216 0.3059 0.4745 RG
-1.4 w
-1 J
-569.8 316.9 m 577.8 316.9 l S
-0.1216 0.3059 0.4745 rg
-569.2 329.5 9 9 re f
-/GS1 gs
-0.7529 0.3137 0.302 RG
-1.4 w
-1 J
-573.8 152.2 m 573.8 128 l S
-/GS1 gs
-0.7529 0.3137 0.302 RG
-1.4 w
-1 J
-569.8 152.2 m 577.8 152.2 l S
-/GS1 gs
-0.7529 0.3137 0.302 RG
-1.4 w
-1 J
-569.8 128 m 577.8 128 l S
-578.3 139.4 m
-578.3 141.8853 576.2853 143.9 573.8 143.9 c
-571.3147 143.9 569.3 141.8853 569.3 139.4 c
-569.3 136.9147 571.3147 134.9 573.8 134.9 c
-576.2853 134.9 578.3 136.9147 578.3 139.4 c
-0.7529 0.3137 0.302 rg f
-/GS1 gs
-0.1216 0.3059 0.4745 RG
-1.4 w
-1 J
-664.2 361 m 664.2 316.8 l S
-/GS1 gs
-0.1216 0.3059 0.4745 RG
-1.4 w
-1 J
-660.2 361 m 668.2 361 l S
-/GS1 gs
-0.1216 0.3059 0.4745 RG
-1.4 w
-1 J
-660.2 316.8 m 668.2 316.8 l S
-0.1216 0.3059 0.4745 rg
-659.8 334.4 9 9 re f
-668.7 128 m
-668.7 130.4853 666.6853 132.5 664.2 132.5 c
-661.7147 132.5 659.7 130.4853 659.7 128 c
-659.7 125.5147 661.7147 123.5 664.2 123.5 c
-666.6853 123.5 668.7 125.5147 668.7 128 c
-0.7529 0.3137 0.302 rg f
-/GS1 gs
-0.1216 0.3059 0.4745 RG
-1.4 w
-1 J
-754.8 350.7 m 754.8 322.8 l S
-/GS1 gs
-0.1216 0.3059 0.4745 RG
-1.4 w
-1 J
-750.8 350.7 m 758.8 350.7 l S
-/GS1 gs
-0.1216 0.3059 0.4745 RG
-1.4 w
-1 J
-750.8 322.8 m 758.8 322.8 l S
-0.1216 0.3059 0.4745 rg
-750.2 332.2 9 9 re f
-759.3 128 m
-759.3 130.4853 757.2853 132.5 754.8 132.5 c
-752.3147 132.5 750.3 130.4853 750.3 128 c
-750.3 125.5147 752.3147 123.5 754.8 123.5 c
-757.2853 123.5 759.3 125.5147 759.3 128 c
-0.7529 0.3137 0.302 rg f
-0.102 0.102 0.102 RG
-1.2 w
-1 J
-[4 4] 0 d
-573.8 428 m 573.8 128 l S
-0.102 0.102 0.102 rg
-BT /F1 10.5 Tf 539.6592 434 Td (crossing at 3:1) Tj ET
-0.102 0.102 0.102 rg
-BT /F1 11.5 Tf 113.2075 108 Td (1:4) Tj ET
-0.102 0.102 0.102 rg
-BT /F1 11.5 Tf 203.8075 108 Td (1:3) Tj ET
-0.102 0.102 0.102 rg
-BT /F1 11.5 Tf 294.2075 108 Td (1:2) Tj ET
-0.102 0.102 0.102 rg
-BT /F1 11.5 Tf 384.8075 108 Td (1:1) Tj ET
-0.102 0.102 0.102 rg
-BT /F1 11.5 Tf 475.2075 108 Td (2:1) Tj ET
-0.102 0.102 0.102 rg
-BT /F1 11.5 Tf 565.8075 108 Td (3:1) Tj ET
-0.102 0.102 0.102 rg
-BT /F1 11.5 Tf 656.2075 108 Td (4:1) Tj ET
-0.102 0.102 0.102 rg
-BT /F1 11.5 Tf 746.8075 108 Td (6:1) Tj ET
-0.3725 0.3725 0.3725 rg
-BT /F1 11.5 Tf 327.4332 84 Td (support ratio \(new events : memory events\)) Tj ET
-0.1216 0.3059 0.4745 rg
-36 46 13 13 re f
-0.102 0.102 0.102 rg
-BT /F1 11.5 Tf 56 48 Td (DI -- displacement index \(late structure retained\)) Tj ET
-335 52 m
-335 54.7614 332.7614 57 330 57 c
-327.2386 57 325 54.7614 325 52 c
-325 49.2386 327.2386 47 330 47 c
-332.7614 47 335 49.2386 335 52 c
-0.7529 0.3137 0.302 rg f
-0.102 0.102 0.102 rg
-BT /F1 11.5 Tf 342 48 Td (PI -- preservation index \(early structure surviving\)) Tj ET
-endstream
+<<
+/Contents 8 0 R /MediaBox [ 0 0 630 390 ] /Parent 7 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
 endobj
 5 0 obj
-<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+<<
+/PageMode /UseNone /Pages 7 0 R /Type /Catalog
+>>
 endobj
 6 0 obj
-<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+<<
+/Author (anonymous) /CreationDate (D:20261102160205+00'00') /Creator (anonymous) /Keywords () /ModDate (D:20261102160205+00'00') /Producer (ReportLab PDF Library - \(opensource\)) 
+  /Subject (unspecified) /Title (untitled) /Trapped /False
+>>
 endobj
 7 0 obj
-<< /Type /ExtGState /ca 0.850 /CA 0.850 >>
+<<
+/Count 1 /Kids [ 4 0 R ] /Type /Pages
+>>
 endobj
 8 0 obj
-<< /Title (Phase L displacement and preservation indices against support ratio) /Producer (benchmarks/svg_to_pdf.py) >>
+<<
+/Filter [ /ASCII85Decode /FlateDecode ] /Length 2257
+>>
+stream
+Gau`V95bb.&AII3bV<fTRW!3eTSF_.OWoRV0m]gW5`sWX;G1&6-)UtDj#]VK?[=\IY7a-@1pc7jr.[!IEd&g[j%"e&V[J$I0Au1u!CFZB'aW&@>eGeu/k2SaDtJ>P!Y<-i^Z"i=W;M[*T14>/NRqdAXgfEPi&lP5"MOj#c3U%4baG,_H'D9/F.j*SY\3H:0_(TaO[p[OX3oZ?I,%%!1aE>GBOn23DpNPQ\B(b%mI07O7:'+6.h<F(GkU:[Us.fj3NPI-0UnE0S&mKojNBDS2oT&4o+EBHY4EB5D3iZDr-%lU/j@+j%lE"pLKL>GJsjDM0u#TJ].H]:BljR6hn.)a&'SChaj-6Zr*Qs]p@?bqF-nLkYU]3!0CC1*\8H^.>-B=FA\!P9ZWc0#CFH.-$W%hc4J.nCapV>-cBmi5n6o4fq\YnHcd9@G#*Wb@>F)N=Hc/>EaXq,3&C//dp[//$Y/:[\]A41Mr#B=Xe+.<DJUDt=*rXsNX@r8d7*!>4TpptZUmU<kqbs^9e,NfV9YN(:_``CgQd_#Jr_If_28@u^q>8\F-_P"Nq]5E5Q?$a+40:0@S`7^rAJ,d:3=jOI]_bmLUnlY7WU9$MP/Z@B'U\-Q%F`965Di6/0jAo<jAYlN*322ca7)b`_l@rMq*^fG(FiVX9HV50@Bn0)c[pNocQm-eH"N,rR4o\k_rt6f:ZRqJP3M%q5Dj+;;=Y+p:?>J*[:3M133_"t:H7'<.O#O((e\,DnQl:G:7K.V#8'j9H&'"FL7e;BJO^9>Br%I+Gsure-,#?P%ZFYH2IV#%9lc6/27LV9$J3*N[5J^T193,+nN8L^,JnCB@a1r2/?.JS*'beN99H8e.EKu#&0@$&];cI<d5F]KiDSR3a^iedneNj=\BU\Od<&&dI&Ea?VrWiu1l4`E)i7'EO&8>i0HNg/$ki_P9_@&+VUbr]#%f`)0:msiL@u,bO^K'h9r2R$-uosh:1Od,77(]pJik&FT&Ce8pn8;![7uiW\C<HN2Ii1,)H5r?g`U+aHI1/T4/OUD:X,BQ*NS$F/jhLh#Y/$<4tLJ)ha4\A*f:b:<J^T5*m,>:TV*g8?+"9H7PRhD`6tCSea/r^;9cDH<;7#UQ;OIk,5$m5DGhY9[38"!+^0bO1K8%lD50#0-YA5+r`I\SpVr<PFL$b/jC6K-7-#7SS)g8fO]@+fO5n&-ahir0P,_lk@AO<6JgDp"E?@etS=^p6>Vht/6Yo/*D:><'YfB]]hD0bgf;?hP\3VIsC=(Jo\u)Waqd@D`Sjr,3?l&(O,&,1\p=5qc"-DL(Tn.<n2@qY7WZZYn4LA(pU[1k+%p^T'`^EA;CAt"EXdd`d?j:Ng9NQ!s0dF"c.(sjH=tYKe_M1h+[n9;+0TF1mj*jZLZnsE[*oF?fYs,$Sk<#P4NQ8+m94tJp.<"29KNes*)dV(F[;_bJ>`;UTEd9]m,Y`=0hO>PqM<BOMUoUnSOHETJfo+scj[+K^K4=W$''G2hYHMTCF!p[+`8GKbk\=rgB"1o9Lcm^==t7Nhbu^:E\G0f50i#i*n16'L5!c++1a>;X@UB_VLX_-eg87Ff>jNCe6l0C]R,S*'DNG16)Dj>JY,Q?u5&mQ(X!qZiATa4d"UFBEf('TL:\$c\aJf7-`UM4uYpN-<)ReNI3Ku/7`Ppo=A^*&cb?>iX*$'8tRb&r`Z*/t[/iB*!A"$AsIS'5N1Xs/o$tmV6)Iu1:L.mT@C[,]b-RO^,3g;bLhF48PK8q)"n.)7t[@r[b4G"j"4tI5@$NYud%G(+^E[Y4`$0sdN9-pL'46+aE%iGuB[Rq>U-5D?daLe<3Ti02Z=#"V%6Ui?NPV14BWA3_-Ai4=g/q"i$C!b[1,ZX$p*TVd\5j>,3UrW2b2aKMWrEeP&PqcN;'#m,L#mg!tk0%P-X?iD8DtU99(HFbl?+DaFefm<&([&D+o=lXtWipl0OZG'=bkLKbg3o=Z4W,]PGNS+rH)0\eB8;U30dC2Qef:6,X]]/Ck"),3OjeJhNpO5beF0jKdP7j<(/(c=[I!eo!%slqo.Q3_ji_cQkHN#D\&EdD0;%]YrU[Os@hpmrP#1f>CVTZ>7TkY@],6HmY@'K\rnaFHOi5LTSO9q?2Uh='Go$4%1101MI5CBF-X=gP*-ce@72!;pYX/GH,RW8ahQ1tsSrP4(;W5>*0$C\SN&]=B,SU&4"ubGmJ5a@@bA@>]iI(Z5-nUp%]F!!<qid:m;V^':_GP3.]D3K8n2p/r*uOqepLh'D~>endstream
 endobj
 xref
 0 9
 0000000000 65535 f 
-0000000015 00000 n 
-0000000064 00000 n 
-0000000121 00000 n 
-0000000285 00000 n 
-0000006907 00000 n 
-0000007004 00000 n 
-0000007106 00000 n 
-0000007164 00000 n 
+0000000061 00000 n 
+0000000102 00000 n 
+0000000209 00000 n 
+0000000321 00000 n 
+0000000514 00000 n 
+0000000582 00000 n 
+0000000843 00000 n 
+0000000902 00000 n 
 trailer
-<< /Size 9 /Root 1 0 R /Info 8 0 R >>
+<<
+/ID 
+[<54e4f44c43c6af0a4ed3be6deefbbdee><54e4f44c43c6af0a4ed3be6deefbbdee>]
+% ReportLab generated PDF document -- digest (opensource)
+
+/Info 6 0 R
+/Root 5 0 R
+/Size 9
+>>
 startxref
-7299
+3250
 %%EOF

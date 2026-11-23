@@ -27,6 +27,7 @@ Discipline (mirrors AGENTS.md):
   * No engine files are read or written; this is a documentation check.
 """
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import io
 import json

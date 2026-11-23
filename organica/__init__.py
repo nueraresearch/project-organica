@@ -22,7 +22,7 @@ Growing intelligence from memory, structure, sleep, curiosity, and experimentati
 #:
 #: `tests/test_versioning.py` asserts that this number, `pyproject.toml`
 #: and `CITATION.cff` all agree, so the three can never drift apart.
-__version__ = "0.11.0"
+__version__ = "0.16.0"
 
 from .memory import MemoryService, Event
 from .sleep import (
@@ -36,6 +36,8 @@ from .sleep import (
     MetaConceptCandidate,
     ProcessCandidate,
     WorkflowConceptCandidate,
+    RoleCandidate,
+    SchemaCandidate,
     HypothesisCandidate,
     TheoryCandidate,
     QuestionCandidate,
@@ -57,6 +59,8 @@ __all__ = [
     "MetaConceptCandidate",
     "ProcessCandidate",
     "WorkflowConceptCandidate",
+    "RoleCandidate",
+    "SchemaCandidate",
     "HypothesisCandidate",
     "TheoryCandidate",
     "QuestionCandidate",

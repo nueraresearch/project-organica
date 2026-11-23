@@ -1,0 +1,282 @@
+{
+ "prereg": "PRESENCE-BAND-5",
+ "status": "FROZEN, RUN",
+ "frozen_on": "2026-11-11",
+ "no_cells_run": false,
+ "question": "On the shipped 0.15.0 build, with six fresh worlds, does the cap-112 allocation satisfy the full-window floor-plus-backfill law and does every measured rank-21-40 transition enter service, with allocation and band service able to fail independently?",
+ "program": {
+  "draft": "docs/DECISION-ADMISSION-STEP.md",
+  "question": "Q054",
+  "relationship": "BAND-1 was VOID on exact-56; BAND-2/3 corrected the floor; BAND-4 specified the full-window allocation-law B5 but was never granted or run. BAND-5 is the runnable block: a fresh seed set, the same allocation law, a dated grant before any cell, and a per-edge result."
+ },
+ "reconciliation": {
+  "floor": "At cap 112, transition_budget = 112 // 2 = 56.",
+  "backfill": "The engine fills the remaining 56 seats with cooccurrences, then backfills unused cooccurrence seats with further transitions. A full window therefore has transitions + cooccurrences = 112.",
+  "observed_64_69": "BAND-1 observed 64-69 transitions; those are 56 plus backfill, with 48-43 cooccurrences. 64-69 is not an acceptance threshold.",
+  "rule": "Defensible B5: at least one full 112-row window; every full window has transitions >= 56, cooccurrences <= 56 and the sum 112; every allocation row sums to its window; the maximum served transition rank is above 40; every served edge parses and every served transition is ranked."
+ },
+ "design": {
+  "arms": [
+   "cap 40",
+   "cap 112"
+  ],
+  "caps": [
+   40,
+   112
+  ],
+  "shipped_cap": 112,
+  "seeds": [
+   20612601,
+   20612602,
+   20612603,
+   20612604,
+   20612605,
+   20612606
+  ],
+  "cycles": 120,
+  "cells": 12,
+  "cells_arithmetic": "2 caps x 6 seeds = 12 cells",
+  "variable": "SleepService.MAX_PREDICTIONS, set per cell",
+  "observer": "the repaired observer of PRESENCE-CONVERSION-2",
+  "world": "the PHASE_ACQUISITION compositional world at 120 cycles",
+  "pairing": "each seed's world and stimulus are identical at both caps",
+  "freshness": "Six fresh seeds; seed_collisions is empty at freeze time.",
+  "reuse": "No prior block's cells, named band or result is reused."
+ },
+ "band": {
+  "definition": "For each seed, every present transition at minimum cap-112 block rank 21-40; measured from the 112 universe and not filtered by cap-40 service.",
+  "zero_band": "A zero band is a zero denominator and makes the block VOID."
+ },
+ "engine": {
+  "version": "0.15.0",
+  "cap": 112,
+  "edit": "none"
+ },
+ "gates": {
+  "B1_build": "one shipped 0.15.0 build across all cells; only MAX_PREDICTIONS differs",
+  "B2_world": "each seed has the same world digest and present fingerprint at both caps",
+  "B3_band_identity": "each band edge is a present transition at rank 21-40 with a recorded rank",
+  "B4_control_40": "cap 40 serves no band edge and its full 40-row windows sum with a 20-transition floor",
+  "B5_allocation_law": "cap 112 full windows satisfy transitions + cooccurrences = 112, transitions >= 56, cooccurrences <= 56, with rank and parsing live",
+  "B6_denominator": "every seed has a non-empty band and every band edge reaches the ledger",
+  "B7_determinism": "a fresh-process rerun of seed 20612601 at 112 reproduces its ledger",
+  "B8_seed_axis": "at least three distinct served-band sets across the six seeds"
+ },
+ "b5_fixture": {
+  "pass_64_plus_48": {
+   "passed": true,
+   "cap": 112,
+   "floor": 56,
+   "cooccurrence_ceiling": 56,
+   "full_windows": 1,
+   "max_transitions": 64,
+   "max_cooccurrences": 48,
+   "max_served_transition_rank": 64,
+   "missing_rank": [],
+   "reasons": []
+  },
+  "pass_56_plus_56": {
+   "passed": true,
+   "cap": 112,
+   "floor": 56,
+   "cooccurrence_ceiling": 56,
+   "full_windows": 1,
+   "max_transitions": 56,
+   "max_cooccurrences": 56,
+   "max_served_transition_rank": 64,
+   "missing_rank": [],
+   "reasons": []
+  },
+  "fail_56_only": {
+   "passed": false,
+   "cap": 112,
+   "floor": 56,
+   "cooccurrence_ceiling": 56,
+   "full_windows": 0,
+   "max_transitions": 56,
+   "max_cooccurrences": 0,
+   "max_served_transition_rank": 64,
+   "missing_rank": [],
+   "reasons": [
+    "no window reaches the full 112-row budget"
+   ]
+  },
+  "fail_short_20": {
+   "passed": false,
+   "cap": 112,
+   "floor": 56,
+   "cooccurrence_ceiling": 56,
+   "full_windows": 0,
+   "max_transitions": 20,
+   "max_cooccurrences": 20,
+   "max_served_transition_rank": 64,
+   "missing_rank": [],
+   "reasons": [
+    "no window reaches the full 112-row budget",
+    "the maximum transition count is 20, below the floor of 56"
+   ]
+  },
+  "fail_sum": {
+   "passed": false,
+   "cap": 112,
+   "floor": 56,
+   "cooccurrence_ceiling": 56,
+   "full_windows": 1,
+   "max_transitions": 64,
+   "max_cooccurrences": 40,
+   "max_served_transition_rank": 64,
+   "missing_rank": [],
+   "reasons": [
+    "cycle 1: 64 transitions + 40 cooccurrences != 112 served",
+    "cycle 1: the full window does not sum to 112",
+    "cycle 1: the full window leaves an unfilled backfill slot"
+   ]
+  },
+  "fail_cooccurrence_ceiling": {
+   "passed": false,
+   "cap": 112,
+   "floor": 56,
+   "cooccurrence_ceiling": 56,
+   "full_windows": 0,
+   "max_transitions": 64,
+   "max_cooccurrences": 60,
+   "max_served_transition_rank": 64,
+   "missing_rank": [],
+   "reasons": [
+    "cycle 1: 60 cooccurrences exceeds the 56-slot ceiling",
+    "cycle 1: window holds 124 rows, above 112",
+    "no window reaches the full 112-row budget"
+   ]
+  },
+  "fail_rank_ceiling": {
+   "passed": false,
+   "cap": 112,
+   "floor": 56,
+   "cooccurrence_ceiling": 56,
+   "full_windows": 1,
+   "max_transitions": 64,
+   "max_cooccurrences": 48,
+   "max_served_transition_rank": 40,
+   "missing_rank": [],
+   "reasons": [
+    "the maximum served transition rank is 40, not above 40"
+   ]
+  },
+  "fail_unranked": {
+   "passed": false,
+   "cap": 112,
+   "floor": 56,
+   "cooccurrence_ceiling": 56,
+   "full_windows": 1,
+   "max_transitions": 64,
+   "max_cooccurrences": 48,
+   "max_served_transition_rank": null,
+   "missing_rank": [
+    "amber>olive"
+   ],
+   "reasons": [
+    "the maximum served transition rank is None, not above 40",
+    "served transitions have no recorded rank: amber>olive"
+   ]
+  },
+  "fail_malformed": {
+   "passed": false,
+   "cap": 112,
+   "floor": 56,
+   "cooccurrence_ceiling": 56,
+   "full_windows": 1,
+   "max_transitions": 64,
+   "max_cooccurrences": 48,
+   "max_served_transition_rank": null,
+   "missing_rank": [],
+   "reasons": [
+    "the served edges are not parseable: served edge is not a single source>target pair: 'amber>olive>extra'",
+    "the maximum served transition rank is None, not above 40"
+   ]
+  }
+ },
+ "acceptance": {
+  "kind": "co-primary, independently falsifiable",
+  "criterion_a": "B5 allocation law passes.",
+  "criterion_b": "every band edge is served at 112 and none at 40, with a live seed axis.",
+  "confirmed": "CONFIRMED only when both criteria pass.",
+  "independent_failure": "Perfect band service cannot rescue a failed B5; a perfect allocation cannot rescue an unserved band edge.",
+  "not_fitted": "64-69 is not used as a threshold."
+ },
+ "authorisation": {
+  "required": true,
+  "granted": true,
+  "granted_on": "2026-11-11",
+  "document": "docs/AUTHORISATION-PRESENCE-BAND-5.md",
+  "quote": "Register a new band block with a defensible B5 allocation rule and a fresh dated grant, then run its twelve cells into a per-edge result.",
+  "note": "Granted before the arm was built or any cell opened."
+ },
+ "runner": {
+  "built": true,
+  "planned_module": "benchmarks/presence_band_rank_5_arm.py",
+  "cells_run": 13,
+  "why": "the record and grant precede the arm"
+ },
+ "cost": {
+  "cells": 12,
+  "witness_cells": "one determinism rerun",
+  "cycles": 120
+ },
+ "not_evidence": "A preregistration until the cells run; after the run it reads allocation and band service on this world family, not capability, retention or transfer.",
+ "amendments": [
+  {
+   "date": "2026-11-11",
+   "kind": "granted",
+   "note": "Grant recorded before the arm or any cell."
+  },
+  {
+   "date": "2026-11-11",
+   "kind": "run-completed",
+   "note": "12 design cells plus the determinism rerun completed; per-edge result written."
+  },
+  {
+   "date": "2026-11-11",
+   "kind": "harness-correction",
+   "note": "B4 was corrected before acceptance: the cap-40 arm is the no-band-service control, not a second allocation law; early windows may have fewer than 20 transitions and more than 20 cooccurrences. No cell was re-run and no gate was rescored."
+  }
+ ],
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "result": {
+  "verdict": "VOID",
+  "artifact": "docs/presence_band_rank_5_run.json"
+ },
+ "decision_table": [
+  {
+   "condition": "B1, B2, B3 identity, B6, B7 or B8 fails",
+   "verdict": "VOID",
+   "reading": "the block is non-reproducible and the failed gate names what did not happen",
+   "decision": "record VOID; fix the failed gate and register a new block; read no acceptance"
+  },
+  {
+   "condition": "B5 allocation law fails",
+   "verdict": "ALLOCATION LAW NOT CONFIRMED",
+   "reading": "band service cannot establish the full-window floor-plus-backfill allocation",
+   "decision": "report the allocation failure; fix the allocation rule before another band block; no band confirmation"
+  },
+  {
+   "condition": "B5 passes and no measured band edge is served at 112",
+   "verdict": "BAND NOT CONFIRMED",
+   "reading": "the allocation is correct but the measured rank-21-40 band does not enter service",
+   "decision": "report the refutation; the next step is the admission rule, not another cap level"
+  },
+  {
+   "condition": "B5 passes and some but not all measured band edges are served at 112",
+   "verdict": "BAND PARTLY NOT CONFIRMED",
+   "reading": "the allocation is correct but the band does not enter service uniformly",
+   "decision": "report the per-edge misses; the next step is the admission rule"
+  },
+  {
+   "condition": "B5 and every measured band edge pass, with the 40 control and seed axis live",
+   "verdict": "CONFIRMED",
+   "reading": "the floor-plus-backfill law and fresh-world rank-21-40 service both hold",
+   "decision": "record the confirmation; the owner decides any engine or promotion step; no capability claim"
+  }
+ ]
+}

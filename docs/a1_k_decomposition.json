@@ -1,0 +1,460 @@
+{
+  "kind": "a1_k_decomposition",
+  "id": "A1-K-DECOMPOSITION-1",
+  "date": "2026-11-14",
+  "status": "DESCRIPTIVE \u2014 K SCARCITY DECOMPOSITION; NO ARM, NO THRESHOLD, NO DISPOSITION",
+  "source_artifacts": {
+    "baseline_availability": "docs/a1_baseline_availability.json",
+    "target_selection": "docs/a1_target_selection.json"
+  },
+  "scope": "Six registered seeds, 382 first-36-cycle candidate edges, and the no-arm A+K+ baseline at 120 cycles. All quantities are descriptive; no treatment was applied and no threshold was set.",
+  "per_seed": [
+    {
+      "seed": 20630101,
+      "candidate_edges": 64,
+      "A_available": 44,
+      "K_available": 44,
+      "A_and_K": 32,
+      "K_only_missing": 12,
+      "A_only_missing": 12,
+      "both_missing": 8,
+      "K_rate": 0.6875,
+      "required_K_rate_for_60": 0.9375,
+      "low_half_rows": 35,
+      "low_half_K": 19,
+      "low_half_K_rate": 0.542857,
+      "high_half_rows": 29,
+      "high_half_K": 25,
+      "high_half_K_rate": 0.862069,
+      "quartile_cuts": [
+        10,
+        14,
+        20
+      ]
+    },
+    {
+      "seed": 20630102,
+      "candidate_edges": 63,
+      "A_available": 44,
+      "K_available": 31,
+      "A_and_K": 23,
+      "K_only_missing": 21,
+      "A_only_missing": 8,
+      "both_missing": 11,
+      "K_rate": 0.492063,
+      "required_K_rate_for_60": 0.952381,
+      "low_half_rows": 32,
+      "low_half_K": 7,
+      "low_half_K_rate": 0.21875,
+      "high_half_rows": 31,
+      "high_half_K": 24,
+      "high_half_K_rate": 0.774194,
+      "quartile_cuts": [
+        11,
+        15,
+        20
+      ]
+    },
+    {
+      "seed": 20630103,
+      "candidate_edges": 64,
+      "A_available": 52,
+      "K_available": 39,
+      "A_and_K": 36,
+      "K_only_missing": 16,
+      "A_only_missing": 3,
+      "both_missing": 9,
+      "K_rate": 0.609375,
+      "required_K_rate_for_60": 0.9375,
+      "low_half_rows": 34,
+      "low_half_K": 13,
+      "low_half_K_rate": 0.382353,
+      "high_half_rows": 30,
+      "high_half_K": 26,
+      "high_half_K_rate": 0.866667,
+      "quartile_cuts": [
+        10,
+        17,
+        20
+      ]
+    },
+    {
+      "seed": 20630104,
+      "candidate_edges": 64,
+      "A_available": 43,
+      "K_available": 35,
+      "A_and_K": 27,
+      "K_only_missing": 16,
+      "A_only_missing": 8,
+      "both_missing": 13,
+      "K_rate": 0.546875,
+      "required_K_rate_for_60": 0.9375,
+      "low_half_rows": 36,
+      "low_half_K": 15,
+      "low_half_K_rate": 0.416667,
+      "high_half_rows": 28,
+      "high_half_K": 20,
+      "high_half_K_rate": 0.714286,
+      "quartile_cuts": [
+        11,
+        16,
+        20
+      ]
+    },
+    {
+      "seed": 20630105,
+      "candidate_edges": 64,
+      "A_available": 49,
+      "K_available": 43,
+      "A_and_K": 35,
+      "K_only_missing": 14,
+      "A_only_missing": 8,
+      "both_missing": 7,
+      "K_rate": 0.671875,
+      "required_K_rate_for_60": 0.9375,
+      "low_half_rows": 35,
+      "low_half_K": 15,
+      "low_half_K_rate": 0.428571,
+      "high_half_rows": 29,
+      "high_half_K": 28,
+      "high_half_K_rate": 0.965517,
+      "quartile_cuts": [
+        13,
+        17,
+        20
+      ]
+    },
+    {
+      "seed": 20630106,
+      "candidate_edges": 63,
+      "A_available": 49,
+      "K_available": 36,
+      "A_and_K": 33,
+      "K_only_missing": 16,
+      "A_only_missing": 3,
+      "both_missing": 11,
+      "K_rate": 0.571429,
+      "required_K_rate_for_60": 0.952381,
+      "low_half_rows": 32,
+      "low_half_K": 12,
+      "low_half_K_rate": 0.375,
+      "high_half_rows": 31,
+      "high_half_K": 24,
+      "high_half_K_rate": 0.774194,
+      "quartile_cuts": [
+        12,
+        15,
+        19
+      ]
+    }
+  ],
+  "totals": {
+    "candidate_edges": 382,
+    "A_available": 281,
+    "K_available": 228,
+    "A_and_K": 186,
+    "K_only_missing": 95,
+    "A_only_missing": 42,
+    "both_missing": 59,
+    "K_rate": 0.596859,
+    "A_rate": 0.735602,
+    "A_and_K_rate": 0.486911,
+    "K_only_share": 0.248691,
+    "A_only_share": 0.109948
+  },
+  "tag_rows": [
+    {
+      "tag": "amber",
+      "incidences": 47,
+      "K_available": 21,
+      "K_missing": 26,
+      "K_rate": 0.446809,
+      "min_seed_rate": 0.0,
+      "max_seed_rate": 1.0,
+      "seeds_below_half": 3
+    },
+    {
+      "tag": "fern",
+      "incidences": 48,
+      "K_available": 24,
+      "K_missing": 24,
+      "K_rate": 0.5,
+      "min_seed_rate": 0.0,
+      "max_seed_rate": 1.0,
+      "seeds_below_half": 2
+    },
+    {
+      "tag": "indigo",
+      "incidences": 48,
+      "K_available": 24,
+      "K_missing": 24,
+      "K_rate": 0.5,
+      "min_seed_rate": 0.0,
+      "max_seed_rate": 0.75,
+      "seeds_below_half": 2
+    },
+    {
+      "tag": "cedar",
+      "incidences": 48,
+      "K_available": 25,
+      "K_missing": 23,
+      "K_rate": 0.520833,
+      "min_seed_rate": 0.375,
+      "max_seed_rate": 0.875,
+      "seeds_below_half": 4
+    },
+    {
+      "tag": "teal",
+      "incidences": 48,
+      "K_available": 25,
+      "K_missing": 23,
+      "K_rate": 0.520833,
+      "min_seed_rate": 0.0,
+      "max_seed_rate": 0.875,
+      "seeds_below_half": 2
+    },
+    {
+      "tag": "sable",
+      "incidences": 48,
+      "K_available": 26,
+      "K_missing": 22,
+      "K_rate": 0.541667,
+      "min_seed_rate": 0.375,
+      "max_seed_rate": 1.0,
+      "seeds_below_half": 3
+    },
+    {
+      "tag": "willow",
+      "incidences": 48,
+      "K_available": 26,
+      "K_missing": 22,
+      "K_rate": 0.541667,
+      "min_seed_rate": 0.0,
+      "max_seed_rate": 0.875,
+      "seeds_below_half": 1
+    },
+    {
+      "tag": "maple",
+      "incidences": 47,
+      "K_available": 28,
+      "K_missing": 19,
+      "K_rate": 0.595745,
+      "min_seed_rate": 0.428571,
+      "max_seed_rate": 1.0,
+      "seeds_below_half": 1
+    },
+    {
+      "tag": "crimson",
+      "incidences": 48,
+      "K_available": 29,
+      "K_missing": 19,
+      "K_rate": 0.604167,
+      "min_seed_rate": 0.125,
+      "max_seed_rate": 1.0,
+      "seeds_below_half": 1
+    },
+    {
+      "tag": "olive",
+      "incidences": 48,
+      "K_available": 30,
+      "K_missing": 18,
+      "K_rate": 0.625,
+      "min_seed_rate": 0.375,
+      "max_seed_rate": 0.875,
+      "seeds_below_half": 1
+    },
+    {
+      "tag": "yarrow",
+      "incidences": 47,
+      "K_available": 30,
+      "K_missing": 17,
+      "K_rate": 0.638298,
+      "min_seed_rate": 0.25,
+      "max_seed_rate": 1.0,
+      "seeds_below_half": 1
+    },
+    {
+      "tag": "umber",
+      "incidences": 47,
+      "K_available": 31,
+      "K_missing": 16,
+      "K_rate": 0.659574,
+      "min_seed_rate": 0.5,
+      "max_seed_rate": 0.875,
+      "seeds_below_half": 0
+    },
+    {
+      "tag": "ochre",
+      "incidences": 48,
+      "K_available": 32,
+      "K_missing": 16,
+      "K_rate": 0.666667,
+      "min_seed_rate": 0.0,
+      "max_seed_rate": 1.0,
+      "seeds_below_half": 1
+    },
+    {
+      "tag": "birch",
+      "incidences": 48,
+      "K_available": 33,
+      "K_missing": 15,
+      "K_rate": 0.6875,
+      "min_seed_rate": 0.125,
+      "max_seed_rate": 1.0,
+      "seeds_below_half": 1
+    },
+    {
+      "tag": "verdant",
+      "incidences": 48,
+      "K_available": 35,
+      "K_missing": 13,
+      "K_rate": 0.729167,
+      "min_seed_rate": 0.0,
+      "max_seed_rate": 1.0,
+      "seeds_below_half": 1
+    },
+    {
+      "tag": "slate",
+      "incidences": 48,
+      "K_available": 37,
+      "K_missing": 11,
+      "K_rate": 0.770833,
+      "min_seed_rate": 0.375,
+      "max_seed_rate": 1.0,
+      "seeds_below_half": 1
+    }
+  ],
+  "u_quartiles": {
+    "cuts": [
+      11,
+      16,
+      20
+    ],
+    "rows": [
+      {
+        "label": "Q1",
+        "min_strength": 2,
+        "max_strength": 11,
+        "edges": 107,
+        "K_available": 34,
+        "K_rate": 0.317757
+      },
+      {
+        "label": "Q2",
+        "min_strength": 12,
+        "max_strength": 16,
+        "edges": 107,
+        "K_available": 53,
+        "K_rate": 0.495327
+      },
+      {
+        "label": "Q3",
+        "min_strength": 17,
+        "max_strength": 20,
+        "edges": 104,
+        "K_available": 84,
+        "K_rate": 0.807692
+      },
+      {
+        "label": "Q4",
+        "min_strength": 21,
+        "max_strength": 26,
+        "edges": 64,
+        "K_available": 57,
+        "K_rate": 0.890625
+      }
+    ],
+    "note": "Pooled quartiles across the 382 candidate edges. The per-seed low/high-half split is in the seed table; it uses each seed's own median, so the labels are not the same boundaries."
+  },
+  "first_k_timing": {
+    "rows": [
+      {
+        "label": "1\u201330",
+        "edges": 138,
+        "share_of_all": 0.361257,
+        "share_of_K_available": 0.605263
+      },
+      {
+        "label": "31\u201360",
+        "edges": 62,
+        "share_of_all": 0.162304,
+        "share_of_K_available": 0.27193
+      },
+      {
+        "label": "61\u201390",
+        "edges": 19,
+        "share_of_all": 0.049738,
+        "share_of_K_available": 0.083333
+      },
+      {
+        "label": "91\u2013120",
+        "edges": 9,
+        "share_of_all": 0.02356,
+        "share_of_K_available": 0.039474
+      },
+      {
+        "label": "never",
+        "edges": 154,
+        "share_of_all": 0.403141,
+        "share_of_K_available": 0.0
+      }
+    ],
+    "note": "First cycle at which K is present in the 120-cycle no-arm baseline. 'never' means no K anywhere in the observed window, not that K is impossible."
+  },
+  "orientation": {
+    "pairs_with_reverse": 286,
+    "both": 177,
+    "candidate_only": 3,
+    "reverse_only": 5,
+    "neither": 101,
+    "concordant": 278,
+    "concordant_rate": 0.972028
+  },
+  "topology": {
+    "max_endpoint_degree_distribution": {
+      "8": 382
+    },
+    "note": "The candidate universe is near-regular: every 64-edge seed is 8-regular on 16 tags, and each 63-edge seed has fourteen tags of degree 8 and two of degree 7. Endpoint degree has no useful variation, so local degree cannot explain the K split."
+  },
+  "required_rate_arithmetic": [
+    {
+      "independent_edges": 63,
+      "required_K_rate": 0.952381
+    },
+    {
+      "independent_edges": 64,
+      "required_K_rate": 0.9375
+    },
+    {
+      "independent_edges": 80,
+      "required_K_rate": 0.75
+    },
+    {
+      "independent_edges": 96,
+      "required_K_rate": 0.625
+    },
+    {
+      "independent_edges": 120,
+      "required_K_rate": 0.5
+    }
+  ],
+  "findings": [
+    "K is the lower path on five of six seeds and ties A on the sixth: A 281/382, K 228/382, A&K 186/382.",
+    "The K-specific gap is larger than the A-specific gap: 95 rows have A but no K; 42 have K but no A; 59 have neither.",
+    "K availability rises with cycle-36 U strength: pooled quartile rates are 31.8%, 49.5%, 80.8% and 89.1% from Q1 to Q4.",
+    "The association is per-seed, but the high-U half still contains only 28\u201331 edges per seed, so U enrichment cannot by itself form a 60-row C1 stream.",
+    "K scarcity is mostly absence, not lateness: 154/382 rows have no K in 120 cycles; only 28/228 available rows first form K after cycle 60.",
+    "No tag is consistently absent across seeds. Pooled tag rates span 44.7\u201377.1%, but per-seed rates swing from 0.0 to 1.0; tag identity is not a stable redesign axis on these six seeds.",
+    "K is almost entirely orientation-concordant: 278/286 candidate/reverse pairs agree (177 both, 101 neither); only 8 pairs differ. Reverse orientation is not a K lever.",
+    "Local degree cannot explain the split: the candidate universe is near-regular (degree 8, or 7/8 on the 63-edge seeds)."
+  ],
+  "limits": [
+    "K is measured in a no-arm replay over 120 cycles; it is not a treatment measurement.",
+    "U is measured at cycle 36. The K\u2013U association has no identified direction: K may support later U, or both may share a cause.",
+    "Tag rows count endpoint incidences, not edges; an edge contributes to two tags. Pooled tag rates are confounded with seed.",
+    "Six seeds do not establish a world-family-wide structure.",
+    "No target was selected, no threshold changed, no freeze or grant exists and no A1 cell ran."
+  ],
+  "redesign_arithmetic": "At 63\u201364 independent edges, reaching 60 K-available rows would require a K rate of 93.8\u201395.2%. The observed seeds are at 49.2\u201368.8%, and the high-U half is at 71.4\u201396.6% but has only 28\u201331 rows per seed. A larger independent universe lowers the required rate; 80 rows need 75%, 96 need 62.5%, and 120 need 50%. These are arithmetic requirements, not a proposed design.",
+  "not_evidence": "A descriptive decomposition of existing no-arm artifacts. It does not identify a cause, select targets, set a threshold, choose a redesign or park A1."
+}

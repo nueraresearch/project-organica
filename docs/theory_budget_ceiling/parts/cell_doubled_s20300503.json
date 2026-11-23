@@ -1,0 +1,22 @@
+{
+  "budget": "doubled",
+  "seed": 20300503,
+  "cycles": 300,
+  "degree": 12,
+  "realised_degree": 12,
+  "world_edges": 60,
+  "theories_final": 0,
+  "theories_max": 12,
+  "hypotheses_final": 6,
+  "hypotheses_max": 31,
+  "cap_theories": 16,
+  "cap_hypotheses": 30,
+  "cap_bound_theories": false,
+  "cap_bound_hypotheses": true,
+  "stable_final": 0,
+  "stable_peak": 35,
+  "coverage_peak": 0.5833,
+  "precision": null,
+  "coverage": 0.0,
+  "false_assertions": 0
+}

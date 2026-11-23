@@ -1,0 +1,354 @@
+{
+  "what_this_is": "A scale-stream world that withholds the declared entity transition early_0 -> late_0 by conditioned sampling, the audit proving the withholding fired and the scored set is reachable, and the per-world standard error of `held_out_next_tag` on design-block cells.",
+  "why_it_exists": "protocol 3.2: on the unmodified stream formation saturates the ordered-pair space, so an absence-based withheld set is empty and the endpoint has no denominator. Withholding has to be imposed by the world.",
+  "declared_withheld_transition": {
+    "from": "early_0",
+    "to": "late_0"
+  },
+  "method": "when the generator draws the withheld successor after the withheld source it resamples from the other active entities by weight; no event is skipped and no adjacency is manufactured",
+  "audit": {
+    "withheld_pairs_declared": 16,
+    "withheld_pairs_in_formation_of_the_withholding_world": 0,
+    "withheld_pairs_in_behavioural_window": 88,
+    "withheld_pairs_in_the_open_world_formation": 288,
+    "compensations": 82,
+    "late_share_by_configuration": {
+      "2:1": 0.4424,
+      "3:1": 0.5042,
+      "4:1": 0.5408,
+      "6:1": 0.5793
+    },
+    "late_share_spread": 0.1369,
+    "the_intervention_fired": true,
+    "formation_is_disjoint_from_the_scored_set": true,
+    "the_scored_set_is_reachable": true,
+    "the_open_world_does_show_them": true,
+    "the_axis_is_live": true,
+    "passed": true
+  },
+  "replicates": 200,
+  "effect_gap_assumed": 0.05,
+  "design_block_cells": [
+    20261023,
+    20261024,
+    20261025
+  ],
+  "cells_are": "consumed Phase L seeds, regenerated deterministically; no seed is spent and none is re-allocated",
+  "confirmation_cycles_are": "the protocol 2 medians, used only to position the behavioural window; no onset is measured here",
+  "configurations": {
+    "2:1": {
+      "ceiling_twice_se_min": 0.001949,
+      "ceiling_twice_se_max": 0.003749,
+      "wrong_law_twice_se_min": 0.0,
+      "wrong_law_twice_se_max": 0.0,
+      "clears_the_assumed_gap": true
+    },
+    "3:1": {
+      "ceiling_twice_se_min": 0.002678,
+      "ceiling_twice_se_max": 0.00626,
+      "wrong_law_twice_se_min": 0.0,
+      "wrong_law_twice_se_max": 0.0,
+      "clears_the_assumed_gap": true
+    },
+    "4:1": {
+      "ceiling_twice_se_min": 0.003707,
+      "ceiling_twice_se_max": 0.005745,
+      "wrong_law_twice_se_min": 0.0,
+      "wrong_law_twice_se_max": 0.0,
+      "clears_the_assumed_gap": true
+    },
+    "6:1": {
+      "ceiling_twice_se_min": 0.002596,
+      "ceiling_twice_se_max": 0.006658,
+      "wrong_law_twice_se_min": 0.0,
+      "wrong_law_twice_se_max": 0.0,
+      "clears_the_assumed_gap": true
+    }
+  },
+  "cells": [
+    {
+      "configuration": "2:1",
+      "design_block_cell": 20261023,
+      "withheld_pairs": 16,
+      "withheld_occurrences_in_formation": 0,
+      "withheld_occurrences_in_test": 88,
+      "scored_positions": 22,
+      "measurable": true,
+      "readouts": {
+        "ceiling_open_law": {
+          "score_nats": 0.291045,
+          "cluster_se": 0.001634,
+          "twice_cluster_se": 0.003268,
+          "clears_the_assumed_gap": true
+        },
+        "wrong_law_uniform": {
+          "score_nats": 0.303649,
+          "cluster_se": 0.0,
+          "twice_cluster_se": 0.0,
+          "clears_the_assumed_gap": true
+        }
+      }
+    },
+    {
+      "configuration": "2:1",
+      "design_block_cell": 20261024,
+      "withheld_pairs": 16,
+      "withheld_occurrences_in_formation": 0,
+      "withheld_occurrences_in_test": 72,
+      "scored_positions": 18,
+      "measurable": true,
+      "readouts": {
+        "ceiling_open_law": {
+          "score_nats": 0.276728,
+          "cluster_se": 0.000975,
+          "twice_cluster_se": 0.001949,
+          "clears_the_assumed_gap": true
+        },
+        "wrong_law_uniform": {
+          "score_nats": 0.303649,
+          "cluster_se": 0.0,
+          "twice_cluster_se": 0.0,
+          "clears_the_assumed_gap": true
+        }
+      }
+    },
+    {
+      "configuration": "2:1",
+      "design_block_cell": 20261025,
+      "withheld_pairs": 16,
+      "withheld_occurrences_in_formation": 0,
+      "withheld_occurrences_in_test": 52,
+      "scored_positions": 13,
+      "measurable": true,
+      "readouts": {
+        "ceiling_open_law": {
+          "score_nats": 0.267917,
+          "cluster_se": 0.001874,
+          "twice_cluster_se": 0.003749,
+          "clears_the_assumed_gap": true
+        },
+        "wrong_law_uniform": {
+          "score_nats": 0.303649,
+          "cluster_se": 0.0,
+          "twice_cluster_se": 0.0,
+          "clears_the_assumed_gap": true
+        }
+      }
+    },
+    {
+      "configuration": "3:1",
+      "design_block_cell": 20261023,
+      "withheld_pairs": 16,
+      "withheld_occurrences_in_formation": 0,
+      "withheld_occurrences_in_test": 32,
+      "scored_positions": 8,
+      "measurable": true,
+      "readouts": {
+        "ceiling_open_law": {
+          "score_nats": 0.281611,
+          "cluster_se": 0.00313,
+          "twice_cluster_se": 0.00626,
+          "clears_the_assumed_gap": true
+        },
+        "wrong_law_uniform": {
+          "score_nats": 0.303649,
+          "cluster_se": 0.0,
+          "twice_cluster_se": 0.0,
+          "clears_the_assumed_gap": true
+        }
+      }
+    },
+    {
+      "configuration": "3:1",
+      "design_block_cell": 20261024,
+      "withheld_pairs": 16,
+      "withheld_occurrences_in_formation": 0,
+      "withheld_occurrences_in_test": 64,
+      "scored_positions": 16,
+      "measurable": true,
+      "readouts": {
+        "ceiling_open_law": {
+          "score_nats": 0.278218,
+          "cluster_se": 0.001339,
+          "twice_cluster_se": 0.002678,
+          "clears_the_assumed_gap": true
+        },
+        "wrong_law_uniform": {
+          "score_nats": 0.303649,
+          "cluster_se": 0.0,
+          "twice_cluster_se": 0.0,
+          "clears_the_assumed_gap": true
+        }
+      }
+    },
+    {
+      "configuration": "3:1",
+      "design_block_cell": 20261025,
+      "withheld_pairs": 16,
+      "withheld_occurrences_in_formation": 0,
+      "withheld_occurrences_in_test": 40,
+      "scored_positions": 10,
+      "measurable": true,
+      "readouts": {
+        "ceiling_open_law": {
+          "score_nats": 0.283186,
+          "cluster_se": 0.002049,
+          "twice_cluster_se": 0.004098,
+          "clears_the_assumed_gap": true
+        },
+        "wrong_law_uniform": {
+          "score_nats": 0.303649,
+          "cluster_se": 0.0,
+          "twice_cluster_se": 0.0,
+          "clears_the_assumed_gap": true
+        }
+      }
+    },
+    {
+      "configuration": "4:1",
+      "design_block_cell": 20261023,
+      "withheld_pairs": 16,
+      "withheld_occurrences_in_formation": 0,
+      "withheld_occurrences_in_test": 52,
+      "scored_positions": 13,
+      "measurable": true,
+      "readouts": {
+        "ceiling_open_law": {
+          "score_nats": 0.302218,
+          "cluster_se": 0.002873,
+          "twice_cluster_se": 0.005745,
+          "clears_the_assumed_gap": true
+        },
+        "wrong_law_uniform": {
+          "score_nats": 0.303649,
+          "cluster_se": 0.0,
+          "twice_cluster_se": 0.0,
+          "clears_the_assumed_gap": true
+        }
+      }
+    },
+    {
+      "configuration": "4:1",
+      "design_block_cell": 20261024,
+      "withheld_pairs": 16,
+      "withheld_occurrences_in_formation": 0,
+      "withheld_occurrences_in_test": 44,
+      "scored_positions": 11,
+      "measurable": true,
+      "readouts": {
+        "ceiling_open_law": {
+          "score_nats": 0.291798,
+          "cluster_se": 0.002381,
+          "twice_cluster_se": 0.004761,
+          "clears_the_assumed_gap": true
+        },
+        "wrong_law_uniform": {
+          "score_nats": 0.303649,
+          "cluster_se": 0.0,
+          "twice_cluster_se": 0.0,
+          "clears_the_assumed_gap": true
+        }
+      }
+    },
+    {
+      "configuration": "4:1",
+      "design_block_cell": 20261025,
+      "withheld_pairs": 16,
+      "withheld_occurrences_in_formation": 0,
+      "withheld_occurrences_in_test": 36,
+      "scored_positions": 9,
+      "measurable": true,
+      "readouts": {
+        "ceiling_open_law": {
+          "score_nats": 0.299626,
+          "cluster_se": 0.001854,
+          "twice_cluster_se": 0.003707,
+          "clears_the_assumed_gap": true
+        },
+        "wrong_law_uniform": {
+          "score_nats": 0.303649,
+          "cluster_se": 0.0,
+          "twice_cluster_se": 0.0,
+          "clears_the_assumed_gap": true
+        }
+      }
+    },
+    {
+      "configuration": "6:1",
+      "design_block_cell": 20261023,
+      "withheld_pairs": 16,
+      "withheld_occurrences_in_formation": 0,
+      "withheld_occurrences_in_test": 32,
+      "scored_positions": 8,
+      "measurable": true,
+      "readouts": {
+        "ceiling_open_law": {
+          "score_nats": 0.306175,
+          "cluster_se": 0.003329,
+          "twice_cluster_se": 0.006658,
+          "clears_the_assumed_gap": true
+        },
+        "wrong_law_uniform": {
+          "score_nats": 0.303649,
+          "cluster_se": 0.0,
+          "twice_cluster_se": 0.0,
+          "clears_the_assumed_gap": true
+        }
+      }
+    },
+    {
+      "configuration": "6:1",
+      "design_block_cell": 20261024,
+      "withheld_pairs": 16,
+      "withheld_occurrences_in_formation": 0,
+      "withheld_occurrences_in_test": 40,
+      "scored_positions": 10,
+      "measurable": true,
+      "readouts": {
+        "ceiling_open_law": {
+          "score_nats": 0.304584,
+          "cluster_se": 0.001298,
+          "twice_cluster_se": 0.002596,
+          "clears_the_assumed_gap": true
+        },
+        "wrong_law_uniform": {
+          "score_nats": 0.303649,
+          "cluster_se": 0.0,
+          "twice_cluster_se": 0.0,
+          "clears_the_assumed_gap": true
+        }
+      }
+    },
+    {
+      "configuration": "6:1",
+      "design_block_cell": 20261025,
+      "withheld_pairs": 16,
+      "withheld_occurrences_in_formation": 0,
+      "withheld_occurrences_in_test": 36,
+      "scored_positions": 9,
+      "measurable": true,
+      "readouts": {
+        "ceiling_open_law": {
+          "score_nats": 0.310067,
+          "cluster_se": 0.003231,
+          "twice_cluster_se": 0.006463,
+          "clears_the_assumed_gap": true
+        },
+        "wrong_law_uniform": {
+          "score_nats": 0.303649,
+          "cluster_se": 0.0,
+          "twice_cluster_se": 0.0,
+          "clears_the_assumed_gap": true
+        }
+      }
+    }
+  ],
+  "limits": [
+    "the readouts are empirical laws estimated from an auxiliary stream, not the engine's readout; they bracket prediction quality rather than measure a learner",
+    "one declared entity transition is withheld; whether that is the right size or pair is a pre-run enumeration question and is not settled here",
+    "three design-block seeds per configuration measure the estimator; they do not authorise the run and they are not the confirmatory block",
+    "the wrong-law control is a uniform law, and a constant predictor's per-position loss has zero variance, so its per-world standard error is exactly 0.0 and the control brackets nothing: it shows the ceiling is not the worst possible readout, not how wrong a wrong law would score",
+    "this world is a reconstruction of the scale family (six entities in two groups, the same arrival fraction, noise rate and twelve events a cycle) and not `phase_l_campaign.build_world`, and no `DI` onset has been measured on it: the predictor side of the protocol is untested in the world that now carries the outcome",
+    "the confirmation cycles are the protocol's medians, so the window position is plausible rather than observed"
+  ]
+}

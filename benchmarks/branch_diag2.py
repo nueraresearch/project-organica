@@ -34,6 +34,7 @@ from organica.memory import MemoryService            # noqa: E402
 from organica.sleep import SleepService              # noqa: E402
 from organica.streams import EVENTS_PER_CYCLE        # noqa: E402
 from organica.paths import temp_db                   # noqa: E402
+from benchmarks import engine_stamp
 
 
 class Diag(SleepService):
@@ -166,7 +167,7 @@ def main() -> None:
         print(f"   {s} -> {e}")
 
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
-    Path(args.out).write_text(json.dumps(r, indent=2), encoding="utf-8")
+    Path(args.out).write_text(json.dumps(engine_stamp.stamp(r), indent=2), encoding="utf-8")
     print(f"\nwrote {args.out}")
 
 

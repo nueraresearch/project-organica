@@ -1,0 +1,161 @@
+{
+ "prereg": "CONFIRMATORY-RETENTION-FORMATION-ANCHORED-1",
+ "kind": "retention_formation_anchored_prereg",
+ "status": "FROZEN, RUN",
+ "frozen_on": "2026-11-12",
+ "question": "Among never-served loop-forming world edges that formed by cycle 90 and were not asserted during their first 20 loop cycles, does early retention measured over that full 20-cycle window predict assertion by cycle 120, including for edges that formed after cycle 60?",
+ "reference": {
+  "source": "docs/retention_incremental.json",
+  "status": "VOID, not evidence",
+  "prior_population": {
+   "never_served": 399,
+   "loop_forming": 181,
+   "eligible": 103,
+   "asserted_events": 0,
+   "late_assertions": 16,
+   "late_assertions_with_formation_le_60": 0
+  },
+  "why_this_block": "The prior fixed cycle-60 landmark left no eligible asserted events.  This block keeps a full 20-cycle predictor window but anchors it at each edge's formation, so late-forming loop edges can enter the population.  No seed, part or row from the prior block is reused; its result is cited only as the reason for the new population."
+ },
+ "design": {
+  "seeds": [
+   20619101,
+   20619102,
+   20619103,
+   20619104,
+   20619105,
+   20619106,
+   20619107,
+   20619108,
+   20619109,
+   20619110,
+   20619111,
+   20619112
+  ],
+  "cells": 12,
+  "cycles": 120,
+  "cap": 40,
+  "window_cycles": 20,
+  "late_formation_after": 60,
+  "max_formation_cycle": 90,
+  "world": "generate_compositional_world(seed=, cycles=120) with the PHASE_ACQUISITION schedule and one replay per seed",
+  "population": "never-served world edges with ever_loop=true, formation_cycle <= 90, and no assertion at or before formation_cycle + 19",
+  "excluded": "never-served edges that never loop; edges that form after cycle 90; edges asserted during their first 20 loop cycles",
+  "window": "the 20 cycles formation_cycle through formation_cycle + 19, inclusive; the landmark is formation_cycle + 19",
+  "outcome": "asserted in the final structure at cycle 120, with at least one outcome cycle after the landmark",
+  "outcome_horizon": "formation_cycle + 20 through 120; this varies by formation, so followup_cycles/120 is a control and no edge has fewer than 10 outcome cycles",
+  "freshness": "New seed block 20619101-20619112.  The collision scan over docs JSON is empty at freeze time; the prior block's seeds and rows are excluded.",
+  "primary_predictors": {
+   "early_retention": "distinct loop cycles in the 20-cycle window divided by 20; range [0, 1], with a full window for every eligible edge",
+   "rank20": "minimum 1-based position in the repaired observer's full pre-cap universe over the 20-cycle window",
+   "count20": "direct temporal transition count at the landmark",
+   "strength20": "maximum loop_candidate strength over reported loops in the 20-cycle window",
+   "formation_descriptive": "first loop cycle divided by 120; reported but not a fitted predictor",
+   "followup": "number of cycles from formation + 20 through 120, divided by 120; the single fitted horizon control"
+  },
+  "late_cohort": "eligible edges with formation_cycle > 60.  The model reports a separate late-cohort estimate, but the verdict is the frozen all-cohort primary plus the late-representation gate.",
+  "reverse_time": {
+   "late_retention": "distinct loop cycles from formation + 20 through 120, divided by the available outcome cycles",
+   "assertion_cycle": "first cycle the edge appears in structure_edges after the landmark; required for every asserted edge and must be greater than formation_cycle + 19",
+   "purpose": "If post-landmark retention carries the same association as the first-20-cycle predictor, the result is concurrent or reverse-time, not evidence that early retention precedes assertion."
+  }
+ },
+ "model": {
+  "family": "binary logistic regression",
+  "primary_formula": "logit P(asserted by 120) = b0 + b_rank*z(log2(rank20)) + b_count*z(count20) + b_strength*z(strength20) + b_followup*z(followup) + b_early*z(early_retention) + seed fixed effects",
+  "reverse_formula": "same controls, with late_retention replacing early_retention",
+  "identification": "`formation` and `followup` are exact affine transforms: `followup = (101 - formation) / 120`.  The fitted model uses `followup` as the single horizon control; `formation_cycle` is descriptive and has no separate coefficient.  This amendment was recorded before any grant or seed replay.",
+  "estimator": "Firth penalized likelihood",
+  "standardization": "complete-case mean and population SD",
+  "seed": "twelve-level fixed effect, first seed as reference",
+  "selection": "none"
+ },
+ "inference": {
+  "primary": "Firth Wald 95% interval for the early-retention odds ratio per 1 SD on the full eligible population.  This is the single primary criterion.",
+  "late_cohort": "The same model is reported for eligible edges with formation > 60.  It is descriptive and does not replace the all-cohort primary or the late-representation gate.",
+  "secondary": "Rank, count, strength and follow-up are reported with intervals; formation is descriptive, and late retention is the reverse-time diagnostic.",
+  "alpha": 0.05,
+  "multiplicity": "one primary coefficient; the late-cohort and reverse-time models are diagnostics, not additional primary tests",
+  "no_causal_claim": "Observational formation-anchored model.  A null post-landmark result narrows reverse timing; it does not identify a mechanism."
+ },
+ "criteria": [
+  {
+   "id": "P1",
+   "name": "early-retention direction",
+   "test": "all-cohort early-retention OR > 1"
+  },
+  {
+   "id": "P2",
+   "name": "early-retention interval",
+   "test": "all-cohort early-retention 95% CI lower bound > 1"
+  },
+  {
+   "id": "P3",
+   "name": "gates",
+   "test": "all confirmatory gates pass, including late representation"
+  },
+  {
+   "id": "R1",
+   "name": "reverse-time diagnostic",
+   "test": "late-retention OR <= 1 or its 95% CI includes 1"
+  }
+ ],
+ "verdicts": {
+  "CONFIRMED": "P1-P3 pass and R1 passes.",
+  "CONFIRMED, TEMPORALLY AMBIGUOUS": "P1-P3 pass but late retention also has an OR > 1 with a lower 95% bound > 1; no temporal-direction claim.",
+  "DIRECTIONAL ONLY": "P1 and P3 pass, but the early interval includes 1.",
+  "NOT CONFIRMED": "The early-retention OR is at or below 1.",
+  "VOID": "A gate fails; no coefficient is read."
+ },
+ "gates": {
+  "M1_population": "at least 60 eligible edges and 20 asserted events; one row per seed-edge",
+  "M2_window_complete": "every eligible row formed by 90, has no assertion at or before its landmark, and has finite early_retention in a full 20-cycle window",
+  "M3_rank_coverage": "at least 95% of eligible edges have a finite rank20",
+  "M4_seed_levels": "all twelve seeds contribute rows",
+  "M5_convergence": "both the primary and reverse Firth fits converge with finite coefficients",
+  "M6_complete": "every fitted row has finite count20, strength20 and followup",
+  "M7_reverse_onset": "every asserted eligible row has a finite assertion_cycle after its landmark; every non-asserted eligible row has no assertion_cycle",
+  "M8_no_collision": "the seed block is collision-free at freeze and check",
+  "M9_late_representation": "at least 10 eligible edges and 3 asserted events have formation_cycle > 60; otherwise the late-forming claim is VOID"
+ },
+ "amendments": [
+  {
+   "date": "2026-11-12",
+   "kind": "model-identification",
+   "before_grant": true,
+   "change": "Removed `formation` from the fitted predictors and kept `followup` as the single horizon control.",
+   "reason": "`formation` and `followup` are exact affine transforms: `followup = (101 - formation) / 120`.  The fitted model uses `followup` as the single horizon control; `formation_cycle` is descriptive and has no separate coefficient.  This amendment was recorded before any grant or seed replay."
+  }
+ ],
+ "sample_size": {
+  "planned_seeds": 12,
+  "minimum_edges": 60,
+  "minimum_events": 20,
+  "minimum_late_edges": 10,
+  "minimum_late_events": 3,
+  "power_calculation": "none.  Twelve fresh seeds test whether the formation-anchored population has both enough events and enough late-cohort representation; the block does not reuse the prior point estimate."
+ },
+ "authorisation": {
+  "required": true,
+  "granted": true,
+  "granted_on": "2026-11-12",
+  "document": "docs/AUTHORISATION-RETENTION-FORMATION-ANCHORED-1.md",
+  "quote": "Fix the post-landmark assertion cycle and rerun the twelve cells.",
+  "note": "The dated grant document was prepared on 2026-11-12. The quoted run authorisation was given later, when the post-landmark assertion-cycle defect was repaired; all twelve cells were rerun under it. The preparation instruction is retained only as provenance for the document's origin.",
+  "quote_kind": "run-authorisation",
+  "preparation_quote": "Prepare the dated grant document for the formation-anchored block without running it."
+ },
+ "runner": {
+  "built": true,
+  "planned_module": "benchmarks.retention_formation_anchored",
+  "cells_run": 12,
+  "measure_command": "python -m benchmarks.retention_formation_anchored --measure",
+  "write_command": "python -m benchmarks.retention_formation_anchored --finish",
+  "note": "The runner is built behind the grant check.  No cell has run and no result exists."
+ },
+ "result": "docs/retention_formation_anchored.json",
+ "not_evidence": "A preregistration, not a result.  It spends no seed and makes no capability, causal, retention or general engine claim.  The prior block's VOID is not evidence for this design; the 20-cycle window and the cycle-90 formation ceiling are design choices, and a different window or ceiling is a different block.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711"
+}

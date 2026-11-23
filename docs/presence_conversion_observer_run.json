@@ -1,0 +1,430 @@
+{
+ "kind": "presence_conversion_observer_run",
+ "prereg": "PRESENCE-CONVERSION-1",
+ "engine": {
+  "version": "0.14.0",
+  "sha256": "477aeb2ff34dd2cc857520d139d1b452892ec95a8158aedf72a089e8318f05e2"
+ },
+ "design": {
+  "seeds": [
+   20611501,
+   20611502,
+   20611503,
+   20611504,
+   20611505,
+   20611506
+  ],
+  "arms": [
+   "off",
+   "on"
+  ],
+  "cycles": 120,
+  "cells": 12,
+  "witness_cell": {
+   "seed": 20261100,
+   "arm": "off",
+   "why": "the audit's first seed, run through the shipped engine with no observer; it must reproduce the published audit row exactly, which is what proves the observer-off arm is the shipped build"
+  }
+ },
+ "rows": [
+  {
+   "seed": 20611501,
+   "neutral": {
+    "neutral": false,
+    "differs": [
+     "admission windows",
+     "admitted union",
+     "final assertion",
+     "asserted world edges"
+    ],
+    "rule": "identical presence, identical ordered admission windows, identical admitted union and identical final assertion"
+   },
+   "counts": {
+    "W": 112,
+    "P": 112,
+    "C": 112,
+    "S_cycle": 29,
+    "S_ever": 99,
+    "A_pred": 44
+   },
+   "loss": {
+    "retained": {
+     "W": 112,
+     "P": 112,
+     "C": 112,
+     "S_cycle": 29,
+     "S_ever": 99,
+     "A_pred": 44
+    },
+    "absolute_drop": {
+     "W->P": 0,
+     "P->C": 0,
+     "C->S_cycle": 83,
+     "S_cycle->S_ever": -70,
+     "S_ever->A_pred": 55
+    },
+    "loss_share": {
+     "W->P": 0.0,
+     "P->C": 0.0,
+     "C->S_cycle": 0.741071,
+     "S_cycle->S_ever": -2.413793,
+     "S_ever->A_pred": 0.555556
+    },
+    "gains": [
+     "S_cycle->S_ever"
+    ],
+    "not_measurable": [],
+    "bypass": 0,
+    "primary_suspect": "C->S_cycle"
+   },
+   "a_w_subset_of_p": true,
+   "witnesses": {
+    "positive": true,
+    "negative": true
+   },
+   "unexplained": [],
+   "observed": true,
+   "stage_fingerprint": "e83840d228e9d565"
+  },
+  {
+   "seed": 20611502,
+   "neutral": {
+    "neutral": false,
+    "differs": [
+     "admission windows",
+     "admitted union",
+     "final assertion"
+    ],
+    "rule": "identical presence, identical ordered admission windows, identical admitted union and identical final assertion"
+   },
+   "counts": {
+    "W": 112,
+    "P": 112,
+    "C": 112,
+    "S_cycle": 29,
+    "S_ever": 86,
+    "A_pred": 25
+   },
+   "loss": {
+    "retained": {
+     "W": 112,
+     "P": 112,
+     "C": 112,
+     "S_cycle": 29,
+     "S_ever": 86,
+     "A_pred": 25
+    },
+    "absolute_drop": {
+     "W->P": 0,
+     "P->C": 0,
+     "C->S_cycle": 83,
+     "S_cycle->S_ever": -57,
+     "S_ever->A_pred": 61
+    },
+    "loss_share": {
+     "W->P": 0.0,
+     "P->C": 0.0,
+     "C->S_cycle": 0.741071,
+     "S_cycle->S_ever": -1.965517,
+     "S_ever->A_pred": 0.709302
+    },
+    "gains": [
+     "S_cycle->S_ever"
+    ],
+    "not_measurable": [],
+    "bypass": 4,
+    "primary_suspect": "C->S_cycle"
+   },
+   "a_w_subset_of_p": true,
+   "witnesses": {
+    "positive": true,
+    "negative": true
+   },
+   "unexplained": [],
+   "observed": true,
+   "stage_fingerprint": "43f12c0a0d0dec62"
+  },
+  {
+   "seed": 20611503,
+   "neutral": {
+    "neutral": false,
+    "differs": [
+     "admission windows",
+     "admitted union",
+     "final assertion",
+     "asserted world edges"
+    ],
+    "rule": "identical presence, identical ordered admission windows, identical admitted union and identical final assertion"
+   },
+   "counts": {
+    "W": 112,
+    "P": 112,
+    "C": 112,
+    "S_cycle": 31,
+    "S_ever": 93,
+    "A_pred": 40
+   },
+   "loss": {
+    "retained": {
+     "W": 112,
+     "P": 112,
+     "C": 112,
+     "S_cycle": 31,
+     "S_ever": 93,
+     "A_pred": 40
+    },
+    "absolute_drop": {
+     "W->P": 0,
+     "P->C": 0,
+     "C->S_cycle": 81,
+     "S_cycle->S_ever": -62,
+     "S_ever->A_pred": 53
+    },
+    "loss_share": {
+     "W->P": 0.0,
+     "P->C": 0.0,
+     "C->S_cycle": 0.723214,
+     "S_cycle->S_ever": -2.0,
+     "S_ever->A_pred": 0.569892
+    },
+    "gains": [
+     "S_cycle->S_ever"
+    ],
+    "not_measurable": [],
+    "bypass": 0,
+    "primary_suspect": "C->S_cycle"
+   },
+   "a_w_subset_of_p": true,
+   "witnesses": {
+    "positive": true,
+    "negative": true
+   },
+   "unexplained": [],
+   "observed": true,
+   "stage_fingerprint": "990a496459a56bc2"
+  },
+  {
+   "seed": 20611504,
+   "neutral": {
+    "neutral": false,
+    "differs": [
+     "admission windows",
+     "admitted union",
+     "final assertion",
+     "asserted world edges"
+    ],
+    "rule": "identical presence, identical ordered admission windows, identical admitted union and identical final assertion"
+   },
+   "counts": {
+    "W": 112,
+    "P": 112,
+    "C": 112,
+    "S_cycle": 28,
+    "S_ever": 91,
+    "A_pred": 38
+   },
+   "loss": {
+    "retained": {
+     "W": 112,
+     "P": 112,
+     "C": 112,
+     "S_cycle": 28,
+     "S_ever": 91,
+     "A_pred": 38
+    },
+    "absolute_drop": {
+     "W->P": 0,
+     "P->C": 0,
+     "C->S_cycle": 84,
+     "S_cycle->S_ever": -63,
+     "S_ever->A_pred": 53
+    },
+    "loss_share": {
+     "W->P": 0.0,
+     "P->C": 0.0,
+     "C->S_cycle": 0.75,
+     "S_cycle->S_ever": -2.25,
+     "S_ever->A_pred": 0.582418
+    },
+    "gains": [
+     "S_cycle->S_ever"
+    ],
+    "not_measurable": [],
+    "bypass": 4,
+    "primary_suspect": "C->S_cycle"
+   },
+   "a_w_subset_of_p": true,
+   "witnesses": {
+    "positive": true,
+    "negative": true
+   },
+   "unexplained": [],
+   "observed": true,
+   "stage_fingerprint": "1d06ab039166874b"
+  },
+  {
+   "seed": 20611505,
+   "neutral": {
+    "neutral": false,
+    "differs": [
+     "admission windows",
+     "admitted union",
+     "final assertion",
+     "asserted world edges"
+    ],
+    "rule": "identical presence, identical ordered admission windows, identical admitted union and identical final assertion"
+   },
+   "counts": {
+    "W": 112,
+    "P": 112,
+    "C": 112,
+    "S_cycle": 25,
+    "S_ever": 95,
+    "A_pred": 59
+   },
+   "loss": {
+    "retained": {
+     "W": 112,
+     "P": 112,
+     "C": 112,
+     "S_cycle": 25,
+     "S_ever": 95,
+     "A_pred": 59
+    },
+    "absolute_drop": {
+     "W->P": 0,
+     "P->C": 0,
+     "C->S_cycle": 87,
+     "S_cycle->S_ever": -70,
+     "S_ever->A_pred": 36
+    },
+    "loss_share": {
+     "W->P": 0.0,
+     "P->C": 0.0,
+     "C->S_cycle": 0.776786,
+     "S_cycle->S_ever": -2.8,
+     "S_ever->A_pred": 0.378947
+    },
+    "gains": [
+     "S_cycle->S_ever"
+    ],
+    "not_measurable": [],
+    "bypass": 3,
+    "primary_suspect": "C->S_cycle"
+   },
+   "a_w_subset_of_p": true,
+   "witnesses": {
+    "positive": true,
+    "negative": true
+   },
+   "unexplained": [],
+   "observed": true,
+   "stage_fingerprint": "63ba4e56bcfd8165"
+  },
+  {
+   "seed": 20611506,
+   "neutral": {
+    "neutral": false,
+    "differs": [
+     "admission windows",
+     "admitted union",
+     "final assertion",
+     "asserted world edges"
+    ],
+    "rule": "identical presence, identical ordered admission windows, identical admitted union and identical final assertion"
+   },
+   "counts": {
+    "W": 112,
+    "P": 112,
+    "C": 112,
+    "S_cycle": 29,
+    "S_ever": 85,
+    "A_pred": 32
+   },
+   "loss": {
+    "retained": {
+     "W": 112,
+     "P": 112,
+     "C": 112,
+     "S_cycle": 29,
+     "S_ever": 85,
+     "A_pred": 32
+    },
+    "absolute_drop": {
+     "W->P": 0,
+     "P->C": 0,
+     "C->S_cycle": 83,
+     "S_cycle->S_ever": -56,
+     "S_ever->A_pred": 53
+    },
+    "loss_share": {
+     "W->P": 0.0,
+     "P->C": 0.0,
+     "C->S_cycle": 0.741071,
+     "S_cycle->S_ever": -1.931034,
+     "S_ever->A_pred": 0.623529
+    },
+    "gains": [
+     "S_cycle->S_ever"
+    ],
+    "not_measurable": [],
+    "bypass": 7,
+    "primary_suspect": "C->S_cycle"
+   },
+   "a_w_subset_of_p": true,
+   "witnesses": {
+    "positive": true,
+    "negative": true
+   },
+   "unexplained": [],
+   "observed": true,
+   "stage_fingerprint": "241e502ec37716a8"
+  }
+ ],
+ "witness": {
+  "reproduces": true,
+  "differs": [],
+  "audit": {
+   "seed": 20261100,
+   "present_world_edges": 112,
+   "asserted_world_edges": 40,
+   "asserted_fingerprint": "db2b1a46db2f4b7f"
+  },
+  "seen": {
+   "present_world_edges": 112,
+   "asserted_world_edges": 40,
+   "asserted_fingerprint": "db2b1a46db2f4b7f"
+  }
+ },
+ "control": {
+  "neutral": true,
+  "differs": [],
+  "rule": "identical presence, identical ordered admission windows, identical admitted union and identical final assertion"
+ },
+ "checks": {
+  "X1_observer_neutral": false,
+  "X2_stage_complete": true,
+  "X3_no_unobserved_imputation": true,
+  "X4_same_object": true,
+  "X5_witnesses": true,
+  "X6_seed_axis": true,
+  "X7_determinism": true,
+  "X8_control_reproduces_audit": true
+ },
+ "verdict": "OBSERVER NOT NEUTRAL",
+ "details": {
+  "gate": "X1_observer_neutral",
+  "seed": 20611501,
+  "differs": [
+   "admission windows",
+   "admitted union",
+   "final assertion",
+   "asserted world edges"
+  ]
+ },
+ "not_evidence": "This record measures where world edges leave the conversion path on one world family, one engine build and one cap, with a benchmark-only observer. It does not show that any stage is a defect, that a mechanism is responsible, that raising the cap or changing the ranking would help, or that the assertion endpoint is wrong. `U`, the readout/use stage, is not observed. A named loss stage is a target for a separate preregistration, not a licence to edit the engine.",
+ "engine_version": "0.14.0",
+ "engine_commit": "8f9d3b71340729d3c61165d5e51ad0db3c2694c3",
+ "engine_sha256": "477aeb2ff34dd2cc857520d139d1b452892ec95a8158aedf72a089e8318f05e2",
+ "runner": "__main__"
+}

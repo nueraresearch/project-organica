@@ -1,0 +1,1147 @@
+{
+  "kind": "A1-POWER-REVIEW-1",
+  "id": "A1-POWER-REVIEW-1",
+  "date": "2026-11-14",
+  "status": "FREEZE READINESS OPEN \u2014 C1 DENOMINATOR FRAGILITY",
+  "path_selection": {
+    "selected": "A",
+    "status": "RECORDED \u2014 PROTOCOL SELECTED; TARGET SETS STILL DRAFT",
+    "date": "2026-11-14",
+    "estimand": "representative eligible pre-37 cycle-membership directed-edge effect",
+    "protocol": "docs/A1-TARGET-SELECTION-PROTOCOL.md",
+    "not_selected": "B",
+    "path_b": "High-carrier-propensity, hard-edge or carrier-enriched effect; requires a new selector, target artifact and registered design.",
+    "target_sets": "DRAFT \u2014 NOT FROZEN",
+    "does_not_authorize": [
+      "target freeze",
+      "seed reservation",
+      "dated grant",
+      "cell execution"
+    ]
+  },
+  "representativeness": {
+    "estimand": "representative eligible pre-37 cycle-membership directed-edge population",
+    "selector": "outcome-blind hash order over all eligible edges; U is not a ranking input",
+    "evidence": {
+      "selected_observations": 24,
+      "unique_target_edges": 23,
+      "unselected_candidates": 358,
+      "selected_mean_strength": 15.333,
+      "unselected_mean_strength": 15.215,
+      "permutation_p": 0.91765
+    },
+    "not_a_sample_of": [
+      "high-U edges",
+      "hard edges",
+      "carrier-enriched anomalies"
+    ],
+    "consequence": "A1 tests a representative eligible-edge effect. It does not test an effect among high-propensity or anomalous edges; that would require a different selector and a new target set before freeze."
+  },
+  "sources": {
+    "selection": "docs/a1_target_selection.json",
+    "c6": "docs/c6_timing_block.json",
+    "c6_parts": "docs/c6_timing_parts/20621101..20621106.json",
+    "a0": "docs/carrier_formation_a0.json"
+  },
+  "gate_order": {
+    "decision": "POST-FREEZE VOID GATE",
+    "date": "2026-11-14",
+    "record": "docs/A1-C4-GATE-ORDER.md",
+    "effect": "C4 is not a pre-freeze blocker. C1 and C4 are scored in the same post-freeze result assembly; a C4 failure VOIDs the run."
+  },
+  "freeze_readiness": {
+    "status": "OPEN",
+    "pass": false,
+    "can_move_now": false,
+    "blocking_gate": "target_freeze_not_authorized",
+    "reason": "C4 is a post-freeze void gate, so C1/C4 are no longer pre-freeze measurement blockers. The targets remain draft and the manifest remains unfrozen because no separate owner freeze act has been recorded; no grant or run exists.",
+    "to_pass": [
+      "Freeze the representative target manifest in a separate owner act.",
+      "Record the dated grant and run the planned cells.",
+      "Assemble C1/C4; a failed C4 VOIDs the result."
+    ]
+  },
+  "freeze_decision": {
+    "date": "2026-11-14",
+    "decision": "DO NOT FREEZE",
+    "path": "A",
+    "path_status": "RECORDED \u2014 TARGET SETS STILL DRAFT",
+    "path_record": "docs/A1-TARGET-SELECTION-PROTOCOL.md",
+    "path_effect": "The current six target sets are the Path A draft. Selecting Path A does not freeze the manifest, reserve a seed, issue a grant or authorise a cell.",
+    "provisional_freeze_draft": {
+      "status": "DRAFT \u2014 PROVISIONAL FREEZE ONLY",
+      "record": "docs/A1-PROVISIONAL-FREEZE-GATE-ORDER.md",
+      "effect": "Would provisionally freeze the Path A targets; the C1/C4 VOID gate is already adopted separately. No freeze is recorded until the owner adopts the wrapper."
+    },
+    "owner_decision_memo_draft": {
+      "status": "DRAFT \u2014 C1/C4 GATE ADOPTED ELSEWHERE",
+      "record": "docs/DECISION-A1-PATH-A-C1-C4.md",
+      "effect": "Remains draft for the remaining Path A confirmation and provisional freeze; the C1/C4 gate and 60-row floor are adopted separately. It does not freeze, grant or authorise."
+    },
+    "target_freeze_act_draft": {
+      "status": "DRAFT \u2014 AWAITING OWNER SIGNATURE; NOT FROZEN",
+      "record": "docs/A1-TARGET-FREEZE-ACT.md",
+      "effect": "Prepares the separate act that would freeze the six Path A target sets and the manifest/seed block; no grant or run is included."
+    },
+    "gate_order_note": "The dated DO NOT FREEZE record predates the 2026-11-14 gate-order decision. C4 is now post-freeze VOID; this record remains the historical freeze decision and does not authorise a freeze.",
+    "answer": "NO \u2014 NOT AS CURRENTLY EMITTED",
+    "worth_freezing": "NO \u2014 HOLD AS DRAFT; TARGET FREEZE NOT AUTHORIZED",
+    "worth_freezing_reason": "The Path A target sets are compliant and representative, but no separate target freeze has been performed. C4 is now a post-freeze VOID gate, so the C1/C4 measurement cannot be a pre-freeze condition. Path B is not selected and would require a new selector and target artifact.",
+    "scope": "the current six-seed target artifact and the current four-target A1 cell output",
+    "basis": [
+      "C6's 602/672 K and 586/672 Y_ind rates are observations from a different seed block and are not baseline-availability proxies. They do not establish C1 feasibility.",
+      "The C1 denominator is four target rows, so the 0.95 floor is a 100% rule (3/4 = 0.75). C4 would add at most 59-60 non-target rows per seed, giving an upper bound of 63-64 C1 rows; the observed denominator can be lower and may fall below the 60-row floor.",
+      "All six seeds having all four K rows is 6.9% under independence; the design is fragile, not merely underpowered."
+    ],
+    "revisit_when": [
+      "The planned cells run with the C4 neighbour stream and C1/C4 are scored.",
+      "A larger target block or a redesigned selector is registered before freeze."
+    ]
+  },
+  "c1_power_curve": {
+    "model": "Independent Bernoulli retention on each row; the stated retention rate q is common to A- and K-; a seed passes only when both arms meet 0.95; all-six assumes independent seeds. The separate correlation_sensitivity block relaxes the path and seed independence.",
+    "assumptions": [
+      "The retention rate is an assumption, not an A1 measurement.",
+      "Rows are independent and identically distributed within an arm.",
+      "A- and K- have the same assumed retention rate and are independent.",
+      "The six seeds are independent; the all-six column is the product of six per-seed probabilities.",
+      "The gate is evaluated per seed; no pooling across seeds is used."
+    ],
+    "floor": 0.95,
+    "denominators": [
+      4,
+      20,
+      56,
+      59,
+      60,
+      63,
+      64
+    ],
+    "assumed_retention_rates": [
+      0.95,
+      0.97,
+      0.98,
+      1.0
+    ],
+    "minimum_denominator_for_one_loss": 20,
+    "rows": [
+      {
+        "denominator": 4,
+        "required_retained": 4,
+        "allowed_losses": 0,
+        "assumed_retention": 0.95,
+        "per_arm": 0.814506,
+        "per_seed": 0.66342,
+        "all_six_seeds": 0.085258,
+        "per_seed_path_rho_0_5": 0.707223,
+        "all_six_seed_rho_0_5": 0.288183,
+        "all_six_joint_rho_0_5": 0.340733
+      },
+      {
+        "denominator": 4,
+        "required_retained": 4,
+        "allowed_losses": 0,
+        "assumed_retention": 0.97,
+        "per_arm": 0.885293,
+        "per_seed": 0.783743,
+        "all_six_seeds": 0.231763,
+        "per_seed_path_rho_0_5": 0.809954,
+        "all_six_seed_rho_0_5": 0.450742,
+        "all_six_joint_rho_0_5": 0.494778
+      },
+      {
+        "denominator": 4,
+        "required_retained": 4,
+        "allowed_losses": 0,
+        "assumed_retention": 0.98,
+        "per_arm": 0.922368,
+        "per_seed": 0.850763,
+        "all_six_seeds": 0.379185,
+        "per_seed_path_rho_0_5": 0.867382,
+        "all_six_seed_rho_0_5": 0.571254,
+        "all_six_joint_rho_0_5": 0.605582
+      },
+      {
+        "denominator": 4,
+        "required_retained": 4,
+        "allowed_losses": 0,
+        "assumed_retention": 1.0,
+        "per_arm": 1.0,
+        "per_seed": 1.0,
+        "all_six_seeds": 1.0,
+        "per_seed_path_rho_0_5": 1.0,
+        "all_six_seed_rho_0_5": 1.0,
+        "all_six_joint_rho_0_5": 1.0
+      },
+      {
+        "denominator": 20,
+        "required_retained": 19,
+        "allowed_losses": 1,
+        "assumed_retention": 0.95,
+        "per_arm": 0.73584,
+        "per_seed": 0.54146,
+        "all_six_seeds": 0.0252,
+        "per_seed_path_rho_0_5": 0.601957,
+        "all_six_seed_rho_0_5": 0.17319,
+        "all_six_joint_rho_0_5": 0.22501
+      },
+      {
+        "denominator": 20,
+        "required_retained": 19,
+        "allowed_losses": 1,
+        "assumed_retention": 0.97,
+        "per_arm": 0.880162,
+        "per_seed": 0.774685,
+        "all_six_seeds": 0.216148,
+        "per_seed_path_rho_0_5": 0.802219,
+        "all_six_seed_rho_0_5": 0.436345,
+        "all_six_joint_rho_0_5": 0.481401
+      },
+      {
+        "denominator": 20,
+        "required_retained": 19,
+        "allowed_losses": 1,
+        "assumed_retention": 0.98,
+        "per_arm": 0.940101,
+        "per_seed": 0.88379,
+        "all_six_seeds": 0.476534,
+        "per_seed_path_rho_0_5": 0.895915,
+        "all_six_seed_rho_0_5": 0.641559,
+        "all_six_joint_rho_0_5": 0.669616
+      },
+      {
+        "denominator": 20,
+        "required_retained": 19,
+        "allowed_losses": 1,
+        "assumed_retention": 1.0,
+        "per_arm": 1.0,
+        "per_seed": 1.0,
+        "all_six_seeds": 1.0,
+        "per_seed_path_rho_0_5": 1.0,
+        "all_six_seed_rho_0_5": 1.0,
+        "all_six_joint_rho_0_5": 1.0
+      },
+      {
+        "denominator": 56,
+        "required_retained": 54,
+        "allowed_losses": 2,
+        "assumed_retention": 0.95,
+        "per_arm": 0.464557,
+        "per_seed": 0.215814,
+        "all_six_seeds": 0.000101,
+        "per_seed_path_rho_0_5": 0.298616,
+        "all_six_seed_rho_0_5": 0.021418,
+        "all_six_joint_rho_0_5": 0.043644
+      },
+      {
+        "denominator": 56,
+        "required_retained": 54,
+        "allowed_losses": 2,
+        "assumed_retention": 0.97,
+        "per_arm": 0.763809,
+        "per_seed": 0.583404,
+        "all_six_seeds": 0.039429,
+        "per_seed_path_rho_0_5": 0.638398,
+        "all_six_seed_rho_0_5": 0.208099,
+        "all_six_joint_rho_0_5": 0.261072
+      },
+      {
+        "denominator": 56,
+        "required_retained": 54,
+        "allowed_losses": 2,
+        "assumed_retention": 0.98,
+        "per_arm": 0.898193,
+        "per_seed": 0.80675,
+        "all_six_seeds": 0.275698,
+        "per_seed_path_rho_0_5": 0.82962,
+        "all_six_seed_rho_0_5": 0.489197,
+        "all_six_joint_rho_0_5": 0.530339
+      },
+      {
+        "denominator": 56,
+        "required_retained": 54,
+        "allowed_losses": 2,
+        "assumed_retention": 1.0,
+        "per_arm": 1.0,
+        "per_seed": 1.0,
+        "all_six_seeds": 1.0,
+        "per_seed_path_rho_0_5": 1.0,
+        "all_six_seed_rho_0_5": 1.0,
+        "all_six_joint_rho_0_5": 1.0
+      },
+      {
+        "denominator": 59,
+        "required_retained": 57,
+        "allowed_losses": 2,
+        "assumed_retention": 0.95,
+        "per_arm": 0.428928,
+        "per_seed": 0.183979,
+        "all_six_seeds": 3.9e-05,
+        "per_seed_path_rho_0_5": 0.265183,
+        "all_six_seed_rho_0_5": 0.015198,
+        "all_six_joint_rho_0_5": 0.033561
+      },
+      {
+        "denominator": 59,
+        "required_retained": 57,
+        "allowed_losses": 2,
+        "assumed_retention": 0.97,
+        "per_arm": 0.739606,
+        "per_seed": 0.547017,
+        "all_six_seeds": 0.026792,
+        "per_seed_path_rho_0_5": 0.606803,
+        "all_six_seed_rho_0_5": 0.177562,
+        "all_six_joint_rho_0_5": 0.229583
+      },
+      {
+        "denominator": 59,
+        "required_retained": 57,
+        "allowed_losses": 2,
+        "assumed_retention": 0.98,
+        "per_arm": 0.885585,
+        "per_seed": 0.784261,
+        "all_six_seeds": 0.232683,
+        "per_seed_path_rho_0_5": 0.810397,
+        "all_six_seed_rho_0_5": 0.451577,
+        "all_six_joint_rho_0_5": 0.495554
+      },
+      {
+        "denominator": 59,
+        "required_retained": 57,
+        "allowed_losses": 2,
+        "assumed_retention": 1.0,
+        "per_arm": 1.0,
+        "per_seed": 1.0,
+        "all_six_seeds": 1.0,
+        "per_seed_path_rho_0_5": 1.0,
+        "all_six_seed_rho_0_5": 1.0,
+        "all_six_joint_rho_0_5": 1.0
+      },
+      {
+        "denominator": 60,
+        "required_retained": 57,
+        "allowed_losses": 3,
+        "assumed_retention": 0.95,
+        "per_arm": 0.647281,
+        "per_seed": 0.418973,
+        "all_six_seeds": 0.005409,
+        "per_seed_path_rho_0_5": 0.493236,
+        "all_six_seed_rho_0_5": 0.094157,
+        "all_six_joint_rho_0_5": 0.138275
+      },
+      {
+        "denominator": 60,
+        "required_retained": 57,
+        "allowed_losses": 3,
+        "assumed_retention": 0.97,
+        "per_arm": 0.894258,
+        "per_seed": 0.799697,
+        "all_six_seeds": 0.261549,
+        "per_seed_path_rho_0_5": 0.823588,
+        "all_six_seed_rho_0_5": 0.47711,
+        "all_six_joint_rho_0_5": 0.519186
+      },
+      {
+        "denominator": 60,
+        "required_retained": 57,
+        "allowed_losses": 3,
+        "assumed_retention": 0.98,
+        "per_arm": 0.967806,
+        "per_seed": 0.936648,
+        "all_six_seeds": 0.675241,
+        "per_seed_path_rho_0_5": 0.942191,
+        "all_six_seed_rho_0_5": 0.774958,
+        "all_six_joint_rho_0_5": 0.790887
+      },
+      {
+        "denominator": 60,
+        "required_retained": 57,
+        "allowed_losses": 3,
+        "assumed_retention": 1.0,
+        "per_arm": 1.0,
+        "per_seed": 1.0,
+        "all_six_seeds": 1.0,
+        "per_seed_path_rho_0_5": 1.0,
+        "all_six_seed_rho_0_5": 1.0,
+        "all_six_joint_rho_0_5": 1.0
+      },
+      {
+        "denominator": 63,
+        "required_retained": 60,
+        "allowed_losses": 3,
+        "assumed_retention": 0.95,
+        "per_arm": 0.612844,
+        "per_seed": 0.375577,
+        "all_six_seeds": 0.002807,
+        "per_seed_path_rho_0_5": 0.453562,
+        "all_six_seed_rho_0_5": 0.073188,
+        "all_six_joint_rho_0_5": 0.113341
+      },
+      {
+        "denominator": 63,
+        "required_retained": 60,
+        "allowed_losses": 3,
+        "assumed_retention": 0.97,
+        "per_arm": 0.879313,
+        "per_seed": 0.773192,
+        "all_six_seeds": 0.21366,
+        "per_seed_path_rho_0_5": 0.800945,
+        "all_six_seed_rho_0_5": 0.43401,
+        "all_six_joint_rho_0_5": 0.479228
+      },
+      {
+        "denominator": 63,
+        "required_retained": 60,
+        "allowed_losses": 3,
+        "assumed_retention": 0.98,
+        "per_arm": 0.962453,
+        "per_seed": 0.926317,
+        "all_six_seeds": 0.631767,
+        "per_seed_path_rho_0_5": 0.933065,
+        "all_six_seed_rho_0_5": 0.746401,
+        "all_six_joint_rho_0_5": 0.764894
+      },
+      {
+        "denominator": 63,
+        "required_retained": 60,
+        "allowed_losses": 3,
+        "assumed_retention": 1.0,
+        "per_arm": 1.0,
+        "per_seed": 1.0,
+        "all_six_seeds": 1.0,
+        "per_seed_path_rho_0_5": 1.0,
+        "all_six_seed_rho_0_5": 1.0,
+        "all_six_joint_rho_0_5": 1.0
+      },
+      {
+        "denominator": 64,
+        "required_retained": 61,
+        "allowed_losses": 3,
+        "assumed_retention": 0.95,
+        "per_arm": 0.601409,
+        "per_seed": 0.361693,
+        "all_six_seeds": 0.002239,
+        "per_seed_path_rho_0_5": 0.440702,
+        "all_six_seed_rho_0_5": 0.067163,
+        "all_six_joint_rho_0_5": 0.105941
+      },
+      {
+        "denominator": 64,
+        "required_retained": 61,
+        "allowed_losses": 3,
+        "assumed_retention": 0.97,
+        "per_arm": 0.874141,
+        "per_seed": 0.764122,
+        "all_six_seeds": 0.199057,
+        "per_seed_path_rho_0_5": 0.793204,
+        "all_six_seed_rho_0_5": 0.420057,
+        "all_six_joint_rho_0_5": 0.466218
+      },
+      {
+        "denominator": 64,
+        "required_retained": 61,
+        "allowed_losses": 3,
+        "assumed_retention": 0.98,
+        "per_arm": 0.960563,
+        "per_seed": 0.922681,
+        "all_six_seeds": 0.617035,
+        "per_seed_path_rho_0_5": 0.929865,
+        "all_six_seed_rho_0_5": 0.736676,
+        "all_six_joint_rho_0_5": 0.756051
+      },
+      {
+        "denominator": 64,
+        "required_retained": 61,
+        "allowed_losses": 3,
+        "assumed_retention": 1.0,
+        "per_arm": 1.0,
+        "per_seed": 1.0,
+        "all_six_seeds": 1.0,
+        "per_seed_path_rho_0_5": 1.0,
+        "all_six_seed_rho_0_5": 1.0,
+        "all_six_joint_rho_0_5": 1.0
+      }
+    ],
+    "denominator_impact": [
+      {
+        "denominator": 4,
+        "required_retained": 4,
+        "allowed_losses": 0,
+        "effective_floor": 1.0,
+        "all_six_at_095": 0.085258,
+        "change_from_previous": null
+      },
+      {
+        "denominator": 20,
+        "required_retained": 19,
+        "allowed_losses": 1,
+        "effective_floor": 0.95,
+        "all_six_at_095": 0.0252,
+        "change_from_previous": -0.060058
+      },
+      {
+        "denominator": 56,
+        "required_retained": 54,
+        "allowed_losses": 2,
+        "effective_floor": 0.964286,
+        "all_six_at_095": 0.000101,
+        "change_from_previous": -0.025099
+      },
+      {
+        "denominator": 59,
+        "required_retained": 57,
+        "allowed_losses": 2,
+        "effective_floor": 0.966102,
+        "all_six_at_095": 3.9e-05,
+        "change_from_previous": -6.2e-05
+      },
+      {
+        "denominator": 60,
+        "required_retained": 57,
+        "allowed_losses": 3,
+        "effective_floor": 0.95,
+        "all_six_at_095": 0.005409,
+        "change_from_previous": 0.00537
+      },
+      {
+        "denominator": 63,
+        "required_retained": 60,
+        "allowed_losses": 3,
+        "effective_floor": 0.952381,
+        "all_six_at_095": 0.002807,
+        "change_from_previous": -0.002602
+      },
+      {
+        "denominator": 64,
+        "required_retained": 61,
+        "allowed_losses": 3,
+        "effective_floor": 0.953125,
+        "all_six_at_095": 0.002239,
+        "change_from_previous": -0.000568
+      }
+    ],
+    "cliff_60": {
+      "from": 59,
+      "to": 60,
+      "at_59": {
+        "denominator": 59,
+        "required_retained": 57,
+        "allowed_losses": 2,
+        "effective_floor": 0.966102,
+        "all_six_at_095": 3.9e-05,
+        "change_from_previous": -6.2e-05
+      },
+      "at_60": {
+        "denominator": 60,
+        "required_retained": 57,
+        "allowed_losses": 3,
+        "effective_floor": 0.95,
+        "all_six_at_095": 0.005409,
+        "change_from_previous": 0.00537
+      },
+      "all_six_ratio": 138.69,
+      "explanation": "At 59 rows, 57/59 = 0.9661 and only two losses pass; at 60 rows, 57/60 = 0.95 and three losses pass. The extra row crosses a loss boundary in the gate arithmetic, not an empirical effect."
+    },
+    "required_retention": {
+      "targets": [
+        0.5,
+        0.8,
+        0.9,
+        0.95
+      ],
+      "rows": [
+        {
+          "target_all_six": 0.5,
+          "required_q_by_denominator": {
+            "4": 0.985663,
+            "20": 0.980723,
+            "56": 0.984518,
+            "59": 0.985313,
+            "60": 0.975996,
+            "63": 0.977154,
+            "64": 0.977515
+          }
+        },
+        {
+          "target_all_six": 0.8,
+          "required_q_by_denominator": {
+            "4": 0.995362,
+            "20": 0.989516,
+            "56": 0.990057,
+            "59": 0.990569,
+            "60": 0.983204,
+            "63": 0.984017,
+            "64": 0.984271
+          }
+        },
+        {
+          "target_all_six": 0.9,
+          "required_q_by_denominator": {
+            "4": 0.997807,
+            "20": 0.992924,
+            "56": 0.992486,
+            "59": 0.992874,
+            "60": 0.986566,
+            "63": 0.987217,
+            "64": 0.98742
+          }
+        },
+        {
+          "target_all_six": 0.95,
+          "required_q_by_denominator": {
+            "4": 0.998932,
+            "20": 0.995121,
+            "56": 0.994217,
+            "59": 0.994515,
+            "60": 0.989079,
+            "63": 0.989609,
+            "64": 0.989775
+          }
+        }
+      ],
+      "assumption": "Required q under the same independent Bernoulli, six-independent-seed model."
+    },
+    "power_design_criterion": {
+      "status": "RECORDED \u2014 C1 DESIGN CRITERION; NOT AN OBSERVED RETENTION AND NOT A SECOND ACCEPTANCE GATE",
+      "target_all_six_power": 0.8,
+      "reference_denominator": 63,
+      "denominator_kind": "UPPER BOUND \u2014 NOT AN OBSERVED OR ESTIMATED BASELINE-AVAILABILITY DENOMINATOR",
+      "observed_baseline_available_rows": null,
+      "required_retention": 0.984017,
+      "required_retention_by_denominator": {
+        "60": 0.983204,
+        "63": 0.984017,
+        "64": 0.984271
+      },
+      "model": "Independent Bernoulli retention on each row, with the six seeds independent, as in the required-retention table.",
+      "meaning": "At the upper-bound 63-row scenario, reaching 80% all-six-seed power requires a common retention of at least 0.984017. The corresponding values are 0.984271 at 64 rows and 0.983204 at the 60-row floor. This sizes the planned design; it is not an observed retention and is not a second post-run acceptance gate. The observed-run acceptance rule remains the 0.95 preservation threshold.",
+      "not_a_second_acceptance_gate": true
+    },
+    "correlation_sensitivity": {
+      "status": "SENSITIVITY \u2014 NOT AN OBSERVED CORRELATION OR RESULT",
+      "model": "Gaussian copulas on the pass/fail indicators. Within a seed, the A- and K- pass indicators have correlation rho_paths; across seeds, the per-seed pass indicators have equicorrelation rho_seeds through one shared factor. Per-arm marginals remain the independent Bernoulli probabilities. The copulas are applied sequentially; no path-specific cross-seed correlation is added beyond the seed factor.",
+      "assumptions": [
+        "The retention rate q is common to A- and K- and is an assumption, not a measurement.",
+        "Within an arm, rows remain independent and identically distributed.",
+        "rho_paths is a positive Gaussian-copula correlation between the A- and K- pass indicators; it is not estimated from A1.",
+        "rho_seeds is a positive one-factor Gaussian-copula correlation across the six seed-pass indicators; it is not estimated from A1.",
+        "The seed copula is applied to the per-seed joint pass probability; it does not model a separate path-specific seed effect.",
+        "The gate remains per seed and all-six; correlation changes the joint probability, not the marginal gate rule."
+      ],
+      "reference_denominator": 63,
+      "reference_retentions": [
+        0.95,
+        0.98
+      ],
+      "rho_values": [
+        0.0,
+        0.25,
+        0.5,
+        0.75,
+        0.95
+      ],
+      "path_rows": [
+        {
+          "assumed_retention": 0.95,
+          "rho_paths": 0.0,
+          "per_arm": 0.612844,
+          "per_seed": 0.375577,
+          "all_six_seeds": 0.002807
+        },
+        {
+          "assumed_retention": 0.95,
+          "rho_paths": 0.25,
+          "per_arm": 0.612844,
+          "per_seed": 0.412949,
+          "all_six_seeds": 0.004959
+        },
+        {
+          "assumed_retention": 0.95,
+          "rho_paths": 0.5,
+          "per_arm": 0.612844,
+          "per_seed": 0.453562,
+          "all_six_seeds": 0.008706
+        },
+        {
+          "assumed_retention": 0.95,
+          "rho_paths": 0.75,
+          "per_arm": 0.612844,
+          "per_seed": 0.502658,
+          "all_six_seeds": 0.01613
+        },
+        {
+          "assumed_retention": 0.95,
+          "rho_paths": 0.95,
+          "per_arm": 0.612844,
+          "per_seed": 0.564355,
+          "all_six_seeds": 0.032308
+        },
+        {
+          "assumed_retention": 0.98,
+          "rho_paths": 0.0,
+          "per_arm": 0.962453,
+          "per_seed": 0.926317,
+          "all_six_seeds": 0.631767
+        },
+        {
+          "assumed_retention": 0.98,
+          "rho_paths": 0.25,
+          "per_arm": 0.962453,
+          "per_seed": 0.928739,
+          "all_six_seeds": 0.641744
+        },
+        {
+          "assumed_retention": 0.98,
+          "rho_paths": 0.5,
+          "per_arm": 0.962453,
+          "per_seed": 0.933065,
+          "all_six_seeds": 0.659891
+        },
+        {
+          "assumed_retention": 0.98,
+          "rho_paths": 0.75,
+          "per_arm": 0.962453,
+          "per_seed": 0.940464,
+          "all_six_seeds": 0.691914
+        },
+        {
+          "assumed_retention": 0.98,
+          "rho_paths": 0.95,
+          "per_arm": 0.962453,
+          "per_seed": 0.952223,
+          "all_six_seeds": 0.745472
+        }
+      ],
+      "seed_rows": [
+        {
+          "assumed_retention": 0.95,
+          "rho_seeds": 0.0,
+          "per_seed": 0.375577,
+          "all_six_seeds": 0.002807
+        },
+        {
+          "assumed_retention": 0.95,
+          "rho_seeds": 0.25,
+          "per_seed": 0.375577,
+          "all_six_seeds": 0.025715
+        },
+        {
+          "assumed_retention": 0.95,
+          "rho_seeds": 0.5,
+          "per_seed": 0.375577,
+          "all_six_seeds": 0.073188
+        },
+        {
+          "assumed_retention": 0.95,
+          "rho_seeds": 0.75,
+          "per_seed": 0.375577,
+          "all_six_seeds": 0.151694
+        },
+        {
+          "assumed_retention": 0.95,
+          "rho_seeds": 0.95,
+          "per_seed": 0.375577,
+          "all_six_seeds": 0.271151
+        },
+        {
+          "assumed_retention": 0.98,
+          "rho_seeds": 0.0,
+          "per_seed": 0.926317,
+          "all_six_seeds": 0.631767
+        },
+        {
+          "assumed_retention": 0.98,
+          "rho_seeds": 0.25,
+          "per_seed": 0.926317,
+          "all_six_seeds": 0.687653
+        },
+        {
+          "assumed_retention": 0.98,
+          "rho_seeds": 0.5,
+          "per_seed": 0.926317,
+          "all_six_seeds": 0.746401
+        },
+        {
+          "assumed_retention": 0.98,
+          "rho_seeds": 0.75,
+          "per_seed": 0.926317,
+          "all_six_seeds": 0.811392
+        },
+        {
+          "assumed_retention": 0.98,
+          "rho_seeds": 0.95,
+          "per_seed": 0.926317,
+          "all_six_seeds": 0.881572
+        }
+      ],
+      "joint_rows": [
+        {
+          "assumed_retention": 0.95,
+          "rho_paths": 0.5,
+          "rho_seeds": 0.5,
+          "per_seed": 0.453562,
+          "all_six_seeds": 0.113341
+        },
+        {
+          "assumed_retention": 0.95,
+          "rho_paths": 0.75,
+          "rho_seeds": 0.75,
+          "per_seed": 0.502658,
+          "all_six_seeds": 0.249079
+        },
+        {
+          "assumed_retention": 0.95,
+          "rho_paths": 0.95,
+          "rho_seeds": 0.95,
+          "per_seed": 0.564355,
+          "all_six_seeds": 0.451062
+        },
+        {
+          "assumed_retention": 0.98,
+          "rho_paths": 0.5,
+          "rho_seeds": 0.5,
+          "per_seed": 0.933065,
+          "all_six_seeds": 0.764894
+        },
+        {
+          "assumed_retention": 0.98,
+          "rho_paths": 0.75,
+          "rho_seeds": 0.75,
+          "per_seed": 0.940464,
+          "all_six_seeds": 0.841664
+        },
+        {
+          "assumed_retention": 0.98,
+          "rho_paths": 0.95,
+          "rho_seeds": 0.95,
+          "per_seed": 0.952223,
+          "all_six_seeds": 0.919831
+        }
+      ],
+      "headline": {
+        "at_63_q095": {
+          "independent": {
+            "per_seed": 0.375577,
+            "all_six_seeds": 0.002807
+          },
+          "path_rho_0_5": {
+            "per_seed": 0.453562,
+            "all_six_seeds": 0.008706
+          },
+          "seed_rho_0_5": {
+            "per_seed": 0.375577,
+            "all_six_seeds": 0.073188
+          },
+          "joint_rho_0_5": {
+            "per_seed": 0.453562,
+            "all_six_seeds": 0.113341
+          }
+        }
+      },
+      "reading": "At n=63 and q=.95, independent paths and independent seeds give a per-seed pass probability of 0.375577 and an all-six probability of 0.002807. A path correlation of .5 raises the per-seed probability to 0.453562; a seed correlation of .5 raises the all-six probability to 0.073188; both at .5 give 0.113341. Positive correlation makes the six seeds share their fate: all-six can rise while the chance that none pass also rises. These are sensitivity scenarios, not correlation estimates."
+    },
+    "denominator_floor_rule": {
+      "status": "ADOPTED \u2014 BINDING FOR A1",
+      "record": "docs/DECISION-A1-PATH-A-C1-RULE.md",
+      "adoption_record": "docs/A1-C1-C4-VOID-GATE.md",
+      "adopted_together": "60-row denominator floor and C1/C4 post-freeze VOID gate",
+      "binding": true,
+      "floor": 60,
+      "minimum_denominator": 60,
+      "allowed_losses_at_60_64": 3,
+      "below_floor_disposition": "VOID \u2014 C1_DENOMINATOR_BELOW_FLOOR",
+      "planned_range": [
+        63,
+        64
+      ],
+      "unit": "minimum paired-control available rows across all six seeds and both A- and K- paths",
+      "why": "At 59 rows, 57/59 = 0.9661 and only two losses pass; at 60 rows, 57/60 = 0.95 and three losses pass. 60 is the first denominator with the planned three-loss tolerance.",
+      "decision": "If the observed minimum is below 60 on any seed or path, the A1 run is VOID \u2014 C1_DENOMINATOR_BELOW_FLOOR, before any model is read.",
+      "perfect_59": "A perfect 59/59 is still VOID: the fraction cannot rescue a denominator below the resolution floor.",
+      "not_parked": "PARKED is for a missing target set or grant. This is an executed run whose planned resolution was not reached, so it is VOID.",
+      "not_identified": "No model verdict is read. VOID is not NOT IDENTIFIED.",
+      "below_20": "Below 20 rows even one loss fails; the denominator is too small to express the 0.95 criterion and the same VOID applies.",
+      "above_planned": "A denominator above 64 is a design inconsistency: score only the preplanned rows and do not add rows after the fact.",
+      "table": [
+        {
+          "observed_min": "0",
+          "allowed_losses": "0",
+          "disposition": "VOID \u2014 C1_NO_DENOMINATOR"
+        },
+        {
+          "observed_min": "1\u201319",
+          "allowed_losses": "0",
+          "disposition": "VOID \u2014 C1_DENOMINATOR_BELOW_FLOOR"
+        },
+        {
+          "observed_min": "20\u201359",
+          "allowed_losses": "1\u20132",
+          "disposition": "VOID \u2014 C1_DENOMINATOR_BELOW_FLOOR"
+        },
+        {
+          "observed_min": "60\u201364",
+          "allowed_losses": "3",
+          "disposition": "C1 gate may be read"
+        },
+        {
+          "observed_min": ">64",
+          "allowed_losses": "n/a",
+          "disposition": "VOID \u2014 design inconsistency"
+        }
+      ]
+    },
+    "baseline_example": {
+      "denominator": 63,
+      "assumed_retention": 0.95,
+      "per_arm": 0.612844,
+      "per_seed": 0.375577,
+      "all_six_seeds": 0.002807
+    },
+    "sensitivity_example": {
+      "denominator": 63,
+      "assumed_retention": 0.98,
+      "per_arm": 0.962453,
+      "per_seed": 0.926317,
+      "all_six_seeds": 0.631767
+    },
+    "reading": "At a true retention of 0.95, the 63-row upper-bound scenario gives a 61.3% chance for one arm, 37.6% for both arms on one seed, and 0.3% across all six seeds. At 0.98, the corresponding all-six chance is 63.2%. A denominator of 20 is the smallest listed value that can still pass with one lost row.",
+    "status": "REFERENCE CURVE \u2014 NOT AN OBSERVED DENOMINATOR OR RESULT"
+  },
+  "inputs": {
+    "target_observations": 24,
+    "unique_target_edges": 23,
+    "selected": 24,
+    "candidates": 382,
+    "planned_c1_denominator_min": 63,
+    "planned_c1_denominator_max": 64,
+    "planned_c1_denominator_kind": "UPPER BOUND \u2014 NOT AN OBSERVED OR ESTIMATED BASELINE-AVAILABILITY DENOMINATOR",
+    "observed_baseline_available_rows": null,
+    "planned_total_rows": 382,
+    "planned_non_target_rows": 358,
+    "c6_seeds": 6,
+    "a0_hard_edges": 26
+  },
+  "c1_denominator_feasibility": {
+    "status": "RISK RECORDED \u2014 UNMEASURED; 63-64 IS AN UPPER BOUND",
+    "planned_range": [
+      63,
+      64
+    ],
+    "denominator_kind": "UPPER BOUND \u2014 ASSUMES EVERY CANDIDATE IS BASELINE-AVAILABLE",
+    "basis": "candidate_count; no paired-control availability measurement",
+    "observed_baseline_available_rows": null,
+    "floor": 60,
+    "below_floor_disposition": "VOID \u2014 C1_DENOMINATOR_BELOW_FLOOR",
+    "availability_budget": {
+      "floor": 60,
+      "rule": "max_unavailable_rows = candidate_rows - floor; required_availability_fraction = floor / candidate_rows",
+      "by_seed": {
+        "20630101": {
+          "candidate_rows": 64,
+          "max_unavailable_rows": 4,
+          "required_availability_fraction": 0.9375
+        },
+        "20630102": {
+          "candidate_rows": 63,
+          "max_unavailable_rows": 3,
+          "required_availability_fraction": 0.952381
+        },
+        "20630103": {
+          "candidate_rows": 64,
+          "max_unavailable_rows": 4,
+          "required_availability_fraction": 0.9375
+        },
+        "20630104": {
+          "candidate_rows": 64,
+          "max_unavailable_rows": 4,
+          "required_availability_fraction": 0.9375
+        },
+        "20630105": {
+          "candidate_rows": 64,
+          "max_unavailable_rows": 4,
+          "required_availability_fraction": 0.9375
+        },
+        "20630106": {
+          "candidate_rows": 63,
+          "max_unavailable_rows": 3,
+          "required_availability_fraction": 0.952381
+        }
+      },
+      "note": "Denominator-floor arithmetic on the candidate-count upper bound; not an observed or estimated baseline-availability rate.",
+      "retention_rule": "The separate 0.95 C1 retention rule allows three losses at 60-64; availability is counted first and is not part of that allowance."
+    },
+    "why": "The 63-64 rows are the candidate-universe counts, not a measurement of edges available in the paired A+K+ control. C1 counts only those available rows. The observed denominator can be lower than 63-64; if the minimum is below 60 on any seed or path, the run is VOID before any model is read.",
+    "unrelated_observations": {
+      "sources": [
+        "C6 K/Y_ind rates",
+        "A0 hard-edge rate"
+      ],
+      "allowed_use": "CONTEXT ONLY",
+      "forbidden_use": "BASELINE-AVAILABILITY PROXY",
+      "reason": "These percentages come from different seed blocks, different world populations and different quantities. None measures paired-control availability in the A1 target universe, so none may be used to estimate, bound or certify the C1 denominator."
+    }
+  },
+  "findings": [
+    {
+      "id": "selection_is_random_on_u",
+      "finding": "The 24 targets are statistically indistinguishable from the 358 unselected candidates on cycle-36 strength.",
+      "evidence": {
+        "selected_n": 24,
+        "unselected_n": 358,
+        "selected_median": 16.0,
+        "unselected_median": 16.0,
+        "selected_mean": 15.333,
+        "unselected_mean": 15.215,
+        "permutation_p": 0.91765
+      }
+    },
+    {
+      "id": "all_candidates_eligible",
+      "finding": "Cycle membership and positive U do not narrow the candidate universe; every candidate is eligible.",
+      "evidence": {
+        "candidate_counts": {
+          "20630101": 64,
+          "20630102": 63,
+          "20630103": 64,
+          "20630104": 64,
+          "20630105": 64,
+          "20630106": 63
+        },
+        "eligible_counts": {
+          "20630101": 64,
+          "20630102": 63,
+          "20630103": 64,
+          "20630104": 64,
+          "20630105": 64,
+          "20630106": 63
+        }
+      }
+    },
+    {
+      "id": "c6_prevalence_observation",
+      "finding": "C6 reports high K/Y_ind prevalence in its own seed block. This is a different-world observation, not a C1 baseline-availability measurement and not a target-validation proxy.",
+      "not_baseline_availability_proxy": true,
+      "evidence": {
+        "c6_k": 602,
+        "c6_world_edges": 672,
+        "c6_y": 586,
+        "c6_k_rate": 0.896,
+        "c6_y_rate": 0.872,
+        "per_seed_k_rate_min": 0.848,
+        "per_seed_k_rate_max": 0.991,
+        "per_seed_all_four_k": [
+          0.636,
+          0.563,
+          0.965,
+          0.586,
+          0.661,
+          0.518
+        ],
+        "all_six_all_four_k_independence": 0.069,
+        "target_overlap_observations": 53,
+        "target_overlap_k": 50,
+        "target_overlap_y": 46
+      }
+    },
+    {
+      "id": "c1_denominator_fragility",
+      "finding": "With four target rows, the 0.95 C1 floor is effectively 100% preservation; one lost row gives 0.75.",
+      "evidence": {
+        "rows_per_seed": 4,
+        "c1_floor": 0.95,
+        "max_losses_at_4": 0,
+        "effective_floor_at_4": 1.0,
+        "illustration_3_of_4": 0.75
+      }
+    },
+    {
+      "id": "c1_denominator_expansion",
+      "finding": "Even if every candidate edge were baseline-available, C4 plus the four target rows would produce at most 63-64 C1 rows per seed. This is an upper bound, not an observed or estimated denominator; unavailable rows reduce it and can push the run below the 60-row floor.",
+      "evidence": {
+        "planned_c1_rows_by_seed": {
+          "20630101": 64,
+          "20630102": 63,
+          "20630103": 64,
+          "20630104": 64,
+          "20630105": 64,
+          "20630106": 63
+        },
+        "planned_non_target_rows_by_seed": {
+          "20630101": 60,
+          "20630102": 59,
+          "20630103": 60,
+          "20630104": 60,
+          "20630105": 60,
+          "20630106": 59
+        },
+        "planned_min_rows": 63,
+        "planned_max_rows": 64,
+        "planned_total_rows": 382,
+        "planned_non_target_total": 358,
+        "allowed_losses_min": 3,
+        "allowed_losses_max": 3,
+        "max_losses_with_planned_c4": {
+          "20630101": 3,
+          "20630102": 3,
+          "20630103": 3,
+          "20630104": 3,
+          "20630105": 3,
+          "20630106": 3
+        },
+        "status": "UNMEASURED \u2014 no A1 cell has run",
+        "denominator_kind": "UPPER BOUND \u2014 NOT AN OBSERVED OR ESTIMATED BASELINE-AVAILABILITY DENOMINATOR",
+        "observed_baseline_available_rows": null,
+        "floor": 60,
+        "below_floor_disposition": "VOID \u2014 C1_DENOMINATOR_BELOW_FLOOR",
+        "baseline_caveat": "C1 counts only edges available in the paired A+K+ control. The 63-64 figure assumes every candidate edge is available; the actual denominator can be lower and may fall below the 60-row floor. No baseline-availability estimate exists."
+      }
+    },
+    {
+      "id": "hard_edge_baseline",
+      "finding": "A0's hard-edge prevalence is low, but a random 24-target sample has a material chance of containing one.",
+      "evidence": {
+        "a0_hard_edges": 26,
+        "a0_present_edges": 672,
+        "hard_rate": 0.0387,
+        "expected_hard_targets": 0.93,
+        "prob_any_hard_independence": 0.612
+      }
+    }
+  ],
+  "decision": {
+    "verdict": "FREEZE READINESS OPEN \u2014 C1 DENOMINATOR FRAGILITY",
+    "reading": "P0 and feasibility pass, but four target rows per seed make the precommitted 0.95 C1 floor a 100% preservation rule. C6's K/Y_ind prevalence is a different-seed observation and does not establish C1 baseline availability. The 63-64 C1 figure is an upper bound, not an estimate; the observed denominator can be lower and may fail the 60-row floor. C1 remains unmeasured; do not freeze on the current target artifact.",
+    "freeze_question": {
+      "question": "Does a random eligible-edge design have enough expected measurable structure to justify freeze?",
+      "answer": "NO \u2014 NOT AS CURRENTLY EMITTED",
+      "basis": "C6 prevalence is a different-seed observation, not C1 baseline availability. The blocker is C1: four rows make the 0.95 floor a 100% rule. The 63-64 C4 expansion is an upper bound from candidate counts, not an estimate; the observed denominator can be lower and may fail the 60-row floor. No cell has run.",
+      "if_yes": "Freeze the representative eligible-edge design after the manifest review.",
+      "if_no": "Do not freeze until the post-freeze C1/C4 order and the separate target-freeze act are recorded; do not require a pre-freeze C1/C4 denominator."
+    },
+    "next": [
+      "Path A is recorded: after target freeze and a dated grant, run the planned cells with the C4 neighbour stream and score C1/C4.",
+      "Path B is not selected; it would require a new selector, target artifact and registered design, not a regeneration of the Path A targets.",
+      "The C1 acceptance rule is recorded; the target freeze remains a separate act.",
+      "Record the C1/C4 gate order and the separate target freeze before a grant; C1/C4 are measured only after the run."
+    ]
+  },
+  "tag_counts": {
+    "amber": 3,
+    "birch": 2,
+    "cedar": 2,
+    "crimson": 1,
+    "fern": 4,
+    "indigo": 4,
+    "maple": 3,
+    "ochre": 3,
+    "olive": 4,
+    "sable": 3,
+    "slate": 1,
+    "teal": 5,
+    "umber": 2,
+    "verdant": 5,
+    "willow": 3,
+    "yarrow": 1
+  },
+  "not_evidence": "A read-only power/prevalence review over different-seed C6 and A0 records. Its 63-64 C1 expansion is an upper bound derived from A1 candidate counts, not an observed or estimated baseline-availability denominator; C6 and A0 percentages are not C1 proxies. It runs no A1 cell, assigns no seed, freezes no target and establishes no causal, capability or transfer claim."
+}

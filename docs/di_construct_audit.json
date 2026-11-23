@@ -1,0 +1,205 @@
+{
+  "what_this_is": "Read-only construct audit of DI. No engine, no seed, no reliability coefficient.",
+  "source": {
+    "path": "docs/phase_l_results.json",
+    "sha256": "f9378feb1cd234850cd457b671afd24412263a076519a2aa82fe4f80c038754d",
+    "records": 240
+  },
+  "code_facts": {
+    "file": "benchmarks/phase_l_campaign.py",
+    "function": "indices()",
+    "formula": "DI = late_retained / late_available",
+    "denominator": "_available(world, late_gold) -- gold late pairs present anywhere in the world's event stream",
+    "zero_denominator_rule": "None, and displacement_measurable = False; never 0.0",
+    "final_index_source": "the last cycle's report only",
+    "trajectory_kind": "per-cycle snapshot, not cumulative",
+    "diagnostics_not_in_criterion": [
+      "PI",
+      "DI - PI"
+    ]
+  },
+  "q2_trajectory_value": {
+    "records": 240,
+    "trajectory_length_cycles": 600,
+    "late_available_per_record": [
+      18
+    ],
+    "late_retained_range": [
+      0,
+      15
+    ],
+    "distinct_final_di": 15,
+    "final_di_values": [
+      0.0,
+      0.055556,
+      0.111111,
+      0.166667,
+      0.222222,
+      0.277778,
+      0.333333,
+      0.388889,
+      0.5,
+      0.555556,
+      0.611111,
+      0.666667,
+      0.722222,
+      0.777778,
+      0.833333
+    ],
+    "smallest_di_gap": 0.05555555555555555,
+    "distinct_pair_counts": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "one_over_denominator": 0.05555555555555555,
+    "quantised_to_pair_count": true,
+    "per_cycle_not_cumulative": true,
+    "single_cycle_decreases": 1598,
+    "non_decreasing_records": 122
+  },
+  "q3_construct": {
+    "within_run_variance": 0.01038647752961318,
+    "between_run_variance": 0.08443873912686184,
+    "icc": 0.8904671363183861,
+    "arm_label_share_of_between": 0.9852322665444173,
+    "arm_means": {
+      "1:1": 0.0,
+      "1:2": 0.0,
+      "1:3": 0.0,
+      "1:4": 0.0,
+      "2:1": 0.043102,
+      "3:1": 0.433259,
+      "4:1": 0.6285,
+      "6:1": 0.698037
+    },
+    "runs_per_arm": {
+      "1:1": 30,
+      "1:2": 30,
+      "1:3": 30,
+      "1:4": 30,
+      "2:1": 30,
+      "3:1": 30,
+      "4:1": 30,
+      "6:1": 30
+    },
+    "plateau_cycles": [
+      400,
+      600
+    ],
+    "constant_records": 121,
+    "median_within_run_sd": 0.0,
+    "max_within_run_sd": 0.29301419648072474,
+    "zero_arms": [
+      "1:1",
+      "1:2",
+      "1:3",
+      "1:4"
+    ],
+    "min_arrival_cycle": 150,
+    "arrival_cycles": [
+      150
+    ],
+    "mean_di_by_cycle": {
+      "0": 0.0,
+      "100": 0.0,
+      "150": 0.003472,
+      "200": 0.0,
+      "300": 0.000231,
+      "400": 0.109722,
+      "500": 0.240509,
+      "599": 0.293287
+    }
+  },
+  "q4_window": {
+    "protocol_window": {
+      "cycles": [
+        110,
+        150
+      ],
+      "zeros_share_mean": 1.0,
+      "constant_records": 240,
+      "distinct_window_means": 1,
+      "mean_of_window_means": 0.0
+    },
+    "matched_post_arrival_window": {
+      "cycles": [
+        150,
+        190
+      ],
+      "zero_share": 0.9985416666666667,
+      "records_all_zero": 234,
+      "distinct_window_means": 5,
+      "mean_of_window_means": 0.00017361166666666667,
+      "sd_of_window_means": 0.0013061314480490235,
+      "within_run_variance": 2.334116358044792e-05,
+      "between_run_variance": 1.7059793595826389e-06,
+      "icc": 0.06811073676814963,
+      "arm_label_share_of_between": 0.016254398421826976,
+      "arm_means": {
+        "1:1": 0.000231,
+        "1:2": 0.000139,
+        "1:3": 0.000556,
+        "1:4": 9.3e-05,
+        "2:1": 0.0,
+        "3:1": 0.000231,
+        "4:1": 0.000139,
+        "6:1": 0.0
+      },
+      "runs_per_arm": {
+        "1:1": 30,
+        "1:2": 30,
+        "1:3": 30,
+        "1:4": 30,
+        "2:1": 30,
+        "3:1": 30,
+        "4:1": 30,
+        "6:1": 30
+      }
+    },
+    "median_cycle_first_reaching_final_di": {
+      "1:1": null,
+      "1:2": null,
+      "1:3": null,
+      "1:4": null,
+      "2:1": 586,
+      "3:1": 559.0,
+      "4:1": 481.0,
+      "6:1": 424.5
+    },
+    "median_cycle_first_reaching_half": {
+      "1:1": null,
+      "1:2": null,
+      "1:3": null,
+      "1:4": null,
+      "2:1": 595,
+      "3:1": 493.0,
+      "4:1": 428.5,
+      "6:1": 384.5
+    },
+    "still_rising_at_last_cycle": true
+  },
+  "q5_separation": {
+    "protocol_window_has_zero_variance": true,
+    "matched_window_zero_share": 0.9985416666666667,
+    "matched_window_zero_records": 234,
+    "matched_window_icc": 0.06811073676814963,
+    "asymptote_icc": 0.8904671363183861,
+    "asymptote_arm_share": 0.9852322665444173,
+    "resolution_floor_from_denominator": 0.05555555555555555,
+    "moments_lost_to_omission": 1598,
+    "verdict": "not separable in these records"
+  }
+}

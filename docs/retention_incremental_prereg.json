@@ -1,0 +1,146 @@
+{
+ "prereg": "CONFIRMATORY-RETENTION-INCREMENTAL-1",
+ "kind": "retention_incremental_prereg",
+ "status": "FROZEN, RUN",
+ "frozen_on": "2026-11-12",
+ "question": "Among never-served loop-forming world edges that formed by cycle 60 and were not yet asserted at cycle 60, does retention measured only through cycle 60 predict final assertion at cycle 120 beyond rank, count, strength and formation timing?",
+ "reference": {
+  "source": "docs/loop_persistence_assertion_model.json",
+  "status": "POST-HOC, not confirmatory",
+  "n": 177,
+  "events": 77,
+  "retention_or": 8.022351705444482,
+  "retention_ci95": [
+   2.5719,
+   25.019
+  ],
+  "controlled_retention_or": 14.683359489693045,
+  "controlled_retention_ci95": [
+   3.677,
+   58.643
+  ],
+  "controlled_formation_or": 6.252,
+  "controlled_count_or": 0.714,
+  "note": "The post-hoc model used the full 120-cycle retention window. This block tests a stricter landmark predictor, not a direct replication of that coefficient."
+ },
+ "design": {
+  "seeds": [
+   20618101,
+   20618102,
+   20618103,
+   20618104,
+   20618105,
+   20618106,
+   20618107,
+   20618108,
+   20618109,
+   20618110,
+   20618111,
+   20618112
+  ],
+  "cells": 12,
+  "cycles": 120,
+  "cap": 40,
+  "landmark_cycle": 60,
+  "world": "generate_compositional_world(seed=, cycles=120) with the PHASE_ACQUISITION schedule and one replay per seed",
+  "population": "world edges with zero direct served windows, ever_loop=true, formation_cycle <= 60, and no assertion at or before cycle 60",
+  "excluded": "edges never served but not loop-forming; edges whose first loop forms after cycle 60; edges asserted at or before cycle 60",
+  "outcome": "asserted in the final structure at cycle 120",
+  "freshness": "The collision scan over docs JSON is empty at freeze time. No seed in this block has been replayed before the freeze.",
+  "primary_predictors": {
+   "early_retention": "loop cycles with cycle <= 60, from formation through 60, divided by (61 - formation_cycle); range [0, 1]",
+   "rank60": "minimum 1-based position in the repaired observer's full pre-cap universe over cycles 1-60",
+   "count60": "direct temporal transition count at cycle 60",
+   "strength60": "maximum loop_candidate strength over reported loops ending at or before cycle 60",
+   "formation": "first loop cycle divided by 120"
+  },
+  "reverse_time": {
+   "late_retention": "loop cycles with 61 <= cycle <= 120, divided by 60",
+   "late_strength": "maximum loop_candidate strength over reported loops ending after cycle 60",
+   "assertion_cycle": "first cycle the edge appears in structure_edges on the observer's current candidate set; required for every asserted edge and must be greater than 60",
+   "purpose": "If late retention carries the same association as early retention, the result is concurrent or reverse-time, not evidence that retention precedes assertion."
+  }
+ },
+ "model": {
+  "family": "binary logistic regression",
+  "primary_formula": "logit P(asserted at 120) = b0 + b_rank*z(log2(rank60)) + b_count*z(count60) + b_formation*z(formation) + b_strength*z(strength60) + b_early*z(early_retention) + seed fixed effects",
+  "reverse_formula": "same controls, with late_retention replacing early_retention",
+  "estimator": "Firth penalized likelihood",
+  "standardization": "complete-case mean and population SD",
+  "seed": "twelve-level fixed effect, first seed as reference",
+  "interactions": "none",
+  "selection": "none"
+ },
+ "inference": {
+  "primary": "Firth Wald 95% interval for the early-retention odds ratio per 1 SD. This is the single primary criterion.",
+  "secondary": "Rank, count, formation and strength are reported with intervals; late retention is the reverse-time diagnostic and does not rescue a failed primary criterion.",
+  "alpha": 0.05,
+  "multiplicity": "one primary coefficient; the reverse-time model is a diagnostic, not a second primary test",
+  "no_causal_claim": "Observational landmark model. A negative late-retention result narrows reverse timing; it does not identify a mechanism."
+ },
+ "criteria": [
+  {
+   "id": "P1",
+   "name": "early-retention direction",
+   "test": "early-retention OR > 1"
+  },
+  {
+   "id": "P2",
+   "name": "early-retention interval",
+   "test": "early-retention 95% CI lower bound > 1"
+  },
+  {
+   "id": "P3",
+   "name": "gates",
+   "test": "all confirmatory gates pass"
+  },
+  {
+   "id": "R1",
+   "name": "reverse-time diagnostic",
+   "test": "late-retention OR <= 1 or its 95% CI includes 1"
+  }
+ ],
+ "verdicts": {
+  "CONFIRMED": "P1-P3 pass and R1 passes.",
+  "CONFIRMED, TEMPORALLY AMBIGUOUS": "P1-P3 pass but late retention also has an OR > 1 with a lower 95% bound > 1; no temporal-direction claim.",
+  "DIRECTIONAL ONLY": "P1 and P3 pass, but the early interval includes 1.",
+  "NOT CONFIRMED": "The early-retention OR is at or below 1.",
+  "VOID": "A gate fails; no coefficient is read."
+ },
+ "gates": {
+  "M1_population": "at least 60 eligible loop-forming never-served edges and 20 asserted events; one row per seed-edge",
+  "M2_landmark_complete": "every eligible row has formation_cycle <= 60, is not asserted at or before 60, and has finite early_retention",
+  "M3_rank_coverage": "at least 95% of eligible edges have a finite rank60",
+  "M4_seed_levels": "all twelve seeds contribute rows",
+  "M5_convergence": "both the primary and reverse Firth fits converge with finite coefficients",
+  "M6_complete": "every fitted row has finite count60 and strength60",
+  "M7_reverse_onset": "every asserted row has a finite assertion_cycle > 60; every non-asserted row has no assertion_cycle",
+  "M8_no_collision": "the seed block is collision-free at freeze and check"
+ },
+ "sample_size": {
+  "planned_seeds": 12,
+  "minimum_edges": 60,
+  "minimum_events": 20,
+  "power_calculation": "none. Twelve fresh seeds are used to test a narrower landmark claim, not to power the post-hoc point estimate."
+ },
+ "authorisation": {
+  "required": true,
+  "granted": true,
+  "granted_on": "2026-11-12",
+  "document": "docs/AUTHORISATION-RETENTION-INCREMENTAL-1.md",
+  "quote": "Grant the retention block and run its twelve cells, then adjudicate the result.",
+  "note": "The owner's instruction is the grant for these twelve cells."
+ },
+ "runner": {
+  "built": true,
+  "planned_module": "benchmarks.retention_incremental",
+  "cells_run": 12,
+  "measure_command": "python -m benchmarks.retention_incremental --measure",
+  "write_command": "python -m benchmarks.retention_incremental --finish"
+ },
+ "result": "docs/retention_incremental.json",
+ "not_evidence": "An observational landmark model on one synthetic world family. The result does not establish a mechanism, a capability, transfer, or a general engine property. The cycle-60 cutoff is one choice; a different cutoff is a different design.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711"
+}

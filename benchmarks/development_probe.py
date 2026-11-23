@@ -52,6 +52,7 @@ from organica.memory import MemoryService          # noqa: E402
 from organica.sleep import SleepService            # noqa: E402
 from organica.streams import EVENTS_PER_CYCLE, STUDY_STREAM  # noqa: E402
 from organica.paths import LIVE_DB, SCRATCH_DIR, temp_db  # noqa: E402
+from benchmarks import engine_stamp
 
 # Field names that occur in the stored candidate JSON schemas. A tag in
 # this set is an artifact of how the organism stores itself, not
@@ -316,7 +317,7 @@ def main() -> None:
     print(json.dumps(results["vocabulary"], indent=2))
 
     out = REPO / "docs" / "development_probe.json"
-    out.write_text(json.dumps(results, indent=2), encoding="utf-8")
+    out.write_text(json.dumps(engine_stamp.stamp(results), indent=2), encoding="utf-8")
     print(f"\nwrote {out}")
 
 

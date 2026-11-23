@@ -42,6 +42,7 @@ if str(REPO) not in sys.path:
 from organica.memory import Event, MemoryService  # noqa: E402
 
 from benchmarks import formation_utilization as fu  # noqa: E402
+from benchmarks import engine_stamp
 
 AUDIT = REPO / "docs/use_path_audit.json"
 RESULT_MD = REPO / "docs/USE-PATH-AUDIT.md"
@@ -168,7 +169,7 @@ def run_once(task: str, seed: int, arm: str, repeat: int) -> dict[str, Any]:
 def _write(path: Path, payload: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(path.suffix + ".tmp")
-    tmp.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    tmp.write_text(json.dumps(engine_stamp.stamp(payload), indent=2) + "\n", encoding="utf-8")
     tmp.replace(path)
 
 

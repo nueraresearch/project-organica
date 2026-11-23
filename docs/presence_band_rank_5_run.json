@@ -1,0 +1,991 @@
+{
+ "kind": "presence_band_rank_5_run",
+ "prereg": "PRESENCE-BAND-5",
+ "gates": {
+  "B1_build": {
+   "passed": true,
+   "builds": [
+    [
+     "0.15.0",
+     "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711"
+    ]
+   ]
+  },
+  "B2_world": {
+   "passed": true,
+   "seeds": []
+  },
+  "B3_band_identity": {
+   "passed": true,
+   "sizes": {
+    "20612601": 18,
+    "20612602": 14,
+    "20612603": 19,
+    "20612604": 11,
+    "20612605": 11,
+    "20612606": 16
+   }
+  },
+  "B4_control_40": {
+   "passed": true,
+   "rows": [
+    {
+     "seed": 20612601,
+     "passed": true,
+     "why": "ok",
+     "served_band": 0,
+     "max_rows": 40
+    },
+    {
+     "seed": 20612602,
+     "passed": true,
+     "why": "ok",
+     "served_band": 0,
+     "max_rows": 40
+    },
+    {
+     "seed": 20612603,
+     "passed": true,
+     "why": "ok",
+     "served_band": 0,
+     "max_rows": 40
+    },
+    {
+     "seed": 20612604,
+     "passed": true,
+     "why": "ok",
+     "served_band": 0,
+     "max_rows": 40
+    },
+    {
+     "seed": 20612605,
+     "passed": true,
+     "why": "ok",
+     "served_band": 0,
+     "max_rows": 40
+    },
+    {
+     "seed": 20612606,
+     "passed": true,
+     "why": "ok",
+     "served_band": 0,
+     "max_rows": 40
+    }
+   ]
+  },
+  "B5_allocation_law": {
+   "passed": true,
+   "rows": [
+    {
+     "seed": 20612601,
+     "passed": true,
+     "cap": 112,
+     "floor": 56,
+     "cooccurrence_ceiling": 56,
+     "full_windows": 105,
+     "max_transitions": 67,
+     "max_cooccurrences": 48,
+     "max_served_transition_rank": 57,
+     "missing_rank": [],
+     "reasons": []
+    },
+    {
+     "seed": 20612602,
+     "passed": true,
+     "cap": 112,
+     "floor": 56,
+     "cooccurrence_ceiling": 56,
+     "full_windows": 78,
+     "max_transitions": 68,
+     "max_cooccurrences": 48,
+     "max_served_transition_rank": 61,
+     "missing_rank": [],
+     "reasons": []
+    },
+    {
+     "seed": 20612603,
+     "passed": true,
+     "cap": 112,
+     "floor": 56,
+     "cooccurrence_ceiling": 56,
+     "full_windows": 104,
+     "max_transitions": 66,
+     "max_cooccurrences": 48,
+     "max_served_transition_rank": 58,
+     "missing_rank": [],
+     "reasons": []
+    },
+    {
+     "seed": 20612604,
+     "passed": true,
+     "cap": 112,
+     "floor": 56,
+     "cooccurrence_ceiling": 56,
+     "full_windows": 106,
+     "max_transitions": 67,
+     "max_cooccurrences": 48,
+     "max_served_transition_rank": 61,
+     "missing_rank": [],
+     "reasons": []
+    },
+    {
+     "seed": 20612605,
+     "passed": true,
+     "cap": 112,
+     "floor": 56,
+     "cooccurrence_ceiling": 56,
+     "full_windows": 76,
+     "max_transitions": 64,
+     "max_cooccurrences": 48,
+     "max_served_transition_rank": 64,
+     "missing_rank": [],
+     "reasons": []
+    },
+    {
+     "seed": 20612606,
+     "passed": true,
+     "cap": 112,
+     "floor": 56,
+     "cooccurrence_ceiling": 56,
+     "full_windows": 80,
+     "max_transitions": 64,
+     "max_cooccurrences": 48,
+     "max_served_transition_rank": 63,
+     "missing_rank": [],
+     "reasons": []
+    }
+   ]
+  },
+  "B6_denominator": {
+   "passed": true,
+   "missing": {
+    "20612601": 0,
+    "20612602": 0,
+    "20612603": 0,
+    "20612604": 0,
+    "20612605": 0,
+    "20612606": 0
+   },
+   "zero": []
+  },
+  "B7_determinism": {
+   "passed": true,
+   "seed": 20612601
+  },
+  "B8_seed_axis": {
+   "passed": true,
+   "sets": {
+    "20612601": 18,
+    "20612602": 14,
+    "20612603": 19,
+    "20612604": 11,
+    "20612605": 11,
+    "20612606": 16
+   }
+  }
+ },
+ "verdict": "CONFIRMED",
+ "reading": "The allocation law and fresh-world rank-21-40 service both hold.",
+ "decision": "Record the confirmation; the owner decides any engine or promotion step; no capability claim.",
+ "ledger": {
+  "20612601": [
+   {
+    "edge": "birch>ochre",
+    "rank_112": 30,
+    "rank_40": 91,
+    "served_40": 0,
+    "served_112": 59,
+    "asserted_112": true
+   },
+   {
+    "edge": "birch>sable",
+    "rank_112": 21,
+    "rank_40": 93,
+    "served_40": 0,
+    "served_112": 67,
+    "asserted_112": true
+   },
+   {
+    "edge": "birch>umber",
+    "rank_112": 26,
+    "rank_40": 99,
+    "served_40": 0,
+    "served_112": 62,
+    "asserted_112": true
+   },
+   {
+    "edge": "crimson>maple",
+    "rank_112": 28,
+    "rank_40": 28,
+    "served_40": 0,
+    "served_112": 3,
+    "asserted_112": false
+   },
+   {
+    "edge": "crimson>verdant",
+    "rank_112": 40,
+    "rank_40": 40,
+    "served_40": 0,
+    "served_112": 2,
+    "asserted_112": false
+   },
+   {
+    "edge": "crimson>yarrow",
+    "rank_112": 31,
+    "rank_40": 31,
+    "served_40": 0,
+    "served_112": 3,
+    "asserted_112": false
+   },
+   {
+    "edge": "fern>crimson",
+    "rank_112": 37,
+    "rank_40": 56,
+    "served_40": 0,
+    "served_112": 6,
+    "asserted_112": false
+   },
+   {
+    "edge": "fern>ochre",
+    "rank_112": 32,
+    "rank_40": 104,
+    "served_40": 0,
+    "served_112": 6,
+    "asserted_112": true
+   },
+   {
+    "edge": "fern>sable",
+    "rank_112": 21,
+    "rank_40": 21,
+    "served_40": 0,
+    "served_112": 15,
+    "asserted_112": false
+   },
+   {
+    "edge": "fern>willow",
+    "rank_112": 34,
+    "rank_40": 43,
+    "served_40": 0,
+    "served_112": 8,
+    "asserted_112": true
+   },
+   {
+    "edge": "ochre>cedar",
+    "rank_112": 21,
+    "rank_40": 47,
+    "served_40": 0,
+    "served_112": 9,
+    "asserted_112": true
+   },
+   {
+    "edge": "olive>crimson",
+    "rank_112": 21,
+    "rank_40": 48,
+    "served_40": 0,
+    "served_112": 9,
+    "asserted_112": false
+   },
+   {
+    "edge": "olive>ochre",
+    "rank_112": 23,
+    "rank_40": 34,
+    "served_40": 0,
+    "served_112": 6,
+    "asserted_112": true
+   },
+   {
+    "edge": "olive>teal",
+    "rank_112": 26,
+    "rank_40": 104,
+    "served_40": 0,
+    "served_112": 2,
+    "asserted_112": false
+   },
+   {
+    "edge": "olive>willow",
+    "rank_112": 22,
+    "rank_40": 22,
+    "served_40": 0,
+    "served_112": 11,
+    "asserted_112": false
+   },
+   {
+    "edge": "umber>yarrow",
+    "rank_112": 31,
+    "rank_40": 31,
+    "served_40": 0,
+    "served_112": 3,
+    "asserted_112": true
+   },
+   {
+    "edge": "verdant>crimson",
+    "rank_112": 22,
+    "rank_40": 22,
+    "served_40": 0,
+    "served_112": 11,
+    "asserted_112": false
+   },
+   {
+    "edge": "verdant>slate",
+    "rank_112": 35,
+    "rank_40": 68,
+    "served_40": 0,
+    "served_112": 1,
+    "asserted_112": false
+   }
+  ],
+  "20612602": [
+   {
+    "edge": "crimson>fern",
+    "rank_112": 24,
+    "rank_40": 100,
+    "served_40": 0,
+    "served_112": 30,
+    "asserted_112": true
+   },
+   {
+    "edge": "crimson>indigo",
+    "rank_112": 25,
+    "rank_40": 80,
+    "served_40": 0,
+    "served_112": 30,
+    "asserted_112": true
+   },
+   {
+    "edge": "crimson>teal",
+    "rank_112": 30,
+    "rank_40": 103,
+    "served_40": 0,
+    "served_112": 30,
+    "asserted_112": true
+   },
+   {
+    "edge": "crimson>umber",
+    "rank_112": 27,
+    "rank_40": 149,
+    "served_40": 0,
+    "served_112": 30,
+    "asserted_112": true
+   },
+   {
+    "edge": "fern>birch",
+    "rank_112": 22,
+    "rank_40": 56,
+    "served_40": 0,
+    "served_112": 36,
+    "asserted_112": false
+   },
+   {
+    "edge": "fern>crimson",
+    "rank_112": 28,
+    "rank_40": 65,
+    "served_40": 0,
+    "served_112": 31,
+    "asserted_112": false
+   },
+   {
+    "edge": "fern>maple",
+    "rank_112": 30,
+    "rank_40": 46,
+    "served_40": 0,
+    "served_112": 13,
+    "asserted_112": true
+   },
+   {
+    "edge": "olive>amber",
+    "rank_112": 36,
+    "rank_40": 36,
+    "served_40": 0,
+    "served_112": 3,
+    "asserted_112": false
+   },
+   {
+    "edge": "teal>maple",
+    "rank_112": 34,
+    "rank_40": 62,
+    "served_40": 0,
+    "served_112": 31,
+    "asserted_112": true
+   },
+   {
+    "edge": "umber>birch",
+    "rank_112": 27,
+    "rank_40": 28,
+    "served_40": 0,
+    "served_112": 12,
+    "asserted_112": false
+   },
+   {
+    "edge": "umber>crimson",
+    "rank_112": 30,
+    "rank_40": 53,
+    "served_40": 0,
+    "served_112": 8,
+    "asserted_112": true
+   },
+   {
+    "edge": "umber>slate",
+    "rank_112": 31,
+    "rank_40": 69,
+    "served_40": 0,
+    "served_112": 5,
+    "asserted_112": true
+   },
+   {
+    "edge": "willow>birch",
+    "rank_112": 38,
+    "rank_40": 38,
+    "served_40": 0,
+    "served_112": 6,
+    "asserted_112": false
+   },
+   {
+    "edge": "yarrow>sable",
+    "rank_112": 36,
+    "rank_40": 77,
+    "served_40": 0,
+    "served_112": 2,
+    "asserted_112": false
+   }
+  ],
+  "20612603": [
+   {
+    "edge": "amber>cedar",
+    "rank_112": 34,
+    "rank_40": 78,
+    "served_40": 0,
+    "served_112": 27,
+    "asserted_112": false
+   },
+   {
+    "edge": "amber>slate",
+    "rank_112": 38,
+    "rank_40": 96,
+    "served_40": 0,
+    "served_112": 21,
+    "asserted_112": false
+   },
+   {
+    "edge": "amber>umber",
+    "rank_112": 35,
+    "rank_40": 94,
+    "served_40": 0,
+    "served_112": 25,
+    "asserted_112": false
+   },
+   {
+    "edge": "cedar>amber",
+    "rank_112": 21,
+    "rank_40": 74,
+    "served_40": 0,
+    "served_112": 38,
+    "asserted_112": false
+   },
+   {
+    "edge": "cedar>olive",
+    "rank_112": 23,
+    "rank_40": 101,
+    "served_40": 0,
+    "served_112": 34,
+    "asserted_112": false
+   },
+   {
+    "edge": "fern>crimson",
+    "rank_112": 37,
+    "rank_40": 114,
+    "served_40": 0,
+    "served_112": 28,
+    "asserted_112": true
+   },
+   {
+    "edge": "indigo>crimson",
+    "rank_112": 39,
+    "rank_40": 153,
+    "served_40": 0,
+    "served_112": 12,
+    "asserted_112": true
+   },
+   {
+    "edge": "ochre>verdant",
+    "rank_112": 31,
+    "rank_40": 96,
+    "served_40": 0,
+    "served_112": 41,
+    "asserted_112": false
+   },
+   {
+    "edge": "olive>cedar",
+    "rank_112": 21,
+    "rank_40": 22,
+    "served_40": 0,
+    "served_112": 22,
+    "asserted_112": false
+   },
+   {
+    "edge": "olive>teal",
+    "rank_112": 23,
+    "rank_40": 24,
+    "served_40": 0,
+    "served_112": 17,
+    "asserted_112": false
+   },
+   {
+    "edge": "olive>umber",
+    "rank_112": 28,
+    "rank_40": 59,
+    "served_40": 0,
+    "served_112": 12,
+    "asserted_112": false
+   },
+   {
+    "edge": "sable>teal",
+    "rank_112": 35,
+    "rank_40": 45,
+    "served_40": 0,
+    "served_112": 15,
+    "asserted_112": false
+   },
+   {
+    "edge": "slate>olive",
+    "rank_112": 23,
+    "rank_40": 36,
+    "served_40": 0,
+    "served_112": 18,
+    "asserted_112": false
+   },
+   {
+    "edge": "slate>sable",
+    "rank_112": 25,
+    "rank_40": 37,
+    "served_40": 0,
+    "served_112": 18,
+    "asserted_112": false
+   },
+   {
+    "edge": "teal>olive",
+    "rank_112": 39,
+    "rank_40": 93,
+    "served_40": 0,
+    "served_112": 18,
+    "asserted_112": false
+   },
+   {
+    "edge": "teal>sable",
+    "rank_112": 27,
+    "rank_40": 36,
+    "served_40": 0,
+    "served_112": 33,
+    "asserted_112": false
+   },
+   {
+    "edge": "teal>willow",
+    "rank_112": 29,
+    "rank_40": 56,
+    "served_40": 0,
+    "served_112": 29,
+    "asserted_112": false
+   },
+   {
+    "edge": "verdant>maple",
+    "rank_112": 40,
+    "rank_40": 51,
+    "served_40": 0,
+    "served_112": 18,
+    "asserted_112": true
+   },
+   {
+    "edge": "verdant>ochre",
+    "rank_112": 37,
+    "rank_40": 47,
+    "served_40": 0,
+    "served_112": 22,
+    "asserted_112": true
+   }
+  ],
+  "20612604": [
+   {
+    "edge": "amber>fern",
+    "rank_112": 39,
+    "rank_40": 54,
+    "served_40": 0,
+    "served_112": 6,
+    "asserted_112": false
+   },
+   {
+    "edge": "amber>indigo",
+    "rank_112": 30,
+    "rank_40": 30,
+    "served_40": 0,
+    "served_112": 20,
+    "asserted_112": false
+   },
+   {
+    "edge": "birch>teal",
+    "rank_112": 35,
+    "rank_40": 40,
+    "served_40": 0,
+    "served_112": 18,
+    "asserted_112": true
+   },
+   {
+    "edge": "crimson>verdant",
+    "rank_112": 40,
+    "rank_40": 40,
+    "served_40": 0,
+    "served_112": 6,
+    "asserted_112": false
+   },
+   {
+    "edge": "indigo>slate",
+    "rank_112": 38,
+    "rank_40": 60,
+    "served_40": 0,
+    "served_112": 10,
+    "asserted_112": false
+   },
+   {
+    "edge": "slate>fern",
+    "rank_112": 25,
+    "rank_40": 25,
+    "served_40": 0,
+    "served_112": 4,
+    "asserted_112": false
+   },
+   {
+    "edge": "slate>ochre",
+    "rank_112": 32,
+    "rank_40": 32,
+    "served_40": 0,
+    "served_112": 3,
+    "asserted_112": false
+   },
+   {
+    "edge": "teal>sable",
+    "rank_112": 23,
+    "rank_40": 30,
+    "served_40": 0,
+    "served_112": 9,
+    "asserted_112": false
+   },
+   {
+    "edge": "umber>fern",
+    "rank_112": 23,
+    "rank_40": 23,
+    "served_40": 0,
+    "served_112": 20,
+    "asserted_112": true
+   },
+   {
+    "edge": "umber>olive",
+    "rank_112": 26,
+    "rank_40": 26,
+    "served_40": 0,
+    "served_112": 15,
+    "asserted_112": true
+   },
+   {
+    "edge": "verdant>amber",
+    "rank_112": 40,
+    "rank_40": 40,
+    "served_40": 0,
+    "served_112": 5,
+    "asserted_112": false
+   }
+  ],
+  "20612605": [
+   {
+    "edge": "amber>indigo",
+    "rank_112": 38,
+    "rank_40": 67,
+    "served_40": 0,
+    "served_112": 4,
+    "asserted_112": true
+   },
+   {
+    "edge": "amber>maple",
+    "rank_112": 39,
+    "rank_40": 64,
+    "served_40": 0,
+    "served_112": 3,
+    "asserted_112": false
+   },
+   {
+    "edge": "cedar>amber",
+    "rank_112": 26,
+    "rank_40": 31,
+    "served_40": 0,
+    "served_112": 6,
+    "asserted_112": false
+   },
+   {
+    "edge": "cedar>willow",
+    "rank_112": 29,
+    "rank_40": 33,
+    "served_40": 0,
+    "served_112": 6,
+    "asserted_112": false
+   },
+   {
+    "edge": "crimson>willow",
+    "rank_112": 36,
+    "rank_40": 36,
+    "served_40": 0,
+    "served_112": 5,
+    "asserted_112": false
+   },
+   {
+    "edge": "ochre>crimson",
+    "rank_112": 39,
+    "rank_40": 39,
+    "served_40": 0,
+    "served_112": 10,
+    "asserted_112": false
+   },
+   {
+    "edge": "slate>sable",
+    "rank_112": 21,
+    "rank_40": 25,
+    "served_40": 0,
+    "served_112": 48,
+    "asserted_112": true
+   },
+   {
+    "edge": "umber>indigo",
+    "rank_112": 26,
+    "rank_40": 26,
+    "served_40": 0,
+    "served_112": 28,
+    "asserted_112": false
+   },
+   {
+    "edge": "umber>sable",
+    "rank_112": 29,
+    "rank_40": 29,
+    "served_40": 0,
+    "served_112": 29,
+    "asserted_112": true
+   },
+   {
+    "edge": "yarrow>indigo",
+    "rank_112": 38,
+    "rank_40": 43,
+    "served_40": 0,
+    "served_112": 5,
+    "asserted_112": false
+   },
+   {
+    "edge": "yarrow>sable",
+    "rank_112": 39,
+    "rank_40": 44,
+    "served_40": 0,
+    "served_112": 4,
+    "asserted_112": false
+   }
+  ],
+  "20612606": [
+   {
+    "edge": "birch>fern",
+    "rank_112": 31,
+    "rank_40": 57,
+    "served_40": 0,
+    "served_112": 50,
+    "asserted_112": true
+   },
+   {
+    "edge": "birch>indigo",
+    "rank_112": 27,
+    "rank_40": 81,
+    "served_40": 0,
+    "served_112": 52,
+    "asserted_112": true
+   },
+   {
+    "edge": "birch>ochre",
+    "rank_112": 30,
+    "rank_40": 58,
+    "served_40": 0,
+    "served_112": 50,
+    "asserted_112": true
+   },
+   {
+    "edge": "crimson>umber",
+    "rank_112": 34,
+    "rank_40": 34,
+    "served_40": 0,
+    "served_112": 11,
+    "asserted_112": true
+   },
+   {
+    "edge": "fern>crimson",
+    "rank_112": 25,
+    "rank_40": 25,
+    "served_40": 0,
+    "served_112": 8,
+    "asserted_112": false
+   },
+   {
+    "edge": "maple>fern",
+    "rank_112": 30,
+    "rank_40": 59,
+    "served_40": 0,
+    "served_112": 24,
+    "asserted_112": false
+   },
+   {
+    "edge": "maple>indigo",
+    "rank_112": 26,
+    "rank_40": 68,
+    "served_40": 0,
+    "served_112": 21,
+    "asserted_112": false
+   },
+   {
+    "edge": "maple>ochre",
+    "rank_112": 28,
+    "rank_40": 60,
+    "served_40": 0,
+    "served_112": 25,
+    "asserted_112": false
+   },
+   {
+    "edge": "maple>olive",
+    "rank_112": 33,
+    "rank_40": 89,
+    "served_40": 0,
+    "served_112": 11,
+    "asserted_112": false
+   },
+   {
+    "edge": "olive>maple",
+    "rank_112": 28,
+    "rank_40": 90,
+    "served_40": 0,
+    "served_112": 4,
+    "asserted_112": false
+   },
+   {
+    "edge": "olive>slate",
+    "rank_112": 23,
+    "rank_40": 91,
+    "served_40": 0,
+    "served_112": 7,
+    "asserted_112": false
+   },
+   {
+    "edge": "olive>willow",
+    "rank_112": 21,
+    "rank_40": 92,
+    "served_40": 0,
+    "served_112": 8,
+    "asserted_112": false
+   },
+   {
+    "edge": "sable>maple",
+    "rank_112": 22,
+    "rank_40": 22,
+    "served_40": 0,
+    "served_112": 5,
+    "asserted_112": true
+   },
+   {
+    "edge": "sable>willow",
+    "rank_112": 39,
+    "rank_40": 39,
+    "served_40": 0,
+    "served_112": 4,
+    "asserted_112": true
+   },
+   {
+    "edge": "umber>crimson",
+    "rank_112": 23,
+    "rank_40": 28,
+    "served_40": 0,
+    "served_112": 5,
+    "asserted_112": true
+   },
+   {
+    "edge": "yarrow>fern",
+    "rank_112": 21,
+    "rank_40": 67,
+    "served_40": 0,
+    "served_112": 14,
+    "asserted_112": false
+   }
+  ]
+ },
+ "bands": {
+  "20612601": 18,
+  "20612602": 14,
+  "20612603": 19,
+  "20612604": 11,
+  "20612605": 11,
+  "20612606": 16
+ },
+ "cells": [
+  {
+   "seed": 20612601,
+   "cap": 40,
+   "served": 0
+  },
+  {
+   "seed": 20612601,
+   "cap": 112,
+   "served": 18
+  },
+  {
+   "seed": 20612602,
+   "cap": 40,
+   "served": 0
+  },
+  {
+   "seed": 20612602,
+   "cap": 112,
+   "served": 14
+  },
+  {
+   "seed": 20612603,
+   "cap": 40,
+   "served": 0
+  },
+  {
+   "seed": 20612603,
+   "cap": 112,
+   "served": 19
+  },
+  {
+   "seed": 20612604,
+   "cap": 40,
+   "served": 0
+  },
+  {
+   "seed": 20612604,
+   "cap": 112,
+   "served": 11
+  },
+  {
+   "seed": 20612605,
+   "cap": 40,
+   "served": 0
+  },
+  {
+   "seed": 20612605,
+   "cap": 112,
+   "served": 11
+  },
+  {
+   "seed": 20612606,
+   "cap": 40,
+   "served": 0
+  },
+  {
+   "seed": 20612606,
+   "cap": 112,
+   "served": 16
+  }
+ ],
+ "not_evidence": "Fresh-world allocation and service, not a capability, retention or transfer claim.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "benchmarks.presence_band_rank_5_arm"
+}

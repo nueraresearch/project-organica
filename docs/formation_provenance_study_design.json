@@ -1,0 +1,84 @@
+{
+ "all_gates_passed": true,
+ "endpoint_evaluated": false,
+ "gates": {
+  "G1_liveness": true,
+  "G2_projected_denominators": true,
+  "G4_instrument_neutrality": true
+ },
+ "kind": "formation_provenance_design_block",
+ "neutrality": {
+  "compared": "3998 candidates by id, strength and count",
+  "hooked": 3998,
+  "identical": true,
+  "plain": 3998,
+  "seed": 20270101
+ },
+ "note": "No endpoint is computed on these seeds. G2 is a feasibility projection here; the gate itself is evaluated on the confirmatory block.",
+ "per_seed": [
+  {
+   "candidates": 656,
+   "counts": {
+    "self_includes": 446,
+    "unattributed": 0,
+    "world": 210
+   },
+   "liveness": true,
+   "seed": 20270101
+  },
+  {
+   "candidates": 1272,
+   "counts": {
+    "self_includes": 876,
+    "unattributed": 0,
+    "world": 396
+   },
+   "liveness": true,
+   "seed": 20270102
+  },
+  {
+   "candidates": 634,
+   "counts": {
+    "self_includes": 420,
+    "unattributed": 0,
+    "world": 214
+   },
+   "liveness": true,
+   "seed": 20270103
+  },
+  {
+   "candidates": 1252,
+   "counts": {
+    "self_includes": 812,
+    "unattributed": 0,
+    "world": 440
+   },
+   "liveness": true,
+   "seed": 20270104
+  },
+  {
+   "candidates": 618,
+   "counts": {
+    "self_includes": 404,
+    "unattributed": 0,
+    "world": 214
+   },
+   "liveness": true,
+   "seed": 20270105
+  }
+ ],
+ "projection": {
+  "projected_self_including": 8874.0,
+  "projected_world": 4422.0,
+  "rule": "design-mean per-seed yield x 15 confirmatory seeds, against the preregistered 30-per-arm floor",
+  "seeds": 15
+ },
+ "seeds": [
+  20270101,
+  20270102,
+  20270103,
+  20270104,
+  20270105
+ ],
+ "status": "design_block_only_no_endpoint"
+}

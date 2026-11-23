@@ -1,0 +1,9347 @@
+{
+ "condition": "recency",
+ "seed": 20302403,
+ "facts": {
+  "cycles": 300,
+  "theory_cycles": 74,
+  "last_nonzero_cycle": 75,
+  "death_cycle": 76,
+  "theories_total": 369,
+  "beliefs_total": 1968,
+  "theory_removals": {
+   "superseded": 58,
+   "parent_loss": 9,
+   "competing_collapse": 0,
+   "capped": 0,
+   "unexplained": 0
+  },
+  "belief_removals": {
+   "capped": 8,
+   "not_reformed": 25
+  },
+  "unexplained": 0,
+  "condition": "recency",
+  "seed": 20302403,
+  "stable_series": [
+   21,
+   21,
+   21,
+   21,
+   21,
+   21,
+   21,
+   21,
+   20,
+   20,
+   20,
+   20,
+   19,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   18,
+   16,
+   16,
+   16,
+   14,
+   16,
+   14,
+   12,
+   14,
+   14,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   12,
+   11,
+   11,
+   12,
+   11,
+   11,
+   10,
+   11,
+   11,
+   10,
+   10,
+   11,
+   10,
+   10,
+   11,
+   10,
+   9,
+   10,
+   10,
+   9,
+   9,
+   9,
+   9,
+   9,
+   9,
+   9,
+   9,
+   9,
+   9,
+   9,
+   9,
+   9,
+   9,
+   9,
+   9,
+   9,
+   9,
+   9,
+   9,
+   9,
+   9,
+   9,
+   9,
+   9,
+   9,
+   9,
+   8,
+   8,
+   9,
+   8,
+   8,
+   8,
+   8,
+   8,
+   7,
+   8,
+   8,
+   7,
+   7,
+   8,
+   7,
+   7,
+   8,
+   7,
+   7,
+   8,
+   7,
+   6,
+   7,
+   7,
+   6,
+   7,
+   7,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6
+  ],
+  "stable_peak": 21,
+  "stable_zero": 301,
+  "decay_calls": [
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 1819,
+    "mass_after": 1769
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 1835,
+    "mass_after": 1804
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 1868,
+    "mass_after": 1806
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 1872,
+    "mass_after": 1822
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 1888,
+    "mass_after": 1857
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 1921,
+    "mass_after": 1860
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 1926,
+    "mass_after": 1872
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 1938,
+    "mass_after": 1904
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 1968,
+    "mass_after": 1903
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 1969,
+    "mass_after": 1919
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 1985,
+    "mass_after": 1954
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2018,
+    "mass_after": 1951
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2017,
+    "mass_after": 1961
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2027,
+    "mass_after": 1994
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2058,
+    "mass_after": 1993
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2059,
+    "mass_after": 2005
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2071,
+    "mass_after": 2034
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2098,
+    "mass_after": 2029
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2095,
+    "mass_after": 2039
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2105,
+    "mass_after": 2072
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2136,
+    "mass_after": 2065
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2131,
+    "mass_after": 2071
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2137,
+    "mass_after": 2098
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2162,
+    "mass_after": 2091
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2157,
+    "mass_after": 2101
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2167,
+    "mass_after": 2126
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2190,
+    "mass_after": 2115
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2181,
+    "mass_after": 2121
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2187,
+    "mass_after": 2152
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2216,
+    "mass_after": 2143
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2209,
+    "mass_after": 2149
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2215,
+    "mass_after": 2174
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2238,
+    "mass_after": 2165
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2231,
+    "mass_after": 2175
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2241,
+    "mass_after": 2200
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2264,
+    "mass_after": 2185
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2251,
+    "mass_after": 2191
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2257,
+    "mass_after": 2216
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2280,
+    "mass_after": 2207
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2273,
+    "mass_after": 2211
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2277,
+    "mass_after": 2236
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2300,
+    "mass_after": 2221
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2287,
+    "mass_after": 2227
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2293,
+    "mass_after": 2252
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2316,
+    "mass_after": 2237
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2303,
+    "mass_after": 2241
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2307,
+    "mass_after": 2266
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2330,
+    "mass_after": 2251
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2317,
+    "mass_after": 2255
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2321,
+    "mass_after": 2280
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2344,
+    "mass_after": 2265
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2331,
+    "mass_after": 2269
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2335,
+    "mass_after": 2294
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2358,
+    "mass_after": 2280
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2346,
+    "mass_after": 2284
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2350,
+    "mass_after": 2309
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2373,
+    "mass_after": 2295
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2361,
+    "mass_after": 2299
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2365,
+    "mass_after": 2324
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2388,
+    "mass_after": 2309
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2375,
+    "mass_after": 2310
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2376,
+    "mass_after": 2333
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2397,
+    "mass_after": 2319
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2385,
+    "mass_after": 2323
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2389,
+    "mass_after": 2348
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2412,
+    "mass_after": 2332
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2398,
+    "mass_after": 2333
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2399,
+    "mass_after": 2356
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2420,
+    "mass_after": 2342
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2408,
+    "mass_after": 2343
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2409,
+    "mass_after": 2366
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2430,
+    "mass_after": 2350
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2416,
+    "mass_after": 2354
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2420,
+    "mass_after": 2377
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2441,
+    "mass_after": 2361
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2427,
+    "mass_after": 2362
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2428,
+    "mass_after": 2385
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2449,
+    "mass_after": 2369
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2435,
+    "mass_after": 2370
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2436,
+    "mass_after": 2393
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2457,
+    "mass_after": 2377
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2443,
+    "mass_after": 2378
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2444,
+    "mass_after": 2401
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2465,
+    "mass_after": 2382
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2448,
+    "mass_after": 2383
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2449,
+    "mass_after": 2406
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2470,
+    "mass_after": 2390
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2456,
+    "mass_after": 2391
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2457,
+    "mass_after": 2414
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2478,
+    "mass_after": 2398
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2464,
+    "mass_after": 2399
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2465,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2486,
+    "mass_after": 2403
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2469,
+    "mass_after": 2404
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2470,
+    "mass_after": 2427
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2491,
+    "mass_after": 2411
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2477,
+    "mass_after": 2412
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2478,
+    "mass_after": 2435
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2499,
+    "mass_after": 2414
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2480,
+    "mass_after": 2413
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2479,
+    "mass_after": 2436
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2500,
+    "mass_after": 2417
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2483,
+    "mass_after": 2416
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2482,
+    "mass_after": 2439
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2503,
+    "mass_after": 2418
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2484,
+    "mass_after": 2417
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2483,
+    "mass_after": 2440
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2504,
+    "mass_after": 2419
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2485,
+    "mass_after": 2418
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2484,
+    "mass_after": 2441
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2505,
+    "mass_after": 2420
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2486,
+    "mass_after": 2419
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2485,
+    "mass_after": 2442
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2506,
+    "mass_after": 2421
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2487,
+    "mass_after": 2419
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2485,
+    "mass_after": 2442
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2506,
+    "mass_after": 2421
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2487,
+    "mass_after": 2420
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2486,
+    "mass_after": 2443
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2507,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2488,
+    "mass_after": 2421
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2487,
+    "mass_after": 2444
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2508,
+    "mass_after": 2423
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2489,
+    "mass_after": 2421
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2487,
+    "mass_after": 2444
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2508,
+    "mass_after": 2423
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2489,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 11,
+    "mass_before": 2490,
+    "mass_after": 2422
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 15,
+    "mass_before": 2488,
+    "mass_after": 2445
+   },
+   {
+    "factor": 0.95,
+    "floor": 1,
+    "rows": 27,
+    "lifted": 0,
+    "exempted": 6,
+    "mass_before": 2509,
+    "mass_after": 2424
+   }
+  ],
+  "decay_rows_min": 27,
+  "lifted_total": 0,
+  "exempted_total": 3200,
+  "exempted_cycles": 300,
+  "decay_factors": [
+   0.95
+  ],
+  "decay_floors": [
+   1
+  ],
+  "mass_unchanged": false
+ },
+ "ledger": [
+  {
+   "cycle": 0,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 0,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 1,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 22,
+   "theory_births": 5,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 2,
+   "formed_beliefs": 16,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 6,
+   "belief_births": 2,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 2
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 3,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 2,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 2,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 1,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 4,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 5,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 6,
+   "formed_beliefs": 16,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 6,
+   "belief_births": 2,
+   "theory_births": 2,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 2
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 7,
+   "formed_beliefs": 17,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 6,
+   "belief_births": 1,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 1,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 8,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 1,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 1,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 1,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 9,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 10,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 11,
+   "formed_beliefs": 16,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 6,
+   "belief_births": 2,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 2
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 12,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 2,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 2,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 1,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 13,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 14,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 15,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 16,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 17,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 18,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 19,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 20,
+   "formed_beliefs": 16,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 6,
+   "belief_births": 2,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 2
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 21,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 2,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 2,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 1,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 22,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 23,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 24,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 25,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 26,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 27,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 28,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 29,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 30,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 31,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 32,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 33,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 34,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 35,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 36,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 37,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 38,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 39,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 40,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 41,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 42,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 43,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 44,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 45,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 46,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 47,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 48,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 49,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 50,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 51,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 52,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 53,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 54,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 55,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 56,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 57,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 58,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 59,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 60,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 61,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 62,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 63,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 64,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 65,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 66,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 67,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 68,
+   "formed_beliefs": 18,
+   "retained_beliefs": 15,
+   "theory_input_beliefs": 22,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 69,
+   "formed_beliefs": 14,
+   "retained_beliefs": 14,
+   "theory_input_beliefs": 21,
+   "theories": 5,
+   "belief_births": 2,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 3
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 70,
+   "formed_beliefs": 14,
+   "retained_beliefs": 14,
+   "theory_input_beliefs": 21,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 71,
+   "formed_beliefs": 14,
+   "retained_beliefs": 14,
+   "theory_input_beliefs": 21,
+   "theories": 5,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 72,
+   "formed_beliefs": 10,
+   "retained_beliefs": 10,
+   "theory_input_beliefs": 17,
+   "theories": 3,
+   "belief_births": 0,
+   "theory_births": 1,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 4
+   },
+   "theory_removals": {
+    "superseded": 1,
+    "parent_loss": 2,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 73,
+   "formed_beliefs": 10,
+   "retained_beliefs": 10,
+   "theory_input_beliefs": 17,
+   "theories": 3,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 74,
+   "formed_beliefs": 10,
+   "retained_beliefs": 10,
+   "theory_input_beliefs": 17,
+   "theories": 3,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 75,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 4
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 3,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 76,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 77,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 78,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 79,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 80,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 81,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 82,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 83,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 84,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 85,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 86,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 87,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 88,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 89,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 90,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 91,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 92,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 93,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 94,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 95,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 96,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 97,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 98,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 99,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 100,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 101,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 102,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 103,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 104,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 105,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 106,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 107,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 108,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 109,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 110,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 111,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 112,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 113,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 114,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 115,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 116,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 117,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 118,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 119,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 120,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 121,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 122,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 123,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 124,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 125,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 126,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 127,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 128,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 129,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 130,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 131,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 132,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 133,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 134,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 135,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 136,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 137,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 138,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 139,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 140,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 141,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 142,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 143,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 144,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 145,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 146,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 147,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 148,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 149,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 150,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 151,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 152,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 153,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 154,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 155,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 156,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 157,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 158,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 159,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 160,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 161,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 162,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 163,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 164,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 165,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 166,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 167,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 168,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 169,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 170,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 171,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 172,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 173,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 174,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 175,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 176,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 177,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 178,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 179,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 180,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 181,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 182,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 183,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 184,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 185,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 186,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 187,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 188,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 189,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 190,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 191,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 192,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 193,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 194,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 195,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 196,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 197,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 198,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 199,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 200,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 201,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 202,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 203,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 204,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 205,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 206,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 207,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 208,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 209,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 210,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 211,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 212,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 213,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 214,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 215,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 216,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 217,
+   "formed_beliefs": 6,
+   "retained_beliefs": 6,
+   "theory_input_beliefs": 13,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 218,
+   "formed_beliefs": 4,
+   "retained_beliefs": 4,
+   "theory_input_beliefs": 11,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 2
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 219,
+   "formed_beliefs": 4,
+   "retained_beliefs": 4,
+   "theory_input_beliefs": 11,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 220,
+   "formed_beliefs": 4,
+   "retained_beliefs": 4,
+   "theory_input_beliefs": 11,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 221,
+   "formed_beliefs": 2,
+   "retained_beliefs": 2,
+   "theory_input_beliefs": 9,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 2
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 222,
+   "formed_beliefs": 2,
+   "retained_beliefs": 2,
+   "theory_input_beliefs": 9,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 223,
+   "formed_beliefs": 2,
+   "retained_beliefs": 2,
+   "theory_input_beliefs": 9,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 224,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 2
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 225,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 226,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 227,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 228,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 229,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 230,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 231,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 232,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 233,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 234,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 235,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 236,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 237,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 238,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 239,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 240,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 241,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 242,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 243,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 244,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 245,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 246,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 247,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 248,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 249,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 250,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 251,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 252,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 253,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 254,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 255,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 256,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 257,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 258,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 259,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 260,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 261,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 262,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 263,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 264,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 265,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 266,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 267,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 268,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 269,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 270,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 271,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 272,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 273,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 274,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 275,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 276,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 277,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 278,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 279,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 280,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 281,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 282,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 283,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 284,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 285,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 286,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 287,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 288,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 289,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 290,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 291,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 292,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 293,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 294,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 295,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 296,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 297,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 298,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  },
+  {
+   "cycle": 299,
+   "formed_beliefs": 0,
+   "retained_beliefs": 0,
+   "theory_input_beliefs": 7,
+   "theories": 0,
+   "belief_births": 0,
+   "theory_births": 0,
+   "belief_removals": {
+    "capped": 0,
+    "not_reformed": 0
+   },
+   "theory_removals": {
+    "superseded": 0,
+    "parent_loss": 0,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   }
+  }
+ ],
+ "stable_series": [
+  21,
+  21,
+  21,
+  21,
+  21,
+  21,
+  21,
+  21,
+  20,
+  20,
+  20,
+  20,
+  19,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  16,
+  16,
+  16,
+  14,
+  16,
+  14,
+  12,
+  14,
+  14,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  11,
+  11,
+  12,
+  11,
+  11,
+  10,
+  11,
+  11,
+  10,
+  10,
+  11,
+  10,
+  10,
+  11,
+  10,
+  9,
+  10,
+  10,
+  9,
+  9,
+  9,
+  9,
+  9,
+  9,
+  9,
+  9,
+  9,
+  9,
+  9,
+  9,
+  9,
+  9,
+  9,
+  9,
+  9,
+  9,
+  9,
+  9,
+  9,
+  9,
+  9,
+  9,
+  9,
+  9,
+  9,
+  8,
+  8,
+  9,
+  8,
+  8,
+  8,
+  8,
+  8,
+  7,
+  8,
+  8,
+  7,
+  7,
+  8,
+  7,
+  7,
+  8,
+  7,
+  7,
+  8,
+  7,
+  6,
+  7,
+  7,
+  6,
+  7,
+  7,
+  6,
+  6,
+  6,
+  6,
+  6,
+  6,
+  6,
+  6,
+  6,
+  6,
+  6,
+  6,
+  6,
+  6,
+  6,
+  6,
+  6,
+  6,
+  6,
+  6,
+  6,
+  6,
+  6,
+  6,
+  6,
+  6
+ ]
+}

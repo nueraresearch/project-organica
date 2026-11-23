@@ -1,0 +1,44 @@
+{
+  "confidence": {
+    "policy": "confidence",
+    "cycles": 300,
+    "max_hypotheses_cap": 15,
+    "max_predictions_cap": 40,
+    "mean_pre_cap_pool": 3.82,
+    "max_pre_cap_pool": 13,
+    "mean_retention_pressure": 0.25,
+    "max_retention_pressure": 0.867,
+    "pressure_ge1_fraction": 0.0,
+    "gate_gp1_passed": false,
+    "mean_competing_subjects": 0.45,
+    "mean_theories": 0.45
+  },
+  "contradiction": {
+    "policy": "contradiction",
+    "cycles": 300,
+    "max_hypotheses_cap": 15,
+    "max_predictions_cap": 40,
+    "mean_pre_cap_pool": 3.82,
+    "max_pre_cap_pool": 13,
+    "mean_retention_pressure": 0.25,
+    "max_retention_pressure": 0.867,
+    "pressure_ge1_fraction": 0.0,
+    "gate_gp1_passed": false,
+    "mean_competing_subjects": 0.45,
+    "mean_theories": 0.45
+  },
+  "shannon_entropy": {
+    "policy": "shannon_entropy",
+    "cycles": 300,
+    "max_hypotheses_cap": 15,
+    "max_predictions_cap": 40,
+    "mean_pre_cap_pool": 3.82,
+    "max_pre_cap_pool": 13,
+    "mean_retention_pressure": 0.25,
+    "max_retention_pressure": 0.867,
+    "pressure_ge1_fraction": 0.0,
+    "gate_gp1_passed": false,
+    "mean_competing_subjects": 0.45,
+    "mean_theories": 0.45
+  }
+}

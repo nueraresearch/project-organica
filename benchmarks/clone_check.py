@@ -22,10 +22,19 @@ stranger-facing entry points from inside that clone:
 Nothing here touches the live study: the clone gets its own scratch
 directory, and the live `memory.db` is not on the path.
 
+A previous report is copied aside first, under its own `generated_at`, because
+the revision log and the release gate quote earlier checks by path and
+timestamp: overwriting the live file would leave those citations naming a record
+that no longer exists. The archive is keyed on the record's timestamp, not on
+when the copy happened, so the citation and the file agree by construction.
+
 Usage:
     python benchmarks/clone_check.py
     python benchmarks/clone_check.py --keep          # leave the clone behind
     python benchmarks/clone_check.py --remote https://github.com/nueraresearch/project-organica.git
+
+The script form is the documented one; it inserts the repository root on
+`sys.path` itself, so `python -m benchmarks.clone_check` is not required.
 """
 
 from __future__ import annotations
@@ -41,6 +50,17 @@ import time
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+
+# `python benchmarks/clone_check.py` -- the invocation in this module's own
+# docstring, in AGENTS.md and in the manual -- puts `benchmarks/` on sys.path,
+# not the repository root, so `import benchmarks` raised ModuleNotFoundError
+# before a single check ran. pytest never saw it because conftest.py supplies
+# the root. Put the root first, which is what `python -m benchmarks.clone_check`
+# does for itself.
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from benchmarks import engine_stamp
 DEFAULT_REMOTE = "https://github.com/nueraresearch/project-organica.git"
 
 #: The Organica 1 archival tag. tests/test_v1_freeze.py compares the
@@ -78,6 +98,38 @@ def live_row_count(db: Path) -> int:
         return -1
 
 
+def archive_previous(out_path: Path) -> Path | None:
+    """Copy an existing report aside under its own timestamp before replacing it.
+
+    The name comes from the record's `generated_at`, so the archive of the
+    2026-11-09T14:40:19Z check is `clone_check_2026-11-09T14-40-19Z.json` and a
+    citation that quotes that timestamp resolves to it. An unreadable or
+    unstamped record still must not be lost, so it falls back to the file's
+    mtime. A record already archived verbatim is not duplicated, and a different
+    record claiming a timestamp that is already taken gets a numeric suffix
+    rather than overwriting the earlier copy.
+    """
+    if not out_path.exists():
+        return None
+    raw = out_path.read_bytes()
+    try:
+        stamp = json.loads(raw.decode("utf-8")).get("generated_at")
+    except (UnicodeDecodeError, ValueError, AttributeError):
+        stamp = None
+    if not isinstance(stamp, str) or not stamp:
+        stamp = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(out_path.stat().st_mtime))
+    stem = "clone_check_%s" % stamp.replace(":", "-")
+    archive = out_path.with_name(stem + ".json")
+    counter = 2
+    while archive.exists():
+        if archive.read_bytes() == raw:
+            return archive  # already preserved verbatim; keep the first copy
+        archive = out_path.with_name("%s-%d.json" % (stem, counter))
+        counter += 1
+    archive.write_bytes(raw)
+    return archive
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="Verify a fresh clone works end to end.")
     ap.add_argument("--remote", default=DEFAULT_REMOTE)
@@ -104,18 +156,24 @@ def main() -> int:
 
     # ---- 1. clone ----------------------------------------------------
     t0 = time.time()
-    code, out = run(["git", "clone", "--depth", "1", "--branch", args.branch,
+    # A full clone, not `--depth 1`. Three parts of the suite need history: the
+    # change map walks `v0.9.0..HEAD` and claims every post-freeze engine commit,
+    # the engine-change audit derives its commit count from git, and the deposit
+    # bundle archives the `v0.12.0` tag. A depth-1 clone has one commit and no
+    # tags, so on 2026-11-09 this check reported 6 failed and 13 errors while the
+    # same suite passed in a full checkout -- a failure that measured the clone
+    # rather than the repository. A stranger's clone is a normal clone, so the
+    # check makes one.
+    code, out = run(["git", "clone", "--branch", args.branch,
                      args.remote, str(clone)], cwd=workdir, timeout=600)
     ok = code == 0 and clone.exists()
     tag_detail = ""
     if ok:
-        # `--depth 1` fetches only tags pointing at the cloned commit, so
-        # the archival tag -- an ancestor -- is absent, and
-        # tests/test_v1_freeze.py skips all fifteen comparisons. A green
-        # clone check would then say nothing about the freeze. Fetch the
-        # tag explicitly: a depth limit bounds commits, not trees, so the
-        # tagged blobs arrive and the comparisons can run.
-        tag_code, tag_out = run(["git", "fetch", "--depth", "1", "origin",
+        # A full clone brings every tag, but the freeze comparison is the reason
+        # this repository's clones matter, so the archival tag is fetched
+        # explicitly rather than assumed: if it is ever moved or dropped, this
+        # check says so instead of skipping the comparisons silently.
+        tag_code, tag_out = run(["git", "fetch", "origin",
                                  f"refs/tags/{FREEZE_TAG}:refs/tags/{FREEZE_TAG}"],
                                 cwd=clone, timeout=300)
         if tag_code != 0:
@@ -226,7 +284,10 @@ def main() -> int:
 
     out_path = REPO_ROOT / args.out
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps({
+    archived = archive_previous(out_path)
+    if archived is not None:
+        print(f"  Previous report archived to: {archived}")
+    out_path.write_text(json.dumps(engine_stamp.stamp({
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "remote": args.remote,
         "branch": args.branch,
@@ -234,7 +295,7 @@ def main() -> int:
         "examples": example_results,
         "passed": passed,
         "total": len(results),
-    }, indent=2), encoding="utf-8")
+    }), indent=2), encoding="utf-8")
     print(f"  Report written to: {out_path}")
 
     if args.keep:

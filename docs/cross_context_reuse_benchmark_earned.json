@@ -1,0 +1,240 @@
+{
+  "kind": "cross_context_reuse_benchmark",
+  "protocol": "earned-evidence (docs/DECISION-EARNED-SCHEMA-PRIMING.md)",
+  "generated_utc": "2026-11-06T00:14:38Z",
+  "seeds": [
+    20261101,
+    20261102,
+    20261103,
+    20261104,
+    20261105
+  ],
+  "phase_a_cycles": 40,
+  "phase_b_cycles": 40,
+  "total_seconds": 477.61,
+  "metrics": {
+    "mean_cycles_naive": 3.4,
+    "mean_cycles_treatment": 3.6,
+    "mean_cycles_pruned": 3.4,
+    "mean_cycles_orthogonal": 3.4,
+    "transfer_ratio_treatment": 0.944,
+    "transfer_ratio_pruned": 1.0,
+    "transfer_ratio_orthogonal": 1.0,
+    "mean_tp_treatment": 28.2,
+    "primed_predictions": {
+      "treatment": 2298,
+      "control_naive": 1512,
+      "control_pruned": 2798,
+      "control_orthogonal": 2043
+    },
+    "treatment_target_rank_at_acquire": [
+      7,
+      5,
+      4,
+      20,
+      7
+    ],
+    "reusable_knowledge_verdict": "STRUCTURAL_PRIOR_PRESENT_NO_ACQUISITION_ADVANTAGE"
+  },
+  "per_arm_results": {
+    "treatment": [
+      {
+        "arm": "treatment",
+        "seed": 20261101,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 29,
+        "primed_predictions": 432,
+        "target_rank_at_acquire": 7
+      },
+      {
+        "arm": "treatment",
+        "seed": 20261102,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 27,
+        "primed_predictions": 423,
+        "target_rank_at_acquire": 5
+      },
+      {
+        "arm": "treatment",
+        "seed": 20261103,
+        "acquired": true,
+        "cycles_to_acquire": 2,
+        "persistence_cycles": 29,
+        "primed_predictions": 514,
+        "target_rank_at_acquire": 4
+      },
+      {
+        "arm": "treatment",
+        "seed": 20261104,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 25,
+        "primed_predictions": 468,
+        "target_rank_at_acquire": 20
+      },
+      {
+        "arm": "treatment",
+        "seed": 20261105,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 31,
+        "primed_predictions": 461,
+        "target_rank_at_acquire": 7
+      }
+    ],
+    "control_naive": [
+      {
+        "arm": "control_naive",
+        "seed": 20261101,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 28,
+        "primed_predictions": 299,
+        "target_rank_at_acquire": 1
+      },
+      {
+        "arm": "control_naive",
+        "seed": 20261102,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 31,
+        "primed_predictions": 338,
+        "target_rank_at_acquire": 1
+      },
+      {
+        "arm": "control_naive",
+        "seed": 20261103,
+        "acquired": true,
+        "cycles_to_acquire": 2,
+        "persistence_cycles": 37,
+        "primed_predictions": 382,
+        "target_rank_at_acquire": 1
+      },
+      {
+        "arm": "control_naive",
+        "seed": 20261104,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 26,
+        "primed_predictions": 119,
+        "target_rank_at_acquire": 2
+      },
+      {
+        "arm": "control_naive",
+        "seed": 20261105,
+        "acquired": true,
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 29,
+        "primed_predictions": 374,
+        "target_rank_at_acquire": 1
+      }
+    ],
+    "control_pruned": [
+      {
+        "arm": "control_pruned",
+        "seed": 20261101,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 30,
+        "primed_predictions": 618,
+        "target_rank_at_acquire": 1
+      },
+      {
+        "arm": "control_pruned",
+        "seed": 20261102,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 28,
+        "primed_predictions": 549,
+        "target_rank_at_acquire": 1
+      },
+      {
+        "arm": "control_pruned",
+        "seed": 20261103,
+        "acquired": true,
+        "cycles_to_acquire": 2,
+        "persistence_cycles": 28,
+        "primed_predictions": 442,
+        "target_rank_at_acquire": 1
+      },
+      {
+        "arm": "control_pruned",
+        "seed": 20261104,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 26,
+        "primed_predictions": 471,
+        "target_rank_at_acquire": 1
+      },
+      {
+        "arm": "control_pruned",
+        "seed": 20261105,
+        "acquired": true,
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 33,
+        "primed_predictions": 718,
+        "target_rank_at_acquire": 1
+      }
+    ],
+    "control_orthogonal": [
+      {
+        "arm": "control_orthogonal",
+        "seed": 20261101,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 32,
+        "primed_predictions": 409,
+        "target_rank_at_acquire": 1
+      },
+      {
+        "arm": "control_orthogonal",
+        "seed": 20261102,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 29,
+        "primed_predictions": 340,
+        "target_rank_at_acquire": 1
+      },
+      {
+        "arm": "control_orthogonal",
+        "seed": 20261103,
+        "acquired": true,
+        "cycles_to_acquire": 2,
+        "persistence_cycles": 28,
+        "primed_predictions": 422,
+        "target_rank_at_acquire": 9
+      },
+      {
+        "arm": "control_orthogonal",
+        "seed": 20261104,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 27,
+        "primed_predictions": 392,
+        "target_rank_at_acquire": 1
+      },
+      {
+        "arm": "control_orthogonal",
+        "seed": 20261105,
+        "acquired": true,
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 33,
+        "primed_predictions": 480,
+        "target_rank_at_acquire": 5
+      }
+    ]
+  },
+  "chunked_run": {
+    "chunks": 5,
+    "note": "one seed per process; assembled by build_summary() so chunking cannot alter the arithmetic",
+    "per_chunk_seconds": [
+      99.57,
+      91.39,
+      94.08,
+      91.83,
+      100.74
+    ]
+  }
+}

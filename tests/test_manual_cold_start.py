@@ -27,6 +27,7 @@ Run:  python -m pytest tests/test_manual_cold_start.py -v
 """
 
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 import re

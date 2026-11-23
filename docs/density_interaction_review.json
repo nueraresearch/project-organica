@@ -1,0 +1,83 @@
+{
+ "review": "DENSITY-INTERACTION-REVIEW-1",
+ "date": "2026-11-07",
+ "subject": "DENSITY-INTERACTION-1, docs/density_interaction_prereg.json",
+ "verdict": "HELD - NOT RUNNABLE AS REGISTERED",
+ "headline": "the block runs, and its dense end has no headroom: at rho_world 0.8 under fixed total exposure the control already scores precision 1.000, so the treatment cannot add anything there and the registered interaction cannot be positive",
+ "method": [
+  "cold read of the committed artifacts, the frozen engine's API and the engine's own ordering",
+  "an engine dry run on five unregistered seeds (991001-991005), which are outside the registered block and produce no judged cell",
+  "no judged cell ran, no registered seed was touched, and nothing here is a result about the hypothesis"
+ ],
+ "dry_run": {
+  "seeds": [991001, 991002, 991003, 991004, 991005],
+  "cap": 20,
+  "rows": [
+   {"rho_world": 0.1, "scheme": "primary", "seeds": 5,
+    "control": [0.35, 0.35, 0.25, 0.5, 0.45],
+    "treated": [0.45, 0.35, 0.35, 0.55, 0.5],
+    "delta": [0.1, 0.0, 0.1, 0.05, 0.05], "delta_mean": 0.06},
+   {"rho_world": 0.8, "scheme": "primary", "seeds": 5,
+    "control": [1.0, 1.0, 1.0, 1.0, 1.0],
+    "treated": [1.0, 1.0, 1.0, 1.0, 1.0],
+    "delta": [0.0, 0.0, 0.0, 0.0, 0.0], "delta_mean": 0.0},
+   {"rho_world": 0.1, "scheme": "sensitivity", "seeds": 4,
+    "control": [0.35, 0.25, 0.45, 0.45],
+    "treated": [0.35, 0.35, 0.5, 0.5],
+    "delta": [0.0, 0.1, 0.05, 0.05], "delta_mean": 0.05},
+   {"rho_world": 0.8, "scheme": "sensitivity", "seeds": 4,
+    "control": [0.8, 0.8, 0.8, 0.8],
+    "treated": [1.0, 1.0, 1.0, 1.0],
+    "delta": [0.2, 0.2, 0.2, 0.2], "delta_mean": 0.2}
+  ],
+  "interaction_primary": -0.06,
+  "interaction_sensitivity": 0.15,
+  "pool_at_dense": {"rows": 240, "world_rows": 192, "rho_rank": 0.8},
+  "note": "seed counts differ by scheme because the sensitivity rows were measured on the four seeds of the second batch; the primary rows carry all five"
+ },
+ "findings": [
+  {"id": "F1", "severity": "blocking",
+   "what": "the dense end is saturated by arithmetic: at rho_world 0.8 the pool is 240 rows of which 192 are world edges, so any count-ranked top-20 is all world edges and both arms score 1.000 on 5 of 5 seeds. Delta(0.8) is 0 by construction, C1's lower bound cannot exceed 0, and the primary scheme's interaction is negative (-0.06) while the per-edge scheme's is positive (+0.15). The design record defines a sign reversal between schemes as an exposure artifact",
+   "fixed": false,
+   "why_not_fixed_here": "this is the design's budget, not a harness defect; changing the cap or the anchor after seeing a dry run is a new registration (A2), and it is the owner's call"
+  },
+  {"id": "F2", "severity": "blocking",
+   "what": "amendment A1's direction (the advantage rises) was measured on the designed pools, whose count distribution at the dense end differs from the engine's. On the engine's pool the same world gives the opposite sign under the primary scheme. The designed-pool audit is a feasibility check on the world, not on the instrument, and the registration leaned on it as if it were one",
+   "fixed": false,
+   "why_not_fixed_here": "the direction cannot be corrected again without new evidence from a redesigned budget; A1 is retained and marked as not transferring, and the block is held instead"
+  },
+  {"id": "F3", "severity": "high",
+   "what": "the rho = 1 identity fixture selected the whole pool (cap = number of rows), so both arms were identical no matter what the eligibility filter did: a check that could not fail",
+   "fixed": true,
+   "fix": "cap is the primary cap, so the arms agree only if the filter removes nothing it should not; a guard asserts cap < pool and that G0 compares sets rather than stored order"
+  },
+  {"id": "F4", "severity": "high",
+   "what": "gate G0 compared the arms' stored selection lists, so the same rows in a different order counted as liveness",
+   "fixed": true,
+   "fix": "G0 compares the selected sets; a test reverses one arm's list on every seed and asserts G0 fails and the block voids"
+  },
+  {"id": "F5", "severity": "medium",
+   "what": "the world description said the filler's share of the event budget is (1 - rho_world). Its event count is proportional to (1 - rho) against a fixed peak budget, while the stream grows with |W|, so the share falls faster than (1 - rho)",
+   "fixed": true,
+   "fix": "the module docstring and the registration's world paragraph state the count and the faster-falling share; a test asserts the old sentence is gone and the proportionality that does hold"
+  },
+  {"id": "F6", "severity": "low",
+   "what": "two literals: the provenance wrote `primary_cap and 400`, and the generator audit compared against a hardcoded 400",
+   "fixed": true,
+   "fix": "both read TOTAL_EVENTS from the world module"
+  },
+  {"id": "F7", "severity": "medium",
+   "what": "the design record's analysis rule that precision cannot exceed rho_rank is false: at rho_world 0.8 the control scored precision 1.000 against rho_rank 0.800. Only min(1, |W and P_rank| / k) binds",
+   "fixed": true,
+   "fix": "the rule and the design record are corrected with the counter-measurement disclosed; the registration never gated on the false bound"
+  }
+ ],
+ "confirmed_by_the_review": [
+  "the runner opens a real engine pool (400 events, 50 cycles) and reads the precedes table: MemoryService.store, SleepService.run_sleep_cycle and the table's columns all match",
+  "the control's tie-break (-count, tag_from, tag_to) is the engine's own ORDER BY, so the control is the engine's ordering rather than a lookalike",
+  "presence is 1.0 in every dry-run cell, so the memory ceiling the design requires is reachable",
+  "the harness self-tests pass and the full suite is green after the fixes"
+ ],
+ "recommendation": "do not run this registration. A2 should make the budget a fixed fraction of |W| (cap = |W| / 4 holds the selection task comparable: 6 slots at 0.1, 48 at 0.8) or anchor the interaction on levels where the control is below the ceiling, reporting 0.8 as the demonstration that the ranking problem disappears. Either way the sparse end's headroom is bounded by |W| = 24, so the interaction is bounded well below the 0.35 the designed-pool audit suggested",
+ "not_a_result": "the dry-run figures describe the instrument on unregistered seeds. They are not evidence for or against the density hypothesis, and no criterion is read from them"
+}

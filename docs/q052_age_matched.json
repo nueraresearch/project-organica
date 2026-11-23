@@ -1,0 +1,242 @@
+{
+ "date": "2026-11-08",
+ "engine_version": "0.13.0",
+ "question": "does the burst cohort-mass gap survive a lattice death at the same age?",
+ "amendment": "A2a",
+ "amends": [
+  "docs/q052_competition_census.json",
+  "docs/q052_competition_census_a2.json"
+ ],
+ "design": "docs/Q052-FRAMING-DESIGN.md",
+ "reading_rule": "Tolerance 10 cycles; band 0.10 of cohort mass ratio. AGE_MATCH_UNAVAILABLE when no lattice death falls within the tolerance of a burst death; AGE_EXPLAINS_THE_GAP when a matched lattice death's ratio is within the band; AGE_DOES_NOT_EXPLAIN_THE_GAP when it is not.",
+ "tolerance": 10,
+ "band": 0.1,
+ "factors_run": [
+  0.95,
+  0.97,
+  0.98,
+  0.985,
+  0.99,
+  0.9924
+ ],
+ "factor_addition": "The first three factors (0.9924, 0.95, 0.97) put the lattice deaths at 300, 39 and 69, so no death fell inside the tolerance of 131-134. Three more factors were run to search for a death near those ages. The tolerance of 10 cycles and the band of 0.10 were fixed before any cell and were not changed.",
+ "live_cycles": [
+  131,
+  134
+ ],
+ "lattice_live": [
+  {
+   "cycle": 131,
+   "theories_at_before": 5,
+   "theories_at_cycle": 5,
+   "cohort_size": 22,
+   "cohort_survived": 22,
+   "edge_mass_at_last_live": 5003,
+   "edge_mass_at_death": 5002,
+   "mass_ratio": 0.9998
+  },
+  {
+   "cycle": 134,
+   "theories_at_before": 5,
+   "theories_at_cycle": 5,
+   "cohort_size": 22,
+   "cohort_survived": 21,
+   "edge_mass_at_last_live": 5041,
+   "edge_mass_at_death": 4710,
+   "mass_ratio": 0.934338
+  }
+ ],
+ "lattice_deaths": [
+  {
+   "death_cycle": 300,
+   "factor": 0.9924,
+   "cohort_size": 17,
+   "cohort_survived": 13,
+   "edge_mass_at_last_live": 4106,
+   "edge_mass_at_death": 2374,
+   "mass_ratio": 0.578178
+  },
+  {
+   "death_cycle": 39,
+   "factor": 0.95,
+   "cohort_size": 17,
+   "cohort_survived": 13,
+   "edge_mass_at_last_live": 834,
+   "edge_mass_at_death": 509,
+   "mass_ratio": 0.610312
+  },
+  {
+   "death_cycle": 69,
+   "factor": 0.97,
+   "cohort_size": 17,
+   "cohort_survived": 13,
+   "edge_mass_at_last_live": 1189,
+   "edge_mass_at_death": 703,
+   "mass_ratio": 0.591253
+  },
+  {
+   "death_cycle": 112,
+   "factor": 0.98,
+   "cohort_size": 17,
+   "cohort_survived": 13,
+   "edge_mass_at_last_live": 1733,
+   "edge_mass_at_death": 1006,
+   "mass_ratio": 0.580496
+  },
+  {
+   "death_cycle": 150,
+   "factor": 0.985,
+   "cohort_size": 17,
+   "cohort_survived": 13,
+   "edge_mass_at_last_live": 2203,
+   "edge_mass_at_death": 1286,
+   "mass_ratio": 0.583749
+  },
+  {
+   "death_cycle": 228,
+   "factor": 0.99,
+   "cohort_size": 17,
+   "cohort_survived": 13,
+   "edge_mass_at_last_live": 3192,
+   "edge_mass_at_death": 1848,
+   "mass_ratio": 0.578947
+  }
+ ],
+ "burst": [
+  {
+   "seed": 20303001,
+   "death_cycle": 134,
+   "cohort_size": 14,
+   "cohort_survived": 11,
+   "edge_mass_at_last_live": 1394,
+   "edge_mass_at_death": 429,
+   "mass_ratio": 0.307747
+  },
+  {
+   "seed": 20303002,
+   "death_cycle": 131,
+   "cohort_size": 16,
+   "cohort_survived": 12,
+   "edge_mass_at_last_live": 1386,
+   "edge_mass_at_death": 437,
+   "mass_ratio": 0.315296
+  },
+  {
+   "seed": 20303003,
+   "death_cycle": 131,
+   "cohort_size": 15,
+   "cohort_survived": 7,
+   "edge_mass_at_last_live": 1981,
+   "edge_mass_at_death": 67,
+   "mass_ratio": 0.033821
+  }
+ ],
+ "matches": [
+  {
+   "burst_seed": 20303001,
+   "burst_death": 134,
+   "burst_ratio": 0.307747,
+   "nearest_lattice_death": 150,
+   "nearest_lattice_factor": 0.985,
+   "nearest_lattice_ratio": 0.583749,
+   "distance": 16,
+   "lattice_ratio": null,
+   "difference": null,
+   "label": "AGE_MATCH_UNAVAILABLE"
+  },
+  {
+   "burst_seed": 20303002,
+   "burst_death": 131,
+   "burst_ratio": 0.315296,
+   "nearest_lattice_death": 112,
+   "nearest_lattice_factor": 0.98,
+   "nearest_lattice_ratio": 0.580496,
+   "distance": 19,
+   "lattice_ratio": null,
+   "difference": null,
+   "label": "AGE_MATCH_UNAVAILABLE"
+  },
+  {
+   "burst_seed": 20303003,
+   "burst_death": 131,
+   "burst_ratio": 0.033821,
+   "nearest_lattice_death": 112,
+   "nearest_lattice_factor": 0.98,
+   "nearest_lattice_ratio": 0.580496,
+   "distance": 19,
+   "lattice_ratio": null,
+   "difference": null,
+   "label": "AGE_MATCH_UNAVAILABLE"
+  }
+ ],
+ "age_trend": [
+  {
+   "death_cycle": 39,
+   "factor": 0.95,
+   "mass_ratio": 0.610312
+  },
+  {
+   "death_cycle": 69,
+   "factor": 0.97,
+   "mass_ratio": 0.591253
+  },
+  {
+   "death_cycle": 112,
+   "factor": 0.98,
+   "mass_ratio": 0.580496
+  },
+  {
+   "death_cycle": 150,
+   "factor": 0.985,
+   "mass_ratio": 0.583749
+  },
+  {
+   "death_cycle": 228,
+   "factor": 0.99,
+   "mass_ratio": 0.578947
+  },
+  {
+   "death_cycle": 300,
+   "factor": 0.9924,
+   "mass_ratio": 0.578178
+  }
+ ],
+ "age_spread": 0.032134,
+ "age_flat": true,
+ "bracketed": [
+  {
+   "burst_seed": 20303001,
+   "burst_death": 134,
+   "estimate": 0.582379,
+   "below": 112,
+   "above": 150,
+   "difference": -0.274632,
+   "beyond_band": true
+  },
+  {
+   "burst_seed": 20303002,
+   "burst_death": 131,
+   "estimate": 0.582122,
+   "below": 112,
+   "above": 150,
+   "difference": -0.266826,
+   "beyond_band": true
+  },
+  {
+   "burst_seed": 20303003,
+   "burst_death": 131,
+   "estimate": 0.582122,
+   "below": 112,
+   "above": 150,
+   "difference": -0.548301,
+   "beyond_band": true
+  }
+ ],
+ "bracketed_note": "Recorded after the exact match was found unavailable. It interpolates the lattice death ratio at the burst death age from the deaths either side, uses the same band of 0.10, and changes no label.",
+ "label": "AGE_MATCH_UNAVAILABLE",
+ "scope": "One world family, one instrument, four cells. The live comparison is not a death: it shows what a live cycle does to the cohort at those ages, while the death comparison needs a lattice factor that dies there.",
+ "no_new_engine": true,
+ "engine_commit": "6e0ff24d84d34fd7e99b79173e2247f035e194c1",
+ "engine_sha256": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2",
+ "runner": "__main__"
+}

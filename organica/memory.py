@@ -70,6 +70,10 @@ class MemoryService:
     def __init__(self, db_path: Path = DB_PATH):
         self.db_path = db_path
         self._conn = sqlite3.connect(str(db_path), check_same_thread=False)
+        self._conn.execute("PRAGMA journal_mode = WAL")
+        self._conn.execute("PRAGMA synchronous = NORMAL")
+        self._conn.execute("PRAGMA temp_store = MEMORY")
+        self._conn.execute("PRAGMA cache_size = -64000")
         self._batching = 0
         self._init_schema()
 
@@ -127,6 +131,18 @@ class MemoryService:
             )
         """)
         self._conn.execute("CREATE INDEX IF NOT EXISTS idx_time ON events(time)")
+        self._conn.execute(
+            "CREATE INDEX IF NOT EXISTS idx_events_time_desc ON events(time DESC)"
+        )
+        self._conn.execute(
+            "CREATE INDEX IF NOT EXISTS idx_cooccurrences_b ON cooccurrences(tag_b, count DESC)"
+        )
+        self._conn.execute(
+            "CREATE INDEX IF NOT EXISTS idx_precedes_to ON precedes(tag_to, count DESC)"
+        )
+        self._conn.execute(
+            "CREATE INDEX IF NOT EXISTS idx_precedes_count ON precedes(count DESC)"
+        )
 
         # A tiny key/value table for substrate bookkeeping that has to
         # survive across restarts. It records which SCOPE the incremental
@@ -310,13 +326,17 @@ class MemoryService:
         raw material for later discovering phrases, clusters, and noise.
         Order-normalised: (auth, failure) and (failure, auth) are the same edge.
         """
+        if len(tags) < 2:
+            return
+        pairs = Counter()
         for i in range(len(tags)):
             for j in range(i + 1, len(tags)):
                 a, b = sorted([tags[i], tags[j]])
-                self._conn.execute("""
-                    INSERT INTO cooccurrences (tag_a, tag_b, count) VALUES (?, ?, 1)
-                    ON CONFLICT(tag_a, tag_b) DO UPDATE SET count = count + 1
-                """, (a, b))
+                pairs[(a, b)] += 1
+        self._conn.executemany("""
+            INSERT INTO cooccurrences (tag_a, tag_b, count) VALUES (?, ?, ?)
+            ON CONFLICT(tag_a, tag_b) DO UPDATE SET count = count + excluded.count
+        """, [(a, b, count) for (a, b), count in pairs.items()])
 
     def _record_temporal_edges(self, new_tags: list[str], lookback: int = 3):
         """
@@ -330,17 +350,21 @@ class MemoryService:
         if not new_tags:
             return
         rows = self._conn.execute(
-            "SELECT tags FROM events ORDER BY time DESC LIMIT ?", (lookback,)
+            "SELECT tags FROM events WHERE event_type != 'sleep' ORDER BY time DESC, rowid DESC LIMIT ?",
+            (lookback,)
         ).fetchall()
+        edges = Counter()
         for (tags_str,) in rows:
             prior_tags = [t for t in (tags_str or "").split(",") if t]
             for tag_from in prior_tags:
                 for tag_to in new_tags:
                     if tag_from != tag_to:
-                        self._conn.execute("""
-                            INSERT INTO precedes (tag_from, tag_to, count) VALUES (?, ?, 1)
-                            ON CONFLICT(tag_from, tag_to) DO UPDATE SET count = count + 1
-                        """, (tag_from, tag_to))
+                        edges[(tag_from, tag_to)] += 1
+        if edges:
+            self._conn.executemany("""
+                INSERT INTO precedes (tag_from, tag_to, count) VALUES (?, ?, ?)
+                ON CONFLICT(tag_from, tag_to) DO UPDATE SET count = count + excluded.count
+            """, [(f, t, count) for (f, t), count in edges.items()])
 
     def cooccurrences(self, min_count: int = 1) -> list[tuple[str, str, int]]:
         """Return all co-occurrence edges with count >= min_count, sorted by count."""
@@ -379,20 +403,41 @@ class MemoryService:
     def temporal_edges(self, min_count: int = 2) -> list[tuple[str, str, int]]:
         """Return all temporal edges with count >= min_count, sorted by count."""
         rows = self._conn.execute(
-            "SELECT tag_from, tag_to, count FROM precedes WHERE count >= ? ORDER BY count DESC",
+            "SELECT tag_from, tag_to, count FROM precedes WHERE count >= ? ORDER BY count DESC, tag_from ASC, tag_to ASC",
             (min_count,)
         ).fetchall()
         return [(f, t, c) for f, t, c in rows]
 
+    def decay_temporal_edges(self, factor: float = 0.95, min_count: int = 1) -> int:
+        """Apply exponential decay to all temporal precedence edge counts (Law VI).
+
+        Prevents early-regime transitional counts from dominating forever,
+        enabling the engine to adapt when sequential patterns shift. Counts
+        are floored at min_count so edges are never erased entirely by decay
+        alone — natural pruning via min_count in temporal_edges() handles that.
+
+        Args:
+            factor:    Multiplicative decay per sleep cycle (default 0.95 = 5% decay).
+            min_count: Minimum count after decay. Prevents erosion to zero.
+
+        Returns:
+            Number of edge rows updated.
+        """
+        cur = self._conn.execute(
+            "UPDATE precedes SET count = MAX(?, CAST(ROUND(count * ?) AS INTEGER))",
+            (min_count, factor),
+        )
+        return cur.rowcount
+
     def recent(self, n: int = 50, event_type: Optional[str] = None) -> list[Event]:
         if event_type:
             rows = self._conn.execute(
-                "SELECT * FROM events WHERE event_type=? ORDER BY time DESC LIMIT ?",
+                "SELECT * FROM events WHERE event_type=? ORDER BY time DESC, rowid DESC LIMIT ?",
                 (event_type, n),
             ).fetchall()
         else:
             rows = self._conn.execute(
-                "SELECT * FROM events ORDER BY time DESC LIMIT ?", (n,)
+                "SELECT * FROM events ORDER BY time DESC, rowid DESC LIMIT ?", (n,)
             ).fetchall()
         return [Event.from_row(r) for r in rows]
 
@@ -510,8 +555,14 @@ class MemoryService:
         self._conn.close()
 
 
+_UUID_PATTERN = re.compile(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", re.IGNORECASE)
+
+
 def _extract_tags(content: str) -> list[str]:
-    words = re.findall(r"\b[a-zA-Z]{4,}\b", content.lower())
+    # Strip UUIDs so hexadecimal fragments (e.g. ebef, beef, cafe, fade)
+    # never pollute the organism's semantic tag vocabulary.
+    cleaned = _UUID_PATTERN.sub("", content)
+    words = re.findall(r"\b[a-zA-Z]{4,}\b", cleaned.lower())
     stopwords = {
         "this", "that", "with", "from", "have", "been", "will", "were",
         "they", "them", "then", "than", "when", "what", "which", "there",

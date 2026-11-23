@@ -1,0 +1,183 @@
+{
+  "what": "threshold, calibration association and power for the pre-registered loop-redundancy moderator block",
+  "judged_by_block": false,
+  "allocation": {
+    "lo": 20271101,
+    "hi": 20271200,
+    "seeds": 100
+  },
+  "freshness": {
+    "files_scanned": 517,
+    "occurrences_in_range": [],
+    "rejected_hits": [
+      20271001,
+      20271100
+    ],
+    "note": "8-digit 2027 tokens found by a whitespace/comma/colon split of every .py/.md/.json file"
+  },
+  "world_edges": 112,
+  "pairs": [
+    {
+      "seed": 20270901,
+      "loop_edges": 27,
+      "r": 0.2411,
+      "c_covered": 34,
+      "r_covered": 34,
+      "gain": 0.0
+    },
+    {
+      "seed": 20270902,
+      "loop_edges": 48,
+      "r": 0.4286,
+      "c_covered": 53,
+      "r_covered": 59,
+      "gain": 0.0536
+    },
+    {
+      "seed": 20270903,
+      "loop_edges": 51,
+      "r": 0.4554,
+      "c_covered": 53,
+      "r_covered": 60,
+      "gain": 0.0625
+    },
+    {
+      "seed": 20270905,
+      "loop_edges": 58,
+      "r": 0.5179,
+      "c_covered": 61,
+      "r_covered": 60,
+      "gain": -0.0089
+    },
+    {
+      "seed": 20270906,
+      "loop_edges": 62,
+      "r": 0.5536,
+      "c_covered": 62,
+      "r_covered": 77,
+      "gain": 0.1339
+    },
+    {
+      "seed": 20270907,
+      "loop_edges": 74,
+      "r": 0.6607,
+      "c_covered": 74,
+      "r_covered": 80,
+      "gain": 0.0536
+    },
+    {
+      "seed": 20270908,
+      "loop_edges": 30,
+      "r": 0.2679,
+      "c_covered": 37,
+      "r_covered": 35,
+      "gain": -0.0179
+    },
+    {
+      "seed": 20270913,
+      "loop_edges": 89,
+      "r": 0.7946,
+      "c_covered": 89,
+      "r_covered": 89,
+      "gain": 0.0
+    },
+    {
+      "seed": 20270921,
+      "loop_edges": 56,
+      "r": 0.5,
+      "c_covered": 63,
+      "r_covered": 58,
+      "gain": -0.0446
+    },
+    {
+      "seed": 20270924,
+      "loop_edges": 68,
+      "r": 0.6071,
+      "c_covered": 76,
+      "r_covered": 77,
+      "gain": 0.0089
+    }
+  ],
+  "threshold_r": 0.509,
+  "threshold_note": "median of the 10 calibration seeds; fixed before any block cell is run",
+  "association": {
+    "pearson": 0.171,
+    "spearman": 0.22,
+    "n": 10
+  },
+  "linear_fit": {
+    "intercept": -0.0024,
+    "slope": 0.0528,
+    "resid_sd": 0.0542
+  },
+  "bars": {
+    "m1_median_gain_difference": 0.03,
+    "m2_spearman_max": -0.25,
+    "m3_positive_share": 0.66
+  },
+  "power": {
+    "n25_calibration_implied": {
+      "n": 25,
+      "slope": 0.0528,
+      "sd": 0.0542,
+      "power_m1_half_split": 0.054,
+      "power_m2_spearman": 0.031,
+      "power_both": 0.015,
+      "power_m3_replication": 0.058
+    },
+    "n25_mechanism_sized": {
+      "n": 25,
+      "slope": -0.1,
+      "sd": 0.0542,
+      "power_m1_half_split": 0.416,
+      "power_m2_spearman": 0.548,
+      "power_both": 0.348,
+      "power_m3_replication": 0.049
+    },
+    "n50_calibration_implied": {
+      "n": 50,
+      "slope": 0.0528,
+      "sd": 0.0542,
+      "power_m1_half_split": 0.011,
+      "power_m2_spearman": 0.003,
+      "power_both": 0.001,
+      "power_m3_replication": 0.015
+    },
+    "n50_mechanism_sized": {
+      "n": 50,
+      "slope": -0.1,
+      "sd": 0.0542,
+      "power_m1_half_split": 0.402,
+      "power_m2_spearman": 0.565,
+      "power_both": 0.347,
+      "power_m3_replication": 0.015
+    },
+    "n100_calibration_implied": {
+      "n": 100,
+      "slope": 0.0528,
+      "sd": 0.0542,
+      "power_m1_half_split": 0.001,
+      "power_m2_spearman": 0.0,
+      "power_both": 0.0,
+      "power_m3_replication": 0.002
+    },
+    "n100_mechanism_sized": {
+      "n": 100,
+      "slope": -0.1,
+      "sd": 0.0542,
+      "power_m1_half_split": 0.361,
+      "power_m2_spearman": 0.587,
+      "power_both": 0.327,
+      "power_m3_replication": 0.0
+    },
+    "n100_null": {
+      "n": 100,
+      "slope": 0.0,
+      "sd": 0.0542,
+      "power_m1_half_split": 0.012,
+      "power_m2_spearman": 0.005,
+      "power_both": 0.002,
+      "power_m3_replication": 0.001
+    }
+  }
+}

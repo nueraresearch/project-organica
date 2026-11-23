@@ -1,0 +1,253 @@
+{
+ "prereg": "Q053-MECHANISM-1",
+ "engine": {
+  "fingerprint": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2",
+  "version": "0.13.0"
+ },
+ "arms": {
+  "control": {
+   "decay": 0.95,
+   "death_threshold": 0.15,
+   "fingerprint": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2"
+  },
+  "treatment": {
+   "decay": 0.95,
+   "death_threshold": 0.15,
+   "fingerprint": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2+floor"
+  }
+ },
+ "control_rerun_fingerprint": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2",
+ "control_rerun_digest": "db2cb35350086d76",
+ "cells": [
+  {
+   "seed": 20410101,
+   "arm": "control",
+   "early_recall": 0.90625,
+   "late_recall": 0.907839,
+   "late_competition_share": 0.0,
+   "late_theory_zero_share": 1.0,
+   "predictions_early": 1450,
+   "predictions_late": 1711,
+   "digest": "db2cb35350086d76"
+  },
+  {
+   "seed": 20410101,
+   "arm": "treatment",
+   "early_recall": 0.90625,
+   "late_recall": 0.907839,
+   "late_competition_share": 0.0,
+   "late_theory_zero_share": 1.0,
+   "predictions_early": 1450,
+   "predictions_late": 1711,
+   "digest": "81d683ff12dae42d"
+  },
+  {
+   "seed": 20410102,
+   "arm": "control",
+   "early_recall": 0.9,
+   "late_recall": 0.896186,
+   "late_competition_share": 0.0,
+   "late_theory_zero_share": 1.0,
+   "predictions_early": 1409,
+   "predictions_late": 1711,
+   "digest": "08824a6bbf06258a"
+  },
+  {
+   "seed": 20410102,
+   "arm": "treatment",
+   "early_recall": 0.9,
+   "late_recall": 0.896186,
+   "late_competition_share": 0.0,
+   "late_theory_zero_share": 1.0,
+   "predictions_early": 1409,
+   "predictions_late": 1711,
+   "digest": "d56e19560b54b6e3"
+  },
+  {
+   "seed": 20410103,
+   "arm": "control",
+   "early_recall": 0.90375,
+   "late_recall": 0.903602,
+   "late_competition_share": 0.0,
+   "late_theory_zero_share": 1.0,
+   "predictions_early": 1459,
+   "predictions_late": 1770,
+   "digest": "88ea9a87cadbca95"
+  },
+  {
+   "seed": 20410103,
+   "arm": "treatment",
+   "early_recall": 0.90375,
+   "late_recall": 0.903602,
+   "late_competition_share": 0.0,
+   "late_theory_zero_share": 1.0,
+   "predictions_early": 1459,
+   "predictions_late": 1770,
+   "digest": "bffbcf7a099a8563"
+  },
+  {
+   "seed": 20410104,
+   "arm": "control",
+   "early_recall": 0.90875,
+   "late_recall": 0.915254,
+   "late_competition_share": 0.0,
+   "late_theory_zero_share": 1.0,
+   "predictions_early": 1409,
+   "predictions_late": 1711,
+   "digest": "6fe6d0662d7996de"
+  },
+  {
+   "seed": 20410104,
+   "arm": "treatment",
+   "early_recall": 0.90875,
+   "late_recall": 0.915254,
+   "late_competition_share": 0.0,
+   "late_theory_zero_share": 1.0,
+   "predictions_early": 1409,
+   "predictions_late": 1711,
+   "digest": "7e57f385b5579735"
+  },
+  {
+   "seed": 20410105,
+   "arm": "control",
+   "early_recall": 0.92125,
+   "late_recall": 0.911017,
+   "late_competition_share": 0.0,
+   "late_theory_zero_share": 1.0,
+   "predictions_early": 1409,
+   "predictions_late": 1711,
+   "digest": "c50d87a08ac02722"
+  },
+  {
+   "seed": 20410105,
+   "arm": "treatment",
+   "early_recall": 0.92125,
+   "late_recall": 0.911017,
+   "late_competition_share": 0.0,
+   "late_theory_zero_share": 1.0,
+   "predictions_early": 1409,
+   "predictions_late": 1711,
+   "digest": "5a5c7a4ab91a7922"
+  },
+  {
+   "seed": 20410106,
+   "arm": "control",
+   "early_recall": 0.90375,
+   "late_recall": 0.903602,
+   "late_competition_share": 0.0,
+   "late_theory_zero_share": 1.0,
+   "predictions_early": 1459,
+   "predictions_late": 1770,
+   "digest": "0aa6548406fd997c"
+  },
+  {
+   "seed": 20410106,
+   "arm": "treatment",
+   "early_recall": 0.90375,
+   "late_recall": 0.903602,
+   "late_competition_share": 0.0,
+   "late_theory_zero_share": 1.0,
+   "predictions_early": 1459,
+   "predictions_late": 1770,
+   "digest": "ce23f7b9d7a5bb5a"
+  },
+  {
+   "seed": 20410107,
+   "arm": "control",
+   "early_recall": 0.90625,
+   "late_recall": 0.903602,
+   "late_competition_share": 0.0,
+   "late_theory_zero_share": 1.0,
+   "predictions_early": 1459,
+   "predictions_late": 1770,
+   "digest": "d0ef5451934b566d"
+  },
+  {
+   "seed": 20410107,
+   "arm": "treatment",
+   "early_recall": 0.90625,
+   "late_recall": 0.903602,
+   "late_competition_share": 0.0,
+   "late_theory_zero_share": 1.0,
+   "predictions_early": 1459,
+   "predictions_late": 1770,
+   "digest": "b21efafe11d65f6e"
+  },
+  {
+   "seed": 20410108,
+   "arm": "control",
+   "early_recall": 0.9,
+   "late_recall": 0.896186,
+   "late_competition_share": 0.0,
+   "late_theory_zero_share": 1.0,
+   "predictions_early": 1409,
+   "predictions_late": 1711,
+   "digest": "a3cef44843fa2816"
+  },
+  {
+   "seed": 20410108,
+   "arm": "treatment",
+   "early_recall": 0.9,
+   "late_recall": 0.896186,
+   "late_competition_share": 0.0,
+   "late_theory_zero_share": 1.0,
+   "predictions_early": 1409,
+   "predictions_late": 1711,
+   "digest": "c7c0dfe53fce13cd"
+  },
+  {
+   "seed": 20410109,
+   "arm": "control",
+   "early_recall": 0.90375,
+   "late_recall": 0.902542,
+   "late_competition_share": 0.0,
+   "late_theory_zero_share": 1.0,
+   "predictions_early": 1400,
+   "predictions_late": 1652,
+   "digest": "78e5a1e28bc95255"
+  },
+  {
+   "seed": 20410109,
+   "arm": "treatment",
+   "early_recall": 0.90375,
+   "late_recall": 0.902542,
+   "late_competition_share": 0.0,
+   "late_theory_zero_share": 1.0,
+   "predictions_early": 1400,
+   "predictions_late": 1652,
+   "digest": "5034df798bc98538"
+  },
+  {
+   "seed": 20410110,
+   "arm": "control",
+   "early_recall": 0.89625,
+   "late_recall": 0.895127,
+   "late_competition_share": 0.0,
+   "late_theory_zero_share": 1.0,
+   "predictions_early": 1350,
+   "predictions_late": 1593,
+   "digest": "be3b3f7d6fc28042"
+  },
+  {
+   "seed": 20410110,
+   "arm": "treatment",
+   "early_recall": 0.89625,
+   "late_recall": 0.895127,
+   "late_competition_share": 0.0,
+   "late_theory_zero_share": 1.0,
+   "predictions_early": 1350,
+   "predictions_late": 1593,
+   "digest": "aa8d0940baa56bfc"
+  }
+ ],
+ "verdict": "MECHANISM DID NOT OPERATE",
+ "details": {
+  "m1_median_gap": 0.0,
+  "m1_bar": 0.25,
+  "seeds": 10
+ },
+ "engine_version": "0.13.0",
+ "engine_commit": "6e0ff24d84d34fd7e99b79173e2247f035e194c1",
+ "engine_sha256": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2",
+ "runner": "__main__"
+}

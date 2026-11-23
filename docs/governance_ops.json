@@ -1,0 +1,484 @@
+{
+  "kind": "governance_ops",
+  "id": "GOVERNANCE-OPS-1",
+  "date": "2026-11-17",
+  "policy": {
+    "portfolio": {
+      "question_review_days": 90,
+      "constraint_review_days": 30,
+      "max_open_questions": 35,
+      "max_active_constraints": 4,
+      "kill_or_park": "Keep only while a named decision can change the constraint; otherwise park it with a reason."
+    },
+    "queue": {
+      "stale_after_days": 30,
+      "waiver_warning_days": 14
+    },
+    "public_documents": [
+      "papers",
+      "README.md",
+      "docs/FACTS-SHEET.md"
+    ],
+    "dependency_ignored": [
+      "docs/USER-MANUAL.md"
+    ]
+  },
+  "decision_classes": {},
+  "implementations": {},
+  "owners": {},
+  "reviews": {
+    "questions": {},
+    "constraints": {}
+  },
+  "waivers": [],
+  "events": [
+    {
+      "id": "EVT-0001",
+      "date": "2026-11-17",
+      "actor": "agent",
+      "record": "GOVERNANCE-OPS-1",
+      "from": "absent",
+      "to": "initialized",
+      "reason": "the governance operations control surface was created",
+      "artifacts": [
+        "docs/governance_ops.json",
+        "benchmarks/governance_ops.py"
+      ]
+    }
+  ],
+  "runs": [
+    {
+      "id": "A1-TWO-PATH-1",
+      "result": "docs/a1_two_path_result.json",
+      "grant": "DECISION-V2-A4-BASE-WORLD",
+      "prereg": "docs/A1-TWO-PATH-MANIFEST.md",
+      "seed_label": "two-path candidate block, held for A1-TWO-PATH-1"
+    },
+    {
+      "id": "A1-BASELINE-AVAILABILITY",
+      "result": "docs/a1_baseline_availability.json",
+      "grant": "DECISION-A1-C1-DENOMINATOR",
+      "prereg": "docs/A1-TARGET-SELECTION-PROTOCOL.md",
+      "seed_label": "cap-112 baseline availability, already run"
+    },
+    {
+      "id": "V2-FIRST-CELL",
+      "marker": "docs/v2_first_cell_run.json",
+      "result": "docs/v2_first_cell_result.json",
+      "grant": "DECISION-V2-FIRST-CELL",
+      "prereg": "docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md",
+      "seed_label": "first V2 cell, ten paired worlds"
+    }
+  ],
+  "dependency_baseline": {
+    "engine_sha256": "25843ded68f50e90ad04bd80df4ade86f57d31eb7ed61ef77d6d7f4fedfe4236",
+    "records": {
+      "claim:C001": {
+        "docs/V1-SYNTHESIS.md": "66b1a864d933c7639682206c4ccec36e15ed9cf4807180321cfff97679973503"
+      },
+      "claim:C002": {
+        "docs/V1-SYNTHESIS.md": "66b1a864d933c7639682206c4ccec36e15ed9cf4807180321cfff97679973503"
+      },
+      "claim:C003": {
+        "docs/temporal_presence_0.13.0.json": "04dcc51ddff2c5c488f05f70e4ca22e4a13573842945377df4bb4eeb8895f2a2",
+        "docs/GATE13-RELATION-SEPARATION.md": "8fcce230724c29b336c2e4646431541ff2885df0e63113249abc56fb5b1592c8"
+      },
+      "claim:C004": {
+        "docs/density_interaction_a2_result.json": "a0fa8fae8a369c3e1c74bb85da6c1904886bdc830e11803263ff998970ccc226"
+      },
+      "claim:C005": {
+        "docs/admission_two_arm_result.json": "fb673306c020da58f1f4e111096e92aae1ec1b8772870d68e0545779b89f63c4"
+      },
+      "claim:C006": {
+        "docs/DIVERGENCE-MECHANISM-RESULTS.md": "d71a0c5a43c18ad48f8fd3d3a7b577c2b0044523ceff83237756b49f37b155cf"
+      },
+      "claim:C007": {
+        "docs/CONTEXT.md": "9c84289a087f94e9c640f0ab6dcc36c3ecf40dd60e0be8366b0bcddb3bd63b8f"
+      },
+      "claim:C008": {
+        "docs/CONTEXT.md": "9c84289a087f94e9c640f0ab6dcc36c3ecf40dd60e0be8366b0bcddb3bd63b8f"
+      },
+      "claim:C009": {
+        "docs/CONTEXT.md": "9c84289a087f94e9c640f0ab6dcc36c3ecf40dd60e0be8366b0bcddb3bd63b8f"
+      },
+      "claim:C010": {
+        "docs/FORCE-MATRIX-RESULTS.md": "733a4a4a2748d4b028aa994d89fe5b9e6c8ad292194317bfb32bd267484bf75c",
+        "docs/acquisition_endpoint_audit.json": "d0bd9586de6b59dd5f2a1ce30c15fdb22cb1325ed2f637bba3ebf1c7ec3fc2a2"
+      },
+      "claim:C011": {
+        "docs/DIVERGENCE-MECHANISM-RESULTS.md": "d71a0c5a43c18ad48f8fd3d3a7b577c2b0044523ceff83237756b49f37b155cf",
+        "docs/FORCE-MATRIX-RESULTS.md": "733a4a4a2748d4b028aa994d89fe5b9e6c8ad292194317bfb32bd267484bf75c"
+      },
+      "claim:C012": {
+        "docs/d3_persistence_seed_varying_prereg.json": "379a418a205b7b393a49805af764830428838c9c6ecfa538ba22bf8b8992bdc1",
+        "docs/d3_persistence_seed_varying_run.json": "4f0c25b565c625e8d5253e05eba386446721ab768e843566113f428989237e44",
+        "docs/D3-PERSISTENCE-SEED-VARYING-RESULT.md": "362322d7b266853a41ac28300726d081c7fc0ca73c757bb7a768ee1baebb4f2f",
+        "docs/d3_persistence_g1_recalibrated_prereg.json": "a04ba681b9063fceef54f3c5548ffa9b0010e0d981bde070f5998a1d10349c0d",
+        "docs/d3_persistence_g1_recalibrated_run.json": "0f587c2dd279b28d19638d0d6c657660f89aa74870c3ab38d3b540c2266b011c",
+        "docs/D3-PERSISTENCE-G1-RECALIBRATED-RESULT.md": "5b485b179df6e4cff01d4007880f3aca392f2184b32bd4ec9234dac7a677a57d",
+        "docs/D3-PERSISTENCE-ENGINE-REPLICATION-RESULT.md": "9faa72eff204f607d44e709959783d4ee3c82e16d020c89fceb51674d293efe6"
+      },
+      "constraint:Attribution - mechanism not identifiable": {},
+      "constraint:K1 - incremental world modeling reversed": {
+        "docs/constraint_registrations/K1-served-path.json": "35bd6712d15141a391b396cfef5e25869dd542f6c018ac7ef687a1b3846c3af0",
+        "docs/constraint_results/K1-SUPERSEDED.json": "4af6f5a83d680a0d73144d7bf02b539ec25b9909cd45ea548f36d9432baa9225",
+        "docs/constraint_decisions/DECISION-K1-SUPERSEDE.json": "da576468c1915ebe8d05d17441069ac7e2785d6db07e246cb7a5b79978e9c351"
+      },
+      "constraint:K1S - support-gated co-occurrence admission": {
+        "docs/constraint_registrations/CONSTRAINT-COOCCURRENCE-A-T1.json": "5e2a4883842b990c7b66a65d6a8617380b9194c6a74c3db8ad0839ef884d74d3"
+      },
+      "constraint:K2 - belief revision reversed": {
+        "docs/constraint_registrations/K2-belief-revision.json": "573a33d3522f8b1f6f8fe4f4b61d28975bdea8b703a1ba60ce1225e427359b33",
+        "docs/constraint_results/K2-BLOCK-ATTEMPT.json": "80612007b28afb5f0ee185dcbdfea9362f16348e945a534e3757964f4dbd93db",
+        "docs/constraint_decisions/DECISION-K2-RETIRE.json": "1223d1f0994b960fc0f75fe075059ee7beab23041b0a22464fb8a5edd3121ee4"
+      },
+      "constraint:K3 - longitudinal integration reversed": {},
+      "decision:DECISION-0X-ENGINEERING-CHARTER": {
+        "docs/0X-ENGINEERING-CHARTER.md": "a76d074b418450a48cc1aaafdde1f7ea0442846d7d175225fee456248104c73b",
+        "ROADMAP.md": "4cfa17c36335db7f0c139654a0e38fc0fa2eeb439fa7eedcfcb58ae17e4971d6",
+        "CHANGELOG.md": "5819c51295515f9f5e63a307dac701c7bf9cfaec35a559fddae46776f038ee9e"
+      },
+      "decision:DECISION-A1-C1-CEILING": {
+        "docs/A1-C1-CEILING-CONFLICT.md": "05be084f5606ef102e8c27259fd13555524fe6051274cc5ca5e55cbd18d168ac",
+        "docs/DECISION-A1-PATH-A-C1-RULE.md": "9dd22b14f6470cfca411f710f9198fad782ca7e3c2488aa36d32e93e7490fe72",
+        "docs/DECISION-A1-C1-DENOMINATOR.md": "14bcdd38e191759dca19c04612fdc7c12b6e29792d68299e66adad37aae17fcd",
+        "docs/a1_baseline_availability_adopted.json": "4c01b4e9c2b1c058ae35c33079b004f03eb49c715fe689b81f4ee8ffc817fa5b",
+        "tests/test_a1_c1_ceiling.py": "39f91efbf7358cac7ed49c023549197ee08f35a3c6082c028fbcc7a7a347624b"
+      },
+      "decision:DECISION-A1-C1-DENOMINATOR": {
+        "docs/A1-TARGET-SELECTION-PROTOCOL.md": "accaf4b02cfcb8e04c21b0dd821f4022f1dd21d75b572df7b3c7ba5f2b8de6b8",
+        "docs/A1-C1-C4-VOID-GATE.md": "4098f056a3774c1f8a9574fb9eb9db4aa11128526460bca3a0e36d93edf29fcf",
+        "docs/DECISION-A1-PATH-A-C1-RULE.md": "9dd22b14f6470cfca411f710f9198fad782ca7e3c2488aa36d32e93e7490fe72",
+        "docs/A1-DESIGN-VIABILITY.md": "1ee90e0e9b9b31ab1924a55234fa7ed036918fccf60d0f428fb9537c215f6c21",
+        "docs/a1_design_viability.json": "9d453cc5c34d0c0145702b08956791ec1365239a4e22cdec06db231e4090fe51",
+        "docs/a1_baseline_availability_adopted.json": "4c01b4e9c2b1c058ae35c33079b004f03eb49c715fe689b81f4ee8ffc817fa5b",
+        "benchmarks/a1_arms.py": "5ce958b7839e09ebd10ce7787d1d5b3ab3023eb4b6d47a684b97edf8c6e5c86d"
+      },
+      "decision:DECISION-A1-C1-UNIT": {
+        "docs/A1-C1-UNIT-OF-EVIDENCE.md": "9c3c7a062e28b32ad19cf4240568d7f682a0e774fc3d7038188e5857f4c5e7ed",
+        "docs/A1-DESIGN-VIABILITY.md": "1ee90e0e9b9b31ab1924a55234fa7ed036918fccf60d0f428fb9537c215f6c21",
+        "docs/a1_design_viability.json": "9d453cc5c34d0c0145702b08956791ec1365239a4e22cdec06db231e4090fe51",
+        "docs/DECISION-A1-C1-DENOMINATOR.md": "14bcdd38e191759dca19c04612fdc7c12b6e29792d68299e66adad37aae17fcd"
+      },
+      "decision:DECISION-A1-C1-UNMEASURABLE": {
+        "docs/A1-GATE-MEASURABILITY-AUDIT.md": "def539171cf384fe20659580702d7c0e5742d651062aa256c17ce2968d728caa",
+        "docs/A1-C1-C4-VOID-GATE.md": "4098f056a3774c1f8a9574fb9eb9db4aa11128526460bca3a0e36d93edf29fcf"
+      },
+      "decision:DECISION-A1-C4-POSTURE": {
+        "docs/A1-C4-RISK-POSTURE.md": "6b35807f0ec54c9721b919dad01eeb25e385e0fb7f585291d56c1f418e43805d",
+        "docs/A1-C4-NOISE-FEASIBILITY.md": "0845eafd7d868f317a413e7f23890143b979f8b96f3b35df51b398f53044d501",
+        "docs/DECISION-A1-C4-POSTURE.md": "5fe02e0e9293cb32fbb484bd88f26e32dff2969c71316c494119e9885a6f5aae"
+      },
+      "decision:DECISION-A1-C8-NMIN": {
+        "docs/A1-C2-C8-COMPETENCE-RULE.md": "6d82ef269d9ba6d124f88355aef8f78c96d30a490b18447b1962fea1a0270372",
+        "docs/A1-COMPETENCE-FILTER-DRAFT.md": "2de52690ffd369ef6afe5169bb9048a5b268bce3f677d2a41e170d63b09eb285",
+        "docs/a1_competence_filter_draft.json": "5ac6dbccf3b6e4878f381e50f88891268bc8a3bd3389aa4ce3986e9f57520fee",
+        "docs/A1-C4-RISK-POSTURE.md": "6b35807f0ec54c9721b919dad01eeb25e385e0fb7f585291d56c1f418e43805d"
+      },
+      "decision:DECISION-A1-C8-SELECTION": {
+        "docs/A1-C2-C8-COMPETENCE-RULE.md": "6d82ef269d9ba6d124f88355aef8f78c96d30a490b18447b1962fea1a0270372",
+        "benchmarks/a1_c8_target_selection_competent.py": "97e610d43250cdd0e5e66e4fa68b75a74a79904d13dc8561f090d461a3a45a4f",
+        "docs/A1-COMPETENCE-RULE-IN-FORCE.md": "4e5999d53eefc41934abf623cee5f55b26a0d7b5efbd20f28ce0ef2f69edfe0e",
+        "docs/A1-C8-TARGET-SELECTION-COMPETENT.md": "a9289d0c9af6485e496800ee90a78f4db95805be6574f86d4378a2c7116d483f",
+        "docs/DECISION-A1-C8-NMIN.md": "7b2e619f4db9d919be81da414cebf5445d58a8dbb849af47b6cf1b9b76954444"
+      },
+      "decision:DECISION-A1-COMPETENT-ESTIMAND": {
+        "docs/a1_baseline_availability_adopted.json": "4c01b4e9c2b1c058ae35c33079b004f03eb49c715fe689b81f4ee8ffc817fa5b",
+        "docs/a1_competence_adopted.json": "0a8f93bddbd3d1c7951d252b8353e7078c1e1918fa406b56071fd4c5f0dac507",
+        "docs/A1-COMPETENCE-ADOPTED.md": "342bd7539f81d54986d3cfabb60979f0448a6db4ff04ec47bfc9345c31af6687",
+        "docs/A1-TARGET-VIABILITY-ADOPTED.md": "0cce117e2a2380705d191dccf5895b2d027b261634e37b71b0b7380fb427887d",
+        "tests/test_a1_target_viability_adopted.py": "2a0bb60562c751d1bd0376813b5a58b5e54ec5a184c5c9758617936470c24b68"
+      },
+      "decision:DECISION-A1-DISPOSITION": {
+        "docs/A1-TWO-PATH-MANIFEST.md": "8296358305555a234d771442aa7a10b017db26e6f8e63715f72747cb6758dd33",
+        "docs/A1-GATE-READINESS.md": "c176ef32b19a88654c4642db47bd801776c73a2589ce277ac44f2429a7e2cf94",
+        "docs/A1-PRECOMMITTED-THRESHOLDS.md": "00968d7c87d9c7216adf4d06edc333c87a9772fb134b8bc9e279bc1074804b68",
+        "docs/TWO-PATH-ADMISSION-CARRIER-DESIGN.md": "56f499c76cafa6704e0f35c111edd1eeebc106441e39cf6fd4bb60587c76f202",
+        "ROADMAP.md": "4cfa17c36335db7f0c139654a0e38fc0fa2eeb439fa7eedcfcb58ae17e4971d6"
+      },
+      "decision:DECISION-A1-DISPOSITION-2": {
+        "docs/A1-DISPOSITION-REREAD.md": "6ef07cecf12ff01fb7a95a1b90f5bd6ded881a70bd8524929e77320bfd92386d",
+        "docs/DECISION-A1-C4-POSTURE.md": "5fe02e0e9293cb32fbb484bd88f26e32dff2969c71316c494119e9885a6f5aae",
+        "docs/A1-PRE-FREEZE-CHECKLIST.md": "6187e78f30bf1b802dfaf78ba9f54663be85988b990e5d259dd72b95a169a3dc"
+      },
+      "decision:DECISION-A1-PATH-A-C1-C4": {
+        "docs/A1-C1-C4-VOID-GATE.md": "4098f056a3774c1f8a9574fb9eb9db4aa11128526460bca3a0e36d93edf29fcf",
+        "docs/DECISION-A1-PATH-A-C1-RULE.md": "9dd22b14f6470cfca411f710f9198fad782ca7e3c2488aa36d32e93e7490fe72"
+      },
+      "decision:DECISION-A1-PATH-A-C1-RULE": {
+        "docs/A1-C1-C4-VOID-GATE.md": "4098f056a3774c1f8a9574fb9eb9db4aa11128526460bca3a0e36d93edf29fcf",
+        "docs/A1-TARGET-SELECTION-PROTOCOL.md": "accaf4b02cfcb8e04c21b0dd821f4022f1dd21d75b572df7b3c7ba5f2b8de6b8"
+      },
+      "decision:DECISION-A1-VOID-ACCEPTED": {
+        "docs/A1-RUN.md": "2274354c9c361027f73d90eb6c35410cc36fcef0cb66f7f875cc1909680e0e2a",
+        "docs/a1_two_path_result.json": "1640c527e197030ec0c36b63cb1115ea063420e2d75153dbcc9256ae178d7440",
+        "docs/a1_scorer_pin.json": "9f98b29c38c9b53438fc12c8feb4e5fb643236c0afa7ea892af36cd26fd92f51",
+        "tests/test_a1_prefreeze.py": "972e3b8abc2efdd6876f928b81a044331adecff5abfb4f87aeca920e6a610f17"
+      },
+      "decision:DECISION-A2-ESTIMAND": {
+        "docs/A2-SHAM-FEASIBILITY.md": "66c04a2bd99ed183220003b27e0fb03f2d33c252e51b9d900c6e935cb4119cae",
+        "docs/a2_sham_feasibility.json": "efdee534d8088b917a18fabda71bf58b1d316553b42fd33abe99a9377f72a07d",
+        "docs/DECISION-A1-VOID-ACCEPTED.md": "a017b37527c5b8cd2ce62e2067c6dc9cc1cfc8fa9921b5fe5156f96f8984d657",
+        "docs/A1-RUN.md": "2274354c9c361027f73d90eb6c35410cc36fcef0cb66f7f875cc1909680e0e2a",
+        "docs/a1_two_path_result.json": "1640c527e197030ec0c36b63cb1115ea063420e2d75153dbcc9256ae178d7440",
+        "docs/A1-REDESIGN-REQUIREMENTS.md": "4e0669840b2c886a2e2e619745d7f1b59be586d9d8b6d8b3994891b46698388b"
+      },
+      "decision:DECISION-ADMISSION-RULE": {
+        "docs/admission_two_arm_result.json": "fb673306c020da58f1f4e111096e92aae1ec1b8772870d68e0545779b89f63c4",
+        "docs/admission_two_arm_run.json": "40ba3a7bb0c7c27f63dc92143a06c047bf4ab76a9637b0959e379828b01c1513",
+        "docs/ADMISSION-TWO-ARM-PREREGISTRATION.md": "d73549a213da43024f4ff91f2eff0f9355b4b7545ffecf69336615e1f916fe82"
+      },
+      "decision:DECISION-ADMISSION-STEP": {
+        "docs/presence_conversion_repair_run.json": "8615f5e2cff9b66166f35c62e2332033978fd931ad744cac126726653d29d35a",
+        "docs/PRESENCE-CONVERSION-2-RESULT.md": "c1ade09b3a0ed7621dead94ca051ce4f148af68f38a375ac34d4405e79e4331f",
+        "docs/presence_conversion_repair_prereg.json": "aae1f1eaa2bc2ad65ee3207fdfaff7999ebf50d92c9e21593b32735c60df3255",
+        "docs/presence_conversion_2_n3_tables.json": "458936c668bb72ae3ca0d4978c88a76dd334dde2c7161714a71b67f4610bb416",
+        "docs/DECISION-CAP-LEVEL.md": "cf91094504306cbdea9cab9dbe1e96834ac554cd7c814437218b42fc36103a89",
+        "docs/LANDING-0.15.0.md": "254d58afdda033fa5a309278b871b3297dee03f8c3e8912b84d07e58bba961a2",
+        "docs/presence_band_rank_prereg.json": "8d35300ee1f1692ecd141be0e80d115b2a69b7793ef1fa090ad2b680df899681",
+        "docs/PRESENCE-BAND-RANK-PREREGISTRATION.md": "33c362ee4bc089c8a5226b0b2489495b97ef8ef867ab4ba661228bf9d6f9dfdd",
+        "docs/presence_band_rank_run.json": "7910d4a55c47f27be121b4b0ec5208b25e0b7df6f9a95851223f4b5b7930824a",
+        "docs/PRESENCE-BAND-RANK-RESULT.md": "a323022f3151215c8e6d1e9b718af7ceb057c96482e1a60e6c66c3749f0989f7",
+        "docs/AUTHORISATION-PRESENCE-BAND-1.md": "c626e847f0059064b3e04edfeee849c4d86667b56d232239af4990e2ab155bdb",
+        "docs/presence_band_rank_5_prereg.json": "5b6784734a6c3d0b79497e654592c7d9476cf8b33bbf24e03d8f6d655306819f",
+        "docs/presence_band_rank_5_run.json": "db9910894f3a0433fcf889b7e4d15fc6d50f14bcb7a0089431558e6c2bd39cdd",
+        "docs/PRESENCE-BAND-RANK-5-RESULT.md": "52bc0dcf54ddc18b1609bf4a32c9fd08ca8cf3f3789c7f12743ed69f2c97f210",
+        "docs/AUTHORISATION-PRESENCE-BAND-5.md": "eff5b04b76dbf8182d6b79c2364ded38e111f7e16239311c60f733a5417bf982"
+      },
+      "decision:DECISION-CANDIDATE-SUPERSESSION": {
+        "docs/candidate_supersession_probe.json": "7f340aae7642acfcc4655c01a954a12f27a23ed4b99b793ab6eedd3cd3e7f9f9",
+        "docs/cross_context_reuse_benchmark_earned.json": "ba10ee586f1d15dd1969b9e5569af597c10ed0d4e358fa3399b2c1a56f26fd7f"
+      },
+      "decision:DECISION-CAP-LEVEL": {
+        "docs/CAP-DECISION-BRIEF.md": "5b75a5871da40a9ac483aa1ac916bbf4a8b033d670e329fc12f3ac1b69189701",
+        "docs/presence_cap_run.json": "483461ebaee8b3e5ad75c3908bf8bded4fb4651559835c08363f3ef360764312",
+        "docs/PRESENCE-CAP-RESULT.md": "97c782ce2264b2eabcf9aa8b330150a4b186bf04f1e89109d646678c3532e503",
+        "docs/block_canaries.json": "f46ee6665c11bbb52c368f5b09280d97f1972abeb0e890fdd8b3e58865f5e0c5",
+        "docs/PRESENCE-REBUILD-PLAN.md": "98e7c9bdb9319db66247bb92976d91eb3ff90defc7bc619de02953943cb3301b",
+        "docs/DECISION-CAP-LEVEL.md": "cf91094504306cbdea9cab9dbe1e96834ac554cd7c814437218b42fc36103a89"
+      },
+      "decision:DECISION-CAP-SEMANTICS": {
+        "docs/CAP-DECISION-BRIEF.md": "5b75a5871da40a9ac483aa1ac916bbf4a8b033d670e329fc12f3ac1b69189701",
+        "docs/presence_cap_run.json": "483461ebaee8b3e5ad75c3908bf8bded4fb4651559835c08363f3ef360764312",
+        "docs/block_canaries.json": "f46ee6665c11bbb52c368f5b09280d97f1972abeb0e890fdd8b3e58865f5e0c5",
+        "docs/DECISION-CAP-SEMANTICS.md": "07308f3ede65ed8de374582da322b92d34ab5819d8085dcdc993887afe31f979"
+      },
+      "decision:DECISION-DENSITY-EXCLUSION": {
+        "docs/density_interaction_a2_result.json": "a0fa8fae8a369c3e1c74bb85da6c1904886bdc830e11803263ff998970ccc226",
+        "docs/density_interaction_a2_run.json": "1b4600267254c04ff199f2059e9ceb21ddd2a84e3abed0d5c1c8f43c6db7bb52",
+        "docs/DENSITY-INTERACTION-A2-PREREGISTRATION.md": "b51c9b5b5bf09b5b5656cb66d5d8b3050390efde9daa1ad01accf34b876a1760"
+      },
+      "decision:DECISION-EARNED-SCHEMA-PRIMING": {
+        "docs/cross_context_reuse_benchmark.json": "4798ddd4a2561704569c13b958fa7ffc22e3c0c312731ade0a970f5ce2e55cfa",
+        "docs/cross_context_reuse_benchmark_earned.json": "ba10ee586f1d15dd1969b9e5569af597c10ed0d4e358fa3399b2c1a56f26fd7f"
+      },
+      "decision:DECISION-ENGINE-EFFECT-STANDARD": {
+        "docs/D3-PERSISTENCE-SEED-VARYING-RESULT.md": "362322d7b266853a41ac28300726d081c7fc0ca73c757bb7a768ee1baebb4f2f",
+        "docs/D3-PERSISTENCE-ENGINE-REPLICATION-RESULT.md": "9faa72eff204f607d44e709959783d4ee3c82e16d020c89fceb51674d293efe6",
+        "docs/D3-PERSISTENCE-G1-RECALIBRATED-RESULT.md": "5b485b179df6e4cff01d4007880f3aca392f2184b32bd4ec9234dac7a677a57d",
+        "docs/d3_persistence_g1_recalibrated_run.json": "0f587c2dd279b28d19638d0d6c657660f89aa74870c3ab38d3b540c2266b011c",
+        "docs/claim_ledger.json": "dcbcbbf79f5d0d6b6885949ce79ea7de0979c31aeb5a9f7876d298bf9f4d242f",
+        "docs/ENGINE-CHANGE-AUDIT.md": "36e5ad79ead75775a24a67fdd20e4afc06a7bf190574efdf46f7397b1b13ca28"
+      },
+      "decision:DECISION-G1-WITNESS": {
+        "docs/DECISION-G1-WITNESS.md": "123f874535cc9452e1de8097fc6a8d6b5c0b30d219fd2315d04f2b9be740ce8d",
+        "docs/pruning_by_type.json": "893196ba9a98738e77b26994c4e4576f424c6b8690425e6a2d35aa06f224f24f",
+        "docs/force_matrix.json": "bd07b10e8181191471060c1e677de51ab66a7a2f9678b551e95965126e918811",
+        "docs/d3_persistence_seed_varying_run.json": "4f0c25b565c625e8d5253e05eba386446721ab768e843566113f428989237e44",
+        "docs/D3-PERSISTENCE-SEED-VARYING-RESULT.md": "362322d7b266853a41ac28300726d081c7fc0ca73c757bb7a768ee1baebb4f2f",
+        "docs/tier1_preflight.json": "924cd68ac934f152b4a480d887708b19bfdeea36a1463ec956a450a73424a729",
+        "docs/engine_pin.json": "f2661bd38b648a38da28f5f2a7ba0c66de8389d0d82fca6ccc734aee304676d1"
+      },
+      "decision:DECISION-PERSISTENCE-INTERVENTION": {
+        "docs/t1b_persistence_off_run.json": "ae218d40d6517bb244279c0108559651f1820a49ace8d847f1e72cc16d7d17ca",
+        "docs/T1B-PERSISTENCE-OFF-RESULT.md": "59cd1873f6b1c24cfa6b640ac71b0564538496debb0e0a9ca7c4f1d8633c61a7",
+        "docs/persistence_zero_served_diagnostic.json": "32ef67f226ac96476e5e31640d8eeb695e7d4b50c63fe2d4938890dce506740b",
+        "docs/PERSISTENCE-ZERO-SERVED-NOTE.md": "c82bc9b4d5b29effe4cfbc912a735105fa2c119c762d530753ec31656421662c",
+        "docs/persistence_mechanism_prereg.json": "cd880bf10a476e0fcf153f9830f2b533f155d30e3ea477eb00c58afa577bd715",
+        "docs/PERSISTENCE-MECHANISM-PREREGISTRATION.md": "149a405789d58fa3a06bdf70dc7e73cee5e7e2c9ec74b79482ba2af8ef38c551"
+      },
+      "decision:DECISION-PROGRESSION-BEYOND-G8": {
+        "docs/G9-ACTIVATION-DESIGN.md": "42a51bd86b213f384d316fa35794b20e745167c5d397a0d9c7a084689c2334c3",
+        "docs/formation_utilization.md": "16e8f39aef5a19a2b28a50f58d7922d74a24390b7bad185ce563685806402d40",
+        "docs/USE-PATH-DIAGNOSTIC-RESULTS.md": "0c06dd083e8ade0c35fc309e0a9babbdba588abbf38eb53a64b8b1681aaf1b77",
+        "docs/C6-TIMING-BLOCK.md": "6e1b6911152e8adae68e67810aee111e78e10c8ace261ec73bf99410ce8c0bd3",
+        "docs/CARRIER-FORMATION-A0.md": "3a7928913bc1a055e977aeaabbe0a793d4d18bea09ba493b7dbd1ba54af5ceac",
+        "docs/DECISION-PROGRESSION-BEYOND-G8.md": "c7fcef7e967e06645dcd696e08d75ec27a79b05c60c31ad1697701fbce96258f"
+      },
+      "decision:DECISION-STAGE-B-SEQUENCE": {
+        "docs/AI-REVIEW-2026-11-02.md": "d43b96a497fd0c43537f62f3a8b2c6ecbf268295fd20bf39d3854d57a9d3165e",
+        "docs/AI-REVIEW-2026-11-03.md": "1aef1c41bbb4f7d3ece7134d6dbff6065bfa79299f850918e680d641675eaf3e",
+        "docs/AI-REVIEW-2026-11-03-chatgpt.md": "7fd3f5cf03da6f8dbadc027c9bcd49f9f083074c3ee2f71aadf3bb40e7dd3f05",
+        "docs/STAGE-B-PROTOCOL.md": "0d7535e1e3d1beeef0765ea4d2191ad6fdf22ef35dcc135c46c633e48710169a"
+      },
+      "decision:DECISION-STORE-TIME-ROLE-RECORD": {
+        "docs/transfer_provenance.json": "d64aa6bbae1f9924aa914f6fca755440ed0ce72be2d8676f5fc2ffbca455dae9",
+        "docs/store_time_role_durability.json": "684ac2a7fc7b0770bd9be10a7d70616cdf615447c6342650e7492bdd6c07cd20",
+        "docs/STORE-TIME-ROLE-DURABILITY.md": "b60f940af81f563a0092188b864a17f8124e8f246374ae6abdb6922b68860620"
+      },
+      "decision:DECISION-UNCERTIFIED-RUN": {
+        "benchmarks/verdict_policy.py": "e48811fafe7f99dad0c4ef5357000bbd380d6423b7e4ad86175e45db6d9cc633",
+        "benchmarks/decay_falsifier.py": "7b4fa5ada91f2df40c9040b9dc3064afd9ab2463e8cb9f01357756efb8a9c1a5",
+        "docs/decay_falsifier.json": "f5c4c3571f76ffbe5c86a24826e0e2bd6b3f9b8276f16a2a2ec372a059386246",
+        "docs/DECAY-FALSIFIER-RESULT.md": "20d704f6bafd1d7f86155265ec496a04ec4f501379ed4651a58e6d49734dfd61",
+        "tests/test_verdict_policy.py": "3808f0491018c327f4c8a2f8a7e42e4fc7e49c7eee3034a740123478e5ae09b1",
+        "tests/test_decay_falsifier.py": "5c7ca40111c0718f00a19cb56c8df8d0f26a77e96252912127dc5adf65fa814f"
+      },
+      "decision:DECISION-V2-A4-BASE-WORLD": {
+        "docs/a1_two_path_manifest.json": "c8c1d51242ea5aba0734d30fec9b0bbc49b5338ef29aedd1d1bfd8729738ba2a",
+        "docs/a1_two_path_result.json": "1640c527e197030ec0c36b63cb1115ea063420e2d75153dbcc9256ae178d7440",
+        "docs/a1_seed_reservations.json": "e51b7a64ec05fdfd4bed07ec66cc66d7bdfc2ccafcfe5f74742209a45501bf02",
+        "docs/v2_first_cell_gates.json": "67ad87c36566b5b33aeacea5cd53847469d8a441ea7038619c2dc51292a13a52",
+        "docs/V2-PRIMITIVE-SIZING.md": "c9ffa892379521eea77143a23cb9e5a924e2ab64382e94572b5f48ea2c981f28",
+        "docs/v2_primitive_sizing.json": "51f293ed44972ca89a176c69baa3ce9596a984cf2cd28ce4b588baa63f5a6e7e"
+      },
+      "decision:DECISION-V2-CHARTER": {
+        "docs/claim_ledger.json": "dcbcbbf79f5d0d6b6885949ce79ea7de0979c31aeb5a9f7876d298bf9f4d242f",
+        "docs/DECISION-V2-SCOPE.md": "f575c5caac523445fa8a480829de2f9d7d95fbadc81a9291760ed4f5cbc7f03e",
+        "docs/ORGANICA-V2-DESIGN-BRIEF.md": "8a35e6a42d05e7613a152bc70bede293813cb130ca1260a7c6b354065fb8e5b5",
+        "docs/GATE13-RANKING-CRITERION.md": "155856ecb34b30aae035053148e931254cb2a964b63e4bcea84fbffa3422c951",
+        "docs/BOTTLENECK-MAP.md": "7f05bb3388eb7600fc963c5f8ad6f6e544f80443cb4beb81611b384c2d6d16d4",
+        "docs/functional_structure_confirmatory.json": "022f54a66ebf3c3ad038f24ca163726bd373f8781870da42539e51b78c14eb3c",
+        "docs/A1-RUN.md": "2274354c9c361027f73d90eb6c35410cc36fcef0cb66f7f875cc1909680e0e2a",
+        "docs/a1_two_path_result.json": "1640c527e197030ec0c36b63cb1115ea063420e2d75153dbcc9256ae178d7440",
+        "docs/DECISION-A1-VOID-ACCEPTED.md": "a017b37527c5b8cd2ce62e2067c6dc9cc1cfc8fa9921b5fe5156f96f8984d657",
+        "docs/V2-MUTABLE-IDENTITY-SPEC.md": "65708d5c33498c8b6f68b40e69170bad9c7e22a2be7629237b4bff27bd51061f",
+        "docs/V2-PRIMITIVE-SIZING.md": "c9ffa892379521eea77143a23cb9e5a924e2ab64382e94572b5f48ea2c981f28",
+        "docs/DECISION-V2-PRIMITIVE-RESOLUTIONS.md": "11b72ac69f44a23a558e5d27201ef1fe5eaf6454559b15c7bfbdf4e40a02ec19",
+        "docs/V1-REKEYING-TWO-SEEDS.md": "dd3a70eada9cf1a0ee5dd39f48191e584231a6779090e7e06230f9a628d2baed",
+        "docs/V1-CARRIER-FORGETTING.md": "0705f3be44ca498da6646de7fa183d116da745d1b54ffe51b815002d792f01ef"
+      },
+      "decision:DECISION-V2-FIRST-CELL": {
+        "docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md": "1be11d417845a69f96800548b38c4f4311b5da9937efd0390d15c737aa8b5369",
+        "docs/v2_first_cell_seeds.json": "85b02f7413f29fde8f15df619ac4f6285ba2461b4a430bda6bacb38ce700eb73",
+        "docs/v2_first_cell_scorer_pin.json": "9d7d53796a150e5ee2f3855761617b3d9d3aaa127580a874cc6f0259673f9a18",
+        "docs/V2-MUTABLE-IDENTITY-SPEC.md": "65708d5c33498c8b6f68b40e69170bad9c7e22a2be7629237b4bff27bd51061f",
+        "docs/DECISION-V2-PRIMITIVE-RESOLUTIONS.md": "11b72ac69f44a23a558e5d27201ef1fe5eaf6454559b15c7bfbdf4e40a02ec19",
+        "docs/V2-PRIMITIVE-SIZING.md": "c9ffa892379521eea77143a23cb9e5a924e2ab64382e94572b5f48ea2c981f28",
+        "docs/CODE-AS-EVIDENCE.md": "c8aef1d2a63bc18917fb5768c2ca1970b62df93d373d50e0eaed5514d89958de",
+        "docs/V1-REKEYING-TWO-SEEDS.md": "dd3a70eada9cf1a0ee5dd39f48191e584231a6779090e7e06230f9a628d2baed"
+      },
+      "decision:DECISION-V2-FIRST-CELL-INTERPRETATION": {
+        "docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md": "1be11d417845a69f96800548b38c4f4311b5da9937efd0390d15c737aa8b5369",
+        "docs/v2_first_cell_null.json": "ebf6c840ab5bb5dc33354009f2b12bef536d870b74cef860f483f6e79a07e0cd",
+        "docs/v2_first_cell_power.json": "7eb6812558473438ec885a102dfbde7125356ce4680fbc848aaa21169dbaccbc",
+        "docs/v2_first_cell_handicap.json": "d88ee0ce6505a9f55e6648365674087871ca1d9a9ff8cef212bef2951e7483c1",
+        "docs/v2_first_cell_mass_match.json": "f5eae487fb968155086cc438f2cf85e616135759d1b214329e4dd39bcbf46534",
+        "docs/v2_first_cell_planted.json": "1f5621a8154c20dd90b6dfb3925a10de9e12ff8778215fdba2687da1aa0ddb98",
+        "docs/v2_first_cell_planted_selection.json": "9639cc4ca5c9d14eb1e53c6cae058a4dcec007aa0cd06cc7732016d294195e20",
+        "docs/v2_first_cell_seeds.json": "85b02f7413f29fde8f15df619ac4f6285ba2461b4a430bda6bacb38ce700eb73",
+        "docs/a1_seed_reservations.json": "e51b7a64ec05fdfd4bed07ec66cc66d7bdfc2ccafcfe5f74742209a45501bf02",
+        "docs/DECISION-A1-VOID-ACCEPTED.md": "a017b37527c5b8cd2ce62e2067c6dc9cc1cfc8fa9921b5fe5156f96f8984d657"
+      },
+      "decision:DECISION-V2-PRIMITIVE-BUILD": {
+        "docs/V2-MUTABLE-IDENTITY-SPEC.md": "65708d5c33498c8b6f68b40e69170bad9c7e22a2be7629237b4bff27bd51061f",
+        "docs/DECISION-V2-PRIMITIVE-RESOLUTIONS.md": "11b72ac69f44a23a558e5d27201ef1fe5eaf6454559b15c7bfbdf4e40a02ec19",
+        "docs/V2-FIRST-CELL-GATES.md": "eae1fbbbe1604aa6553ee821cd76bdfdcb5d32605b21e2a92fa6f0f88eee1754",
+        "docs/v2_first_cell_gates.json": "67ad87c36566b5b33aeacea5cd53847469d8a441ea7038619c2dc51292a13a52",
+        "docs/V2-PRIMITIVE-SIZING.md": "c9ffa892379521eea77143a23cb9e5a924e2ab64382e94572b5f48ea2c981f28",
+        "docs/v2_primitive_sizing.json": "51f293ed44972ca89a176c69baa3ce9596a984cf2cd28ce4b588baa63f5a6e7e",
+        "docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md": "1be11d417845a69f96800548b38c4f4311b5da9937efd0390d15c737aa8b5369",
+        "docs/DECISION-V2-FIRST-CELL.md": "b736cb125f3a47b16d44944b037ac85c067e45c3d6d1db2fae3e0d2ef4f3fd17",
+        "benchmarks/v2_first_cell_runner.py": "9d25251e66d4c31b5dd6664604664d7e5396fa19b93c68191f204afe74eb9179"
+      },
+      "decision:DECISION-V2-PRIMITIVE-RESOLUTIONS": {
+        "docs/V2-MUTABLE-IDENTITY-SPEC.md": "65708d5c33498c8b6f68b40e69170bad9c7e22a2be7629237b4bff27bd51061f",
+        "docs/v2_mutable_identity_spec.json": "37abba96cf234884e41005fa1014d98840dc0a429e5217c016ea4453a059611c",
+        "docs/v1_carrier_identity.json": "689516ccbd815b42ea12c8375f05d9ac9839c889b12cd523611f2f0dcf954b21",
+        "docs/V2-PRIMITIVE-SIZING.md": "c9ffa892379521eea77143a23cb9e5a924e2ab64382e94572b5f48ea2c981f28",
+        "docs/CODE-AS-EVIDENCE.md": "c8aef1d2a63bc18917fb5768c2ca1970b62df93d373d50e0eaed5514d89958de",
+        "docs/V1-REKEYING-STUDY.md": "f54e46f673bcbe65febffd761e0bb943d9a2d46e7104a700b004645215afbb1e",
+        "docs/V1-REKEYING-TWO-SEEDS.md": "dd3a70eada9cf1a0ee5dd39f48191e584231a6779090e7e06230f9a628d2baed",
+        "docs/v1_rekeying_study_20900101.json": "5b2b2319fe208dfbe63700b202417def24fa67bb8f08cd867c69e956048464f3",
+        "docs/V1-REKEYING-STUDY-20900101.md": "b08c5a2a1dab4e572393564d6a3235a25e0ad0fe809cf2cdaa7cb5cef2063a5d",
+        "docs/V1-CARRIER-FORGETTING.md": "0705f3be44ca498da6646de7fa183d116da745d1b54ffe51b815002d792f01ef"
+      },
+      "decision:DECISION-V2-RUNTIME-FAILURE": {
+        "docs/DECISION-V2-FIRST-CELL-INTERPRETATION.md": "a463734ea8fb7771c09ef9e298f529766ed1ffd5e8151a2789e16791c0b43c2e",
+        "docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md": "1be11d417845a69f96800548b38c4f4311b5da9937efd0390d15c737aa8b5369",
+        "benchmarks/v2_first_cell_runner.py": "9d25251e66d4c31b5dd6664604664d7e5396fa19b93c68191f204afe74eb9179",
+        "tests/test_v2_first_cell_runner.py": "81a76c01007f7178133c299da5b10d86bca08fce56fc78de367579a66f82701b",
+        "CHANGELOG.md": "5819c51295515f9f5e63a307dac701c7bf9cfaec35a559fddae46776f038ee9e"
+      },
+      "decision:DECISION-V2-SCOPE": {
+        "docs/V2-CAPACITY-DESIGN-BRIEF.md": "75e7688fd4deabda467069d63f8b7aaa2072311af8ac287fffe3d38b604f6b50",
+        "docs/G13-D-DIAGNOSTIC-PLAN.md": "d3c5686c68e32ea6554d4bfc0e6ca3546933b1c5540d07ce738c69b8ac27455b"
+      },
+      "prereg:C6-TIMING-1": {
+        "docs/c6_timing_prereg.json": "32ae78b88f3b72c4a8a70add870bb6d07ca62acd627ecd94c7ac074bf8eb7a30"
+      },
+      "prereg:DECAY-ADAPTATION-PREREGISTRATION.md": {
+        "docs/DECAY-ADAPTATION-PREREGISTRATION.md": "d624c5f9bfe7af8b3dab5f3d48beaaa03e8b3a7663d6d99717e1c991dac1e8c7"
+      },
+      "prereg:DECAY-ADMISSION-SLOT-PREREGISTRATION.md": {
+        "docs/DECAY-ADMISSION-SLOT-PREREGISTRATION.md": "47670cd1ebf63d45bca06d6e206517a4eef9e81208db8eb21d92f2e18fdcc9af"
+      },
+      "prereg:DECAY-ATTRIBUTION-PREREGISTRATION.md": {
+        "docs/DECAY-ATTRIBUTION-PREREGISTRATION.md": "598084e073335cdc87bb65d1f3d90ca83faf9ffee0347eb19d5067ef724e696d"
+      },
+      "prereg:DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md": {
+        "docs/DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md": "398217939936f57b400650a6dee33ff0ef1badff878242cc87e8b95f78f57976"
+      },
+      "prereg:DECAY-SWEEP-PREREGISTRATION.md": {
+        "docs/DECAY-SWEEP-PREREGISTRATION.md": "7c414181401a3e9364574c57c552955ab7bb970537ab0694346c79e9df643868"
+      },
+      "prereg:DECAY-THRESHOLD-PREREGISTRATION.md": {
+        "docs/DECAY-THRESHOLD-PREREGISTRATION.md": "ba1fa036079761705f745abf4f44008d00df0770bfdf57d4335d1a65ee9019ee"
+      },
+      "prereg:LONG-DELAY-CAPABILITY-PREREGISTRATION.md": {
+        "docs/LONG-DELAY-CAPABILITY-PREREGISTRATION.md": "f7f21c073ec6fa5dc3c31d9aa3e648377e02721017079ddf2f7c3349203b126f"
+      },
+      "prereg:OPERATING-POINT-PREREGISTRATION.md": {
+        "docs/OPERATING-POINT-PREREGISTRATION.md": "77b77b5f828ff7fb647b47281a05b125d576349ab42963959560d3fd77c670d4"
+      },
+      "prereg:PERSISTENCE-REPAIR-PREREGISTRATION.md": {
+        "docs/PERSISTENCE-REPAIR-PREREGISTRATION.md": "9b2a86116a0c4f4f0ea155ee753262c5d40cfb7ada07edebdfcbac242617c361"
+      },
+      "prereg:PRESENCE-CONVERSION-2": {
+        "docs/presence_conversion_repair_prereg.json": "aae1f1eaa2bc2ad65ee3207fdfaff7999ebf50d92c9e21593b32735c60df3255"
+      },
+      "prereg:STORE-TIME-ROLE-RECORD-PREREGISTRATION.md": {
+        "docs/STORE-TIME-ROLE-RECORD-PREREGISTRATION.md": "1c23a3725aca896cca9a883af8ea440c294ef0bd6164f4f2e7507641aaed47ab"
+      },
+      "prereg:SUBSTRATE-REPAIR-PREREGISTRATION.md": {
+        "docs/SUBSTRATE-REPAIR-PREREGISTRATION.md": "9ad7aeb790f355bc8c172fd1196e79151e55e6453070ecc23c19a9343fee0a23"
+      },
+      "prereg:T1B-PERSISTENCE-OFF": {
+        "docs/t1b_persistence_off_prereg.json": "6902f49f656a834c69f3fc1d064e751e886b98798262b74894995ed7192ddac1"
+      },
+      "prereg:V2-FIRST-EXPERIMENT-PREREGISTRATION.md": {
+        "docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md": "1be11d417845a69f96800548b38c4f4311b5da9937efd0390d15c737aa8b5369"
+      },
+      "prereg:docs/ADMISSION-TWO-ARM-PREREGISTRATION.md": {
+        "docs/ADMISSION-TWO-ARM-PREREGISTRATION.md": "d73549a213da43024f4ff91f2eff0f9355b4b7545ffecf69336615e1f916fe82"
+      },
+      "prereg:docs/CROSS-CONTEXT-REUSE-PREREGISTRATION.md": {
+        "docs/CROSS-CONTEXT-REUSE-PREREGISTRATION.md": "1413e423a059afa763b6ab9bba68050c380d53d528f8c80385b0b387e90a3d32"
+      },
+      "prereg:docs/Q006-ADMISSION-RE-DERIVATION-PREREGISTRATION.md": {
+        "docs/Q006-ADMISSION-RE-DERIVATION-PREREGISTRATION.md": "faf7453d1ff8b28cf58df31752bcefe4b7b2bd8de33070c86ab51825a035bdf7"
+      },
+      "prereg:docs/Q017-ADMISSION-DECISION-PREREGISTRATION.md": {
+        "docs/Q017-ADMISSION-DECISION-PREREGISTRATION.md": "bf0738bad519f919b25a43607b24715844626e499349a04af83d40f7e18aef47"
+      },
+      "prereg:docs/Q021-TRANSFER-RE-DERIVATION-PREREGISTRATION.md": {
+        "docs/Q021-TRANSFER-RE-DERIVATION-PREREGISTRATION.md": "101be26033ff776f0a07207db657b1f644010c95b694841988b788c3bfd3bb5e"
+      },
+      "prereg:docs/Q053-MECHANISM-PREREGISTRATION.md": {
+        "docs/Q053-MECHANISM-PREREGISTRATION.md": "9fde99fedea70c3ffd2edd0f33113d380a6b174a15f44c8e813e088f0c6049aa"
+      },
+      "prereg:docs/RANKING-ADMISSION-PREREGISTRATION.md": {
+        "docs/RANKING-ADMISSION-PREREGISTRATION.md": "ab0a6b24ec1eee8f8ddd39f00088aa90842dc33099d619716dd849d4ece04261"
+      },
+      "prereg:docs/density_interaction_a2_prereg.json": {
+        "docs/density_interaction_a2_prereg.json": "24de9e74cabb8eb27568a3ee9f2165b3fdfa4166f556de7c1be04c1594b981a6"
+      },
+      "prereg:docs/density_padding_prereg.json": {
+        "docs/density_padding_prereg.json": "bb2c2bce3e21bd4da285a4acfb6c662c0c4947f25ab287add46b8d57b3032494"
+      },
+      "prereg:docs/q006_admission_rederivation_prereg.json": {
+        "docs/q006_admission_rederivation_prereg.json": "7d33769c54c019a33d2cf5a36ccac24121613b98fd91189220aa2e8c66a25cf1"
+      }
+    }
+  }
+}

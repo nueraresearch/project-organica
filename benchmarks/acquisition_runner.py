@@ -89,6 +89,7 @@ from benchmarks.acquisition_harness import (  # noqa: E402
     SUFFICIENCY_THRESHOLD,
     _world_compositional_edges,
 )
+from benchmarks import engine_stamp
 
 ALPHAS_ORGANICA = [0.0, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0, 32.0, 64.0, 128.0, 256.0]
 EPS = 1e-12
@@ -715,7 +716,7 @@ if __name__ == "__main__":
     out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(res, f, indent=2)
+        json.dump(engine_stamp.stamp(res), f, indent=2)
 
     print(f"Artifact written to: {out_path}")
     print(f"Completed in {res['elapsed_seconds']}s")

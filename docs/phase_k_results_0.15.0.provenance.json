@@ -1,0 +1,140 @@
+{
+ "kind": "phase_k_replication_provenance",
+ "version": 1,
+ "date": "2026-11-19",
+ "status": "COMPLETE",
+ "authorisation": {
+  "record": "docs/PHASE-K-REPLICATION-0.15.0.md",
+  "authorised_by": "owner",
+  "authorised_on": "2026-11-19"
+ },
+ "protocol": {
+  "path": "docs/PHASE-K-PREREGISTRATION.md",
+  "sha256": "ff9926bd561496150c798295ecfceced8b6787ff691ac9f87e2e9540eb393c6b",
+  "unchanged_vs_head": true,
+  "preregistration_amended": false
+ },
+ "engine": {
+  "version": "0.15.0",
+  "pin_file": "docs/engine_pin.json",
+  "pin_sha256": "375b7056304b54ac6980d2fed80ba76bd7a715082cc11fa2e2bc66161d553221",
+  "stamped_engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+  "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+  "pin_check": "clean: 14 files at version 0.15.0"
+ },
+ "harness": {
+  "path": "benchmarks/phase_k_campaign.py",
+  "git_blob": "77a45d002fd55475948e03b47faefb85d4347a2c",
+  "sha256_before": "fa0b0324ab3161df7293f86097d3687b03180f7298b728cbab62f853aad0637f",
+  "sha256_after": "fa0b0324ab3161df7293f86097d3687b03180f7298b728cbab62f853aad0637f"
+ },
+ "invocation": "PYTHONHASHSEED=0 .venv/bin/python -m benchmarks.phase_k_campaign --families K1 K2 K3 --seeds 10 --workers 8 --scale 1 --out docs/phase_k_results_0.15.0.json",
+ "protocol_parameters": {
+  "families": [
+   "K1",
+   "K2",
+   "K3"
+  ],
+  "seeds": [
+   20261023,
+   20261024,
+   20261025,
+   20261026,
+   20261027,
+   20261028,
+   20261029,
+   20261030,
+   20261031,
+   20261032
+  ],
+  "workers": 8,
+  "cycle_scale": 1,
+  "python_hash_seed": "0",
+  "decision_alpha": 0.016666666666666666,
+  "bootstrap_replicates": 10000
+ },
+ "preflight": {
+  "control": {
+   "seed": 20261023,
+   "organica_f1": 0.401363,
+   "markov_f1": 0.504039,
+   "organica_loses": true,
+   "note": "Harness validation only. Excluded from the three-family multiplicity adjustment and from every claim."
+  },
+  "ceiling": {
+   "passed": true,
+   "cases": [
+    {
+     "family": "K1",
+     "perfect_model_score": 1.0,
+     "expected": 1.0,
+     "passed": true
+    },
+    {
+     "family": "K2",
+     "perfect_model_score": 1.0,
+     "expected": 1.0,
+     "passed": true
+    },
+    {
+     "family": "K3",
+     "perfect_model_score": 1.0,
+     "expected": 1.0,
+     "passed": true
+    }
+   ],
+   "note": "A perfect model must score 1.0 on every endpoint. This check is an instrument audit and produces no experimental claim."
+  }
+ },
+ "artifact": {
+  "path": "docs/phase_k_results_0.15.0.json",
+  "sha256": "8fdd532011adce1bc41e768fff2b15d7fd11bc574a673f96d2b83b03a0b58be8",
+  "wall_clock_seconds": 414.1,
+  "complete": true,
+  "confirmed_families": [],
+  "checkpoint": "docs/phase_k_results_0.15.0.ndjson",
+  "checkpoint_sha256": "6e6e52dfd8a06ad3572eff2f2d425680ec4895d5b79202321fbce21dd0bf1b99",
+  "checkpoint_rows": 30
+ },
+ "result": {
+  "K1": {
+   "verdict": "REVERSED",
+   "organica": 0.312011,
+   "baseline": 0.935972,
+   "diff": -0.623961,
+   "interval": [
+    -0.646675,
+    -0.599907
+   ],
+   "ablation": 0.312011
+  },
+  "K2": {
+   "verdict": "REVERSED",
+   "organica": 0.176471,
+   "baseline": 0.984615,
+   "diff": -0.808144,
+   "interval": [
+    -0.823529,
+    -0.785068
+   ],
+   "ablation": 0.176471
+  },
+  "K3": {
+   "verdict": "REVERSED",
+   "organica": 0.235788,
+   "baseline": 0.857808,
+   "diff": -0.622021,
+   "interval": [
+    -0.630928,
+    -0.611828
+   ],
+   "ablation": 0.237528
+  }
+ },
+ "pins": {
+  "engine_digest_matches_pin": true,
+  "harness_unchanged": true,
+  "protocol_unchanged": true,
+  "match": true
+ }
+}

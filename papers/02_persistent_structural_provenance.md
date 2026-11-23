@@ -7,7 +7,7 @@
 
 ## Abstract
 
-Developmental systems can expose a record of how their current structures were formed, but a reconstruction claim must specify what the record can recover and under which conditions. We report the Organica audit-trace probes as bounded reconstruction tests, not as proof of universal explainability or complete historical memory. In the measured A3 runs, all 8,061 of 8,061 structures resolved to Layer 1 within the configured depth, and all 1,412 of 1,412 claims resolved to event identifiers with a world/self evidence split. The forced-tie and stress probes also retained structure-level reachability, while branch-level accounting recorded aged-out ancestors. These results support exact reconstruction of the tested surviving state under the tested SQLite implementation. They do not recover ancestry that the engine itself no longer retains, establish causal sufficiency, or constitute independent replication by another laboratory. A5 field honesty and A6 trace/counterfactual separation are closed (2026-10-28), each verified by a proof-of-firing test, and the audit instrumentation is tagged and frozen at `audit-trace-v1`.
+Developmental systems can expose a record of how their current structures were formed, but a reconstruction claim must specify what the record can recover and under which conditions. We report the Organica audit-trace probes as bounded reconstruction tests, not as proof of universal explainability or complete historical memory. In the measured A3 runs on 0.15.0, all 8,061 of 8,061 structures resolved to Layer 1 within the configured depth, and all 1,412 of 1,412 claims resolved to event identifiers with a world/self evidence split; **on the 0.16.0 regeneration (2026-11-21) the figures are 6,179 of 6,592 (0.937, with 404 reporting no parent) and 1,056 of 1,056.** The forced-tie and stress probes also retained structure-level reachability, while branch-level accounting recorded aged-out ancestors. These results support exact reconstruction of the tested surviving state under the tested SQLite implementation. They do not recover ancestry that the engine itself no longer retains, establish causal sufficiency, or constitute independent replication by another laboratory. A5 field honesty and A6 trace/counterfactual separation are closed (2026-10-28), each verified by a proof-of-firing test, and the audit instrumentation is tagged and frozen at `audit-trace-v1`.
 
 We make three contributions beyond this bounded result. **First, a non-vacuity argument.** A reconstruction test is only informative if the reconstruction was in a position to fail; we therefore report the conditions under which the selection axis became load-bearing (the default arm's candidate cap never bound, so the stress arm — in which 403 candidates lost on rank — carries that test) and the conditions under which it did not. **Second, an explicit accounting of every reported rate.** Self-sourcing is reported against three separately named populations — the distinct supporting transitions behind reported beliefs (802 of 4,481 = 17.9%), the pooled support references across reporting cycles (53,980 of 307,857 = 17.5%), and all distinct transitions the observer recorded (5,436 of 12,583 = 43.2%) — because a single unqualified "self-sourced share" would misrepresent the record by more than a factor of two. **Third, a stated boundary on the instrument's reach.** The cognition window holds 4,000 sleep events, which the engine's own storage rate (2,374.68 sleep events per cycle) makes equivalent to 1.7 cycles, so the developmental history of any structure the organism has moved on from is unrecoverable — not slowly censored.
 
@@ -83,16 +83,16 @@ Every rate in this paper is reported against a named population. The table is th
 
 | Quantity | Definition | Population | Default-arm value |
 |---|---|---|---|
-| Lineage reachability | share of reported non-Layer-1 structures resolving back to Layer 1 within depth 7 | reported structures of non-Layer-1 type | 8,061 / 8,061 = **1.000** |
-| Evidence linkage | share of reported claims whose support resolves to event ids with a world/self split fully accounting for the reported support count | reported hypotheses with a real expectation | 1,412 / 1,412 = **1.000** |
-| Truncation split | unresolved structures split into *aged out* / *depth-truncated* / *no parent* / *missing record* | reported non-Layer-1 structures | 0 / 0 / 0 / 0 |
-| Branch-level accounting | the same split computed over branches rather than structures | surviving branches | **105 aged out**; 25,168 Layer-1 terminals |
-| Self-sourced share (disqualifier's figure) | share of *distinct* supporting transitions behind reported beliefs that are self-sourced | deduplicated by (from, to, prior event id, to event id), restricted to edges backing a reported belief | 802 / 4,481 = **17.9 %** |
-| Self-sourced share (weighted view) | the same support counted once per belief per cycle in which the belief is reported | belief-cycle support references | 53,980 / 307,857 = **17.5 %** |
-| Self-sourced share (context) | share of *all* distinct transitions the observer recorded that are self-sourced | every distinct transition recorded, including edges no reported belief rested on | 5,436 / 12,583 = **43.2 %** |
-| Cognition-window span | cycles of history recoverable from the engine's 4,000-event cognition window | engine storage rate, 2,374.68 sleep events per cycle | **1.7 cycles** |
+| Lineage reachability | share of reported non-Layer-1 structures resolving back to Layer 1 within depth 7 | reported structures of non-Layer-1 type | 6,179 / 6,592 = **0.937** (2026-11-21) |
+| Evidence linkage | share of reported claims whose support resolves to event ids with a world/self split fully accounting for the reported support count | reported hypotheses with a real expectation | 1,056 / 1,056 = **1.000** (2026-11-21) |
+| Truncation split | unresolved structures split into *aged out* / *depth-truncated* / *no parent* / *missing record* | reported non-Layer-1 structures | 0 / 9 / **404** / 0 (2026-11-21) |
+| Branch-level accounting | the same split computed over branches rather than structures | surviving branches | **19 aged out**, 369 no-parent; 19,319 Layer-1 terminals (2026-11-21) |
+| Self-sourced share (disqualifier's figure) | share of *distinct* supporting transitions behind reported beliefs that are self-sourced | deduplicated by (from, to, prior event id, to event id), restricted to edges backing a reported belief | 0 / 4,627 = **0.0 %** (2026-11-21; was 802 / 4,481 = 17.9 %) |
+| Self-sourced share (weighted view) | the same support counted once per belief per cycle in which the belief is reported | belief-cycle support references | 0 / 266,659 = **0.0 %** (2026-11-21; was 53,980 / 307,857 = 17.5 %) |
+| Self-sourced share (context) | share of *all* distinct transitions the observer recorded that are self-sourced | every distinct transition recorded, including edges no reported belief rested on | 0 / 8,364 = **0.0 %** (2026-11-21; was 5,436 / 12,583 = 43.2 %) |
+| Cognition-window span | cycles of history recoverable from the engine's 4,000-event cognition window | engine storage rate on 0.16.0, 107.47 sleep events per cycle | **37.2 cycles** (2026-11-21; was 1.7) |
 
-The three self-sourced shares are **not** three estimates of one quantity, and the differences are not noise. The disqualifier's figure (17.9 %) describes the evidence actually behind the system's claims. The context figure (43.2 %) describes the organism's whole distinct transition surface — nearly half of it is its own sleep output. Reporting either without the other would misrepresent the record by more than a factor of two.
+**Correction, 2026-11-21.** Every self-sourced share in this table was measured by an observer that read sleep rows the engine's lookback excludes (`organica/memory.py:353`: `WHERE event_type != 'sleep'`), so the shares described the observer's window, not the engine's support. The observer was aligned on 2026-11-04 (`ff15068`); the default arm was regenerated on 2026-11-21, and with a faithful observer **no support transition can be self-sourced**: the three views read 0 of 4,627, 0 of 266,659 and 0 of 8,364 — **0.0 % each**. The 17.9 % and 43.2 % figures, and the claim that nearly half the organism's distinct transition surface is its own sleep output, are **withdrawn**: the engine never reads a sleep row as a support prior. The methodological point — that a count must be named as what it counts — stands; its illustration does not.
 
 ### 3.6 Acceptance criteria, and the requirement that each can fail
 
@@ -136,7 +136,7 @@ Across all three arms, the reconstruction was exact and no cycle failed.
 
 | Arm | Cycles | A1 beliefs checked | A1 failures | A2 cycles checked | A2 failures | Candidates lost on rank | Candidates that died |
 |---|---|---|---|---|---|---|---|
-| default | 120 | 1,412 | **0** | 120 | **0** | **0** | 4 |
+| default | 120 | 1,056 | **0** | 118 | **0** | **8** | 0 |
 | stress | 60 | 290 | **0** | 60 | **0** | **403** | 3 |
 | forced-tie | 60 | 692 | **0** | 60 | **0** | **0** | 4 |
 
@@ -144,7 +144,7 @@ The stress arm is the load-bearing row. It is the only arm in which the selectio
 
 ![Figure 1. The three audit-trace arms, and the non-vacuity of the selection check](../docs/figure_p02_reconstruction_arms.svg)
 
-**Figure 1.** The three audit-trace arms, and what each one checked. Panel A counts the candidates that lost on rank: zero in the default and forced-tie arms, because the cap never bound there, and 403 in the stress arm. Panel B counts the candidates that were dropped outright, which is small in every arm. A selection test can only fail where the contest was decided, and only the stress arm was in that position — so the stress arm is the one that carries the non-vacuity argument. Drawn from the three committed probe artifacts by `benchmarks/figure_papers.py`.
+**Figure 1.** The three audit-trace arms, and what each one checked. Panel A counts the candidates that lost on rank: zero in the forced-tie arm, **8 in the default arm on the 0.16.0 regeneration** (its pool peaks at 16 against a cap of 15, so the cap now binds), and 403 in the stress arm. Panel B counts the candidates that were dropped outright, which is small in every arm. A selection test can only fail where the contest was decided; on 0.16.0 the default arm also sits in that position, and the stress arm still carries the stronger non-vacuity argument. Drawn from the three committed probe artifacts by `benchmarks/figure_papers.py`.
 
 ### 4.2 Event-level attribution (A7)
 
@@ -152,29 +152,31 @@ Every supporting transition resolved to event identifiers, with no mismatches an
 
 | Arm | Claims checked | Failures | Aggregate edges reconciled | Edge mismatches | Attributed but absent |
 |---|---|---|---|---|---|
-| default | 1,412 | **0** | 244 | **0** | **0** |
+| default | 1,056 | **0** | 132 | **0** | **0** |
 | stress | 290 | **0** | 241 | **0** | **0** |
 | forced-tie | 692 | **0** | 241 | **0** | **0** |
 
 The three self-sourced views, reported separately with their populations as set out in §3.5:
 
-| View | Default | Stress | Forced-tie |
+| View | Default (0.16.0, 2026-11-21) | Stress (2026-10-26) | Forced-tie (2026-10-26) |
 |---|---|---|---|
-| Distinct evidence behind reported beliefs (the disqualifier's figure) | 802 / 4,481 = **17.9 %** | 384 / 2,521 = **15.2 %** | 452 / 2,589 = **17.5 %** |
-| Pooled support references (weighted) | 53,980 / 307,857 = **17.5 %** | 4,554 / 30,529 = **14.9 %** | 12,897 / 77,361 = **16.7 %** |
-| All distinct transitions recorded (context) | 5,436 / 12,583 = **43.2 %** | 2,692 / 6,291 = **42.8 %** | 2,676 / 6,275 = **42.6 %** |
+| Distinct evidence behind reported beliefs (the disqualifier's figure) | 0 / 4,627 = **0.0 %** | 384 / 2,521 = **15.2 %** | 452 / 2,589 = **17.5 %** |
+| Pooled support references (weighted) | 0 / 266,659 = **0.0 %** | 4,554 / 30,529 = **14.9 %** | 12,897 / 77,361 = **16.7 %** |
+| All distinct transitions recorded (context) | 0 / 8,364 = **0.0 %** | 2,692 / 6,291 = **42.8 %** | 2,676 / 6,275 = **42.6 %** |
 
-The **17.9 %** figure is **frozen** as the reference rate for the project's pre-committed per-claim disqualifier, and is not recomputed on any run it judges; it is a provisional calibration value from one world, one policy and one run, not a universal constant. It is a **support-composition statistic**: it says what fraction of the evidence behind the system's claims is the system's own prior output. It is **not** an error rate, and it does not by itself establish that self-sourced support causes errors.
+The stress and forced-tie columns are retained but **marked**: they were measured by the same pre-fix observer, so their self-sourced counts are not comparable with the default column and have not been regenerated.
+
+The **17.9 %** figure is **frozen** as the reference rate for the project's pre-committed per-claim disqualifier, and is not recomputed on any run it judges; it is a provisional calibration value from one world, one policy and one run, not a universal constant. **Superseded as a measurement on 2026-11-21:** the faithful calibration on the same arm reads 0.0 %, so the frozen rate cannot fire on this engine; re-deriving it is the owner's decision (rule 19), not a change made here. It is a **support-composition statistic**: it says what fraction of the evidence behind the system's claims is the system's own prior output. It is **not** an error rate, and it does not by itself establish that self-sourced support causes errors.
 
 ![Figure 2. The self-sourced share against three separately named populations](../docs/figure_p02_self_sourcing.svg)
 
-**Figure 2.** The same self-sourcing phenomenon measured over three populations in the default arm: the distinct supporting transitions behind reported beliefs (802 of 4,481 = 17.9 %), the pooled support references across reporting cycles (53,980 of 307,857 = 17.5 %), and every distinct transition the observer recorded (5,436 of 12,583 = 43.2 %). The first is the figure the pre-committed disqualifier is read against; the third is context. A single unqualified "self-sourced share" would misrepresent this record by more than a factor of two, which is why each population is named. Drawn from `docs/audit_trace_probe.json` by `benchmarks/figure_papers.py`.
+**Figure 2.** The same self-sourcing phenomenon measured over three populations in the default arm on the 0.16.0 regeneration (2026-11-21): the distinct supporting transitions behind reported beliefs (**0 of 4,627**), the pooled support references across reporting cycles (**0 of 266,659**), and every distinct transition the observer recorded (**0 of 8,364**) — 0.0 % on all three. The first is the population the pre-committed disqualifier is read against; the third is context. All three are zero because the engine's lookback isolates non-sleep rows, so no support transition can be self-sourced; the 2026-10-26 values this figure previously carried (17.9 %, 17.5 %, 43.2 %) came from an observer that read rows the engine does not, and are withdrawn (see §3.5). Drawn from `docs/audit_trace_probe.json` by `benchmarks/figure_papers.py`.
 
 ### 4.3 Ancestry honesty (A3)
 
 | Arm | Structures checked | Resolved | Reachability | Truncation split (all four cells) | Aged-out branches | Layer-1 terminals | Honesty errors | Evidence linkage |
 |---|---|---|---|---|---|---|---|---|
-| default | 8,061 | 8,061 | **1.000** | 0 / 0 / 0 / 0 | 105 | 25,168 | **0** | 1,412 / 1,412 = **1.000** |
+| default | 6,592 | 6,179 | **0.937** | 0 / 9 / **404** / 0 | 19 | 19,319 | **0** | 1,056 / 1,056 = **1.000** |
 | stress | 3,240 | 3,240 | **1.000** | 0 / 0 / 0 / 0 | 43 | 9,449 | **0** | 290 / 290 = **1.000** |
 | forced-tie | 3,988 | 3,988 | **1.000** | 0 / 0 / 0 / 0 | 224 | 12,887 | **0** | 692 / 692 = **1.000** |
 
@@ -186,15 +188,19 @@ Structures reported in cycle *N* are traced against the window the engine would 
 
 **A4** passed: with the observer on and off, every reported field was identical over 12 cycles.
 
-The boundary is set by the engine's own memory, and it was measured rather than estimated. The cognition window is the most recent **4,000 sleep events**, and the engine stores **2,374.68 sleep events per cycle** in the default arm (284,962 sleep events over 120 cycles; **2,230.85** in the stress arm and **2,259.33** in the forced-tie arm). The window therefore spans **1.7 cycles** in the default arm and **1.8** in the other two — not the 40–130 cycles an earlier estimate in this project asserted from a guess. The consequence is sharp: a structure that keeps being produced stays inside the window, because candidates are re-stored every cycle; one that stops being produced is gone within about 1.7 cycles. **The developmental history of anything the organism has moved on from is unrecoverable** — not slowly censored, absent — and the trace is bounded by the organism's memory rather than by the observer's.
+The boundary is set by the engine's own memory, and it was measured rather than estimated. The cognition window is the most recent **4,000 sleep events**. On the 0.16.0 regeneration (2026-11-21) the default arm stores **107.47 sleep events per cycle** (12,897 over 120 cycles), so the window spans **37.2 cycles**. That is a **22-fold change in the storage rate** from the 0.15.0 reading (2,374.68 per cycle, **1.7 cycles**), and it matters twice: the span is a ratio, not a constant of the architecture, and the earlier estimate of 40–130 cycles was closer to the 0.16.0 value than to the 0.15.0 one. The stress and forced-tie arms remain the 2026-10-26 readings (2,230.85 and 2,259.33 per cycle; **1.8 cycles** each) and were not regenerated.
+
+The consequence remains sharp, and now cuts the other way. A structure that keeps being produced stays inside the window, because candidates are re-stored every cycle; one that stops being produced is gone after about **37 cycles** on 0.16.0 — a far wider developmental horizon than the 1.7 cycles this paper previously reported, and still far short of all history. **But the wider window did not restore reachability**: 404 of 6,592 structures still report no parent (0.937), so the unresolved ancestry is *not* a window limit. Whether those parents were never stored or the observer's candidate capture missed them is not established.
+
+**Figure 3 is drawn from the regenerated default artifact and the 2026-10-26 tie artifact**, so its Panel A sweep mixes the two builds; the 0.16.0 sweep is in the artifact and the figure should be re-read with that in mind.
 
 ![Figure 3. Lineage reachability against the window, and the window against the run](../docs/figure_p02_cognition_window.svg)
 
-**Figure 3.** The boundary of the instrument is measurable, and it is narrow. Panel A: the share of structures whose ancestry resolved, against the number of candidates the observer is allowed to read. Reachability is a function of the window, not of the substrate — the substrate holds every relation — and it saturates once the window exceeds about 100 candidates. Panel B: the default arm's 120-cycle run, with the final 1.7 cycles marked. Everything before that mark is unrecoverable, because the organism does not retain it either. Drawn from `docs/audit_trace_probe.json` and `docs/audit_trace_probe_tie.json` by `benchmarks/figure_papers.py`.
+**Figure 3.** The boundary of the instrument is measurable, and its width is a property of the build. Panel A: the share of structures whose ancestry resolved, against the number of candidates the observer is allowed to read. Reachability rises with the window and saturates once the window exceeds about 100 candidates — but on 0.16.0 it saturates at **0.937**, not 1.000, because 404 structures report no parent even at the engine's full window. Panel B: the default arm's 120-cycle run, with the final **37.2** cycles marked. Everything before that mark is unrecoverable, because the organism does not retain it either. Drawn from `docs/audit_trace_probe.json` and `docs/audit_trace_probe_tie.json` by `benchmarks/figure_papers.py`.
 
 ### 4.5 What the results do and do not show
 
-They show that the observer can reproduce the engine's selection decisions exactly, resolve every reported belief's support to event identifiers with a provenance split, resolve every reported structure's ancestry to a Layer-1 terminal within the window, and do so without perturbing the organism. In the one arm where selection was load-bearing, it stayed exact while candidates were being discarded.
+They show that the observer can reproduce the engine's selection decisions exactly, resolve every reported belief's support to event identifiers with a provenance split, resolve 93.7% of reported structures' ancestry to a Layer-1 terminal within the window and classify the remainder explicitly (404 no parent, 9 aged out), and do so without perturbing the organism. In the one arm where selection was load-bearing, it stayed exact while candidates were being discarded.
 
 They do not show that the reconstruction is the uniquely correct account of why a belief arose; that the organism's discarded developmental history can be recovered; that the self-sourced share represents an error rate; or that any second laboratory can reproduce the result independently.
 
@@ -204,20 +210,20 @@ The most transferable finding of this work is not the reconstruction rate — it
 
 The second finding concerns **how a reconstruction record can mislead**. The engine's support and competing-flow fields are structurally similar and semantically different; a record that says "4 contradictory observations" where the quantity is the subject's competing flow is a small textual error with a large interpretive cost, and it is invisible to any check that verifies only that a field is present and numeric. This is why A5 is an acceptance criterion with its own failure test rather than a review note.
 
-The third finding concerns **the boundary of the substrate**. The window's span in cycles is not a constant of the architecture; it is a ratio between a fixed event budget and a storage rate that depends on the system's own output volume. Here it is 1.7 cycles, and it is measured, because the alternative is to assert a retention horizon that the system does not have.
+The third finding concerns **the boundary of the substrate**. The window's span in cycles is not a constant of the architecture; it is a ratio between a fixed event budget and a storage rate that depends on the system's own output volume. Here it is **37.2 cycles on 0.16.0** (107.47 sleep events per cycle) and was 1.7 cycles on 0.15.0, and it is measured, because the alternative is to assert a retention horizon that the system does not have.
 
 ## 6. Limitations
 
 These probes test a defined observer, a defined implementation (SQLite), a defined world generator, a defined retention policy, and a defined set of engine states. Specifically:
 
-- They do **not** establish all-history reconstruction. The window bounds the record at 1.7 cycles (§4.4).
+- They do **not** establish all-history reconstruction. The window bounds the record at 37.2 cycles on 0.16.0 — 1.7 on 0.15.0 (§4.4).
 - They do **not** establish causal explanation or causal sufficiency. A faithful trace does not show that a recorded parent caused a structure to be useful or correct.
 - They do **not** establish independent replication by another laboratory. The observer shares the substrate with the engine; "independent" here means independent reconstruction from the engine's state, never independent replication (§2).
 - They do **not** establish the usefulness, correctness or quality of the reconstructed structures. Reconstruction fidelity and utility are separate properties.
 - The observer-window match is empirical for the tested implementation. Under the forced-tie arm the **implementation** is deterministic for identical queries over identical data, so the observer's re-run selects the same rows; the **schema** still does not determine the window under a tie, and a replayer that did not observe at store time could not rely on it.
 - The self-sourced rate is a measured support-composition statistic, not evidence that self-sourcing causes errors; transfer claims must use the pre-committed per-claim rule.
 - All measurements come from a single seed per arm. The claim is about the instrument's exactness on tested states, not about a distribution over worlds.
-- The 17.9 % reference rate is a provisional calibration value from one world, one policy and one run.
+- The 17.9 % reference rate is a provisional calibration value from one world, one policy and one run. It is **superseded as a measurement** (2026-11-21): the faithful calibration is 0.0 %, because the engine's lookback excludes sleep rows, so the reference cannot fire on this engine; re-deriving it is the owner's decision, not a change made here.
 
 ## 7. Conclusion
 

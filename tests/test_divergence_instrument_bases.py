@@ -6,6 +6,7 @@ cycles from one, and both, as first shipped, read that index as if it were a
 cycle.  These tests are written to fail on the old code: they assert the
 one-based reading, not merely that some number is returned.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import sys
 from pathlib import Path
 

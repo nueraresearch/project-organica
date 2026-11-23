@@ -55,6 +55,7 @@ import organica.memory as memory_module  # noqa: E402
 from organica import MemoryService, SleepService  # noqa: E402
 from organica.paths import REPO_ROOT, temp_db  # noqa: E402
 from organica.streams import STUDY_STREAM  # noqa: E402
+from benchmarks import engine_stamp
 
 
 # ---------------------------------------------------------------------------
@@ -320,7 +321,7 @@ def main() -> int:
 
     out = REPO_ROOT / args.out
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps({
+    out.write_text(json.dumps(engine_stamp.stamp({
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "phase": "G",
         "title": "Cold Start / Ablation Study",
@@ -331,7 +332,7 @@ def main() -> int:
                   "commit history, which nobody designed to cooperate.",
         "unengineered_stream_size": len(git_stream),
         "conditions": results,
-    }, indent=2))
+    }), indent=2))
     print(f"\n  Full report written to: {out}")
     return 0
 

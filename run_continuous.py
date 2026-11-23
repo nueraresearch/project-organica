@@ -112,8 +112,9 @@ memory = MemoryService()
 sleep_service = SleepService(memory)
 
 # Seed the memory once with ALL study events before the first cycle
-for text in STUDY_STREAM:
-    memory.store(text, event_type="event", source="seed:bootstrap")
+with memory.batch():
+    for text in STUDY_STREAM:
+        memory.store(text, event_type="event", source="seed:bootstrap")
 
 log.info(
     "Organica continuous runner started. MAX_CYCLES=%s, interval=%ss",
@@ -157,8 +158,9 @@ while True:
     # keeps evolving. The slice size and stride are the validated
     # parameters from benchmarks/stream_sweep.py.
     slice_start = (cycle_count * EVENTS_PER_CYCLE) % len(STUDY_STREAM)
-    for text in STUDY_STREAM[slice_start:slice_start + EVENTS_PER_CYCLE]:
-        memory.store(text, event_type="event", source=f"cycle:{cycle_count}")
+    with memory.batch():
+        for text in STUDY_STREAM[slice_start:slice_start + EVENTS_PER_CYCLE]:
+            memory.store(text, event_type="event", source=f"cycle:{cycle_count}")
 
     status = "success"
     error_msg = None
@@ -216,6 +218,7 @@ while True:
             "dream_categories": dream_categories,
             "investigations": len(report.investigations),
             "experiments": len(report.experiments),
+            "contradiction_density": getattr(report, "contradiction_density", 0.0),
             "composites_created": report.composites_created,
             "total_composites": total_composites,
             "candidates_strengthened": report.candidates_strengthened,
