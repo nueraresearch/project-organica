@@ -25,7 +25,7 @@
   "privileged_reference": "cell-level latent-state counter (reported separately)"
  },
  "conditioned_sampler": {
-  "formation_seed_rule": "seed XOR 0x5EEDC0DE",
+  "formation_seed_rule": "seed * 31 + 7",
   "formation_stream": "separate continuous trajectory under the same per-seed tag mapping and law",
   "test_stream": "unmodified compositional generator draw with the same seed and tag mapping",
   "withheld_transitions": [

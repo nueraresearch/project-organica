@@ -1,6 +1,8 @@
 """Proof tests for the generator-only reusable-knowledge sampler."""
 from __future__ import annotations
 
+import random
+
 import pytest
 
 from benchmarks import reusable_knowledge_sampler as sampler
@@ -120,3 +122,30 @@ def test_all_calibration_seeds_meet_the_transfer_floor_without_engine_runs():
     assert all(r["formation_audit"]["both_formation_phases_conditioned"]
                for r in results)
 
+
+def test_the_oracle_reproduces_the_study_formation_stream():
+    """The study's stream is the harness's; the oracle must produce the same events."""
+    from benchmarks import reusable_knowledge as harness
+    from benchmarks.acquisition_compositional import CYCLES, generate_compositional_world
+
+    variant, _ = sampler.protocol_config()
+    for seed in variant["gate_f_calibration"]["seeds"]:
+        world = generate_compositional_world(seed=seed, cycles=CYCLES)
+        study = harness.conditioned_formation_stream(world, seed)
+        oracle = sampler.build_conditioned_study_world(seed)["formation"]
+        assert oracle["events"] == study["events"], "formation events diverge on %d" % seed
+        assert oracle["cells"] == study["cells"], "formation cells diverge on %d" % seed
+
+
+def test_the_oracle_check_can_fail(monkeypatch):
+    """A different stream must be caught, so the equality above is not decoration."""
+    from benchmarks import reusable_knowledge as harness
+    from benchmarks.acquisition_compositional import CYCLES, generate_compositional_world
+
+    seed = 20261201
+    world = generate_compositional_world(seed=seed, cycles=CYCLES)
+    study = harness.conditioned_formation_stream(world, seed)
+    monkeypatch.setattr(sampler, "study_formation_rng",
+                        lambda s: random.Random(s * 31 + 8))
+    oracle = sampler.build_conditioned_study_world(seed)["formation"]
+    assert oracle["events"] != study["events"]

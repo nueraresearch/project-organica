@@ -44,7 +44,13 @@ from benchmarks.acquisition_compositional import (
 VARIANT_CONFIG = ROOT / "docs" / "reusable_knowledge_variant.json"
 GATE_CONFIG = ROOT / "docs" / "reusable_knowledge_gate_definitions.json"
 FEASIBILITY_CONFIG = ROOT / "docs" / "reusable_knowledge_feasibility.json"
-FORMATION_SEED_XOR = 0x5EEDC0DE
+#: The study's formation stream, as the harness derives it: `seed * 31 + 7`, from the first cell.
+FORMATION_SEED_RULE = "seed * 31 + 7"
+
+
+def study_formation_rng(seed: int) -> random.Random:
+    """The oracle's own draw, from the study's seed rule and therefore the study's stream."""
+    return random.Random(seed * 31 + 7)
 
 
 def _load_json(path: Path) -> dict[str, Any]:
@@ -70,7 +76,7 @@ def protocol_config() -> tuple[dict[str, Any], dict[str, Any]]:
     sampler = variant.get("conditioned_sampler")
     if not isinstance(sampler, dict):
         raise ValueError("The variant artifact does not declare the conditioned sampler")
-    if sampler.get("formation_seed_rule") != "seed XOR 0x5EEDC0DE":
+    if sampler.get("formation_seed_rule") != FORMATION_SEED_RULE:
         raise ValueError("Formation RNG derivation disagrees with the variant artifact")
     selected = _load_json(FEASIBILITY_CONFIG).get("chosen_rule")
     configured = sampler.get("withheld_transitions")
@@ -160,7 +166,9 @@ def _sample_formation(
     transition_kinds: list[str] = []
     cycles_for_event: list[int] = []
     resamples_by_cycle: dict[int, int] = {}
-    start_cell = CELLS[rng.randrange(len(CELLS))]
+    # The study's stream starts at the first cell and draws nothing before the loop,
+    # so the oracle must not consume a draw here either.
+    start_cell = CELLS[0]
     state = start_cell
     blocked = withheld_transitions()
 
@@ -243,7 +251,7 @@ def build_conditioned_study_world(
     )
     # Separate, deterministic random stream for the conditioned formation path.
     # The base stream remains the fixed held-out evaluation sample.
-    formation_rng = random.Random(seed ^ FORMATION_SEED_XOR)
+    formation_rng = study_formation_rng(seed)
     formation = _sample_formation(
         rng=formation_rng,
         cell_tags=base["cell_tags"],
@@ -315,7 +323,7 @@ def build_conditioned_study_world(
             "acquisition_resamples": acquisition_resamples,
             "both_formation_phases_conditioned": True,
             "conditioned_resamples_by_cycle": formation["resamples_by_cycle"],
-            "sampling_seed": seed ^ FORMATION_SEED_XOR,
+            "sampling_seed": seed * 31 + 7,
             "all_events_stored": True,
             "consecutive_event_pairs": len(formation_pairs),
             "forbidden_pairs": len(forbidden_in_formation),
