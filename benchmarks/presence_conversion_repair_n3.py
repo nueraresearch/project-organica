@@ -93,8 +93,13 @@ def cell_table(record: dict, seed: int, cap: int) -> dict:
         if missing:
             problems.append("cycle %d: %d served edge(s) absent from the universe"
                             % (cycle_no, missing))
-        if not counts.get("sum_matches"):
-            problems.append("cycle %d: the allocation counts do not sum to the window" % cycle_no)
+        if counts.get("served"):
+            if counts.get("sum_matches") is not True:
+                problems.append("cycle %d: the allocation counts do not sum to the window"
+                                % cycle_no)
+        elif counts.get("sum_matches") is not None:
+            problems.append("cycle %d: a cycle that served nothing claims a count sum"
+                            % cycle_no)
         if counts.get("served") != served_here:
             problems.append("cycle %d: allocation served %r, table has %d served rows"
                             % (cycle_no, counts.get("served"), served_here))
@@ -216,7 +221,10 @@ def _campaign_problems(art: dict, run: dict) -> list[str]:
                 found.append("%s: a served edge is absent from the universe" % where)
             if (cycle.get("allocation") or {}).get("served") != len(edges):
                 found.append("%s: the allocation disagrees with the served list" % where)
-            if not (cycle.get("allocation") or {}).get("sum_matches"):
+            # A cycle that served nothing has no denominator: the stored 0.15.0
+            # records may carry `true` there, and that historical claim is not
+            # re-read as this build's agreement.
+            if len(edges) and (cycle.get("allocation") or {}).get("sum_matches") is not True:
                 found.append("%s: the counts do not sum" % where)
             served.extend(edges)
         if _digest(served) != got.get("served_fingerprint"):
@@ -468,7 +476,10 @@ def problems(art: dict | None = None) -> list[str]:
             if allocation.get("served") != served_here:
                 found.append("%s cycle %s: allocation disagrees with the table"
                              % (label, cycle.get("cycle")))
-            if not allocation.get("sum_matches"):
+            # Only a served cycle has a sum to check. The committed 0.15.0 fixture
+            # cells recorded `true` on empty cycles; that is the old build's
+            # statement, not a check this build may pass by repeating it.
+            if served_here and allocation.get("sum_matches") is not True:
                 found.append("%s cycle %s: counts do not sum" % (label, cycle.get("cycle")))
     return found
 

@@ -1,0 +1,20 @@
+{
+  "kind": "instrument_retirement",
+  "id": "FORMATION-PROVENANCE-RETIRED-1",
+  "date": "2026-11-24",
+  "status": "RETIRED",
+  "instrument": "benchmarks/formation_provenance.py",
+  "build": {
+    "version": "0.16.0",
+    "cause": "3e2412f",
+    "recorded_on": "2026-11-20"
+  },
+  "quantity": "which stored events supplied the tag pair a prediction asserts",
+  "measurable_on_shipped_build": false,
+  "disposition": "The control script alternates single-tag events, so a pair never co-occurs within one event: zero times by construction. 0.16.0 admits a pair only after 35 within-event co-occurrences, so no prediction can form and the origin classes are unreachable. Rebuilding the script into multi-tag events would answer a different question, so the instrument is retired instead of rebuilt. The control result is NOT MEASURABLE on 0.16.0, not a failure and not a zero.",
+  "historical": "The instrument's own controls were a synthetic statement about the pre-0.16.0 admission law and are kept in benchmarks/formation_provenance.py unchanged; they are not re-run as evidence about 0.16.0.",
+  "tests": "The control-result tests no longer assert the retirement record's prose. They run `run_controls()` on the shipped build and require it to raise `no prediction was formed` with an empty formed-pair list, and they prove the origin classifier on recorded transitions in all three reachable classes. The vocabulary guard, the unrecorded-pair path and the record's factual claims stay live, because none of them depends on a prediction forming.",
+  "not_a_result": true,
+  "no_cell_run": true,
+  "what_it_does_not_do": "It does not license a claim about prediction origin on 0.16.0, and it does not re-score the 0.15.0 provenance reading."
+}

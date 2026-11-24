@@ -7,8 +7,13 @@ observer with it -- and requires:
     served equality     the on arm's windows equal the untouched engine's, in order;
     next-cycle identity the off and on arms agree on every window, the asserted edges and the
                         memory rows, so the observation cannot leak into the following cycle;
-    universe            the second call records the pre-cap universe, superset of what was
-                        served and larger than the cap at least once.
+    universe            the second call runs on every cycle and records the pre-cap universe.
+
+On 0.16.0 the fixture world never reaches the within-event floor of 35, so the engine serves
+nothing. That makes the window channel empty and the pre-cap universe empty -- the retirement
+reason, not a pass. So the empty case is asserted as ``NOT MEASURABLE`` with its denominator
+named, and the allocation/label arithmetic is proved on a synthetic served list. The inertness
+comparison still has content: the assertion channel carries 92 world edges, not nothing.
 
 A comparison that cannot fail is decoration, so ``test_the_comparison_can_fail`` feeds
 ``differs()`` a tampered arm and requires it to report the change.
@@ -17,10 +22,12 @@ from __future__ import annotations
 LAYER = "synthetic"  # benchmarks/test_layers.py: the module's execution layer
 
 import copy
+import json
 import sys
+from types import SimpleNamespace
+from pathlib import Path
 
 import pytest
-from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
@@ -28,11 +35,33 @@ sys.path.insert(0, str(REPO))
 from benchmarks import presence_conversion_repair_observer as observer  # noqa: E402
 
 
-def test_the_served_window_is_the_engines_own_list():
-    arms = observer.fixture()
+def _retirement() -> dict:
+    path = REPO / "docs" / "conversion_observer_retirement.json"
+    return json.loads(path.read_text(encoding="utf-8"))
 
-    assert arms["on"]["windows"] == arms["plain"]["windows"]
-    assert len(arms["on"]["windows"]) == observer.FIXTURE_CYCLES
+
+def _candidate(source, target, flag, count=3):
+    return SimpleNamespace(source=source, target=target, strength=0.5,
+                           evidence={"is_cooccurrence": flag, "count": count})
+
+
+def test_the_observer_ran_every_cycle_and_the_engine_served_nothing():
+    """The empty universe is a measured empty: the second call has to have happened."""
+    arms = observer.fixture()
+    on, off, plain = arms["on"], arms["off"], arms["plain"]
+
+    assert len(on["allocation"]) == observer.FIXTURE_CYCLES
+    assert len(on["universe"]) == observer.FIXTURE_CYCLES
+    assert all(cycle == [] for cycle in on["universe"]), (
+        "0.16.0 admits nothing on this fixture -- the floor is 35 and the world never "
+        "reaches it -- so the emptiness is the retirement reason")
+    # `observe=False` appends nothing: the off arm is a true control, not a silent copy.
+    assert off["universe"] == [] and off["allocation"] == []
+    assert plain["universe"] == [] and plain["allocation"] == []
+
+    run = json.loads((REPO / "docs" / "presence_conversion_repair_run.json")
+                     .read_text(encoding="utf-8"))
+    assert run["stage_table"], "the 0.15.0 universe is preserved in the historical artifact"
 
 
 def test_observation_changes_nothing_including_the_next_cycle():
@@ -41,63 +70,93 @@ def test_observation_changes_nothing_including_the_next_cycle():
     assert observer.differs(arms["off"], arms["on"]) == []
     assert arms["on"]["asserted"] == arms["off"]["asserted"]
     assert arms["on"]["store_counts"] == arms["off"]["store_counts"]
+    # The equality above is only worth something if the compared channels are not empty.
+    assert arms["on"]["asserted"], "the fixture asserted no world edge; the comparison is empty"
+    assert arms["on"]["store_counts"]
 
 
-def test_the_pre_cap_universe_is_recorded_and_covers_what_was_served():
-    arms = observer.fixture()
-    recorded = arms["on"]["universe"]
+def test_a_zero_denominator_is_not_reported_as_a_pass():
+    """The retirement reason, stated by the report itself rather than by a doc beside it."""
+    report = observer.n2_report()
 
-    assert len(recorded) == observer.FIXTURE_CYCLES
-    assert max(len(cycle) for cycle in recorded) > observer.SHIPPED_CAP
-    served = {edge for window in arms["on"]["windows"] for edge in window}
-    universe = {tuple(row["edge"]) for cycle in recorded for row in cycle}
-    assert served <= universe
-    assert all(row["rank"] >= 1 for cycle in recorded for row in cycle)
-    assert any(row["rank"] > observer.SHIPPED_CAP for cycle in recorded for row in cycle)
+    assert report["status"] == "NOT MEASURABLE"
+    assert "zero denominator" in report["reason"]
+    assert report["observed_cycles"] == observer.FIXTURE_CYCLES
+    assert report["served_edges"] == 0
+    assert report["allocation_rows"] == observer.FIXTURE_CYCLES
+    assert report["allocation_served"] == 0
+    assert report["allocation_sum_matches"] is None, (
+        "a sum over nothing is not agreement; True here would score a zero denominator")
+    assert report["served_inside_universe"] is None
+    assert report["relation_labelling"]["status"] == "NOT MEASURABLE"
 
-
-def test_the_allocation_record_sums_to_the_served_window():
-    arms = observer.fixture()
-
-    assert arms["on"]["allocation"]
-    for row in arms["on"]["allocation"]:
-        assert row["sum_matches"] is True
-        assert row["transitions"] + row["cooccurrences"] + row["unknown"] == row["served"]
+    rows = observer.fixture()["on"]["allocation"]
+    assert rows and all(row["status"] == "NOT MEASURABLE" for row in rows)
+    assert all(row["sum_matches"] is None for row in rows)
 
 
-def test_every_row_carries_its_relation_not_a_guess():
-    """N3 needs transition/cooccurrence per row; an `unknown` label would silently pass a sum."""
-    arms = observer.fixture()
+def test_the_allocation_record_sums_to_a_served_list():
+    """The arithmetic is proved on a served list, since the shipped build serves none."""
+    served = [_candidate("alpha", "beta", False),
+              _candidate("gamma", "delta", True),
+              _candidate("epsilon", "zeta", None)]
+    rows = observer.record_universe(served)
 
-    for row in arms["on"]["allocation"]:
-        assert row["unknown"] == 0
-    relations = {row["relation"] for cycle in arms["on"]["universe"] for row in cycle}
-    assert relations == {"transition", "cooccurrence"}
+    row = observer.allocation_row(served, rows)
+    assert row["status"] == "MEASURED"
+    assert row["served"] == 3
+    assert (row["transitions"], row["cooccurrences"], row["unknown"]) == (1, 1, 1)
+    assert row["sum_matches"] is True
+
+    empty = observer.allocation_row([], [])
+    assert (empty["status"], empty["sum_matches"]) == ("NOT MEASURABLE", None)
+
+    # The sum check must be able to fail: withhold one served row's universe entry.
+    short = observer.allocation_row(served, rows[:1])
+    assert short["sum_matches"] is False
+
+
+def test_every_row_carries_the_relation_its_table_implies():
+    """Both directions: agreement is recorded, and a mismatched flag is caught."""
+    agreeing = _candidate("alpha", "beta", True)
+    row = observer.record_universe([agreeing], cooc={"alpha": {"beta": 4}})[0]
+    assert (row["relation"], row["expected_relation"], row["label_agrees"]) == \
+        ("cooccurrence", "cooccurrence", True)
+
+    mismatched = _candidate("alpha", "beta", True)
+    row = observer.record_universe([mismatched], cooc={})[0]
+    assert (row["relation"], row["expected_relation"], row["label_agrees"]) == \
+        ("cooccurrence", "transition", False)
+
+    unlabelled = _candidate("alpha", "beta", None)
+    row = observer.record_universe([unlabelled], cooc={"alpha": {"beta": 4}})[0]
+    assert (row["relation"], row["expected_relation"], row["label_agrees"]) == \
+        ("unknown", "cooccurrence", False)
 
 
 def test_the_comparison_can_fail():
-    arms = observer.fixture()
+    """The guard takes plain records, so it survives the retirement and still has to fail."""
+    left = {"windows": [["a>b"]], "asserted": [["a", "b"]], "store_counts": {"a>b": 1}}
+    assert observer.differs(left, copy.deepcopy(left)) == []
 
-    assert observer.differs(arms["off"], arms["on"]) == []
+    tampered = copy.deepcopy(left)
+    tampered["windows"][-1] = []
+    assert observer.differs(left, tampered) == ["windows"]
 
-    tampered = copy.deepcopy(arms["off"])
-    tampered["windows"][-1] = tampered["windows"][-1][:-1]
-    assert observer.differs(arms["off"], tampered) == ["windows"]
-
-    reordered = copy.deepcopy(arms["off"])
-    if len(reordered["windows"][-1]) > 1:
-        reordered["windows"][-1] = list(reversed(reordered["windows"][-1]))
-        assert observer.differs(arms["off"], reordered) == ["windows"]
+    ordered = {"windows": [["a>b", "b>a"]], "asserted": [], "store_counts": {}}
+    reordered = {"windows": [["b>a", "a>b"]], "asserted": [], "store_counts": {}}
+    assert observer.differs(ordered, reordered) == ["windows"]
 
 
-def test_the_report_states_all_three_parts():
+def test_the_report_states_each_part_with_its_denominator():
     report = observer.n2_report()
 
-    assert report["served_equals_engine"] is True
-    assert report["next_cycle_identical"] is True
-    assert report["universe_recorded"] > observer.SHIPPED_CAP
-    assert report["served_inside_universe"] is True
-    assert report["allocation_sum_matches"] is True
+    assert report["fixture"]["cycles"] == observer.FIXTURE_CYCLES
+    assert report["status"] == "NOT MEASURABLE"
+    assert report["observed_cycles"] == observer.FIXTURE_CYCLES
+    assert report["universe_recorded"] == 0
+    assert report["relation_labelling"]["checked"] == 0
+    assert _retirement()["measurable_on_shipped_build"] is False
 
 
 @pytest.mark.parametrize("seed", (observer.FIXTURE_SEED, observer.SECOND_SEED))
@@ -113,50 +172,40 @@ def test_the_observer_stays_inert_away_from_the_shipped_setting(seed, cap):
     assert len(arms["on"]["windows"]) == observer.FIXTURE_CYCLES
     assert arms["on"]["windows"] == arms["plain"]["windows"]
     assert observer.differs(arms["off"], arms["on"]) == []
-    assert all(len(window) <= cap for window in arms["on"]["windows"])
-    served = {edge for window in arms["on"]["windows"] for edge in window}
-    universe = {tuple(row["edge"]) for cycle in arms["on"]["universe"] for row in cycle}
-    assert served <= universe
-    assert arms["on"]["universe"]
-    assert all(row["sum_matches"] for row in arms["on"]["allocation"])
+    assert arms["on"]["asserted"], "the inertness comparison would otherwise be empty"
+    assert len(arms["on"]["allocation"]) == observer.FIXTURE_CYCLES
+    assert sum(len(cycle) for cycle in arms["on"]["universe"]) == 0
+    assert all(row["status"] == "NOT MEASURABLE" for row in arms["on"]["allocation"])
+    assert all(row["sum_matches"] is None for row in arms["on"]["allocation"])
 
 
 @pytest.mark.parametrize("cap", (80, 112))
 def test_the_report_states_the_same_parts_at_other_caps(cap):
     report = observer.n2_report(cap=cap)
+
     assert report["fixture"]["cap"] == cap
     assert report["fixture"]["seed"] == observer.FIXTURE_SEED
-    assert report["served_equals_engine"] is True
-    assert report["next_cycle_identical"] is True
-    assert report["served_inside_universe"] is True
-    assert report["allocation_sum_matches"] is True
+    assert report["status"] == "NOT MEASURABLE"
+    assert report["observed_cycles"] == observer.FIXTURE_CYCLES
+    assert report["allocation_sum_matches"] is None
+    assert report["served_inside_universe"] is None
 
 
-def test_the_relation_label_is_recomputed_from_the_engines_own_cooccurrence_table():
+def test_the_relation_label_is_not_measurable_on_the_shipped_build():
     labelling = observer.n2_report()["relation_labelling"]
 
-    assert labelling["checked"] > 0
-    assert labelling["mismatches"] == 0
-    assert labelling["unlabelled"] == 0
+    assert labelling["status"] == "NOT MEASURABLE"
+    assert labelling["checked"] == 0
+    assert labelling["mismatches"] == 0, "no row was labelled, so no mismatch can exist"
+    assert "NOT MEASURABLE" in _retirement()["disposition"]
 
 
-def test_the_relation_check_can_fail_on_a_tampered_flag():
-    from types import SimpleNamespace
-
-    candidate = SimpleNamespace(source="alpha", target="beta", strength=0.5,
-                                evidence={"is_cooccurrence": True, "count": 3})
-    assert observer.expected_relation("alpha", "beta", {"beta": {"alpha": 2}}) == "cooccurrence"
-    rows = observer.record_universe([candidate], cooc={})
-
-    assert rows[0]["expected_relation"] == "transition"
-    assert rows[0]["label_agrees"] is False
-
-
-def test_the_engine_uses_one_variable_for_the_label_and_the_append_list():
-    import re
-
+def test_the_engine_label_and_append_list_were_deleted_with_the_partition():
+    """Absence alone would pass on an emptied file, so the replacement law is asserted too."""
     source = (REPO / "organica" / "sleep_extraction.py").read_text(encoding="utf-8")
-    assert "is_cooc = tuple(sorted([tag_from, tag_to])) in cooc_pairs" in source
-    assert '"is_cooccurrence": is_cooc' in source
-    assert re.search(r"if is_cooc:\s*\n\s*cooccurrences\.append\(cand\)\s*\n\s*else:\s*\n"
-                     r"\s*transitions\.append\(cand\)", source)
+    assert "is_cooc = tuple(sorted([tag_from, tag_to])) in cooc_pairs" not in source
+    assert '"is_cooccurrence": is_cooc' not in source
+    assert "cooccurrences.append(cand)" not in source
+    assert "PREDICTION_COOCURRENCE_FLOOR = 35" in source
+    assert '"is_cooccurrence": True' in source
+    assert "NOT MEASURABLE" in _retirement()["disposition"]

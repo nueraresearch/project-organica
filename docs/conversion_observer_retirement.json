@@ -1,0 +1,20 @@
+{
+  "kind": "instrument_retirement",
+  "id": "CONVERSION-OBSERVER-RETIRED-1",
+  "date": "2026-11-24",
+  "status": "RETIRED",
+  "instrument": "benchmarks/presence_conversion_repair_observer.py",
+  "quantity": "relation label (transition vs cooccurrence) per served row",
+  "build": {
+    "version": "0.16.0",
+    "cause": "3e2412f",
+    "recorded_on": "2026-11-20"
+  },
+  "measurable_on_shipped_build": false,
+  "disposition": "The partition the observer measures no longer exists. 3e2412f deleted the transition/co-occurrence allocation, the `is_cooc` label and the two append lists, so every admitted candidate carries `is_cooccurrence: true`. The relation-label quantity is NOT MEASURABLE on 0.16.0, and an empty universe is not a zero: a zero-denominator stage is excluded and never reported as 0.0.",
+  "historical": "The 0.15.0 record and artifact stay historical and are not re-read: docs/presence_conversion_repair_prereg.json and docs/presence_conversion_repair_run.json. Their stage table and rank semantics describe the 0.15.0 build and are not a statement about 0.16.0.",
+  "tests": "The six live-instrument tests now assert the zero denominator instead of a pass: the report carries `status: NOT MEASURABLE` when nothing was served, `allocation_sum_matches` and `served_inside_universe` are `None` rather than `True`, and every allocation row is `NOT MEASURABLE` with `sum_matches: None`. The tests prove the instrument ran (one observed cycle per fixture cycle), that the inertness comparison carries 92 asserted edges, and that the allocation and relation arithmetic still work on a synthetic served list. The pure comparison guard (`differs`) is kept and still fails on a tampered arm, because it takes plain records and needs no engine.",
+  "not_a_result": true,
+  "no_cell_run": true,
+  "what_it_does_not_do": "It does not rebuild the instrument for the single-list law, does not re-score the 0.15.0 report, and licenses nothing about conversion on 0.16.0. What 'relation' means when every candidate is a co-occurrence is a new question with a new instrument."
+}

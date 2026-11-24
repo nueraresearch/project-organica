@@ -10,6 +10,7 @@ import copy
 import json
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
@@ -18,32 +19,65 @@ from benchmarks import presence_conversion_repair_n3 as n3  # noqa: E402
 from benchmarks import presence_conversion_repair_observer as observer  # noqa: E402
 
 
+def _synthetic_record():
+    """One cycle that actually served two rows, built by the observer's own recorders."""
+    transition = SimpleNamespace(source="alpha", target="beta", strength=0.5,
+                                 evidence={"is_cooccurrence": False, "count": 3})
+    cooccurrence = SimpleNamespace(source="gamma", target="delta", strength=0.5,
+                                   evidence={"is_cooccurrence": True, "count": 4})
+    served = [transition, cooccurrence]
+    rows = observer.record_universe(served)
+    return {"arm": "on", "cap": 40,
+            "windows": [[["alpha", "beta"], ["gamma", "delta"]]],
+            "universe": [rows],
+            "allocation": [observer.allocation_row(served, rows)]}
+
+
 def test_the_table_carries_every_served_row_with_its_relation():
-    arms = observer.fixture()
-    cell = n3.cell_table(arms["on"], seed=observer.FIXTURE_SEED, cap=observer.SHIPPED_CAP)
+    cell = n3.cell_table(_synthetic_record(), seed=observer.FIXTURE_SEED,
+                         cap=observer.SHIPPED_CAP)
 
     assert cell["problems"] == []
-    assert cell["cycles_recorded"] == observer.FIXTURE_CYCLES
+    assert cell["cycles_recorded"] == 1
+    assert cell["served_rows"] == 2 and cell["universe_rows"] == 2
+    assert cell["rank_range_of_served"] == [1, 2]
     assert cell["unknown_relation_served"] == 0
-    for cycle in cell["cycles"]:
-        served = [row for row in cycle["rows"] if row["served"]]
-        assert len(served) == cycle["allocation"]["served"]
-        assert all(row["relation"] in n3.RELATIONS for row in served)
-        assert all(row["rank"] >= 1 for row in cycle["rows"])
     assert cell["relations_served"]["transition"] + cell["relations_served"]["cooccurrence"] \
         == cell["served_rows"]
+    served = [row for row in cell["cycles"][0]["rows"] if row["served"]]
+    assert len(served) == cell["cycles"][0]["allocation"]["served"]
+    assert all(row["relation"] in n3.RELATIONS for row in served)
 
 
-def test_the_allocation_counts_sum_to_the_window_every_cycle():
+def test_the_allocation_counts_sum_to_the_window_on_a_served_cycle():
+    record = _synthetic_record()
+    cell = n3.cell_table(record, seed=observer.SECOND_SEED, cap=112)
+    allocation = cell["cycles"][0]["allocation"]
+
+    assert cell["problems"] == []
+    assert allocation["sum_matches"] is True
+    assert allocation["transitions"] + allocation["cooccurrences"] \
+        + allocation["unknown"] == allocation["served"] == 2
+
+    # The sum check must be able to fail on the same served cycle.
+    record["allocation"][0]["transitions"] = 0
+    record["allocation"][0]["sum_matches"] = False
+    broken = n3.cell_table(record, seed=observer.SECOND_SEED, cap=112)
+    assert broken["problems"], "a served cycle whose counts miss its window must fail"
+
+
+def test_the_live_fixture_is_not_measurable_and_does_not_claim_a_sum():
+    """0.16.0 serves nothing on the fixture, so the table has no denominator to pass."""
     arms = observer.fixture(seed=observer.SECOND_SEED, cap=112)
     cell = n3.cell_table(arms["on"], seed=observer.SECOND_SEED, cap=112)
 
     assert cell["problems"] == []
+    assert cell["cycles_recorded"] == observer.FIXTURE_CYCLES
+    assert cell["served_rows"] == 0 and cell["universe_rows"] == 0
+    assert cell["rank_range_of_served"] is None
     for cycle in cell["cycles"]:
-        allocation = cycle["allocation"]
-        assert allocation["sum_matches"] is True
-        assert allocation["transitions"] + allocation["cooccurrences"] \
-            + allocation["unknown"] == allocation["served"] <= 112
+        assert cycle["allocation"]["status"] == "NOT MEASURABLE"
+        assert cycle["allocation"]["sum_matches"] is None
 
 
 def test_a_tampered_allocation_is_reported():

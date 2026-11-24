@@ -139,7 +139,10 @@ def test_the_live_ledger_reproduces_the_engines_decision():
     The first build classified deaths against the prior cycle's emitted set and called
     re-emitted edges absent; on 25 cycles that produced unattributable deaths.
     """
-    row = da.cell("engine", 20300601, cycles=25)
+    # R3: 0.16.0 admits a pair only after 35 within-event co-occurrences. The rotating feed
+    # revisits each event roughly every 1.5 cycles, so the ledger needs the real 300-cycle
+    # protocol before any edge is stable; at 25 none was.
+    row = da.cell("engine", 20300601, cycles=300)
     reasons = {}
     for cycle in row["series"]:
         for reason, count in cycle["by_reason"].items():

@@ -116,6 +116,36 @@ def record_universe(candidates, cooc=None) -> list[dict]:
     return rows
 
 
+def allocation_row(served, rows) -> dict:
+    """The per-cycle allocation record, with its denominator named.
+
+    A cycle that served nothing has no relation to allocate. Its sum is then **not** a
+    pass: the row is ``NOT MEASURABLE`` and ``sum_matches`` is ``None``. Returning
+    ``True`` there would score a zero-denominator relation as agreement, which is the
+    fabrication AGENTS rule 13(b) bans (and the same defect as a ``DI`` of ``0.000`` on
+    a world where nothing was available to retain).
+    """
+    keys = {(candidate.source, candidate.target) for candidate in served}
+    served_rows = [row for row in rows
+                   if (row["edge"][0], row["edge"][1]) in keys]
+    by_relation = {name: sum(1 for row in served_rows if row["relation"] == name)
+                   for name in RELATIONS}
+    unknown = sum(1 for row in served_rows if row["relation"] == "unknown")
+    counted = by_relation["transition"] + by_relation["cooccurrence"] + unknown
+    return {
+        "served": len(served),
+        "universe": len(rows),
+        "transitions": by_relation["transition"],
+        "cooccurrences": by_relation["cooccurrence"],
+        "unknown": unknown,
+        "relation_checked": sum(1 for row in rows if "label_agrees" in row),
+        "relation_mismatch": sum(1 for row in rows if row.get("label_agrees") is False),
+        "relation_unlabelled": sum(1 for row in rows if row["relation"] == "unknown"),
+        "sum_matches": (counted == len(served)) if served else None,
+        "status": "MEASURED" if served else "NOT MEASURABLE",
+    }
+
+
 class RepairedObserverSleepService(SleepService):
     """The shipped engine whose served list is the engine's own, with a second, observational call.
 
@@ -145,24 +175,7 @@ class RepairedObserverSleepService(SleepService):
         self.full_candidates = list(full)
         rows = record_universe(full, getattr(self, "_current_cooc", None))
         self.universe.append(rows)
-        served_rows = [row for row in rows
-                       if (row["edge"][0], row["edge"][1]) in
-                       {(c.source, c.target) for c in served}]
-        by_relation = {name: sum(1 for row in served_rows if row["relation"] == name)
-                       for name in RELATIONS}
-        self.allocation.append({
-            "served": len(served),
-            "universe": len(rows),
-            "transitions": by_relation["transition"],
-            "cooccurrences": by_relation["cooccurrence"],
-            "unknown": sum(1 for row in served_rows if row["relation"] == "unknown"),
-            "relation_checked": sum(1 for row in rows if "label_agrees" in row),
-            "relation_mismatch": sum(1 for row in rows if row.get("label_agrees") is False),
-            "relation_unlabelled": sum(1 for row in rows if row["relation"] == "unknown"),
-            "sum_matches": by_relation["transition"] + by_relation["cooccurrence"]
-                           + sum(1 for row in served_rows if row["relation"] == "unknown")
-                           == len(served),
-        })
+        self.allocation.append(allocation_row(served, rows))
         return served
 
 
@@ -226,26 +239,48 @@ def fixture(seed: int = FIXTURE_SEED, cap: int = SHIPPED_CAP) -> dict:
 
 
 def n2_report(seed: int = FIXTURE_SEED, cap: int = SHIPPED_CAP) -> dict:
+    """The three-part report, with the quantity each part was checked on.
+
+    On 0.16.0 the fixture world never reaches the within-event floor of 35, so the engine
+    serves no candidate. The served list, the pre-cap universe and the relation split are
+    then all empty, and an empty comparison is **not** a pass: ``status`` says
+    ``NOT MEASURABLE`` and the parts that need a denominator report ``None`` rather than
+    ``True``. The instrument ran -- ``observed_cycles`` counts its second calls -- and
+    found nothing to record, which is the retirement reason, not a clean result.
+    """
     arms = fixture(seed=seed, cap=cap)
     served = {edge for window in arms["on"]["windows"] for edge in window}
     universe = {tuple(row["edge"]) for cycle in arms["on"]["universe"] for row in cycle}
+    rows = [row for cycle in arms["on"]["universe"] for row in cycle]
+    allocation = arms["on"]["allocation"]
+    allocated = sum(row["served"] for row in allocation)
+    counted = sum(row["transitions"] + row["cooccurrences"] + row["unknown"]
+                  for row in allocation)
+    labelled = [row for row in rows if "label_agrees" in row]
+    measured = bool(served) and bool(rows)
     return {
         "fixture": {"seed": seed, "cycles": FIXTURE_CYCLES, "cap": int(cap),
                     "ceiling": CEILING},
+        "status": "MEASURED" if measured else "NOT MEASURABLE",
+        "reason": ("" if measured else
+                   "the observer ran on every cycle and the shipped build served no "
+                   "candidate, so the served list, the pre-cap universe and the relation "
+                   "split all have a zero denominator: NOT MEASURABLE, not a pass"),
+        "observed_cycles": len(allocation),
+        "served_edges": len(served),
+        "universe_recorded": max((len(cycle) for cycle in arms["on"]["universe"]), default=0),
         "served_equals_engine": arms["on"]["windows"] == arms["plain"]["windows"],
         "next_cycle_identical": differs(arms["off"], arms["on"]) == [],
         "differs": differs(arms["off"], arms["on"]),
-        "universe_recorded": max((len(cycle) for cycle in arms["on"]["universe"]), default=0),
-        "served_inside_universe": served <= universe,
-        "served_edges": len(served),
-        "allocation_sum_matches": all(row["sum_matches"] for row in arms["on"]["allocation"]),
+        "served_inside_universe": (served <= universe) if served else None,
+        "allocation_rows": len(allocation),
+        "allocation_served": allocated,
+        "allocation_sum_matches": (counted == allocated) if allocated else None,
         "relation_labelling": {
-            "checked": sum(1 for cycle in arms["on"]["universe"] for row in cycle
-                           if "label_agrees" in row),
-            "mismatches": sum(1 for cycle in arms["on"]["universe"] for row in cycle
-                              if row.get("label_agrees") is False),
-            "unlabelled": sum(1 for cycle in arms["on"]["universe"] for row in cycle
-                               if row["relation"] == "unknown"),
+            "checked": len(labelled),
+            "mismatches": sum(1 for row in rows if row.get("label_agrees") is False),
+            "unlabelled": sum(1 for row in rows if row["relation"] == "unknown"),
+            "status": "MEASURED" if labelled else "NOT MEASURABLE",
         },
     }
 

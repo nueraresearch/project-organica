@@ -56,11 +56,13 @@ def test_b_contradiction_storm():
     mem = MemoryService(db)
     
     # Regime 1: Developer fix workflow (developer modified auth -> executed test suite -> passed)
+    # R3: 0.16.0 admits a pair only after 35 within-event co-occurrences. Six repetitions left
+    # every pair at six, so nothing could form; the repetitions, not the workflow, are the scale.
     regime_1_events = [
         "developer modified auth login session",
         "developer executed test suite",
         "test suite report passed validation",
-    ] * 6
+    ] * 40
     for e in regime_1_events:
         mem.store(e, event_type="observe", source="env")
         
@@ -79,7 +81,7 @@ def test_b_contradiction_storm():
     regime_2_events = [
         f"{target_subject} failure crashed error",
         "system rollback aborted shutdown",
-    ] * 20
+    ] * 40
     for e in regime_2_events:
         mem.store(e, event_type="observe", source="env")
         

@@ -18,6 +18,10 @@ def test_full_developmental_stack(tmp_path):
         "File modified: src/auth/middleware.py",
         "Test suite run: 0 failures, 50 passed",
     ]
+    # R3: 0.16.0 admits a pair only after 35 within-event co-occurrences, so each event in the
+    # stream is repeated until its tags have met the floor. The sequence, not the floor, is what
+    # this test is about.
+    stream = stream * 40
     for event in stream:
         mem.store(event, event_type="observe", source="env")
         
