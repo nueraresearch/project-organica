@@ -191,5 +191,13 @@
     "verdict": "VOID",
     "date": "2026-11-11",
     "note": "G4_denominator failed: S_ever is zero in the persistence-off cells for seeds 20612204 and 20612205, so the block is VOID and no endpoint is adjudicated. The paired differences are computed and reported, not read as a verdict."
+  },
+  "build_superseded": {
+    "date": "2026-11-20",
+    "recorded_version": "0.15.0",
+    "recorded_cap": 112,
+    "shipped_version": "0.16.0",
+    "shipped_cap": 112,
+    "note": "This record was written on the 0.15.0 build. 0.16.0 (`3e2412f`, 2026-11-20) changed the prediction admission law, so the record is a historical statement about the 0.15.0 build and not a live claim about the shipped one. It is not re-scored and keeps its result and its grant; the run gate refuses, because a cell opened on 0.16.0 would be a different experiment."
   }
 }

@@ -190,5 +190,13 @@
   "verdict": "PERSISTENCE CONTRIBUTES",
   "date": "2026-11-11",
   "note": "All seven gates pass. G4 passes with P = 112 in every cell and three persistence-off cells at S_ever = 0 (seeds 20612208, 20612210, 20612212); those zeros are measured counts, not unmeasurable stages. The paired differences are 101, 94, 100, 100, 98 and 96 (mean 98.167, 95% interval [96, 100]), positive on 6 of 6 seeds against the margin of 10. No gate was changed after the cells ran."
+ },
+ "build_superseded": {
+  "date": "2026-11-20",
+  "recorded_version": "0.15.0",
+  "recorded_cap": 112,
+  "shipped_version": "0.16.0",
+  "shipped_cap": 112,
+  "note": "This record was written on the 0.15.0 build. 0.16.0 (`3e2412f`, 2026-11-20) changed the prediction admission law, so the record is a historical statement about the 0.15.0 build and not a live claim about the shipped one. It is not re-scored and keeps its result and its grant; the run gate refuses, because a cell opened on 0.16.0 would be a different experiment."
  }
 }

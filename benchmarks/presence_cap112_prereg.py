@@ -297,6 +297,13 @@ COMPARATOR_RUN_AMENDMENT = {
 }
 
 
+RECORDED_BUILD = {
+    "engine_version": "0.15.0",
+    "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+    "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+}
+
+
 def _record(body: dict) -> dict:
     record = json.loads(json.dumps(COMMON))
     record.update({key: body[key] for key in
@@ -333,7 +340,11 @@ def _record(body: dict) -> dict:
         "the six historical audit seeds, reused so the level comparison is paired; declared "
         "against docs/presence_assertion_audit_0.14.0.json"
         if body["block"] in ("comparator", "Q1") else None)
-    return engine_stamp.stamp(record)
+    stamped = engine_stamp.stamp(record)
+    # R1 (2026-11-24): the record keeps the 0.15.0 build it was written on. The stamp is the
+    # recorded build, not the live one; these records are historical and are not re-issued.
+    stamped.update(RECORDED_BUILD)
+    return stamped
 
 
 def records() -> dict[str, dict]:

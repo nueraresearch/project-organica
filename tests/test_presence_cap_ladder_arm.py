@@ -55,6 +55,9 @@ def _grant(monkeypatch, tmp_path):
     }
     doc["runner"]["built"] = True
     doc["runner"]["planned_module"] = arm.MODULE
+    # R1: the synthetic record is stamped with the shipped build, because the gate opens only
+    # on a record written for the build being run.
+    doc["engine"]["version"] = __import__("organica").__version__
     monkeypatch.setattr(block, "record", lambda: doc)
     monkeypatch.setattr(arm, "PARTS", tmp_path)
     return doc

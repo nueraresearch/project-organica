@@ -538,5 +538,13 @@
   "date": "2026-11-11",
   "note": "B5_cap_live failed on every seed: the cap-112 transition allocation is 69, 67, 68, 68, 68 and 64, not the frozen 56, and the rank comparison read no served edge's block rank. The band itself was served in full at 112 (62 of 62) and in 0 cycles at 40; B1-B4 and B6-B8 passed. Because a gate failed, no acceptance is adjudicated. The harness defect behind the rank reading (`_served` built character tuples from the served strings) and a `dict & set` crash in the B4 control were found after the cells ran and fixed before this record was closed; no cell was rerun and no gate was rescored."
  },
- "decision": "Ran 2026-11-11 and returned VOID on B5: the cap-112 transition allocation is not the frozen 56 and the rank reading did not resolve. The band was served in full at 112 and not at all at 40, but no acceptance is read; a retry is a new block with B5 corrected, not a re-read of these cells."
+ "decision": "Ran 2026-11-11 and returned VOID on B5: the cap-112 transition allocation is not the frozen 56 and the rank reading did not resolve. The band was served in full at 112 and not at all at 40, but no acceptance is read; a retry is a new block with B5 corrected, not a re-read of these cells.",
+ "build_superseded": {
+  "date": "2026-11-20",
+  "recorded_version": "0.15.0",
+  "recorded_cap": 112,
+  "shipped_version": "0.16.0",
+  "shipped_cap": 112,
+  "note": "This record was written on the 0.15.0 build. 0.16.0 (`3e2412f`, 2026-11-20) changed the prediction admission law, so the record is a historical statement about the 0.15.0 build and not a live claim about the shipped one. It is not re-scored and keeps its result and its grant; the run gate refuses, because a cell opened on 0.16.0 would be a different experiment."
+ }
 }

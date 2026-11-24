@@ -124,8 +124,11 @@ def preflight() -> list[str]:
         found.append("the grant document does not exist")
     if not auth.get("quote"):
         found.append("the grant records no quote")
-    if getattr(__import__("organica"), "__version__", None) != "0.15.0":
-        found.append("the shipped build is not 0.15.0")
+    from benchmarks import recorded_build
+    shipped = getattr(__import__("organica"), "__version__", None)
+    recorded = recorded_build.recorded_version(doc)
+    if shipped != recorded:
+        found.append("the block is frozen on %s and the shipped build is %s" % (recorded, shipped))
     runner = doc.get("runner") or {}
     if runner.get("built") is not True:
         found.append("the record does not mark the runner built")

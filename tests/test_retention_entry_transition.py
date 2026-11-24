@@ -61,6 +61,9 @@ def test_granted_cell_uses_the_collection_hook_only(monkeypatch, tmp_path):
         "document": "docs/USER-MANUAL.md",
         "quote": "synthetic grant for a runner test",
     }
+    # R1: the synthetic record is stamped with the shipped build, because the gate opens only
+    # on a record written for the build being run.
+    doc["engine_version"] = __import__("organica").__version__
     monkeypatch.setattr(block, "record", lambda: doc)
     monkeypatch.setattr(runner, "PARTS", tmp_path)
     called = []

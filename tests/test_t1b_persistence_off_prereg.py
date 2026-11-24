@@ -90,10 +90,12 @@ def test_a_stale_page_is_caught():
     assert any("page does not match" in p for p in t1b.problems(doc=doc, page=stale))
 
 
-def test_the_engine_at_run_is_the_shipped_one():
+def test_the_engine_at_run_is_the_recorded_one_and_the_shipped_build_is_disclosed():
     import organica
     from organica.sleep import SleepService
 
     assert SleepService.MAX_PREDICTIONS == 112
-    assert t1b.record()["engine"]["version"] == organica.__version__ == "0.15.0"
-    assert t1b.record()["engine"]["edit"] == "none"
+    doc = t1b.record()
+    assert doc["engine"]["version"] == "0.15.0"
+    assert doc["build_superseded"]["shipped_version"] == organica.__version__
+    assert doc["engine"]["edit"] == "none"

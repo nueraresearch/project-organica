@@ -409,6 +409,8 @@ def test_registered_target_map_reads_the_block_the_manifest_names():
 
 def test_the_execution_gate_opens_under_the_grant_and_still_refuses_without_it():
     """A gate that cannot refuse is decoration; a gate that refuses a granted, frozen manifest is broken."""
+    import organica
+
     from benchmarks import a1_two_path
     from benchmarks.authorisation_guard import preparation_only
 
@@ -420,6 +422,9 @@ def test_the_execution_gate_opens_under_the_grant_and_still_refuses_without_it()
     pre_run = a1_two_path.manifest()
     pre_run["status"] = "GRANTED, NOT RUN"
     pre_run["result"] = {"path": None, "exists": False}
+    # R1: the manifest is frozen on 0.15.0, so the open path is exercised on a synthetic record
+    # stamped with the shipped build; the real manifest still refuses.
+    pre_run["engine"] = organica.__version__
     assert a1_two_path.preflight(pre_run) == []
 
     ungranted = a1_two_path.manifest()

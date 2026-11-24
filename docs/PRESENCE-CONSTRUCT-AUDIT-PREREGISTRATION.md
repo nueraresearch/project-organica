@@ -29,7 +29,7 @@ The published audit (`docs/presence_assertion_audit_0.14.0.json`) is count-only:
 | Field | Value |
 | --- | --- |
 | Engine | `0.14.0`, pinned, no `organica/` edit |
-| Build | recorded on `0.14.0` at cap `40`; superseded by `0.15.0` at cap `112` on 2026-11-11 |
+| Build | recorded on `0.14.0` at cap `40`; superseded by `0.16.0` at cap `112` on 2026-11-20 |
 | Treatment | none: the shipped `organica.sleep.SleepService`, no subclass and no observer |
 | Seeds | `20261100`, `20261101`, `20261102`, `20261103`, `20261104`, `20261105` |
 | Control | seed `20261100`, fresh-process rerun; a control, not a reading |

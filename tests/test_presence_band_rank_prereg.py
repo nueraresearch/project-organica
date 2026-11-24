@@ -103,13 +103,16 @@ def test_a_stale_page_is_caught():
     assert any("page does not match" in p for p in band.problems(doc=doc, page=stale))
 
 
-def test_the_engine_at_run_is_the_shipped_one():
+def test_the_engine_at_run_is_the_recorded_one_and_the_shipped_build_is_disclosed():
     import organica
     from organica.sleep import SleepService
 
     assert SleepService.MAX_PREDICTIONS == 112
-    assert band.record()["engine"]["version"] == organica.__version__ == "0.15.0"
-    assert band.record()["engine"]["edit"] == "none"
+    doc = band.record()
+    assert doc["engine"]["version"] == "0.15.0"
+    assert doc["build_superseded"]["shipped_version"] == organica.__version__
+    assert doc["build_superseded"]["recorded_version"] == doc["engine"]["version"]
+    assert doc["engine"]["edit"] == "none"
 
 
 def test_a_renamed_or_misranked_edge_is_caught_against_its_part():

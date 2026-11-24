@@ -225,8 +225,10 @@ def problems(doc: dict | None = None, page: str | None = None) -> list[str]:
         from organica.sleep import SleepService
         if SleepService.MAX_PREDICTIONS != 112:
             found.append("the shipped cap is %d, not 112" % SleepService.MAX_PREDICTIONS)
-        if getattr(organica, "__version__", None) != "0.15.0":
-            found.append("the shipped version is not 0.15.0")
+        from benchmarks import recorded_build
+        problem = recorded_build.supersession_problem(doc, getattr(organica, "__version__", None))
+        if problem:
+            found.append(problem)
     except Exception as exc:  # pragma: no cover
         found.append("the shipped engine could not be read: %s" % exc)
     if page.strip() != render(doc).strip():

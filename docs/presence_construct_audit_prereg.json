@@ -222,12 +222,15 @@
     }
   ],
   "build_superseded": {
-    "date": "2026-11-11",
+    "date": "2026-11-20",
+    "first_superseded_on": "2026-11-11",
+    "first_superseded_by": "0.15.0",
+    "resuperseded_by": "3e2412f",
     "recorded_version": "0.14.0",
     "recorded_cap": 40,
     "recorded_sha256": "1fc7be8fae436fa154ce8a142412ffaeb8f54768f3b3ceaacd18d457b13f33f2",
-    "shipped_version": "0.15.0",
+    "shipped_version": "0.16.0",
     "shipped_cap": 112,
-    "note": "This record fixes the cap-40 build it was written on. The cap landed at 112 in 0.15.0 under DECISION-CAP-LEVEL; the record is not re-scored and its verdict, if any, stands for the 0.14.0 cap-40 build. The cap-112 reading has its own record."
+    "note": "This record fixes the cap-40 build it was written on. The cap landed at 112 in 0.15.0 under DECISION-CAP-LEVEL and first superseded this block on 2026-11-11. The admission law moved again in 0.16.0 (3e2412f, 2026-11-20): `transition_budget`, the co-occurrence quota and the backfill were deleted and admission is support-gated, so this record is a record of the 0.14.0 cap-40 build and not a live claim about 0.16.0. The record is not re-scored and its verdict, if any, stands for the 0.14.0 cap-40 build; the cap-112 reading has its own record."
   }
 }

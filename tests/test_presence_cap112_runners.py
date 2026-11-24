@@ -17,12 +17,17 @@ sys.path.insert(0, str(REPO))
 from benchmarks import presence_cap112_runners as runners  # noqa: E402
 
 
-def test_the_landed_build_satisfies_the_preflight_and_the_gate_still_fires():
-    assert runners.preflight() == []
-    assert runners.refuse() is None
+def test_the_shipped_build_fails_the_preflight_and_the_gate_still_fires():
+    # R1: the records are frozen on 0.15.0, so the shipped 0.16.0 build must not satisfy their
+    # preflight. The open path is proved on an injected condition, the same path a met
+    # prerequisite would take.
+    problems = runners.preflight()
+    assert problems, "a 0.16.0 build must not satisfy the 0.15.0 records' preflight"
+    assert any("0.16.0" in problem for problem in problems), problems
+    with pytest.raises(SystemExit) as refused:
+        runners.refuse()
+    assert "REFUSED" in str(refused.value)
 
-    # The level has landed, so the refusal is proved on an injected condition rather than by
-    # the build: the same path a real unmet prerequisite would take.
     message = runners.refusal_message(["the shipped Layer-1 cap is 40, not 112"])
     assert message.startswith("REFUSED") and "cap is 40" in message
 
@@ -32,6 +37,12 @@ def test_the_landed_build_satisfies_the_preflight_and_the_gate_still_fires():
         with pytest.raises(SystemExit) as refused:
             runners.main(["--measure", "--block", "comparator"])
         assert "REFUSED" in str(refused.value)
+    finally:
+        runners.preflight = original
+
+    try:
+        runners.preflight = lambda: []
+        assert runners.refuse() is None, "the gate must open when every condition holds"
     finally:
         runners.preflight = original
 

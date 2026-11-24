@@ -73,8 +73,11 @@ def preflight() -> list[str]:
         found.append("the grant names no document")
     if not auth.get("quote"):
         found.append("the grant records no quote")
-    if getattr(__import__("organica"), "__version__", None) != "0.15.0":
-        found.append("the shipped build is not 0.15.0")
+    from benchmarks import recorded_build
+    shipped = getattr(__import__("organica"), "__version__", None)
+    recorded = recorded_build.recorded_version(doc)
+    if shipped != recorded:
+        found.append("the block is frozen on %s and the shipped build is %s" % (recorded, shipped))
     if SleepService.MAX_PREDICTIONS != 112:
         found.append("the shipped cap is not 112")
     runner = doc.get("runner") or {}
