@@ -4,10 +4,21 @@
   "date": "2026-11-16",
   "status": "PINNED — THE WORLD, THE DETECTOR, THE LOG-LOSS INSTRUMENT AND THE READOUT ADAPTER ARE FIXED; RE-PINNING IS A REVIEWED COMMIT",
   "rule": "the harness refuses to score when any module listed here differs from its digest; the readout adapter is added at authorisation and pinned the same way. Re-pinning is allowed and is a reviewed commit.",
+  "repin": {
+    "date": "2026-11-24",
+    "module": "organica/sleep_extraction.py",
+    "departure_digest": "56da7e2930347c323688803a77e26aa94ff4d23b6394ddebd14d33ccc17ac788",
+    "shipped_digest": "b6b06ed13a1cc3d5dc146e27e3597c71f70ad5b2563847ca694a756f3a7efac2",
+    "cause": "3e2412f — Land the 0.16.0 support-gated co-occurrence admission build (2026-11-20)",
+    "why": "the 0.16.0 admission law rewrote `_build_predictions` in `sleep_extraction.py`; the pin must follow the shipped bytes or the harness refuses to score",
+    "names": "the 2026-11-19 REVERSAL recorded in `docs/v2_first_cell_result.json`, whose `scorer_pin_ok: true` is a fact about the 0.15.0 build and is not edited or re-read here",
+    "no_cell_ran": true,
+    "caveat": "This is still the scorer for an unrun experiment designed under the pre-0.16.0 admission law. Re-pinning keeps the pin honest; it does not authorise a cell. Any cell on 0.16.0 needs its own dated authorisation and a fresh statement of what the design now measures, because `transition_budget`, the co-occurrence quota and the backfill no longer exist."
+  },
   "modules": {
     "benchmarks/acquisition_compositional.py": "0d7a2231b599c547fe00135e430cfa6fd6b1eeebe98fe523f5d7005edfddcf3a",
     "benchmarks/heldout_prediction.py": "5a313300052e6e1ceb894950fa349e2e07bfaa7cb2a5b9f6a40a1a56365fbd1e",
-    "organica/sleep_extraction.py": "56da7e2930347c323688803a77e26aa94ff4d23b6394ddebd14d33ccc17ac788"
+    "organica/sleep_extraction.py": "b6b06ed13a1cc3d5dc146e27e3597c71f70ad5b2563847ca694a756f3a7efac2"
   },
   "adapter": {
     "path": "benchmarks/v2_first_cell_readout.py",
