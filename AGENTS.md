@@ -107,7 +107,7 @@ See `docs/USER-MANUAL.md` §6.4 for the full table.
 ## Verifying a change
 
 ```bash
-python -m pytest tests -q                 # <!-- tests:auto -->3102 passed, 20 skipped, 0 failed of 3122 collected (2026-11-19)<!-- /tests:auto -->, must be green
+python -m pytest tests -q                 # <!-- tests:auto -->3096 passed, 27 skipped, 0 failed of 3123 collected (2026-11-24)<!-- /tests:auto -->, must be green
 python benchmarks/study_health.py          # study must stay healthy
 python benchmarks/lineage_audit.py         # Law II must stay at 100% grounded
 python benchmarks/g5_gap_diagnostic.py --cycles 10   # G5 must remain reachable

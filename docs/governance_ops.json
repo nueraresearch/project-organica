@@ -213,7 +213,7 @@
         "docs/A1-RUN.md": "2274354c9c361027f73d90eb6c35410cc36fcef0cb66f7f875cc1909680e0e2a",
         "docs/a1_two_path_result.json": "1640c527e197030ec0c36b63cb1115ea063420e2d75153dbcc9256ae178d7440",
         "docs/a1_scorer_pin.json": "9f98b29c38c9b53438fc12c8feb4e5fb643236c0afa7ea892af36cd26fd92f51",
-        "tests/test_a1_prefreeze.py": "972e3b8abc2efdd6876f928b81a044331adecff5abfb4f87aeca920e6a610f17"
+        "tests/test_a1_prefreeze.py": "79499263dfa5af00f46d5ab6d5532612ee8348ad00d12559e900b9b876248594"
       },
       "decision:DECISION-A2-ESTIMAND": {
         "docs/A2-SHAM-FEASIBILITY.md": "66c04a2bd99ed183220003b27e0fb03f2d33c252e51b9d900c6e935cb4119cae",
@@ -234,8 +234,8 @@
         "docs/presence_conversion_repair_prereg.json": "aae1f1eaa2bc2ad65ee3207fdfaff7999ebf50d92c9e21593b32735c60df3255",
         "docs/presence_conversion_2_n3_tables.json": "458936c668bb72ae3ca0d4978c88a76dd334dde2c7161714a71b67f4610bb416",
         "docs/DECISION-CAP-LEVEL.md": "cf91094504306cbdea9cab9dbe1e96834ac554cd7c814437218b42fc36103a89",
-        "docs/LANDING-0.15.0.md": "254d58afdda033fa5a309278b871b3297dee03f8c3e8912b84d07e58bba961a2",
-        "docs/presence_band_rank_prereg.json": "8d35300ee1f1692ecd141be0e80d115b2a69b7793ef1fa090ad2b680df899681",
+        "docs/LANDING-0.15.0.md": "32cf58ea796b382eaee0b5f1d449f31468384500032a5bf862bcbe357d815f73",
+        "docs/presence_band_rank_prereg.json": "6d1c7d0b9f9c04e3fa0ec5e8be71a4d302038abd79f9100983a75b697e7d4090",
         "docs/PRESENCE-BAND-RANK-PREREGISTRATION.md": "33c362ee4bc089c8a5226b0b2489495b97ef8ef867ab4ba661228bf9d6f9dfdd",
         "docs/presence_band_rank_run.json": "7910d4a55c47f27be121b4b0ec5208b25e0b7df6f9a95851223f4b5b7930824a",
         "docs/PRESENCE-BAND-RANK-RESULT.md": "a323022f3151215c8e6d1e9b718af7ceb057c96482e1a60e6c66c3749f0989f7",
@@ -253,14 +253,14 @@
         "docs/CAP-DECISION-BRIEF.md": "5b75a5871da40a9ac483aa1ac916bbf4a8b033d670e329fc12f3ac1b69189701",
         "docs/presence_cap_run.json": "483461ebaee8b3e5ad75c3908bf8bded4fb4651559835c08363f3ef360764312",
         "docs/PRESENCE-CAP-RESULT.md": "97c782ce2264b2eabcf9aa8b330150a4b186bf04f1e89109d646678c3532e503",
-        "docs/block_canaries.json": "f46ee6665c11bbb52c368f5b09280d97f1972abeb0e890fdd8b3e58865f5e0c5",
+        "docs/block_canaries.json": "118bb148c7494023205dd4f3dbc0e68e019aab7f16024ddc917b1fe2d64c45f6",
         "docs/PRESENCE-REBUILD-PLAN.md": "98e7c9bdb9319db66247bb92976d91eb3ff90defc7bc619de02953943cb3301b",
         "docs/DECISION-CAP-LEVEL.md": "cf91094504306cbdea9cab9dbe1e96834ac554cd7c814437218b42fc36103a89"
       },
       "decision:DECISION-CAP-SEMANTICS": {
         "docs/CAP-DECISION-BRIEF.md": "5b75a5871da40a9ac483aa1ac916bbf4a8b033d670e329fc12f3ac1b69189701",
         "docs/presence_cap_run.json": "483461ebaee8b3e5ad75c3908bf8bded4fb4651559835c08363f3ef360764312",
-        "docs/block_canaries.json": "f46ee6665c11bbb52c368f5b09280d97f1972abeb0e890fdd8b3e58865f5e0c5",
+        "docs/block_canaries.json": "118bb148c7494023205dd4f3dbc0e68e019aab7f16024ddc917b1fe2d64c45f6",
         "docs/DECISION-CAP-SEMANTICS.md": "07308f3ede65ed8de374582da322b92d34ab5819d8085dcdc993887afe31f979"
       },
       "decision:DECISION-DENSITY-EXCLUSION": {
@@ -278,7 +278,7 @@
         "docs/D3-PERSISTENCE-G1-RECALIBRATED-RESULT.md": "5b485b179df6e4cff01d4007880f3aca392f2184b32bd4ec9234dac7a677a57d",
         "docs/d3_persistence_g1_recalibrated_run.json": "0f587c2dd279b28d19638d0d6c657660f89aa74870c3ab38d3b540c2266b011c",
         "docs/claim_ledger.json": "dcbcbbf79f5d0d6b6885949ce79ea7de0979c31aeb5a9f7876d298bf9f4d242f",
-        "docs/ENGINE-CHANGE-AUDIT.md": "36e5ad79ead75775a24a67fdd20e4afc06a7bf190574efdf46f7397b1b13ca28"
+        "docs/ENGINE-CHANGE-AUDIT.md": "030e709fccd62ede04158dc4a51ba8b41b9044db57eb7ece22ce40678e341746"
       },
       "decision:DECISION-G1-WITNESS": {
         "docs/DECISION-G1-WITNESS.md": "123f874535cc9452e1de8097fc6a8d6b5c0b30d219fd2315d04f2b9be740ce8d",
@@ -351,7 +351,7 @@
       "decision:DECISION-V2-FIRST-CELL": {
         "docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md": "1be11d417845a69f96800548b38c4f4311b5da9937efd0390d15c737aa8b5369",
         "docs/v2_first_cell_seeds.json": "85b02f7413f29fde8f15df619ac4f6285ba2461b4a430bda6bacb38ce700eb73",
-        "docs/v2_first_cell_scorer_pin.json": "9d7d53796a150e5ee2f3855761617b3d9d3aaa127580a874cc6f0259673f9a18",
+        "docs/v2_first_cell_scorer_pin.json": "be0deeba435345ef4aac6c2c2454b319ed2ab302ce0f6150a019b035ea4f364c",
         "docs/V2-MUTABLE-IDENTITY-SPEC.md": "65708d5c33498c8b6f68b40e69170bad9c7e22a2be7629237b4bff27bd51061f",
         "docs/DECISION-V2-PRIMITIVE-RESOLUTIONS.md": "11b72ac69f44a23a558e5d27201ef1fe5eaf6454559b15c7bfbdf4e40a02ec19",
         "docs/V2-PRIMITIVE-SIZING.md": "c9ffa892379521eea77143a23cb9e5a924e2ab64382e94572b5f48ea2c981f28",
@@ -444,7 +444,7 @@
         "docs/SUBSTRATE-REPAIR-PREREGISTRATION.md": "9ad7aeb790f355bc8c172fd1196e79151e55e6453070ecc23c19a9343fee0a23"
       },
       "prereg:T1B-PERSISTENCE-OFF": {
-        "docs/t1b_persistence_off_prereg.json": "6902f49f656a834c69f3fc1d064e751e886b98798262b74894995ed7192ddac1"
+        "docs/t1b_persistence_off_prereg.json": "c2568764efc53cfaf6ee5562b0eb41ad89370ee8b8e03de47cf0da5bca8a0189"
       },
       "prereg:V2-FIRST-EXPERIMENT-PREREGISTRATION.md": {
         "docs/V2-FIRST-EXPERIMENT-PREREGISTRATION.md": "1be11d417845a69f96800548b38c4f4311b5da9937efd0390d15c737aa8b5369"
