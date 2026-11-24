@@ -49,12 +49,19 @@ def test_b5_is_a_floor_with_backfill_not_an_exact_56():
 
 
 def test_b5_is_derived_from_the_engine_source():
-    correction = _doc()["b5_correction"]
+    """The correction was read off the 0.15.0 source; 0.16.0 deleted the allocation it cites."""
+    doc = _doc()
+    correction = doc["b5_correction"]
     assert correction["source"] == "organica/sleep_extraction.py:511-525"
-    source = band2.SOURCE.read_text(encoding="utf-8")
-    assert "transition_budget = returned_budget // 2" in source
-    assert "more_trans" in source
     assert "64-69" in correction["why_it_was_wrong"]
+    source = band2.SOURCE.read_text(encoding="utf-8")
+    assert "transition_budget = returned_budget // 2" not in source
+    assert "more_trans" not in source
+    disclosure = doc["build_superseded"]
+    assert disclosure["recorded_version"] == "0.15.0"
+    assert disclosure["shipped_version"] == "0.16.0"
+    assert disclosure["retired_on"] == "2026-11-24"
+    assert "more_trans" in disclosure["note"]
 
 
 def test_the_rank_reader_parses_the_edge_and_takes_the_minimum():

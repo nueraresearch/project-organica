@@ -6,8 +6,9 @@ are derived from the records rather than typed -- a drift in the version, the pi
 the three cap-112 records, the runner's preflight or the presence of a result artifact turns the
 check red instead of leaving a stale plan looking current.
 
-The plan is a plan. It runs no cell, and the decision it serves stays PENDING until the arm's
-verdict exists.
+The plan is a plan. It runs no cell. The decision it serves was CLOSED unadjudicated on
+2026-11-24, because the block that would have tested its acceptance condition cannot run on the
+shipped build; CLOSED is not satisfied.
 
     ./.venv/bin/python -m benchmarks.cap112_admission_plan --write
     ./.venv/bin/python -m benchmarks.cap112_admission_plan --check
@@ -45,6 +46,10 @@ ARTIFACTS = {
 ACCEPTANCE = "21\u201340 transitions must be served at 112"
 
 
+def _key(version) -> tuple:
+    return tuple(int(part) for part in str(version).split(".") if part.isdigit())
+
+
 def load(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -57,12 +62,32 @@ def live() -> dict:
     canaries = load(CANARIES)
     decision = DECISION.read_text(encoding="utf-8")
     landing = LANDING.read_text(encoding="utf-8")
+    shipped = __version__
+    record = load(ARTIFACT) if ARTIFACT.exists() else {}
+    recorded = record.get("build") or {}
+    historical = _key(shipped) > _key(TARGET_VERSION) and recorded.get("version") == TARGET_VERSION
+    if historical:
+        # The plan describes the 0.15.0 build it was written on. A later landing does not
+        # re-version the plan, so it is validated against the build it records.
+        version, cap = TARGET_VERSION, TARGET_CAP
+        pin_version = recorded.get("pin_version")
+        pin_files = recorded.get("pin_files")
+        canaries_version = recorded.get("canaries_version")
+        preflight = record.get("preflight") or []
+    else:
+        version, cap = shipped, int(SleepService.MAX_PREDICTIONS)
+        pin_version = str(pin.get("version"))
+        pin_files = len(pin.get("files") or {})
+        canaries_version = canaries.get("engine_version")
+        preflight = runners.preflight()
     return {
-        "version": __version__,
-        "cap": int(SleepService.MAX_PREDICTIONS),
-        "pin_version": str(pin.get("version")),
-        "pin_files": len(pin.get("files") or {}),
-        "canaries_version": canaries.get("engine_version"),
+        "version": version,
+        "cap": cap,
+        "shipped_version": shipped,
+        "historical": historical,
+        "pin_version": pin_version,
+        "pin_files": pin_files,
+        "canaries_version": canaries_version,
         "records": {
             name: {
                 "status": (load(DOCS / name).get("status")),
@@ -70,12 +95,14 @@ def live() -> dict:
                                 .get("granted")),
                 "runner": (load(DOCS / name).get("runner") or {}).get("status"),
             } for name in RECORDS},
-        "preflight": runners.preflight(),
+        "preflight": preflight,
         "artifacts": {name: path.exists() for name, path in ARTIFACTS.items()},
         "band": {"granted": bool((load(BAND_RECORD).get("authorisation") or {}).get("granted")),
                  "runner": bool((load(BAND_RECORD).get("runner") or {}).get("built")),
                  "artifact": BAND_RUN.exists()},
-        "decision": {"pending": "PENDING" in decision, "acceptance": ACCEPTANCE in decision},
+        "decision": {"pending": "PENDING" in decision,
+                     "closed": "**Status: CLOSED" in decision,
+                     "acceptance": ACCEPTANCE in decision},
         "landing": "LANDED" in landing,
     }
 
@@ -132,10 +159,11 @@ def steps(state: dict) -> list[dict]:
                    "band arm reads the 62 named rank-21-40 edges at 40 and 112 on Q4's six worlds "
                    "and is the decision's designated test"),
          "blocked_by": [] if band_done else band_blocked},
-        {"id": "decision", "state": "blocked",
-         "needs": ("the band arm's verdict (recorded: VOID on B5), then the owner updates the "
-                   "PENDING admission-step decision with a date and a rationale"),
-         "blocked_by": ["the owner's update of the PENDING decision"]},
+        {"id": "decision", "state": "done" if state["decision"].get("closed") else "blocked",
+         "needs": ("the band arm's verdict (recorded: VOID on B5), then the owner closes the "
+                   "admission-step decision with a date and the VOID reason"),
+         "blocked_by": [] if state["decision"].get("closed") else
+         ["the owner's closure of the admission-step decision"]},
     ]
 
 
@@ -163,13 +191,19 @@ def build(state: dict | None = None) -> dict:
                   "canaries_version": state["canaries_version"]},
         "records": state["records"],
         "preflight": state["preflight"],
-        "decision": {"status": "PENDING" if state["decision"]["pending"] else "CHANGED",
+        "decision": {"status": ("CLOSED" if state["decision"].get("closed") else
+                               "PENDING" if state["decision"]["pending"] else "CHANGED"),
                      "acceptance": ACCEPTANCE},
         "steps": rows,
         "summary": summary(rows),
-        "not_evidence": ("A plan is not a run. No cell was started, no verdict is adjudicated, "
-                         "and the admission-step decision stays PENDING until the arm's verdict "
-                         "exists."),
+        "not_evidence": (
+            "A plan is not a run. No cell was started and no verdict is adjudicated. The "
+            "admission-step decision is CLOSED unadjudicated (2026-11-24): the block that "
+            "would have tested its acceptance condition cannot run on the shipped build, so "
+            "CLOSED means untested, not satisfied."
+            if state["decision"].get("closed") else
+            "A plan is not a run. No cell was started, no verdict is adjudicated, and the "
+            "admission-step decision stays PENDING until the arm's verdict exists."),
     })
 
 
@@ -197,8 +231,8 @@ def problems(art: dict | None = None, live_state: dict | None = None) -> list[st
         found.append("the decision block does not match the record")
     if not state["decision"]["acceptance"]:
         found.append("the decision does not state the acceptance condition")
-    if not state["decision"]["pending"]:
-        found.append("the decision is no longer PENDING")
+    if not state["decision"].get("closed"):
+        found.append("the admission-step decision is not closed")
     return found
 
 
@@ -217,7 +251,7 @@ def render(art: dict) -> str:
             "ARM WAITING ON THE COMPARATOR" if art["summary"]["arm"] == "waiting" else
             "ARM DONE" if art["summary"]["arm"] == "done" else "BLOCKED"),
         "",
-        "**Not a result.** No cell has run; the decision stays **%s**, and the acceptance "
+        "**Not a result.** No cell has run; the decision is **%s**, and the acceptance "
         "condition is *%s*, per seed, with the block's gates passing." % (
             art["decision"]["status"], art["decision"]["acceptance"]),
         "",
@@ -293,7 +327,7 @@ def render(art: dict) -> str:
         "",
         "## What this does not do",
         "",
-        "- It does not run a cell, adjudicate a verdict or promote the PENDING decision.",
+        "- It does not run a cell, adjudicate a verdict or move the decision.",
         "- It does not re-derive Q1 or Q2's design, gates, seeds or verdict rules; they are "
         "frozen and cited, not restated as new commitments.",
         "- It does not claim 112 is necessary or optimal: the arm tests whether the 21\u201340 "

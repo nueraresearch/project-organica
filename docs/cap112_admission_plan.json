@@ -28,7 +28,7 @@
  },
  "preflight": [],
  "decision": {
-  "status": "PENDING",
+  "status": "CLOSED",
   "acceptance": "21\u201340 transitions must be served at 112"
  },
  "steps": [
@@ -76,11 +76,9 @@
   },
   {
    "id": "decision",
-   "state": "blocked",
-   "needs": "the band arm's verdict (recorded: VOID on B5), then the owner updates the PENDING admission-step decision with a date and a rationale",
-   "blocked_by": [
-    "the owner's update of the PENDING decision"
-   ]
+   "state": "done",
+   "needs": "the band arm's verdict (recorded: VOID on B5), then the owner closes the admission-step decision with a date and the VOID reason",
+   "blocked_by": []
   }
  ],
  "summary": {
@@ -89,13 +87,11 @@
   "arm_blockers": [],
   "band": "done",
   "band_blockers": [],
-  "later_blockers": [
-   "the owner's update of the PENDING decision"
-  ]
+  "later_blockers": []
  },
- "not_evidence": "A plan is not a run. No cell was started, no verdict is adjudicated, and the admission-step decision stays PENDING until the arm's verdict exists.",
- "engine_version": "0.15.0",
- "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
- "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "not_evidence": "A plan is not a run. No cell was started and no verdict is adjudicated. The admission-step decision is CLOSED unadjudicated (2026-11-24): the block that would have tested its acceptance condition cannot run on the shipped build, so CLOSED means untested, not satisfied.",
+ "engine_version": "0.16.0",
+ "engine_commit": "716da31be3f304715c3ecbd4063dcac44abb54e1",
+ "engine_sha256": "25843ded68f50e90ad04bd80df4ade86f57d31eb7ed61ef77d6d7f4fedfe4236",
  "runner": "__main__"
 }

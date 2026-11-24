@@ -138,6 +138,19 @@ def build() -> dict:
                 "its own result; it repeats the same-world measurement under a corrected gate."
             ),
         },
+        "build_superseded": {
+            "date": "2026-11-20",
+            "recorded_version": "0.15.0",
+            "shipped_version": "0.16.0",
+            "retired_on": "2026-11-24",
+            "note": (
+                "B5's correction cites the 0.15.0 half-budget split and its `more_trans` backfill. "
+                "3e2412f (0.16.0) deleted both: the shipped build admits by within-event support and "
+                "has no transition budget to split. The gate B5 describes cannot be read on the "
+                "shipped build, so BAND-2 is retired frozen and unrun rather than reinterpreted, and "
+                "its 62 edges are not carried into a block the engine could serve."
+            ),
+        },
         "rank_reading": {
             "previous_defect": (
                 "BAND-1's first B5 built character tuples from the served strings, so the rank "
@@ -523,10 +536,24 @@ def problems(doc: dict | None = None, page: str | None = None) -> list[str]:
         found.append("B5's correction does not name the engine source")
     if SOURCE.exists():
         text = SOURCE.read_text(encoding="utf-8")
-        if "transition_budget = returned_budget // 2" not in text:
-            found.append("the engine source no longer guarantees the 56 floor")
-        if "more_trans" not in text:
-            found.append("the engine source no longer backfills with more transitions")
+        half_budget = "transition_budget = returned_budget // 2" in text
+        backfill = "more_trans" in text
+        disclosure = doc.get("build_superseded") or {}
+        if half_budget and backfill:
+            if disclosure:
+                found.append(
+                    "the record discloses a supersession the engine source does not show")
+        else:
+            if (disclosure.get("recorded_version") != "0.15.0"
+                    or disclosure.get("shipped_version") != "0.16.0"):
+                if not half_budget:
+                    found.append("the engine source no longer guarantees the 56 floor")
+                if not backfill:
+                    found.append("the engine source no longer backfills with more transitions")
+            if not (disclosure.get("note") or "").strip():
+                found.append("the supersession disclosure carries no note")
+            if not (disclosure.get("retired_on") or "").strip():
+                found.append("the supersession does not record the retirement date")
     else:
         found.append("the engine source is missing")
 

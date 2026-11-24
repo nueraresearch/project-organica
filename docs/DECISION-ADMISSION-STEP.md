@@ -140,6 +140,23 @@ Record BAND-5 as a fresh-world confirmation of the allocation-law mechanism, not
 
 Neither question licenses a capability, retention or transfer claim. The decision remains **PENDING**, and the acceptance condition is unchanged.
 
+## Closure, 2026-11-24 — closed unadjudicated
+
+The block that could have adjudicated this decision's specific acceptance condition cannot run on
+the shipped build. **0.16.0** (`3e2412f`, 2026-11-20) deleted `transition_budget`, the guaranteed
+`MAX_PREDICTIONS // 2 = 56` transition floor and the `more_trans` backfill, so `PRESENCE-BAND-2`'s
+corrected **B5** no longer has a source to derive from. The owner closed that block **VOID —
+retired, no cell ran**: it is not a failed allocation law, and it is not re-derived for the
+single-list world. What replaces "56 transitions" when every admitted candidate carries
+`is_cooccurrence: true` is a new preregistration, not a repair.
+
+**Status: CLOSED — 2026-11-24.** The decision is closed **unadjudicated**, not satisfied: the 62
+named Q4 rank-21-40 edges were never read under a passing gate. `CAP LIMITING` (Q2) and
+`CONVERSION STAGE MEASURED` (Q4) are not re-scored, BAND-1 and BAND-2 remain VOID, and no
+capability, retention or transfer claim follows. The step this decision named — constructed but not
+admitted — is unchanged by the closure; what closed is the test that would have adjudicated it on
+this world family.
+
 ## Rejected alternatives
 
 **Alternative.** Treat the 62 rank-21–40 misses as a ranking defect and change the ranking.

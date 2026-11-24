@@ -31,10 +31,10 @@ def test_the_plan_matches_the_landed_state():
     assert states["comparator-112"] in ("ready", "done")
     assert states["admission-arm"] in ("ready", "waiting", "done")
     assert states["band-arm"] == "done"
-    assert states["decision"] == "blocked"
+    assert states["decision"] == "done"
+    assert art["decision"]["status"] == "CLOSED"
     assert art["summary"]["band"] == "done"
-    assert states["decision"] == "blocked"
-    assert art["summary"]["later_blockers"] == ["the owner's update of the PENDING decision"]
+    assert art["summary"]["later_blockers"] == []
     assert plan.PAGE.read_text(encoding="utf-8") == plan.render(art)
 
 

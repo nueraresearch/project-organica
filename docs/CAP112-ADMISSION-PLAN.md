@@ -4,7 +4,7 @@ Generated from `docs/cap112_admission_plan.json` by `python -m benchmarks.cap112
 
 **Status: ARM DONE.** 0.15.0 landed on 2026-11-11, so the landing checklist is a record, not a to-do list (`docs/LANDING-0.15.0.md`). This plan covers the arm the landing was needed for: what each remaining step needs, and what still blocks it.
 
-**Not a result.** No cell has run; the decision stays **PENDING**, and the acceptance condition is *21–40 transitions must be served at 112*, per seed, with the block's gates passing.
+**Not a result.** No cell has run; the decision is **CLOSED**, and the acceptance condition is *21–40 transitions must be served at 112*, per seed, with the block's gates passing.
 
 ## The landed build
 
@@ -27,7 +27,7 @@ Generated from `docs/cap112_admission_plan.json` by `python -m benchmarks.cap112
 | 5 | `admission-arm` | **DONE** | `--measure --block Q2` on six seeds × four levels (24 cells) plus the 112 witness, then `--finish --block Q2`; the acceptance condition is that the 21–40 transitions are served at 112, per seed, with K1–K6 passing | nothing |
 | 6 | `verdict` | **DONE** | the arm's 24 cells, its witness and the Q2 verdict rule, read against the bar the cap-40 record fixes | nothing |
 | 7 | `band-arm` | **DONE** | record a dated grant for PRESENCE-BAND-1, then `--measure` and `--finish`; the band arm reads the 62 named rank-21-40 edges at 40 and 112 on Q4's six worlds and is the decision's designated test | nothing |
-| 8 | `decision` | **BLOCKED** | the band arm's verdict (recorded: VOID on B5), then the owner updates the PENDING admission-step decision with a date and a rationale | the owner's update of the PENDING decision |
+| 8 | `decision` | **DONE** | the band arm's verdict (recorded: VOID on B5), then the owner closes the admission-step decision with a date and the VOID reason | nothing |
 
 `done` is derived from the records; `ready` means its prerequisites hold now; `waiting` means it can be measured but not finished until the named artifact exists; `blocked` means it follows a measurement.
 
@@ -35,7 +35,7 @@ Generated from `docs/cap112_admission_plan.json` by `python -m benchmarks.cap112
 
 **Nothing.** The landing, the frozen records and the runner preflight are all satisfied, and the arm's result artifact does not yet exist.
 
-The steps after the arm wait on the recorded verdict, then on the owner: the owner's update of the PENDING decision.
+The steps after the arm wait on the recorded verdict, then on the owner: nothing.
 
 The arm is the **admission** question, not the comparator: Q2 varies only the Layer-1 cap across 40 / 80 / 112 / uncapped on the same six seeds and worlds, with a witness at 112. The comparator-112 is a dependency, because Q2's finish reads its rows for the K gates and Q1's C9 anchors to it; it is not the arm's own test.
 
@@ -62,8 +62,8 @@ A single cell can be opened with `--cell --block Q2 --seed <seed> --cap <level>`
 
 ## What this does not do
 
-- It does not run a cell, adjudicate a verdict or promote the PENDING decision.
+- It does not run a cell, adjudicate a verdict or move the decision.
 - It does not re-derive Q1 or Q2's design, gates, seeds or verdict rules; they are frozen and cited, not restated as new commitments.
 - It does not claim 112 is necessary or optimal: the arm tests whether the 21–40 transitions are served, and a negative result moves the next step to the admission rule rather than to another level.
 
-A plan is not a run. No cell was started, no verdict is adjudicated, and the admission-step decision stays PENDING until the arm's verdict exists.
+A plan is not a run. No cell was started and no verdict is adjudicated. The admission-step decision is CLOSED unadjudicated (2026-11-24): the block that would have tested its acceptance condition cannot run on the shipped build, so CLOSED means untested, not satisfied.
