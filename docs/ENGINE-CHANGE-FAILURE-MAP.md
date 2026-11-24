@@ -13,8 +13,8 @@ names, so the map cannot drift from a measurement it does not hold.
 
 ## Coverage
 
-- **22** commits touched `organica` between `v0.9.0` and HEAD, and every one is claimed below.
-- **15** rows: **11** stay in the campaign, **4** are excluded.
+- **23** commits touched `organica` between `v0.9.0` and HEAD, and every one is claimed below.
+- **16** rows: **12** stay in the campaign, **4** are excluded.
 - A row stays only if it names a failure with an artifact, a mechanism, a falsifier,
   observables, a pre-change measurement, and two decisions that differ. A diagnostic whose
   two outcomes lead to the same place spends the resource and changes no design, so the
@@ -41,6 +41,7 @@ names, so the map cannot drift from a measurement it does not hold.
 | M13 | `c845fd8`, `024a475` | Diversity-first admission adopted and withdrawn the same day | recorded failure in `docs/admission_two_arm_result.json` | excluded |
 | M14 | `a95305d`, `fdb505d` | Phase L harness defects fixed, release state documented | recorded failure in `docs/phase_l_results.md` | excluded |
 | M15 | `fb701f4` | The source-frequency denominator decays with the temporal graph (D3-PERSISTENCE-2) | recorded failure in `docs/D3-PERSISTENCE-SEED-VARYING-RESULT.md` | stays |
+| M16 | `3e2412f` | Prediction admission is support-gated and the stratified allocation is deleted | recorded failure in `docs/PHASE-K-REPLICATION-0.15.0-RESULT.md` | stays |
 
 ## M01 — The evidence lookback no longer returns the organism's own sleep rows (D2)
 
@@ -421,6 +422,31 @@ names, so the map cannot drift from a measurement it does not hold.
 **If it holds.** Keep the decayed denominator and read the 0.14.0 admission and assertion records as measuring the repaired denominator.
 
 **If it does not.** Reopen the frequency denominator: the dilution explanation is wrong, and the promotion must be withdrawn before any 0.14.0 reading is compared with 0.13.0.
+
+
+## M16 — Prediction admission is support-gated and the stratified allocation is deleted
+
+**Commits.** `3e2412f`
+
+**What changed.** `_build_predictions` now admits a temporal relation only when its unordered pair co-occurs within an event at least `PREDICTION_COOCURRENCE_FLOOR = 35` times, serves one list ranked by temporal count with the existing source/target tie-break, and truncates at `MAX_PREDICTIONS = 112`. `transition_budget`, the co-occurrence quota and the backfill are deleted because there is no longer a window to divide, and every admitted candidate carries `is_cooccurrence: true`.
+
+**Failure.** The K1 same-build replication recorded a paired gap of -0.623961 on 0.15.0, and the constraint is registered as K1S in `docs/constraint_registrations/CONSTRAINT-COOCCURRENCE-A-T1.json`: whether 0.16.0 moves it is the block's question and no cell has run.
+
+**Artifact.** `docs/PHASE-K-REPLICATION-0.15.0-RESULT.md`
+
+**Measured on that build.** no.
+
+**Pre-change measurement.** The K1 same-build replication on 0.15.0 recorded a paired difference of -0.623961 (98.33% interval [-0.646675, -0.599907], REVERSED). The preflight on the ten committed K1 seeds found F* = 44 leaves M 18-21 admitted pairs; that is a stop-condition preflight, not a result.
+
+**Mechanism.** The 0.15.0 list was cut to 112 by a stratified allocation that served transitions and co-occurrences separately, so a world edge that needed repetition could lose its slot to the partition rather than to the budget. Admitting only pairs whose within-event co-occurrence count reaches a fixed floor, and serving one count-ranked list, changes which pairs can be served at all; the K1 gap can move if the partition, not the ranking, was what kept gold pairs out of the served list.
+
+**Falsifier.** Run the registered block on the ten fresh successor seeds and the ten committed K1 control seeds. If the K1 paired difference improves by less than 0.05 relative to -0.623961, or if K2 or K3 moves by more than 0.05 absolute, the support-gated single-list admission is not what carried the K1 gap.
+
+**Observables.** K1 paired difference (Organica minus strongest-of-grid) per seed; K2 and K3 paired differences; recall and precision beside the endpoint; pairs served per seed; admitted pair count M at the granted floor
+
+**If it holds.** If K1 improves by at least 0.10 relative to the 0.15.0 -0.623961 gap while K2 and K3 move no more than 0.05 absolute, keep the support-gated single-list admission and read the block as an improvement over 0.15.0 only (T1), never as a win over the strongest-of-grid comparator.
+
+**If it does not.** If K1 improves by less than 0.05, or a guard family moves by more than 0.05 absolute, retire support-gated admission as the carrier of the K1 gap and move the question to the candidate space and the ordering; do not re-tune the floor on the block that judged it.
 
 ## What this map does not establish
 
