@@ -2,7 +2,18 @@
   "kind": "a1_c5_target_timing_competent",
   "id": "A1-C5-TARGET-TIMING-COMPETENT-1",
   "date": "2026-11-15",
-  "status": "PASS \u2014 EVERY ROW OF THE COMPETENT BLOCK HAS ITS CYCLE-4 U AT OR BEFORE ITS FIRST CARRIER; NO CELL RUN",
+  "status": "PASS \u2014 EVERY ROW OF THE COMPETENT BLOCK HAS ITS CYCLE-4 U AT OR BEFORE ITS FIRST CARRIER; NO CELL RUN; RECORDED ON THE 0.15.0 BUILD AND NOT REPLAYED ON 0.16.0",
+  "build": {
+    "version": "0.15.0",
+    "commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+    "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+    "source": "docs/A1-RUN.md",
+    "why": "The A1 cells wrote their parts stamped `engine_version 0.15.0`, commit `fb701f48b9d5` (`docs/A1-RUN.md`). 0.16.0 (`3e2412f`) changed the prediction admission law, and a read-only replay on 2026-11-24 differed, so this audit is the 0.15.0 record the signed act froze and is not replayed on the shipped build."
+  },
+  "disclosure": {
+    "stale_citation": "The signed act `docs/a1_target_freeze_act_n20.json` still carries a `c5_timing` block that cites the representative audit `A1-C5-TARGET-TIMING-1` (`docs/a1_c5_target_timing.json`, 6/8/13/11) although its status names the competent block. The act is signed evidence and is not edited here; this record is the competent-block audit the act's status means, and the citation discrepancy is disclosed rather than repaired.",
+    "probe": "A read-only 0.16.0 replay was run on 2026-11-24 with no arm and no seed: the status is still PASS and late is still 0, but the totals moved 115/0/115/0 to 115/0/112/3, the earliest carrier moved 5 to 6, and 7 of 115 rows changed \u2014 three carriers lost and four moved. Under the approved rule the audit is frozen as historical rather than overwritten; the probe is recorded, not adjudicated."
+  },
   "targets": "a1_c8_target_selection_competent.json",
   "targets_digest": "697dc9f95c606936a1d7b7bc8d59f4192f25db9e5b89a0a5b06a6a0a5d5dabde",
   "u_cycle": 4,

@@ -2,7 +2,13 @@
 
 **Status: LANDED** on 2026-11-11. The package is `0.15.0`, `SleepService.MAX_PREDICTIONS` is
 `112`, `docs/engine_pin.json` names 0.15.0 over fourteen files, and the canaries were re-recorded
-on those bytes. `DECISION-CAP-LEVEL` stays PENDING: landing a level is not promoting a decision,
+on those bytes.
+
+**Superseded by [`LANDING-0.16.0.md`](LANDING-0.16.0.md) on 2026-11-20.** This is the historical
+record of the 0.15.0 build, not a description of the shipped one: 0.16.0 changed the admission law,
+deleted the partitioned allocation and re-recorded the canaries. Its check therefore accepts it as
+the 0.15.0 record it is and requires it to name its successor; it is not re-read against 0.16.0,
+and the two 0.15.0 digests that moved on 0.16.0 are the departure record quoted below. `DECISION-CAP-LEVEL` stays PENDING: landing a level is not promoting a decision,
 and this landing adds no lineage link.
 
 ## Preconditions

@@ -34,6 +34,15 @@ PAGE = DOCS / "A1-C5-TARGET-TIMING-COMPETENT.md"
 ID = "A1-C5-TARGET-TIMING-COMPETENT-1"
 DATE = "2026-11-15"
 
+# The build the A1 cells were stamped with (docs/A1-RUN.md). 0.16.0 changed the prediction
+# admission law, so this record is the 0.15.0 evidence the signed act froze, not a live replay.
+BUILD = {
+    "version": "0.15.0",
+    "commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+    "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+    "source": "docs/A1-RUN.md",
+}
+
 
 def _digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -127,6 +136,18 @@ def render(doc: dict) -> str:
         "",
         "**Not evidence:** " + doc["not_evidence"],
         "",
+        "## The build this audit records",
+        "",
+        "**Build.** `%s` at commit `%s`, engine sha256 `%s`, derived from `%s`."
+        % (doc["build"]["version"], doc["build"]["commit"], doc["build"]["engine_sha256"],
+           doc["build"]["source"]),
+        "",
+        doc["build"]["why"],
+        "",
+        "**Stale citation in the signed act.** " + doc["disclosure"]["stale_citation"],
+        "",
+        "**0.16.0 probe.** " + doc["disclosure"]["probe"],
+        "",
         "## Provenance",
         "",
         "| Artifact | sha256 |",
@@ -144,24 +165,43 @@ def problems() -> list[str]:
     doc = json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else None
     if doc is None:
         return ["the competent-block timing audit is missing"]
-    rebuilt = build()
-    found = []
-    if engine_stamp.stamp(doc) != engine_stamp.stamp(rebuilt):
-        found.append("the audit artifact is stale against a fresh replay")
+    found: list[str] = []
+    block = doc.get("build") or {}
+    for field, want in (("version", BUILD["version"]), ("commit", BUILD["commit"]),
+                        ("engine_sha256", BUILD["engine_sha256"]), ("source", BUILD["source"])):
+        if block.get(field) != want:
+            found.append("the audit's build block does not name the recorded %s %r" % (field, want))
+    if "not replayed" not in (block.get("why") or "").lower():
+        found.append("the audit does not say why it is frozen rather than replayed")
+    disclosure = doc.get("disclosure") or {}
+    for field in ("stale_citation", "probe"):
+        if len(disclosure.get(field) or "") < 60:
+            found.append("the audit's disclosure does not state its %s" % field)
+    if doc.get("totals") != {"rows": 115, "late": 0, "observed_carriers": 115,
+                             "missing_carriers": 0}:
+        found.append("the recorded totals are not the 115/0/115/0 the signed act froze")
+    if not (doc.get("status") or "").startswith("PASS"):
+        found.append("the recorded audit status is not PASS")
+    if doc.get("targets_digest") != _digest(TARGETS):
+        found.append("the target block has changed since the audit was recorded")
     text = PAGE.read_text(encoding="utf-8") if PAGE.exists() else ""
-    if text.strip() != render(rebuilt).strip():
-        found.append("the page is stale against the audit artifact")
-    if rebuilt["totals"]["late"]:
-        found.append("%d rows have a carrier before their cycle-4 U" % rebuilt["totals"]["late"])
+    if text.strip() != render(doc).strip():
+        found.append("the page is stale against the recorded audit artifact")
     return found
 
 
 def write() -> int:
-    doc = engine_stamp.stamp(build())
-    OUT.write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8")
+    print("REFUSED: this audit is frozen on the %s build (%s). It is the evidence the signed "
+          "act cites, and a replay on the shipped engine would replace it rather than update it. "
+          "Re-render the page from the stored artifact with --render."
+          % (BUILD["version"], BUILD["source"]))
+    return 2
+
+
+def render_from_record() -> int:
+    doc = json.loads(OUT.read_text(encoding="utf-8"))
     PAGE.write_text(render(doc), encoding="utf-8")
-    print("wrote %s: %d rows, %d late, %d without a carrier"
-          % (OUT.name, doc["totals"]["rows"], doc["totals"]["late"], doc["totals"]["missing_carriers"]))
+    print("rendered %s from the recorded %s audit" % (PAGE.name, BUILD["version"]))
     return 0
 
 
@@ -179,9 +219,10 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--write", action="store_true")
+    group.add_argument("--render", action="store_true")
     group.add_argument("--check", action="store_true")
     args = parser.parse_args(argv)
-    return write() if args.write else check()
+    return write() if args.write else render_from_record() if args.render else check()
 
 
 if __name__ == "__main__":

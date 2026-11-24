@@ -2,7 +2,7 @@
 
 **ID:** `A1-C5-TARGET-TIMING-COMPETENT-1`  
 **Date:** 2026-11-15  
-**Status:** `PASS — EVERY ROW OF THE COMPETENT BLOCK HAS ITS CYCLE-4 U AT OR BEFORE ITS FIRST CARRIER; NO CELL RUN`
+**Status:** `PASS — EVERY ROW OF THE COMPETENT BLOCK HAS ITS CYCLE-4 U AT OR BEFORE ITS FIRST CARRIER; NO CELL RUN; RECORDED ON THE 0.15.0 BUILD AND NOT REPLAYED ON 0.16.0`
 
 **This is not an A1 result.** A no-arm replay checking one timing rule against the block that [`DECISION-A1-COMPETENT-ESTIMAND`](DECISION-A1-COMPETENT-ESTIMAND.md) adopted. No cell ran and no arm was applied.
 
@@ -39,6 +39,16 @@ The protocol fixes the C5 baseline `U` at cycle **4**, so a target row is clear 
 - The block is not a superset of the previous one: **7 of the 24 current-target observations survive** into it (0 of 4 on seeds `20740102` and `20740104`). Whatever continuity the earlier block had with the N=4 design does not carry over, and this audit does not restore it.
 
 **Not evidence:** A no-arm replay that checks one timing rule on the competent target block. It runs no A1 cell, applies no arm, freezes no manifest, makes no causal claim and does not measure C2, C8 or any other gate.
+
+## The build this audit records
+
+**Build.** `0.15.0` at commit `fb701f48b9d593256559f30395c5ccfad7f17cae`, engine sha256 `d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711`, derived from `docs/A1-RUN.md`.
+
+The A1 cells wrote their parts stamped `engine_version 0.15.0`, commit `fb701f48b9d5` (`docs/A1-RUN.md`). 0.16.0 (`3e2412f`) changed the prediction admission law, and a read-only replay on 2026-11-24 differed, so this audit is the 0.15.0 record the signed act froze and is not replayed on the shipped build.
+
+**Stale citation in the signed act.** The signed act `docs/a1_target_freeze_act_n20.json` still carries a `c5_timing` block that cites the representative audit `A1-C5-TARGET-TIMING-1` (`docs/a1_c5_target_timing.json`, 6/8/13/11) although its status names the competent block. The act is signed evidence and is not edited here; this record is the competent-block audit the act's status means, and the citation discrepancy is disclosed rather than repaired.
+
+**0.16.0 probe.** A read-only 0.16.0 replay was run on 2026-11-24 with no arm and no seed: the status is still PASS and late is still 0, but the totals moved 115/0/115/0 to 115/0/112/3, the earliest carrier moved 5 to 6, and 7 of 115 rows changed — three carriers lost and four moved. Under the approved rule the audit is frozen as historical rather than overwritten; the probe is recorded, not adjudicated.
 
 ## Provenance
 

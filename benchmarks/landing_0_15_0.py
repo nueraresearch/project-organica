@@ -37,6 +37,22 @@ PRE_LANDING = {
 }
 
 
+def _key(version) -> tuple:
+    return tuple(int(part) for part in str(version).split(".") if part.isdigit())
+
+
+def successors() -> list[tuple[str, Path]]:
+    """LANDED landing records newer than this one, oldest first."""
+    found = []
+    for path in sorted(ROOT.glob("docs/LANDING-*.md")):
+        match = re.fullmatch(r"LANDING-(\d+\.\d+\.\d+)\.md", path.name)
+        if not match or _key(match.group(1)) <= _key("0.15.0"):
+            continue
+        if "**Status: LANDED**" in path.read_text(encoding="utf-8"):
+            found.append((match.group(1), path))
+    return sorted(found, key=lambda pair: _key(pair[0]))
+
+
 def state() -> dict:
     from organica import __version__
     from organica.sleep import SleepService
@@ -62,16 +78,35 @@ def problems(text: str | None = None, live: dict | None = None) -> list[str]:
     for module in set(re.findall(r"benchmarks\.([a-z0-9_]+)", text)):
         if not (ROOT / "benchmarks" / (module + ".py")).exists():
             found.append("the checklist names a missing module: benchmarks.%s" % module)
-    if live["version"] != "0.15.0" or live["cap"] != 112:
-        found.append("the landed state is no longer the one this record describes: version %r, "
+    shipped = _key(live["version"])
+    if shipped < _key("0.15.0"):
+        found.append("the shipped build is older than the one this record describes: version %r, "
                      "cap %r" % (live["version"], live["cap"]))
-    if str(live["pin"].get("version")) != "0.15.0" or len(live["pin"]["files"]) != 14:
-        found.append("the pin is not the landed 0.15.0 pin of 14 files")
-    if live["canaries"].get("engine_version") != "0.15.0":
-        found.append("the canary record is not from 0.15.0")
-    for block, cell in live["canaries"]["cells"].items():
-        if cell["digest"] not in text:
-            found.append("the landed %s digest is not quoted" % block)
+    elif shipped == _key("0.15.0"):
+        if live["cap"] != 112:
+            found.append("the landed state is no longer the one this record describes: version %r, "
+                         "cap %r" % (live["version"], live["cap"]))
+        if str(live["pin"].get("version")) != "0.15.0" or len(live["pin"]["files"]) != 14:
+            found.append("the pin is not the landed 0.15.0 pin of 14 files")
+        if live["canaries"].get("engine_version") != "0.15.0":
+            found.append("the canary record is not from 0.15.0")
+        for block, cell in live["canaries"]["cells"].items():
+            if cell["digest"] not in text:
+                found.append("the landed %s digest is not quoted" % block)
+    else:
+        # A later landing does not re-version this record: it stays the 0.15.0 record, and is
+        # held to naming the build that superseded it rather than to matching the shipped one.
+        later = successors()
+        if not later:
+            found.append("the shipped build is %r and no later LANDED record exists to supersede "
+                         "this one" % live["version"])
+        else:
+            version, path = later[0]
+            if "superseded by" not in text.lower():
+                found.append("this record does not say it is superseded")
+            if version not in text or path.name not in text:
+                found.append("this record does not name its successor %r (%s)"
+                             % (version, path.name))
     for block, digest in PRE_LANDING.items():
         if digest not in text:
             found.append("the pre-landing %s digest is not preserved" % block)
