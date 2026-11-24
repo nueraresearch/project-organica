@@ -162,11 +162,23 @@ def test_the_work_queue_separates_uncovered_questions_from_unblocked_ones():
     assert queue["contested"] == ["C001"]
 
 
-def test_the_next_view_carries_the_pending_open_question(records):
+def test_the_next_view_carries_a_pending_open_question(records):
+    """Every pending decision with an open question is quoted, whichever one it is.
+
+    The expected decision is derived from the index rather than named here: the
+    previous version named the admission step, and closing that decision turned a
+    property of the queue into a failure of the record.
+    """
     reg, ledger, _mapdoc = records
-    page = rt.render_next(reg, ledger, dg.load())
-    assert "DECISION-ADMISSION-STEP" in page
-    assert "mechanism question" in page
+    decisions = dg.load()
+    pending = [d for d in decisions["decisions"]
+               if d["status"] == "PENDING" and d.get("open_question")]
+    assert pending, "no pending decision carries an open question to render"
+    page = rt.render_next(reg, ledger, decisions)
+    flat = " ".join(page.split())
+    for decision in pending:
+        assert decision["decision_id"] in page
+        assert " ".join(decision["open_question"].split()) in flat
 
 
 def test_a_pending_decision_without_an_open_question_is_not_in_the_next_view(records):

@@ -39,8 +39,6 @@ by hand, and the row names say what is counted.
 Every pending decision below carries an `open_question`. It is quoted from
 `docs/decisions.json`; this section adds no decision and changes no status.
 
-> **DECISION-ADMISSION-STEP.** The record now has two questions that must not be read as one. The **outcome question** -- does raising the Layer-1 cap from 40 to 112 increase admission and assertion? -- is answered: `CAP LIMITING`, positive on 6 of 6 seeds, with a mean paired gain of **17.833333** asserted world edges and a 95% lower bound of **13.613754** against the bar of **10**. The **mechanism question** -- do the specific rank-21-40 transitions named by this decision enter service? -- stays **unadjudicated**: BAND-5 confirmed the allocation-law band on fresh worlds, with **89 of 89** measured rank-21-40 edges served at 112 and **0** at 40, but its fresh seeds and measured band are not the **62** named Q4 edges, so it is not a re-score and does not satisfy this decision's specific condition.
-
 > **DECISION-PERSISTENCE-INTERVENTION.** Does an explicitly reset cycle-boundary carry arm preserve the T1b direction while closing the skipped-reset leak?
 
 

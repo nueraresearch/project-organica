@@ -43,7 +43,7 @@ DOC = ROOT / "docs" / "DECISIONS.md"
 DOCS = ROOT / "docs"
 REGISTRY = ROOT / "docs" / "research_question_registry.json"
 
-STATUSES = ("ADOPTED", "WITHDRAWN", "PENDING")
+STATUSES = ("ADOPTED", "WITHDRAWN", "PENDING", "CLOSED")
 #: A retired question is settled. A future question is deferred, not dead: it remains live
 #: while one of its named prerequisites is live, because the decision still governs the path to it.
 DEAD_QUESTION_STATUSES = ("retired",)
@@ -238,6 +238,7 @@ STATUS_MEANINGS = {
     "ADOPTED": "in force; the document records it as implemented or effective",
     "WITHDRAWN": "reversed by its own record; kept because a correction is part of the record",
     "PENDING": "decided and not in force; the document says so",
+    "CLOSED": "closed without adjudication; the document says what closed and what did not",
 }
 
 

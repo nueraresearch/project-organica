@@ -788,7 +788,6 @@
       "answered": false,
       "blocked_by": [],
       "pending_decisions": [
-        "DECISION-ADMISSION-STEP",
         "DECISION-A1-PATH-A-C1-C4"
       ],
       "preregistrations": [

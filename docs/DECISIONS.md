@@ -16,7 +16,8 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 | --- | --- | --- |
 | ADOPTED | 31 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
-| PENDING | 5 | decided and not in force; the document says so |
+| PENDING | 4 | decided and not in force; the document says so |
+| CLOSED | 1 | closed without adjudication; the document says what closed and what did not |
 | **total** | **37** | |
 
 ## The decisions
@@ -267,7 +268,7 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 
 ### DECISION-ADMISSION-STEP — Decision: the admission step is named — constructed, not admitted
 
-**Status.** PENDING — *"Decided, not in force: the cap is still 40, no cap-112 runner exists, and the three cap-112 records are frozen and unrun. Nothing on disk in the engine changes. **Superseded later on 2026-11-11:** the level landed in 0.15.0 and the three runners are runnable; the decision and its acceptance condition are unchanged, and the amendment below records the build state."*
+**Status.** CLOSED — *"The decision is closed **unadjudicated**, not satisfied: the 62 named Q4 rank-21-40 edges were never read under a passing gate."*
 
 **Open question.** *"The record now has two questions that must not be read as one. The **outcome question** -- does raising the Layer-1 cap from 40 to 112 increase admission and assertion? -- is answered: `CAP LIMITING`, positive on 6 of 6 seeds, with a mean paired gain of **17.833333** asserted world edges and a 95% lower bound of **13.613754** against the bar of **10**. The **mechanism question** -- do the specific rank-21-40 transitions named by this decision enter service? -- stays **unadjudicated**: BAND-5 confirmed the allocation-law band on fresh worlds, with **89 of 89** measured rank-21-40 edges served at 112 and **0** at 40, but its fresh seeds and measured band are not the **62** named Q4 edges, so it is not a re-score and does not satisfy this decision's specific condition."*
 

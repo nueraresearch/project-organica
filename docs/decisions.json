@@ -6,7 +6,8 @@
   "statuses": {
     "ADOPTED": "in force; the document records it as implemented or effective",
     "WITHDRAWN": "reversed by its own record; kept because a correction is part of the record",
-    "PENDING": "decided and not in force; the document says so"
+    "PENDING": "decided and not in force; the document says so",
+    "CLOSED": "closed without adjudication; the document says what closed and what did not"
   },
   "decisions": [
     {
@@ -337,8 +338,8 @@
     {
       "decision_id": "DECISION-ADMISSION-STEP",
       "date": "2026-11-11",
-      "status": "PENDING",
-      "status_quote": "Decided, not in force: the cap is still 40, no cap-112 runner exists, and the three cap-112 records are frozen and unrun. Nothing on disk in the engine changes. **Superseded later on 2026-11-11:** the level landed in 0.15.0 and the three runners are runnable; the decision and its acceptance condition are unchanged, and the amendment below records the build state.",
+      "status": "CLOSED",
+      "status_quote": "The decision is closed **unadjudicated**, not satisfied: the 62 named Q4 rank-21-40 edges were never read under a passing gate.",
       "chosen": [
         "Name the step: the loss is constructed but not admitted — 179 of 671 candidate world edges, 16–41 per seed, never entered a served window.",
         "Do not change the engine on this record: a stage measurement authorises no cap, allocation, ranking or threshold edit.",

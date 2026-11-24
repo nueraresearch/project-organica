@@ -62,12 +62,23 @@ def test_the_dashboard_reports_the_counts_the_records_contain(records):
         assert row[0].split("|")[2].strip() == str(value)
 
 
-def test_the_dashboard_carries_the_pending_open_question(records):
+def test_the_dashboard_carries_a_pending_open_question(records):
+    """Every pending decision with an open question is quoted, whichever one it is.
+
+    Derived from the index rather than named, because naming one decision made the
+    dashboard's own section fail the moment that decision was closed.
+    """
     reg, ledger = records
+    decisions = json.loads(ra.DECISIONS.read_text(encoding="utf-8"))
+    pending = [d for d in decisions["decisions"]
+               if d["status"] == "PENDING" and d.get("open_question")]
+    assert pending, "no pending decision carries an open question to render"
     dashboard = ra.render_dashboard(reg, ledger)
+    flat = " ".join(dashboard.split())
     assert "## Next work" in dashboard
-    assert "DECISION-ADMISSION-STEP" in dashboard
-    assert "mechanism question" in dashboard
+    for decision in pending:
+        assert decision["decision_id"] in dashboard
+        assert " ".join(decision["open_question"].split()) in flat
 
 
 def test_a_pending_decision_without_an_open_question_is_not_in_the_dashboard(records):

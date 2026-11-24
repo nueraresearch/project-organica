@@ -199,7 +199,7 @@
       "decision:DECISION-A1-DISPOSITION-2": {
         "docs/A1-DISPOSITION-REREAD.md": "6ef07cecf12ff01fb7a95a1b90f5bd6ded881a70bd8524929e77320bfd92386d",
         "docs/DECISION-A1-C4-POSTURE.md": "5fe02e0e9293cb32fbb484bd88f26e32dff2969c71316c494119e9885a6f5aae",
-        "docs/A1-PRE-FREEZE-CHECKLIST.md": "6187e78f30bf1b802dfaf78ba9f54663be85988b990e5d259dd72b95a169a3dc"
+        "docs/A1-PRE-FREEZE-CHECKLIST.md": "a58a33146e6be968ac08d775ace557f536e796ea325591a039832f3c0208861b"
       },
       "decision:DECISION-A1-PATH-A-C1-C4": {
         "docs/A1-C1-C4-VOID-GATE.md": "4098f056a3774c1f8a9574fb9eb9db4aa11128526460bca3a0e36d93edf29fcf",
@@ -309,7 +309,7 @@
         "docs/AI-REVIEW-2026-11-02.md": "d43b96a497fd0c43537f62f3a8b2c6ecbf268295fd20bf39d3854d57a9d3165e",
         "docs/AI-REVIEW-2026-11-03.md": "1aef1c41bbb4f7d3ece7134d6dbff6065bfa79299f850918e680d641675eaf3e",
         "docs/AI-REVIEW-2026-11-03-chatgpt.md": "7fd3f5cf03da6f8dbadc027c9bcd49f9f083074c3ee2f71aadf3bb40e7dd3f05",
-        "docs/STAGE-B-PROTOCOL.md": "0d7535e1e3d1beeef0765ea4d2191ad6fdf22ef35dcc135c46c633e48710169a"
+        "docs/STAGE-B-PROTOCOL.md": "f581cfd89a2ad475f53222f35e794e378ba6014ab251c16f6f50eab04d0b5c5d"
       },
       "decision:DECISION-STORE-TIME-ROLE-RECORD": {
         "docs/transfer_provenance.json": "d64aa6bbae1f9924aa914f6fca755440ed0ce72be2d8676f5fc2ffbca455dae9",

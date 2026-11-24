@@ -146,9 +146,15 @@ PRIMING_PROVENANCE_ARTIFACT = ROOT / "docs" / "cross_context_reuse_priming_prove
 # Counting it made every reserved block read as consumed and put a reserve in the
 # consumed union. Excluded by path; the exclusion is recorded in the output.
 SEED_REGISTRY_ARTIFACT = ROOT / "docs" / "a1_seed_reservations.json"
+# The 2026-11-23 calibration repair archived the superseded calibration and its
+# postmortem beside the live artifacts. An archive is the same measurement under
+# an earlier observer, not a second block, so counting it would report consumed
+# seeds twice. Excluded by path; the exclusion is recorded in the output.
+RK_ARCHIVE_CALIBRATION = ROOT / "docs" / "reusable_knowledge_calibration_unaligned_observer.json"
+RK_ARCHIVE_POSTMORTEM = ROOT / "docs" / "reusable_knowledge_postmortem_unaligned_observer.json"
 EXCLUDED_ARTIFACTS = (SELF_ARTIFACT, ALLOCATION_ARTIFACT, RESULT_ARTIFACT, RERUN_ARTIFACT,
                       JITTER_ARTIFACT, EARNED_CCRE_ARTIFACT, PRIMING_PROVENANCE_ARTIFACT,
-                      SEED_REGISTRY_ARTIFACT)
+                      SEED_REGISTRY_ARTIFACT, RK_ARCHIVE_CALIBRATION, RK_ARCHIVE_POSTMORTEM)
 
 
 def _consumed_seeds() -> dict[str, list[int]]:
