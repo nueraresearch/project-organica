@@ -137,20 +137,25 @@ REVISION_WITHHELD = WITHHELD
 #: sleep payload.  Declared before any confirmatory seed.
 SELF_SOURCED_MAX = 0.25
 
-#: The per-claim rule's reference, frozen from the audit-trace build and **not**
-#: recomputed on this run (AGENTS rule 19): 802 of 4,481 distinct evidence
-#: transitions behind reported beliefs were self-sourced in that probe's default
-#: arm (`docs/AUDIT-TRACE-SPEC.md` §10).  A claim may be no more self-sourced
-#: than that, and its distinct support must be mostly world-derived.
-SELF_SOURCED_REFERENCE = 0.179
+#: The per-claim rule's reference, **re-derived on 2026-11-23** from data the rule
+#: does not judge (AGENTS rule 19): the audit-trace probe's three 0.16.0 arms read
+#: 0 of 4,627, 0 of 2,451 and 0 of 2,451 distinct evidence transitions behind
+#: reported beliefs (`docs/self_sourced_reference.json`).  The bound is a
+#: **structural zero**, not an estimated rate: the engine's support lookback
+#: excludes sleep rows (`organica/memory.py:352-354`), so no distinct support
+#: transition can be self-sourced on this build.  The 0.179 the rule previously
+#: carried (802 of 4,481, 2026-10-26) was measured by an observer that read sleep
+#: rows the engine never reads; it is withdrawn with its date in the spec.
+SELF_SOURCED_REFERENCE = 0.0
 
 #: The measurement floor: the rule is only *evaluable* when at least half of the
 #: asserted claims carry measurable support.  Unmeasurable claims are excluded
 #: from the pass/fail count (AGENTS rule 13) but reported, and a population that
 #: is mostly unmeasurable is reported not evaluable rather than as a pass.
 MEASURABLE_FLOOR = 0.5
-REFERENCE_PROVENANCE = ("docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct "
-                        "evidence transitions, default arm")
+REFERENCE_PROVENANCE = ("docs/self_sourced_reference.json: 0 of 4,627 distinct evidence "
+                        "transitions, audit-trace probe default arm, 0.16.0, "
+                        "re-derived 2026-11-23")
 
 
 # ---------------------------------------------------------------------------
@@ -633,16 +638,24 @@ def transition_class(prior_tag: str, target_tag: str, payload: dict | None) -> s
     return "content_unresolved"
 
 
-def _support_observer(mem: MemoryService):
+def _support_observer(mem: MemoryService, engine_window: bool = True):
     """A store-time observer that mirrors the engine's own lookback window.
 
-    `MemoryService._record_temporal_edges` reads the last three event rows —
+    `MemoryService._record_temporal_edges` reads the last three **non-sleep**
+    event rows — `WHERE event_type != 'sleep' ORDER BY time DESC, rowid DESC`,
     including the one just stored — and links every prior tag to every tag of the
-    new event.  It does not filter by `event_type`, so a support transition can
-    come from the organism's own sleep payload (spec D2).  This repeats that
-    query one call after each store and keeps the DISTINCT prior event ids behind
-    each edge, split world / self: the spec's disqualifier reads distinct
+    new event.  A sleep row can therefore never be a prior event, and no distinct
+    support transition can be self-sourced on this build (spec D2).  This repeats
+    that query one call after each store and keeps the DISTINCT prior event ids
+    behind each edge, split world / self: the spec's disqualifier reads distinct
     evidence, and a cumulative count would count one transition per cycle.
+
+    `engine_window=False` reproduces the **pre-2026-11-23** query — no
+    `event_type` filter, no `rowid` tiebreak — and is used as the CONTROL.  The
+    aligned observer must see no sleep row and read 0.0; the control, on the same
+    stores, must see them and read a positive share.  That pairing is what makes
+    an aligned zero attributable to the engine's window rather than to a blind
+    observer (`harness_audit`'s E7).
     """
     #: (from, to) -> {(prior_event_id, to_event_id): was_self}.  The identity is
     #: the TRANSITION, not the source event: transitions from one prior event to
@@ -651,11 +664,10 @@ def _support_observer(mem: MemoryService):
     #
     # The window query identifies the SOURCE events only.  The target event's
     # identity is passed in from the handle `store()` returned, never read off
-    # `rows[0]`: the lookback is `ORDER BY time DESC LIMIT 3` with no `rowid`
-    # tiebreak and no index on `time`, so under equal timestamps the first row
-    # of that query need not be the event just stored (spec §3.3).  Reading the
-    # target from the window attributes a store's whole transition set to
-    # whichever tied row happened to sort first.
+    # `rows[0]`.  The aligned window now carries the engine's own `rowid`
+    # tiebreak, but the identity does not depend on the order that tiebreak
+    # chooses: a replayer that did not observe at store time still could not
+    # rely on it (spec §3.3).
     support: dict[tuple[str, str], dict[tuple[int, int], bool]] = defaultdict(dict)
     #: (from, to) -> {(prior_event_id, to_event_id): class}.  Only self-sourced
     #: transitions are classified; a world transition is direct evidence and
@@ -665,11 +677,15 @@ def _support_observer(mem: MemoryService):
     state = {"windows_with_sleep": 0, "payload_keys": set(), "evidence_keys": set(),
              "payloads_with_parent_ids": 0, "payloads_with_event_reference": 0}
 
+    window_sql = (
+        "SELECT rowid, tags, event_type, content FROM events "
+        "WHERE event_type != 'sleep' ORDER BY time DESC, rowid DESC LIMIT 3"
+        if engine_window else
+        "SELECT rowid, tags, event_type, content FROM events "
+        "ORDER BY time DESC LIMIT 3")
+
     def record(new_tags: list[str], to_event_rowid: int) -> None:
-        rows = mem._conn.execute(
-            "SELECT rowid, tags, event_type, content FROM events "
-            "ORDER BY time DESC LIMIT 3"
-        ).fetchall()
+        rows = mem._conn.execute(window_sql).fetchall()
         slept = False
         to_id = int(to_event_rowid)
         for rid, tags_str, etype, content in rows:
@@ -712,14 +728,29 @@ def stored_rowid(mem: MemoryService, event_id: str) -> int:
     return int(row[0])
 
 
+#: The fields the E7 control compares between the aligned and unfiltered windows.
+CONTROL_FIELDS = ("distinct_support", "self_distinct", "share_self_sourced",
+                  "windows_with_a_sleep_row")
+
+
+def _control_summary(provenance: dict) -> dict[str, Any]:
+    """The four fields E7 reads, from a full provenance block."""
+    return {k: provenance[k] for k in CONTROL_FIELDS}
+
+
 def support_provenance(support: dict, asserted: set[tuple[str, str]],
-                       windows_with_sleep: int) -> dict[str, Any]:
+                       windows_with_sleep: int,
+                       control: dict | None = None) -> dict[str, Any]:
     """D2 aggregate: the share of the readout's DISTINCT support that is self-sourced.
 
     Deduplicated by prior event id, restricted to the edges the readout asserts.
     This is a **population-level diagnostic**, not the disqualifier: one claim's
     own support can be far more or far less self-sourced than the run-level share
     (`docs/AUDIT-TRACE-SPEC.md` §3.3).  The criterion is `per_claim_provenance`.
+
+    `control` is the same block computed over the **unfiltered** window on the
+    same stores.  It is reported, never judged here: the criterion is the aligned
+    reading, and E7 is what proves the aligned reading is not a blind zero.
     """
     edges = [e for e in asserted if e in support]
     world = sum(1 for e in edges for is_self in support[e].values() if not is_self)
@@ -737,6 +768,7 @@ def support_provenance(support: dict, asserted: set[tuple[str, str]],
         "control_share": (1.0 if total else None),
         "within_band": share is not None and share <= SELF_SOURCED_MAX,
         "reason": "run-level diagnostic only; the disqualifier is per claim",
+        **({"control": control} if control is not None else {}),
     }
 
 
@@ -810,6 +842,15 @@ def per_claim_provenance(claims: list[dict], support: dict,
     would prove nothing about the code that judges the real claims.
     """
     real = _evaluate_claims(claims, support, reference)
+    # A pass proves nothing when the criterion has no firing condition: on 0.16.0
+    # no claim's aligned support can contain a self-sourced transition, because
+    # the engine's lookback excludes sleep rows.  Recorded so the confirmatory
+    # guard can refuse to open on an inert criterion (AGENTS rule 25).
+    fireable = any(is_self
+                   for c in claims
+                   for is_self in (support.get((c["source"], c["target"]))
+                                   or {}).values()
+                   if is_self)
     synthetic = {(c["source"], c["target"]): {(0, 1): True} for c in claims}
     control = _evaluate_claims(claims, synthetic, reference)
     control_fails = (control["claims_measurable"] > 0
@@ -818,6 +859,7 @@ def per_claim_provenance(claims: list[dict], support: dict,
         "resolution": "per claim, distinct transitions (prior event, target event)",
         "reference": reference,
         "reference_provenance": REFERENCE_PROVENANCE,
+        "criterion_fireable": fireable,
         "measurable_floor": measurable_floor,
         "measurable_fraction": (round(real["claims_measurable"] / real["claims_total"], 6)
                                 if real["claims_total"] else None),
@@ -1046,18 +1088,25 @@ def run_postmortem(cap: int = MAX_PREDICTIONS) -> dict[str, Any]:
         },
         "answer": (
             f"On the formation limb {form['failing']} of {form['measurable']} "
-            f"measurable claims fail. Excluding every transition that involves a "
-            f"payload field name rescues "
-            f"{form['failing_that_pass_when_all_field_name_transitions_excluded']} "
-            f"of them; excluding only transitions between two field names rescues "
-            f"{form['failing_that_pass_when_pure_encoding_excluded']}. The largest "
-            f"self class is {dominant!r} "
-            f"({form['self_transitions_by_class'].get(dominant, 0)} of "
-            f"{sum(form['self_transitions_by_class'].values())} formation self "
-            f"transitions), and its origin is unresolved: the payloads carry "
-            f"{fields['payloads_with_parent_ids']} parent ids and "
-            f"{fields['payloads_with_event_reference']} event references, so these "
-            f"cells cannot say whether that content is world-rooted."),
+            f"measurable claims fail. "
+            + (f"Excluding every transition that involves a payload field name "
+               f"rescues "
+               f"{form['failing_that_pass_when_all_field_name_transitions_excluded']} "
+               f"of them; excluding only transitions between two field names "
+               f"rescues {form['failing_that_pass_when_pure_encoding_excluded']}. "
+               f"The largest self class is {dominant!r} "
+               f"({form['self_transitions_by_class'].get(dominant, 0)} of "
+               f"{sum(form['self_transitions_by_class'].values())} formation self "
+               f"transitions), and its origin is unresolved: the payloads carry "
+               f"{fields['payloads_with_parent_ids']} parent ids and "
+               f"{fields['payloads_with_event_reference']} event references, so "
+               f"these cells cannot say whether that content is world-rooted."
+               if classes else
+               f"The aligned window contains no self-sourced transition, so there "
+               f"is no self class to rank: the question this postmortem was written "
+               f"to answer has no population under the engine's own lookback, and "
+               f"the unaligned diagnostic is archived at "
+               f"{POSTMORTEM_OUT.replace('.json', '_unaligned_observer.json')}.")),
         "seeds_detail": per_seed,
         "note": ("Diagnostic only. The preregistered per-claim rule and its verdict "
                  "are unchanged, and no confirmatory seed was run or touched."),
@@ -1090,11 +1139,18 @@ def run_engine(formation: dict, revision: dict, seed: int,
     svc = CapOverrideSleepService(mem, max_predictions=cap)
     epc = EVENTS_PER_CYCLE
     record, support, obs, classes = _support_observer(mem)
+    # The pre-repair window, run over the same stores: the control that proves the
+    # aligned observer is not simply blind (harness check E7).
+    control_record, control_support, control_obs, _ = _support_observer(
+        mem, engine_window=False)
 
     def feed(events: list[str], source: str) -> None:
         for i, text in enumerate(events):
             event = mem.store(text, event_type="observe", source=source)
-            record(sorted(text.split()), stored_rowid(mem, event.id))
+            tags = sorted(text.split())
+            rowid = stored_rowid(mem, event.id)
+            record(tags, rowid)
+            control_record(tags, rowid)
             if (i + 1) % epc == 0:
                 svc.run_sleep_cycle()
                 mem.prune_sleep_candidates()
@@ -1117,8 +1173,10 @@ def run_engine(formation: dict, revision: dict, seed: int,
         feed(formation["events"], "env")
         first = snapshot()
         form_support = {e: dict(r) for e, r in support.items()}
+        form_control = {e: dict(r) for e, r in control_support.items()}
         form_classes = {e: dict(r) for e, r in classes.items()}
         form_windows = obs["windows_with_sleep"]
+        form_control_windows = control_obs["windows_with_sleep"]
         feed(revision["events"], "env_rev")
         second = snapshot()
         temporal = {(u, v) for u, v, _n in mem.temporal_edges(min_count=1)}
@@ -1138,10 +1196,15 @@ def run_engine(formation: dict, revision: dict, seed: int,
         "formation_events": len(formation["events"]),
         "revision_events": len(revision["events"]),
         "support": {
-            "formation": support_provenance(form_support, first["asserted"],
-                                            form_windows),
-            "revision": support_provenance(support, second["asserted"],
-                                           obs["windows_with_sleep"]),
+            "formation": support_provenance(
+                form_support, first["asserted"], form_windows,
+                control=_control_summary(support_provenance(
+                    form_control, first["asserted"], form_control_windows))),
+            "revision": support_provenance(
+                support, second["asserted"], obs["windows_with_sleep"],
+                control=_control_summary(support_provenance(
+                    control_support, second["asserted"],
+                    control_obs["windows_with_sleep"]))),
         },
         "per_claim": {
             "formation": per_claim_provenance(first["claims"], form_support),
@@ -1348,13 +1411,19 @@ def harness_audit(cell: dict, world: dict, withheld=WITHHELD) -> dict[str, Any]:
                   for c, k in withheld))
 
     prov = (cell.get("support_provenance") or {}).get("formation") or {}
-    # E7 is a check on the instrument, not the criterion: the measurement must be
-    # live (a sleep row must reach the window) and the control must be able to
-    # fail.  Whether the measured share passes belongs to the criterion below.
-    e7 = (prov.get("share_self_sourced") is not None
-          and prov.get("windows_with_a_sleep_row", 0) > 0
-          and prov.get("control_share") is not None
-          and prov["control_share"] > prov.get("maximum", SELF_SOURCED_MAX))
+    ctrl = prov.get("control") or {}
+    # E7 is a check on the instrument, not the criterion.  On 0.16.0 the engine's
+    # lookback excludes sleep rows, so the aligned observer must see NONE and read
+    # exactly zero; the unfiltered control observer, run on the SAME stores, must
+    # see them and read a positive share.  That pairing makes the zero
+    # attributable to the engine's window rather than to a blind observer, and it
+    # can fail in either direction (spec D2, AGENTS rule 25).
+    e7 = (prov.get("share_self_sourced") == 0.0
+          and prov.get("self_distinct") == 0
+          and prov.get("windows_with_a_sleep_row", 0) == 0
+          and (prov.get("distinct_support") or 0) > 0
+          and (ctrl.get("windows_with_a_sleep_row") or 0) > 0
+          and (ctrl.get("share_self_sourced") or 0.0) > 0.0)
 
     pcp = (cell.get("per_claim_provenance") or {}).get("formation") or {}
     ctrl = pcp.get("control") or {}
@@ -1410,12 +1479,14 @@ def harness_audit(cell: dict, world: dict, withheld=WITHHELD) -> dict[str, Any]:
         "E7_support_provenance_can_fire": {
             "passed": e7,
             "share_self_sourced": prov.get("share_self_sourced"),
-            "control_share": prov.get("control_share"),
+            "self_distinct": prov.get("self_distinct"),
             "windows_with_a_sleep_row": prov.get("windows_with_a_sleep_row"),
-            "maximum": prov.get("declared_band", SELF_SOURCED_MAX),
+            "control": ctrl,
             "criterion_passed": prov.get("within_band"),
-                        "reason": ("the diagnostic must be live and its control must be able "
-                       "to fail; the measured share is judged separately")},
+            "reason": ("the engine's window must see no sleep row and read zero, "
+                       "and the unfiltered control over the same stores must see "
+                       "them and read a positive share; the measured share is "
+                       "judged separately")},
         "E8_per_claim_rule_is_measurable": {
             "passed": e8,
             "reference": pcp.get("reference"),
@@ -1487,6 +1558,11 @@ def confirmatory_allowed() -> tuple[bool, str]:
     if not (cal.get("per_claim_provenance") or {}).get("all_seeds_passed"):
         return False, ("the per-claim support-provenance rule did not pass on every "
                        "calibration seed")
+    if not (cal.get("per_claim_provenance") or {}).get("criterion_fireable"):
+        return False, ("the per-claim disqualifier has no firing condition on this "
+                       "build: no claim's aligned support contains a self-sourced "
+                       "transition, so a pass on it cannot authorise the set "
+                       "(AGENTS rule 25)")
     return True, ("calibration passed on all five seeds, at the canonical cap, label "
                   "and hash seed")
 
@@ -1524,6 +1600,9 @@ def run_calibration(cap: int = MAX_PREDICTIONS) -> dict[str, Any]:
     per_claim_passed = [c["seed"] for c in cells
                         if c["per_claim_provenance"]["formation"]["all_claims_passed"]
                         and c["per_claim_provenance"]["revision"]["all_claims_passed"]]
+    fireable = [c["seed"] for c in cells
+                if c["per_claim_provenance"]["formation"]["criterion_fireable"]
+                and c["per_claim_provenance"]["revision"]["criterion_fireable"]]
     art = {
         "kind": "reusable_knowledge_calibration",
         "variant": variant_label(cap),
@@ -1548,6 +1627,8 @@ def run_calibration(cap: int = MAX_PREDICTIONS) -> dict[str, Any]:
                      "more self-sourced than the frozen reference"),
             "reference": SELF_SOURCED_REFERENCE,
             "reference_provenance": REFERENCE_PROVENANCE,
+            "criterion_fireable": len(fireable) == len(CALIBRATION_SEEDS),
+            "seeds_with_a_fireable_criterion": fireable,
             "resolution": "per claim, distinct support (prior event ids)",
             "seeds_passing": per_claim_passed,
             "all_seeds_passed": len(per_claim_passed) == len(CALIBRATION_SEEDS),
@@ -1574,12 +1655,27 @@ def run_calibration(cap: int = MAX_PREDICTIONS) -> dict[str, Any]:
         "all_seeds_passed": len(passed) == len(CALIBRATION_SEEDS),
         "audit_all_passed": all(c["audit"]["all_passed"] for c in cells),
         "confirmatory_seeds_touched": False,
+        "correction": {
+            "date": "2026-11-23",
+            "observer": ("the store-time support observer now reads the engine's own "
+                         "lookback: WHERE event_type != 'sleep' ORDER BY time DESC, "
+                         "rowid DESC"),
+            "why": ("the observer read the unfiltered window, so it attributed "
+                    "sleep-payload transitions to claims the engine's `precedes` "
+                    "table cannot contain; its readings are archived, not restated"),
+            "supersedes": "docs/reusable_knowledge_calibration_unaligned_observer.json",
+            "reference": SELF_SOURCED_REFERENCE,
+            "reference_provenance": REFERENCE_PROVENANCE,
+            "control": ("the unfiltered window still runs on every store, as the "
+                        "control in each cell's support_provenance.*.control"),
+        },
         "authorises_confirmatory": (
             cap == MAX_PREDICTIONS
             and len(passed) == len(CALIBRATION_SEEDS)
             and len(attribution_passed) == len(CALIBRATION_SEEDS)
             and len(revision_ok) == len(CALIBRATION_SEEDS)
             and len(per_claim_passed) == len(CALIBRATION_SEEDS)
+            and len(fireable) == len(CALIBRATION_SEEDS)
             and all(c["audit"]["all_passed"] for c in cells)),
         "note": (
             "Calibration is a go/no-go at n = 5 (section 15.2). A failure here "
@@ -1637,8 +1733,14 @@ def main(argv: list[str] | None = None) -> int:
         art = run_calibration(args.cap)
         print(json.dumps({k: art[k] for k in
                           ("seeds_passed", "all_seeds_passed",
-                           "audit_all_passed", "confirmatory_seeds_touched")},
+                           "audit_all_passed", "authorises_confirmatory",
+                           "confirmatory_seeds_touched")},
                          indent=1))
+        # The gate and the disqualifier are different things: a passing Gate F
+        # with an inert per-claim criterion authorises nothing, and the summary
+        # must not read as though it did (AGENTS rule 24).
+        print(f"  per-claim criterion fireable: "
+              f"{art['per_claim_provenance'].get('criterion_fireable')}")
         for c in art["cells"]:
             print(f"  seed {c['seed']}  Gate F {c['gate_f']['coverage']:.4f} "
                   f"({'PASS' if c['gate_f']['passed'] else 'FAIL'})  "

@@ -707,9 +707,13 @@ in **218–218** stores per seed, so the mechanism is present and measured rathe
 vacuous. At roughly two-fifths self-sourced, the transfer margin cannot be reported as a transfer
 result: per AGENTS rule 18 the supporting evidence is not world evidence.
 
+**Superseded 2026-11-23 (§20.8).** The 0.4092–0.4155 share measured the **unaligned** observer:
+its lookback read sleep rows the engine's window excludes. The aligned share is **0.0** on every
+seed. The figures above stand as the record of the defect, not as a property of the organism.
+
 ### 18.3 The stop, recorded before any confirmatory seed
 
-The canonical calibration now reads: Gate F **5 of 5**, harness audit **7 of 7 checks on every seed**, revision limbs present on every seed, attribution share clear at 0.9848–0.9866 — and **support provenance 0.4092–0.4155 against a maximum of 0.25**. The artifact therefore records `authorises_confirmatory: false` and the confirmatory set **stays closed**.
+The canonical calibration now reads: Gate F **5 of 5**, harness audit **7 of 7 checks on every seed**, revision limbs present on every seed, attribution share clear at 0.9848–0.9866 — and **support provenance 0.4092–0.4155 against a maximum of 0.25**. The artifact therefore records `authorises_confirmatory: false` and the confirmatory set **stays closed**. (Superseded 2026-11-23: §20.8. The aligned calibration passes the rule, and the artifact now records `authorises_confirmatory: false` for a different, stated reason — the criterion cannot fire on this build.)
 
 This is §6 stop rule 3 operating: an audit outside its declared band means the unit is reported as
 **not attributable**, not as a result. §16's sentence that Gate F cleared and the study proceeds is
@@ -739,12 +743,15 @@ distinct prior events behind its support are split world / self, deduplicated by
 passes when all three hold:
 
 1. it has measurable support;
-2. **no more of that support is self-sourced than the frozen reference, 17.9 %**;
+2. **no more of that support is self-sourced than the reference, 0.0 %** (re-derived 2026-11-23; §20.8);
 3. **a majority of it is world-derived.**
 
-The reference is the audit-trace probe's distinct-evidence figure — **802 of 4,481** transitions,
-default arm — and it is **not recomputed on this run** (AGENTS rule 19). It is a provisional
-calibration value from one world, one policy and one run, and it is labelled as such.
+The reference is the audit-trace probe's distinct-evidence figure on 0.16.0 — **0 of 4,627**
+transitions, default arm, with the stress and forced-tie arms also at 0
+(`docs/self_sourced_reference.json`) — and it is **not recomputed on this run** (AGENTS rule 19).
+It is a **structural zero** rather than a provisional rate: the engine's lookback excludes sleep
+rows, so the condition has no firing instance on this build. §20.8 records the re-derivation and
+the observer repair that made the earlier 17.9 % unmeasurable as a description of the organism.
 
 **A run-level average cannot stand in for this.** It averages claims whose evidence is
 almost entirely world-derived with claims whose evidence is almost entirely the organism's own
@@ -818,7 +825,8 @@ same kind.
 Support is now stored under `(prior_event_id, to_event_id)`. Distinct support rises from about
 10,400 to **12,076–12,157** transitions per seed, and the run-level share falls to
 **0.4092–0.4155** (7,106–7,143 world against 4,947–5,051
-self).
+self). **Superseded 2026-11-23 (§20.8):** those shares were measured on the unaligned observer;
+the aligned observer reads **0.0**.
 
 ### 20.2 The control must judge claims, not compare a constant
 
@@ -885,6 +893,10 @@ evaluable on all five.
 | 20261204 | 622 | 604 (97.1 %) | 18 | 254 (42.1 %) | 0 / 0 |
 | 20261205 | 669 | 653 (97.6 %) | 16 | 332 (50.8 %) | 0 / 0 |
 
+**Superseded 2026-11-23 (§20.8) as a statement about the organism.** These counts measured the
+unaligned support observer; the repaired observer reads **0 failing claims** on every seed. They
+are kept as the record of the defect, not restated.
+
 The failure survives both corrections, and this is the final calibration result of this protocol:
 **254–576 of 604–1277 measurable claims fail per seed**
 (42.1–52.1 %), with per-claim shares reaching **1.0000**, and the
@@ -905,9 +917,11 @@ calibration.
 The per-claim counts rest on the observer's transition identity, and that identity had a second
 defect the §20 correction did not touch: the observer read the **target** event id off `rows[0]` of
 its own lookback query. That query is
-`SELECT rowid, tags, event_type FROM events ORDER BY time DESC LIMIT 3` — the window the engine
-itself uses, which has **no `rowid` tiebreak and no index on `time`**, so when timestamps tie the
-first row is not guaranteed to be the event just stored (§3.3 of the audit-trace specification).
+`SELECT rowid, tags, event_type FROM events ORDER BY time DESC LIMIT 3` — **not** the window the
+engine uses: the engine's lookback filters sleep rows and orders by `time DESC, rowid DESC`
+(`organica/memory.py:352-354`). The observer's window therefore had **no `rowid` tiebreak and no
+index on `time`**, so when timestamps tie the first row is not guaranteed to be the event just
+stored (§3.3 of the audit-trace specification); §20.8 aligns the query itself.
 A store whose target is misread carries its whole transition set under the wrong event, and the
 per-claim rule would then judge claims on transitions they did not have.
 
@@ -939,6 +953,12 @@ implementation observation with a guarantee; the study stays stopped on the crit
 instrument.
 
 ### 20.7 The study is closed at calibration, and what the postmortem can and cannot say
+
+**Superseded 2026-11-23 (§20.8).** The closing condition above was an instrument artifact: the
+calibration's support observer read sleep rows the engine never reads. With the observer aligned and
+the calibration re-run on 0.16.0 the rule passes on every seed, but the criterion cannot fire on this
+build, so `authorises_confirmatory` remains `false` for a stated reason. §20.5's counts and this
+section's postmortem counts stand as the record of the defect, not as a verdict about the organism.
 
 **Closed.** The per-claim rule failed on all five calibration seeds, so this protocol ends here: no
 confirmatory seed runs under it, no threshold is changed, and §20.5's verdict and §19.2's withdrawal
@@ -1008,3 +1028,55 @@ world's**. It does not establish that the organism's support is circular, and th
 establish that it is world-rooted either — the earlier phrasing claimed more than the data. Both
 remain open, and that is the question the next design has to answer, in a separately named variant
 with its own preregistration and fresh calibration seeds.
+
+---
+
+### 20.8 Amendment — the calibration observer is aligned and the reference is re-derived (2026-11-23)
+
+**The defect.** The calibration's store-time support observer read an **unfiltered** lookback
+(`SELECT rowid, tags, event_type, content FROM events ORDER BY time DESC LIMIT 3`,
+`benchmarks/reusable_knowledge.py:668-671`). The engine's own lookback filters sleep rows and adds a
+`rowid` tiebreak (`organica/memory.py:352-354`), so the observer attributed sleep-payload
+transitions to claims the engine's `precedes` table cannot contain: **218** formation windows per
+seed held a sleep row (318 on revision), the run-level distinct-evidence share was
+**0.4092–0.4155**, and the per-claim rule failed on the claims that rested on them. The 17.9 %
+reference itself came from the same unaligned window, through the audit-trace probe's pre-`ff15068`
+observer.
+
+**The repair.** The observer now runs the engine's own query — `WHERE event_type != 'sleep' ORDER BY
+time DESC, rowid DESC` — and the unfiltered window still runs on every store as a **control**, so a
+zero cannot be confused with a blind observer (`harness_audit` E7 asserts both directions). The
+calibration was regenerated on **0.16.0** (SHA-256 `25843ded…`) for the five calibration seeds under
+`PYTHONHASHSEED=0`; the superseded artifact is archived at
+`docs/reusable_knowledge_calibration_unaligned_observer.json` and the postmortem at
+`docs/reusable_knowledge_postmortem_unaligned_observer.json`.
+
+**The aligned result.** Aligned share **0 of 8,276–8,313** distinct transitions per seed, **0 of
+206–208** measurable claims failing on each seed and each limb (222 claims asserted), the control
+reading **0.133–0.147** with **218** formation and **318** revision sleep windows, and the harness
+audit **8 of 8** on every seed. Gate F 0.9896–1.0000; attribution and revision limbs pass. The
+**0.16.0 build** also moved the endpoint: Organica's held-out transfer is **0.5424–0.5569**, where
+the archived 0.15.0 calibration read **0.5957–0.6033** — disclosed as a build change, not a
+re-score. §20.5's failing counts (254–576 of 604–1277) and §20.7's postmortem counts measured the
+unaligned window and are **superseded**, retained as the record of the defect.
+
+**The reference.** Re-derived to **0.0 %** from the audit-trace probe's three 0.16.0 arms (0 of
+4,627; 0 of 2,451; 0 of 2,451 distinct evidence transitions) — data this rule does not judge
+(rule 19) — and recorded in `docs/self_sourced_reference.json`, which
+`benchmarks/self_sourced_reference.py --check` re-derives from the three artifacts. The 17.9 %
+(802 of 4,481) is **withdrawn as a measurement**, not re-scored.
+
+**What this does and does not open.** The rule now passes on every calibration seed, but
+`criterion_fireable` is **false** on every seed: no claim's aligned support contains a self-sourced
+transition, so condition 3 has no firing instance on this build. `authorises_confirmatory` therefore
+remains **false**, for a stated reason rather than an instrument failure — a pass on an inert
+criterion licenses nothing (AGENTS rule 25).
+
+**Decided 2026-11-23: the zero is carried, not retired.** A zero is the strictest bound available
+and the only version of the condition that fires on *any* self-sourcing — condition 2 fires only
+when world-derived support is no longer a majority of the claim's support — so retiring the reference would
+weaken the rule to a majority test and delete a pre-committed condition. Carrying it changes no
+measurement in this section and does not open the set: `criterion_fireable` stays false, so
+`authorises_confirmatory` stays false until a build admits a self-sourced transition into a claim's
+aligned window (rule 25). The condition is therefore dormant, not retired, and becomes a live gate
+the moment a build changes the lookback. No confirmatory seed has run.

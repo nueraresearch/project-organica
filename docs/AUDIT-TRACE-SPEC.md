@@ -768,14 +768,29 @@ the **claim's own support**:
 
 **The reference rate is FROZEN, not recomputed on the run being judged.**
 
-> **Reference rate: 17.9%** — the distinct-evidence self-sourced share measured on the
-> calibration probe (default arm, 120 cycles, `docs/audit_trace_probe.json`).
+> **Reference rate: 0.0 %** — re-derived on **2026-11-23** from the audit-trace
+> probe's three 0.16.0 arms: **0 of 4,627** (default), **0 of 2,451** (stress) and
+> **0 of 2,451** (forced tie) distinct evidence transitions behind reported
+> beliefs (`docs/self_sourced_reference.json`, re-derived and checked by
+> `benchmarks/self_sourced_reference.py`). The derivation uses data this rule
+> does not judge (rule 19) and is recorded before the next protocol runs.
 >
-> **Superseded measurement, 2026-11-21.** The faithful calibration on the same arm reads **0.0%**, because the engine's
-> lookback excludes sleep rows and no support can be self-sourced. The reference is left at 17.9% here rather than
-> re-derived: changing a frozen comparator is the owner's decision, and rule 19 requires any re-calibration to use data
-> that is not being judged. **On this engine the third condition cannot fire** — no claim can reach either bound — and
-> that is recorded as a decision to make, not a verdict to take.
+> **What it is.** A **structural zero**, not an estimated rate: the engine's
+> lookback excludes sleep rows (`organica/memory.py:352-354`), so no support
+> transition can be self-sourced on this build and the third condition has no
+> firing instance here. It is carried rather than retired (decided
+> **2026-11-23**; `docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md` §20.8) because a
+> zero is the strictest bound available — it fires immediately on any build
+> where self-sourcing returns, whereas retirement would remove the condition
+> permanently.
+>
+> **What it replaces.** The 17.9 % (802 of 4,481, 2026-10-26) was measured by an
+> observer that read the sleep rows the engine never reads. It is **withdrawn as
+> a measurement**, not re-scored, and its dated record stays in §10. The
+> calibration that rested on that observer was repaired on the same date: its
+> store-time support observer now reads the engine's own lookback, and the
+> unfiltered window is retained as a control that must see what the engine
+> excludes (`docs/reusable_knowledge_calibration.json`).
 
 Two rules about it, both fixed now:
 
@@ -811,10 +826,13 @@ instrument that can ask it. It is not asked here.
 **Calibrated, not binary.** The disqualifier is not a mood: the trace reports
 a *share*, and the probe measured what that share looks like on a world where
 the organism is doing ordinary work — **17.9% of the distinct evidence behind reported beliefs
-was self-sourced** (§10). **Superseded (2026-11-21):** with the observer aligned to the engine's non-sleep lookback the
-same arm reads **0.0%**, so what the probe calibrates is the instrument's window, not the organism's support. That figure is the **baseline** condition 3 above
-compares against; it is not itself a per-claim verdict. The measurement gives
-the criterion a baseline instead of a vibe.
+was self-sourced** (§10), a reading **withdrawn on 2026-11-23** because the observer
+that produced it read sleep rows the engine never reads. The reference is now
+**0.0 %**, re-derived from three 0.16.0 arms. That figure is the **baseline**
+condition 3 above compares against; it is not itself a per-claim verdict. A zero
+baseline says something stronger than a small share — on this build the engine
+cannot route its own output into the support behind a belief — and it keeps a
+firing condition on any build that changes that.
 
 That is the first concrete use of D2, and it is what turns a disclosed defect
 into a live scientific instrument. A defect that can defeat a claim is worth

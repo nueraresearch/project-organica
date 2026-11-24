@@ -130,7 +130,8 @@ def _artifact(**over):
         "attribution": {"all_seeds_passed": True},
         "revision": {"all_seeds_passed": True},
         "support_provenance": {"all_seeds_passed": True},
-        "per_claim_provenance": {"all_seeds_passed": True},
+        "per_claim_provenance": {"all_seeds_passed": True,
+                                 "criterion_fireable": True},
     }
     art.update(over)
     return art
@@ -148,6 +149,16 @@ def test_confirmatory_guard_refuses_without_calibration(monkeypatch):
     assert ok is False and "20261201" in why
     monkeypatch.setattr(rk, "_load_calibration", lambda: _artifact())
     assert rk.confirmatory_allowed()[0] is True
+
+
+def test_confirmatory_guard_refuses_a_criterion_that_cannot_fire(monkeypatch):
+    """A pass on an inert criterion authorises nothing (AGENTS rule 25)."""
+    monkeypatch.setenv("PYTHONHASHSEED", "0")
+    monkeypatch.setattr(rk, "_load_calibration", lambda: _artifact(
+        per_claim_provenance={"all_seeds_passed": True,
+                              "criterion_fireable": False}))
+    ok, why = rk.confirmatory_allowed()
+    assert ok is False and "firing condition" in why
 
 
 def test_confirmatory_guard_checks_cap_label_and_seeds(monkeypatch):
@@ -275,7 +286,7 @@ def test_per_claim_rule_is_the_disqualifier():
     assert dirty["claims_measurable"] == 1
     assert dirty["max_share"] == pytest.approx(1 / 3)
     assert dirty["all_claims_passed"] is False, \
-        "a third self-sourced exceeds the 17.9 % reference"
+        "a third self-sourced exceeds the 0.0 reference"
     assert dirty["evaluable"] is True
 
     clean = rk.per_claim_provenance(
@@ -414,7 +425,7 @@ class _WindowOrder:
 
     def execute(self, sql, params=()):
         cur = self._conn.execute(sql, params)
-        if (self.rotated and "ORDER BY time DESC LIMIT 3" in sql
+        if (self.rotated and "ORDER BY time DESC" in sql and "LIMIT 3" in sql
                 and "rowid, tags, event_type" in sql):
             rows = cur.fetchall()
             # Move the stored row out of first position only when this build put it
@@ -560,7 +571,11 @@ def test_the_postmortem_matches_the_calibration_it_reads():
     pm = json.loads(pm_path.read_text(encoding="utf-8"))
     cal = json.loads(cal_path.read_text(encoding="utf-8"))
     assert pm["rule_unchanged"] is True and pm["authorises_confirmatory"] is False
-    assert pm["verdict_kept"]["per_claim_rule_all_seeds_passed"] is False
+    # The postmortem must reproduce whatever the calibration says, not a fixed
+    # verdict: after the 2026-11-23 observer repair the rule passes, and the
+    # criterion is inert rather than failing.
+    assert pm["verdict_kept"]["per_claim_rule_all_seeds_passed"] is bool(
+        cal["per_claim_provenance"]["all_seeds_passed"])
     assert [s["seed"] for s in pm["seeds_detail"]] == [c["seed"] for c in cal["cells"]]
     for seed_pm, seed_cal in zip(pm["seeds_detail"], cal["cells"]):
         for limb in ("formation", "revision"):
@@ -568,3 +583,47 @@ def test_the_postmortem_matches_the_calibration_it_reads():
             assert seed_pm[limb]["claims"] == pcp["claims_total"]
             assert seed_pm[limb]["measurable"] == pcp["claims_measurable"]
             assert seed_pm[limb]["failing"] == pcp["claims_failed"]
+
+
+def test_the_aligned_observer_reads_the_engine_window(tmp_path):
+    """The engine's lookback excludes sleep rows; the control must still see them.
+
+    This is the pairing E7 depends on: without the control, a 0.0 would be
+    indistinguishable from an observer that simply reads nothing.
+    """
+    mem = rk.MemoryService(str(tmp_path / "aligned.db"))
+    record, support, state, _ = rk._support_observer(mem)
+    control, control_support, control_state, _ = rk._support_observer(
+        mem, engine_window=False)
+    try:
+        first = mem.store("alpha beta", event_type="observe", source="env")
+        rowid = rk.stored_rowid(mem, first.id)
+        record(["alpha", "beta"], rowid)
+        control(["alpha", "beta"], rowid)
+        mem.store("gamma delta", event_type="sleep", source="sleep")
+        second = mem.store("epsilon zeta", event_type="observe", source="env")
+        rowid = rk.stored_rowid(mem, second.id)
+        before = state["windows_with_sleep"]
+        record(["epsilon", "zeta"], rowid)
+        control(["epsilon", "zeta"], rowid)
+    finally:
+        mem._conn.close()
+    assert before == 0 and state["windows_with_sleep"] == 0, (
+        "the aligned window must never hold a sleep row")
+    assert not any(is_self for recs in support.values()
+                   for is_self in recs.values())
+    assert control_state["windows_with_sleep"] >= 1, (
+        "the control must see the row the engine excludes")
+    assert any(is_self for recs in control_support.values()
+               for is_self in recs.values())
+
+
+def test_the_guard_refuses_an_inert_per_claim_rule(monkeypatch):
+    """A criterion with no firing condition must not authorise the set."""
+    cal = rk._load_calibration()
+    assert cal is not None
+    assert cal["per_claim_provenance"]["criterion_fireable"] is False
+    monkeypatch.setattr(rk, "hash_seed", lambda: "0")
+    ok, why = rk.confirmatory_allowed()
+    assert ok is False
+    assert "firing condition" in why, why

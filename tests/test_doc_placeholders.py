@@ -21,6 +21,7 @@ Reference: AGENTS.md rule 20; journal section 46; facts sheet AA17.
 from __future__ import annotations
 LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
+import json
 import re
 import sys
 from pathlib import Path
@@ -143,10 +144,19 @@ def test_the_guard_can_fail():
     assert _scan(fresh), "the guard missed a new, unsubstituted token"
 
 
-def test_the_spec_states_the_frozen_reference_rate_as_a_number():
-    """The reference rate must appear as a value, not as a template."""
+def test_the_spec_states_the_reference_rate_as_a_number():
+    """The reference rate must appear as a value the artifact carries, not a template.
+
+    The value itself is not written into this test: it is read from
+    `docs/self_sourced_reference.json`, so a re-derivation changes the
+expectation and a stale specification fails.
+    """
     spec = (REPO / "docs/AUDIT-TRACE-SPEC.md").read_text(encoding="utf-8")
-    assert "Reference rate: 17.9%" in spec, "the frozen reference rate is not stated as a number"
+    art = json.loads((REPO / "docs/self_sourced_reference.json").read_text(
+        encoding="utf-8"))
+    rate = art["reference"]
+    assert f"Reference rate: {rate:.1f} %" in spec, (
+        f"the reference rate {rate} is not stated as a number")
     assert "{share" not in spec, "the reference rate is still a template"
 
 # --- printf-style placeholders -------------------------------------------

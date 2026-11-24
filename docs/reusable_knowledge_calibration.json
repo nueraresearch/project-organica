@@ -29,21 +29,21 @@
     "passed": true,
     "per_type_weight": {
      "anomaly": 0.0,
-     "dream": 12.0,
+     "dream": 10.0,
      "experiment": 0.0,
      "hypothesis": 14.0,
      "investigation": 0.0,
-     "loop_candidate": 98.0,
+     "loop_candidate": 364.0,
      "meta_concept": 0.0,
-     "prediction_candidate": 12105.0,
-     "process_candidate": 26.0,
-     "question": 0.0,
-     "theory": 0.0,
-     "workflow_concept": 15.0
+     "prediction_candidate": 2365.0,
+     "process_candidate": 19.0,
+     "role_candidate": 0.0,
+     "schema_candidate": 0.0,
+     "workflow_concept": 10.0
     },
     "reason": "the structure type the study is about must carry the majority of the readout's edge weight",
-    "share": 0.986553,
-    "total_weight": 12270.0,
+    "share": 0.850108,
+    "total_weight": 2782.0,
     "without_layer1_share": 0.0
    },
    "audit": {
@@ -76,7 +76,7 @@
       "minimum": 0.5,
       "passed": true,
       "reason": "a readout with no Layer-1 evidence must fall below the minimum, or the gate is decoration",
-      "share": 0.986553,
+      "share": 0.850108,
       "without_layer1_share": 0.0
      },
      "E6_revision_limb_is_held_out_under_the_new_law": {
@@ -89,31 +89,35 @@
       ]
      },
      "E7_support_provenance_can_fire": {
-      "control_share": 1.0,
-      "criterion_passed": false,
-      "maximum": 0.25,
+      "control": {
+       "claims": 222,
+       "failed": 222,
+       "max_share": 1.0
+      },
+      "criterion_passed": true,
       "passed": true,
-      "reason": "the diagnostic must be live and its control must be able to fail; the measured share is judged separately",
-      "share_self_sourced": 0.41297,
-      "windows_with_a_sleep_row": 218
+      "reason": "the engine's window must see no sleep row and read zero, and the unfiltered control over the same stores must see them and read a positive share; the measured share is judged separately",
+      "self_distinct": 0,
+      "share_self_sourced": 0.0,
+      "windows_with_a_sleep_row": 0
      },
      "E8_per_claim_rule_is_measurable": {
-      "claims_failed": 576,
-      "claims_measurable": 1277,
-      "claims_total": 1313,
-      "claims_unmeasurable": 36,
+      "claims_failed": 0,
+      "claims_measurable": 208,
+      "claims_total": 222,
+      "claims_unmeasurable": 14,
       "control": {
-       "claims": 1313,
-       "failed": 1313,
+       "claims": 222,
+       "failed": 222,
        "max_share": 1.0
       },
       "control_all_self_fails": true,
       "evaluable": true,
-      "excluded_share": 0.027418,
-      "pass_coverage": 0.533892,
+      "excluded_share": 0.063063,
+      "pass_coverage": 0.936937,
       "passed": true,
       "reason": "the per-claim rule must have measurable claims and its all-self control must fail",
-      "reference": 0.179,
+      "reference": 0.0,
       "resolution": "per claim, distinct transitions (prior event, target event)"
      }
     }
@@ -129,12 +133,12 @@
    "cap": 1000,
    "cap_is_canonical": true,
    "engine": {
-    "asserted_pairs": 327,
+    "asserted_pairs": 237,
     "cap": 1000,
     "formation_events": 880,
-    "revision_asserted_pairs": 328,
+    "revision_asserted_pairs": 250,
     "revision_events": 400,
-    "temporal_pairs": 393
+    "temporal_pairs": 208
    },
    "formation": {
     "compensated_events": 163,
@@ -167,13 +171,13 @@
    },
    "gate_f": {
     "asserted_in_available": 96,
-    "asserted_outside_world": 226,
-    "asserted_total": 327,
+    "asserted_outside_world": 131,
+    "asserted_total": 237,
     "coverage": 1.0,
     "covered": 96,
     "denominator": 96,
     "passed": true,
-    "precision": 0.293578,
+    "precision": 0.405063,
     "threshold": 0.95
    },
    "held_out": {
@@ -188,308 +192,86 @@
     "transfer_pairs": 112
    },
    "kind": "reusable_knowledge_cell",
-   "organica_minus_best_primary": 0.175186,
+   "organica_minus_best_primary": 0.221051,
    "organica_minus_best_primary_by_limb": {
-    "retention": -0.030878,
-    "revision": -0.056654,
-    "revision_held_out": 0.109122,
-    "transfer": 0.175186
+    "retention": -0.025053,
+    "revision": -0.033195,
+    "revision_held_out": 0.207879,
+    "transfer": 0.221051
    },
    "per_claim_provenance": {
     "formation": {
-     "all_claims_passed": false,
-     "claims_failed": 576,
-     "claims_measurable": 1277,
-     "claims_passed": 701,
-     "claims_total": 1313,
-     "claims_unmeasurable": 36,
+     "all_claims_passed": true,
+     "claims_failed": 0,
+     "claims_measurable": 208,
+     "claims_passed": 208,
+     "claims_total": 222,
+     "claims_unmeasurable": 14,
      "control": {
-      "claims": 1313,
-      "failed": 1313,
+      "claims": 222,
+      "failed": 222,
       "max_share": 1.0
      },
      "control_all_self_fails": true,
+     "criterion_fireable": false,
      "evaluable": true,
-     "excluded_share": 0.027418,
-     "failing_examples": [
-      {
-       "distinct_transitions": 5,
-       "on_withheld": false,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "conditional",
-       "target": "cedar",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 5,
-       "on_withheld": true,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "sable",
-       "target": "amber",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 6,
-       "on_withheld": true,
-       "passed": false,
-       "self": 6,
-       "share_self_sourced": 1.0,
-       "source": "willow",
-       "target": "slate",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 6,
-       "on_withheld": true,
-       "passed": false,
-       "self": 6,
-       "share_self_sourced": 1.0,
-       "source": "willow",
-       "target": "amber",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 6,
-       "on_withheld": true,
-       "passed": false,
-       "self": 6,
-       "share_self_sourced": 1.0,
-       "source": "sable",
-       "target": "fern",
-       "type": "prediction_candidate",
-       "world": 0
-      }
-     ],
-     "max_share": 1.0,
+     "excluded_share": 0.063063,
+     "failing_examples": [],
+     "max_share": 0.0,
      "measurable_floor": 0.5,
-     "measurable_fraction": 0.972582,
+     "measurable_fraction": 0.936937,
      "min_share": 0.0,
-     "pass_coverage": 0.533892,
+     "pass_coverage": 0.936937,
      "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
-     "reference": 0.179,
-     "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
+     "reference": 0.0,
+     "reference_provenance": "docs/self_sourced_reference.json: 0 of 4,627 distinct evidence transitions, audit-trace probe default arm, 0.16.0, re-derived 2026-11-23",
      "resolution": "per claim, distinct transitions (prior event, target event)",
      "withheld_claims": {
-      "claims_failed": 20,
-      "claims_measurable": 20,
+      "claims_failed": 0,
+      "claims_measurable": 0,
       "claims_passed": 0,
-      "claims_total": 20,
+      "claims_total": 0,
       "claims_unmeasurable": 0,
-      "failing_examples": [
-       {
-        "distinct_transitions": 5,
-        "on_withheld": true,
-        "passed": false,
-        "self": 5,
-        "share_self_sourced": 1.0,
-        "source": "sable",
-        "target": "amber",
-        "type": "prediction_candidate",
-        "world": 0
-       },
-       {
-        "distinct_transitions": 6,
-        "on_withheld": true,
-        "passed": false,
-        "self": 6,
-        "share_self_sourced": 1.0,
-        "source": "willow",
-        "target": "slate",
-        "type": "prediction_candidate",
-        "world": 0
-       },
-       {
-        "distinct_transitions": 6,
-        "on_withheld": true,
-        "passed": false,
-        "self": 6,
-        "share_self_sourced": 1.0,
-        "source": "willow",
-        "target": "amber",
-        "type": "prediction_candidate",
-        "world": 0
-       },
-       {
-        "distinct_transitions": 6,
-        "on_withheld": true,
-        "passed": false,
-        "self": 6,
-        "share_self_sourced": 1.0,
-        "source": "sable",
-        "target": "fern",
-        "type": "prediction_candidate",
-        "world": 0
-       },
-       {
-        "distinct_transitions": 7,
-        "on_withheld": true,
-        "passed": false,
-        "self": 7,
-        "share_self_sourced": 1.0,
-        "source": "willow",
-        "target": "fern",
-        "type": "prediction_candidate",
-        "world": 0
-       }
-      ],
-      "max_share": 1.0,
-      "min_share": 1.0
+      "failing_examples": [],
+      "max_share": null,
+      "min_share": null
      }
     },
     "revision": {
-     "all_claims_passed": false,
-     "claims_failed": 308,
-     "claims_measurable": 638,
-     "claims_passed": 330,
-     "claims_total": 656,
-     "claims_unmeasurable": 18,
+     "all_claims_passed": true,
+     "claims_failed": 0,
+     "claims_measurable": 208,
+     "claims_passed": 208,
+     "claims_total": 221,
+     "claims_unmeasurable": 13,
      "control": {
-      "claims": 656,
-      "failed": 656,
+      "claims": 221,
+      "failed": 221,
       "max_share": 1.0
      },
      "control_all_self_fails": true,
+     "criterion_fireable": false,
      "evaluable": true,
-     "excluded_share": 0.027439,
-     "failing_examples": [
-      {
-       "distinct_transitions": 5,
-       "on_withheld": false,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "conditional",
-       "target": "cedar",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 5,
-       "on_withheld": true,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "sable",
-       "target": "slate",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 7,
-       "on_withheld": false,
-       "passed": false,
-       "self": 7,
-       "share_self_sourced": 1.0,
-       "source": "conditional",
-       "target": "teal",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 7,
-       "on_withheld": true,
-       "passed": false,
-       "self": 7,
-       "share_self_sourced": 1.0,
-       "source": "willow",
-       "target": "slate",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 7,
-       "on_withheld": true,
-       "passed": false,
-       "self": 7,
-       "share_self_sourced": 1.0,
-       "source": "willow",
-       "target": "fern",
-       "type": "prediction_candidate",
-       "world": 0
-      }
-     ],
-     "max_share": 1.0,
+     "excluded_share": 0.058824,
+     "failing_examples": [],
+     "max_share": 0.0,
      "measurable_floor": 0.5,
-     "measurable_fraction": 0.972561,
+     "measurable_fraction": 0.941176,
      "min_share": 0.0,
-     "pass_coverage": 0.503049,
+     "pass_coverage": 0.941176,
      "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
-     "reference": 0.179,
-     "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
+     "reference": 0.0,
+     "reference_provenance": "docs/self_sourced_reference.json: 0 of 4,627 distinct evidence transitions, audit-trace probe default arm, 0.16.0, re-derived 2026-11-23",
      "resolution": "per claim, distinct transitions (prior event, target event)",
      "withheld_claims": {
-      "claims_failed": 12,
-      "claims_measurable": 12,
+      "claims_failed": 0,
+      "claims_measurable": 0,
       "claims_passed": 0,
-      "claims_total": 12,
+      "claims_total": 0,
       "claims_unmeasurable": 0,
-      "failing_examples": [
-       {
-        "distinct_transitions": 5,
-        "on_withheld": true,
-        "passed": false,
-        "self": 5,
-        "share_self_sourced": 1.0,
-        "source": "sable",
-        "target": "slate",
-        "type": "prediction_candidate",
-        "world": 0
-       },
-       {
-        "distinct_transitions": 7,
-        "on_withheld": true,
-        "passed": false,
-        "self": 7,
-        "share_self_sourced": 1.0,
-        "source": "willow",
-        "target": "slate",
-        "type": "prediction_candidate",
-        "world": 0
-       },
-       {
-        "distinct_transitions": 7,
-        "on_withheld": true,
-        "passed": false,
-        "self": 7,
-        "share_self_sourced": 1.0,
-        "source": "willow",
-        "target": "fern",
-        "type": "prediction_candidate",
-        "world": 0
-       },
-       {
-        "distinct_transitions": 7,
-        "on_withheld": true,
-        "passed": false,
-        "self": 7,
-        "share_self_sourced": 1.0,
-        "source": "willow",
-        "target": "amber",
-        "type": "prediction_candidate",
-        "world": 0
-       },
-       {
-        "distinct_transitions": 7,
-        "on_withheld": true,
-        "passed": false,
-        "self": 7,
-        "share_self_sourced": 1.0,
-        "source": "sable",
-        "target": "amber",
-        "type": "prediction_candidate",
-        "world": 0
-       }
-      ],
-      "max_share": 1.0,
-      "min_share": 1.0
+      "failing_examples": [],
+      "max_share": null,
+      "min_share": null
      }
     }
    },
@@ -555,10 +337,10 @@
      "transfer": 0.770851
     },
     "organica": {
-     "retention": 0.441561,
-     "revision": 0.451464,
-     "revision_held_out": 0.630907,
-     "transfer": 0.595665
+     "retention": 0.435736,
+     "revision": 0.428005,
+     "revision_held_out": 0.53215,
+     "transfer": 0.5498
     },
     "replay": {
      "retention": 0.410683,
@@ -570,28 +352,40 @@
    "seed": 20261201,
    "support_provenance": {
     "formation": {
+     "control": {
+      "distinct_support": 8312,
+      "self_distinct": 1206,
+      "share_self_sourced": 0.145091,
+      "windows_with_a_sleep_row": 218
+     },
      "control_share": 1.0,
      "declared_band": 0.25,
-     "distinct_support": 12105,
-     "edges_with_support": 315,
+     "distinct_support": 8288,
+     "edges_with_support": 208,
      "reason": "run-level diagnostic only; the disqualifier is per claim",
-     "self_distinct": 4999,
-     "share_self_sourced": 0.41297,
-     "windows_with_a_sleep_row": 218,
-     "within_band": false,
-     "world_distinct": 7106
+     "self_distinct": 0,
+     "share_self_sourced": 0.0,
+     "windows_with_a_sleep_row": 0,
+     "within_band": true,
+     "world_distinct": 8288
     },
     "revision": {
+     "control": {
+      "distinct_support": 11942,
+      "self_distinct": 1593,
+      "share_self_sourced": 0.133395,
+      "windows_with_a_sleep_row": 318
+     },
      "control_share": 1.0,
      "declared_band": 0.25,
-     "distinct_support": 17708,
-     "edges_with_support": 316,
+     "distinct_support": 12078,
+     "edges_with_support": 208,
      "reason": "run-level diagnostic only; the disqualifier is per claim",
-     "self_distinct": 7359,
-     "share_self_sourced": 0.415575,
-     "windows_with_a_sleep_row": 318,
-     "within_band": false,
-     "world_distinct": 10349
+     "self_distinct": 0,
+     "share_self_sourced": 0.0,
+     "windows_with_a_sleep_row": 0,
+     "within_band": true,
+     "world_distinct": 12078
     }
    },
    "variant": "V1.1-cap(1000)"
@@ -603,21 +397,21 @@
     "passed": true,
     "per_type_weight": {
      "anomaly": 0.0,
-     "dream": 13.0,
+     "dream": 8.0,
      "experiment": 0.0,
-     "hypothesis": 13.0,
+     "hypothesis": 16.0,
      "investigation": 0.0,
-     "loop_candidate": 104.0,
+     "loop_candidate": 286.0,
      "meta_concept": 0.0,
-     "prediction_candidate": 12076.0,
-     "process_candidate": 28.0,
-     "question": 0.0,
-     "theory": 0.0,
-     "workflow_concept": 14.0
+     "prediction_candidate": 2368.0,
+     "process_candidate": 2.0,
+     "role_candidate": 0.0,
+     "schema_candidate": 0.0,
+     "workflow_concept": 1.0
     },
     "reason": "the structure type the study is about must carry the majority of the readout's edge weight",
-    "share": 0.985957,
-    "total_weight": 12248.0,
+    "share": 0.883253,
+    "total_weight": 2681.0,
     "without_layer1_share": 0.0
    },
    "audit": {
@@ -650,7 +444,7 @@
       "minimum": 0.5,
       "passed": true,
       "reason": "a readout with no Layer-1 evidence must fall below the minimum, or the gate is decoration",
-      "share": 0.985957,
+      "share": 0.883253,
       "without_layer1_share": 0.0
      },
      "E6_revision_limb_is_held_out_under_the_new_law": {
@@ -663,31 +457,35 @@
       ]
      },
      "E7_support_provenance_can_fire": {
-      "control_share": 1.0,
-      "criterion_passed": false,
-      "maximum": 0.25,
+      "control": {
+       "claims": 222,
+       "failed": 222,
+       "max_share": 1.0
+      },
+      "criterion_passed": true,
       "passed": true,
-      "reason": "the diagnostic must be live and its control must be able to fail; the measured share is judged separately",
-      "share_self_sourced": 0.411312,
-      "windows_with_a_sleep_row": 218
+      "reason": "the engine's window must see no sleep row and read zero, and the unfiltered control over the same stores must see them and read a positive share; the measured share is judged separately",
+      "self_distinct": 0,
+      "share_self_sourced": 0.0,
+      "windows_with_a_sleep_row": 0
      },
      "E8_per_claim_rule_is_measurable": {
-      "claims_failed": 346,
-      "claims_measurable": 664,
-      "claims_total": 680,
+      "claims_failed": 0,
+      "claims_measurable": 206,
+      "claims_total": 222,
       "claims_unmeasurable": 16,
       "control": {
-       "claims": 680,
-       "failed": 680,
+       "claims": 222,
+       "failed": 222,
        "max_share": 1.0
       },
       "control_all_self_fails": true,
       "evaluable": true,
-      "excluded_share": 0.023529,
-      "pass_coverage": 0.467647,
+      "excluded_share": 0.072072,
+      "pass_coverage": 0.927928,
       "passed": true,
       "reason": "the per-claim rule must have measurable claims and its all-self control must fail",
-      "reference": 0.179,
+      "reference": 0.0,
       "resolution": "per claim, distinct transitions (prior event, target event)"
      }
     }
@@ -703,12 +501,12 @@
    "cap": 1000,
    "cap_is_canonical": true,
    "engine": {
-    "asserted_pairs": 341,
+    "asserted_pairs": 237,
     "cap": 1000,
     "formation_events": 880,
-    "revision_asserted_pairs": 340,
+    "revision_asserted_pairs": 251,
     "revision_events": 400,
-    "temporal_pairs": 390
+    "temporal_pairs": 208
    },
    "formation": {
     "compensated_events": 165,
@@ -740,14 +538,14 @@
     ]
    },
    "gate_f": {
-    "asserted_in_available": 94,
-    "asserted_outside_world": 240,
-    "asserted_total": 341,
-    "coverage": 0.979167,
-    "covered": 94,
+    "asserted_in_available": 95,
+    "asserted_outside_world": 134,
+    "asserted_total": 237,
+    "coverage": 0.989583,
+    "covered": 95,
     "denominator": 96,
     "passed": true,
-    "precision": 0.27566,
+    "precision": 0.400844,
     "threshold": 0.95
    },
    "held_out": {
@@ -762,308 +560,86 @@
     "transfer_pairs": 113
    },
    "kind": "reusable_knowledge_cell",
-   "organica_minus_best_primary": 0.168396,
+   "organica_minus_best_primary": 0.220601,
    "organica_minus_best_primary_by_limb": {
-    "retention": -0.042834,
-    "revision": -0.0517,
-    "revision_held_out": 0.097682,
-    "transfer": 0.168396
+    "retention": -0.035844,
+    "revision": -0.026019,
+    "revision_held_out": 0.196395,
+    "transfer": 0.220601
    },
    "per_claim_provenance": {
     "formation": {
-     "all_claims_passed": false,
-     "claims_failed": 346,
-     "claims_measurable": 664,
-     "claims_passed": 318,
-     "claims_total": 680,
+     "all_claims_passed": true,
+     "claims_failed": 0,
+     "claims_measurable": 206,
+     "claims_passed": 206,
+     "claims_total": 222,
      "claims_unmeasurable": 16,
      "control": {
-      "claims": 680,
-      "failed": 680,
+      "claims": 222,
+      "failed": 222,
       "max_share": 1.0
      },
      "control_all_self_fails": true,
+     "criterion_fireable": false,
      "evaluable": true,
-     "excluded_share": 0.023529,
-     "failing_examples": [
-      {
-       "distinct_transitions": 5,
-       "on_withheld": false,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "question",
-       "target": "maple",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 5,
-       "on_withheld": false,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "conditional",
-       "target": "crimson",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 5,
-       "on_withheld": true,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "ochre",
-       "target": "birch",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 5,
-       "on_withheld": true,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "ochre",
-       "target": "willow",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 5,
-       "on_withheld": true,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "umber",
-       "target": "crimson",
-       "type": "prediction_candidate",
-       "world": 0
-      }
-     ],
-     "max_share": 1.0,
+     "excluded_share": 0.072072,
+     "failing_examples": [],
+     "max_share": 0.0,
      "measurable_floor": 0.5,
-     "measurable_fraction": 0.976471,
+     "measurable_fraction": 0.927928,
      "min_share": 0.0,
-     "pass_coverage": 0.467647,
+     "pass_coverage": 0.927928,
      "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
-     "reference": 0.179,
-     "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
+     "reference": 0.0,
+     "reference_provenance": "docs/self_sourced_reference.json: 0 of 4,627 distinct evidence transitions, audit-trace probe default arm, 0.16.0, re-derived 2026-11-23",
      "resolution": "per claim, distinct transitions (prior event, target event)",
      "withheld_claims": {
-      "claims_failed": 14,
-      "claims_measurable": 14,
+      "claims_failed": 0,
+      "claims_measurable": 0,
       "claims_passed": 0,
-      "claims_total": 14,
+      "claims_total": 0,
       "claims_unmeasurable": 0,
-      "failing_examples": [
-       {
-        "distinct_transitions": 5,
-        "on_withheld": true,
-        "passed": false,
-        "self": 5,
-        "share_self_sourced": 1.0,
-        "source": "ochre",
-        "target": "birch",
-        "type": "prediction_candidate",
-        "world": 0
-       },
-       {
-        "distinct_transitions": 5,
-        "on_withheld": true,
-        "passed": false,
-        "self": 5,
-        "share_self_sourced": 1.0,
-        "source": "ochre",
-        "target": "willow",
-        "type": "prediction_candidate",
-        "world": 0
-       },
-       {
-        "distinct_transitions": 5,
-        "on_withheld": true,
-        "passed": false,
-        "self": 5,
-        "share_self_sourced": 1.0,
-        "source": "umber",
-        "target": "crimson",
-        "type": "prediction_candidate",
-        "world": 0
-       },
-       {
-        "distinct_transitions": 5,
-        "on_withheld": true,
-        "passed": false,
-        "self": 5,
-        "share_self_sourced": 1.0,
-        "source": "teal",
-        "target": "willow",
-        "type": "prediction_candidate",
-        "world": 0
-       },
-       {
-        "distinct_transitions": 7,
-        "on_withheld": true,
-        "passed": false,
-        "self": 7,
-        "share_self_sourced": 1.0,
-        "source": "ochre",
-        "target": "crimson",
-        "type": "prediction_candidate",
-        "world": 0
-       }
-      ],
-      "max_share": 1.0,
-      "min_share": 1.0
+      "failing_examples": [],
+      "max_share": null,
+      "min_share": null
      }
     },
     "revision": {
-     "all_claims_passed": false,
-     "claims_failed": 356,
-     "claims_measurable": 668,
-     "claims_passed": 312,
-     "claims_total": 684,
-     "claims_unmeasurable": 16,
+     "all_claims_passed": true,
+     "claims_failed": 0,
+     "claims_measurable": 208,
+     "claims_passed": 208,
+     "claims_total": 223,
+     "claims_unmeasurable": 15,
      "control": {
-      "claims": 684,
-      "failed": 684,
+      "claims": 223,
+      "failed": 223,
       "max_share": 1.0
      },
      "control_all_self_fails": true,
+     "criterion_fireable": false,
      "evaluable": true,
-     "excluded_share": 0.023392,
-     "failing_examples": [
-      {
-       "distinct_transitions": 5,
-       "on_withheld": false,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "question",
-       "target": "maple",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 5,
-       "on_withheld": false,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "conditional",
-       "target": "crimson",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 5,
-       "on_withheld": true,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "ochre",
-       "target": "birch",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 5,
-       "on_withheld": true,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "ochre",
-       "target": "willow",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 5,
-       "on_withheld": true,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "umber",
-       "target": "crimson",
-       "type": "prediction_candidate",
-       "world": 0
-      }
-     ],
-     "max_share": 1.0,
+     "excluded_share": 0.067265,
+     "failing_examples": [],
+     "max_share": 0.0,
      "measurable_floor": 0.5,
-     "measurable_fraction": 0.976608,
+     "measurable_fraction": 0.932735,
      "min_share": 0.0,
-     "pass_coverage": 0.45614,
+     "pass_coverage": 0.932735,
      "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
-     "reference": 0.179,
-     "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
+     "reference": 0.0,
+     "reference_provenance": "docs/self_sourced_reference.json: 0 of 4,627 distinct evidence transitions, audit-trace probe default arm, 0.16.0, re-derived 2026-11-23",
      "resolution": "per claim, distinct transitions (prior event, target event)",
      "withheld_claims": {
-      "claims_failed": 14,
-      "claims_measurable": 14,
+      "claims_failed": 0,
+      "claims_measurable": 0,
       "claims_passed": 0,
-      "claims_total": 14,
+      "claims_total": 0,
       "claims_unmeasurable": 0,
-      "failing_examples": [
-       {
-        "distinct_transitions": 5,
-        "on_withheld": true,
-        "passed": false,
-        "self": 5,
-        "share_self_sourced": 1.0,
-        "source": "ochre",
-        "target": "birch",
-        "type": "prediction_candidate",
-        "world": 0
-       },
-       {
-        "distinct_transitions": 5,
-        "on_withheld": true,
-        "passed": false,
-        "self": 5,
-        "share_self_sourced": 1.0,
-        "source": "ochre",
-        "target": "willow",
-        "type": "prediction_candidate",
-        "world": 0
-       },
-       {
-        "distinct_transitions": 5,
-        "on_withheld": true,
-        "passed": false,
-        "self": 5,
-        "share_self_sourced": 1.0,
-        "source": "umber",
-        "target": "crimson",
-        "type": "prediction_candidate",
-        "world": 0
-       },
-       {
-        "distinct_transitions": 5,
-        "on_withheld": true,
-        "passed": false,
-        "self": 5,
-        "share_self_sourced": 1.0,
-        "source": "teal",
-        "target": "willow",
-        "type": "prediction_candidate",
-        "world": 0
-       },
-       {
-        "distinct_transitions": 7,
-        "on_withheld": true,
-        "passed": false,
-        "self": 7,
-        "share_self_sourced": 1.0,
-        "source": "ochre",
-        "target": "crimson",
-        "type": "prediction_candidate",
-        "world": 0
-       }
-      ],
-      "max_share": 1.0,
-      "min_share": 1.0
+      "failing_examples": [],
+      "max_share": null,
+      "min_share": null
      }
     }
    },
@@ -1129,10 +705,10 @@
      "transfer": 0.771727
     },
     "organica": {
-     "retention": 0.43266,
-     "revision": 0.458429,
-     "revision_held_out": 0.646527,
-     "transfer": 0.603331
+     "retention": 0.42567,
+     "revision": 0.432748,
+     "revision_held_out": 0.547814,
+     "transfer": 0.551126
     },
     "replay": {
      "retention": 0.391261,
@@ -1144,28 +720,40 @@
    "seed": 20261202,
    "support_provenance": {
     "formation": {
+     "control": {
+      "distinct_support": 8207,
+      "self_distinct": 1095,
+      "share_self_sourced": 0.133423,
+      "windows_with_a_sleep_row": 218
+     },
      "control_share": 1.0,
      "declared_band": 0.25,
-     "distinct_support": 12076,
-     "edges_with_support": 327,
+     "distinct_support": 8306,
+     "edges_with_support": 207,
      "reason": "run-level diagnostic only; the disqualifier is per claim",
-     "self_distinct": 4967,
-     "share_self_sourced": 0.411312,
-     "windows_with_a_sleep_row": 218,
-     "within_band": false,
-     "world_distinct": 7109
+     "self_distinct": 0,
+     "share_self_sourced": 0.0,
+     "windows_with_a_sleep_row": 0,
+     "within_band": true,
+     "world_distinct": 8306
     },
     "revision": {
+     "control": {
+      "distinct_support": 11838,
+      "self_distinct": 1486,
+      "share_self_sourced": 0.125528,
+      "windows_with_a_sleep_row": 318
+     },
      "control_share": 1.0,
      "declared_band": 0.25,
-     "distinct_support": 17680,
-     "edges_with_support": 329,
+     "distinct_support": 12091,
+     "edges_with_support": 208,
      "reason": "run-level diagnostic only; the disqualifier is per claim",
-     "self_distinct": 7328,
-     "share_self_sourced": 0.41448,
-     "windows_with_a_sleep_row": 318,
-     "within_band": false,
-     "world_distinct": 10352
+     "self_distinct": 0,
+     "share_self_sourced": 0.0,
+     "windows_with_a_sleep_row": 0,
+     "within_band": true,
+     "world_distinct": 12091
     }
    },
    "variant": "V1.1-cap(1000)"
@@ -1177,19 +765,21 @@
     "passed": true,
     "per_type_weight": {
      "anomaly": 0.0,
-     "dream": 14.0,
+     "dream": 10.0,
      "experiment": 0.0,
-     "hypothesis": 12.0,
+     "hypothesis": 15.0,
      "investigation": 0.0,
-     "loop_candidate": 126.0,
+     "loop_candidate": 416.0,
      "meta_concept": 0.0,
-     "prediction_candidate": 12090.0,
-     "process_candidate": 22.0,
-     "workflow_concept": 12.0
+     "prediction_candidate": 2362.0,
+     "process_candidate": 8.0,
+     "role_candidate": 0.0,
+     "schema_candidate": 0.0,
+     "workflow_concept": 4.0
     },
     "reason": "the structure type the study is about must carry the majority of the readout's edge weight",
-    "share": 0.984848,
-    "total_weight": 12276.0,
+    "share": 0.839076,
+    "total_weight": 2815.0,
     "without_layer1_share": 0.0
    },
    "audit": {
@@ -1222,7 +812,7 @@
       "minimum": 0.5,
       "passed": true,
       "reason": "a readout with no Layer-1 evidence must fall below the minimum, or the gate is decoration",
-      "share": 0.984848,
+      "share": 0.839076,
       "without_layer1_share": 0.0
      },
      "E6_revision_limb_is_held_out_under_the_new_law": {
@@ -1235,31 +825,35 @@
       ]
      },
      "E7_support_provenance_can_fire": {
-      "control_share": 1.0,
-      "criterion_passed": false,
-      "maximum": 0.25,
+      "control": {
+       "claims": 222,
+       "failed": 222,
+       "max_share": 1.0
+      },
+      "criterion_passed": true,
       "passed": true,
-      "reason": "the diagnostic must be live and its control must be able to fail; the measured share is judged separately",
-      "share_self_sourced": 0.409181,
-      "windows_with_a_sleep_row": 218
+      "reason": "the engine's window must see no sleep row and read zero, and the unfiltered control over the same stores must see them and read a positive share; the measured share is judged separately",
+      "self_distinct": 0,
+      "share_self_sourced": 0.0,
+      "windows_with_a_sleep_row": 0
      },
      "E8_per_claim_rule_is_measurable": {
-      "claims_failed": 326,
-      "claims_measurable": 642,
-      "claims_total": 658,
-      "claims_unmeasurable": 16,
+      "claims_failed": 0,
+      "claims_measurable": 207,
+      "claims_total": 222,
+      "claims_unmeasurable": 15,
       "control": {
-       "claims": 658,
-       "failed": 658,
+       "claims": 222,
+       "failed": 222,
        "max_share": 1.0
       },
       "control_all_self_fails": true,
       "evaluable": true,
-      "excluded_share": 0.024316,
-      "pass_coverage": 0.480243,
+      "excluded_share": 0.067568,
+      "pass_coverage": 0.932432,
       "passed": true,
       "reason": "the per-claim rule must have measurable claims and its all-self control must fail",
-      "reference": 0.179,
+      "reference": 0.0,
       "resolution": "per claim, distinct transitions (prior event, target event)"
      }
     }
@@ -1275,12 +869,12 @@
    "cap": 1000,
    "cap_is_canonical": true,
    "engine": {
-    "asserted_pairs": 331,
+    "asserted_pairs": 239,
     "cap": 1000,
     "formation_events": 880,
-    "revision_asserted_pairs": 336,
+    "revision_asserted_pairs": 255,
     "revision_events": 400,
-    "temporal_pairs": 397
+    "temporal_pairs": 208
    },
    "formation": {
     "compensated_events": 141,
@@ -1313,13 +907,13 @@
    },
    "gate_f": {
     "asserted_in_available": 95,
-    "asserted_outside_world": 234,
-    "asserted_total": 331,
+    "asserted_outside_world": 133,
+    "asserted_total": 239,
     "coverage": 0.989583,
     "covered": 95,
     "denominator": 96,
     "passed": true,
-    "precision": 0.287009,
+    "precision": 0.39749,
     "threshold": 0.95
    },
    "held_out": {
@@ -1334,297 +928,86 @@
     "transfer_pairs": 102
    },
    "kind": "reusable_knowledge_cell",
-   "organica_minus_best_primary": 0.169898,
+   "organica_minus_best_primary": 0.223636,
    "organica_minus_best_primary_by_limb": {
-    "retention": -0.045917,
-    "revision": -0.044528,
-    "revision_held_out": 0.137768,
-    "transfer": 0.169898
+    "retention": -0.039555,
+    "revision": -0.012973,
+    "revision_held_out": 0.252428,
+    "transfer": 0.223636
    },
    "per_claim_provenance": {
     "formation": {
-     "all_claims_passed": false,
-     "claims_failed": 326,
-     "claims_measurable": 642,
-     "claims_passed": 316,
-     "claims_total": 658,
-     "claims_unmeasurable": 16,
+     "all_claims_passed": true,
+     "claims_failed": 0,
+     "claims_measurable": 207,
+     "claims_passed": 207,
+     "claims_total": 222,
+     "claims_unmeasurable": 15,
      "control": {
-      "claims": 658,
-      "failed": 658,
+      "claims": 222,
+      "failed": 222,
       "max_share": 1.0
      },
      "control_all_self_fails": true,
+     "criterion_fireable": false,
      "evaluable": true,
-     "excluded_share": 0.024316,
-     "failing_examples": [
-      {
-       "distinct_transitions": 5,
-       "on_withheld": true,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "sable",
-       "target": "maple",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 6,
-       "on_withheld": false,
-       "passed": false,
-       "self": 6,
-       "share_self_sourced": 1.0,
-       "source": "mutation",
-       "target": "willow",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 7,
-       "on_withheld": false,
-       "passed": false,
-       "self": 7,
-       "share_self_sourced": 1.0,
-       "source": "conditional",
-       "target": "slate",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 7,
-       "on_withheld": false,
-       "passed": false,
-       "self": 7,
-       "share_self_sourced": 1.0,
-       "source": "mutation",
-       "target": "yarrow",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 7,
-       "on_withheld": false,
-       "passed": false,
-       "self": 7,
-       "share_self_sourced": 1.0,
-       "source": "mutation",
-       "target": "maple",
-       "type": "prediction_candidate",
-       "world": 0
-      }
-     ],
-     "max_share": 1.0,
+     "excluded_share": 0.067568,
+     "failing_examples": [],
+     "max_share": 0.0,
      "measurable_floor": 0.5,
-     "measurable_fraction": 0.975684,
+     "measurable_fraction": 0.932432,
      "min_share": 0.0,
-     "pass_coverage": 0.480243,
+     "pass_coverage": 0.932432,
      "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
-     "reference": 0.179,
-     "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
+     "reference": 0.0,
+     "reference_provenance": "docs/self_sourced_reference.json: 0 of 4,627 distinct evidence transitions, audit-trace probe default arm, 0.16.0, re-derived 2026-11-23",
      "resolution": "per claim, distinct transitions (prior event, target event)",
      "withheld_claims": {
-      "claims_failed": 4,
-      "claims_measurable": 4,
+      "claims_failed": 0,
+      "claims_measurable": 0,
       "claims_passed": 0,
-      "claims_total": 4,
+      "claims_total": 0,
       "claims_unmeasurable": 0,
-      "failing_examples": [
-       {
-        "distinct_transitions": 5,
-        "on_withheld": true,
-        "passed": false,
-        "self": 5,
-        "share_self_sourced": 1.0,
-        "source": "sable",
-        "target": "maple",
-        "type": "prediction_candidate",
-        "world": 0
-       },
-       {
-        "distinct_transitions": 7,
-        "on_withheld": true,
-        "passed": false,
-        "self": 7,
-        "share_self_sourced": 1.0,
-        "source": "sable",
-        "target": "crimson",
-        "type": "prediction_candidate",
-        "world": 0
-       },
-       {
-        "distinct_transitions": 5,
-        "on_withheld": true,
-        "passed": false,
-        "self": 5,
-        "share_self_sourced": 1.0,
-        "source": "sable",
-        "target": "maple",
-        "type": "prediction_candidate",
-        "world": 0
-       },
-       {
-        "distinct_transitions": 7,
-        "on_withheld": true,
-        "passed": false,
-        "self": 7,
-        "share_self_sourced": 1.0,
-        "source": "sable",
-        "target": "crimson",
-        "type": "prediction_candidate",
-        "world": 0
-       }
-      ],
-      "max_share": 1.0,
-      "min_share": 1.0
+      "failing_examples": [],
+      "max_share": null,
+      "min_share": null
      }
     },
     "revision": {
-     "all_claims_passed": false,
-     "claims_failed": 510,
-     "claims_measurable": 978,
-     "claims_passed": 468,
-     "claims_total": 1002,
-     "claims_unmeasurable": 24,
+     "all_claims_passed": true,
+     "claims_failed": 0,
+     "claims_measurable": 208,
+     "claims_passed": 208,
+     "claims_total": 221,
+     "claims_unmeasurable": 13,
      "control": {
-      "claims": 1002,
-      "failed": 1002,
+      "claims": 221,
+      "failed": 221,
       "max_share": 1.0
      },
      "control_all_self_fails": true,
+     "criterion_fireable": false,
      "evaluable": true,
-     "excluded_share": 0.023952,
-     "failing_examples": [
-      {
-       "distinct_transitions": 5,
-       "on_withheld": true,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "umber",
-       "target": "willow",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 5,
-       "on_withheld": true,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "sable",
-       "target": "willow",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 5,
-       "on_withheld": true,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "sable",
-       "target": "maple",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 6,
-       "on_withheld": true,
-       "passed": false,
-       "self": 6,
-       "share_self_sourced": 1.0,
-       "source": "umber",
-       "target": "yarrow",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 6,
-       "on_withheld": true,
-       "passed": false,
-       "self": 6,
-       "share_self_sourced": 1.0,
-       "source": "sable",
-       "target": "yarrow",
-       "type": "prediction_candidate",
-       "world": 0
-      }
-     ],
-     "max_share": 1.0,
+     "excluded_share": 0.058824,
+     "failing_examples": [],
+     "max_share": 0.0,
      "measurable_floor": 0.5,
-     "measurable_fraction": 0.976048,
+     "measurable_fraction": 0.941176,
      "min_share": 0.0,
-     "pass_coverage": 0.467066,
+     "pass_coverage": 0.941176,
      "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
-     "reference": 0.179,
-     "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
+     "reference": 0.0,
+     "reference_provenance": "docs/self_sourced_reference.json: 0 of 4,627 distinct evidence transitions, audit-trace probe default arm, 0.16.0, re-derived 2026-11-23",
      "resolution": "per claim, distinct transitions (prior event, target event)",
      "withheld_claims": {
-      "claims_failed": 21,
-      "claims_measurable": 21,
+      "claims_failed": 0,
+      "claims_measurable": 0,
       "claims_passed": 0,
-      "claims_total": 21,
+      "claims_total": 0,
       "claims_unmeasurable": 0,
-      "failing_examples": [
-       {
-        "distinct_transitions": 5,
-        "on_withheld": true,
-        "passed": false,
-        "self": 5,
-        "share_self_sourced": 1.0,
-        "source": "umber",
-        "target": "willow",
-        "type": "prediction_candidate",
-        "world": 0
-       },
-       {
-        "distinct_transitions": 5,
-        "on_withheld": true,
-        "passed": false,
-        "self": 5,
-        "share_self_sourced": 1.0,
-        "source": "sable",
-        "target": "willow",
-        "type": "prediction_candidate",
-        "world": 0
-       },
-       {
-        "distinct_transitions": 5,
-        "on_withheld": true,
-        "passed": false,
-        "self": 5,
-        "share_self_sourced": 1.0,
-        "source": "sable",
-        "target": "maple",
-        "type": "prediction_candidate",
-        "world": 0
-       },
-       {
-        "distinct_transitions": 6,
-        "on_withheld": true,
-        "passed": false,
-        "self": 6,
-        "share_self_sourced": 1.0,
-        "source": "umber",
-        "target": "yarrow",
-        "type": "prediction_candidate",
-        "world": 0
-       },
-       {
-        "distinct_transitions": 6,
-        "on_withheld": true,
-        "passed": false,
-        "self": 6,
-        "share_self_sourced": 1.0,
-        "source": "sable",
-        "target": "yarrow",
-        "type": "prediction_candidate",
-        "world": 0
-       }
-      ],
-      "max_share": 1.0,
-      "min_share": 1.0
+      "failing_examples": [],
+      "max_share": null,
+      "min_share": null
      }
     }
    },
@@ -1690,10 +1073,10 @@
      "transfer": 0.768388
     },
     "organica": {
-     "retention": 0.433627,
-     "revision": 0.463036,
-     "revision_held_out": 0.643656,
-     "transfer": 0.59849
+     "retention": 0.427265,
+     "revision": 0.431481,
+     "revision_held_out": 0.528996,
+     "transfer": 0.544752
     },
     "replay": {
      "retention": 0.38771,
@@ -1705,28 +1088,40 @@
    "seed": 20261203,
    "support_provenance": {
     "formation": {
+     "control": {
+      "distinct_support": 8324,
+      "self_distinct": 1181,
+      "share_self_sourced": 0.141879,
+      "windows_with_a_sleep_row": 218
+     },
      "control_share": 1.0,
      "declared_band": 0.25,
-     "distinct_support": 12090,
-     "edges_with_support": 317,
+     "distinct_support": 8313,
+     "edges_with_support": 207,
      "reason": "run-level diagnostic only; the disqualifier is per claim",
-     "self_distinct": 4947,
-     "share_self_sourced": 0.409181,
-     "windows_with_a_sleep_row": 218,
-     "within_band": false,
-     "world_distinct": 7143
+     "self_distinct": 0,
+     "share_self_sourced": 0.0,
+     "windows_with_a_sleep_row": 0,
+     "within_band": true,
+     "world_distinct": 8313
     },
     "revision": {
+     "control": {
+      "distinct_support": 11977,
+      "self_distinct": 1568,
+      "share_self_sourced": 0.130918,
+      "windows_with_a_sleep_row": 318
+     },
      "control_share": 1.0,
      "declared_band": 0.25,
-     "distinct_support": 17730,
-     "edges_with_support": 323,
+     "distinct_support": 12119,
+     "edges_with_support": 208,
      "reason": "run-level diagnostic only; the disqualifier is per claim",
-     "self_distinct": 7321,
-     "share_self_sourced": 0.412916,
-     "windows_with_a_sleep_row": 318,
-     "within_band": false,
-     "world_distinct": 10409
+     "self_distinct": 0,
+     "share_self_sourced": 0.0,
+     "windows_with_a_sleep_row": 0,
+     "within_band": true,
+     "world_distinct": 12119
     }
    },
    "variant": "V1.1-cap(1000)"
@@ -1738,19 +1133,21 @@
     "passed": true,
     "per_type_weight": {
      "anomaly": 0.0,
-     "dream": 10.0,
+     "dream": 7.0,
      "experiment": 0.0,
-     "hypothesis": 11.0,
+     "hypothesis": 14.0,
      "investigation": 0.0,
-     "loop_candidate": 110.0,
+     "loop_candidate": 416.0,
      "meta_concept": 0.0,
-     "prediction_candidate": 12115.0,
-     "process_candidate": 25.0,
-     "workflow_concept": 12.0
+     "prediction_candidate": 2352.0,
+     "process_candidate": 2.0,
+     "role_candidate": 0.0,
+     "schema_candidate": 0.0,
+     "workflow_concept": 2.0
     },
     "reason": "the structure type the study is about must carry the majority of the readout's edge weight",
-    "share": 0.986323,
-    "total_weight": 12283.0,
+    "share": 0.842105,
+    "total_weight": 2793.0,
     "without_layer1_share": 0.0
    },
    "audit": {
@@ -1783,7 +1180,7 @@
       "minimum": 0.5,
       "passed": true,
       "reason": "a readout with no Layer-1 evidence must fall below the minimum, or the gate is decoration",
-      "share": 0.986323,
+      "share": 0.842105,
       "without_layer1_share": 0.0
      },
      "E6_revision_limb_is_held_out_under_the_new_law": {
@@ -1796,31 +1193,35 @@
       ]
      },
      "E7_support_provenance_can_fire": {
-      "control_share": 1.0,
-      "criterion_passed": false,
-      "maximum": 0.25,
+      "control": {
+       "claims": 222,
+       "failed": 222,
+       "max_share": 1.0
+      },
+      "criterion_passed": true,
       "passed": true,
-      "reason": "the diagnostic must be live and its control must be able to fail; the measured share is judged separately",
-      "share_self_sourced": 0.411638,
-      "windows_with_a_sleep_row": 218
+      "reason": "the engine's window must see no sleep row and read zero, and the unfiltered control over the same stores must see them and read a positive share; the measured share is judged separately",
+      "self_distinct": 0,
+      "share_self_sourced": 0.0,
+      "windows_with_a_sleep_row": 0
      },
      "E8_per_claim_rule_is_measurable": {
-      "claims_failed": 254,
-      "claims_measurable": 604,
-      "claims_total": 622,
-      "claims_unmeasurable": 18,
+      "claims_failed": 0,
+      "claims_measurable": 208,
+      "claims_total": 222,
+      "claims_unmeasurable": 14,
       "control": {
-       "claims": 622,
-       "failed": 622,
+       "claims": 222,
+       "failed": 222,
        "max_share": 1.0
       },
       "control_all_self_fails": true,
       "evaluable": true,
-      "excluded_share": 0.028939,
-      "pass_coverage": 0.562701,
+      "excluded_share": 0.063063,
+      "pass_coverage": 0.936937,
       "passed": true,
       "reason": "the per-claim rule must have measurable claims and its all-self control must fail",
-      "reference": 0.179,
+      "reference": 0.0,
       "resolution": "per claim, distinct transitions (prior event, target event)"
      }
     }
@@ -1836,12 +1237,12 @@
    "cap": 1000,
    "cap_is_canonical": true,
    "engine": {
-    "asserted_pairs": 313,
+    "asserted_pairs": 242,
     "cap": 1000,
     "formation_events": 880,
-    "revision_asserted_pairs": 319,
+    "revision_asserted_pairs": 249,
     "revision_events": 400,
-    "temporal_pairs": 362
+    "temporal_pairs": 208
    },
    "formation": {
     "compensated_events": 159,
@@ -1874,13 +1275,13 @@
    },
    "gate_f": {
     "asserted_in_available": 96,
-    "asserted_outside_world": 217,
-    "asserted_total": 313,
+    "asserted_outside_world": 131,
+    "asserted_total": 242,
     "coverage": 1.0,
     "covered": 96,
     "denominator": 96,
     "passed": true,
-    "precision": 0.306709,
+    "precision": 0.396694,
     "threshold": 0.95
    },
    "held_out": {
@@ -1895,94 +1296,39 @@
     "transfer_pairs": 82
    },
    "kind": "reusable_knowledge_cell",
-   "organica_minus_best_primary": 0.161632,
+   "organica_minus_best_primary": 0.219831,
    "organica_minus_best_primary_by_limb": {
-    "retention": -0.036258,
-    "revision": -0.06389,
-    "revision_held_out": 0.116459,
-    "transfer": 0.161632
+    "retention": -0.030164,
+    "revision": -0.044416,
+    "revision_held_out": 0.218327,
+    "transfer": 0.219831
    },
    "per_claim_provenance": {
     "formation": {
-     "all_claims_passed": false,
-     "claims_failed": 254,
-     "claims_measurable": 604,
-     "claims_passed": 350,
-     "claims_total": 622,
-     "claims_unmeasurable": 18,
+     "all_claims_passed": true,
+     "claims_failed": 0,
+     "claims_measurable": 208,
+     "claims_passed": 208,
+     "claims_total": 222,
+     "claims_unmeasurable": 14,
      "control": {
-      "claims": 622,
-      "failed": 622,
+      "claims": 222,
+      "failed": 222,
       "max_share": 1.0
      },
      "control_all_self_fails": true,
+     "criterion_fireable": false,
      "evaluable": true,
-     "excluded_share": 0.028939,
-     "failing_examples": [
-      {
-       "distinct_transitions": 5,
-       "on_withheld": false,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "conditional",
-       "target": "indigo",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 6,
-       "on_withheld": false,
-       "passed": false,
-       "self": 6,
-       "share_self_sourced": 1.0,
-       "source": "conditional",
-       "target": "umber",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 6,
-       "on_withheld": false,
-       "passed": false,
-       "self": 6,
-       "share_self_sourced": 1.0,
-       "source": "mutation",
-       "target": "crimson",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 6,
-       "on_withheld": false,
-       "passed": false,
-       "self": 6,
-       "share_self_sourced": 1.0,
-       "source": "subject",
-       "target": "crimson",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 6,
-       "on_withheld": false,
-       "passed": false,
-       "self": 6,
-       "share_self_sourced": 1.0,
-       "source": "dream",
-       "target": "crimson",
-       "type": "prediction_candidate",
-       "world": 0
-      }
-     ],
-     "max_share": 1.0,
+     "excluded_share": 0.063063,
+     "failing_examples": [],
+     "max_share": 0.0,
      "measurable_floor": 0.5,
-     "measurable_fraction": 0.971061,
+     "measurable_fraction": 0.936937,
      "min_share": 0.0,
-     "pass_coverage": 0.562701,
+     "pass_coverage": 0.936937,
      "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
-     "reference": 0.179,
-     "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
+     "reference": 0.0,
+     "reference_provenance": "docs/self_sourced_reference.json: 0 of 4,627 distinct evidence transitions, audit-trace probe default arm, 0.16.0, re-derived 2026-11-23",
      "resolution": "per claim, distinct transitions (prior event, target event)",
      "withheld_claims": {
       "claims_failed": 0,
@@ -1996,85 +1342,30 @@
      }
     },
     "revision": {
-     "all_claims_passed": false,
-     "claims_failed": 282,
-     "claims_measurable": 614,
-     "claims_passed": 332,
-     "claims_total": 632,
-     "claims_unmeasurable": 18,
+     "all_claims_passed": true,
+     "claims_failed": 0,
+     "claims_measurable": 208,
+     "claims_passed": 208,
+     "claims_total": 223,
+     "claims_unmeasurable": 15,
      "control": {
-      "claims": 632,
-      "failed": 632,
+      "claims": 223,
+      "failed": 223,
       "max_share": 1.0
      },
      "control_all_self_fails": true,
+     "criterion_fireable": false,
      "evaluable": true,
-     "excluded_share": 0.028481,
-     "failing_examples": [
-      {
-       "distinct_transitions": 5,
-       "on_withheld": false,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "conditional",
-       "target": "indigo",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 6,
-       "on_withheld": false,
-       "passed": false,
-       "self": 6,
-       "share_self_sourced": 1.0,
-       "source": "conditional",
-       "target": "umber",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 8,
-       "on_withheld": false,
-       "passed": false,
-       "self": 8,
-       "share_self_sourced": 1.0,
-       "source": "mutation",
-       "target": "teal",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 8,
-       "on_withheld": false,
-       "passed": false,
-       "self": 8,
-       "share_self_sourced": 1.0,
-       "source": "subject",
-       "target": "teal",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 8,
-       "on_withheld": false,
-       "passed": false,
-       "self": 8,
-       "share_self_sourced": 1.0,
-       "source": "dream",
-       "target": "teal",
-       "type": "prediction_candidate",
-       "world": 0
-      }
-     ],
-     "max_share": 1.0,
+     "excluded_share": 0.067265,
+     "failing_examples": [],
+     "max_share": 0.0,
      "measurable_floor": 0.5,
-     "measurable_fraction": 0.971519,
+     "measurable_fraction": 0.932735,
      "min_share": 0.0,
-     "pass_coverage": 0.525316,
+     "pass_coverage": 0.932735,
      "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
-     "reference": 0.179,
-     "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
+     "reference": 0.0,
+     "reference_provenance": "docs/self_sourced_reference.json: 0 of 4,627 distinct evidence transitions, audit-trace probe default arm, 0.16.0, re-derived 2026-11-23",
      "resolution": "per claim, distinct transitions (prior event, target event)",
      "withheld_claims": {
       "claims_failed": 0,
@@ -2150,10 +1441,10 @@
      "transfer": 0.762182
     },
     "organica": {
-     "retention": 0.43886,
-     "revision": 0.445604,
-     "revision_held_out": 0.648141,
-     "transfer": 0.60055
+     "retention": 0.432766,
+     "revision": 0.42613,
+     "revision_held_out": 0.546273,
+     "transfer": 0.542351
     },
     "replay": {
      "retention": 0.403011,
@@ -2165,28 +1456,40 @@
    "seed": 20261204,
    "support_provenance": {
     "formation": {
+     "control": {
+      "distinct_support": 8353,
+      "self_distinct": 1225,
+      "share_self_sourced": 0.146654,
+      "windows_with_a_sleep_row": 218
+     },
      "control_share": 1.0,
      "declared_band": 0.25,
-     "distinct_support": 12115,
-     "edges_with_support": 300,
+     "distinct_support": 8306,
+     "edges_with_support": 208,
      "reason": "run-level diagnostic only; the disqualifier is per claim",
-     "self_distinct": 4987,
-     "share_self_sourced": 0.411638,
-     "windows_with_a_sleep_row": 218,
-     "within_band": false,
-     "world_distinct": 7128
+     "self_distinct": 0,
+     "share_self_sourced": 0.0,
+     "windows_with_a_sleep_row": 0,
+     "within_band": true,
+     "world_distinct": 8306
     },
     "revision": {
+     "control": {
+      "distinct_support": 11931,
+      "self_distinct": 1560,
+      "share_self_sourced": 0.130752,
+      "windows_with_a_sleep_row": 318
+     },
      "control_share": 1.0,
      "declared_band": 0.25,
-     "distinct_support": 17745,
-     "edges_with_support": 306,
+     "distinct_support": 12095,
+     "edges_with_support": 208,
      "reason": "run-level diagnostic only; the disqualifier is per claim",
-     "self_distinct": 7374,
-     "share_self_sourced": 0.415554,
-     "windows_with_a_sleep_row": 318,
-     "within_band": false,
-     "world_distinct": 10371
+     "self_distinct": 0,
+     "share_self_sourced": 0.0,
+     "windows_with_a_sleep_row": 0,
+     "within_band": true,
+     "world_distinct": 12095
     }
    },
    "variant": "V1.1-cap(1000)"
@@ -2198,21 +1501,21 @@
     "passed": true,
     "per_type_weight": {
      "anomaly": 0.0,
-     "dream": 13.0,
+     "dream": 9.0,
      "experiment": 0.0,
-     "hypothesis": 13.0,
+     "hypothesis": 14.0,
      "investigation": 0.0,
-     "loop_candidate": 110.0,
+     "loop_candidate": 226.0,
      "meta_concept": 0.0,
-     "prediction_candidate": 12157.0,
-     "process_candidate": 26.0,
-     "question": 0.0,
-     "theory": 0.0,
-     "workflow_concept": 15.0
+     "prediction_candidate": 2433.0,
+     "process_candidate": 41.0,
+     "role_candidate": 0.0,
+     "schema_candidate": 0.0,
+     "workflow_concept": 12.0
     },
     "reason": "the structure type the study is about must carry the majority of the readout's edge weight",
-    "share": 0.985649,
-    "total_weight": 12334.0,
+    "share": 0.88958,
+    "total_weight": 2735.0,
     "without_layer1_share": 0.0
    },
    "audit": {
@@ -2245,7 +1548,7 @@
       "minimum": 0.5,
       "passed": true,
       "reason": "a readout with no Layer-1 evidence must fall below the minimum, or the gate is decoration",
-      "share": 0.985649,
+      "share": 0.88958,
       "without_layer1_share": 0.0
      },
      "E6_revision_limb_is_held_out_under_the_new_law": {
@@ -2258,31 +1561,35 @@
       ]
      },
      "E7_support_provenance_can_fire": {
-      "control_share": 1.0,
-      "criterion_passed": false,
-      "maximum": 0.25,
+      "control": {
+       "claims": 222,
+       "failed": 222,
+       "max_share": 1.0
+      },
+      "criterion_passed": true,
       "passed": true,
-      "reason": "the diagnostic must be live and its control must be able to fail; the measured share is judged separately",
-      "share_self_sourced": 0.415481,
-      "windows_with_a_sleep_row": 218
+      "reason": "the engine's window must see no sleep row and read zero, and the unfiltered control over the same stores must see them and read a positive share; the measured share is judged separately",
+      "self_distinct": 0,
+      "share_self_sourced": 0.0,
+      "windows_with_a_sleep_row": 0
      },
      "E8_per_claim_rule_is_measurable": {
-      "claims_failed": 332,
-      "claims_measurable": 653,
-      "claims_total": 669,
-      "claims_unmeasurable": 16,
+      "claims_failed": 0,
+      "claims_measurable": 208,
+      "claims_total": 222,
+      "claims_unmeasurable": 14,
       "control": {
-       "claims": 669,
-       "failed": 669,
+       "claims": 222,
+       "failed": 222,
        "max_share": 1.0
       },
       "control_all_self_fails": true,
       "evaluable": true,
-      "excluded_share": 0.023916,
-      "pass_coverage": 0.479821,
+      "excluded_share": 0.063063,
+      "pass_coverage": 0.936937,
       "passed": true,
       "reason": "the per-claim rule must have measurable claims and its all-self control must fail",
-      "reference": 0.179,
+      "reference": 0.0,
       "resolution": "per claim, distinct transitions (prior event, target event)"
      }
     }
@@ -2298,12 +1605,12 @@
    "cap": 1000,
    "cap_is_canonical": true,
    "engine": {
-    "asserted_pairs": 334,
+    "asserted_pairs": 231,
     "cap": 1000,
     "formation_events": 880,
-    "revision_asserted_pairs": 334,
+    "revision_asserted_pairs": 248,
     "revision_events": 400,
-    "temporal_pairs": 371
+    "temporal_pairs": 208
    },
    "formation": {
     "compensated_events": 163,
@@ -2336,13 +1643,13 @@
    },
    "gate_f": {
     "asserted_in_available": 96,
-    "asserted_outside_world": 238,
-    "asserted_total": 334,
+    "asserted_outside_world": 130,
+    "asserted_total": 231,
     "coverage": 1.0,
     "covered": 96,
     "denominator": 96,
     "passed": true,
-    "precision": 0.287425,
+    "precision": 0.415584,
     "threshold": 0.95
    },
    "held_out": {
@@ -2357,94 +1664,39 @@
     "transfer_pairs": 93
    },
    "kind": "reusable_knowledge_cell",
-   "organica_minus_best_primary": 0.143583,
+   "organica_minus_best_primary": 0.184854,
    "organica_minus_best_primary_by_limb": {
-    "retention": -0.041316,
-    "revision": -0.076449,
-    "revision_held_out": -0.001571,
-    "transfer": 0.143583
+    "retention": -0.034328,
+    "revision": -0.048914,
+    "revision_held_out": 0.11176,
+    "transfer": 0.184854
    },
    "per_claim_provenance": {
     "formation": {
-     "all_claims_passed": false,
-     "claims_failed": 332,
-     "claims_measurable": 653,
-     "claims_passed": 321,
-     "claims_total": 669,
-     "claims_unmeasurable": 16,
+     "all_claims_passed": true,
+     "claims_failed": 0,
+     "claims_measurable": 208,
+     "claims_passed": 208,
+     "claims_total": 222,
+     "claims_unmeasurable": 14,
      "control": {
-      "claims": 669,
-      "failed": 669,
+      "claims": 222,
+      "failed": 222,
       "max_share": 1.0
      },
      "control_all_self_fails": true,
+     "criterion_fireable": false,
      "evaluable": true,
-     "excluded_share": 0.023916,
-     "failing_examples": [
-      {
-       "distinct_transitions": 156,
-       "on_withheld": false,
-       "passed": false,
-       "self": 31,
-       "share_self_sourced": 0.198718,
-       "source": "amber",
-       "target": "sable",
-       "type": "hypothesis",
-       "world": 125
-      },
-      {
-       "distinct_transitions": 5,
-       "on_withheld": false,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "question",
-       "target": "umber",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 5,
-       "on_withheld": false,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "question",
-       "target": "cedar",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 5,
-       "on_withheld": false,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "question",
-       "target": "sable",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 5,
-       "on_withheld": false,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "question",
-       "target": "yarrow",
-       "type": "prediction_candidate",
-       "world": 0
-      }
-     ],
-     "max_share": 1.0,
+     "excluded_share": 0.063063,
+     "failing_examples": [],
+     "max_share": 0.0,
      "measurable_floor": 0.5,
-     "measurable_fraction": 0.976084,
+     "measurable_fraction": 0.936937,
      "min_share": 0.0,
-     "pass_coverage": 0.479821,
+     "pass_coverage": 0.936937,
      "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
-     "reference": 0.179,
-     "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
+     "reference": 0.0,
+     "reference_provenance": "docs/self_sourced_reference.json: 0 of 4,627 distinct evidence transitions, audit-trace probe default arm, 0.16.0, re-derived 2026-11-23",
      "resolution": "per claim, distinct transitions (prior event, target event)",
      "withheld_claims": {
       "claims_failed": 0,
@@ -2458,85 +1710,30 @@
      }
     },
     "revision": {
-     "all_claims_passed": false,
-     "claims_failed": 336,
-     "claims_measurable": 650,
-     "claims_passed": 314,
-     "claims_total": 666,
-     "claims_unmeasurable": 16,
+     "all_claims_passed": true,
+     "claims_failed": 0,
+     "claims_measurable": 208,
+     "claims_passed": 208,
+     "claims_total": 223,
+     "claims_unmeasurable": 15,
      "control": {
-      "claims": 666,
-      "failed": 666,
+      "claims": 223,
+      "failed": 223,
       "max_share": 1.0
      },
      "control_all_self_fails": true,
+     "criterion_fireable": false,
      "evaluable": true,
-     "excluded_share": 0.024024,
-     "failing_examples": [
-      {
-       "distinct_transitions": 214,
-       "on_withheld": false,
-       "passed": false,
-       "self": 39,
-       "share_self_sourced": 0.182243,
-       "source": "amber",
-       "target": "sable",
-       "type": "hypothesis",
-       "world": 175
-      },
-      {
-       "distinct_transitions": 5,
-       "on_withheld": false,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "question",
-       "target": "umber",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 5,
-       "on_withheld": false,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "question",
-       "target": "cedar",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 5,
-       "on_withheld": false,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "question",
-       "target": "sable",
-       "type": "prediction_candidate",
-       "world": 0
-      },
-      {
-       "distinct_transitions": 5,
-       "on_withheld": false,
-       "passed": false,
-       "self": 5,
-       "share_self_sourced": 1.0,
-       "source": "question",
-       "target": "yarrow",
-       "type": "prediction_candidate",
-       "world": 0
-      }
-     ],
-     "max_share": 1.0,
+     "excluded_share": 0.067265,
+     "failing_examples": [],
+     "max_share": 0.0,
      "measurable_floor": 0.5,
-     "measurable_fraction": 0.975976,
+     "measurable_fraction": 0.932735,
      "min_share": 0.0,
-     "pass_coverage": 0.471471,
+     "pass_coverage": 0.932735,
      "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
-     "reference": 0.179,
-     "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
+     "reference": 0.0,
+     "reference_provenance": "docs/self_sourced_reference.json: 0 of 4,627 distinct evidence transitions, audit-trace probe default arm, 0.16.0, re-derived 2026-11-23",
      "resolution": "per claim, distinct transitions (prior event, target event)",
      "withheld_claims": {
       "claims_failed": 0,
@@ -2612,10 +1809,10 @@
      "transfer": 0.741775
     },
     "organica": {
-     "retention": 0.44761,
-     "revision": 0.462028,
-     "revision_held_out": 0.661794,
-     "transfer": 0.598192
+     "retention": 0.440622,
+     "revision": 0.434493,
+     "revision_held_out": 0.548463,
+     "transfer": 0.556921
     },
     "replay": {
      "retention": 0.409585,
@@ -2627,34 +1824,58 @@
    "seed": 20261205,
    "support_provenance": {
     "formation": {
+     "control": {
+      "distinct_support": 8236,
+      "self_distinct": 1130,
+      "share_self_sourced": 0.137203,
+      "windows_with_a_sleep_row": 218
+     },
      "control_share": 1.0,
      "declared_band": 0.25,
-     "distinct_support": 12157,
-     "edges_with_support": 322,
+     "distinct_support": 8276,
+     "edges_with_support": 208,
      "reason": "run-level diagnostic only; the disqualifier is per claim",
-     "self_distinct": 5051,
-     "share_self_sourced": 0.415481,
-     "windows_with_a_sleep_row": 218,
-     "within_band": false,
-     "world_distinct": 7106
+     "self_distinct": 0,
+     "share_self_sourced": 0.0,
+     "windows_with_a_sleep_row": 0,
+     "within_band": true,
+     "world_distinct": 8276
     },
     "revision": {
+     "control": {
+      "distinct_support": 11955,
+      "self_distinct": 1589,
+      "share_self_sourced": 0.132915,
+      "windows_with_a_sleep_row": 318
+     },
      "control_share": 1.0,
      "declared_band": 0.25,
-     "distinct_support": 17772,
-     "edges_with_support": 322,
+     "distinct_support": 12083,
+     "edges_with_support": 208,
      "reason": "run-level diagnostic only; the disqualifier is per claim",
-     "self_distinct": 7406,
-     "share_self_sourced": 0.416723,
-     "windows_with_a_sleep_row": 318,
-     "within_band": false,
-     "world_distinct": 10366
+     "self_distinct": 0,
+     "share_self_sourced": 0.0,
+     "windows_with_a_sleep_row": 0,
+     "within_band": true,
+     "world_distinct": 12083
     }
    },
    "variant": "V1.1-cap(1000)"
   }
  ],
  "confirmatory_seeds_touched": false,
+ "correction": {
+  "control": "the unfiltered window still runs on every store, as the control in each cell's support_provenance.*.control",
+  "date": "2026-11-23",
+  "observer": "the store-time support observer now reads the engine's own lookback: WHERE event_type != 'sleep' ORDER BY time DESC, rowid DESC",
+  "reference": 0.0,
+  "reference_provenance": "docs/self_sourced_reference.json: 0 of 4,627 distinct evidence transitions, audit-trace probe default arm, 0.16.0, re-derived 2026-11-23",
+  "supersedes": "docs/reusable_knowledge_calibration_unaligned_observer.json",
+  "why": "the observer read the unfiltered window, so it attributed sleep-payload transitions to claims the engine's `precedes` table cannot contain; its readings are archived, not restated"
+ },
+ "engine_commit": "716da31be3f304715c3ecbd4063dcac44abb54e1",
+ "engine_sha256": "25843ded68f50e90ad04bd80df4ade86f57d31eb7ed61ef77d6d7f4fedfe4236",
+ "engine_version": "0.16.0",
  "gate": {
   "denominator": 96,
   "rule": "all five calibration seeds must pass",
@@ -2664,13 +1885,21 @@
  "kind": "reusable_knowledge_calibration",
  "note": "Calibration is a go/no-go at n = 5 (section 15.2). A failure here is reported as formation not achieved at the calibration operating point and stops the study before any confirmatory seed.",
  "per_claim_provenance": {
-  "all_seeds_passed": false,
-  "reference": 0.179,
-  "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
+  "all_seeds_passed": true,
+  "criterion_fireable": false,
+  "reference": 0.0,
+  "reference_provenance": "docs/self_sourced_reference.json: 0 of 4,627 distinct evidence transitions, audit-trace probe default arm, 0.16.0, re-derived 2026-11-23",
   "resolution": "per claim, distinct support (prior event ids)",
   "rule": "every measurable claim must be mostly world-derived and no more self-sourced than the frozen reference",
   "scope": "V1.1-cap(1000) only",
-  "seeds_passing": []
+  "seeds_passing": [
+   20261201,
+   20261202,
+   20261203,
+   20261204,
+   20261205
+  ],
+  "seeds_with_a_fireable_criterion": []
  },
  "pythonhashseed": "0",
  "revision": {
@@ -2685,6 +1914,7 @@
    20261205
   ]
  },
+ "runner": "__main__",
  "seeds": [
   20261201,
   20261202,
@@ -2704,7 +1934,13 @@
   "layer": "store-time observer over the engine's own lookback",
   "role": "run-level diagnostic, not the disqualifier",
   "scope": "V1.1-cap(1000) only",
-  "seeds_within_band": []
+  "seeds_within_band": [
+   20261201,
+   20261202,
+   20261203,
+   20261204,
+   20261205
+  ]
  },
  "variant": "V1.1-cap(1000)"
 }

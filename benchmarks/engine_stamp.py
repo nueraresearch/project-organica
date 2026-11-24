@@ -85,6 +85,7 @@ DERIVED = {
     "research_registry.py",  # writes the question registry itself
     "test_count.py",  # records the suite's own counts
     "c1_c9_preflight.py",  # read-only audit of C1-C9; runs no engine
+    "self_sourced_reference.py",  # derives the reference from three committed artifacts
     "a1_gate_readiness.py",  # read-only gate contract and readiness audit; runs no engine
     "a1_baseline_availability.py",  # no-arm denominator audit; runs no A1 cell
     "a1_c5_carrier_divergence.py",  # no-arm carrier-cycle record; runs no A1 cell

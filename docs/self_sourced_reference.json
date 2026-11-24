@@ -1,0 +1,91 @@
+{
+ "arms": {
+  "default": {
+   "artifact": "docs/audit_trace_probe.json",
+   "beliefs_checked": 1056,
+   "engine_sha256": "25843ded68f50e90ad04bd80df4ade86f57d31eb7ed61ef77d6d7f4fedfe4236",
+   "engine_version": "0.16.0",
+   "pass": true,
+   "populations": {
+    "all_transitions_recorded": {
+     "self_sourced": 0,
+     "self_sourced_share": 0.0,
+     "total_transitions": 8364
+    },
+    "distinct_evidence": {
+     "self_sourced": 0,
+     "self_sourced_share": 0.0,
+     "total_transitions": 4627
+    },
+    "support_references": {
+     "self_sourced": 0,
+     "self_sourced_share": 0.0,
+     "total_transitions": 266659
+    }
+   }
+  },
+  "stress": {
+   "artifact": "docs/audit_trace_probe_stress.json",
+   "beliefs_checked": 150,
+   "engine_sha256": "25843ded68f50e90ad04bd80df4ade86f57d31eb7ed61ef77d6d7f4fedfe4236",
+   "engine_version": "0.16.0",
+   "pass": true,
+   "populations": {
+    "all_transitions_recorded": {
+     "self_sourced": 0,
+     "self_sourced_share": 0.0,
+     "total_transitions": 4208
+    },
+    "distinct_evidence": {
+     "self_sourced": 0,
+     "self_sourced_share": 0.0,
+     "total_transitions": 2451
+    },
+    "support_references": {
+     "self_sourced": 0,
+     "self_sourced_share": 0.0,
+     "total_transitions": 23199
+    }
+   }
+  },
+  "tie": {
+   "artifact": "docs/audit_trace_probe_tie.json",
+   "beliefs_checked": 298,
+   "engine_sha256": "25843ded68f50e90ad04bd80df4ade86f57d31eb7ed61ef77d6d7f4fedfe4236",
+   "engine_version": "0.16.0",
+   "pass": true,
+   "populations": {
+    "all_transitions_recorded": {
+     "self_sourced": 0,
+     "self_sourced_share": 0.0,
+     "total_transitions": 4208
+    },
+    "distinct_evidence": {
+     "self_sourced": 0,
+     "self_sourced_share": 0.0,
+     "total_transitions": 2451
+    },
+    "support_references": {
+     "self_sourced": 0,
+     "self_sourced_share": 0.0,
+     "total_transitions": 48886
+    }
+   }
+  }
+ },
+ "criterion": "AUDIT-TRACE-SPEC section 11, condition 3: a claim's self-sourced share must be no higher than this reference",
+ "derived_document": "no engine runs here: the reference is read from the three arm artifacts, and each arm carries that artifact's own engine stamp",
+ "derived_from": "data the rule does not judge: the audit-trace probe's three arms, not the reusable-knowledge calibration seeds 20261201-20261205 or the confirmatory block 20261207-20261226",
+ "derived_on": "2026-11-23",
+ "kind": "self_sourced_reference",
+ "note": "Re-derived 2026-11-23 under AGENTS rule 19. The superseded 17.9 % (802 of 4,481) was measured by an observer that read sleep rows the engine never reads; it is withdrawn as a measurement and replaced, not re-scored. Because the value is a structural zero, the criterion it governs has no firing condition on this build, and the reusable-knowledge guard refuses to authorise a confirmatory set on it (rule 25).",
+ "population": "distinct_evidence",
+ "reference": 0.0,
+ "source_blocks": "A7_event_level_attribution",
+ "structural_reason": {
+  "consequence": "a sleep row can never be a prior event, so the engine's `precedes` table cannot contain a self-sourced transition on this build: the reference is a structural zero, not an estimated rate",
+  "path": "organica/memory.py",
+  "sql": "SELECT tags FROM events WHERE event_type != 'sleep' ORDER BY time DESC, rowid DESC LIMIT ?"
+ },
+ "unit": "distinct supporting transitions behind reported beliefs, deduplicated by (from_tag, to_tag, prior_event_id, to_event_id)"
+}
