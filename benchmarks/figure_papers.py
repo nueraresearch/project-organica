@@ -654,11 +654,12 @@ def fig_p02_reconstruction_arms():
         a7 = d["A7_event_level_attribution"]
         need(d["A1_evidence_replay_aggregate"]["cycles_failing"] == 0, f"{key} A1")
         need(d["A2_selection_reconstruction"]["cycles_failing"] == 0, f"{key} A2")
-        # 0.16.0 (2026-11-21): the default arm reports 404 structures with no
-        # parent, so full resolution is no longer the expectation there. Pin the
-        # measured counts per arm rather than weakening the check.
-        expected_a3 = {"default arm": (6592, 6179), "stress arm": (3240, 3240),
-                       "forced-tie arm": (3988, 3988)}
+        # 0.16.0 (2026-11-22): all three arms are the same build. Only the
+        # default arm was ever at 1.000; the 60-cycle arms report 255 no-parent
+        # structures each, so their counts are pinned as measured rather than
+        # as an expectation of full resolution.
+        expected_a3 = {"default arm": (6592, 6179), "stress arm": (1995, 1731),
+                       "forced-tie arm": (2266, 2002)}
         need((a3["structures_checked"], a3["structures_resolved"]) == expected_a3[name],
              f"{key} A3")
         need(a7["edge_mismatches"] == [], f"{key} A7")
@@ -676,8 +677,8 @@ def fig_p02_reconstruction_arms():
 
     need(data[0]["beliefs"] == 1056 and data[0]["structures"] == 6592, "default arm counts")
     need(data[0]["lost"] == 8, "default arm lost (0.16.0: the pool peaks at 16 against a cap of 15)")
-    need(data[1]["lost"] == 403, "stress arm lost count")
-    need(data[2]["ties"] == 479, "tie arm ties")
+    need(data[1]["lost"] == 148, "stress arm lost count")
+    need(data[2]["ties"] == 450, "tie arm ties")
 
     W, H = 1080, 560
     s = Svg(W, H, "The three audit-trace arms and the non-vacuity of the selection check")
@@ -723,11 +724,12 @@ def fig_p02_reconstruction_arms():
                size=10, anchor="middle", fill=MUTED)
 
     s.text(36, ay_bot + 88,
-           "In the forced-tie arm no candidate ever lost on rank; on 0.16.0 the default "
-           "arm loses 8, because its pool peaks at 16 against a cap of 15.", size=11.5)
+           "The cap binds in two arms on 0.16.0: the default arm loses 8 because its pool "
+           "peaks at 16 against a cap of 15, and the stress arm 148 against a cap of 5.",
+           size=11.5)
     s.text(36, ay_bot + 106,
-           "The stress arm carries the non-vacuity argument: the cap bound, and 403 "
-           "candidates lost on it.", size=11.5, fill=MUTED)
+           "The stress arm still carries the stronger non-vacuity argument; the "
+           "forced-tie arm never lost a candidate on rank.", size=11.5, fill=MUTED)
 
     # ---------------- panel B: candidates dropped ----------------
     bx0, bx1 = 676, 1042
@@ -755,7 +757,7 @@ def fig_p02_reconstruction_arms():
         s.text(cx, by_bot + 22, a["name"], size=11.5, anchor="middle", fill=MUTED)
 
     s.text(36, ay_bot + 124,
-           "The forced-tie arm additionally made 479 stores carry a tied timestamp window, "
+           "The forced-tie arm additionally made 450 stores carry a tied timestamp window, "
            "and the observer still reproduced the engine's choice.", size=11.5, fill=MUTED)
 
     out = DOCS / "figure_p02_reconstruction_arms.svg"
@@ -842,7 +844,13 @@ def fig_p02_cognition_window():
 
     sweep_def = default["A3_ancestry_honesty"]["diagnostics"]["window_sweep"]
     sweep_tie = tie["A3_ancestry_honesty"]["diagnostics"]["window_sweep"]
-    need(len(sweep_def) == 8, "window sweep entries")
+    need(len(sweep_def) == 8 and len(sweep_tie) == 8, "window sweep entries")
+    # Both arms are the 0.16.0 build (2026-11-22). Pinned because the caption
+    # quotes the saturation points, and because they are no longer 1.000.
+    need(round(sweep_def[-1]["lineage_reachability"], 4) == 0.9875,
+         "default sweep saturation")
+    need(round(sweep_tie[-1]["lineage_reachability"], 4) == 0.9571,
+         "tie sweep saturation")
 
     win = default["A7_event_level_attribution"]["cognition_window"]
     need(win["window_sleep_events"] == 4000, "window size")
@@ -854,9 +862,9 @@ def fig_p02_cognition_window():
     W, H = 1080, 520
     s = Svg(W, H, "Lineage reachability against the window, and the window against the run")
     header(s,
-           "The boundary of the instrument is measurable, and it is narrow",
+           "The boundary of the instrument is measurable, and its width is a property of the build",
            "Left: share of structures whose ancestry resolved, against the window the observer "
-           "may read.",
+           "may read. Both arms are the 0.16.0 build.",
            "Source: docs/audit_trace_probe.json, docs/audit_trace_probe_tie.json  |  "
            "drawn by benchmarks/figure_papers.py",
            W)
@@ -868,7 +876,7 @@ def fig_p02_cognition_window():
     def ay(v):
         return ay_bot - v * (ay_bot - ay_top)
 
-    s.text(36, 112, "A. Lineage reachability vs window size", size=13, weight="bold")
+    s.text(36, 112, "A. Lineage reachability vs window size (0.16.0)", size=13, weight="bold")
     for g in [0.0, 0.5, 1.0]:
         s.line(ax0, ay(g), ax1, ay(g), stroke=GRID, width=1)
         s.text(ax0 - 10, ay(g) + 4, f"{g:.1f}", size=10.5, fill=MUTED, anchor="end")
@@ -877,8 +885,8 @@ def fig_p02_cognition_window():
     step = (ax1 - ax0) / len(labels)
     for i, (lbl, wd, wt) in enumerate(zip(labels, sweep_def, sweep_tie)):
         cx = ax0 + (i + 0.5) * step
-        # the two arms coincide exactly where the window is large enough, so they
-        # are offset horizontally rather than drawn on top of one another
+        # the two arms are drawn side by side at each window size; they no
+        # longer coincide once the window is large enough
         s.circle(cx - 5, ay(wd["lineage_reachability"]), 4.2, fill=BLUE, opacity=0.9)
         s.circle(cx + 5, ay(wt["lineage_reachability"]), 4.2, fill=AMBER, opacity=0.9)
         s.text(cx, ay_bot + 18, lbl, size=9.5, anchor="middle", fill=MUTED)

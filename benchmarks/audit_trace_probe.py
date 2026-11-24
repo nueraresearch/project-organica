@@ -118,6 +118,13 @@ class ObservingMemoryService(MemoryService):
         # "no record was ever written" -- the difference between a persistence
         # limit and a data defect.
         self.candidate_ids: set[str] = set()
+        # every `parent_ids` list the engine has written for an id, in store
+        # order.  This is what lets A3 tell a record that NEVER carried a parent
+        # link apart from one whose link was written and then superseded, and
+        # from one whose link the window read lost.  The three have different
+        # owners: the engine's formation path, the engine's supersession path,
+        # and the observer.
+        self.candidate_links: dict[str, list[list[str]]] = {}
         # the cycle in which each candidate was last stored.  Candidates are
         # RE-STORED every cycle -- the natural-selection decay path writes a
         # decayed copy of every surviving prior candidate (sleep.py:1784-1800)
@@ -146,6 +153,8 @@ class ObservingMemoryService(MemoryService):
                 if isinstance(payload, dict) and payload.get("id"):
                     cid = payload["id"]
                     self.candidate_ids.add(cid)
+                    self.candidate_links.setdefault(cid, []).append(
+                        list(payload.get("parent_ids") or []))
                     self.last_store_cycle[cid] = self.current_cycle
         # The engine records graph edges only for world events: `store()`
         # guards the call with `if event_type != "sleep"`.  The observer must
@@ -232,6 +241,23 @@ REPORT_LISTS = (
 #   no_parent       the chain simply ended without reaching Layer 1
 SPLIT_PRECEDENCE = ("missing_record", "aged_out", "depth_truncated", "no_parent")
 
+# A `no_parent` branch says the chain stopped at a node with no parent link.
+# That label alone cannot say WHOSE limit produced the empty list, and the three
+# possible owners are not interchangeable -- one is the engine's design, one is
+# its supersession rule, and one is the observer.  This split is the check that
+# distinguishes them, ordered by how much each damages the trace:
+#   capture_miss      the newest stored copy carries a parent link that the
+#                     window read did not return -- the OBSERVER is at fault,
+#                     and the reachability figure is an instrument artifact
+#   no_stored_record  the node was reported but no payload was ever written --
+#                     a data defect
+#   link_dropped      an earlier copy carried a link and the current record does
+#                     not -- the engine's supersession path, not a capture loss
+#   never_linked      the engine has never written a parent link for this id --
+#                     the record genuinely has no parent at this point
+NO_PARENT_DISPOSITIONS = ("capture_miss", "no_stored_record",
+                          "link_dropped", "never_linked")
+
 # The window bound every unresolved node must carry.  Stated in the record
 # itself, not in a footnote (spec section 3.2).
 WINDOW_BOUND = (
@@ -289,6 +315,55 @@ def _ancestor_status(node_id: str, by_id: dict, ever_stored: set[str],
     return best
 
 
+def _no_parent_terminals(node_id: str, by_id: dict, depth: int = 1,
+                         max_depth: int = MAX_ANCESTRY_DEPTH) -> list[str]:
+    """The node(s) at which a `no_parent` walk ends.
+
+    Mirrors `_ancestor_status` exactly -- same stopping rules, same Layer-1
+    terminal set -- and returns only the ends that produced `no_parent`, so the
+    disposition check classifies the node that actually has no link rather
+    than the branch that pointed at it.
+    """
+    node = by_id.get(node_id)
+    if node is None:
+        return []
+    parents = node.get("parent_ids") or []
+    if depth >= max_depth:
+        if parents:
+            return []
+        return [] if node.get("type") in LAYER1_TYPES else [node_id]
+    if not parents:
+        return [] if node.get("type") in LAYER1_TYPES else [node_id]
+    out: list[str] = []
+    for pid in parents:
+        out.extend(_no_parent_terminals(pid, by_id, depth + 1, max_depth))
+    return out
+
+
+def _no_parent_disposition(node_id: str,
+                           candidate_links: dict[str, list[list[str]]]) -> str:
+    """Classify one `no_parent` terminal against the copies the engine wrote.
+
+    `candidate_links` holds every parent list written for an id, oldest first,
+    up to the moment of the trace.  The comparison is against the NEWEST copy
+    because that is the one the engine's window read returns; an older copy is
+    history, not the record.
+    """
+    copies = candidate_links.get(node_id)
+    if not copies:
+        return "no_stored_record"
+    if copies[-1]:
+        # the newest stored copy HAS a link; the window read returned none
+        return "capture_miss"
+    if any(copies[:-1]):
+        return "link_dropped"
+    return "never_linked"
+
+
+def _worst_disposition(values) -> str:
+    return min(values, key=lambda s: NO_PARENT_DISPOSITIONS.index(s))
+
+
 def trace_lineage(structure, by_id: dict, ever_stored: set[str],
                   max_depth: int = MAX_ANCESTRY_DEPTH) -> dict:
     """Trace one structure's lineage and classify the outcome.
@@ -328,7 +403,8 @@ def trace_lineage(structure, by_id: dict, ever_stored: set[str],
 
 
 def audit_ancestry(report, window_candidates: list[dict], ever_stored: set[str],
-                   max_depth: int = MAX_ANCESTRY_DEPTH) -> dict:
+                   max_depth: int = MAX_ANCESTRY_DEPTH,
+                   candidate_links: dict[str, list[list[str]]] | None = None) -> dict:
     """Measure lineage completeness for one cycle's structures.
 
     `window_candidates` must be the window the engine itself would read for
@@ -395,6 +471,49 @@ def audit_ancestry(report, window_candidates: list[dict], ever_stored: set[str],
                     "error": "unresolved node without a stated window bound",
                 })
 
+    # --- the no-parent disposition check -------------------------------
+    # The split above says a chain ended.  This says whose record ended it:
+    # the engine never wrote a link, the engine's supersession dropped one, or
+    # the observer's window read lost one.  Only the last is an instrument
+    # defect, and it is the one a reachability figure would hide.
+    disposition = None
+    if candidate_links is not None:
+        by_structure: dict[str, list[str]] = {}
+        terminal_ids: set[str] = set()
+        examples: dict[str, dict] = {}
+        for t in traces:
+            if t["resolved"] or t["reason"] != "no_parent":
+                continue
+            if t["branches"]:
+                terminals: list[str] = []
+                for b in t["branches"]:
+                    if b["status"] == "no_parent":
+                        terminals.extend(_no_parent_terminals(b["parent"], by_id, 1, max_depth))
+            else:
+                # a structure reported with no parent ids at all is its own
+                # terminal; it reaches here without a branch to walk
+                terminals = [t["id"]]
+            if not terminals:
+                terminals = [t["id"]]
+            causes = [_no_parent_disposition(nid, candidate_links) for nid in terminals]
+            terminal_ids.update(terminals)
+            worst = _worst_disposition(causes)
+            by_structure[t["id"]] = causes
+            examples[t["id"]] = {"structure": t["id"], "type": t["type"],
+                                 "terminals": sorted(set(terminals)),
+                                 "disposition": worst}
+        counts = {reason: 0 for reason in NO_PARENT_DISPOSITIONS}
+        for causes in by_structure.values():
+            counts[_worst_disposition(causes)] += 1
+        disposition = {
+            "structures": counts,
+            "structures_total": len(by_structure),
+            "distinct_terminal_nodes": len(terminal_ids),
+            "terminal_node_ids": sorted(terminal_ids),
+            "pass": counts["capture_miss"] == 0 and counts["no_stored_record"] == 0,
+            "examples": [examples[k] for k in sorted(examples)],
+        }
+
     return {
         "structures_reported": len(structures),
         "layer1_structures": len(layer1),
@@ -405,6 +524,7 @@ def audit_ancestry(report, window_candidates: list[dict], ever_stored: set[str],
         "branch_level_counts": branch_counts,
         "honesty_errors": honesty_errors,
         "honest": not honesty_errors,
+        "no_parent_disposition": disposition,
         "traces": traces,
     }
 
@@ -419,6 +539,19 @@ def _accumulate_a3(acc: dict, result: dict) -> None:
     for reason, n in result["branch_level_counts"].items():
         acc["branch_counts"][reason] += n
     acc["honesty_errors"].extend(result["honesty_errors"])
+    disposition = result.get("no_parent_disposition")
+    if disposition:
+        for reason, n in disposition["structures"].items():
+            acc["no_parent_disposition"][reason] += n
+        acc["no_parent_structures"] += disposition["structures_total"]
+        acc["no_parent_terminal_ids"].update(disposition["terminal_node_ids"])
+        for example in disposition["examples"]:
+            seen = acc["no_parent_examples"].get(example["structure"])
+            if seen is None:
+                acc["no_parent_examples"][example["structure"]] = example
+            else:
+                seen["disposition"] = _worst_disposition(
+                    [seen["disposition"], example["disposition"]])
 
 
 def depth_sweep(report, window_candidates: list[dict], ever_stored: set[str],
@@ -866,6 +999,11 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
         "honesty_errors": [],
     }
     a3["branch_counts"]["layer1"] = 0
+    # why each `no_parent` chain ended: whose record produced the empty list
+    a3["no_parent_disposition"] = {reason: 0 for reason in NO_PARENT_DISPOSITIONS}
+    a3["no_parent_structures"] = 0
+    a3["no_parent_terminal_ids"] = set()
+    a3["no_parent_examples"] = {}
     a3_claims = a3_claims_linked = 0
     a3_final = None
     a3_window_sweep: list[dict] = []
@@ -880,6 +1018,13 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
             # Snapshots taken at exactly the moment the engine reads them.
             temporal = _temporal_graph(mem)
             prior = svc._load_prior_candidates()
+            # The link history must be frozen at the SAME instant as the window
+            # read.  The A3 audit below runs after this cycle's stores, so
+            # reading `mem.candidate_links` there would compare the window
+            # against copies written AFTER it was read -- and every id whose
+            # next copy gains a parent link would be mislabelled a capture miss.
+            prior_links = {cid: list(links)
+                           for cid, links in mem.candidate_links.items()}
             mem.current_cycle = cycle
 
             report = svc.run_sleep_cycle()
@@ -945,7 +1090,8 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
             # window is the one loaded at the start of the NEXT cycle, so
             # the previous cycle's report is traced here, not this cycle's.
             if prev_report is not None:
-                a3_result = audit_ancestry(prev_report, prior, mem.candidate_ids)
+                a3_result = audit_ancestry(prev_report, prior, mem.candidate_ids,
+                                           candidate_links=prior_links)
                 _accumulate_a3(a3, a3_result)
 
             # Evidence linkage (Level 2) is measured at the report's OWN
@@ -1017,7 +1163,10 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
         # here against the window as it stands after the run.
         if prev_report is not None:
             final_window = svc._load_prior_candidates()
-            a3_final = audit_ancestry(prev_report, final_window, mem.candidate_ids)
+            final_links = {cid: list(links)
+                           for cid, links in mem.candidate_links.items()}
+            a3_final = audit_ancestry(prev_report, final_window, mem.candidate_ids,
+                                      candidate_links=final_links)
             _accumulate_a3(a3, a3_final)
             a3_window_sweep = window_sweep(prev_report, final_window, mem.candidate_ids)
             a3_depth_sweep = depth_sweep(prev_report, final_window, mem.candidate_ids)
@@ -1206,6 +1355,32 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
                                      if a3["structures"] else None),
             "truncation_split": a3["split"],
             "branch_level_counts": a3["branch_counts"],
+            "no_parent_disposition": {
+                "pass": (a3["no_parent_disposition"]["capture_miss"] == 0
+                         and a3["no_parent_disposition"]["no_stored_record"] == 0),
+                "criterion": "Every `no_parent` chain must end at a node whose own "
+                             "stored record carries no parent link. A chain that "
+                             "ends at a node whose newest stored copy DOES carry a "
+                             "link is a capture miss (the observer lost it), and a "
+                             "node with no payload at all is a data defect. Either "
+                             "makes the reachability figure an artifact, not a "
+                             "persistence property.",
+                "structures": a3["no_parent_disposition"],
+                "structures_total": a3["no_parent_structures"],
+                "distinct_terminal_nodes": len(a3["no_parent_terminal_ids"]),
+                "terminal_node_ids": sorted(a3["no_parent_terminal_ids"])[:100],
+                "examples": [a3["no_parent_examples"][k]
+                             for k in sorted(a3["no_parent_examples"])][:40],
+                "note": "The split counts structure-cycles recursively, so "
+                        "`structures_total` equals `truncation_split.no_parent` and "
+                        "the same structure appears once per cycle it is reported. "
+                        "`examples` is deduplicated by structure id. The newest "
+                        "stored copy is the one the window read returns; an older "
+                        "copy is history, not the record. `link_dropped` is not a "
+                        "defect: the engine wrote a link earlier and the current "
+                        "record does not carry it, so the trace of the current "
+                        "record is correct.",
+            },
             "honesty_errors": a3["honesty_errors"][:10],
             "honesty_error_count": len(a3["honesty_errors"]),
             "evidence_linkage": {

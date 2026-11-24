@@ -27,6 +27,9 @@ Reference: docs/AUDIT-TRACE-SPEC.md sections 6 and 12.
 from __future__ import annotations
 LAYER = "synthetic"  # benchmarks/test_layers.py: the module's execution layer
 
+import collections
+import json
+import re
 import sys
 from pathlib import Path
 
@@ -50,6 +53,26 @@ def test_a3_meets_its_criterion():
     assert a3["pass"], a3["honesty_errors"]
     assert a3["honesty_error_count"] == 0, a3["honesty_errors"]
     assert a3["window_bound"], "the record does not state the window bound"
+
+
+def test_no_parent_disposition_agrees_with_the_truncation_split():
+    """The disposition must name the same population the split counts.
+
+    The split and the disposition are computed on independent passes over the
+    same traces, so a drift between them is a bug in one of the two -- and a
+    disposition that silently stops covering the `no_parent` population would
+    pass every test that only looks at its own counters.
+    """
+    result = _run()
+    a3 = result["A3_ancestry_honesty"]
+    disposition = a3["no_parent_disposition"]
+    assert disposition is not None, "the run did not record a disposition"
+    assert disposition["structures_total"] == a3["truncation_split"]["no_parent"], (
+        disposition["structures_total"], a3["truncation_split"])
+    assert sum(disposition["structures"].values()) == disposition["structures_total"]
+    assert set(disposition["structures"]) == set(probe.NO_PARENT_DISPOSITIONS)
+    # a capture miss or an unstored record makes the reachability an artifact
+    assert disposition["pass"] is True, disposition
 
 
 def test_a3_can_fail_when_an_out_of_window_parent_is_called_absent():
@@ -195,6 +218,101 @@ def test_the_window_sweep_takes_the_newest_candidates():
     assert small_old[0]["truncation_split"]["aged_out"] == 1, small_old
 
 
+def _holder(sid, parent_id):
+    class Holder:
+        pass
+
+    holder = Holder()
+    holder.id = sid
+    holder.type = "hypothesis"
+    holder.parent_ids = [parent_id]
+    return holder
+
+
+def _bare(sid):
+    """A reported structure with no parent link at all."""
+    class Bare:
+        pass
+
+    bare = Bare()
+    bare.id = sid
+    bare.type = "hypothesis"
+    bare.parent_ids = []
+    return bare
+
+
+def test_no_parent_dispositions_distinguish_the_three_owners():
+    """A `no_parent` chain has three possible owners and they are not the same.
+
+    The parent node is in the window in all three cases; the ONLY difference is
+    the parent-link history the engine wrote for it.  If the check cannot tell
+    these apart, `no_parent` is a label that hides whose record ended the chain.
+    """
+    window = [
+        {"id": "role_never", "type": "role_candidate", "parent_ids": []},
+        {"id": "role_dropped", "type": "role_candidate", "parent_ids": []},
+        {"id": "role_lost", "type": "role_candidate", "parent_ids": []},
+    ]
+    links = {
+        # every copy the engine wrote carries an empty list
+        "role_never": [[], []],
+        # the first copy carried a link, the current record does not
+        "role_dropped": [["concept_a"], [], []],
+        # the NEWEST copy carries a link the window read did not return
+        "role_lost": [[], ["concept_a"]],
+    }
+    report = _report_with(_holder("hyp_never", "role_never"),
+                          _holder("hyp_dropped", "role_dropped"),
+                          _holder("hyp_lost", "role_lost"))
+
+    result = probe.audit_ancestry(
+        report, window, set(links), candidate_links=links)
+    disposition = result["no_parent_disposition"]
+    assert disposition["structures"] == {
+        "capture_miss": 1, "no_stored_record": 0,
+        "link_dropped": 1, "never_linked": 1,
+    }, disposition
+    assert disposition["distinct_terminal_nodes"] == 3, disposition
+    # a capture miss is an instrument defect: the check must fail on it
+    assert disposition["pass"] is False, disposition
+
+
+def test_no_parent_disposition_passes_only_when_the_record_has_no_link():
+    """The honest case: every copy carries an empty parent list."""
+    window = [{"id": "role_never", "type": "role_candidate", "parent_ids": []}]
+    links = {"role_never": [[], [], []]}
+    report = _report_with(_holder("hyp_never", "role_never"))
+    result = probe.audit_ancestry(report, window, set(links), candidate_links=links)
+    disposition = result["no_parent_disposition"]
+    assert disposition["structures"]["never_linked"] == 1, disposition
+    assert disposition["structures"]["capture_miss"] == 0, disposition
+    assert disposition["pass"] is True, disposition
+
+    # a structure the engine reports with no parent link and never persists is
+    # a data defect, and fails
+    report_unstored = _report_with(_bare("hyp_missing"))
+    missing = probe.audit_ancestry(
+        report_unstored, [], set(), candidate_links={})
+    assert missing["truncation_split"]["no_parent"] == 1, missing
+    assert missing["no_parent_disposition"]["structures"]["no_stored_record"] == 1, missing
+    assert missing["no_parent_disposition"]["pass"] is False, missing
+
+
+def test_no_parent_disposition_is_absent_when_no_link_history_is_supplied():
+    """The check must not invent a verdict it did not compute."""
+    window = [{"id": "role_never", "type": "role_candidate", "parent_ids": []}]
+    report = _report_with(_holder("hyp_never", "role_never"))
+    result = probe.audit_ancestry(report, window, set(window_ids := {"role_never"}))
+    assert result["no_parent_disposition"] is None, result
+
+    # and the historical-supersession case is NOT a capture miss: the window is
+    # reading the newest copy faithfully, so only the newest entry may decide.
+    links = {"role_never": [["concept_a"], []]}
+    superseded = probe.audit_ancestry(report, window, window_ids, candidate_links=links)
+    assert superseded["no_parent_disposition"]["structures"]["link_dropped"] == 1, superseded
+    assert superseded["no_parent_disposition"]["pass"] is True, superseded
+
+
 def test_layer1_structures_are_terminals_and_are_not_counted_as_lineage():
     """Layer-1 candidates have no parent link; counting them as resolvable
     structures would inflate the reachability with a trivial population."""
@@ -223,3 +341,180 @@ def test_layer1_structures_are_terminals_and_are_not_counted_as_lineage():
     assert result["structures_with_lineage"] == 1, result
     # the holder's parent is out of window and was never stored
     assert result["truncation_split"]["missing_record"] == 1, result
+
+
+def test_the_three_arms_terminate_at_the_same_no_parent_role_ids():
+    """The `no_parent` population is one formation-time mechanism, not three.
+
+    Paper 02 section 4.3 and the spec section 13 state that the stress and
+    forced-tie arms' `no_parent` walks end at exactly the default arm's seven
+    role ids.  That is a claim about three committed artifacts, so it is
+    checked from the artifacts rather than from the prose (AGENTS.md rules 27
+    and 29): a regenerated arm that ended anywhere else must fail this test
+    and force the two documents to be restated.
+    """
+    arms = {
+        "default": REPO / "docs/audit_trace_probe.json",
+        "stress": REPO / "docs/audit_trace_probe_stress.json",
+        "tie": REPO / "docs/audit_trace_probe_tie.json",
+    }
+    terminals = {}
+    for arm, path in arms.items():
+        result = json.loads(path.read_text())
+        disposition = result["A3_ancestry_honesty"]["no_parent_disposition"]
+        assert disposition is not None, arm
+        assert disposition["pass"] is True, (arm, disposition["structures"])
+        assert disposition["distinct_terminal_nodes"] == 7, (
+            arm, disposition["distinct_terminal_nodes"])
+        assert len(set(disposition["terminal_node_ids"])) == 7, (
+            arm, disposition["terminal_node_ids"])
+        assert all(i.startswith("role_")
+                   for i in disposition["terminal_node_ids"]), (
+            arm, disposition["terminal_node_ids"])
+        terminals[arm] = set(disposition["terminal_node_ids"])
+    assert terminals["default"] == terminals["stress"] == terminals["tie"], terminals
+
+
+# ---------------------------------------------------------------------------
+# The cross-arm claim in the documents, checked against the three artifacts
+# ---------------------------------------------------------------------------
+#
+# Paper 02 section 4.3, the spec's section 13 and the manual's 8.15 all repeat
+# the same facts from the committed artifacts: the seven role ids the
+# `no_parent` walks terminate at, and the deduplicated populations -- 18 / 17 /
+# 17 structures, of which 7 roles, 10 schemas and 1 process, then 7 and 10.
+# Prose that repeats an artifact is a new claim (AGENTS.md rules 27 and 29), so
+# each document is read here and compared with the artifacts rather than
+# trusted.  A regenerated arm that ended elsewhere, or a population that moved,
+# must fail this and force the three documents to be restated.
+
+NO_PARENT_ARMS = {
+    "default": "docs/audit_trace_probe.json",
+    "stress": "docs/audit_trace_probe_stress.json",
+    "tie": "docs/audit_trace_probe_tie.json",
+}
+
+ROLE_ID = re.compile(r"role_[0-9a-f]{8}")
+
+#: (document, paragraph anchor, ((population regex, expectations), ...)).
+#: Each regex group is checked against every (arm, field) pair in its tuple.
+RESTATEMENTS = (
+    (
+        "papers/02_persistent_structural_provenance.md",
+        "The `no_parent` population is also the same population across arms",
+        (
+            (r"(\d+) distinct structures in the default arm \((\d+) roles, "
+             r"(\d+) schemas, (\d+) process\) against (\d+) in each 60-cycle "
+             r"arm \((\d+) roles, (\d+) schemas\)",
+             (
+                 (("default", "distinct_structures"),),
+                 (("default", "roles"),),
+                 (("default", "schemas"),),
+                 (("default", "processes"),),
+                 (("stress", "distinct_structures"),
+                  ("tie", "distinct_structures")),
+                 (("stress", "roles"), ("tie", "roles")),
+                 (("stress", "schemas"), ("tie", "schemas")),
+             )),
+        ),
+    ),
+    (
+        "docs/AUDIT-TRACE-SPEC.md",
+        "The same terminal set appears in all three arms.",
+        (
+            (r"deduplicated populations are \*\*(\d+), (\d+) and (\d+) "
+             r"distinct structures\*\*",
+             (
+                 (("default", "distinct_structures"),),
+                 (("stress", "distinct_structures"),),
+                 (("tie", "distinct_structures"),),
+             )),
+        ),
+    ),
+    (
+        "docs/USER-MANUAL.md",
+        "**The 404 have a cause, and it is the engine's record.**",
+        (
+            (r"\*\*(\d+)\s+distinct structures\*\* — (\d+) role candidates, "
+             r"(\d+) schemas and (\d+) process",
+             (
+                 (("default", "distinct_structures"),),
+                 (("default", "roles"),),
+                 (("default", "schemas"),),
+                 (("default", "processes"),),
+             )),
+            (r"(\d+)\s+distinct structures each: (\d+) roles and (\d+) schemas, "
+             r"no process",
+             (
+                 (("stress", "distinct_structures"),
+                  ("tie", "distinct_structures")),
+                 (("stress", "roles"), ("tie", "roles")),
+                 (("stress", "schemas"), ("tie", "schemas")),
+             )),
+        ),
+    ),
+)
+
+
+def _no_parent_signature(arm):
+    """The values a document restating this arm's population must carry."""
+    result = json.loads((REPO / NO_PARENT_ARMS[arm]).read_text())
+    disposition = result["A3_ancestry_honesty"]["no_parent_disposition"]
+    examples = disposition["examples"]
+    by_type = collections.Counter(example["type"] for example in examples)
+    return {
+        "terminal_ids": set(disposition["terminal_node_ids"]),
+        "distinct_structures": len(examples),
+        "roles": by_type["role_candidate"],
+        "schemas": by_type["schema_candidate"],
+        "processes": by_type["process_candidate"],
+    }
+
+
+def _paragraph(text, anchor):
+    for paragraph in re.split(r"\n\s*\n", text):
+        if anchor in paragraph:
+            return paragraph
+    raise AssertionError("no paragraph contains %r" % (anchor,))
+
+
+def _check_restatement(document, anchor, populations, text):
+    """Reject any document that disagrees with the artifacts it quotes."""
+    paragraph = _paragraph(text, anchor)
+    expected = _no_parent_signature("default")["terminal_ids"]
+    stated = set(ROLE_ID.findall(paragraph))
+    assert len(stated) == 7, (document, sorted(stated))
+    assert stated == expected, (document, sorted(stated ^ expected))
+    for pattern, expectations in populations:
+        match = re.search(pattern, text)
+        assert match is not None, (document, pattern)
+        values = [int(group) for group in match.groups()]
+        assert len(values) == len(expectations), (document, pattern)
+        for value, arms_and_fields in zip(values, expectations):
+            for arm, field in arms_and_fields:
+                want = _no_parent_signature(arm)[field]
+                assert value == want, (document, arm, field, value, want)
+
+
+def test_each_document_restates_the_population_the_artifacts_carry():
+    for document, anchor, populations in RESTATEMENTS:
+        _check_restatement(
+            document, anchor, populations, (REPO / document).read_text())
+
+
+def test_the_cross_arm_restatement_check_can_fail():
+    """A check that cannot disagree with its subject is not a check."""
+    document, anchor, populations = RESTATEMENTS[0]
+    text = (REPO / document).read_text()
+    _check_restatement(document, anchor, populations, text)
+    mutated = (
+        text.replace("`role_e19400ee`", "`role_00000000`", 1),
+        text.replace("18 distinct structures", "19 distinct structures", 1),
+    )
+    for corrupt in mutated:
+        assert corrupt != text, document
+        try:
+            _check_restatement(document, anchor, populations, corrupt)
+        except AssertionError:
+            continue
+        raise AssertionError("the check accepted a corrupted restatement")

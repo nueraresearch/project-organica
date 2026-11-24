@@ -230,7 +230,7 @@ among rows that tie on `time`. The correct statement is therefore:
 > that match is **A7's exactness**: if the observer's window had differed from
 > the engine's on any store, the attributed totals would not have matched the
 > aggregate counts, and A7 would have failed. The forced-tie arm pushes on this
-> deliberately (479 stores with a genuinely tied window, 0 mismatches).
+> deliberately (450 stores with a genuinely tied window, 0 mismatches).
 
 That is a demonstration, not a guarantee, and it is stated that way here.
 
@@ -564,24 +564,26 @@ reconstruction passed.**
 | Arm | Belief cap | Cycles | A1 aggregate evidence | A2 selection | A7 event-level attribution | Distinct evidence self-sourced | Died | **Lost on rank** |
 |---|---|---|---|---|---|---|---|---|
 | Default (0.16.0, 2026-11-21) | 15 (the engine's own) | 120 | **1,056 beliefs, 0 failures** | **118/120 cycles reported a selection, 0 failing** | **1,056 beliefs, 0 failures; 132 edges reconcile** | **0.0%** | 0 | 8 |
-| Stress | 5 (cap binding) | 60 | **290 beliefs, 0 failures** | **60/60 cycles** | **290 beliefs, 0 failures; 241 edges reconcile** | **15.2%** | 3 | **403** |
-| Forced tie | 15 | 60 | **692 beliefs, 0 failures** | **60/60 cycles** | **692 beliefs, 0 failures; 241 edges reconcile; 479 tied windows** | **17.5%** | 4 | 0 |
+| Stress (0.16.0, 2026-11-22) | 5 (cap binding) | 60 | **150 beliefs, 0 failures** | **58/60 cycles** | **150 beliefs, 0 failures; 130 edges reconcile** | **0.0%** | 0 | **148** |
+| Forced tie (0.16.0, 2026-11-22) | 15 | 60 | **298 beliefs, 0 failures** | **58/60 cycles** | **298 beliefs, 0 failures; 130 edges reconcile; 450 tied windows** | **0.0%** | 0 | 0 |
 
-Artifacts: `docs/audit_trace_probe.json`, `docs/audit_trace_probe_stress.json`.
+Artifacts: `docs/audit_trace_probe.json`, `docs/audit_trace_probe_stress.json`, `docs/audit_trace_probe_tie.json`.
 
-The Stress and Forced-tie rows above are the **2026-10-26 readings**, from artifacts written by an observer that read sleep rows the engine's lookback excludes; their self-sourced columns (15.2% and 17.5%) share the defect corrected below and are marked, not restated. Only the default row has been regenerated with the faithful observer.
+All three rows above are the **0.16.0** build. The stress and forced-tie arms were regenerated on **2026-11-22** with the faithful observer, so their self-sourced columns read **0.0%** like the default arm. The 2026-10-26 readings they previously carried — **15.2%** and **17.5%** on the disqualifier's population, and 403 lost on rank in the stress arm — measured the pre-fix observer's window and are **withdrawn, not marked**.
 
 **The default arm alone would have been a weak test, and the table says so.**
 Its pool peaked at 12 candidates against a cap of 15, so the cap never bound
 and **no candidate ever lost on rank** — the interesting branch went untested.
-The stress arm tightens the belief budget to 5 so that the pool exceeds the
-cap, and **403 candidates were lost on rank** across the run. The reconstruction stayed exact in both arms.
+On 0.16.0 the default pool peaks at **16** and the cap does bind, losing **8**
+on rank; the stress arm tightens the belief budget to 5 so that the pool
+exceeds it by more, **losing 148 on rank** across the run. The reconstruction
+stayed exact in every arm.
 
 **What the stress arm does and does not show.** It shows the auditor can
 reconstruct a **binding-cap decision** — that the ranking, not just the pool,
 is reproduced. It does **not** show that the cap commonly determines outcomes
-under default conditions: in the default arm it never bound at all. The
-honest statement is *the auditor handles the case in which the cap decides*,
+under default conditions: on the earlier build the default arm never bound at
+all, and on 0.16.0 it loses 8. The honest statement is *the auditor handles the case in which the cap decides*,
 not *the cap decides often*.
 
 **The checks can fail.** `tests/test_audit_trace_probe.py` breaks the auditor
@@ -637,9 +639,9 @@ the trace must report both rather than let one stand in for the other.
 **The forced-tie arm.** The engine's lookback query has no tie-breaker, so the
 schema does not determine which rows a tied window selects. The forced-tie arm
 patches the clock so that every four consecutive stores share a timestamp,
-producing **479 stores with a genuinely tied window**, and requires the
+producing **450 stores with a genuinely tied window**, and requires the
 observer to reproduce the engine's choice anyway. **It does:** A7 stays exact
-(2,589 distinct transitions, 241 aggregate edges reconciling, 0 mismatches).
+(2,451 distinct transitions, 130 aggregate edges reconciling, 0 mismatches).
 
 **The result is an implementation match, not a schema guarantee.** The observer
 runs the same *ordering clause* as the engine with a wider projection, so the
@@ -649,9 +651,9 @@ reconciliation. The schema still does not settle tied ordering, and a replayer
 that did not observe at store time could not rely on it. That is precisely why
 A7 requires store-time observation.
 
-**The artifact is committed:** `docs/audit_trace_probe_tie.json` — 60 cycles, 479 tied
-windows, A1 692 beliefs / 0 failures, A2 60/60 cycles, A7 692 beliefs / 0 failures with
-241 aggregate edges reconciling.
+**The artifact is committed:** `docs/audit_trace_probe_tie.json` — 60 cycles, 450 tied
+windows, A1 298 beliefs / 0 failures, A2 58/60 cycles, A7 298 beliefs / 0 failures with
+130 aggregate edges reconciling.
 
 ### What the probe establishes, and what it does not
 
@@ -876,7 +878,15 @@ designed to represent.
      (**a persistence limit**);
    - **depth-truncated** — the chain was longer than depth 7 (**a representation
      limit**);
-   - **no parent** — the structure never had one (Layer-1 candidates, markers);
+   - **no parent** — the chain ended at a record that carries no parent link.
+     Layer-1 candidates are terminals by design, but they are excluded from this
+     population, so the label applies only to a higher-layer record with an
+     empty `parent_ids`. **It is not self-explanatory:** three different owners
+     can produce that empty list — the engine's formation path never wrote a
+     link, its supersession path wrote one that the current record no longer
+     carries, or the observer's window read lost one the substrate holds. §13
+     records the check that distinguishes them, and only the third is an
+     instrument defect;
    - **missing record** — a parent id was referenced but no record exists
      (**a data defect**, and the one that would matter most).
 
@@ -956,23 +966,97 @@ fixed in advance in §12; the criterion is in §6.
 
 | Quantity | Default arm (120 cycles) |
 |---|---|
-| **Lineage reachability** | **0.937** on the 0.16.0 regeneration (2026-11-21) — 6,179 of 6,592 structures resolve back to Layer 1 within depth 7; **404 report no parent**, 9 aged out, 0 depth-truncated. The 2026-10-26 reading was **1.000** — 8,061 of 8,061, empty split. Whether the parents were never stored or the observer's candidate capture missed them is **not established** |
+| **Lineage reachability** | **0.937** on the 0.16.0 regeneration (2026-11-21) — 6,179 of 6,592 structures resolve back to Layer 1 within depth 7; **404 report no parent**, 9 aged out, 0 depth-truncated. The 2026-10-26 reading was **1.000** — 8,061 of 8,061, empty split. **The 404 are now resolved: 18 distinct structures terminating at 7 role records, every one of which the engine had stored with an empty `parent_ids` — 0 capture misses and 0 unstored records** (see below) |
 | **Evidence linkage** | **1.000** — 1,056 of 1,056 claims resolve to event ids with a world/self split (2026-10-26: 1,412 of 1,412) |
-| **Truncation split** (structures) | aged out 0 / depth-truncated 0 / no parent 0 / missing record 0 |
-| **Branch-level counts** | layer-1 resolved 25,168 / aged out 105 / depth-truncated 0 / no parent 0 |
+| **Truncation split** (structures) | 2026-11-21: aged out 9 / depth-truncated 0 / no parent 404 / missing record 0 (2026-10-26: 0 / 0 / 0 / 0) |
+| **Branch-level counts** | 2026-11-21: layer-1 resolved 19,319 / aged out 19 / depth-truncated 0 / no parent 369 (2026-10-26: 25,168 / 105 / 0 / 0) |
 | **Honesty errors** | 0 |
 
-The same holds on the stress arm (3,240 structures, 1.000) and the forced-tie
-arm (3,988 structures, 1.000) — both are **2026-10-26 readings and were not
-regenerated**, so they describe the build before the 0.16.0 admission change.
-**The window and depth sweeps below are likewise the 2026-10-26 values**; the
-regenerated diagnostics are in the artifact.
+The stress and forced-tie arms were regenerated on 0.16.0 on **2026-11-22** and
+show the same shape rather than 1.000: **0.868** (1,731 of 1,995) and **0.883**
+(2,002 of 2,266), each with 255 `no_parent` structures, 9 aged out, 10 aged-out
+branches, 0 honesty errors and evidence linkage 1.000 (150 of 150; 298 of 298).
+**The window and depth sweeps in the artifact are now all 0.16.0 values**: the
+default arm's window sweep falls from 0.9875 at the engine's 147 candidates to
+0.25 at 100 and 0.0 at 25–50 (79 aged out), and its depth sweep from 0.9875 at
+depth 7 to 0.85 at depth 3 and 0.2375 at depth 1 (60 depth-truncated).
 
-**Read the two counts together.** The *structure-level* split is empty, but
-**105 branches were aged out**. Every structure nonetheless resolves, because each one has at
-least one parent branch still inside the window. The empty split is therefore
-not "nothing aged out" — it is "nothing failed to resolve". Both numbers are
-reported for exactly that reason.
+**Read the two counts together.** On the **2026-10-26** reading the
+*structure-level* split was empty while **105 branches were aged out**: every
+structure still resolved, because each had at least one parent branch inside the
+window. The empty split was therefore not "nothing aged out" — it was "nothing
+failed to resolve", and both numbers were reported for exactly that reason. On
+the **2026-11-21** regeneration the structure-level split is **not** empty (404
+no parent, 9 aged out) and the branch-level count is 19 aged out / 369 no parent
+against 19,319 Layer-1 terminals. The two 60-cycle arms, regenerated on
+2026-11-22, read 255 no parent and 9 aged out at the structure level, and 10
+aged out / 245 no parent against 4,639 and 5,694 Layer-1 terminals — the same
+shape, on the same build.
+
+### Why the 404 have no parent — and whose record produced the empty list
+
+`no_parent` says a chain ended at a record with no parent link. That label does
+not say **whose** record produced the empty list, and the three possible owners
+are not interchangeable: the engine's formation path never wrote a link, its
+supersession path wrote one that the current record no longer carries, or the
+observer's window read lost a link the substrate holds. Only the third is an
+instrument defect, and it is the one a reachability figure would hide.
+
+The probe now classifies every `no_parent` terminal against **every copy of that
+record the engine had written at the moment of the trace**, held in store order
+and frozen at the same instant as the window read:
+
+| Disposition | Meaning | Structures (2026-11-21) |
+|---|---|---|
+| `capture_miss` | the newest stored copy carries a link the window read did not return | **0** |
+| `no_stored_record` | the node was reported but no payload was ever written | **0** |
+| `link_dropped` | an earlier copy carried a link, the current record does not | **0** |
+| `never_linked` | no copy has ever carried a link | **404** |
+
+**The 404 structure-cycles are 18 distinct structures** — 7 role candidates, 10
+schemas and 1 process — whose walks all terminate at **7 distinct role ids**.
+Every one of those role records carried `parent_ids: []` in every copy the engine
+had written when it was traced. **So the answer to the question this section
+previously left open is neither of the two options it named: the parents were not
+"never stored", and the observer did not miss them. There was no parent id to
+resolve.** Five of the seven role identities never acquire a link in the run —
+four are retired by its end and `role_00c223a9` is still live and still unlinked
+— and two acquire one later (`role_73dcc480` first carries parents at generation
+29, `role_d73713a5` at generation 100). The empty list is a property of the
+record at that cycle, not of the identity forever.
+
+The same terminal set appears in all three arms. Regenerated on 0.16.0, the
+stress and forced-tie arms each report **255** `no_parent` structure-cycles, and
+their walks terminate at **exactly the default arm's seven role ids** —
+`role_00c223a9`, `role_1e90ba45`, `role_23c7c1fa`, `role_73dcc480`,
+`role_99492341`, `role_d73713a5`, `role_e19400ee` — with no arm-specific
+terminal (`A3_ancestry_honesty.no_parent_disposition.terminal_node_ids` in each
+of the three artifacts; `tests/test_audit_ancestry.py` asserts the identity).
+The deduplicated populations are **18, 17 and 17 distinct structures** — the
+default arm's extra entry is one process candidate — so the arms do not share a
+structure list, and they still end at the same roles. **That identity is the
+evidence that the `no_parent` population is one formation-time mechanism across
+all three arms**: the chains are not three arm-specific decay or capture
+populations that happen to be labelled alike, but the same early role records,
+stored with `parent_ids: []` before any concept or prediction matched them. The
+scope is one world and one shared stimulus family — an arm-invariance result,
+not a claim that a different world would terminate at the same seven roles.
+
+The mechanism is the role builder: `organica/sleep_extraction.py:604-606` sets
+`parent_ids` from an exact-member concept match and, failing that, from any
+prediction naming a member. When neither exists — as none does in the early
+cycles, before those Layer-1 structures have formed — the role is stored with an
+empty list. The reachability shortfall is the engine's own record at the point of
+formation, read faithfully.
+
+The disposition is a **check, not a report**: `capture_miss` and
+`no_stored_record` make the reachability figure an artifact, so the block carries
+its own `pass`. Both are zero here, which is what licenses reading 0.937 as a
+property of the record rather than of the instrument. Its counter is also
+independent of the split — `structures_total` must equal
+`truncation_split.no_parent` — and `tests/test_audit_ancestry.py` asserts that,
+proves the check fires on a capture miss and on an unstored record, and proves it
+cannot be fooled by an older copy that carried a link.
 
 ### The correction this measurement forced
 
